@@ -1,0 +1,182 @@
+
+<h3 class="modal-title">{{modalTitle | translate}}</h3>
+<button type="button" class="close" aria-hidden="true" (click)="closeModel()"> ×</button>
+
+<div class="container-fluid" id="printableArea">
+
+  <ng-container *ngFor="let swpbc of projectBudgetEstimation?.siteWisePBCListForProject;">
+
+
+
+    <h5>{{'Site_Code'|translate}}:{{swpbc.siteData.siteCode}}</h5>
+    <h5>{{'Site_Name'|translate}}:{{ !isArab?swpbc.siteData.siteName:swpbc.siteData.siteArbName}}</h5>
+    <div class="table-responsive">
+      <div>
+        <h5>{{'Resource_Costing_Details'|translate}}</h5>
+        <table id="zero_config" class="table  table-bordered no-wrap">
+          <tr>
+            <th>{{'SkillSet_Code' | translate}}</th>
+            <th>{{'Name' | translate}}</th>
+            <!--<th>{{'SkillsetName_Arabic' | translate}}</th>-->
+            <th colspan="3">{{'Cost_Per_Unit' | translate}}</th>
+            <th>{{'Qty' | translate}}</th>
+
+            <!--<th>{{'Total_Cost_For_Resources' | translate}}</th>-->
+          <th>{{'Amount' | translate}}</th>
+          </tr>
+          <ng-container *ngFor="let prcSite of swpbc.prcListForSite">
+            <tr *ngFor="let prsc of prcSite.resourceSubCostingList;let $index=index">
+              <td *ngIf="$index===0;" [attr.rowspan]="prcSite.resourceSubCostingList.length+1">{{prcSite.skillsetCode}}</td>
+              <td *ngIf="$index===0;" [attr.rowspan]="prcSite.resourceSubCostingList.length+1">{{ !isArab?getSkillset(prcSite.skillsetCode)?.nameInEnglish:getSkillset(prcSite.skillsetCode)?.nameInArabic}}</td>
+              <td>{{ !isArab?getopeartionsExpenseHead(prsc.costHead)?.text:getopeartionsExpenseHead(prsc.costHead)?.textTwo}}</td>
+              <td>{{prsc.amount}}</td>
+              <td *ngIf="$index===0;" [attr.rowspan]="prcSite.resourceSubCostingList.length+1" class="text-right">{{prcSite.costPerUnit}}</td>
+              <td *ngIf="$index===0;" [attr.rowspan]="prcSite.resourceSubCostingList.length+1">{{prcSite.quantity}}</td>
+              <td *ngIf="$index===0;" [attr.rowspan]="prcSite.resourceSubCostingList.length+1" class="text-right">{{prcSite.totResourceCost}}</td>
+            </tr>
+       
+            <tr>
+              <td>{{'Margin'|translate}}</td>
+              <td>{{prcSite.margin}}</td>
+            </tr>
+          </ng-container>
+          <tfoot>
+            <tr>
+              <th colspan="6" class="text-right">{{'Total_Cost_For_Resources' | translate}} {{ !isArab?swpbc.siteData.siteName:swpbc.siteData.siteArbName}}  </th>
+              <th class="text-right"> {{swpbc.totRcForSite}}</th>
+            </tr>
+          </tfoot>
+        </table>
+      </div>
+    </div>
+
+    <div class="table-responsive">
+      <div>
+        <h5>
+          {{'Material_Equipment_Costing_Details'|translate}}
+        </h5>
+        <table id="zero_config" class="table  table-bordered no-wrap">
+          <tr>
+            <th>{{'Material_Equipment_Code' | translate}}</th>
+            <th>{{'Name' | translate}}</th>
+         
+            <th colspan="3">{{'Cost_Per_Unit' | translate}}</th>
+            <th>{{'Qty' | translate}}</th>
+
+            <!--<th>{{'Total_Cost_For_Material_Equipment' | translate}}</th>-->
+          <th>{{'Amount' | translate}}</th>
+          </tr>
+          <ng-container *ngFor="let pmcSite of swpbc.pmcListForSite">
+            <tr *ngFor="let pmsc of pmcSite.materialEquipmentSubCostingList;let $index=index">
+              <td *ngIf="$index===0;" [attr.rowspan]="pmcSite.materialEquipmentSubCostingList.length">{{pmcSite.materialEquipmentCode}}</td>
+              <td *ngIf="$index===0;" [attr.rowspan]="pmcSite.materialEquipmentSubCostingList.length">{{ !isArab?getMaterialEquipments(pmcSite.materialEquipmentCode)?.text:getMaterialEquipments(pmcSite.materialEquipmentCode)?.textTwo}}</td>
+              <td>{{ !isArab?getopeartionsExpenseHead(pmsc.costHead)?.text:getopeartionsExpenseHead(pmsc.costHead)?.textTwo}}</td>
+              <td>{{pmsc.amount}}</td>
+              <td *ngIf="$index===0;" [attr.rowspan]="pmcSite.materialEquipmentSubCostingList.length" class="text-right">{{pmcSite.costPerUnit}}</td>
+              <td *ngIf="$index===0;" [attr.rowspan]="pmcSite.materialEquipmentSubCostingList.length">{{pmcSite.quantity}}</td>
+              <td *ngIf="$index===0;" [attr.rowspan]="pmcSite.materialEquipmentSubCostingList.length" class="text-right">{{pmcSite.totMaterialEquipmentCost}}</td>
+            </tr>
+          </ng-container>
+          <tfoot>
+            <tr>
+              <th colspan="6" class="text-right">{{'Total_Material_Cost_For' | translate}} {{ !isArab?swpbc.siteData.siteName:swpbc.siteData.siteArbName}} </th>
+              <th class="text-right"> {{swpbc.totMcForSite}}</th>
+            </tr>
+          </tfoot>
+        </table>
+      </div>
+    </div>
+
+
+    <div class="table-responsive">
+      <div>
+        <h5>
+          {{'Logistics_Vehicle_Costing_Details'|translate}}
+        </h5>
+        <table id="zero_config" class="table  table-bordered no-wrap">
+          <tr>
+            <th>{{'Vehicle_Code' | translate}}</th>
+            <th>{{'Vehicle_Name' | translate}}</th>
+           
+            <th>{{'Qty' | translate}}</th>
+            <th colspan="3">{{'Amount_For_Vehicle' | translate}}</th>
+
+
+            <!--<th>{{'Total_Cost_For_Logistics' | translate}}</th>-->
+            <th>{{'Amount' | translate}}</th>
+          </tr>
+          <ng-container *ngFor="let plcSite of swpbc.plcListForSite">
+            <tr *ngFor="let plsc of plcSite.logisticsSubCostingList;let $index=index">
+              <td *ngIf="$index===0;" [attr.rowspan]="plcSite.logisticsSubCostingList.length+1">{{plcSite.vehicleNumber}}</td>
+              <td *ngIf="$index===0;" [attr.rowspan]="plcSite.logisticsSubCostingList.length+1">{{ !isArab?getLogisticsVehicle(plcSite.vehicleNumber).text:getLogisticsVehicle(plcSite.vehicleNumber).textTwo}}</td>
+              <td *ngIf="$index===0;" [attr.rowspan]="plcSite.logisticsSubCostingList.length+1">{{plcSite.qty}}</td>
+              <td>{{ !isArab?getopeartionsExpenseHead(plsc.costHead)?.text:getopeartionsExpenseHead(plsc.costHead)?.textTwo}}</td>
+              <td>{{plsc.amount}}</td>
+              <td *ngIf="$index===0;" [attr.rowspan]="plcSite.logisticsSubCostingList.length+1" class="text-right">{{plcSite.costPerUnit}}</td>
+
+              <td *ngIf="$index===0;" [attr.rowspan]="plcSite.logisticsSubCostingList.length+1" class="text-right">{{plcSite.totLogisticsCost}}</td>
+            </tr>
+            <tr>
+              <td>{{'Margin'|translate}}</td>
+              <td>{{plcSite.margin}}</td>
+            </tr>
+          </ng-container>
+          <tfoot>
+            <tr>
+              <th colspan="6" class="text-right">{{'Total_Logistics_Cost_for' | translate}} {{ !isArab?swpbc.siteData.siteName:swpbc.siteData.siteArbName}}  </th>
+              <th class="text-right"> {{swpbc.totLcForSite}}</th>
+            </tr>
+          </tfoot>
+        </table>
+      </div>
+    </div>
+
+    <div class="table-responsive">
+      <div>
+        <h5>{{'Financial_Expense_Costing_Details'|translate}}</h5>
+        <table id="zero_config" class="table  table-bordered no-wrap">
+          <tr>
+            <th>{{'Code' | translate}}</th>
+            <th>{{'Name' | translate}}</th>
+           
+            <th>{{'Amount' | translate}}</th>
+          </tr>
+          <ng-container *ngFor="let pfcSite of swpbc.pfcListForSite">
+            <tr>
+              <td>{{pfcSite.financialExpenseCode}}</td>
+              <td>{{ !isArab?getopeartionsExpenseHead(pfcSite.financialExpenseCode)?.text:getopeartionsExpenseHead(pfcSite.financialExpenseCode)?.textTwo}}</td>
+         
+              <td class="text-right">{{pfcSite.costPerUnit}}</td>
+            </tr>
+          </ng-container>
+          <tfoot>
+            <tr>
+              <th colspan="2" class="text-right">{{'Total_Expense_Overheads_Cost_For' | translate}} {{ !isArab?swpbc.siteData.siteName:swpbc.siteData.siteArbName}}  </th>
+              <th class="text-right"> {{swpbc.totFcForSite}}</th>
+            </tr>
+          </tfoot>
+        </table>
+      </div>
+    </div>
+
+  </ng-container>
+
+  <h5 style="text-align:right">
+    <span *ngIf="!project?.isAdendum">
+
+
+      {{'Total_Estimation_For_Project'|translate}} : {{projectBudgetEstimation?.grandTotalCostForProject}}
+
+    </span>
+    <span *ngIf="project?.isAdendum">
+
+      {{'Total_Estimation_For_Site'|translate}} : {{projectBudgetEstimation?.grandTotalCostForProject}}
+
+    </span>
+
+  </h5>
+
+
+</div>
+
+

@@ -1,0 +1,194 @@
+<div class="modal-header">
+  <h3 class="modal-title">{{modalTitle}}</h3>
+  <button type="button" class="close" aria-hidden="true" (click)="closeModel()"> ×</button>
+
+</div>
+
+ 
+<form [formGroup]="form" (ngSubmit)="submit()" novalidate class="mt-4">
+  <div class="row">
+    <div class="col-md-6 col-lg-6">
+      <div class="form-group">
+        <label for="BranchCode">{{'Branch_Code' | translate}}</label>
+        <input class="form-control" id="BranchCode" type="text"
+               placeholder="{{'Please_Enter' | translate}} {{'Branch_Code' | translate}} " (blur)="checkBranchCode($event)" formControlName="branchCode">
+        <validation-message [control]="form.controls.branchCode"></validation-message>
+      </div>
+    </div>
+    <div class="col-md-6 col-lg-6">
+      <div class="form-group">
+        <label for="BranchName">{{'Branch_Name' | translate}}</label>
+        <input class="form-control" id="BranchName" type="text"
+               placeholder="{{'Please_Enter' | translate}} {{'Branch_Name' | translate}}" formControlName="branchName">
+        <validation-message [control]="form.controls.branchName"></validation-message>
+      </div>
+    </div>
+     <div class="col-md-6 col-lg-6">
+      <div class="form-group">
+        <label for="bankName">{{'Invoice_Bank_LblBankName' | translate}}</label>
+        <input class="form-control" id="bankName" type="text"
+               placeholder="{{'Please_Enter' | translate}} {{'Invoice_Bank_LblBankName' | translate}}" formControlName="bankName">
+        <validation-message [control]="form.controls.bankName"></validation-message>
+      </div>
+    </div>
+     <div class="col-md-6 col-lg-6">
+      <div class="form-group">
+        <label for="bankNameAr">{{'Invoice_Bank_LblBankNameArabic' | translate}}</label>
+        <input class="form-control" id="bankNameAr" type="text"
+               placeholder="{{'Please_Enter' | translate}} {{'Invoice_Bank_LblBankNameArabic' | translate}}" formControlName="bankNameAr">
+        <validation-message [control]="form.controls.bankNameAr"></validation-message>
+      </div>
+    </div>
+
+    <div class="col-md-4 col-lg-6">
+      <div class="form-group">
+        <label for="exampleFormControlSelect1">{{'Company_Name' | translate}}</label>
+        <auto-loader [isLoading]="isCompanyLoading"></auto-loader>
+        <input type="text" class="form-control"
+               placeholder="{{'Please_Select' | translate}} {{'Company_Name' | translate}}"
+               [formControl]="companyControl"
+               matInput
+               [matAutocomplete]="auto1">
+        <mat-autocomplete #auto1="matAutocomplete">
+          <mat-option *ngFor="let option of filteredOptions | async"
+                      [value]="option.text">
+            <!--[value]="option.text + '-' + option.value"> (optionSelected)="selectedOption($event)" -->
+            {{option.text}}
+          </mat-option>
+        </mat-autocomplete>
+      </div>
+    </div>
+
+    <div class="col-md-6 col-lg-6">
+
+      <div class="form-group mb-4">
+        <label class="mr-sm-2" for="city">{{'Zone' | translate}}</label>
+        <select class="custom-select mr-sm-2" id="coty" formControlName="zoneId">
+          <option value="">{{'Choose' | translate}} {{'Zone' | translate}}</option>
+          <ng-container *ngIf="zoneList">
+            <option *ngFor="let zone of zoneList" value="{{zone.value}}">{{zone.text}}</option>
+          </ng-container>
+        </select>
+        <validation-message [control]="form.controls.zoneId"></validation-message>
+      </div>
+
+    </div>
+
+    <div class="col-md-12 col-lg-12">
+      <div class="form-group">
+        <label for="BranchAddress">{{'Branch_Address' | translate}} </label>
+        <input class="form-control" id="BranchAddress" type="text"
+               placeholder="{{'Please_Enter' | translate}} {{'Branch_Address' | translate}}" formControlName="branchAddress">
+        <validation-message [control]="form.controls.branchAddress"></validation-message>
+      </div>
+    </div>
+
+     <div class="col-md-12 col-lg-12">
+      <div class="form-group">
+        <label for="branchAddressAr">{{'Branch_AddressAr' | translate}} </label>
+        <input class="form-control" id="branchAddressAr" type="text"
+               placeholder="{{'Please_Enter' | translate}} {{'Branch_AddressAr' | translate}}" formControlName="branchAddressAr">        
+      </div>
+    </div>
+
+
+    <div class="col-md-6 col-lg-6">
+
+      <div class="form-group ">
+        <label class="mr-sm-2" for="Phone">{{'Phone' | translate}}</label>
+        <input class="form-control" id="phone" type="tel"
+               placeholder="{{'Please_Enter' | translate}} {{'Phone' | translate}}" maxlength="10" formControlName="phone">
+        <validation-message [control]="form.controls.phone"></validation-message>
+      </div>
+
+    </div>
+    <div class="col-md-6 col-lg-6">
+
+      <div class="form-group ">
+        <label class="mr-sm-2" for="Mobile">{{'Mobile' | translate}}</label>
+        <input class="form-control" id="Mobile" type="tel"
+               placeholder="{{'Please_Enter' | translate}} {{'Mobile' | translate}}" maxlength="10" formControlName="mobile">
+        <validation-message [control]="form.controls.mobile"></validation-message>
+      </div>
+
+    </div>
+
+    <div class="col-md-6 col-lg-6">
+
+      <div class="form-group mb-4">
+        <label class="mr-sm-2" for="city">{{'City' | translate}}</label>
+        <select class="custom-select mr-sm-2" id="coty" formControlName="city" (change)="getStateCountrybyCityCode1($event)">
+          <option value="">{{'Choose' | translate}} {{'City' | translate}}</option>
+          <ng-container *ngIf="cityList">
+            <option *ngFor="let cty of cityList" value="{{cty.value}}">{{cty.text}}</option>
+          </ng-container>
+        </select>
+        <validation-message [control]="form.controls.city"></validation-message>
+      </div>
+
+    </div>
+    <div class="col-md-6 col-lg-6">
+
+      <div class="form-group mb-4">
+
+        <label class="mr-sm-2" for="State">{{'State' | translate}}</label>
+        <input class="form-control" id="State" type="text"
+               placeholder="{{'Please_Enter' | translate}} {{'State' | translate}}" formControlName="state">
+        <validation-message [control]="form.controls.state"></validation-message>
+
+      </div>
+
+    </div>
+
+    <div class="col-md-6 col-lg-6">
+      <div class="form-group">
+        <label for="AuthorityName">{{'Authority_Name' | translate}}</label>
+        <input class="form-control" id="AuthorityName" type="text"
+               placeholder="{{'Please_Enter' | translate}} {{'Authority_Name' | translate}}" formControlName="authorityName">
+        <validation-message [control]="form.controls.authorityName"></validation-message>
+      </div>
+    </div>
+
+     <div class="col-md-6 col-lg-6">
+      <div class="form-group">
+        <label for="accountNumber">{{'AccountNumber' | translate}}</label>
+        <input class="form-control" id="accountNumber" type="text"
+               placeholder="{{'Please_Enter' | translate}} {{'AccountNumber' | translate}}" formControlName="accountNumber">
+        <validation-message [control]="form.controls.accountNumber"></validation-message>
+      </div>
+    </div>
+     <div class="col-md-6 col-lg-6">
+      <div class="form-group">
+        <label for="iban">{{'IBANNumber' | translate}}</label>
+        <input class="form-control" id="iban" type="text"
+               placeholder="{{'Please_Enter' | translate}} {{'IBANNumber' | translate}}" formControlName="iban">
+      </div>
+    </div>
+
+    <div class="col-md-6 col-lg-6">
+      <div class="form-group">
+        <label for="IsActive">{{'Is_Active' | translate}}</label>
+        <br />
+        <mat-slide-toggle color="primary" formControlName="isActive"></mat-slide-toggle>
+        <!--
+      <div>
+        <label class="switch">--
+          <!--<input type="checkbox">--
+          <span class="slider round"></span>
+          </label>
+        </div>-->
+      </div>
+    </div>
+  </div>
+
+  <div class="row mt-3 ">
+    <div class="col-md-12 col-lg-12 text-center">
+      <input type="button"
+             class="btn waves-effect waves-light btn-rounded   btn-secondary btn-midblock"
+             value="{{'Cancel' | translate}}" (click)="closeModel()" /> &nbsp;
+      <input type="submit"
+             class="btn waves-effect waves-light btn-rounded btn-primary btn-midblock"
+             value="{{'Save' | translate}}" />
+    </div>
+  </div>
+</form>

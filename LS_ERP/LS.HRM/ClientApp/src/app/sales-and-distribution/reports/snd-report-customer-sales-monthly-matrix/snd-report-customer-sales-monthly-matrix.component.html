@@ -1,0 +1,335 @@
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-12 align-self-center">
+         <div class="d-flex align-items-center">
+        <nav aria-label="breadcrumb">
+          <ol class="breadcrumb m-0 p-0">
+            <li class="breadcrumb-item text-muted"> {{'Administration' | translate}} </li>
+            <li class="breadcrumb-item text-muted ">{{'Sales_Management' | translate}}</li>
+            <li class="breadcrumb-item   active" aria-current="page">{{'Sales_Statement' | translate}}</li>
+
+          </ol>
+        </nav>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- ============================================================== -->
+  <!-- End Bread crumb and right sidebar toggle -->
+  <!-- ============================================================== -->
+  <!-- ============================================================== -->
+  <!-- Container fluid  -->
+  <!-- ============================================================== -->
+
+  <div class="row">
+    <div class="col-md-12 col-lg-12">
+      <div class="card">
+        <div class="card-body">
+          
+          <div class="cardtitle-divider"></div>
+          <div class="row">
+
+            <div class="col-md-4 col-lg-4">
+              <div class="form-group">
+                <label>{{'Customer_Code' | translate}}</label>
+
+                <auto-loader [isLoading]="isCodeLoading"></auto-loader>
+                <input type="text" class="form-control"
+                       placeholder="{{'Please_Enter' | translate}} {{'Customer_Code' | translate}}"
+                       [formControl]="codeControl"
+                       matInput
+                       [matAutocomplete]="auto1">
+                <mat-autocomplete #auto1="matAutocomplete" (optionSelected)="clearReport()">
+                  <mat-option *ngFor="let option of filteredOptions | async"
+                              [value]="option.value">
+                    ({{option.value}}) {{option.textTwo}}
+                  </mat-option>
+                </mat-autocomplete>
+
+              </div>
+            </div>
+            <div class="col-md-4 col-lg-4">
+              <div class="form-group">
+                <label>{{'From_Date' | translate}}</label>
+                <div class="form-group ">
+                  <div class="input-group mb-2">
+                    <input class="form-control datapickerinput" placeholder="{{'Select_a_Date' | translate}}" [(ngModel)]="dateFrom"
+                           [matDatepicker]="picker1" (dateChange)="clearReport()">
+
+                    <div class="input-group-prepend datapickericon">
+                      <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
+                      <mat-datepicker #picker1></mat-datepicker><br /><br />
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-4 col-lg-4">
+              <div class="form-group">
+                <label>{{'To_Date' | translate}}</label>
+                <div class="form-group ">
+                  <div class="input-group mb-2">
+                    <input class="form-control datapickerinput" placeholder="{{'Select_a_Date' | translate}}" [(ngModel)]="dateTo"
+                           [matDatepicker]="picker2" (dateChange)="clearReport()">
+
+                    <div class="input-group-prepend datapickericon">
+                      <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
+                      <mat-datepicker #picker2></mat-datepicker><br /><br />
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-2 col-lg-2">
+
+              <mat-slide-toggle color="primary" [(ngModel)]="showMargin"> </mat-slide-toggle>
+              {{'Show_Margin' | translate}}
+
+            </div>
+            <div class="col-md-2 col-lg-2 text-center">
+              <button type="button" class="btn waves-effect waves-light btn-rounded btn-primary btn-midblock" data-toggle="modal" (click)="search()">
+                {{'Search' | translate}}
+              </button>
+            </div>
+            <div class="col-md-1 col-lg-1 text-center">
+              <spinner-loader [isLoading]="isLoading"></spinner-loader>
+            </div>
+
+
+          </div>
+        
+
+
+        </div>
+
+
+
+      </div>
+    </div>
+
+  </div>
+
+
+
+  <div class="modal-content" *ngIf="monthlyReports.length > 0">
+    <div class="modal-body">
+      <button type="button" class="btn waves-effect waves-light btn-rounded btn-primary btn-midblock" data-toggle="modal" (click)="openPrint()">
+        {{'Print' | translate}}
+      </button>
+      <br />
+      <div class="outer" id="printcontainer">
+        <div class="text-center font-weight-medium">
+          {{companyName}}  <img src="{{logoURL}}" style="width:200px;height:150px;float:right;" *ngIf="companyName" />
+          <br />
+          {{branchName}}
+          <br />
+          {{companyAddress}}
+        </div>
+
+        <br />
+        <div class="text-center font-weight-medium" *ngIf="dateFrom && dateTo">
+          <p>
+            The Statement of " Invoice Summary" for {{dateFrom | date:'dd/MM/yyyy'}} to {{dateTo | date:'dd/MM/yyyy'}}
+          </p>
+          <span class="backspace" *ngIf="codeControl.value">
+           Customer Code :{{codeControl.value}}
+          </span>
+        </div>
+
+
+        <div class="table-responsive">
+          <ng-container *ngIf="monthlyReports.length > 0">
+
+            <table style="width:100%;" border="1" cellpadding="0" cellspacing="0" class="ur_tablestyle">
+              <tbody>
+                <tr>
+                  <th>{{'Customer_Code' | translate}}</th>
+                  <th>{{'CustomerName' | translate}}</th>
+                  <th> </th>
+                  <th style="white-space: nowrap; text-align:center" *ngFor="let dt of columns" >{{dt |date:'MMM'}} </th>
+                  <th style="text-align:center">{{'Totals'| translate}}</th>
+                </tr>
+                <tr *ngFor="let report of monthlyReports; let i=index;">
+
+                    <td>{{report.customerCode}}</td>
+                    <td>{{report.customerName}}</td>
+<td>
+  <table class="arabicright">
+    <tr>
+      <th>{{'Sales_Amount' | translate}}</th>
+      </tr>
+    <ng-container *ngIf="showMargin">
+      <tr>
+        <th>{{'Cost' | translate}}</th>
+      </tr>
+      <tr>
+        <th>{{'Gross_Margin' | translate}}</th>
+      </tr>
+      <tr>
+        <th>{{'%' | translate}}</th>
+      </tr>
+    </ng-container>
+  </table>
+
+</td>
+ <td  style="text-align:right" *ngFor="let mrfc of report?.monthlyReportsPerCustomer;">
+   <table style="width:100%">
+     <tr>
+       <td style="text-align:right">
+         {{mrfc.salesAmount| number:'1.2'}}
+       </td>
+     </tr>
+     <ng-container *ngIf="showMargin">
+       <tr>
+         <td style="text-align:right">
+           {{mrfc.cost | number:'1.2'}}
+         </td>
+       </tr>
+       <tr>
+         <td style="text-align:right">
+           {{mrfc.grossMargin | number:'1.2'}}
+         </td>
+       </tr>
+       <tr>
+         <td style="text-align:right">
+           {{mrfc.grossMarginPer| number:'1.0-1'}}%
+         </td>
+       </tr>
+       </ng-container>
+</table>
+   
+   </td>
+ <td style="text-align:right">
+   <table table style="width:100%">
+     <tbody>
+       <tr>
+         <td style="text-align:right">
+           {{report.salesAmount | number:'1.2'}}
+         </td>
+       </tr>
+       <ng-container *ngIf="showMargin">
+         <tr>
+           <td style="text-align:right">
+             {{report.cost | number:'1.2'}}
+           </td>
+         </tr>
+         <tr>
+           <td style="text-align:right">
+             {{report.grossMargin | number:'1.2'}}
+           </td>
+         </tr>
+         <tr>
+           <td style="text-align:right">
+             {{report.grossMarginPer| number:'1.0-1'}}%
+           </td>
+         </tr>
+         </ng-container>
+</tbody>
+   </table>
+ </td>
+</tr>
+
+<tr>
+  <th colspan="2">
+    {{'Total'|translate}}
+  </th>
+  <td>
+    <table>
+      <tr>
+        <th>{{'Sales_Amount' | translate}}</th>
+      </tr>
+      <ng-container *ngIf="showMargin">
+        <tr>
+          <th>{{'Cost' | translate}}</th>
+        </tr>
+        <tr>
+          <th>{{'Gross_Margin' | translate}}</th>
+        </tr>
+        <tr>
+          <th>{{'%' | translate}}</th>
+        </tr>
+        </ng-container>
+    </table>
+
+  </td>
+<td  style="text-align:right" *ngFor="let mt of monthlyTotals;">
+  <table table style="width:100%">
+    <tbody>
+      <tr>
+        <th style="text-align:right">
+          {{mt.salesAmount | number:'1.2'}}
+        </th>
+      </tr>
+      <ng-container *ngIf="showMargin">
+        <tr>
+          <th style="text-align:right">
+            {{mt.cost | number:'1.2'}}
+          </th>
+        </tr>
+        <tr>
+          <th style="text-align:right">
+            {{mt.grossMargin | number:'1.2'}}
+          </th>
+        </tr>
+        <tr>
+          <th style="text-align:right">
+            {{mt.grossMarginPer| number:'1.0-1'}}%
+          </th>
+        </tr>
+        </ng-container>
+</tbody>
+  </table>
+</td>
+<td  style="text-align:right">
+
+  <table table style="width:100%">
+    <tbody>
+      <tr>
+        <th style="text-align:right">
+          {{totSalesAmount | number:'1.2'}}
+        </th>
+      </tr>
+      <ng-container *ngIf="showMargin">
+        <tr>
+          <th style="text-align:right">
+            {{totCost | number:'1.2'}}
+          </th>
+        </tr>
+        <tr>
+          <th style="text-align:right">
+            {{totGrossMargin | number:'1.2'}}
+          </th>
+        </tr>
+        <tr>
+          <th style="text-align:right">
+            {{totGrossMarginPer| number:'1.0-1'}}%
+          </th>
+        </tr>
+        </ng-container>
+    </tbody>
+  </table>
+</td>
+</tr>
+</tbody>
+  </table>
+
+
+            
+          </ng-container>
+          
+
+        </div>
+
+
+      </div>
+
+
+    </div>
+
+
+  </div>
+
+  <!--<h3 *ngIf="vendorList && vendorList.length === 0">{{'No_Records' | translate}}</h3>-->
+
+</div>

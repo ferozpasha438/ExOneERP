@@ -1,0 +1,59 @@
+<h3 class="modal-title">{{modalTitle | translate}}</h3>
+<button type="button" class="close" aria-hidden="true" (click)="closeModel()"> ×</button>
+<form [formGroup]="form" (ngSubmit)="submit()" novalidate class="mt-4" #myform="ngForm">
+
+  <div class="row">
+
+    <div class="col-md-5 col-lg-5">
+      <div class="form-group">
+        <label>{{'Employee' | translate}}</label>
+        <div class="form-control">
+          {{inputData.employeeNumber}}/{{inputData.employeeName}}/{{inputData.employeeNameAr}}
+        </div>
+      </div>
+    </div>
+
+    <div class="col-md-5 col-lg-5">
+      <div class="form-group ">
+        <label>{{'Site' | translate}}</label>
+        <ng-select [items]="siteSelectionList"
+                   bindLabel="text"
+                   bindValue="value" formControlName="siteCode">
+
+        </ng-select>
+
+      </div>
+    </div>
+    <div class="col-md-2 col-lg-2">
+      <div class="form-group">
+        <label>{{'Transfered_Date' | translate}}</label>
+        <input class="form-control datapickerinput" placeholder=" {{'Please_Enter' | translate}} {{'From_Date' | translate}}" formControlName="transferredDate"
+               [matDatepicker]="picker1" (click)="openDatePicker(picker1)">
+
+        <div hidden>
+          <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
+          <mat-datepicker #picker1 data-date-format="yyyy/mm/dd"></mat-datepicker>
+        </div>
+
+      </div>
+
+
+      <span *ngIf="!(form.get('transferredDate')?.hasError('required') && myform?.submitted)" style="color:red">
+        <validation-message [control]="form.controls.transferredDate"></validation-message>
+      </span>
+      <span *ngIf="form.get('transferredDate')?.hasError('required')&& myform?.submitted" style="color:red">{{'Required'|translate}}</span>
+
+    </div>
+
+  </div>
+  <div class="row mt-3 ">
+    <div class="col-md-12 col-lg-12 text-center">
+      <input type="button"
+             class="btn waves-effect waves-light btn-rounded   btn-secondary btn-midblock"
+             value="{{'Cancel' | translate}}" (click)="closeModel()" /> &nbsp;
+      <input type="submit"
+             class="btn waves-effect waves-light btn-rounded btn-primary btn-midblock"
+             value="{{'Save' | translate}}" />
+    </div>
+  </div>
+</form>

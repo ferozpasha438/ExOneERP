@@ -1,0 +1,157 @@
+
+
+      <div class="modal-header">
+        <h3 class="modal-title">{{'Add_Logistics_and_Vehicle' | translate}} </h3>
+        <button type="button" class="close" data-dismiss="modal" (click)="closeModel()"
+                aria-hidden="true">
+          ×
+        </button>
+      </div>
+ 
+      <form [formGroup]="form" (ngSubmit)="submit()" novalidate class="mt-4">
+
+        <div class="row">
+
+          <div class="col-md-6 col-lg-6">
+            <div class="form-group">
+              <label>{{'Vehicle_Number' | translate}}</label>
+              <input class="form-control" type="text"
+                     [ngClass]="{ 'is-invalid': f.vehicleNumber.errors && f.vehicleNumber.touched}" (keyup)="verifyCode($event)"
+                     placeholder="{{'Please_Enter' | translate}} {{'Vehicle_Number' | translate}}" formControlName="vehicleNumber" readonly={{readonly}}>
+              <div *ngIf="f.vehicleNumber.errors" class="invalid-feedback">
+                <div *ngIf="f.vehicleNumber.errors.required">{{'Required' | translate}}</div>
+
+                <div *ngIf="f.vehicleNumber.errors.isExist">
+                  {{'Code Already Exists' | translate}}
+                </div>
+              </div>
+            </div>
+          </div>
+
+
+
+          <div class="col-md-6 col-lg-6">
+            <div class="form-group">
+              <label>{{'Vehicle_Name_In_English' | translate}}</label>
+              <input class="form-control" type="text"
+                     placeholder="{{'Please_Enter' | translate}} {{'Name_In_English' | translate}}" formControlName="vehicleNameInEnglish">
+              <validation-message [control]="form.controls.vehicleNameInEnglish"></validation-message>
+            </div>
+          </div>
+
+          <div class="col-md-6 col-lg-6">
+            <div class="form-group">
+              <label>{{'Vehicle_Name_In_Arabic' | translate}}</label>
+              <input class="form-control" type="text"
+                     placeholder="{{'Please_Enter' | translate}} {{'Name_In_Arabic' | translate}}" formControlName="vehicleNameInArabic">
+              <validation-message [control]="form.controls.vehicleNameInArabic"></validation-message>
+            </div>
+          </div>
+          <div class="col-md-6 col-lg-6">
+            <div class="form-group">
+              <label>{{'Daily_Fuel_Cost' | translate}}</label>
+              <input class="form-control" type="number"
+                     placeholder="{{'Please_Enter' | translate}} {{'Daily_Fuel_Cost' | translate}}" formControlName="dailyFuelCost">
+              <validation-message [control]="form.controls.dailyFuelCost"></validation-message>
+            </div>
+          </div>
+          <div class="col-md-6 col-lg-6">
+            <div class="form-group">
+              <label>{{'Daily_Misc_Cost' | translate}}</label>
+              <input class="form-control" type="number"
+                     placeholder="{{'Please_Enter' | translate}} {{'Daily_Misc_Cost' | translate}}" formControlName="dailyMiscCost">
+              <validation-message [control]="form.controls.dailyMiscCost"></validation-message>
+            </div>
+          </div>
+          <div class="col-md-6 col-lg-6">
+            <div class="form-group">
+              <label>{{'Estimated_Daily_Maintenance_Cost' | translate}}</label>
+              <input class="form-control" type="number"
+                     placeholder="{{'Please_Enter' | translate}} {{'Estimated_Daily_Maintenance_Cost' | translate}}" formControlName="estimatedDailyMaintenanceCost">
+              <validation-message [control]="form.controls.estimatedDailyMaintenanceCost"></validation-message>
+            </div>
+          </div>
+          <div class="col-md-6 col-lg-6">
+            <div class="form-group">
+              <label>{{'Other_Daily_Operation_Cost' | translate}}</label>
+              <input class="form-control" type="number"
+                     placeholder="{{'Please_Enter' | translate}} {{'Other_Daily_Operation_Cost' | translate}}" formControlName="otherDailyOperationCost">
+              <validation-message [control]="form.controls.otherDailyOperationCost"></validation-message>
+            </div>
+          </div>
+          <div class="col-md-6 col-lg-6">
+            <div class="form-group">
+              <label>{{'Total_Daily_Service_Cost' | translate}}</label>
+              <input class="form-control" type="number"
+                     placeholder="{{'Please_Enter' | translate}} {{'Total_Daily_Service_Cost' | translate}}" readonly formControlName="totalDailyServiceCost">
+              <!--<validation-message [control]="form.controls.totalDailyServiceCost"></validation-message>-->
+            </div>
+          </div>
+          <div class="col-md-6 col-lg-6">
+            <div class="form-group">
+              <label>{{'Daily_Service_Price' | translate}}</label>
+              <input class="form-control" type="number"
+                     placeholder="{{'Please_Enter' | translate}} {{'Daily_Service_Price' | translate}}" formControlName="dailyServicePrice">
+              <validation-message [control]="form.controls.dailyServicePrice"></validation-message>
+            </div>
+          </div>
+          <div class="col-md-6 col-lg-6">
+            <div class="form-group">
+              <label>{{'Value_of_Vehicle' | translate}}</label>
+              <input class="form-control" type="text"
+                     placeholder="{{'Please_Enter' | translate}} {{'Value_of_Vehicle' | translate}}" formControlName="valueofVehicle">
+              <validation-message [control]="form.controls.valueofVehicle"></validation-message>
+            </div>
+          </div>
+          <div class="col-md-6 col-lg-6">
+            <div class="form-group">
+              <label>{{'Vehicle_type' | translate}}</label>
+              <select class="form-control" formControlName="vehicletype">
+                <option value="">{{'Select' | translate}} {{'Vehicle_type' | translate}} </option>
+                <option>Passenger</option>
+                <option>Goods</option>
+
+              </select>
+              <validation-message [control]="form.controls.vehicletype"></validation-message>
+            </div>
+          </div>
+
+
+          <div class="col-md-6 col-lg-6">
+            <div class="form-group">
+              <label>{{'Min_Margin' | translate}}</label>
+              <input class="form-control" type="number"
+                     placeholder="{{'Please_Enter' | translate}} {{'Min_Margin_Required' | translate}}" formControlName="minMargin">
+              <validation-message [control]="form.controls.minMargin"></validation-message>
+            </div>
+          </div>
+
+
+          <div class="col-md-6 col-lg-6">
+            <div class="form-group">
+              <label>{{'Is_Active' | translate}}</label>
+              <br />
+              <mat-slide-toggle color="primary" formControlName="isActive"></mat-slide-toggle>
+            </div>
+          </div>
+          <div class="col-md-6 col-lg-6">
+            <div class="form-group">
+              <label>{{'Remarks' | translate}}</label>
+              <textarea class="form-control"
+                        placeholder="{{'Please_Enter' | translate}} {{'Remarks' | translate}}" formControlName="remarks"></textarea>
+            </div>
+          </div>
+        </div>
+
+        <div class="row mt-3 ">
+          <div class="col-md-12 col-lg-12 text-center">
+            <input type="button"
+                   class="btn waves-effect waves-light btn-rounded   btn-secondary btn-midblock" (click)="closeModel()"
+                   value="{{'Cancel' | translate}}" /> &nbsp;
+            <input type="submit"
+                   class="btn waves-effect waves-light btn-rounded btn-primary btn-midblock"
+                   value="{{'Save' | translate}}" />
+          </div>
+        </div>
+        </form>
+

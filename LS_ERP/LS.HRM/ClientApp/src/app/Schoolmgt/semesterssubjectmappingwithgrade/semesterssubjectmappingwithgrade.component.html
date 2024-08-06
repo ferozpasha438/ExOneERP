@@ -1,0 +1,47 @@
+<h3 class="modal-title">{{'School_Academic_Semesters_Subject_Mapping_with_Grade' | translate}}</h3>
+<button type="button" class="close" aria-hidden="true" (click)="closeModel()"> ×</button>
+<div class="container-fluid">
+
+    <div class="row mt-4">
+        <div class="col-md-6">
+            <label>{{'Grade_Code' | translate}}</label>
+            <div class="form-group">
+              <input class="form-control" type="text" placeholder="{{'Grade_Code' | translate}}"
+         [(ngModel)]="code" readonly />
+              
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="form-group ">
+                <label>{{'Semester_Code' | translate}}</label>
+                <select class="custom-select mr-sm-2"  [(ngModel)]="semisterCode" (change)="getGradeSectionData()">
+                <!--<select class="custom-select mr-sm-2" (change)="loadSubjects($event)">-->
+                    <option value="">{{'Select' | translate}} {{'Semester_Code' | translate}} </option>
+
+                    <ng-container *ngIf="semCodeList">
+                      <option *ngFor="let item of semCodeList" value="{{item.semisterCode}}">{{ isArab ? item.semisterName2 : item.semisterName  }}</option>
+                    </ng-container>
+                </select>
+                <!--<validation-message [control]="form.controls.semesterCode"></validation-message>-->
+            </div>
+        </div>
+    </div>
+    <div class="row mt-4" style="margin: 0px">        
+        <div class="col-md-12">
+            <div style="border: 1px solid #ddd;padding: 10px;">
+              <div class="mb-2" *ngFor="let item of semEditSubjectsList">
+                <!--<button class="btn btn-primary" (click)="addRemoveSubjects(item.subCodes)">&nbsp;{{ isArab ? item.subName2 : item.subName  }} </button>-->
+                <mat-checkbox class="example-margin" [(ngModel)]="item.isSelected" (change)="addRemoveSubjects($event, item.subCodes)">&nbsp;{{ isArab ? item.subName2 : item.subName  }} </mat-checkbox>
+              </div>                
+            </div>
+        </div>
+    </div>
+
+    <div class="row customrow mt-4">
+      <div class="col-lg-12 col-md-12 text-center">
+        <input type="button" class="btn btn-secondary" value="{{'Cancel' | translate}}" (click)="closeModel()" />
+        &nbsp;&nbsp;
+        <input type="button" (click)="submit()" class="btn waves-effect waves-light btn-primary" value="{{'Save' | translate}}">
+      </div>
+    </div>
+</div>

@@ -1,0 +1,1329 @@
+
+
+
+
+
+
+
+
+
+<button type="button" class="btn close" (click)="closeModel()">x</button>
+
+<div id="header">
+  <div class="row">
+    <div class="col-md-9 col-lg-9">
+      <div class="d-flex align-items-center">
+        <nav aria-label="breadcrumb">
+          <ol class="breadcrumb m-0 p-0" style="background:none">
+
+            <li class="breadcrumb-item text-muted"> {{'Operations' | translate}} </li>
+            <li class="breadcrumb-item text-muted"> {{'Projects' | translate}} </li>
+            <li class="breadcrumb-item text-muted"> {{siteCode}} </li>
+            <li class="breadcrumb-item text-muted"> {{projectCode}} </li>
+            <li class="breadcrumb-item   active" aria-current="page"> {{'Attendance' | translate}} </li>
+
+          </ol>
+        </nav>
+      </div>
+    </div>
+    <div class="col-md-3 col-lg-3">
+      <div class="btn-list">
+        <button type="button" class="btn waves-effect waves-light btn-rounded btn-primary" (click)="openDatePicker(picker)">
+          {{'Select'|translate}} {{'Payroll_Date'|translate}}
+          <i class="far fa-calendar-alt"></i>
+        </button>
+
+        <div class="btn-list" style="background-color:royalblue;color:white" hidden="hidden">
+          {{'Select'|translate}} {{'Payroll_Date'|translate}}
+          <input hidden="hidden" class="form-control datapickerinput" [max]="maxDate"  [(ngModel)]="fromDate" [ngModelOptions]="{standalone: true}" [matDatepicker]="picker" placeholder="{{'Please_Enter' | translate}} {{'Payroll_Start_Date' | translate}}" (click)="openDatePicker(picker)" (dateChange)="getReport()">
+          <mat-datepicker-toggle matSuffix [for]="picker" (dateChange)="getReport()" [(ngModel)]="fromDate" ></mat-datepicker-toggle>
+          <mat-datepicker #picker (dateChange)="getReport()"></mat-datepicker>
+
+        </div>
+      </div>
+
+    </div>
+
+  </div>
+
+</div>
+
+
+
+
+<ng-container *ngIf="result?.isValidReq && result?.rows?.length!=0 && !isLoading" style="text-align:center">
+
+  <div class="row" style="text-align:center">
+
+    <div class="card col-md-3 col-lg-3" style="padding-right:5px;">
+      <div class="card-body">
+        <h4 class="card-title">{{'Report_Type'|translate}}</h4>
+        <fieldset class="radio">
+          <label for="radio1">
+            <input type="radio" name="reportType" value="Attendance" [(ngModel)]="reportType" />&nbsp; Attendance&nbsp;
+            <input type="radio" name="reportType" [value]="'TimeSheet'" [(ngModel)]="reportType" />&nbsp;TimeSheet
+          </label>
+        </fieldset>
+
+
+      </div>
+    </div>
+    <div class="card col-md-4 col-lg-4" style="padding-right:5px ;">
+      <div class="card-body">
+        <h4 class="card-title">{{'Search'|translate}}</h4>
+        <fieldset class="radio">
+          <input *ngIf="filterType=='employee'" type="text" class="form-control btn" placeholder="Enter Key" [(ngModel)]="searchKey" (change)="applyFilter()" style="width:48%;border:solid;border-color:lightgray;border-width:1px;text-align:start" />
+          <select *ngIf="filterType=='shiftCode'" class="form-control btn" style="width: 48%; border: solid; border-color: lightgray; border-width: 1px;" [(ngModel)]="searchKey" (change)="applyFilter()" [ngModelOptions]="{standalone: true}">
+            <option value=''>{{'Select' | translate}} {{'Shift_Code' | translate}} </option>
+            <option *ngFor="let sc of listOfShiftCodes2" value="{{sc.shiftCode}}">{{sc.shiftCode}}-{{isArabic?sc.shiftNumberNameAR:sc.shiftNumberNameEN}}</option>
+          </select>
+
+          &nbsp;
+          <label>
+            <input type="radio" name="filterType" [value]="'employee'" [(ngModel)]="filterType" (click)="searchKey=''" /> &nbsp;Employee &nbsp;
+            <input type="radio" name="filterType" [value]="'shiftCode'" [(ngModel)]="filterType" (click)="searchKey=''" /> &nbsp;ShiftCode
+          </label>
+        </fieldset>
+
+      </div>
+    </div>
+    <div class="card col-md-5 col-lg-5" style="vertical-align:central;">
+      <div class="card-body btn-list" style="text-align: center; padding: 15px 15px 0px 0px">
+        <!--<span *ngIf="isDataProcessed">-->
+        <span>
+
+
+          <button class="btn btn waves-effect waves-light btn-outline-primary" [matTooltip]="translateToolTip('Post_Attendance')" (click)="postAttendance()" style="text-align:center;vertical-align:central">
+            <i class="fas fa-thumbs-up" style="font-size:x-large"></i>
+          </button>
+          <button class="btn btn waves-effect waves-light btn-outline-primary" [matTooltip]="translateToolTip('Enter_Auto_Attendance')" (click)="autoAttendance(-1)" style="text-align:center;vertical-align:central">
+            <i class="fas fa-fast-forward" style="font-size:x-large"></i>
+          </button>
+          <button class="btn btn waves-effect waves-light btn-outline-primary" [matTooltip]="translateToolTip('Clear_Attendance')" (click)="clearAttendance()" style="text-align:center;vertical-align:central">
+            <i class="fas fa-eraser" style="font-size:x-large"></i>
+          </button>
+
+        </span>
+        <span>
+          <button class="btn btn waves-effect waves-light btn-outline-primary" [matTooltip]="translateToolTip('Reload_Data')" (click)="reloadData()" style="text-align:center;vertical-align:central">
+            <i class="fas fa-history" style="font-size:x-large"></i>
+          </button>
+        </span>
+        <button class="btn btn waves-effect waves-light btn-outline-primary" [matTooltip]="translateToolTip('Download')" (click)="exportexcel()" style="text-align:center;vertical-align:central">
+          <i class="fas fa-arrow-alt-circle-down" style="font-size:x-large"></i>
+        </button>
+
+        <!--<span *ngIf="isDataProcessed" class="btn btn waves-effect waves-light btn-danger" [matTooltip]="translateToolTip('Time_Limit_For_Post_Attendance')" style="font-size:larger">
+          {{(waitingTime-time)}}
+        </span>-->
+      </div>
+
+      <div class="col-md-12 " style="vertical-align:central;">
+        <div class="btn-list" style="align-content: center; vertical-align: central; padding: 15px 20px 0px 0px">
+          <fieldset class="radio">
+            <label>
+
+              <input type="checkbox" name="highlightData" [(ngModel)]="highlightPostedAtt" />{{'Show_Posted_Attendance'|translate}} &nbsp;
+              <input type="checkbox" name="highlightData" [(ngModel)]="highlightPendingAtt" />{{'Show_Pending_Attendance'|translate}} &nbsp;
+
+            </label>
+          </fieldset>
+
+        </div>
+      </div>
+    </div>
+  </div>
+</ng-container>
+
+
+
+
+
+
+<auto-loader [isLoading]="isLoading" style="background-color: #f9fbfd"></auto-loader>
+
+
+<div id="excel_table">
+
+  <div id="ReportTable" class="card">
+    <div class="table-responsive">
+
+      <table class="none-border" style="width:100%">
+        <tr style="background-color:white;text-align:center;border:none;padding:0px 0px 0px 0px">
+          <td colspan="32" style="background-color:white;text-align:center;border:none;padding:0px 0px 0px 0px">
+            <span style="font-size:large">
+
+              {{ !isArabic?projectData?.projectNameEng:projectData?.projectNameArb}}
+              <!--({{projectCode}})-->
+            </span>
+          </td>
+        </tr>
+        <tr style="background-color:white;text-align:center;border:none;padding:0px 0px 0px 0px">
+          <td colspan="32" style="background-color:white;text-align:center;border:none;padding:0px 0px 0px 0px">
+            <span style="font-size:medium">
+
+              {{ !isArabic?siteData?.projectNameEng:siteData?.projectNameArb}}
+              <!--({{siteCode}})-->
+            </span>
+          </td>
+        </tr>
+        <tr style="background-color:white;text-align:center;border:none;padding:0px 0px 0px 0px">
+          <td colspan="32" style="background-color:white;text-align:center;border:none;padding:0px 0px 0px 0px">
+            <span style="font-size:x-small">
+              {{'Project_Duration'|translate}} &nbsp;:&nbsp; {{'From' | translate}} {{projectData?.startDate | date:'dd/MM/yyyy'}}&nbsp;{{'To'|translate}}&nbsp;{{projectData?.endDate | date:'dd/MM/yyyy'}}
+            </span>
+          </td>
+        </tr>
+        <tr style="background-color:white;text-align:center;border:none;padding:0px 0px 0px 0px">
+          <td colspan="32" style="background-color:white;text-align:center;border:none;padding:0px 0px 0px 0px">
+            <span style="font-size:small;font-style:italic">
+              {{'Attendance_Monthly_Report'|translate}}&nbsp; {{'From' | translate}} {{fromDate | date:'dd/MM/yyyy'}}&nbsp; {{'To'|translate}}&nbsp; {{toDate | date:'dd/MM/yyyy'}}
+            </span>
+          </td>
+        </tr>
+
+      </table>
+      <table *ngIf="result?.columns?.length!=0" class="sambaAttendanceTable  table-bordered no-wrap">
+        <tr>
+          <th colspan="4">
+
+          </th>
+          <ng-container>
+            <th [attr.colspan]="result?.daysInMonth1">{{result?.month1Text}}-{{result?.year1Text}}</th>
+
+          </ng-container>
+          <ng-container *ngIf="!result?.isSingleMonth">
+            <th [attr.colspan]="result?.daysInMonth2">{{result?.month2Text}}-{{result?.year2Text}}</th>
+
+          </ng-container>
+
+
+
+        </tr>
+
+        <tr>
+          <th rowspan="2" style="font-size:0.775rem !important; font-family: 'Poppins', sans-serif;font-weight:600;padding: 2px;text-align:center">
+            {{'S.No' | translate}}
+          </th>
+          <th rowspan="2" colspan="2" style="font-size: 0.775rem !important; font-family: 'Poppins', sans-serif; font-weight: 600; padding: 2px; text-align: center">
+            {{'Employee' | translate}}
+          </th>
+          <th rowspan="2" style="font-size: 0.775rem !important; font-family: 'Poppins', sans-serif; font-weight: 600; padding: 2px; text-align: center">
+            {{'Shift' | translate}}
+          </th>
+          <th *ngFor="let dt of result?.columns; let c = index;" id="{{getDayBackground(c)}}" style="font-size:0.775rem !important; font-family: 'Poppins', sans-serif;font-weight:600;padding: 2px;" [matTooltip]="getDayTooltip(dt)">
+
+            <span *ngIf="activeColumn!=c && (!dt?.isHoliday||activeColumn<c)" style="color:white;font-size:x-small">
+              {{getWeekDay(dt?.attnDate)}}
+            </span>
+            <span *ngIf="activeColumn==c || (dt?.isHoliday && activeColumn>c )" class="clickaction clickicons" [matTooltip]="translateToolTip('Enter_Auto_Attendance')" (click)="autoAttendance(c)" style="color:yellow;font-size:x-small">
+              <i class="fas fa-sync-alt" style="font-size:small"></i>
+            </span>
+          </th>
+
+          <ng-container *ngIf="reportType=='TimeSheet' && result?.rows.length!=0 && !isLoading">
+            <th style="font-size:0.675rem !important;color: #000000; font-family: 'Poppins', sans-serif;font-weight:600;padding: 2px;background-color:lightgreen">
+              ايام العمل المطلوب
+            </th>
+            <th style="font-size:0.675rem !important;color: #000000; font-family: 'Poppins', sans-serif;font-weight:600;padding: 2px;background-color:lightgreen">
+              ايام العمل الفعلية
+            </th>
+            <th style="font-size:0.675rem !important;color: #000000; font-family: 'Poppins', sans-serif;font-weight:600;padding: 2px;background-color:lightgreen">
+              ساعات العمل المطلوب
+            </th>
+            <th style="font-size:0.675rem !important;color: #000000; font-family: 'Poppins', sans-serif;font-weight:600;padding: 2px;background-color:lightgreen">
+              ساعات العمل الفعلية
+            </th>
+            <th style="font-size: 0.675rem !important; color: #000000; font-family: 'Poppins', sans-serif; font-weight: 600; padding: 2px; background-color: lightgreen">
+              أيام العطلة الأسبوعية
+            </th>
+            <th style="font-size: 0.675rem !important; color: #000000; font-family: 'Poppins', sans-serif; font-weight: 600; padding: 2px; background-color: lightgreen">
+              اجازة سنوية
+            </th>
+            <th style="font-size: 0.675rem !important; color: #000000; font-family: 'Poppins', sans-serif; font-weight: 600; padding: 2px; background-color: lightgreen">
+              إجازة خاصة/طارئة
+            </th>
+            <th style="font-size: 0.675rem !important; color: #000000; font-family: 'Poppins', sans-serif; font-weight: 600; padding: 2px; background-color: lightgreen">
+              اجازة غير مدفوعه
+            </th>
+
+            <th style="font-size: 0.675rem !important; color: #000000; font-family: 'Poppins', sans-serif; font-weight: 600; padding: 2px; background-color: lightgreen">
+              اجازة مرضية
+            </th>
+            <th style="font-size: 0.675rem !important; color: #000000; font-family: 'Poppins', sans-serif; font-weight: 600; padding: 2px; background-color: lightgreen">
+              إجازة اختبارات
+            </th>
+            <th style="font-size: 0.675rem !important; color: #000000; font-family: 'Poppins', sans-serif; font-weight: 600; padding: 2px; background-color: lightgreen">
+              غياب
+            </th>
+            <th style="font-size: 0.675rem !important; color: #000000; font-family: 'Poppins', sans-serif; font-weight: 600; padding: 2px; background-color: lightgreen">
+              انسحاب
+            </th>
+
+
+            <th style="font-size: 0.675rem !important; color: #000000; font-family: 'Poppins', sans-serif; font-weight: 600; padding: 2px; background-color:red">
+              جزاءات
+            </th>
+
+
+            <th style="font-size:0.675rem !important;color: #000000; font-family: 'Poppins', sans-serif;font-weight:600;padding: 2px ;background-color:red">
+              عدد ساعات التاخير
+            </th>
+            <th style="font-size: 0.675rem !important; color: #000000; font-family: 'Poppins', sans-serif; font-weight: 600; padding: 2px; background-color: #c0d5fa">
+              وقت اضافى
+            </th>
+
+          </ng-container>
+
+        </tr>
+
+
+        <tr>
+
+
+
+
+          <th *ngFor="let dt of result?.columns; let c = index;" id="{{getDayBackground(c)}}" style="font-size:0.775rem !important; font-family: 'Poppins', sans-serif;font-weight:600;padding: 2px;" [matTooltip]="getDayTooltip(dt)">
+            {{dt.day}}
+          </th>
+
+          <ng-container *ngIf="reportType=='TimeSheet' && result?.rows.length!=0 && !isLoading">
+
+
+            <th style="font-size: 0.675rem !important; color: #000000; font-family: 'Poppins', sans-serif; font-weight: 600; padding: 2px; background-color: lightgreen">
+              <!--W D C-->
+              Required Working Days
+            </th>
+            <th style="font-size: 0.675rem !important; color: #000000; font-family: 'Poppins', sans-serif; font-weight: 600; padding: 2px; background-color: lightgreen">
+              <!--A D C-->
+              Actual Working Days
+            </th>
+            <th style="font-size: 0.675rem !important; color: #000000; font-family: 'Poppins', sans-serif; font-weight: 600; padding: 2px; background-color: lightgreen">
+              <!--Nor. Hrs-->
+              Required Working Hours
+            </th>
+            <th style="font-size: 0.675rem !important; color: #000000; font-family: 'Poppins', sans-serif; font-weight: 600; padding: 2px; background-color: lightgreen">
+              <!--Attnd. Hrs-->
+              Actual Working Hours
+            </th>
+            <th style="font-size: 0.675rem !important; color: #000000; font-family: 'Poppins', sans-serif; font-weight: 600; padding: 2px; background-color: lightgreen">
+              OF
+            </th>
+            <th style="font-size: 0.675rem !important; color: #000000; font-family: 'Poppins', sans-serif; font-weight: 600; padding: 2px; background-color: lightgreen">
+              AL
+            </th>
+            <th style="font-size: 0.675rem !important; color: #000000; font-family: 'Poppins', sans-serif; font-weight: 600; padding: 2px; background-color: lightgreen">
+              EL
+            </th>
+            <th style="font-size: 0.675rem !important; color: #000000; font-family: 'Poppins', sans-serif; font-weight: 600; padding: 2px; background-color: lightgreen">
+              UL
+            </th>
+
+            <th style="font-size: 0.675rem !important; color: #000000; font-family: 'Poppins', sans-serif; font-weight: 600; padding: 2px; background-color: lightgreen">
+              SL
+            </th>
+            <th style="font-size: 0.675rem !important; color: #000000; font-family: 'Poppins', sans-serif; font-weight: 600; padding: 2px; background-color: lightgreen">
+              STL
+            </th>
+            <th style="font-size: 0.675rem !important; color: #000000; font-family: 'Poppins', sans-serif; font-weight: 600; padding: 2px; background-color: lightgreen">
+              A
+            </th>
+            <th style="font-size: 0.675rem !important; color: #000000; font-family: 'Poppins', sans-serif; font-weight: 600; padding: 2px; background-color: lightgreen">
+              W
+            </th>
+            <th style="font-size:0.675rem !important;color: #000000; font-family: 'Poppins', sans-serif;font-weight:600;padding: 2px; background-color:red">
+              Penalty
+            </th>
+            <th style="font-size: 0.675rem !important; color: #000000; font-family: 'Poppins', sans-serif; font-weight: 600; padding: 2px; background-color: red">
+              Late Hours
+            </th>
+            <th style="font-size: 0.675rem !important; color: #000000; font-family: 'Poppins', sans-serif; font-weight: 600; padding: 2px; background-color: #c0d5fa">
+              OT
+            </th>
+          </ng-container>
+        </tr>
+        <tbody style="font-size: 0.675rem !important; color: #000000; font-family: 'Poppins', sans-serif; font-weight: 300; text-align: center">
+          <tr *ngIf="result?.rows.length==0">
+            <td [attr.colspan]="((result?.columns?.length)+4)" style="text-align:center;font-size:x-large">No Attendance Found</td>
+          </tr>
+          <ng-container *ngIf=" !isShiftFilterApplied()">
+            <tr *ngFor="let row of result.rows;let r=index;">
+              <ng-container *ngIf="canShowRow(row)">
+
+                <td *ngIf="r==0" [attr.rowspan]="row.uniqueShiftsCount" id="{{getEmpBackGround(r,0)}}" style="padding: 3px; text-align: center;">
+
+                  {{(getEmpRow(r)+1)}}
+                </td>
+                <td *ngIf="r>0 && row.employeeNumber!=result.rows[r-1]?.employeeNumber" [attr.rowspan]="row.uniqueShiftsCount" id="{{getEmpBackGround(r,0)}}" style="padding: 3px; text-align: center;">
+                  {{(getEmpRow(r)+1)}}
+                </td>
+
+                <td *ngIf="r==0" [attr.rowspan]="row.uniqueShiftsCount" id="{{getEmpBackGround(r,0)}}" style="padding: 3px; text-align: center">
+
+                  {{row?.employeeNumber}}
+                </td>
+                <td *ngIf="r>0 && row.employeeNumber!=result.rows[r-1]?.employeeNumber" id="{{getEmpBackGround(r,0)}}" [attr.rowspan]="row.uniqueShiftsCount" style="padding: 3px; text-align: center">
+
+                  {{row?.employeeNumber}}
+                </td>
+
+
+
+                <td *ngIf="r==0" [attr.rowspan]="row.uniqueShiftsCount" id="{{getEmpBackGround(r,0)}}" style="padding: 3px; text-align: left">
+
+                  {{( isArabic? row?.employeeNameAr:row?.employeeName)}}
+                  <span class="fas fa-user" *ngIf=" row?.isNewHire" style="color:blue;background-color:yellow">(New)</span>
+                  <!--<span style="font-style:italic"><br />{{getEmpPosition(row.employeeNumber)}}</span>-->
+                  <span style="font-style:italic"><br />({{row?.positionName}})</span>
+                </td>
+
+
+                <td *ngIf="r>0 && row.employeeNumber!=result.rows[r-1]?.employeeNumber" id="{{getEmpBackGround(r,0)}}" [attr.rowspan]="row.uniqueShiftsCount" style="padding: 3px; text-align: left">
+
+                  {{( isArabic? row?.employeeNameAr:row?.employeeName)}}
+                  <span class="fas fa-user" *ngIf="row?.isNewHire" style="color: blue; background-color: yellow">(New)</span>
+                  <!-- <span style="font-style:italic"><br />{{getEmpPosition(row.employeeNumber)}}</span>-->
+                  <span style="font-style:italic"><br />({{row?.positionName}})</span>
+                </td>
+
+
+                <td style="padding: 3px; text-align: center;" id="{{getShiftBgColor(row?.shiftCode)}}">
+
+                  {{getShiftNumberName(row?.shiftCode)}}
+
+                </td>
+
+                  <td *ngFor="let cell of row.attendanceMatrix; let c=index;" style="text-align: center;" id="{{getCellBackGround(r,c)}}" (click)="singClick(r,c)" (contextmenu)="onRightClick(r,c)" [matTooltip]="getToolTip(r,c)">
+
+                    {{getAttendanceFlag(r,c)}}
+                  </td>
+
+              
+
+
+
+                <ng-container *ngIf="reportType=='TimeSheet' && result?.rows.length!=0 && !isLoading">
+                  <td *ngIf="r==0" [attr.rowspan]="row.uniqueShiftsCount" id="{{getEmpBackGround(r,0)}}" [matTooltip]="getToolTip(r,-1,'WDC')" style="text-align: center">
+
+                    {{result?.rows[r]?.wdc |number:'1.0-1'}}
+                  </td>
+                  <td *ngIf="r>0 && row.employeeNumber!=result.rows[r-1]?.employeeNumber" id="{{getEmpBackGround(r,0)}}" [matTooltip]="getToolTip(r,-1,'WDC')" [attr.rowspan]="row.uniqueShiftsCount" style="text-align: center">
+
+                    {{result?.rows[r]?.wdc |number:'1.0-1'}}
+                  </td>
+                  <td *ngIf="r==0" [attr.rowspan]="row.uniqueShiftsCount" id="{{getEmpBackGround(r,0)}}" [matTooltip]="getToolTip(r,-1,'WDC')" style="text-align: center">
+
+                    {{(result?.rows[r]?.attendedShiftsTime)/(result?.siteWorkingTime) | number:'1.0-1'}}
+                  </td>
+                  <td *ngIf="r>0 && row.employeeNumber!=result.rows[r-1]?.employeeNumber" id="{{getEmpBackGround(r,0)}}" [matTooltip]="getToolTip(r,-1,'WDC')" [attr.rowspan]="row.uniqueShiftsCount" style="text-align: center">
+
+                    {{(result?.rows[r]?.attendedShiftsTime)/(result?.siteWorkingTime) | number:'1.0-1'}}
+                  </td>
+                  <td *ngIf="r==0" [attr.rowspan]="row.uniqueShiftsCount" id="{{getEmpBackGround(r,0)}}" [matTooltip]="getToolTip(r,-1,'No.Of.Hrs')" style="padding: 3px; text-align: center">
+
+                    <!--{{(result?.rows[r]?.contractualShiftTime/60)}}-->
+                    {{hrsToStrHrsMins(result?.rows[r]?.allottedShiftTime/60)}}
+                  </td>
+                  <td *ngIf="r>0 && row.employeeNumber!=result.rows[r-1]?.employeeNumber" id="{{getEmpBackGround(r,0)}}" [matTooltip]="getToolTip(r,-1,'No.Of.Hrs')" [attr.rowspan]="row.uniqueShiftsCount" style="padding: 3px; text-align: center">
+
+                    <!--{{(result?.rows[r]?.contractualShiftTime/60)}}-->
+                    {{hrsToStrHrsMins(result?.rows[r]?.allottedShiftTime/60)}}
+
+                  </td>
+                  <td *ngIf="r==0" [attr.rowspan]="row.uniqueShiftsCount" id="{{getEmpBackGround(r,0)}}" [matTooltip]="getToolTip(r,-1,'No.Of.Hrs')" style="padding: 3px; text-align: center">
+                    {{hrsToStrHrsMins(result?.rows[r]?.attendedShiftsTime/60)}}
+                  </td>
+                  <td *ngIf="r>0 && row.employeeNumber!=result.rows[r-1]?.employeeNumber" id="{{getEmpBackGround(r,0)}}" [matTooltip]="getToolTip(r,-1,'No.Of.Hrs')" [attr.rowspan]="row.uniqueShiftsCount" style="padding: 3px; text-align: center">
+                    {{hrsToStrHrsMins(result?.rows[r]?.attendedShiftsTime/60)}}
+
+                  </td>
+                  <td *ngIf="r==0" [attr.rowspan]="row.uniqueShiftsCount" id="{{getEmpBackGround(r,0)}}" [matTooltip]="getToolTip(r,-1,'OF')" style="padding: 3px; text-align: center">
+                    {{((result?.rows[r]?.contractualShiftTime-result?.rows[r]?.allottedShiftTime)/(result.siteWorkingTime)) |number:'1.0-1'}}
+
+                  </td>
+                  <td *ngIf="r>0 && row.employeeNumber!=result.rows[r-1]?.employeeNumber" id="{{getEmpBackGround(r,0)}}" [matTooltip]="getToolTip(r,-1,'OF')" [attr.rowspan]="row.uniqueShiftsCount" style="padding: 3px; text-align: center">
+
+                    {{(result?.rows[r]?.contractualShiftTime-result?.rows[r]?.allottedShiftTime)/(result.siteWorkingTime) |number:'1.0-1'}}
+
+                  </td>
+                  <td *ngIf="r==0" [attr.rowspan]="row.uniqueShiftsCount" id="{{getEmpBackGround(r,0)}}" [matTooltip]="getToolTip(r,-1,'AL')" style="padding: 3px; text-align: center">
+
+                    {{result?.rows[r]?.AL}}
+                  </td>
+                  <td *ngIf="r>0 && row.employeeNumber!=result.rows[r-1]?.employeeNumber" id="{{getEmpBackGround(r,0)}}" [matTooltip]="getToolTip(r,-1,'AL')" [attr.rowspan]="row.uniqueShiftsCount" style="padding: 3px; text-align: center">
+
+                    {{result?.rows[r]?.AL}}
+                  </td>
+
+
+                  <td *ngIf="r==0" [attr.rowspan]="row.uniqueShiftsCount" id="{{getEmpBackGround(r,0)}}" [matTooltip]="getToolTip(r,-1,'EL')" style="padding: 3px; text-align: center">
+                    {{result?.rows[r]?.EL}}
+
+                  </td>
+                  <td *ngIf="r>0 && row.employeeNumber!=result.rows[r-1]?.employeeNumber" id="{{getEmpBackGround(r,0)}}" [matTooltip]="getToolTip(r,-1,'EL')" [attr.rowspan]="row.uniqueShiftsCount" style="padding: 3px; text-align: center">
+                    {{result?.rows[r]?.EL}}
+                  </td>
+
+
+                  <td *ngIf="r==0" [attr.rowspan]="row.uniqueShiftsCount" id="{{getEmpBackGround(r,0)}}" [matTooltip]="getToolTip(r,-1,'UL')" style="padding: 3px; text-align: center">
+                    {{result?.rows[r]?.UL}}
+                  </td>
+                  <td *ngIf="r>0 && row.employeeNumber!=result.rows[r-1]?.employeeNumber" id="{{getEmpBackGround(r,0)}}" [matTooltip]="getToolTip(r,-1,'UL')" [attr.rowspan]="row.uniqueShiftsCount" style="padding: 3px; text-align: center">
+                    {{result?.rows[r]?.UL}}
+                  </td>
+
+
+                  <td *ngIf="r==0" [attr.rowspan]="row.uniqueShiftsCount" id="{{getEmpBackGround(r,0)}}" [matTooltip]="getToolTip(r,-1,'SL')" style="padding: 3px; text-align: center">
+                    {{result?.rows[r]?.SL}}
+
+                  </td>
+                  <td *ngIf="r>0 && row.employeeNumber!=result.rows[r-1]?.employeeNumber" id="{{getEmpBackGround(r,0)}}" [matTooltip]="getToolTip(r,-1,'SL')" [attr.rowspan]="row.uniqueShiftsCount" style="padding: 3px; text-align: center">
+                    {{result?.rows[r]?.SL}}
+                  </td>
+
+
+                  <td *ngIf="r==0" [attr.rowspan]="row.uniqueShiftsCount" id="{{getEmpBackGround(r,0)}}" [matTooltip]="getToolTip(r,-1,'STL')" style="padding: 3px; text-align: center">
+                    {{result?.rows[r]?.STL}}
+                  </td>
+                  <td *ngIf="r>0 && row.employeeNumber!=result.rows[r-1]?.employeeNumber" id="{{getEmpBackGround(r,0)}}" [matTooltip]="getToolTip(r,-1,'STL')" [attr.rowspan]="row.uniqueShiftsCount" style="padding: 3px; text-align: center">
+                    {{result?.rows[r]?.STL}}
+                  </td>
+
+
+                  <td *ngIf="r==0" [attr.rowspan]="row.uniqueShiftsCount" id="{{getEmpBackGround(r,0)}}" [matTooltip]="getToolTip(r,-1,'Ab')" style="padding: 3px; text-align: center">
+                    {{result?.rows[r]?.Ab}}
+                  </td>
+                  <td *ngIf="r>0 && row.employeeNumber!=result.rows[r-1]?.employeeNumber" id="{{getEmpBackGround(r,0)}}" [matTooltip]="getToolTip(r,-1,'Ab')" [attr.rowspan]="row.uniqueShiftsCount" style="padding: 3px; text-align: center">
+                    {{result?.rows[r]?.Ab}}
+                  </td>
+
+
+                  <td *ngIf="r==0" [attr.rowspan]="row.uniqueShiftsCount" id="{{getEmpBackGround(r,0)}}" [matTooltip]="getToolTip(r,-1,'W')" style="padding: 3px; text-align: center">
+
+                    {{result?.rows[r]?.W}}
+                  </td>
+                  <td *ngIf="r>0 && row.employeeNumber!=result.rows[r-1]?.employeeNumber" id="{{getEmpBackGround(r,0)}}" [matTooltip]="getToolTip(r,-1,'W')" [attr.rowspan]="row.uniqueShiftsCount" style="padding: 3px; text-align: center">
+                    {{result?.rows[r]?.W}}
+                  </td>
+
+
+                  <td *ngIf="r==0" [attr.rowspan]="row.uniqueShiftsCount" id="{{getEmpBackGround(r,0)}}" [matTooltip]="getToolTip(r,-1,'Penalty')" style="padding: 3px; text-align: center">
+                    {{(result?.rows[r]?.Ab*2)}}
+                  </td>
+                  <td *ngIf="r>0 && row.employeeNumber!=result.rows[r-1]?.employeeNumber" id="{{getEmpBackGround(r,0)}}" [matTooltip]="getToolTip(r,-1,'Penalty')" [attr.rowspan]="row.uniqueShiftsCount" style="padding: 3px; text-align: center">
+                    {{(result?.rows[r]?.Ab*2)}}
+                  </td>
+
+
+                  <td *ngIf="r==0" [attr.rowspan]="row.uniqueShiftsCount" id="{{getEmpBackGround(r,0)}}" [matTooltip]="getToolTip(r,-1,'Late Hrs')" style="padding: 3px; text-align: center">
+                    {{hrsToStrHrsMins(result?.rows[r]?.lateHrs)}}
+
+                  </td>
+                  <td *ngIf="r>0 && row.employeeNumber!=result.rows[r-1]?.employeeNumber" id="{{getEmpBackGround(r,0)}}" [matTooltip]="getToolTip(r,-1,'Late Hrs')" [attr.rowspan]="row.uniqueShiftsCount" style="padding: 3px; text-align: center">
+                    {{hrsToStrHrsMins(result?.rows[r]?.lateHrs)}}
+
+                  </td>
+
+
+                  <td *ngIf="r==0" [attr.rowspan]="row.uniqueShiftsCount" id="{{getEmpBackGround(r,0)}}" [matTooltip]="getToolTip(r,-1,'OT')" style="padding: 3px; text-align: center">
+
+                    {{hrsToStrHrsMins(result?.rows[r]?.OT)}}
+                  </td>
+                  <td *ngIf="r>0 && row.employeeNumber!=result.rows[r-1]?.employeeNumber" id="{{getEmpBackGround(r,0)}}" [matTooltip]="getToolTip(r,-1,'OT')" [attr.rowspan]="row.uniqueShiftsCount" style="padding: 3px; text-align: center">
+
+                    {{(hrsToStrHrsMins(result?.rows[r]?.OT))}}
+
+                  </td>
+
+                </ng-container>
+              </ng-container>
+
+
+            </tr>
+          </ng-container>
+
+          <ng-container *ngIf="isShiftFilterApplied()">
+
+            <tr *ngFor="let row of result.rows;let r=index;">
+              <ng-container *ngIf="canShowRow(row)">
+
+
+
+                <td id="{{getEmpBackGround(r,0)}}" style="padding: 3px; text-align: center;">
+
+                  {{(getEmpRow(r)+1)}}
+                </td>
+                <td id="{{getEmpBackGround(r,0)}}" style="padding: 3px; text-align: center">
+
+                  {{row?.employeeNumber}}
+                </td>
+                <td id="{{getEmpBackGround(r,0)}}" style="padding: 3px; text-align: left">
+
+                  {{( isArabic? row?.employeeNameAr:row?.employeeName)}}
+                  <span class="fas fa-user" *ngIf=" row?.isNewHire" style="color:blue;background-color:yellow">(New)</span>
+                  <span style="font-style:italic"><br />({{row?.positionName}})</span>
+                </td>
+
+                <td style="padding: 3px; text-align: center;" id="{{getShiftBgColor(row?.shiftCode)}}">
+
+                  {{getShiftNumberName(row?.shiftCode)}}
+
+                </td>
+
+               
+                  <td *ngFor="let cell of row.attendanceMatrix; let c=index;" style="text-align: center;" id="{{getCellBackGround(r,c)}}" (click)="singClick(r,c)" (contextmenu)="onRightClick(r,c)" [matTooltip]="getToolTip(r,c)">
+
+                    {{getAttendanceFlag(r,c)}}
+                  </td>
+
+              
+            
+
+                <ng-container *ngIf="reportType=='TimeSheet' && result?.rows.length!=0 && !isLoading">
+                  <td id="{{getEmpBackGround(r,0)}}" [matTooltip]="getToolTip(r,-1,'WDC')" style="text-align: center">
+
+                    {{result?.rows[r]?.wdc |number:'1.0-1'}}
+                  </td>
+                  <td id="{{getEmpBackGround(r,0)}}" [matTooltip]="getToolTip(r,-1,'WDC')" style="text-align: center">
+                    {{(result?.rows[r]?.attendedShiftsTime)/(result?.siteWorkingTime)| number:'1.0-1'}}
+                  </td>
+
+
+
+                  <td id="{{getEmpBackGround(r,0)}}" [matTooltip]="getToolTip(r,-1,'No.Of.Hrs')" style="padding: 3px; text-align: center">
+                    <!--{{(result?.rows[r]?.contractualShiftTime/60)}}-->
+                    {{hrsToStrHrsMins(result?.rows[r]?.allottedShiftTime/60)}}
+                  </td>
+                  
+                  <td id="{{getEmpBackGround(r,0)}}" [matTooltip]="getToolTip(r,-1,'No.Of.Hrs')" style="padding: 3px; text-align: center">
+
+                    {{hrsToStrHrsMins(result?.rows[r]?.attendedShiftsTime/60)}}
+                  </td>
+
+                  <td id="{{getEmpBackGround(r,0)}}" [matTooltip]="getToolTip(r,-1,'OF')" style="padding: 3px; text-align: center">
+                    {{(result?.rows[r]?.contractualShiftTime-result?.rows[r]?.allottedShiftTime)/(result.siteWorkingTime)}}
+
+                  </td>
+
+
+
+                  <td id="{{getEmpBackGround(r,0)}}" [matTooltip]="getToolTip(r,-1,'AL')" style="padding: 3px; text-align: center">
+
+                    {{result?.rows[r]?.AL}}
+                  </td>
+
+
+                  <td id="{{getEmpBackGround(r,0)}}" [matTooltip]="getToolTip(r,-1,'EL')" style="padding: 3px; text-align: center">
+                    {{result?.rows[r]?.EL}}
+
+                  </td>
+
+
+
+                  <td id="{{getEmpBackGround(r,0)}}" [matTooltip]="getToolTip(r,-1,'UL')" style="padding: 3px; text-align: center">
+                    {{result?.rows[r]?.UL}}
+                  </td>
+
+
+
+                  <td id="{{getEmpBackGround(r,0)}}" [matTooltip]="getToolTip(r,-1,'SL')" style="padding: 3px; text-align: center">
+                    {{result?.rows[r]?.SL}}
+
+                  </td>
+
+
+
+                  <td id="{{getEmpBackGround(r,0)}}" [matTooltip]="getToolTip(r,-1,'STL')" style="padding: 3px; text-align: center">
+                    {{result?.rows[r]?.STL}}
+                  </td>
+
+
+
+                  <td id="{{getEmpBackGround(r,0)}}" [matTooltip]="getToolTip(r,-1,'Ab')" style="padding: 3px; text-align: center">
+                    {{result?.rows[r]?.Ab}}
+                  </td>
+
+
+
+                  <td id="{{getEmpBackGround(r,0)}}" [matTooltip]="getToolTip(r,-1,'W')" style="padding: 3px; text-align: center">
+
+                    {{result?.rows[r]?.W}}
+                  </td>
+
+
+
+                  <td id="{{getEmpBackGround(r,0)}}" [matTooltip]="getToolTip(r,-1,'Penalty')" style="padding: 3px; text-align: center">
+                    {{(result?.rows[r]?.Ab*2)}}
+                  </td>
+
+
+
+                  <td id="{{getEmpBackGround(r,0)}}" [matTooltip]="getToolTip(r,-1,'Late Hrs')" style="padding: 3px; text-align: center">
+                    {{hrsToStrHrsMins(result?.rows[r]?.lateHrs)}}
+
+                  </td>
+
+
+
+                  <td id="{{getEmpBackGround(r,0)}}" [matTooltip]="getToolTip(r,-1,'OT')" style="padding: 3px; text-align: center">
+
+                    {{hrsToStrHrsMins(result?.rows[r]?.OT)}}
+                  </td>
+
+
+                </ng-container>
+              </ng-container>
+            </tr>
+
+
+
+
+          </ng-container>
+
+
+          <ng-container *ngIf="reportType=='TimeSheet' && result?.rows.length!=0 && !isLoading">
+            <tr>
+              <td colspan="4" style="text-align: right; font-size: 0.675rem !important; color: #000000; font-family: 'Poppins', sans-serif; font-weight: 600; padding: 2px">
+
+                {{'Total'|translate}}
+
+              </td>
+
+              <td [attr.colspan]="(result?.columns.length)">
+              </td>
+              <td style="background-color: #e8eef3;color:black">
+                {{rowGrandTotal?.wdc|number:'1.0-1'}}
+              </td>
+              <td style="background-color: #e8eef3;color:black">
+                {{(rowGrandTotal?.attendedShiftsTime/result?.siteWorkingTime)|number:'1.0'}}
+              </td>
+              <td style="background-color: #e8eef3;color:black">
+                {{hrsToStrHrsMins(rowGrandTotal?.wdc*result?.siteWorkingTime/60)}}
+              </td>
+
+              <td style="background-color: #e8eef3;color:black">
+                {{hrsToStrHrsMins(rowGrandTotal?.attendedShiftsTime/60)}}
+              </td>
+              <td style="background-color: #e8eef3;color:black">
+                {{rowGrandTotal?.OF |number:'1.0-1'}}
+              </td>
+              <td style="background-color: #e8eef3;color:black">
+                {{rowGrandTotal?.AL}}
+              </td>
+              <td style="background-color: #e8eef3;color:black">
+                {{rowGrandTotal?.EL}}
+              </td>
+              <td style="background-color: #e8eef3;color:black">
+                {{rowGrandTotal?.UL}}
+              </td>
+
+              <td style="background-color: #e8eef3;color:black">
+                {{rowGrandTotal?.SL}}
+              </td>
+              <td style="background-color: #e8eef3;color:black">
+                {{rowGrandTotal?.STL}}
+              </td>
+
+              <td style="background-color: #e8eef3;color:black">
+                {{rowGrandTotal?.Ab}}
+              </td>
+              <td style="background-color: #e8eef3;color:black">
+                {{rowGrandTotal?.W}}
+              </td>
+              <td style="background-color: #e8eef3;color:black">
+                {{(rowGrandTotal?.Ab)*2}}
+              </td>
+
+
+              <td style="background-color: #e8eef3;color:black">
+                {{rowGrandTotal?.lateHrs | number:'1.0-1'}}
+              </td>
+              <td style="background-color: #e8eef3;color:black">
+                {{rowGrandTotal?.OT | number:'1.0-1'}}
+              </td>
+
+
+            </tr>
+
+
+            <tr>
+              <td colspan="4" style=" background-color:yellow;text-align: right; font-size: 0.675rem !important; color: #000000; font-family: 'Poppins' , sans-serif; font-weight: 600; padding: 2px">
+
+                {{'Total_Contracted_Hours'|translate}}
+
+              </td>
+              <td *ngFor="let dt of result?.columns; let c = index;" style="background-color:yellow">
+                {{result?.columns[c]?.contractualShiftTime | number:'1.0-1'}}
+              </td>
+              <td style="background-color: yellow">
+
+                {{columnGrandTotal?.contractualShiftTime | number:'1.0-1'}}
+              </td>
+              <td style="background-color: white">
+              </td>
+              <td style="background-color: white">
+              </td>
+              <td style="background-color: white">
+              </td>
+              <td style="background-color: white">
+              </td>
+              <td style="background-color: white">
+              </td>
+              <td style="background-color: white">
+              </td>
+              <td style="background-color: white">
+              </td>
+              <td style="background-color: white">
+              </td>
+              <td style="background-color: white">
+              </td>
+              <td style="background-color: white">
+              </td>
+              <td style="background-color: white">
+              </td>
+              <td style="background-color: white">
+              </td>
+              <td style="background-color: white">
+              </td>
+              <td style="background-color: white">
+              </td>
+            </tr>
+
+            <tr>
+              <td colspan="4" style="text-align: right; font-size: 0.675rem !important; color: #000000; font-family: 'Poppins', sans-serif; font-weight: 600; padding: 2px">
+
+                {{'Total_Contracted_Shifts'|translate}}
+
+              </td>
+              <td *ngFor="let dt of result?.columns; let c = index;" style="background-color:cornsilk">
+                {{((result?.columns[c]?.contractualShiftTime)/(result?.siteWorkingTime/60)) | number:'1.0-1'}}
+              </td>
+              <td style="background-color: cornsilk">
+
+                {{(columnGrandTotal.contractualShiftTime/(result?.siteWorkingTime/60)) | number:'1.0-1'}}
+              </td>
+              <td style="background-color: white">
+              </td>
+              <td style="background-color: white">
+              </td>
+              <td style="background-color: white">
+              </td>
+              <td style="background-color: white">
+              </td>
+              <td style="background-color: white">
+              </td>
+              <td style="background-color: white">
+              </td>
+              <td style="background-color: white">
+              </td>
+              <td style="background-color: white">
+              </td>
+              <td style="background-color: white">
+              </td>
+              <td style="background-color: white">
+              </td>
+              <td style="background-color: white">
+              </td>
+              <td style="background-color: white">
+              </td>
+              <td style="background-color: white">
+              </td>
+              <td style="background-color: white">
+              </td>
+            </tr>
+
+
+
+            <tr>
+              <td colspan="4" style="background-color: yellow;text-align: right; font-size: 0.675rem !important; color: #000000; font-family: 'Poppins', sans-serif; font-weight: 600; padding: 2px">
+
+                {{'Actual_Hours'|translate}}
+
+              </td>
+              <td *ngFor="let dt of result?.columns; let c = index;" style="background-color: yellow">
+                {{hrsToStrHrsMins(result?.columns[c]?.attendedTime)}}
+              </td>
+              <td style="background-color: yellow">
+                {{hrsToStrHrsMins(columnGrandTotal.attendedTime)}}
+              </td>
+              <td style="background-color: white">
+              </td>
+              <td style="background-color: white">
+              </td>
+              <td style="background-color: white">
+              </td>
+              <td style="background-color: white">
+              </td>
+              <td style="background-color: white">
+              </td>
+              <td style="background-color: white">
+              </td>
+              <td style="background-color: white">
+              </td>
+              <td style="background-color: white">
+              </td>
+              <td style="background-color: white">
+              </td>
+              <td style="background-color: white">
+              </td>
+              <td style="background-color: white">
+              </td>
+              <td style="background-color: white">
+              </td>
+              <td style="background-color: white">
+              </td>
+              <td style="background-color: white">
+              </td>
+            </tr>
+
+
+            <tr>
+              <td colspan="4" style="text-align: right; font-size: 0.675rem !important; color: #000000; font-family: 'Poppins', sans-serif; font-weight: 600; padding: 2px">
+
+                {{'Actual_Shifts'|translate}}
+
+              </td>
+              <td *ngFor="let dt of result?.columns; let c = index;" style="background-color:cornsilk">
+                {{(result?.columns[c]?.attendedTime/(result?.siteWorkingTime/60)) | number:'1.0-1'}}
+              </td>
+              <td style="background-color: cornsilk">
+
+                {{(columnGrandTotal.attendedTime/(result?.siteWorkingTime/60)) | number:'1.0-1'}}
+
+              </td>
+              <td style="background-color: white">
+              </td>
+              <td style="background-color: white">
+              </td>
+              <td style="background-color: white">
+              </td>
+              <td style="background-color: white">
+              </td>
+              <td style="background-color: white">
+              </td>
+              <td style="background-color: white">
+              </td>
+              <td style="background-color: white">
+              </td>
+              <td style="background-color: white">
+              </td>
+              <td style="background-color: white">
+              </td>
+              <td style="background-color: white">
+              </td>
+              <td style="background-color: white">
+              </td>
+              <td style="background-color: white">
+              </td>
+              <td style="background-color: white">
+              </td>
+              <td style="background-color: white">
+              </td>
+            </tr>
+
+
+            <tr>
+              <td colspan="4" style="background-color:sandybrown;text-align: right; font-size: 0.675rem !important; color: #000000; font-family: 'Poppins', sans-serif; font-weight: 600; padding: 2px">
+
+                {{'Variance_of_Shifts'|translate}}
+
+              </td>
+              <td *ngFor="let dt of result?.columns; let c = index;" style="background-color: sandybrown">
+
+                {{((result?.columns[c]?.contractualShiftTime/(result?.siteWorkingTime/60))-(result?.columns[c]?.attendedTime/(result?.siteWorkingTime/60))) | number:'1.0-1'}}
+              </td>
+              <td style="background-color: sandybrown">
+                {{((columnGrandTotal?.contractualShiftTime/(result?.siteWorkingTime/60))-(columnGrandTotal?.attendedTime/(result?.siteWorkingTime/60))) | number:'1.0-1'}}
+              </td>
+              <td style="background-color: white">
+              </td>
+              <td style="background-color: white">
+              </td>
+              <td style="background-color: white">
+              </td>
+              <td style="background-color: white">
+              </td>
+              <td style="background-color: white">
+              </td>
+              <td style="background-color: white">
+              </td>
+              <td style="background-color: white">
+              </td>
+              <td style="background-color: white">
+              </td>
+              <td style="background-color: white">
+              </td>
+              <td style="background-color: white">
+              </td>
+              <td style="background-color: white">
+              </td>
+              <td style="background-color: white">
+              </td>
+              <td style="background-color: white">
+              </td>
+              <td style="background-color: white">
+              </td>
+            </tr>
+
+          </ng-container>
+
+
+
+        </tbody>
+      </table>
+
+
+    </div>
+  </div>
+
+
+  <div *ngIf="result?.rows.length!=0 && !isLoading" id="consolidateTables" class="row" style="padding:10px 10px 10px 10px; text-align:center">
+
+    <div class="card" id="consolidateRoasterPlanTable">
+      <div class="card-body">
+    
+        <table class="consolidateDataTable">
+          <tr>
+            <th>{{'S.No'|translate}}</th>
+            <th colspan="2">{{'Position'|translate}} </th>
+            <th colspan="3">{{'Qty'|translate}} </th>
+            <th colspan="3">{{'Daily_Hrs'|translate}} </th>
+            <th colspan="3">{{'Monthly_Hrs'|translate}} </th>
+            <th colspan="3">{{'Scheduled_Shifts'|translate}} </th>
+            <th colspan="3">{{'Assigned_Shifts'|translate}} </th>
+            <th colspan="3">{{'OFFS'|translate}} </th>
+
+          </tr>
+
+          <!--<tr *ngFor="let rr of roasterReport?.rows;let ir=index">
+    <td>{{ir+1}}</td>
+    <td colspan="2">{{rr?.positionName}}</td>
+    <td colspan="3">{{rr?.qty}} </td>
+    <td colspan="3">{{rr?.dailyHrs}} </td>
+    <td colspan="3">{{rr?.monthlyHrs}} </td>
+    <td colspan="3">{{rr?.monthlyShifts}}</td>
+    <td colspan="3">{{(rr?.monthlyShifts-rr?.monthlyOffs)}} </td>
+    <td colspan="3">{{rr?.monthlyOffs}}</td>
+
+  </tr>-->
+          <tr *ngFor="let rr of roasterReport?.rowsByPositions;let ir=index">
+            <td>{{ir+1}}</td>
+            <td colspan="2">{{rr?.positionName}}</td>
+            <td colspan="3">{{rr?.qty}} </td>
+            <td colspan="3">{{rr?.dailyHrs}} </td>
+            <td colspan="3">{{rr?.monthlyHrs}} </td>
+            <td colspan="3">{{rr?.monthlyShifts}}</td>
+            <td colspan="3">{{(rr?.monthlyShifts-rr?.monthlyOffs)}} </td>
+            <td colspan="3">{{rr?.monthlyOffs}}</td>
+
+          </tr>
+          <tr>
+
+            <th colspan="3">{{'Total'|translate}}</th>
+            <th colspan="3">{{roasterReport?.qty}} </th>
+            <th colspan="3">{{roasterReport?.dailyHrs}} </th>
+            <th colspan="3">{{roasterReport?.monthlyHrs}} </th>
+            <th colspan="3">{{roasterReport?.monthlyShifts}}</th>
+            <th colspan="3">{{(roasterReport?.monthlyShifts-roasterReport?.monthlyOffs)}} </th>
+            <th colspan="3">{{roasterReport?.monthlyOffs}}</th>
+
+          </tr>
+          <tr class="none-border" *ngIf="result?.isExistEmptyShifts" style="background-color:white;color:red">
+            <td class="none-border" colspan="21" width="100%" style="background-color:white;color:red">*Incomplete_Shift_Locks</td>
+          </tr>
+        </table>
+         
+     
+        
+      </div>
+    </div>
+    <div class="card" id="consolidateTimeSheetTable">
+      <div class="card-body">
+
+        <table class="consolidateDataTable">
+          <tr>
+            <th colspan="3">{{'Contracted_Shifts'|translate}}</th>
+            <td> {{(columnGrandTotal.contractualShiftTime/(result?.siteWorkingTime/60)) | number:'1.0-1'}} </td>
+          </tr>
+          <tr>
+            <th colspan="3">{{'Contracted_Hours'|translate}}</th>
+            <td>{{columnGrandTotal?.contractualShiftTime | number:'1.0-1'}} </td>
+          </tr>
+          <tr>
+            <th colspan="3">{{'Actual_Shifts'|translate}}({{'With_Overtime'|translate}})</th>
+            <td>{{(columnGrandTotal.attendedTime+(rowGrandTotal?.OT/2))/(result?.siteWorkingTime/60) | number:'1.0-1'}} </td>
+
+          </tr>
+          <tr>
+            <th colspan="3">{{'Actual_Hours'|translate}}({{'With_Overtime'|translate}})</th>
+            <td>{{columnGrandTotal.attendedTime+(rowGrandTotal?.OT/2) | number:'1.0-1'}} </td>
+
+          </tr>
+          <tr>
+            <th colspan="3">{{'Actual_Shifts'|translate}}({{'Without_Overtime'|translate}})</th>
+            <td>{{(columnGrandTotal.attendedTime/(result?.siteWorkingTime/60)) | number:'1.0-1'}} </td>
+          </tr>
+          <tr>
+            <th colspan="3">{{'Actual_Hours'|translate}}({{'Without_Overtime'|translate}})</th>
+            <td>{{columnGrandTotal.attendedTime | number:'1.0-1'}} </td>
+          </tr>
+          <tr>
+            <th colspan="3">{{'Overtime_Hours'|translate}}</th>
+            <td>{{rowGrandTotal?.OT | number:'1.0-1'}} </td>
+          </tr>
+          <tr>
+            <th colspan="3">{{'Overtime_Shifts	'|translate}}</th>
+            <td> {{(rowGrandTotal?.OT*60*1.5/result?.siteWorkingTime) | number:'1.0-1'}}</td>
+          </tr>
+        </table>
+      </div>
+    </div>
+
+    <div class="card" id="consolidateShiftsPlanTable">
+      <div class="card-body">
+        <table class="consolidateDataTable">
+          <tr *ngFor="let shift of listOfShiftCodes2; let i=index;">
+            <th>{{shift.shiftCode}}</th>
+            <td colspan="2" id="bgColorShift_{{shift?.shiftNumber}}">{{isArabic?shift?.shiftName_AR:shift?.shiftName_EN}} </td>
+            <th>= </th>
+            <td colspan="3" id="bgColorShift_{{shift?.shiftNumber}}">{{isArabic?shift?.shiftNumberNameAR:shift?.shiftNumberNameEN}} </td>
+          </tr>
+
+
+
+
+        </table>
+      </div>
+    </div>
+
+
+  </div>
+</div>
+<style>
+
+
+
+
+
+
+
+
+
+
+
+  #attendTable {
+    border: solid;
+    border-color: lightgray;
+    border-width: 1px;
+    border-block-color: lightgray;
+    border-block: lightgray;
+    border-block-width: 1px;
+    border-inline-color: aqua
+  }
+
+
+  table.consolidateDataTable th, td {
+    border: solid;
+    border-color: lightgray;
+    border-width: 1px;
+    color: black;
+    font-size: small;
+    padding: 5px 5px 5px 5px
+  }
+
+
+  table.sambaAttendanceTable {
+    border: solid;
+    border-color: lightgray;
+    border-width: 1px;
+    width: 100%
+  }
+
+
+    table.sambaAttendanceTable tr, td {
+      background-color: #fafafa;
+      border: solid;
+      border-color: lightgray;
+      border-width: 1px;
+      padding: 5px 15px 5px 15px
+    }
+
+    table.sambaAttendanceTable th {
+      background-color: #548087;
+      border: solid;
+      border-color: lightgray;
+      border-width: 1px;
+      color: white;
+      text-align: center;
+    }
+
+
+  #bgColorEven {
+    border: solid;
+    border-color: lightgray;
+    border-width: 1px;
+    background-color: white;
+  }
+
+  #bgColorOdd {
+    border: solid;
+    border-color: lightgray;
+    border-width: 1px;
+    background-color: white;
+    /*background-color: #ebf9ff;*/
+  }
+
+  #bgColorAltAttnd {
+    border: solid;
+    border-color: lightgray;
+    border-width: 1px;
+    background-color: maroon;
+    color: white;
+  }
+
+  #bgColorPrimaryAttnd {
+    border: solid;
+    border-color: lightgray;
+    border-width: 1px;
+    background-color: blue;
+    color: white;
+  }
+
+  #bgColorAbsent {
+    border: solid;
+    border-color: lightgray;
+    border-width: 1px;
+    background-color: red;
+    color: white
+  }
+
+  #bgColorSwap {
+    border: solid;
+    border-color: lightgray;
+    border-width: 1px;
+    background-color: yellow;
+    color: red
+  }
+
+  #bgColorNoShift {
+    border: solid;
+    border-color: lightgray;
+    border-width: 1px;
+    background-color: #f3f3f3;
+    color: none
+  }
+
+  #bgColorLeave {
+    border: solid;
+    border-color: lightgray;
+    border-width: 1px;
+    background-color: red;
+    color: white;
+  }
+
+  #bgColorTransfer {
+    border: solid;
+    border-color: lightgray;
+    border-width: 1px;
+    background-color: red;
+    color: white;
+  }
+
+  #bgColorResign {
+    border: solid;
+    border-color: lightgray;
+    border-width: 1px;
+    background-color: red;
+    color: white;
+  }
+
+  #bgColorTerminated {
+    border: solid;
+    border-color: lightgray;
+    border-width: 1px;
+    background-color: red;
+    color: white;
+  }
+
+  #bgColorAttendancePending {
+    border: solid;
+    border-color: lightgray;
+    border-width: 1px;
+    background-color: yellowgreen; /*green*/
+  }
+
+  #bgColorOT {
+    border: solid;
+    border-color: lightgray;
+    border-width: 1px;
+    background-color: yellow;
+    color: green;
+  }
+
+  #bgColorPosted {
+    border: solid;
+    border-color: lightgray;
+    border-width: 1px;
+    background-color: orange;
+    color: white;
+  }
+
+  #bgColorActiveColumn {
+    border: solid;
+    border-color: lightgray;
+    border-width: 1px;
+    background-color: aqua;
+    color: blue;
+  }
+
+  #bgColorDateHeaderHoliday {
+    background-color: lightgreen;
+    color: yellow;
+  }
+
+  #bgColorShift_0 {
+    background-color: burlywood;
+    border-color: lightgray;
+    border-width: 1px;
+    color: lightyellow;
+  }
+
+  #bgColorShift_1 {
+    background-color: lightcoral;
+    border-color: lightgray;
+    border-width: 1px;
+    color: lightyellow;
+  }
+
+  #bgColorShift_2 {
+    background-color: mediumpurple;
+    border-color: lightgray;
+    border-width: 1px;
+    color: lightyellow;
+  }
+
+  #bgColorShift_3 {
+    background-color: cadetblue;
+    border-color: lightgray;
+    border-width: 1px;
+    color: lightyellow;
+  }
+
+  /* tr.headerData td {
+      border: solid;
+      border-color: #e8eef3;
+      border-width: 1px;
+      border-block-color: #e8eef3;
+      border-block: solid;
+      border-block-width: 1px;
+      background-color: white;
+      border-inline-color: #e8eef3;
+      border-inline-width: 1px;
+      border-top-width: 1px;
+      border-top-color: #e8eef3;
+      border-bottom-width: 1px;
+      border-bottom-color: #e8eef3;
+      padding: 5px 15px 5px 15px;
+      text-align: center;
+    }*/
+</style>

@@ -1,0 +1,294 @@
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-12 align-self-center">
+      <div class="d-flex align-items-center">
+        <nav aria-label="breadcrumb">
+          <ol class="breadcrumb m-0 p-0">
+            <li class="breadcrumb-item text-muted"> {{'Administration' | translate}} </li>
+            <li class="breadcrumb-item text-muted ">{{'Inventory_Management' | translate}}</li>
+            <li class="breadcrumb-item   active" aria-current="page">{{'Inventory_Transactions' | translate}}</li>
+
+          </ol>
+        </nav>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- ============================================================== -->
+  <!-- End Bread crumb and right sidebar toggle -->
+  <!-- ============================================================== -->
+  <!-- ============================================================== -->
+  <!-- Container fluid  -->
+  <!-- ============================================================== -->
+
+  <div class="row">
+    <div class="col-md-12 col-lg-12">
+      <div class="card">
+        <div class="card-body">
+
+          <div class="cardtitle-divider"></div>
+          <div class="row">
+
+
+
+
+
+
+
+
+            <div class="col-md-4 col-lg-4">
+              <div class="form-group">
+                <label>{{'Choose' | translate}}</label>
+                <select class="custom-select mr-sm-2" [(ngModel)]="transactionType" (change)="clearReport()">
+                  <option value="All">{{'All' | translate}}</option>
+                  <option value="Transfers">{{'Transfers' | translate}}</option>
+                  <option value="Reconsiles">{{'Reconsiles' | translate}}</option>
+                  <option value="Issues">{{'Issues' | translate}}</option>
+                  <option value="Receipts">{{'Receipts' | translate}}</option>
+                  <option value="Adjustments">{{'Adjustments' | translate}}</option>
+                </select>
+              </div>
+            </div>
+
+
+
+
+            <div class="col-md-4 col-lg-4">
+              <div class="form-group">
+                <label>{{'Location_From' | translate}}</label>
+                <ng-select [items]="whSelectionList"
+                           bindLabel="lable"
+                           bindValue="value" [(ngModel)]="whCode" (change)="clearReport()" (clear)="clearWhCode()">  </ng-select>
+
+              </div>
+            </div>
+
+
+
+            <div class="col-md-4 col-lg-4">
+              <div class="form-group">
+                <label>{{'From_Date' | translate}}</label>
+                <div class="form-group ">
+                  <div class="input-group mb-2">
+                    <input class="form-control datapickerinput" placeholder="{{'Select_a_Date' | translate}}" [(ngModel)]="dateFrom"
+                           [matDatepicker]="picker1" (dateChange)="clearReport()">
+
+                    <div class="input-group-prepend datapickericon">
+                      <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
+                      <mat-datepicker #picker1></mat-datepicker><br /><br />
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-4 col-lg-4">
+              <div class="form-group">
+                <label>{{'To_Date' | translate}}</label>
+                <div class="form-group ">
+                  <div class="input-group mb-2">
+                    <input class="form-control datapickerinput" placeholder="{{'Select_a_Date' | translate}}" [(ngModel)]="dateTo"
+                           [matDatepicker]="picker2" (dateChange)="clearReport()">
+
+                    <div class="input-group-prepend datapickericon">
+                      <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
+                      <mat-datepicker #picker2></mat-datepicker><br /><br />
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+
+            <div class="col-md-2 col-lg-2">
+              <div class="form-group pt" style="padding-top:35px;padding-left:20px">
+                <mat-slide-toggle color="primary" [(ngModel)]="isSummary" (change)="clearReport()"> </mat-slide-toggle>
+                {{'IsSummary' | translate}}
+              </div>
+            </div>
+            <div class="col-md-2 col-lg-2">
+              <div class="col-md-12 col-lg-12 text-center" style="padding-top:25px">
+                <button type="button"  class="btn waves-effect waves-light btn-rounded btn-primary btn-midblock" data-toggle="modal" (click)="search()">
+                  {{'Search' | translate}}
+                </button>
+              </div>
+            </div>
+            <div class="col-md-1 col-lg-1"  style="padding-top:25px">
+              <spinner-loader [isLoading]="isLoading"></spinner-loader>
+            </div>
+          </div>
+        
+          </div>
+
+
+
+        </div>
+    </div>
+
+  </div>
+
+  <div class="modal-content" *ngIf="reportItems.length > 0">
+    <div class="modal-body">
+      <button type="button" class="btn waves-effect waves-light btn-rounded btn-primary btn-midblock" data-toggle="modal" (click)="openPrint()">
+        {{'Print' | translate}}
+      </button>
+      <br />
+      <div class="outer" id="printcontainer">
+        <div class="text-center font-weight-medium">
+          {{companyName}}  <img src="{{logoURL}}" style="width:200px;height:150px;float:right;" *ngIf="companyName" />
+          <br />
+          {{branchName}}
+          <br />
+          {{companyAddress}}
+        </div>
+
+        <br />
+        <div class="text-center font-weight-medium" *ngIf="dateFrom && dateTo">
+          <p>
+            The Statement of "Inventory_Miscellaneous_Transactions ({{transactionType}})" for {{dateFrom | date:'dd/MM/yyyy'}} to {{dateTo | date:'dd/MM/yyyy'}}
+          </p>
+          <span class="backspace" *ngIf="whCode">
+            Warehouse :{{getWarehouse(whCode)?.wHName}}
+          </span>
+         </div>
+
+
+        <div class="table-responsive">
+         
+          <ng-container *ngIf="isSummary && reportItems.length> 0; else detailedContainer">
+
+            <table style="width:100%;" border="1" cellpadding="5" cellspacing="0" class="ur_tablestyle">
+              <tbody>
+                <tr>
+                  <th>{{'Date' | translate}}:</th>
+                  <th>{{'Transaction_Number' | translate}}</th>
+                  <th *ngIf="transactionType!='Transfers'&& transactionType!='All'">{{'Location' | translate}}</th>
+                  <th *ngIf="transactionType=='Transfers'||transactionType=='All'">{{'From_Location' | translate}}</th>
+                  <th *ngIf="transactionType=='Transfers'||transactionType=='All'">{{'To_Location' | translate}}</th>
+                  <th>{{'Status' | translate}}</th>
+                  <th>{{'DocNumber' | translate}}</th>
+                  <th>{{'Ref.Number' | translate}}</th>
+                  <th>{{'Transaction_Type' | translate}}</th>
+                  <th>{{'Total_Cost' | translate}}</th>
+                  
+                </tr>
+                <tr *ngFor="let item of reportItems">
+                  <td style="white-space: nowrap">{{item.tranDate | date:'dd-MM-yyyy'}}</td>
+                  <td>{{item.tranNumber}}</td>
+                  <td>{{item.tranLocation}}</td>
+                  <td *ngIf="transactionType=='Transfers'||transactionType=='All'">{{item.tranToLocation}}</td>
+                  <td>{{item.tranPostStatus}}</td>
+                  <td>{{item.tranDocNumber}}</td>
+                  <td>{{item.tranReference}}</td>
+                  <td>{{item.tranType}}({{item.tranType2}})</td>
+                  <td>{{item.tranTotalCost | decimalpipe}}</td>
+                  
+                </tr>
+
+                <tr>
+                </tr>
+
+              </tbody>
+              
+
+            </table>
+          </ng-container>
+          <ng-template #detailedContainer style="border:none">
+            <ng-container *ngIf="reportItems.length> 0">
+              <ng-container *ngFor="let item of reportItems">
+                <table id="outer" style="width:100%;" border="1" cellpadding="5" cellspacing="0" class="ur_tablestyle">
+                  <tbody>
+                    <tr>
+                      <td colspan="8">
+                        <table id="inner" style="width:100%;" border="0" cellpadding="0" cellspacing="0" class="ur_tablestyle">
+                          <tbody>
+                            <tr>
+                              <th>{{'Transaction_Number' | translate}}:{{item.tranNumber}}</th>
+                              <th>{{'Date' | translate}}:{{item.tranDate | date:'dd-MM-yyyy'}}</th>
+                            </tr>
+                            <tr>
+                              <th>{{'DocNumber' | translate}}:{{item.tranDocNumber}}</th>
+                              <th>{{'User' | translate}}</th>
+                            </tr>
+                            <tr>
+                              <th *ngIf="item.tranType2=='Transfers'">{{'From_Location' | translate}}:{{item.tranLocation}}</th>
+                              <th *ngIf="item.tranType2!='Transfers'">{{'Location' | translate}}:{{item.tranLocation}}</th>
+                              <th>{{'Ref.Number' | translate}}:{{item.tranReference}}</th>
+                            </tr>
+
+
+                            <tr>
+                              <th *ngIf="item.tranType2=='Transfers'">{{'To_Location' | translate}}:{{item.tranToLocation}}</th>
+                              <th>{{'Transaction_Type' | translate}}:{{item.tranType}}({{item.tranType2}})</th>
+
+                            </tr>
+                            
+                          </tbody>
+
+
+                        </table>
+                      </td>
+                    </tr>
+
+                    <tr>
+                      <th>
+                        {{'Item'|translate}}
+                      </th>
+                      <th>
+                        {{'Unit_Type'|translate}}
+                      </th>
+                      <th>
+                        {{'Qty'|translate}}
+                      </th>
+                      <th>
+                        {{'Cost'|translate}}
+                      </th>
+                      <th>
+                        {{'Total_Cost'|translate}}
+                      </th>
+                    </tr>
+                    <tr *ngFor="let ii of item.transactionItems">
+                      <td>
+                        {{ii.tranItemName}}
+                      </td>
+                      <td>
+                        {{ii.tranItemUnit}}
+                      </td>
+                      <td>
+                        {{ii.tranItemQty}}
+                      </td>
+                      <td>
+                        {{(ii.tranTotCost/(ii.tranItemQty))| decimalpipe}}
+                      </td>
+                      <td>
+                        {{ii.tranTotCost | decimalpipe}}
+                      </td>
+                    </tr>
+                    <tr>
+                      <th colspan="4">{{'Total'}}</th>
+                      <th>{{item.tranTotalCost | decimalpipe}}</th>
+                    </tr>
+
+                  </tbody>
+
+                </table>
+
+                <br/>
+              </ng-container>
+
+
+            </ng-container>
+          </ng-template>
+        </div>
+
+
+      </div>
+
+
+    </div>
+
+
+  </div>
+
+  
+</div>

@@ -1,0 +1,274 @@
+<div >
+  <div class="modal-header">
+    <h3 class="modal-title">{{modalTitle}}</h3>
+    <button type="button" class="close" aria-hidden="true" (click)="closeModel()"> ×</button>
+
+  </div>
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-md-12 col-lg-12">
+
+         <div class="cardtitle-divider"></div>
+        <div class="col-md-12 col-lg-12">
+          <form [formGroup]="companyForm" (ngSubmit)="companySubmit()" novalidate class="mt-4">
+            <div class="row">
+
+              <div class="col-md-6 col-lg-6">
+                <div class="form-group">
+                  <label>{{'Company_Name' | translate}}</label>
+                  <input class="form-control" id="companyname" type="text"
+                         placeholder="{{'Please_Enter' | translate}} {{'Company_Name' | translate}}" formControlName="companyName" (blur)="checkCompanyName($event)">
+                  <validation-message [control]="companyForm.controls.companyName"></validation-message>
+                </div>
+                <div class="form-group">
+                  <label for="Companyaddress">{{'Company_Address' | translate}}</label>
+                  <input class="form-control" id="companyaddress" type="text"
+                         placeholder="{{'Please_Enter' | translate}} {{'Company_Address' | translate}}" formControlName="companyAddress">
+                  <validation-message [control]="companyForm.controls.companyAddress"></validation-message>
+                </div>
+              </div>
+
+              <div class="col-md-6 col-lg-6">
+                <div class="form-group">
+                  <label>{{'Company_NameAr' | translate}}</label>
+                  <input class="form-control" id="companyname" type="text"
+                         placeholder="{{'Please_Enter' | translate}} {{'Company_NameAr' | translate}}" formControlName="companyNameAr">
+                  <validation-message [control]="companyForm.controls.companyNameAr"></validation-message>
+                </div>
+                <div class="form-group">
+                  <label for="Companyaddress">{{'Company_AddressAr' | translate}}</label>
+                  <input class="form-control" id="companyaddress" type="text"
+                         placeholder="{{'Please_Enter' | translate}} {{'Company_AddressAr' | translate}}" formControlName="companyAddressAr">
+                  <validation-message [control]="companyForm.controls.companyAddressAr"></validation-message>
+                </div>
+              </div>
+
+              <div class="col-md-6 col-lg-6">
+
+                <div class="form-group">
+                  <label for="companyulogo">{{'Company_Logo' | translate}}</label>
+                  <div data-type="image-add" class="col-4 pl-2 pr-2 pt-2" style="max-width: 130px;">
+                    <div class="ratio-box text-center" data-type="image-ratio-box">
+                      <img data-type="noimage" class="btn btn-light ratio-img img-fluid p-2 image border dashed rounded" src="assets/images/logo-icon.png" style="cursor:pointer;">
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="col-md-6 col-lg-6">
+
+                <div class="form-group ">
+                  <label class="mr-sm-2" for="Phone">{{'Phone' | translate}}</label>
+                  <input class="form-control" id="phone" type="text"
+                         placeholder="{{'Please_Enter' | translate}} {{'Phone' | translate}}" formControlName="phone" maxlength="10">
+                  <validation-message [control]="companyForm.controls.phone"></validation-message>
+                </div>
+
+              </div>
+              <div class="col-md-6 col-lg-6">
+                <div class="form-group ">
+                  <label class="mr-sm-2" for="Email">{{'Email' | translate}}</label>
+                  <input class="form-control" id="email" type="text"
+                         placeholder="{{'Please_Enter' | translate}} {{'Email' | translate}}" formControlName="email">
+                  <validation-message [control]="companyForm.controls.email"></validation-message>
+                </div>
+
+              </div>
+              <div class="col-md-6 col-lg-6">
+
+                <div class="form-group ">
+                  <label class="mr-sm-2" for="GST/VAT Number">{{'GST_VAT_Number' | translate}} </label>
+                  <input class="form-control" id="GST" type="text"
+                         placeholder="{{'Please_Enter' | translate}} {{'GST_VAT_Number' | translate}}" formControlName="vatNumber">
+                  <validation-message [control]="companyForm.controls.vatNumber"></validation-message>
+                </div>
+
+              </div>
+              <div class="col-md-6 col-lg-6">
+                <div class="form-group ">
+                  <label class="mr-sm-2" for="DateFormat">{{'Date_Format' | translate}}</label>
+                  <!--<input class="form-control" placeholder="Select a date" angular-mydatepicker name="cdate" formControlName="cdate"
+                [options]="myDatePickerOptions" #dp="angular-mydatepicker" autocomplete="off" />-->
+                  <!--<input class="form-control" placeholder="Select a date" formControlName="cdate" />-->
+                  <div class="row">
+                    <div class="col-md-11 col-lg-11">
+                      <input class="form-control" placeholder="{{'Please_Select' | translate}} {{'Date' | translate}}" formControlName="dateFormat" maxlength="10">
+                    </div>
+                    <!--<div class="col-md-1 col-lg-1">
+                    <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                    <mat-datepicker #picker></mat-datepicker>
+                  </div>-->
+                  </div>
+
+                  <!--<input   [matDatepickerFilter]="myFilter" [matDatepicker]="basicDatepicker">
+                <mat-datepicker-toggle matSuffix [for]="basicDatepicker">
+                </mat-datepicker-toggle>
+                <mat-datepicker #basicDatepicker></mat-datepicker>-->
+
+                  <validation-message [control]="companyForm.controls.dateFormat"></validation-message>
+                </div>
+
+              </div>
+              <div class="col-md-6 col-lg-6">
+                <div class="form-group ">
+                  <label class="mr-sm-2" for="LogoURL">{{'Logo_URL' | translate}}</label>
+                  <input class="form-control" id="LogoURL" type="text"
+                         placeholder="{{'Please_Enter' | translate}} {{'Logo_URL' | translate}}" formControlName="logoURL" maxlength="100">
+                  <validation-message [control]="companyForm.controls.logoURL"></validation-message>
+                </div>
+
+              </div>
+              <div class="col-md-6 col-lg-6">
+                <div class="form-group ">
+                  <label class="mr-sm-2" for="LogoImagePath">{{'Logo_Image_Path' | translate}}</label>
+                  <input class="form-control" id="LogoImagePath" type="text"
+                         placeholder="{{'Please_Enter' | translate}} {{'Logo_Image_Path' | translate}} " formControlName="logoImagePath" maxlength="30">
+                  <validation-message [control]="companyForm.controls.logoImagePath"></validation-message>
+                </div>
+
+              </div>
+
+              <div class="col-md-6 col-lg-6">
+
+                <div class="form-group mb-4">
+                  <label class="mr-sm-2" for="PriceDecimal">{{'Price_Decimal' | translate}}</label>
+                  <select class="custom-select mr-sm-2" id="Price Decimal" formControlName="priceDecimal">
+                    <option value="">{{'Choose' | translate}} {{'Price_Decimal' | translate}}</option>
+                    <option value="1">2</option>
+                    <option value="2">3</option>
+                    <option value="3">4</option>
+                  </select>
+                  <validation-message [control]="companyForm.controls.priceDecimal"></validation-message>
+                </div>
+
+              </div>
+
+              <div class="col-md-6 col-lg-6">
+
+                <div class="form-group mb-4">
+                  <label class="mr-sm-2" for="QuantityDecimal">{{'Quantity_Decimal' | translate}}</label>
+                  <select class="custom-select mr-sm-2" id="QuantityDecimal" formControlName="quantityDecimal">
+                    <option value="">{{'Choose' | translate}} {{'Quantity_Decimal' | translate}}</option>
+                    <option value="1">2</option>
+                    <option value="2">3</option>
+                    <option value="3">4</option>                    
+                  </select>
+                  <validation-message [control]="companyForm.controls.quantityDecimal"></validation-message>
+                </div>
+
+              </div>
+              <div class="col-md-4 col-lg-4">
+                <div class="form-group mb-4">
+                  <label class="mr-sm-2" for="city">{{'City' | translate}}</label>
+                  <select class="custom-select mr-sm-2" id="coty" formControlName="city" (change)="getStateCountrybyCityCode1($event)">
+                    <option value="">{{'Choose' | translate}} {{'City' | translate}}</option>
+                    <ng-container *ngIf="cityList">
+                      <option *ngFor="let cty of cityList" value="{{cty.value}}">{{cty.text}}</option>
+                      <!--<option value="1">2</option>
+                    <option value="2">3</option>
+                    <option value="3">4</option>
+                    <option value="3">4</option>-->
+                    </ng-container>
+                  </select>
+                  <validation-message [control]="companyForm.controls.city"></validation-message>
+                </div>
+
+              </div>
+              <div class="col-md-4 col-lg-4">
+
+                <div class="form-group mb-4">
+
+                  <label class="mr-sm-2" for="State">{{'State' | translate}}</label>
+                  <input class="form-control" id="State" type="text"
+                         placeholder="{{'Please_Enter' | translate}} {{'State' | translate}} " formControlName="state" readonly>
+                  <validation-message [control]="companyForm.controls.state"></validation-message>
+
+                </div>
+
+              </div>
+              <div class="col-md-4 col-lg-4">
+
+                <div class="form-group mb-4">
+
+                  <label class="mr-sm-2" for="Country">{{'Country' | translate}}</label>
+                  <input class="form-control" id="Country" type="text"
+                         placeholder="{{'Please_Enter' | translate}} {{'Country' | translate}}" formControlName="country" readonly>
+                  <validation-message [control]="companyForm.controls.country"></validation-message>
+
+                </div>
+
+              </div>
+
+              <div class="col-md-6 col-lg-6">
+
+                <div class="form-group ">
+                  <label class="mr-sm-2" for="Mobile">{{'Mobile' | translate}}</label>
+                  <input class="form-control" id="Mobile" type="text"
+                         placeholder="{{'Please_Enter' | translate}} {{'Mobile' | translate}}" formControlName="mobile" maxlength="10">
+                  <validation-message [control]="companyForm.controls.mobile"></validation-message>
+                </div>
+
+              </div>
+              <div class="col-md-6 col-lg-6">
+                <div class="form-group ">
+                  <label class="mr-sm-2" for="Website">{{'Website' | translate}}</label>
+                  <input class="form-control" id="Website" type="text"
+                         placeholder="{{'Please_Enter' | translate}} {{'Website' | translate}}" formControlName="website">
+                  <validation-message [control]="companyForm.controls.website"></validation-message>
+                </div>
+
+              </div>
+              <div class="col-md-6 col-lg-6">
+                <label class="mr-sm-2">{{'Latitude' | translate}}</label>
+                <input class="form-control" type="text"
+                       placeholder="{{'Please_Enter' | translate}} {{'Latitude' | translate}}" formControlName="geoLocLatitude">
+                <validation-message [control]="companyForm.controls.geoLocLatitude"></validation-message>
+              </div>
+              <div class="col-md-6 col-lg-6">
+                <label class="mr-sm-2">{{'Longitude' | translate}}</label>
+                <input class="form-control" type="text"
+                       placeholder="{{'Please_Enter' | translate}} {{'Longitude' | translate}}" formControlName="geoLocLongitude">
+                <validation-message [control]="companyForm.controls.geoLocLongitude"></validation-message>
+              </div>
+
+               <div class="col-md-6 col-lg-6">
+                 <label class="mr-sm-2">{{'CrNumber' | translate}}</label>
+                <input class="form-control" type="text"
+                       placeholder="{{'Please_Enter' | translate}} {{'CrNumber' | translate}}" formControlName="crNumber">
+              </div>
+
+               <div class="col-md-6 col-lg-6">
+                 <label class="mr-sm-2">{{'Invoice_Company_LblCCNumber' | translate}}</label>
+                <input class="form-control" type="text"
+                       placeholder="{{'Please_Enter' | translate}} {{'Invoice_Company_LblCCNumber' | translate}}" formControlName="ccNumber">
+              </div>
+
+            </div>
+            <div class="row">
+              <div class="col-md-12 col-lg-12 pt-3">
+                <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3806.711263328187!2d78.4342002148769!3d17.425638888055687!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zMTfCsDI1JzMyLjMiTiA3OMKwMjYnMTEuMCJF!5e0!3m2!1sen!2sin!4v1601553194730!5m2!1sen!2sin" width="100%" height="300" class="contactiframewidthandheight" frameborder="0" style="border:0;" allowfullscreen="" aria-hidden="false" tabindex="0"></iframe>
+              </div>
+            </div>
+            <div class="row ">
+              <div class="col-md-12 col-lg-12 text-center">
+                <input type="button"
+                       class="btn waves-effect waves-light btn-rounded   btn-secondary btn-midblock"
+                       value="{{'Cancel' | translate}}" (click)="closeModel()" /> &nbsp;
+                <input type="submit"
+                       class="btn waves-effect waves-light btn-rounded btn-primary btn-midblock"
+                       value="{{'Save' | translate}}" />
+              </div>
+            </div>
+          </form>
+        </div>
+
+
+      </div>
+
+    </div>
+
+  </div>
+</div>
+ 
+
+

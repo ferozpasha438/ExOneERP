@@ -1,0 +1,355 @@
+<form [formGroup]="form" (ngSubmit)="submit()" novalidate class="mt-4" style="margin-top:0!important">
+  <div class="modal-body" style="padding:0">
+    <h3 class="modal-title">{{modalTitle | translate}}</h3>
+    <button type="button" class="close" style="position:absolute;right:0;top:-8px;font-size:40px;font-weight:normal" aria-hidden="true" (click)="closeModel()"> ×</button>
+    <div class="outer ">
+
+
+      <div class="row mt-3">
+        <div class="col-md-12 col-lg-12">
+          <div class="p-3" style="border:1px solid #f4f4f4;">
+            <div class="row  mt-2">
+
+              <div class="col-md-3 col-lg-3">
+                <div class="form-group">
+                  <label>{{'Customer_Code' | translate}}</label>
+                  <input class="form-control" type="text"
+                         formControlName="customerCode" readonly>
+                </div>
+              </div>
+
+              <div class="col-md-3 col-lg-3">
+                <div class="form-group">
+                  <label>{{'Project_Code' | translate}}</label>
+                  <input class="form-control" type="text"
+                         formControlName="projectCode" readonly>
+                </div>
+              </div>
+              <div class="col-md-2 col-lg-2">
+                <div class="form-group">
+                  <label>{{'Project_Start_Date' | translate}}</label>
+                  <input class="form-control" type="text"
+                         formControlName="startDate" readonly>
+                </div>
+              </div>
+              <div class="col-md-2 col-lg-2">
+                <div class="form-group">
+                  <label>{{'Project_End_Date' | translate}}</label>
+                  <input class="form-control" type="text"
+                         formControlName="endDate" readonly>
+                </div>
+              </div>
+              <div class="col-md-2 col-lg-2">
+                <div class="form-group">
+
+
+                  <label>{{'No_Of_Days' | translate}}</label>
+                  <input class="form-control" type="text"
+                         formControlName="noOfDays" readonly>
+                </div>
+
+              </div>
+
+            </div>
+
+
+
+
+
+          </div>
+        </div>
+
+      </div>
+
+
+
+
+
+
+
+      <div class="row mt-3">
+
+
+        <div class="col-md-6 col-lg-6">
+
+          <div class="row">
+
+            <div class="col-md-10 col-lg-11">
+              <textarea placeholder="{{'Enter'|translate}} {{'Contract_Term'|translate}}" class="form-control" formControlName="liabilityAndInsurance"></textarea>
+            </div>
+            <div class="col-md-2 col-lg-1">
+              <a style="font-size: 24px; margin-left: -18px;position:relative;margin-top:18px;display:block" (click)="addUpdateLiabilityAndInsuranceTerm()"> <i class="icon-plus"> </i>  </a>
+            </div>
+
+            <div class="col-md-12 col-lg-12 mt-2">
+              <table class="table tablecolor  table-bordered" style="font-size:12px">
+
+                <tr style="font-size:14px">
+                  <th style="width:10%">
+                    {{'S.No'|translate}}
+                  </th>
+                  <th>
+                    {{'Liability_and_Insurances'|translate}}
+                  </th>
+
+                  <th></th>
+                </tr>
+                <ng-container *ngIf="liabilityInsuranceTerms.length!=0">
+
+
+
+                  <ng-container *ngFor="let t of liabilityInsuranceTerms;let j = index;">
+                    <tr *ngIf="t.isLiabilityAndInsurance">
+                      <td style="width:5%">
+                        {{this.j+1}}
+                      </td>
+                      <td style="width: 85%;">{{t.contractTerm}}</td>
+
+
+                      <td style="width: 10%;text-align:right" (click)="removeLiabilityAndInsuranceTerm(this.j)"><a class="tableicons"><i class="icon-trash"> </i></a></td>
+                    </tr>
+                  </ng-container>
+                </ng-container>
+
+
+              </table>
+              <div>
+
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+
+
+        <div class="col-md-6 col-lg-6">
+
+          <div class="row">
+
+            <div class="col-md-10 col-lg-11">
+              <textarea placeholder="{{'Enter'|translate}} {{'Contract_Term'|translate}}" class="form-control" formControlName="terminationClause"></textarea>
+            </div>
+            <div class="col-md-2 col-lg-1">
+              <a style="font-size: 24px; margin-left: -18px;position:relative;margin-top:18px;display:block" (click)="addUpdateTerminationClauseTerm()"> <i class="icon-plus"> </i>  </a>
+            </div>
+
+            <div class="col-md-12 col-lg-12 mt-2">
+              <table class="table tablecolor  table-bordered" style="font-size:12px">
+
+                <tr style="font-size:14px">
+                  <th style="width:10%">
+                    {{'S.No'|translate}}
+                  </th>
+                  <th>
+                    {{'Termination_Clause'|translate}}
+                  </th>
+
+                  <th></th>
+                </tr>
+                <ng-container *ngIf="terminationClauseTerms.length!=0">
+                  
+
+
+                  <ng-container *ngFor="let t of terminationClauseTerms;let j = index;">
+                    <tr *ngIf="t.isTerminationClause">
+                      <td style="width:5%">
+                        {{this.j+1}}
+                      </td>
+                      <td style="width: 85%;">{{t.contractTerm}}</td>
+
+
+                      <td style="width: 10%;text-align:right" (click)="removeTerminationClauseTerm(this.j)"><a class="tableicons"><i class="icon-trash"> </i></a></td>
+                    </tr>
+                  </ng-container>
+                </ng-container>
+
+
+              </table>
+              <div>
+
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+
+      </div>
+
+      <div class="row mt-3">
+
+        <div *ngIf="autoPayment" class="col-md-7 col-lg-7" style="padding-right:0">
+
+          <table id="zero_config1" class="table  table-bordered " style="font-size:14px">
+            <thead>
+              <tr>
+                <th>
+                  {{'S.No'|translate}}
+                </th>
+                <th>
+                  {{'Payment_Date' | translate}}
+                </th>
+                <th style="width:45%">
+                  {{'Particular' | translate}}
+                </th>
+                <!--<th>
+              {{'No_Of_Days' | translate}}
+            </th>-->
+
+
+                <th>
+                  {{'Amount'|translate}}
+                </th>
+
+              </tr>
+            </thead>
+            <ng-container>
+              <tr *ngFor="let row of paymentTermsList; let i = index;">
+                <td>
+                  {{this.i+1}}
+                </td>
+                <td>
+                  {{convertDateToString(row.instDate).toString().substring(0,15)}}
+                </td>
+                <td>
+                  {{row.particular}}
+                </td>
+                <!--<td style="text-align:center">{{row.noOfDays}}</td>-->
+
+
+                <td style="text-align:right">
+                  {{row.amount}}
+
+                </td>
+              </tr>
+
+            </ng-container>
+
+          </table>
+        </div>
+
+        <div *ngIf="!autoPayment" class="col-md-7 col-lg-7">
+
+          <div class="row" *ngIf="balance!=0">
+
+            <div class="col-md-4 col-lg-4">
+              <div class="input-group mb-2">
+                <input class="form-control datapickerinput" [matDatepicker]="dp" [min]="minDate" [max]="maxDate" placeholder="{{'Select' | translate}} {{'Payment_Date'}}" (click)="openDatePicker(dp)" formControlName="instDate">
+
+                <div class="input-group-prepend datapickericon">
+                  <mat-datepicker-toggle matSuffix [for]="dp" [matDatepickerFilter]="myDateFilter"></mat-datepicker-toggle>
+                  <mat-datepicker #dp startView="month"></mat-datepicker>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-3 col-lg-3">
+
+
+              <input type="number" placeholder="{{'Enter'|translate}} {{'Amount'|translate}}" class="form-control" formControlName="amount" />
+            </div>
+            <div class="col-md-4 col-lg-4">
+
+
+              <input type="text" placeholder="{{'Enter'|translate}} {{'Particular'|translate}}" class="form-control" formControlName="particular" />
+            </div>
+            <div class="col-md-1 col-lg-1">
+              <a style="font-size: 24px; margin-left: -18px;position:relative;margin-top:5px;display:block" (click)="addUpdatePaymentTerm()"> <i class="icon-plus"> </i>  </a>
+            </div>
+          </div>
+          <div class="col-md-12 col-lg-12 mt-2">
+            <table class="table tablecolor  table-bordered" style="font-size:12px">
+
+              <tr style="font-size:14px">
+                <th>
+                  {{'S.No'|translate}}
+                </th>
+                <th>
+                  {{'Payment_Date'|translate}}
+                </th>
+                <th style="width:45%">
+                  {{'Particular'|translate}}
+                </th>
+                <th>
+                  {{'Amount'|translate}}
+                </th>
+
+                <th>
+
+                </th>
+              </tr>
+              <ng-container>
+                <tr *ngFor="let t of paymentTerms;let j = index;">
+                  <td style="width:5%">
+                    {{this.j+1}}
+                  </td>
+                  <td>{{t.instDate.toString().substring(0,15)}}</td>
+                  <td>{{t.particular}}</td>
+                  <td style="text-align:right">{{t.amount}}</td>
+
+
+                  <td style="width: 10%;text-align:right" (click)="removPaymentTerm(this.j)"><a class="tableicons"><i class="icon-trash"> </i></a></td>
+
+                </tr>
+                <tr *ngIf="balance!=0">
+
+                  <td colspan="3" style="text-align:right">{{'Balance_Amount'|translate}}</td>
+                  <td style="text-align:right">{{balance}}</td>
+                </tr>
+              </ng-container>
+
+
+            </table>
+
+          </div>
+
+        </div>
+
+
+        
+
+
+      </div>
+
+
+
+
+
+
+
+
+
+
+      <div class="row mt-3 ">
+        <div class="col-md-12 col-lg-12 text-center">
+
+          <input type="button" *ngIf="!autoPayment"
+                 class="btn waves-effect waves-light btn-rounded btn-primary btn-midblock"
+                 value="{{'Auto_Generate_PaymentTerms' | translate}}" (click)="changeAutoPayment()" />
+
+          &nbsp;
+          <input type="button" *ngIf="autoPayment"
+                 class="btn waves-effect waves-light btn-rounded btn-primary btn-midblock"
+                 value="{{'Manual_Payment Terms' | translate}}" (click)="changeAutoPayment()" />
+
+          &nbsp;
+          <input type="button"
+                 class="btn waves-effect waves-light btn-rounded btn-primary btn-midblock"
+                 value="{{'Generate_Contract' | translate}}" (click)="generateContractForProject()" />
+
+        </div>
+
+
+      </div>
+    </div>
+      
+    </div>
+
+
+
+    
+
+
+
+
+</form>

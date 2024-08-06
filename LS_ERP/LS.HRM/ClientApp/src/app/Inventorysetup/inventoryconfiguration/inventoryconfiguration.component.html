@@ -1,0 +1,124 @@
+<form [formGroup]="form" (ngSubmit)="submit()" novalidate class="mt-4">
+  <div class="page-breadcrumb">
+    <div class="row">
+      <div class="col-12 align-self-center">
+        <h3 class="page-title text-truncate text-dark font-weight-medium mb-1">
+          {{'Inventory_Configuration' | translate}}          
+        </h3>
+        <div class="d-flex align-items-center">
+          <nav aria-label="breadcrumb">
+            <ol class="breadcrumb m-0 p-0">
+              <li class="breadcrumb-item text-muted">  {{'Administration' | translate}} </li>
+              <li class="breadcrumb-item text-muted "> {{'Inventory_Management' | translate}}</li>
+              <li class="breadcrumb-item   active" aria-current="page">{{'Inventory_Configuration' | translate}} </li>
+
+            </ol>
+          </nav>
+        </div>
+      </div>
+
+    </div>
+  </div>
+  <div class="container-fluid">
+
+    <div class="row">
+      <div class="col-md-12 col-lg-12">
+        <div class="card">
+          <div class="card-body" >
+
+            <div class="row">
+              <div class="col-md-7 col-lg-9">
+                <h4 class="card-title pt6">
+                  {{'Create_Inventory_Configuration' | translate}}
+
+                </h4>
+              </div>
+
+            </div>
+
+            <div class="cardtitle-divider"></div>
+            <div class="row">
+              <div class="col-md-4 col-lg-6">
+                <div class="form-group">
+                  <label>
+                    {{'Centralize_Warehouse_Code' | translate}}
+
+                  </label>
+                  <select class="custom-select mr-sm-2" formControlName="centralWHCode" (change)="onWarehouse($event.target.value)">
+                    <option value="">Choose...</option>
+                    <option *ngFor="let whouse of warehouseList" value="{{whouse.value}}">{{whouse.text}}</option>
+                  </select>
+                  <validation-message [control]="form.controls.centralWHCode"></validation-message>
+                </div>
+              </div>
+
+              <div class="col-md-6 col-lg-6">
+                <div class="form-group">
+                  <label>{{'Auto_Generate_Item_number' | translate}}</label>
+                  <div class="form-group">
+
+                    <div>
+                      <mat-slide-toggle color="primary" formControlName="autoGenItemCode"> </mat-slide-toggle>
+                    </div>
+
+
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-6 col-lg-6">
+                <div class="form-group">
+                  <label>{{'Prefix_Category_Code' | translate}}</label>
+                  <div class="form-group">
+
+                    <div>
+                      <mat-slide-toggle color="primary" formControlName="prefixCatCode"> </mat-slide-toggle>
+                    </div>
+
+
+                  </div>
+                </div>
+              </div>
+
+              <div class="col-md-4 col-lg-6">
+                <div class="form-group">
+                  <label>{{'New_Item_Indicator' | translate}} </label>
+                  <input type="text" class="form-control" placeholder="{{'Please_Enter' | translate}} {{'New_Item_Indicator' | translate}}" formControlName="newItemIndicator">
+                  <validation-message [control]="form.controls.newItemIndicator"></validation-message>
+                </div>
+              </div>
+              <div class="col-md-4 col-lg-6">
+                <div class="form-group">
+                  <label>{{'Item_Length' | translate}} </label>
+                  <input type="number" class="form-control" placeholder="{{'Please_Enter' | translate}} {{'Item_Length' | translate}}" formControlName="itemLength">
+                  <validation-message [control]="form.controls.itemLength"></validation-message>
+                </div>
+              </div>
+              <div class="col-md-4 col-lg-6">
+                <div class="form-group">
+                  <label>{{'Category_Length' | translate}} </label>
+                  <input type="text" class="form-control" placeholder="{{'Please_Enter' | translate}} {{'Category_Length' | translate}}" formControlName="categoryLength">
+                  <validation-message [control]="form.controls.categoryLength"></validation-message>
+                </div>
+              </div>
+
+
+            </div>
+
+            <div class="row mt-3 ">
+            <!--<div class="row mt-3 " *ngIf="!canEditConfig">-->
+              <div class="col-md-12 col-lg-12 text-center">
+               
+                <input type="submit" [disabled]="isshown"
+                       class="btn waves-effect waves-light btn-rounded btn-primary btn-midblock"
+                       value="{{'Save' | translate}}" />
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+  </div>
+  </form>

@@ -1,0 +1,91 @@
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-md-12 col-lg-12">
+      <div class="card">
+        <div class="card-body">
+          <div class="row pb-3">
+            <div class="col-md-12 col-lg-12">
+              <h4 class="card-title pt6">{{'ProductType_List' | translate}} </h4>
+            </div>
+            <div class="col-md-3">
+              <!--(keyup)="applyFilter($event)"-->
+              <input class="form-control" placeholder="{{'Search' | translate}}..." [(ngModel)]="searchValue" />
+            </div>
+            <div class="col-md-4 arabicright">
+              <button (click)="applyFilter(searchValue)" class="btn btn-primary">{{'Search' | translate}}</button> &nbsp;
+              <a (click)="refresh()" class="" matTooltip="{{'Refresh' | translate}}"><i class="btn btn-primary icon-refresh"></i></a>
+            </div>
+            <div class="col-md-5 col-lg-5 text-right">
+              <a data-toggle="modal" data-target="#createnewbranch" class="btn waves-effect waves-light btn-rounded btn-outline-primary" (click)="create()" href="#"> <i class="icon-plus"> </i>{{'Create_New_ProductType' | translate}}  </a>
+
+            </div>
+          </div>
+
+          <div class="cardtitle-divider"></div>
+          <div class="table-responsive">
+
+            <spinner-loader [isLoading]="isLoading"></spinner-loader>
+            <div class="mat-elevation-z8">
+              <ng-container>
+                <!--matSortActive="id"
+                matSortDisableClear matSortDirection="desc"-->
+                <table mat-table [dataSource]="data" matSortDisableClear matSort (matSortChange)="onSortOrder($event)" class="table  table-bordered no-wrap">
+                  <ng-container matColumnDef="nameEN">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                      {{'NameEN' | translate}}
+                    </th>
+                    <td mat-cell *matCellDef="let row">{{ row.nameEN }}</td>
+                  </ng-container>
+
+                  <ng-container matColumnDef="nameAR">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                      {{'NameAR' | translate}}
+                    </th>
+                    <td mat-cell *matCellDef="let row">{{ row.nameAR }}</td>
+                  </ng-container>
+
+
+                  <ng-container matColumnDef="Actions" stickyEnd>
+                    <th mat-header-cell *matHeaderCellDef>{{'Actions' | translate}}</th>
+                    <td mat-cell *matCellDef="let row">
+
+                      <a class="tableicons" (click)="edit(row)" matTooltip="{{'Edit_Item' | translate}}"><i class="icon-note"> </i></a>
+                      <!--<a class="tableicons" (click)="delete(row.id)"><i class="icon-trash"> </i></a>-->
+                      <!--<button mat-icon-button aria-label="Edit" (click)="editUser(row)">
+                        <mat-icon>edit</mat-icon>
+                      </button>
+                      <button mat-icon-button aria-label="Delete" (click)="deleteUser(row)">
+                        <mat-icon>delete</mat-icon>
+                      </button>-->
+                    </td>
+                  </ng-container>
+
+                  <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
+                  <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+
+                </table>
+                <ng-container>
+                  <mat-paginator [length]="totalItemsCount"
+                                 [pageSize]="pageService.pageCount"
+                                 [pageSizeOptions]="pageService.selectItemsPerPage"
+                                 (page)="onPageSwitch($event)">
+                  </mat-paginator>
+
+                </ng-container>
+              </ng-container>
+              <!--<ng-template #noData>
+                <no-apidata></no-apidata>
+              </ng-template>-->
+            </div>
+          </div>
+
+        </div>
+
+
+
+      </div>
+    </div>
+
+  </div>
+
+</div>

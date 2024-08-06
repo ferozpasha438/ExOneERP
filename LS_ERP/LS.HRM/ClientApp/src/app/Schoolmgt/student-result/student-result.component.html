@@ -1,0 +1,109 @@
+<div class="page-breadcrumb">
+  <div class="row">
+    <div class="col-12 align-self-center">
+      <h3 class="page-title text-truncate text-dark font-weight-medium mb-1">
+        {{'Student_Result' | translate}}
+      </h3>
+      <div class="d-flex align-items-center">
+        <nav aria-label="breadcrumb">
+          <ol class="breadcrumb m-0 p-0">
+            <li class="breadcrumb-item text-muted">{{'Student_Result_Management' | translate}}</li>
+            <li class="breadcrumb-item active" aria-current="page">{{'Student_Result_List' | translate}}</li>
+          </ol>
+        </nav>
+      </div>
+    </div>
+  </div>
+</div>
+<form [formGroup]="form" (ngSubmit)="submit()" novalidate class="mt-4">
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-md-2 col-lg-2">
+        <label>{{'Examination_Type_Code' | translate}}</label>
+      </div>
+      <div class="col-md-2 col-lg-2">
+        <div class="form-group">
+          <select class="custom-select mr-sm-2" formControlName="examinationTypeCode" (change)="loadResultList()">
+            <option value="">{{'Select' | translate}} {{'Examination_Type_Code' | translate}} </option>
+            <ng-container *ngIf="typesOfExamsList">
+              <option *ngFor="let item of typesOfExamsList" value="{{item.value}}">{{ isArab ? item.textTwo : item.text  }}</option>
+            </ng-container>
+          </select>
+          <validation-message [control]="form.controls.examinationTypeCode"></validation-message>
+        </div>
+      </div>
+
+      <div class="col-md-2 col-lg-2">
+        <label>{{'Branch_Code' | translate}}</label>
+      </div>
+      <div class="col-md-2 col-lg-2">
+        <div class="form-group">
+          <select class="custom-select mr-sm-2" formControlName="branchCode" (change)="loadResultList()">
+            <option value="">{{'Select' | translate}} {{'Branch_Code' | translate}} </option>
+            <ng-container *ngIf="branchCodeList">
+              <option *ngFor="let item of branchCodeList" value="{{item.value}}">{{ isArab ? item.textTwo : item.text  }}</option>
+            </ng-container>
+          </select>
+          <validation-message [control]="form.controls.branchCode"></validation-message>
+        </div>
+      </div>
+      <div class="col-md-2 col-lg-2">
+        <label>{{'Grade_Code' | translate}}</label>
+      </div>
+      <div class="col-md-2 col-lg-2">
+        <div class="form-group">
+          <select class="custom-select mr-sm-2" formControlName="gradeCode" (change)="loadResultList()">
+            <option value="">{{'Select' | translate}} {{'Grade_Code' | translate}} </option>
+            <ng-container *ngIf="gradeCodeList">
+              <option *ngFor="let item of gradeCodeList" value="{{item.gradeCode}}">{{ isArab ? item.gradeName2 : item.gradeName  }}</option>
+            </ng-container>
+          </select>
+          <validation-message [control]="form.controls.gradeCode"></validation-message>
+        </div>
+      </div>
+    </div>
+    <div class="row" *ngIf="isShowTable">
+      <div class="col-md-12 col-lg-12">
+        <div class="table-responsive">
+          <table class="table  table-bordered no-wrap">
+            <thead>
+              <tr>
+                <th>{{'Student_Name' | translate}}</th>
+                <th *ngFor="let item of headerData; let index = i;">{{isArab?item.subjectName2:item.subjectName}}</th>
+                <th>{{'Total_Marks' | translate}}</th>
+                <th>{{'Reamrks' | translate}}</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let studentExamResultData of getFormControls().value; let k = index">
+                <td>
+                  <div class="input-group">{{isArab?studentExamResultData.studentName2:studentExamResultData.studentName}}</div>
+                </td>
+                <td *ngFor="let studentResults of studentSubjectMarksData(k).value; let l = index">
+                  <div class="input-group">
+                    <input class="form-control" placeholder="{{'Marks' | translate}}"
+                           value="{{studentResults.subjectMarks}}" (change)="changeMarks($event,k,l)">
+                  </div>
+                </td>
+                <td>
+                  <div class="input-group">{{studentExamResultData.totalMarks}}</div>
+                </td>
+                <td>
+                  <div class="input-group">
+                    <textarea class="form-control" placeholder="{{'Remarks' | translate}}"
+                              (change)="changeRemarks($event,k,l)">{{studentExamResultData.remarks}}</textarea>
+                  </div>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="row customrow mt-4" *ngIf="isShowTable">
+          <div class="col-lg-12 col-md-12 text-center">
+            <input type="submit" class="btn waves-effect waves-light btn-primary" value="{{'Save' | translate}}">
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</form>

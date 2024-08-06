@@ -1,0 +1,148 @@
+<h3 class="modal-title">{{'Student_Details' | translate}}</h3>
+<button type="button" class="close" aria-hidden="true" (click)="closeModel()"> ×</button>
+<form [formGroup]="form" (ngSubmit)="submit()" novalidate class="mt-4">
+    <div class="outer ">
+        <div class="row rowm0 mt-3">
+            <div class="col-md-6 col-lg-6 col-sm-6">
+                <div class="form-group">
+                    <div class="form-group ">
+                        <label>{{'Admission_Number' | translate}}</label>
+                        <select class="custom-select mr-sm-2" formControlName="admissionNumber">
+                            <option value="">{{'Select' | translate}} {{'Admission_Number' | translate}} </option>
+                            <option>{{'Admission_Number' | translate}}</option>
+                        </select>
+                        <validation-message [control]="form.controls.admissionNumber"></validation-message>
+                    </div>                  
+                </div>
+            </div>
+            <div class="col-md-6 col-lg-6 col-sm-6">
+                <label>{{'Admission_Date' | translate}}</label>
+                <div class="input-group ">
+                    <input class="form-control datapickerinput" placeholder="{{'Admission_Date' | translate}}"
+                        formControlName="admissionDate" [matDatepicker]="picker3">
+                    <div class="input-group-prepend datapickericon">
+                        <mat-datepicker-toggle matSuffix [for]="picker3"></mat-datepicker-toggle>
+                        <mat-datepicker #picker3></mat-datepicker><br /><br />
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6 col-lg-6 col-sm-6">
+                <div class="form-group">
+                    <label>{{'Name_of_Student' | translate}}</label>
+                    <input class="form-control" type="text"  placeholder="{{'Name_of_Student' | translate}}"
+                        formControlName="nameOfStudent" />
+                    <validation-message [control]="form.controls.nameOfStudent"></validation-message>
+                </div>
+            </div>
+            <div class="col-md-6 col-lg-6 col-sm-6">
+                <div class="form-group">
+                    <label>{{'Name_of_Student_in_Arabic' | translate}}</label>
+                    <input class="form-control" type="text" 
+                        placeholder="{{'Name_of_Student_in_Arabic' | translate}}" formControlName="nameOfStudentInArabic" />
+                    <validation-message [control]="form.controls.nameOfStudentInArabic"></validation-message>
+                </div>
+            </div>
+            <div class="col-md-6 col-lg-6 col-sm-6">
+                <div class="form-group">
+                    <label>{{'Branch_Code' | translate}}</label>
+                    <input class="form-control" type="text"  placeholder="{{'Branch_Code' | translate}}"
+                        formControlName="branchCode" />
+                    <validation-message [control]="form.controls.branchCode"></validation-message>
+                </div>
+            </div>
+            <div class="col-md-6 col-lg-6 col-sm-6">
+                <div class="form-group">
+                    <label>{{'Date_of_Transaction' | translate}}</label>
+                    <input class="form-control" type="text"  placeholder="{{'Date_of_Transaction' | translate}}"
+                        formControlName="dateOfTransaction" />
+                    <validation-message [control]="form.controls.dateOfTransaction"></validation-message>
+                </div>
+            </div>
+            <div class="col-md-6 col-lg-6 col-sm-6">
+                <div class="form-group">
+                    <div class="form-group ">
+                        <label>{{'Fee_Term' | translate}}</label>
+                        <select class="custom-select mr-sm-2" formControlName="feeTerm">
+                            <option value="">{{'Select' | translate}} {{'Fee_Term' | translate}} </option>
+                            <option>{{'Fee_Term' | translate}}</option>
+                        </select>
+                        <validation-message [control]="form.controls.feeTerm"></validation-message>
+                    </div>                  
+                </div>
+            </div>
+            <div class="col-md-6 col-lg-6 col-sm-6">
+                <div class="form-group">
+                    <label>{{'Amount_Due' | translate}}</label>
+                    <input class="form-control" type="text"  placeholder="{{'Amount_Due' | translate}}"
+                        formControlName="amountDue" />
+                    <validation-message [control]="form.controls.amountDue"></validation-message>
+                </div>
+            </div>
+            <div class="col-md-6 col-lg-6 col-sm-6">
+                <div class="form-group">
+                    <label>{{'Discount_Percentage' | translate}}</label>
+                    <input class="form-control" type="text"  placeholder="{{'Discount_Percentage' | translate}}"
+                        formControlName="discountPercentage" />
+                    <validation-message [control]="form.controls.discountPercentage"></validation-message>
+                </div>
+            </div>
+            <div class="col-md-6 col-lg-6 col-sm-6">
+                <div class="form-group">
+                    <label>{{'Discount_Amount' | translate}}</label>
+                    <input class="form-control" type="text"  placeholder="{{'Discount_Amount' | translate}}"
+                        formControlName="discountAmount" />
+                    <validation-message [control]="form.controls.discountAmount"></validation-message>
+                </div>
+            </div>
+            <div class="col-md-6 col-lg-6 col-sm-6">
+                <div class="form-group">
+                    <label>{{'Remarks' | translate}}</label>
+                    <textarea class="form-control" type="text"  placeholder="{{'Remarks' | translate}}"
+                        formControlName="remarks"></textarea>
+                    <validation-message [control]="form.controls.remarks"></validation-message>
+                </div>
+            </div>
+            <div class="col-md-6 col-lg-6 col-sm-6">
+                <div class="form-group">
+                    <label>{{'Net_Fee_Value' | translate}}</label>
+                    <input class="form-control" type="text"  placeholder="{{'Net_Fee_Value' | translate}}"
+                        formControlName="netFeeValue" />
+                    <validation-message [control]="form.controls.netFeeValue"></validation-message>
+                </div>
+            </div>
+        </div>
+        <div class="card">
+            <div class="row m-0">
+                <div class="col-md-12 mb-3" style="background: #919191">
+                    <h3 style="margin: 0px;padding:5px;color: #fff;">{{'Approval_Process' | translate}}</h3>
+                </div>
+                <div class="row customrow mt-4" style="margin: 0px; border-bottom: 1px solid #ddd">
+                    <div class="col-md-6 col-lg-6 col-sm-6">
+                        <div class="form-group">
+                            <label>{{'Approved_Remarks' | translate}}</label>
+                            <input class="form-control" type="text" placeholder="{{'Approved_Remarks' | translate}}"
+                                formControlName="approvedRemarks" />
+                            <validation-message [control]="form.controls.approvedRemarks"></validation-message>
+                        </div>
+                    </div>
+                    <div class="col-md-6 col-lg-6 col-sm-6">
+                        <label>{{'Approve' | translate}}</label>
+                        <div class="form-group">
+                            <mat-slide-toggle color="primary" formControlName="approve"></mat-slide-toggle>
+                        </div>
+                    </div>
+                </div>              
+            </div>
+        </div>
+
+        <div class="row customrow mt-4">
+            <div class="col-lg-12 col-md-12 text-center">
+                <input type="button" class="btn btn-secondary" value="{{'Cancel' | translate}}"
+                    (click)="closeModel()" />
+                &nbsp;&nbsp;
+                <input type="submit" class="btn waves-effect waves-light btn-primary"
+                    value="{{'Approve' | translate}}">
+            </div>
+        </div>
+    </div>
+</form>

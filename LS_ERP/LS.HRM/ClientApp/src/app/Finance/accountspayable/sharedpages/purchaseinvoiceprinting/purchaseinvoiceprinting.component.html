@@ -1,0 +1,242 @@
+<h3 class="modal-title">{{"Purchase_Invoice" | translate}}</h3>
+<button type="button" class="close" aria-hidden="true" (click)="closeModel()"> ×</button>
+<div class="modal-body">
+  <div class="outer  ">
+    <div class="row">
+      <div class="col-md-4 col-lg-4">
+        <div class="form-group">
+          <label>{{'Branch_Code' | translate}}</label>
+          <auto-loader [isLoading]="isBranchLoading"></auto-loader>
+          <input type="text" class="form-control"
+                 placeholder="{{'Please_Enter' | translate}} {{'Branch_Code' | translate}}"
+                 [formControl]="branchCodeControl"
+                 matInput
+                 [matAutocomplete]="auto">
+          <mat-autocomplete #auto="matAutocomplete">
+            <mat-option *ngFor="let option of filteredOptions | async"
+                        [value]="option.value">
+              <!--[value]="option.text + '-' + option.value"> (optionSelected)="selectedOption($event)" (blur)="branchcodeBlur($event)" -->
+              {{option.value}}
+            </mat-option>
+          </mat-autocomplete>
+        </div>
+      </div>
+      <div class="col-md-4 col-lg-4">
+
+        <div class="form-group ">
+          <label class="mr-sm-2">{{'Vendor' | translate}}</label>
+
+          <ng-select [items]="customerList"
+                     bindLabel="text"
+                     bindValue="value" [(ngModel)]="customerId">
+          </ng-select>
+        </div>
+
+      </div>
+      <div class="col-md-4 col-lg-4">
+        <div class="form-group">
+          <label>{{'From_Date' | translate}}</label>
+          <div class="form-group ">
+            <div class="input-group mb-2">
+              <input class="form-control datapickerinput" placeholder="{{'Select_a_Date' | translate}}" [(ngModel)]="dateFrom"
+                     [matDatepicker]="picker2">
+
+              <div class="input-group-prepend datapickericon">
+                <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
+                <mat-datepicker #picker2></mat-datepicker><br /><br />
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+      <div class="col-md-4 col-lg-4">
+        <div class="form-group">
+          <label>{{'To_Date' | translate}}</label>
+          <div class="form-group ">
+            <div class="input-group mb-2">
+              <input class="form-control datapickerinput" placeholder="{{'Select_a_Date' | translate}}" [(ngModel)]="dateTo"
+                     [matDatepicker]="picker1">
+
+              <div class="input-group-prepend datapickericon">
+                <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
+                <mat-datepicker #picker1></mat-datepicker><br /><br />
+              </div>
+
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-md-4 col-lg-4">
+        <div class="form-group">
+          <br />
+          <button type="button" class="btn btn-primary" (click)="search()">Search</button>
+        </div>
+      </div>
+
+
+    </div>
+  </div>
+
+  <spinner-loader [isLoading]="isLoading"></spinner-loader>
+
+
+  <div class="p-1" id="Format1" *ngIf="company">
+
+    <button type="button" class="btn waves-effect waves-light btn-rounded btn-primary btn-midblock" data-toggle="modal" (click)="openPrint()">
+      {{'Print' | translate}}
+    </button>
+    <br />
+    <br />
+
+    <div class="outer" id="printcontainer">
+
+      <table style="width:100%; padding-bottom:5px;" cellpadding="0" cellspacing="0" width="100%" class="ur_tablestyle">
+        <tr>
+          <td> {{company.companyName}}</td>
+        </tr>
+        <tr>
+          <td style="text-align:center;">
+            <img src="{{company.logoURL}}" style="width:200px;height:150px;" />
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <div class="font-weight-medium">
+              <br />
+              {{company.branchName}}
+              <br />
+              {{company.companyAddress}}
+              <br />
+              {{'Tel_Phone' | translate }} :  {{company.phone}}
+              <br />
+            </div>
+
+          </td>
+        </tr>
+      </table>
+
+      <!--<table class="table table-sm offset-sm-0">-->
+      <table id="zero_config" style="width:100%" border="1" cellpadding="0" cellspacing="0" width="100%" class="table  table-bordered no-wrap">
+        <thead>
+          <tr>
+            <td style="width: 33%; "> Date Range: {{dateFrom | date:'dd/MM/yyyy'}} To {{dateTo | date:'dd/MM/yyyy'}} </td>
+            <td style="width: 34%; text-align:center"> Purchase Invoice List </td>
+            <td style="width: 33%; text-align:right"> Branch:  {{company.branchName}} </td>
+          </tr>
+        </thead>
+      </table>
+
+      <!--<table class="table table-bordered  table-sm offset-sm-0">-->
+      <table id="zero_config" style="width:100%" border="1" cellpadding="0" cellspacing="0" width="100%" class="table  table-bordered no-wrap">
+        <thead class="alert-dark ">
+          <tr>
+
+            <th> TranDate </th>
+            <th> Invoice# </th>
+            <th> Source </th>
+            <th> Vendor Code </th>
+            <th> Vendor Name </th>
+            <th> Amount </th>
+            <th> Discount </th>
+            <th> TaxAmount </th>
+            <th> Total Amount </th>
+          </tr>
+        </thead>
+
+        <tbody *ngFor="let lList of List">
+          <ng-container *ngFor="let lItem of lList.itemList">
+            <tr *ngFor="let lList of lItem.list">
+              <th> {{lList.date | date:'dd-MM-yyyy'}} </th>
+              <th> {{lList.tranNumber}}</th>
+              <th> {{lList.source}} </th>
+              <th> {{lList.code}} </th>
+              <th> {{lList.name}} </th>
+              <th> {{lList.amount}} </th>
+              <th> {{lList.inputTaxAmount}} </th>
+              <th style="text-align:right">  {{lList.outputTaxAmount}} </th>
+              <th style="text-align:right">  {{lList.totalAmount}} </th>
+            </tr>
+            <tr>
+              <th colspan="5" style="text-align:right">  Invoice :  Total </th>
+              <th> {{lItem.invoicePrice.totalPurchaseAmount}} </th>
+              <th> {{lItem.invoicePrice.totalInputTaxAomunt}} </th>
+              <th style="text-align:right"> {{lItem.invoicePrice.totalOutputTaxAomunt}} </th>
+              <th style="text-align:right"> {{lItem.invoicePrice.totalSaleAmount}} </th>
+            </tr>
+          </ng-container>
+
+          <tr>
+            <td colspan="9" class="alert-dark " style="text-align:center"> Return / Credit Notes  Total </td>
+          </tr>
+
+          <ng-container *ngFor="let lItem of lList.itemList">
+            <tr *ngFor="let lList of lItem.creditList">
+              <th> {{lList.date | date:'dd-MM-yyyy'}} </th>
+              <th> {{lList.tranNumber}}</th>
+              <th> {{lList.source}} </th>
+              <th> {{lList.code}} </th>
+              <th> {{lList.name}} </th>
+              <th> {{lList.amount}} </th>
+              <th> {{lList.inputTaxAmount}} </th>
+              <th style="text-align:right">  {{lList.outputTaxAmount}} </th>
+              <th style="text-align:right">  {{lList.totalAmount}} </th>
+            </tr>
+            <tr>
+              <th colspan="5" style="text-align:right">  Credit :  Total </th>
+              <th> {{lItem.creditPrice.totalPurchaseAmount}} </th>
+              <th> {{lItem.creditPrice.totalInputTaxAomunt}} </th>
+              <th style="text-align:right"> {{lItem.creditPrice.totalOutputTaxAomunt}} </th>
+              <th style="text-align:right"> {{lItem.creditPrice.totalSaleAmount}} </th>
+            </tr>
+            <tr>
+              <td colspan="9" class="alert-dark " style="text-align:center"> Summary of A/P Invoices </td>
+            </tr>
+
+            <tr>
+              <th colspan="5" style="text-align:right">  Invoice :  Total </th>
+              <th> {{lItem.invoicePrice.totalPurchaseAmount}} </th>
+              <th> {{lItem.invoicePrice.totalInputTaxAomunt}} </th>
+              <th style="text-align:right"> {{lItem.invoicePrice.totalOutputTaxAomunt}} </th>
+              <th style="text-align:right"> {{lItem.invoicePrice.totalSaleAmount}} </th>
+            </tr>
+
+            <tr>
+              <th colspan="5" style="text-align:right">  Credit :  Total </th>
+              <th> {{lItem.creditPrice.totalPurchaseAmount}} </th>
+              <th> {{lItem.creditPrice.totalInputTaxAomunt}} </th>
+              <th style="text-align:right"> {{lItem.creditPrice.totalOutputTaxAomunt}} </th>
+              <th style="text-align:right"> {{lItem.creditPrice.totalSaleAmount}} </th>
+            </tr>
+
+            <!--<tr *ngFor="let sItem of lItem.summaryList">
+            <th colspan="5" style="text-align:right"> Invoice + Credit:  Total </th>
+            <th> {{sItem.totalPurchaseAmount}} </th>
+            <th> {{sItem.totalInputTaxAomunt}} </th>
+            <th style="text-align:right"> {{sItem.totalOutputTaxAomunt}} </th>
+            <th style="text-align:right"> {{sItem.totalSaleAmount}} </th>
+          </tr>-->
+          </ng-container>
+
+          <tr>
+            <td colspan="9" class="alert-dark " style="text-align:center; padding-bottom:5px;">  </td>
+          </tr>
+
+        </tbody>
+
+        <!--<tfoot>
+        <tr>
+          <td colspan="7">
+            Printed on  @DateTime.Now.Date.ToString("dd/MMM/yyyy")
+          </td>
+        </tr>
+      </tfoot>-->
+      </table>
+    </div>
+
+
+
+
+  </div>
+  </div>

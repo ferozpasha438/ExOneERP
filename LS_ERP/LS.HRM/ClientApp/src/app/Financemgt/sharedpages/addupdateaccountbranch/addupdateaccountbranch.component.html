@@ -1,0 +1,175 @@
+<style>
+  .first-cell{
+    width:72px;
+  }
+  .second-cell {
+    width: 95px;
+  }
+</style>
+<div class="modal-header">
+  <h3 class="modal-title">{{modalTitle}}</h3>
+  <button type="button" class="close" aria-hidden="true" (click)="closeModel()"> ×</button>
+
+</div>
+<form [formGroup]="form" (ngSubmit)="submit()" novalidate class="mt-4">
+  <div class="row">
+    <div class="col-md-6 col-lg-6">
+      <div class="form-group">
+        <label>{{'Branch_Code' | translate}} &nbsp; <span class="text-danger">{{branchCodeError}}</span> </label>
+        <auto-loader [isLoading]="isBranchLoading"></auto-loader>
+        <input type="text" class="form-control"
+               placeholder="{{'Please_Enter' | translate}} {{'Branch_Code' | translate}}"
+               [formControl]="branchCodeControl"
+               matInput
+               [matAutocomplete]="auto">
+        <mat-autocomplete #auto="matAutocomplete" (optionSelected)="selectedOption($event)">
+          <mat-option *ngFor="let option of filteredOptions | async"
+                      [value]="option.value">
+            <!--[value]="option.text + '-' + option.value"> (optionSelected)="selectedOption($event)" (blur)="branchcodeBlur($event)" -->
+            {{option.value}}
+          </mat-option>
+        </mat-autocomplete>
+        <!--<input class="form-control" type="text"
+        placeholder="Please enter Branch Code" formControlName="finBranchCode">-->
+        <!--<validation-message [control]="form.controls.finBranchCode"></validation-message>-->
+
+      </div>
+    </div>
+    <div class="col-md-6 col-lg-6">
+      <div class="form-group">
+        <label>{{'Branch_Name' | translate}}</label>
+        <input class="form-control" type="text"
+               placeholder="{{'Please_Enter' | translate}} {{'Branch_Name' | translate}}" formControlName="finBranchName" [readonly]="true">
+        <validation-message [control]="form.controls.finBranchName"></validation-message>
+      </div>
+    </div>
+
+    <div class="col-md-6 col-lg-6">
+      <div class="form-group">
+        <label>{{'Branch_Prefix_in_the_Account' | translate}}</label>
+        <input class="form-control" type="text"
+               placeholder="{{'Please_Enter' | translate}} {{'Branch_Prefix_in_the_Account' | translate}}" formControlName="finBranchPrefix">
+        <validation-message [control]="form.controls.finBranchPrefix"></validation-message>
+      </div>
+    </div>
+    <div class="col-md-6 col-lg-6">
+      <div class="form-group">
+        <label>{{'Branch_Office_Address' | translate}}</label>
+        <input class="form-control" type="text"
+               placeholder="{{'Please_Enter' | translate}} {{'Branch_Office_Address' | translate}}" formControlName="finBranchAddress" [readonly]="true">
+        <validation-message [control]="form.controls.finBranchAddress"></validation-message>
+      </div>
+    </div>
+    <div class="col-md-12 col-lg-12">
+      <div class="form-group">
+        <label>{{'Branch_Description' | translate}}</label>
+        <textarea class="form-control" formControlName="finBranchDesc">
+        <validation-message [control]="form.controls.finBranchDesc"></validation-message></textarea>
+      </div>
+    </div>
+
+    <div class="col-md-6 col-lg-6">
+
+      <div class="form-group mb-4">
+        <label class="mr-sm-2">{{'Type_of_the_Branch' | translate}}</label>
+        <select class="custom-select mr-sm-2" formControlName="finBranchType">
+          <option value="">{{'Select_Type_of_Branch' | translate}} </option>
+          <option value="1">{{'Cost_Centre' | translate}}Cost Centre</option>
+          <option value="2">{{'Profit_Centre' | translate}}Profit Centre</option>
+        </select>
+        <validation-message [control]="form.controls.finBranchType"></validation-message>
+      </div>
+
+
+    </div>
+    <div class="col-md-6 col-lg-6">
+      <div class="form-group mb-4">
+        <label class="mr-sm-2">{{'Is_Branch_Active' | translate}}	</label>
+        <div>
+          <mat-slide-toggle color="primary" formControlName="finBranchIsActive"></mat-slide-toggle>
+          <!--<mat-checkbox color="primary" formControlName="finBranchIsActive"></mat-checkbox>-->
+          <validation-message [control]="form.controls.finBranchIsActive"></validation-message>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-12 col-lg-12">
+      <h4>{{'Approval_Authorities' | translate}}</h4>
+
+
+      <div class="table-responsive">
+        <table class="table  table-bordered no-wrap">
+          <thead>
+            <tr>
+              <th>{{'User_Name' | translate}}</th>
+              <th>{{'Level' | translate}}</th>
+              <th>{{'JV' | translate}} </th>
+              <th>{{'BV' | translate}} </th>
+              <th>{{'CV' | translate}} </th>
+              <th>{{'AP' | translate}} </th>
+              <th>{{'AR' | translate}} </th>
+              <th>{{'POREQ' | translate}} </th>
+              <th>{{'PORET' | translate}} </th>
+              <th>{{'POORD' | translate}} </th>
+              <th>{{'INVTAdj' | translate}} </th>
+              <th>{{'INVTIssue' | translate}} </th>
+              <th>{{'INVTRect' | translate}} </th>
+              <th>{{'INVTTrans' | translate}} </th>
+              <th class="text-center"><i class="fas fa-plus-circle" (click)="addItem()"> </i> </th>
+
+            </tr>
+          </thead>
+          <tbody formArrayName="authList" *ngFor="let t of authList.controls; let i = index">
+            <tr [formGroupName]="i">
+              <td >
+                <select class="custom-select mr-sm-2" formControlName="appAuth" style="width: 200px;">
+                  <option value="">{{'Select_User' | translate}}</option>
+                  <option *ngFor="let user of userList" value="{{user.value}}">{{user.text}}</option>
+                </select>
+              </td>
+              <td >
+                <select class="custom-select mr-sm-2" formControlName="appLevel" style="width: 180px;">
+                  <option value="">{{'Select_Level' | translate}}</option>
+                  <option value="1">Level 1</option>
+                  <option value="2">Level 2</option>
+                  <option value="3">Level 3</option>
+                </select>
+              </td>
+              <!--<td><input type="checkbox" formControlName="appAuthJV" /></td>
+    <td><input type="checkbox" formControlName="appAuthBV" /></td>
+    <td><input type="checkbox" formControlName="appAuthCV" /></td>
+    <td><input type="checkbox" formControlName="appAuthAP" /></td>
+    <td><input type="checkbox" formControlName="appAuthAR" /></td>-->
+              <td class="first-cell"><mat-slide-toggle color="primary" formControlName="appAuthJV"> </mat-slide-toggle></td>
+              <td class="first-cell"><mat-slide-toggle color="primary" formControlName="appAuthBV"> </mat-slide-toggle></td>
+              <td class="first-cell"><mat-slide-toggle color="primary" formControlName="appAuthCV"> </mat-slide-toggle></td>
+              <td class="first-cell"><mat-slide-toggle color="primary" formControlName="appAuthAP"> </mat-slide-toggle></td>
+              <td class="first-cell"><mat-slide-toggle color="primary" formControlName="appAuthAR"> </mat-slide-toggle></td>
+              <td class="first-cell"><mat-slide-toggle color="primary" formControlName="appAuthPurcRequest"> </mat-slide-toggle></td>
+              <td class="first-cell"><mat-slide-toggle color="primary" formControlName="appAuthPurcReturn"> </mat-slide-toggle></td>
+              <td class="first-cell"><mat-slide-toggle color="primary" formControlName="appAuthPurcOrder"> </mat-slide-toggle></td>
+              <td class="first-cell"><mat-slide-toggle color="primary" formControlName="appAuthAdj"> </mat-slide-toggle></td>
+              <td class="first-cell"><mat-slide-toggle color="primary" formControlName="appAuthIssue"> </mat-slide-toggle></td>
+              <td class="first-cell"><mat-slide-toggle color="primary" formControlName="appAuthRect"> </mat-slide-toggle></td>
+              <td class="first-cell"><mat-slide-toggle color="primary" formControlName="appAuthTrans"> </mat-slide-toggle></td>
+
+              <td class="text-center"> <i class="icon-trash" (click)="removeItem(i)" *ngIf="i !== 0"> </i></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+
+
+      <div class="row mt-3 ">
+        <div class="col-md-12 col-lg-12 text-center">
+          <input type="button"
+                 class="btn waves-effect waves-light btn-rounded   btn-secondary btn-midblock"
+                 value="{{'Cancel' | translate}}" (click)="closeModel()" /> &nbsp;
+          <input type="submit"
+                 class="btn waves-effect waves-light btn-rounded btn-primary btn-midblock"
+                 value="{{'Save' | translate}}" formControlName="" />
+        </div>
+      </div>
+    </div>
+  </div>
+</form>

@@ -1,0 +1,64 @@
+<h3> {{modalTitle}} <button type="button" class="close" aria-hidden="true" (click)="closeModel()"> ×</button></h3>
+
+  <div class="row rowm0 ">
+    <div class="table-responsive">
+      <table id="zero_config" class="table  table-bordered no-wrap">
+  
+
+        <thead>
+          <tr>
+            <th>{{'Item' | translate}}</th>
+            <th>{{'Description' | translate}}</th>
+            <th>{{'Quantity' | translate}}</th>
+            <th>{{'Unit' | translate}}</th>
+          
+            <th>{{'Delivery' | translate}}</th>
+            <th>{{'Delivered' | translate}}</th>
+            <th>{{'Back_Order' | translate}}</th>
+          
+          
+            <th class="text-center"> </th>
+
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let item of listOfDeliveryNotes; let i = index;">
+            <td>{{item.itemName}}</td>
+            <td>{{item.description}}</td>
+            <td>{{item.quantity}}</td>
+            <td>{{item.unitType}}</td>
+           
+            <td *ngIf="editRowNumber!=i">{{item?.delivery}}</td>
+            <td *ngIf="editRowNumber == i">
+              <input type="number" [(ngModel)]="editingItem.delivery" (change)="changeDeliveryQuantity(i)" [ngModelOptions]="{standalone: true}">
+            </td>
+            <td>{{item.delivered}}</td>
+            <td>{{item.backOrder}}</td>
+            <td class="text-center" style="font-size:larger">
+              <i class="icon-question" (click)="CheckStockAvailability(item)" matTooltip="{{'Check_Stock_Availability' | translate}}"> </i> &nbsp;
+              <span *ngIf="editRowNumber != i &&  editRowNumber==-1">
+                <i class="icon-note cpointer" (click)="editDeliveryNoteItem(i)" matTooltip="{{'Edit' | translate}}"> </i> &nbsp;
+
+              </span>
+              <span *ngIf="editRowNumber==i">
+
+                <i class="fas fa-window-close" (click)="cancelEditing()" matTooltip="{{'Cancel' | translate}}"> </i> &nbsp;
+                <i class="fas fa-save" (click)="save()" matTooltip="{{'Save' | translate}}"> </i> &nbsp;
+              </span>
+
+            </td>
+          </tr>
+        </tbody>
+        
+      </table>
+
+    </div>
+
+  </div>
+
+  
+
+
+
+
+  

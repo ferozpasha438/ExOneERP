@@ -1,0 +1,364 @@
+<h3 class="modal-title">{{'Addupdate_Fleet_Vehicle_Master' | translate}}</h3>
+<button type="button" class="close" aria-hidden="true" (click)="closeModel()"> ×</button>
+<form [formGroup]="form" (ngSubmit)="submit()" novalidate class="mt-4">
+  <div class="outer ">
+    <div class="row rowm0 mt-3">
+      <div class="col-md-6 col-lg-6 col-sm-6">
+        <div class="form-group">
+          <label>{{'Registration_Number' | translate}}</label>
+          <input class="form-control" type="text" placeholder="{{'Registration_Number' | translate}}"
+                 formControlName="registrationNumber" />
+          <validation-message [control]="form.controls.registrationNumber"></validation-message>
+        </div>
+      </div>
+
+      <div class="col-md-6 col-lg-6 col-sm-6">
+        <div class="form-group">
+          <label>{{'Vehicle_Type' | translate}}</label>
+          <select class="custom-select mr-sm-2" formControlName="vehicleType">
+            <option value="">{{'Select' | translate}} {{'Vehicle_Type' | translate}} </option>
+            <ng-container *ngIf="vehicleTypeList">
+              <option *ngFor="let item of vehicleTypeList" value="{{item.vehicleType}}">{{ isArab ? item.vehicleType_Ar : item.vehicleType  }}</option>
+            </ng-container>
+          </select>
+
+          <validation-message [control]="form.controls.vehicleType"></validation-message>
+        </div>
+      </div>
+
+      <!--<div class="col-md-6 col-lg-6 col-sm-6">
+    <div class="form-group">
+      <label>{{'Vehicle_Type' | translate}}</label>
+      <input class="form-control" type="text" placeholder="{{'Vehicle_Type' | translate}}"
+             formControlName="vehicleType" />
+      <validation-message [control]="form.controls.vehicleType"></validation-message>
+    </div>
+  </div>-->
+      <!--<div class="col-md-6 col-lg-6 col-sm-6">
+    <div class="form-group">
+      <label>{{'Vehicle_Company' | translate}}</label>
+      <input class="form-control" type="text" placeholder="{{'Vehicle_Company' | translate}}"
+             formControlName="vehicleCompany" />
+      <validation-message [control]="form.controls.vehicleCompany"></validation-message>
+    </div>
+  </div>-->
+
+      <div class="col-md-6 col-lg-6 col-sm-6">
+        <div class="form-group">
+          <label>{{'Vehicle_Company' | translate}}</label>
+          <select class="custom-select mr-sm-2" formControlName="vehicleCompany">
+            <option value="">{{'Select' | translate}} {{'Vehicle_Company' | translate}} </option>
+            <ng-container *ngIf="vehicleCompanyList">
+              <option *ngFor="let item of vehicleCompanyList" value="{{item.vehicleCompany}}">{{ isArab ? item.vehicleCompany_Ar : item.vehicleCompany  }}</option>
+            </ng-container>
+          </select>
+
+          <validation-message [control]="form.controls.vehicleCompany"></validation-message>
+        </div>
+      </div>
+
+      <!--<div class="col-md-6 col-lg-6 col-sm-6">
+    <div class="form-group">
+      <label>{{'Vehicle_Brand' | translate}}</label>
+      <input class="form-control" type="text" placeholder="{{'Vehicle_Brand' | translate}}"
+             formControlName="vehicleBrand" />
+      <validation-message [control]="form.controls.vehicleBrand"></validation-message>
+    </div>
+  </div>-->
+
+      <div class="col-md-6 col-lg-6 col-sm-6">
+        <div class="form-group">
+          <label>{{'Vehicle_Brand' | translate}}</label>
+          <select class="custom-select mr-sm-2" formControlName="brand">
+            <option value="">{{'Select' | translate}} {{'Vehicle_Brand' | translate}} </option>
+            <ng-container *ngIf="vehicleBrandList">
+              <option *ngFor="let item of vehicleBrandList" value="{{item.brand}}">{{ item.brand  }}</option>
+            </ng-container>
+          </select>
+
+          <validation-message [control]="form.controls.brand"></validation-message>
+        </div>
+      </div>
+
+      <div class="col-md-6 col-lg-6 col-sm-6">
+        <div class="form-group">
+          <label>{{'Chassis_Number' | translate}}</label>
+          <input class="form-control" type="text" placeholder="{{'Chassis_Number' | translate}}"
+                 formControlName="chassisNumber" />
+          <validation-message [control]="form.controls.chassisNumber"></validation-message>
+        </div>
+      </div>
+
+      <div class="col-md-6 col-lg-6 col-sm-6">
+        <div class="form-group">
+          <label>{{'Seating_Capacity' | translate}}</label>
+          <input class="form-control" type="text" placeholder="{{'Seating_Capacity' | translate}}"
+                 formControlName="seatingCapacity" />
+          <validation-message [control]="form.controls.seatingCapacity"></validation-message>
+        </div>
+      </div>
+
+      <div class="col-md-6 col-lg-6 col-sm-6">
+        <div class="form-group">
+          <label>{{'Registered_RTO_Region' | translate}}</label>
+          <input class="form-control" type="text" placeholder="{{'Registered_RTO_Region' | translate}}"
+                 formControlName="registeredRTORegion" />
+          <validation-message [control]="form.controls.registeredRTORegion"></validation-message>
+        </div>
+      </div>
+
+      <div class="col-md-6 col-lg-6 col-sm-6">
+        <div class="form-group">
+          <label>{{'Registration_Authority' | translate}}</label>
+          <input class="form-control" type="text" placeholder="{{'Registration_Authority' | translate}}"
+                 formControlName="registrationAuthority" />
+          <validation-message [control]="form.controls.registrationAuthority"></validation-message>
+        </div>
+      </div>
+
+      <div class="col-md-6 col-lg-6 col-sm-6">
+        <div class="form-group">
+          <label>{{'Vehicle_Validity_Till' | translate}}</label>
+          <input class="form-control" type="text" placeholder="{{'Vehicle_Validity_Till' | translate}}"
+                 formControlName="vehicleValidityTill" />
+          <validation-message [control]="form.controls.vehicleValidityTill"></validation-message>
+        </div>
+      </div>
+
+      <!--<div class="col-md-6 col-lg-6 col-sm-6">
+    <div class="form-group">
+      <label>{{'Vehicle_Condition' | translate}}</label>
+      <input class="form-control" type="text" placeholder="{{'Vehicle_Condition' | translate}}"
+             formControlName="vehicleCondition" />
+      <validation-message [control]="form.controls.vehicleCondition"></validation-message>
+    </div>
+  </div>-->
+      <div class="col-md-6 col-lg-6 col-sm-6">
+        <div class="form-group ">
+          <label>{{'Vehicle_Condition' | translate}}</label>
+          <select class="custom-select mr-sm-2" formControlName="vehicleCondition">
+            <option value="">{{'Select' | translate}} {{'Vehicle_Condition' | translate}} </option>
+            <option value="New">{{'New' | translate}}</option>
+            <option value="Pre_Owned">{{'Pre_Owned' | translate}}</option>
+          </select>
+          <validation-message [control]="form.controls.vehicleCondition"></validation-message>
+        </div>
+      </div>
+
+  <!--<div class="col-md-6 col-lg-6 col-sm-6">
+    <div class="form-group">
+      <label>{{'Vehicle_Ownership' | translate}}</label>
+      <input class="form-control" type="text" placeholder="{{'Vehicle_Ownership' | translate}}"
+             formControlName="vehicleOwnership" />
+      <validation-message [control]="form.controls.vehicleOwnership"></validation-message>
+    </div>
+  </div>-->
+      <div class="col-md-6 col-lg-6 col-sm-6">
+        <div class="form-group ">
+          <label>{{'Vehicle_Ownership' | translate}}</label>
+          <select class="custom-select mr-sm-2" formControlName="vehicleOwnership">
+            <option value="">{{'Select' | translate}} {{'Vehicle_Ownership' | translate}} </option>
+            <option value="Owned">{{'Owned' | translate}}</option>
+            <option value="Rent">{{'Rent' | translate}}</option>
+          </select>
+          <validation-message [control]="form.controls.vehicleOwnership"></validation-message>
+        </div>
+      </div>
+
+      <div class="col-md-6 col-lg-6 col-sm-6">
+        <div class="form-group">
+          <label>{{'Procurement_LeasedOn' | translate}}</label>
+          <div class="input-group ">
+            <input class="form-control datapickerinput" placeholder="{{'Procurement_LeasedOn' | translate}}"
+                   formControlName="procurementLeasedOn" [matDatepicker]="picker1">
+            <div class="input-group-prepend datapickericon">
+              <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
+              <mat-datepicker #picker1></mat-datepicker><br /><br />
+            </div>
+          </div>
+          <validation-message [control]="form.controls.procurementLeasedOn"></validation-message>
+        </div>
+      </div>
+
+      <div class="col-md-6 col-lg-6 col-sm-6">
+        <div class="form-group">
+          <label>{{'Current_BookValue' | translate}}</label>
+          <input class="form-control" type="text" placeholder="{{'Current_BookValue' | translate}}"
+                 formControlName="currentBookValue" />
+          <validation-message [control]="form.controls.currentBookValue"></validation-message>
+        </div>
+      </div>
+
+      <div class="col-md-6 col-lg-6 col-sm-6">
+        <div class="form-group">
+          <label>{{'Annual_LeaseValue' | translate}}</label>
+          <input class="form-control" type="text" placeholder="{{'Annual_LeaseValue' | translate}}"
+                 formControlName="annualLeaseValue" />
+          <validation-message [control]="form.controls.annualLeaseValue"></validation-message>
+        </div>
+      </div>
+
+      <div class="col-md-6 col-lg-6 col-sm-6">
+        <div class="form-group">
+          <label>{{'Salvage_BookValue' | translate}}</label>
+          <input class="form-control" type="text" placeholder="{{'Salvage_BookValue' | translate}}"
+                 formControlName="salvageBookValue" />
+          <validation-message [control]="form.controls.salvageBookValue"></validation-message>
+        </div>
+      </div>
+
+      <div class="col-md-6 col-lg-6 col-sm-6">
+        <div class="form-group">
+          <label>{{'Lease_EndDate' | translate}}</label>
+          <div class="input-group ">
+            <input class="form-control datapickerinput" placeholder="{{'Lease_EndDate' | translate}}"
+                   formControlName="leaseEndDate" [matDatepicker]="picker2">
+            <div class="input-group-prepend datapickericon">
+              <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
+              <mat-datepicker #picker2></mat-datepicker><br /><br />
+            </div>
+          </div>
+          <validation-message [control]="form.controls.leaseEndDate"></validation-message>
+        </div>
+      </div>
+
+      <div class="col-md-6 col-lg-6 col-sm-6">
+        <div class="form-group">
+          <label>{{'Vehicle_OwnerEn' | translate}}</label>
+          <input class="form-control" type="text" placeholder="{{'Vehicle_OwnerEn' | translate}}"
+                 formControlName="vehicleOwnerEnglish" />
+          <validation-message [control]="form.controls.vehicleOwnerEnglish"></validation-message>
+        </div>
+      </div>
+
+      <div class="col-md-6 col-lg-6 col-sm-6">
+        <div class="form-group">
+          <label>{{'Vehicle_OwnerAr' | translate}}</label>
+          <input class="form-control" type="text" placeholder="{{'Vehicle_OwnerAr' | translate}}"
+                 formControlName="vehicleOwnerArabic" />
+          <validation-message [control]="form.controls.vehicleOwnerArabic"></validation-message>
+        </div>
+      </div>
+
+      <div class="col-md-6 col-lg-6 col-sm-6">
+        <div class="form-group">
+          <label>{{'MeterReading_OnProcurement' | translate}}</label>
+          <input class="form-control" type="text" placeholder="{{'MeterReading_OnProcurement' | translate}}"
+                 formControlName="meterReadingOnProcurement" />
+          <validation-message [control]="form.controls.meterReadingOnProcurement"></validation-message>
+        </div>
+      </div>
+
+      <div class="col-md-6 col-lg-6 col-sm-6">
+        <div class="form-group">
+          <label>{{'Current_Meter_Reading' | translate}}</label>
+          <input class="form-control" type="text" placeholder="{{'Current_Meter_Reading' | translate}}"
+                 formControlName="currentMeterReading" />
+          <validation-message [control]="form.controls.currentMeterReading"></validation-message>
+        </div>
+      </div>
+
+      <div class="col-md-6 col-lg-6 col-sm-6">
+        <div class="form-group">
+          <label>{{'Vehicle_Next_MaintenanceDate' | translate}}</label>
+          <div class="input-group ">
+            <input class="form-control datapickerinput" placeholder="{{'Vehicle_Next_MaintenanceDate' | translate}}"
+                   formControlName="vehicleNextMaintenanceDate" [matDatepicker]="picker3">
+            <div class="input-group-prepend datapickericon">
+              <mat-datepicker-toggle matSuffix [for]="picker3"></mat-datepicker-toggle>
+              <mat-datepicker #picker3></mat-datepicker><br /><br />
+            </div>
+          </div>
+          <validation-message [control]="form.controls.vehicleNextMaintenanceDate"></validation-message>
+        </div>
+      </div>
+
+      <div class="col-md-6 col-lg-6 col-sm-6">
+        <div class="form-group">
+          <label>{{'Estimated_Mileage/KM' | translate}}</label>
+          <input class="form-control" type="text" placeholder="{{'Estimated_Mileage/KM' | translate}}"
+                 formControlName="estimatedMileagePerKM" />
+          <validation-message [control]="form.controls.estimatedMileagePerKM"></validation-message>
+        </div>
+      </div>
+
+    <div class="col-md-6 col-lg-6 col-sm-6">
+    <div class="form-group">
+      <label>{{'Vehicle_Last_MaintenanceDate' | translate}}</label>
+      <div class="input-group ">
+        <input class="form-control datapickerinput" placeholder="{{'Vehicle_Last_MaintenanceDate' | translate}}"
+               formControlName="vehicleLastMaintenanceDate" [matDatepicker]="picker4">
+        <div class="input-group-prepend datapickericon">
+          <mat-datepicker-toggle matSuffix [for]="picker4"></mat-datepicker-toggle>
+          <mat-datepicker #picker4></mat-datepicker><br /><br />
+        </div>
+      </div>
+      <validation-message [control]="form.controls.vehicleLastMaintenanceDate"></validation-message>
+    </div>
+  </div>
+
+      <div class="col-md-6 col-lg-6 col-sm-6">
+        <div class="form-group">
+          <label>{{'Estimated_ServiceYear' | translate}}</label>
+          <input class="form-control" type="text" placeholder="{{'Estimated_ServiceYear' | translate}}"
+                 formControlName="estimatedServiceYear" />
+          <validation-message [control]="form.controls.estimatedServiceYear"></validation-message>
+        </div>
+      </div>
+
+      <!--<div class="col-md-6 col-lg-6 col-sm-6">
+    <div class="form-group">
+      <label>{{'Fuel_Type' | translate}}</label>
+      <input class="form-control" type="text" placeholder="{{'Fuel_Type' | translate}}"
+             formControlName="fuelType" />
+      <validation-message [control]="form.controls.fuelType"></validation-message>
+    </div>
+  </div>-->
+      <div class="col-md-6 col-lg-6 col-sm-6">
+        <div class="form-group ">
+          <label>{{'Fuel_Type' | translate}}</label>
+          <select class="custom-select mr-sm-2" formControlName="fuelType">
+            <option value="">{{'Select' | translate}} {{'Fuel_Type' | translate}} </option>
+            <option value="Petrol">{{'Petrol' | translate}}</option>
+            <option value="Diesel">{{'Diesel' | translate}}</option>
+            <option value="Petrol">{{'Gas' | translate}}</option>
+            <option value="Diesel">{{'Electric' | translate}}</option>
+          </select>
+          <validation-message [control]="form.controls.fuelType"></validation-message>
+        </div>
+      </div>
+
+      <div class="col-md-6 col-lg-6 col-sm-6">
+        <div class="form-group">
+          <label>{{'FuelTank_Capacity_InLitters' | translate}}</label>
+          <input class="form-control" type="text" placeholder="{{'FuelTank_Capacity_InLitters' | translate}}"
+                 formControlName="fuelTankCapacityInLitters" />
+          <validation-message [control]="form.controls.fuelTankCapacityInLitters"></validation-message>
+        </div>
+      </div>
+
+      <div class="col-md-6 col-lg-6 col-sm-6">
+        <label>{{'Is_Active' | translate}}</label>
+        <div class="form-group">
+          <mat-slide-toggle color="primary" formControlName="isActive"></mat-slide-toggle>
+        </div>
+      </div>
+
+      <div class="col-md-6 col-lg-6 col-sm-6">
+        <label>{{'Is_Vehicle_GoodsCarrier' | translate}}</label>
+        <div class="form-group">
+          <mat-slide-toggle color="primary" formControlName="isVehicleGoodsCarrier"></mat-slide-toggle>
+        </div>
+      </div>
+    </div>
+
+        <div class="row customrow mt-4">
+             <div class="col-lg-12 col-md-12 text-center">
+                <input type="button" class="btn btn-secondary" value="{{'Cancel' | translate}}" (click)="closeModel()" />
+                &nbsp;&nbsp;
+                <input type="submit" class="btn waves-effect waves-light btn-primary" value="{{'Save' | translate}}">
+            </div>
+        </div>
+  
+  </div>
+</form>

@@ -1,0 +1,129 @@
+<div class="page-breadcrumb">
+  <div class="row">
+    <div class="col-12 align-self-center">
+      <h3 class="page-title text-truncate text-dark font-weight-medium mb-1">
+        {{'BatchSetup' | translate}}
+      </h3>
+    </div>
+
+  </div>
+</div>
+
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-md-12 col-lg-12">
+      <div class="card">
+        <div class="card-body">
+
+          <form [formGroup]="form" (ngSubmit)="submit()" novalidate class="mt-4">
+            <div class="row">
+              <div class="col-md-6 col-lg-6">
+                <div class="form-group">
+                  <label for="BatchCode">{{'BatchCode' | translate}}</label>
+                  <input class="form-control" id="BatchCode" type="text"
+                         placeholder="{{'Please_Enter' | translate}} {{'BatchCode' | translate}} " formControlName="batchCode" [readonly] ="isEdit">
+                  <validation-message [control]="form.controls.batchCode"></validation-message>
+                </div>
+              </div>
+
+              <div class="col-md-6 col-lg-6">
+                <div class="form-group">
+                  <label for="BatchName">{{'BatchName' | translate}}</label>
+                  <input class="form-control" id="BatchName" type="text"
+                         placeholder="{{'Please_Enter' | translate}} {{'BatchName' | translate}}" formControlName="batchName">
+                  <validation-message [control]="form.controls.batchName"></validation-message>
+                </div>
+              </div>
+
+              <div class="col-md-6 col-lg-6">
+                <div class="form-group">
+                  <label for="BatchName2">{{'BatchName2' | translate}}</label>
+                  <input class="form-control" id="BatchName2" type="text"
+                         placeholder="{{'Please_Enter' | translate}} {{'BatchName2' | translate}}" formControlName="batchName2">
+                  <validation-message [control]="form.controls.batchName2"></validation-message>
+                </div>
+              </div>
+
+              <div class="col-md-6 col-lg-6">
+                <div class="form-group">
+                  <label for="IsActive">{{'Is_Active' | translate}}</label>
+                  <br />
+                  <mat-slide-toggle color="primary" formControlName="isActive"></mat-slide-toggle>
+
+                </div>
+              </div>
+
+
+            </div>
+
+            <div class="row mt-3 ">
+              <div class="col-md-12 col-lg-12 text-center">
+                <input type="button"
+                       class="btn waves-effect waves-light btn-rounded   btn-secondary btn-midblock"
+                       value="{{'Cancel' | translate}}" (click)="cancel()" /> &nbsp;
+                <input type="submit"
+                       class="btn waves-effect waves-light btn-rounded btn-primary btn-midblock"
+                       value="{{'Save' | translate}}" />
+              </div>
+            </div>
+
+          </form>
+
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+
+
+<div class="container-fluid">
+
+  <div class="row">
+    <div class="col-12 align-self-center pb-3">
+      <h3 class="page-title text-truncate text-dark font-weight-medium mb-1">
+        {{'BatchSetup_List' | translate}}
+      </h3>
+    </div>
+  </div>
+
+  <div class="row pb-3">
+    <div class="col-md-3">
+      <!--(keyup)="applyFilter($event)"-->
+      <input class="form-control" placeholder="{{'Search' | translate}}..." (input)="searchFilter($event.target.value)" />
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-md-12 col-lg-12">
+      <table class="table table-bordered no-wrap">
+        <thead>
+          <tr>
+            <th>{{'BatchCode' | translate}}</th>
+            <th>{{'BatchName' | translate}}</th>
+            <th>{{'BatchName2' | translate}}</th>
+            <th>{{'Is_Active' | translate}}</th>
+            <th>
+              {{'Actions' | translate}}
+            </th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let item of list">
+            <td>{{item.batchCode}}</td>
+            <td>{{item.batchName}}</td>
+            <td>{{item.batchName2}}</td>
+            <td>{{item.isActive}}</td>
+            <td>
+              <a class="tableicons" (click)="edit(item)" matTooltip="{{'Edit_Item' | translate}}"><i class="icon-note"> </i></a>
+              <!--<a class="tableicons" (click)="delete(item.id)"><i class="icon-trash"> </i></a>-->
+
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,168 @@
+<h3 class="modal-title">{{modalTitle | translate}}</h3>
+<button type="button" class="close" aria-hidden="true" (click)="closeModel()"> ×</button>
+<form [formGroup]="form" (ngSubmit)="submit()" novalidate class="mt-4">
+  <div class="page-breadcrumb">
+    <div class="row">
+      <div class="col-12 align-self-center">
+
+        <div class="d-flex align-items-center">
+          <nav aria-label="breadcrumb">
+            <ol class="breadcrumb m-0 p-0">
+              <li class="breadcrumb-item text-muted"> {{'SalesAndDistributions' | translate}} </li>
+              <li class="breadcrumb-item   active" aria-current="page">{{'Authorities' | translate}}</li>
+
+            </ol>
+          </nav>
+        </div>
+      </div>
+
+    </div>
+  </div>
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-md-12 col-lg-12">
+        <div class="card">
+
+          <div class="row">
+
+          </div>
+
+          <div class="cardtitle-divider"></div>
+
+
+
+
+
+          <table class="table  table-bordered no-wrap">
+            <tr>
+
+              <td>
+                <select class="custom-select mr-sm-2" formControlName="branchCode" (change)="getAuthority()">
+                  <option value="">{{'Select' | translate}} {{'Branch' | translate}} </option>
+                  <option *ngFor="let brnch of branchCodeList" value="{{brnch.value}}">{{brnch.value}}-{{brnch.text}}-{{brnch.textTwo}}</option>
+                </select>
+                <validation-message [control]="form.controls.branchCode"></validation-message>
+              </td>
+              <td>
+                <select class="custom-select mr-sm-2" formControlName="appAuth" (change)="getAuthority()">
+                  <option value="">{{'Select_User' | translate}}</option>
+                  <option *ngFor="let user of userList" value="{{user.value}}">{{user.value}}-{{user.text}}</option>
+                </select>
+                <validation-message [control]="form.controls.appAuth"></validation-message>
+
+              </td>
+              <!--<td>
+                <select class="custom-select mr-sm-2" formControlName="appLevel">
+                  <option value="">{{'Select_Level' | translate}}</option>
+                  <option value="1">Level 1</option>
+                  <option value="2">Level 2</option>
+                  <option value="3">Level 3</option>
+                </select>
+              </td>-->
+
+
+            </tr>
+          </table>
+          <table>
+            <tr>
+
+              <td style="tab-size:5"><input type="checkbox" formControlName="allAuthorities" (change)="ResetAuthorities($event,1)" /></td>
+              <td>{{'All'| translate}}</td>
+
+
+            </tr>
+            <tr>
+
+              <td><input type="checkbox" formControlName="canCreateSndInvoice" (change)="ResetAuthorities($event,0)" /></td>
+              <td>{{'Create_Invoice' | translate}}</td>
+
+
+              <td><input type="checkbox" formControlName="canEditSndInvoice" (change)="ResetAuthorities($event,0)" /></td>
+              <td>{{'Edit_Invoice'| translate}}</td>
+            </tr>
+
+
+
+            <tr>
+
+              <td><input type="checkbox" formControlName="canApproveSndInvoice" (change)="ResetAuthorities($event,0)" /></td>
+              <td>{{'Approve_Invoice'| translate}}</td>
+
+              <td><input type="checkbox" formControlName="canSettleSndInvoice" (change)="ResetAuthorities($event,0)" /></td>
+              <td>{{'Settle_Invoice'| translate}}</td>
+            </tr>
+
+            <tr>
+
+              <td><input type="checkbox" formControlName="canPostSndInvoice" (change)="ResetAuthorities($event,0)" /></td>
+              <td>{{'Post_Invoice'| translate}}</td>
+
+              <td><input type="checkbox" formControlName="canVoidSndInvoice" (change)="ResetAuthorities($event,0)" /></td>
+              <td>{{'Cancel_Invoice'| translate}}</td>
+            </tr>
+
+
+
+
+
+            <tr>
+
+              <td><input type="checkbox" formControlName="canCreateSndQuotation" (change)="ResetAuthorities($event,0)" /></td>
+              <td>{{'Create_Quotation' | translate}}</td>
+
+
+              <td><input type="checkbox" formControlName="canEditSndQuotation" (change)="ResetAuthorities($event,0)" /></td>
+              <td>{{'Edit_Quotation'| translate}}</td>
+            </tr>
+
+
+
+            <tr>
+
+              <td><input type="checkbox" formControlName="canApproveSndQuotation" (change)="ResetAuthorities($event,0)" /></td>
+              <td>{{'Approve_Quotation'| translate}}</td>
+              <td><input type="checkbox" formControlName="canVoidSndQuotation" (change)="ResetAuthorities($event,0)" /></td>
+              <td>{{'Cancel_Quotation'| translate}}</td>
+
+            </tr>
+
+
+
+
+            <tr>
+
+              <td><input type="checkbox" formControlName="canConvertSndQuotationToOrder" (change)="ResetAuthorities($event,0)" /></td>
+              <td>{{'Convert_To_Order'| translate}}</td>
+
+              <td><input type="checkbox" formControlName="canConvertSndQuotationToInvoice" (change)="ResetAuthorities($event,0)" /></td>
+              <td>{{'Convert_To_Invoice'| translate}}</td>
+            </tr>
+            <tr>
+
+              <td><input type="checkbox" formControlName="canConvertSndQuotationToDeliveryNote" (change)="ResetAuthorities($event,0)" /></td>
+              <td>{{'Convert_To_Delivery_Note'| translate}}</td>
+              <td><input type="checkbox" formControlName="canReviseSndQuotation" (change)="ResetAuthorities($event,0)" /></td>
+              <td>{{'Revise_Quotation'| translate}}</td>
+
+            </tr>
+
+
+          </table>
+
+
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="row mt-3 ">
+    <div class="col-md-12 col-lg-12 text-center">
+      <input type="button"
+             class="btn waves-effect waves-light btn-rounded   btn-secondary btn-midblock"
+             value="{{'Cancel' | translate}}" (click)="closeModel()" /> &nbsp;
+      <input type="submit"
+             class="btn waves-effect waves-light btn-rounded btn-primary btn-midblock"
+             value="{{'Save' | translate}}" />
+    </div>
+  </div>
+</form>
+

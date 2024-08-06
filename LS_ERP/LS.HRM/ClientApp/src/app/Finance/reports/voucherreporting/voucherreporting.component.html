@@ -1,0 +1,231 @@
+<!--<div class="table-responsive">
+  <table *ngIf="paymentList && paymentList.length > 0" class="table">
+
+    <tr *ngFor="let item of paymentList">
+      <td>
+        {{item.BranchName }}
+      </td>
+      <td>
+        {{item.VoucherNumber }}
+      </td>
+      <td>
+        {{item.TranDate }}
+      </td>
+      <td>
+        {{item.CustCode }}
+      </td>
+      <td colspan="2">
+      </td>
+
+    </tr>
+  </table>
+
+</div>-->
+
+
+<div class="page-breadcrumb">
+  <div class="row">
+    <div class="col-12 align-self-center">
+      <h3 class="page-title text-truncate text-dark font-weight-medium mb-1">
+        {{'Voucher_Reporting' | translate}}
+      </h3>
+    </div>
+  </div>
+</div>
+
+<div class="modal-body">
+
+  <div class="outer  ">
+    <div class="row">
+      <div class="col-md-6 col-lg-6">
+        <div class="form-group">
+          <label>{{'VoucherType' | translate}}</label>
+          <select class="custom-select mr-sm-2" [(ngModel)]="voucherType">
+            <option value="">Choose Transaction Types</option>
+            <option *ngFor="let item of payCodeTypeList" value="{{item.value}}">{{item.text}}</option>
+          </select>
+        </div>
+      </div>
+      <div class="col-md-6 col-lg-6">
+        <div class="form-group">
+          <label>{{'From_Date' | translate}}</label>
+          <div class="form-group ">
+            <div class="input-group mb-2">
+              <input class="form-control datapickerinput" placeholder="{{'Select_a_Date' | translate}}" [(ngModel)]="dateFrom"
+                     [matDatepicker]="picker2">
+
+              <div class="input-group-prepend datapickericon">
+                <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
+                <mat-datepicker #picker2></mat-datepicker><br /><br />
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+      <div class="col-md-6 col-lg-6">
+        <div class="form-group">
+          <label>{{'To_Date' | translate}}</label>
+          <div class="form-group ">
+            <div class="input-group mb-2">
+              <input class="form-control datapickerinput" placeholder="{{'Select_a_Date' | translate}}" [(ngModel)]="dateTo"
+                     [matDatepicker]="picker1">
+
+              <div class="input-group-prepend datapickericon">
+                <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
+                <mat-datepicker #picker1></mat-datepicker><br /><br />
+              </div>
+
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-6 col-lg-6">
+
+        <div class="form-group mb-4">
+          <label class="mr-sm-2">{{'Branch' | translate}}</label>
+          <auto-loader [isLoading]="isBranchLoading"></auto-loader>
+          <input type="text" class="form-control"
+                 placeholder="{{'Please_Enter' | translate}} {{'Branch_Code' | translate}}"
+                 [formControl]="branchCodeControl"
+                 matInput
+                 [matAutocomplete]="auto">
+          <mat-autocomplete #auto="matAutocomplete">
+            <mat-option *ngFor="let option of filteredOptions | async"
+                        [value]="option.value">
+              <!--[value]="option.text + '-' + option.value"> (optionSelected)="selectedOption($event)" (blur)="branchcodeBlur($event)" -->
+              {{option.value}}
+            </mat-option>
+          </mat-autocomplete>
+        </div>
+
+      </div>
+      <div class="col-md-6 col-lg-6">
+        <div class="form-group">
+          <label>{{'DocumentNumber' | translate}}</label>
+          <input class="form-control" type="text"
+                 placeholder="Please enter Document Number" [(ngModel)]="docNum">
+        </div>
+      </div>
+      <!--<div class="col-md-6 col-lg-6">
+        <div class="form-group">
+          <label>Batch</label>
+          <input class="form-control" type="text"
+                 placeholder="Please enter Batch" [(ngModel)]="">
+        </div>
+      </div>-->
+      <div class="col-md-6 col-lg-6">
+        <div class="form-group">
+          <label>{{'Remarks' | translate}}</label>
+          <input class="form-control" [(ngModel)]="remarks" />
+
+        </div>
+      </div>
+      <div class="col-md-6 col-lg-6">
+        <div class="form-group">
+          <label>{{'Narration' | translate}}</label>
+          <input class="form-control" [(ngModel)]="narration" />
+
+        </div>
+      </div>
+      <div class="col-md-6 col-lg-6">
+        <div class="form-group">
+          <br />
+          <button type="button" class="btn btn-primary" (click)="search()">Search</button>
+        </div>
+      </div>
+
+    </div>
+  </div>
+  <spinner-loader [isLoading]="isLoading"></spinner-loader>
+
+  <div class="table-responsive" *ngIf="company">
+
+    <button type="button" class="btn waves-effect waves-light btn-rounded btn-primary btn-midblock" data-toggle="modal" (click)="openPrint()">
+      {{'Print' | translate}}
+    </button>
+    <br />
+    <br />
+
+    <div class="outer" id="printcontainer">
+      <table style="width:100%; padding-bottom:5px;" cellpadding="0" cellspacing="0" width="100%" class="ur_tablestyle">
+        <tr>
+          <td> {{company.companyName}}</td>
+        </tr>
+        <tr>
+          <td style="text-align:center;">
+            <img src="{{company.logoURL}}" style="width:200px;height:150px;" />
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <div class="font-weight-medium">
+              <br />
+              {{company.branchName}}
+              <br />
+              {{company.companyAddress}}
+              <br />
+              {{'Tel_Phone' | translate }} :  {{company.phone}}
+              <br />
+            </div>
+
+          </td>
+        </tr>
+        <tr *ngIf="dateFrom && dateTo">
+          <td style="text-align:center;">
+            <p>
+              The Statement of " Voucher Reporting " for {{dateFrom | date:'dd/MM/yyyy'}} to {{dateTo | date:'dd/MM/yyyy'}}
+            </p>
+
+          </td>
+        </tr>
+      </table>
+
+      <table style="width:100%; padding-bottom:5px;" border="1" cellpadding="0" cellspacing="0" width="100%" class="ur_tablestyle" id="zero_config" *ngIf="paymentList && paymentList.length > 0">
+        <thead>
+          <tr>
+            <th>{{'ID' | translate}}</th>
+            <th>{{'Branch' | translate}}</th>
+            <th>{{'tranDate' | translate}}</th>
+            <th>{{'Customer_Code' | translate}}</th>
+            <th>{{'PayCode' | translate}}</th>
+            <th>{{'amount' | translate}} (SR)</th>
+            <th>{{'DocumentNumber' | translate}}</th>
+            <th>{{'Remarks' | translate}}</th>
+            <th>{{'Narration' | translate}}</th>
+            <!--<th class="text-center"><a class="tableicons" href="#"><i class="fas fa-plus-circle"> </i></a> </th>-->
+
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let item of paymentList">
+            <td>{{item.voucherNumber}}</td>
+            <td>{{item.branchName}}</td>
+            <td>{{item.tranDate | date:'MM-dd-yyyy' }}</td>
+            <td>{{item.custCode }}</td>
+            <td>{{item.payCode}}</td>
+            <td>{{item.amount | decimalpipe}}</td>
+            <td>{{item.docNum}}</td>
+            <td>{{item.remarks}}</td>
+            <td>{{item.narration}}</td>
+
+          </tr>
+
+          <!--<tfoot>
+            <tr class="tfoot">
+
+              <td colspan="6" class="text-right ">Total Amount</td>
+              <td class="text-right">$1,200</td>
+              <td class="text-right" colspan="2">$1,200</td>
+
+
+
+            </tr>
+
+          </tfoot>-->
+      </table>
+    </div>
+  </div>
+
+
+</div>

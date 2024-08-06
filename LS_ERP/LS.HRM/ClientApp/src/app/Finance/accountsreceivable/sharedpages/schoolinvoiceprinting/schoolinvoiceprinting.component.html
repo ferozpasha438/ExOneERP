@@ -1,0 +1,236 @@
+
+
+<spinner-loader [isLoading]="isLoading"></spinner-loader>
+
+<button (click)="printInvoice()">Print</button> &nbsp;
+<button type="button" class="" aria-hidden="true" (click)="closeModel()"> Close</button>
+<button type="button" class="close" aria-hidden="true" (click)="closeModel()"> ×</button>
+<br />
+
+<div id="printcontainer" class="p-1 shadow" *ngIf="company">
+
+  <table style="width:100%; padding-bottom:5px;" border="0" cellpadding="0" cellspacing="0" width="100%" class="">
+    <tr>
+      <td colspan="5" style="text-align:center; padding-bottom:30px;" [style]="isSavePDF ? 'height : 0px ' : 'height:150px'">
+        <img *ngIf="!isSavePDF" src="{{company.logoURL}}" alt="" style="width:20%;" />
+      </td>
+    </tr>
+  </table>
+
+  <table style="width:100%" border="0" cellpadding="0" cellspacing="0" width="100%" class="">
+    <tr>
+      <td style="width:35%" class="">
+        <h4 style="font-size: 0.75rem !important; color: #0c2f54; font-family: 'Poppins', sans-serif; font-weight: 500; line-height: 1.2; margin: 0; padding-top: 4px">
+          {{companyData.companyName}}
+        </h4>
+        <h4 style="font-size: 0.75rem !important; color: #0c2f54; font-family: 'Poppins', sans-serif; font-weight: 500; line-height: 1.2; margin: 0; padding-top: 4px">
+          {{companyData.companyAddress}}
+        </h4>
+        <span></span>
+        <h4 style="font-size: 0.75rem !important; color: #0c2f54; font-family: 'Poppins', sans-serif; font-weight: 500; line-height: 1.2; margin: 0; padding-top: 4px">
+          C.R. No.: <span style="font-size: 0.75rem !important;color: #0c2f54; font-family: 'Poppins', sans-serif;font-weight: 500;
+            line-height: 1.2;margin:0; "> {{companyData.crNumber}} </span>
+        </h4>
+        <h4 style="font-size: 0.75rem !important; color: #0c2f54; font-family: 'Poppins', sans-serif; font-weight: 500; line-height: 1.2; margin: 0; padding-top: 4px">
+          C.C. No.:  <span style="font-size: 0.75rem !important;color: #0c2f54; font-family: 'Poppins', sans-serif;font-weight: 500;
+            line-height: 1.2;margin:0; ">{{companyData.ccNumber}}</span>
+        </h4>
+
+        <h4 style="font-size: 0.75rem !important; color: #0c2f54; font-family: 'Poppins', sans-serif; font-weight: 500; line-height: 1.2; margin: 0; padding-top: 4px">
+          VAT NO :  <span style="font-size: 0.75rem !important;color: #0c2f54; font-family: 'Poppins', sans-serif;font-weight: 500;
+          line-height: 1.2;margin:0; ">{{companyData.vatNumber}} </span>
+        </h4>
+      </td>
+
+      <td style="width:30%;text-align: center;vertical-align: middle;">
+        <span style="font-size: 1.75rem !important; position:relative; left:-15px; color: #0c2f54; font-family: 'Poppins', sans-serif;font-weight: 500;line-height: 1.2;margin:0; ">
+          فاتورة ضريبية
+        </span>
+        <br />
+        <span style="font-size: 1.3rem !important; color: #0c2f54; font-family: 'Poppins', sans-serif; font-weight: 500; line-height: 1.2; margin:0; ">
+          VAT INVOICE &nbsp; &nbsp;&nbsp;
+        </span>
+      </td>
+      <td style="text-align: right;width:35%" class="">
+        <h4 style="font-size: 0.75rem !important;color: #0c2f54; font-family: 'Poppins', sans-serif;font-weight: 500;
+          line-height: 1.2;margin:0;padding-top:4px">
+          {{companyData.companyNameAr }}
+        </h4>
+        <h4 style="font-size: 0.75rem !important;color: #0c2f54; font-family: 'Poppins', sans-serif;font-weight: 500;
+          line-height: 1.2;margin:0;padding-top:4px">
+          {{companyData.companyAddressAr}}
+        </h4>
+
+        <h4 style="font-size: 0.75rem !important;color: #0c2f54; font-family: 'Poppins', sans-serif;font-weight: 500;
+  line-height: 1.2;margin:0;padding-top:4px">
+          {{companyData.crNumber}} :  رقم السجل التجاري
+        </h4>
+        <h4 style="font-size: 0.75rem !important;color: #0c2f54; font-family: 'Poppins', sans-serif;font-weight: 500;
+  line-height: 1.2;margin:0;padding-top:4px">
+          {{companyData.ccNumber}}    : رقم العضوية
+        </h4>
+
+        <h4 style="font-size: 0.75rem !important;color: #0c2f54; font-family: 'Poppins', sans-serif;font-weight: 500;
+          line-height: 1.2;margin:0;padding-top:4px">
+          {{companyData.vatNumber}} :  الرقم الضريبي
+        </h4>
+      </td>
+
+
+    </tr>
+
+
+  </table>
+
+
+
+
+  <!--<table style="width:100%; padding-bottom:5px;" cellpadding="0" cellspacing="0" width="100%" class="ur_tablestyle">
+    <tr style="text-align:@TextAlign">
+      <td>
+        <h6 style="white-space:pre-line;font-size:22px;">{{company.companyName}}</h6>
+        <h6 style="white-space:pre-line;">{{company.companyAddress}}</h6>
+        <h6 style="white-space:pre-line;">-->
+
+          <!--<span *ngIf="company.phone"> {{'Tel_Phone' | translate }} : {{company.phone}},</span>-->
+
+          <!--<span *ngIf="company.mobile;else phone_number"> {{'Mobile' | translate }} : {{company.mobile}}</span>
+          <ng-template #phone_number>{{'Tel_Phone' | translate }} : {{company.phone}}</ng-template>
+        </h6>
+      </td>
+      <td>
+        <img src="{{company.logoURL}}" style="width:200px;height:150px;" class="float-right" />
+      </td>
+    </tr>
+  </table>-->
+
+
+  <table style="width:100%" border="1" cellpadding="0" cellspacing="0" width="100%" class="table  table-bordered no-wrap">
+    <thead>
+      <tr style="">
+        <td colspan="3" style="text-align:center"> Tax Invoice  </td>
+      </tr>
+      <tr style="background-color:whitesmoke">
+        <td style="width: 33%; padding:6px;"> Issue Date / تاريخ الفاتورة  </td>
+        <td style="width: 33%;padding:6px;"> Due Date / تاريخ الاستحقاق  </td>
+        <td style="width: 33%;padding:6px;"> Invoice Number / رقم الفاتورة </td>
+      </tr>
+      <tr>
+        <td style="padding:6px;padding:6px;"> {{item.invoiceDate | date:'dd/MM/yyyy'}} </td>
+        <td style="padding:6px;padding:6px;"> {{item.invoiceDueDate | date:'dd/MM/yyyy'}} </td>
+        <td style="padding:6px;padding:6px;"> {{item.invoiceNumber}} </td>
+      </tr>
+      <tr style="background-color:whitesmoke">
+        <td style="width: 33%;padding:6px;"> {{'Student Name / اسم الطالب' | translate}} </td>
+        <td style="width: 33%;padding:6px;">{{'Grade_Invoice_Name' | translate}} </td>
+        <td style="width: 33%;padding:6px;"> {{'StudentIDNumber' | translate}} </td>
+      </tr>
+      <tr>
+        <!--<td style="padding:6px;"> {{item.customerName}}/{{item.customerNameAr}}</td>-->
+        <td style="padding:6px;">{{item.customerNameAr}}</td>
+        <td style="padding:6px;"> {{item.category}}</td>
+        <td style="padding:6px;"> {{item.taxIdNumber}} </td>
+      </tr>
+      <tr> </tr>
+      <tr style="background-color:whitesmoke">
+        <td style="width: 33%; padding: 6px;"> Payment Method / طريقة الدفع او السداد  </td>
+        <td colspan="2" style="padding:6px;"> {{item.paymentTermId}}</td>
+      </tr>
+    </thead>
+  </table>
+
+  <br /><br />
+
+  <table style="width:100%" border="1" cellpadding="0" cellspacing="0" width="100%" class="table  table-bordered no-wrap">
+    <thead class="alert-dark ">
+    </thead>
+    <tbody>
+      <tr>
+        <th style="padding:6px;"> S-No/الرقم التسلسلي  </th>
+        <th style="padding:6px;width:45%;"> Description/وصف الرسوم  </th>
+        <th style="padding:6px;"> Amount/المبلغ</th>
+        <th style="padding:6px;"> Discount Percentage/نسبة الخصم</th>
+        <th style="padding:6px;"> Discount Amount/مبلغ الخصم</th>
+        <th style="padding:6px;"> VAT/ضريبة </th>
+        <th style="text-align: right; padding: 6px;">Total/المجموع </th>
+      </tr>
+      <tr *ngFor="let litem of itemList; let i = index;">
+        <td style="padding:6px;">{{i+1}}</td>
+        <td style="padding:6px;">{{litem.description }} </td>
+        <td style="text-align:center;padding:6px;">{{litem.subTotal | number : '3.2-5' }} </td>
+        <td style="text-align:center;padding:6px;">{{((litem.discountAmount/litem.subTotal)*100) | number }} </td>
+        <td style="text-align:center;padding:6px;">{{litem.discountAmount | number : '3.2-5' }} </td>
+        <td style="text-align:center;padding:6px;">{{litem.taxAmount | number : '3.2-5'}} </td>
+        <td style="text-align: right; padding: 6px;">{{litem.totalAmount | number : '3.2-5'}}</td>
+      </tr>
+
+      <tr>
+        <td colspan="7">
+          <br />
+          <br />
+        </td>
+      </tr>
+      <tr>
+        <td style="background-color: whitesmoke; text-align: left; padding: 6px;" colspan="5" rowspan="3">
+          <div style="line-height: 18px;"><strong>Bank Account Details :</strong> </div>
+          <div style="line-height: 18px;"> Account Name: {{companyData.companyName}}</div>
+          <div style="line-height: 18px;">Account Name in Arabic : {{companyData.companyNameAr}}</div>
+          <div style="line-height: 18px;"> Bank Name in Arabic : {{bank.bankNameAr}} </div>
+          <div style="line-height: 18px;"> Bank Name : {{bank.bankName}} </div>
+
+          <div style="line-height: 18px;" *ngIf="!hasNonArabChars(bank.branchName)">{{bank.branchName}} : Branch Name </div>
+          <div style="line-height: 18px;" *ngIf="hasNonArabChars(bank.branchName)">Branch Name: {{bank.branchName}}</div>
+          <!--<div style="line-height: 18px;">Branch: {{bank.BranchName}}</div>-->
+          <!--<div style="line-height: 18px;"> {{bank.branchAddress}} :Address</div>-->
+          <div style="line-height: 18px;"> Account No: {{bank.accountNumber}}</div>
+          <div style="line-height: 18px;">IBAN: {{bank.iban}}</div>
+        </td>
+        <td style="background-color: whitesmoke; text-align: right; padding: 6px;"><strong>SubTotal/المجموع</strong></td>
+        <td class="align-right" style="text-align: right; padding: 6px;">SAR&nbsp;<strong>{{ item.subTotal | number : '3.2-5'}}</strong></td>
+      </tr>
+      <tr>
+        <td style="background-color: whitesmoke; text-align: right; padding: 6px;"><strong>VAT/ضريبة</strong></td>
+        <td class="align-right" style="text-align: right; padding: 6px;">SAR&nbsp;<strong>{{item.taxAmount | number : '3.2-5'}}</strong></td>
+      </tr>
+      <tr>
+        <td style="background-color: whitesmoke; text-align: right; padding: 6px;"><strong>Total Inc VAT/المجموع</strong></td>
+        <td class="align-right" style="text-align: right; padding: 6px;">SAR&nbsp;<strong>{{(item.subTotal + item.taxAmount) | number : '3.2-5'}}</strong></td>
+      </tr>
+      <tr>
+        <td style="background-color: whitesmoke; text-align: left; padding: 6px;" colspan="5"></td>
+        <td style="background-color: whitesmoke; text-align: right; padding: 6px;"><strong>Total Paid/المبلغ المدفوع</strong></td>
+        <td class="align-right" style="text-align: right; padding: 6px;">SAR&nbsp;<strong>{{(item.subTotal + item.taxAmount) | number : '3.2-5'}}</strong></td>
+      </tr>
+      <tr>
+        <td style="text-align:left" colspan="7">
+          <div style="text-align: left; font-size: 0.875rem !important; color: #000000; font-family: 'Poppins', sans-serif; font-weight: 500; padding: 6px;" class="ur_right">
+            المجموع كتابة : {{item.totalAmountAr}}<br />
+            Total In Words: {{item.totalAmountEn}}
+          </div>
+
+          <div class="ur_right">
+            <img src="{{item.qrCode}}" alt="QR Code" />
+          </div>
+        </td>
+      </tr>
+    </tbody>
+
+  </table>
+  <br />
+  <br />
+
+  <!--<table id="zero_config" style="width:100%" border="1" cellpadding="0" cellspacing="0" width="100%" class="table  table-bordered no-wrap">
+    <thead>
+
+      <tr>
+        <td style="width: 33%; text-align:center "> Prepared By / أُعدت بواسطة </td>
+        <td style="width: 33%; text-align:center"> Approved By / الموافق </td>
+        <td style="width: 33%; text-align:center"> Recevied By  / استلمت من قبل  </td>
+      </tr>
+
+
+    </thead>
+
+  </table>-->
+</div>
+

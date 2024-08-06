@@ -1,0 +1,93 @@
+<!--<form [formGroup]="form" (ngSubmit)="submit()" novalidate class="mt-4">-->
+<!--<h3 class="modal-title">  {{'Account_Codes' | translate}} </h3>-->
+<!--<h2>{{moduleFile.action}} and  {{moduleFile.module}}</h2>-->
+
+<button type="button" class="close" aria-hidden="true" (click)="closeModel()"> ×</button>
+<div class="row rowm0 offset-2">
+
+  <div class="col-md-12 col-lg-12 pb-4">
+    <h2>{{'Document_Upload' | translate}}</h2>
+  </div>
+  <div class="col-md-4 col-lg-4">
+    <label for="TileImage">
+
+    </label>
+    <input type="file" (change)="onSelectFile1($event)">
+  </div>
+  <div class="col-md-4 col-lg-4 pt-3">
+    <input class="form-control" maxlength="500" type="text" placeholder="{{'Please_Enter' | translate}}" [(ngModel)]="fileone">
+  </div>
+  <div class="col-md-2 col-lg-2"></div>
+
+  <div class="col-md-4 col-lg-4">
+    <label for="TileImage">
+
+    </label>
+    <input type="file" (change)="onSelectFile2($event)">
+  </div>
+  <div class="col-md-4 col-lg-4 pt-3">
+    <input class="form-control" maxlength="500" type="text" placeholder="{{'Please_Enter' | translate}}" [(ngModel)]="filetwo">
+  </div>
+  <div class="col-md-2 col-lg-2"></div>
+
+  <div class="col-md-4 col-lg-4">
+    <label for="TileImage">
+
+    </label>
+    <input type="file" (change)="onSelectFile3($event)">
+  </div>
+  <div class="col-md-4 col-lg-4 pt-3">
+    <input class="form-control" maxlength="500" type="text" placeholder="{{'Please_Enter' | translate}}" [(ngModel)]="filethree">
+  </div>
+  <div class="col-md-2 col-lg-2"></div>
+
+  <div class="col-md-4 col-lg-4">
+    <label for="TileImage">
+
+    </label>
+    <input type="file" (change)="onSelectFile4($event)">
+  </div>
+  <div class="col-md-4 col-lg-4 pt-3">
+    <input class="form-control" maxlength="500" type="text" placeholder="{{'Please_Enter' | translate}}" [(ngModel)]="filefour">
+  </div>
+  <div class="col-md-2 col-lg-2"></div>
+
+  <div class="col-md-4 col-lg-4">
+    <label for="TileImage">
+
+    </label>
+    <input type="file" (change)="onSelectFile5($event)">
+  </div>
+  <div class="col-md-4 col-lg-4 pt-3">
+    <input class="form-control" maxlength="500" type="text" placeholder="{{'Please_Enter' | translate}}" [(ngModel)]="filefive">
+  </div>
+  <div class="col-md-2 col-lg-2"></div>
+
+</div>
+<div class="row mt-3 ">
+  <div class="col-md-12 col-lg-12 text-center">
+    <input type="button"
+           class="btn waves-effect waves-light btn-rounded   btn-secondary btn-midblock"
+           value="{{'Cancel' | translate}}" (click)="closeModel()" /> &nbsp;
+    <button type="button" class="btn waves-effect waves-light   btn-primary" (click)="uploadFiles()">{{'Save' | translate}}</button>
+  </div>
+</div>
+<br />
+
+<div>
+  <spinner-loader [isLoading]="isLoading"></spinner-loader>
+  <table class="table table-bordered" *ngIf="uploadedFiles && uploadedFiles.length > 0">
+    <tr>
+      <th>{{'Name' | translate}}</th>
+      <th>{{'Description' | translate}}</th>
+    </tr>
+    <tr *ngFor="let item of uploadedFiles">
+      <td>
+        <a href="{{fileUrl + '/fileUpload/downLoadFilesByFileName?fileName=' + item.fileName}}" target="_blank">
+          {{item.name}}
+        </a>
+      </td>
+      <td>{{item.description}}</td>
+    </tr>
+  </table>
+</div>

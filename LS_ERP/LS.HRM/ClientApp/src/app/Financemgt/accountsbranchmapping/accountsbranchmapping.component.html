@@ -1,0 +1,121 @@
+<div class="page-breadcrumb">
+  <div class="row">
+    <div class="col-12 align-self-center">
+      <h3 class="page-title text-truncate text-dark font-weight-medium mb-1">
+        {{'Branch_and_Account_Mapping' | translate}}
+      </h3>
+      <div class="d-flex align-items-center">
+        <nav aria-label="breadcrumb">
+          <ol class="breadcrumb m-0 p-0">
+            <li class="breadcrumb-item text-muted"> {{'Financial_Management' | translate}} </li>
+            <li class="breadcrumb-item text-muted"> {{'Finance' | translate}} </li>
+            <li class="breadcrumb-item   active" aria-current="page"> {{'Branch_and_Account_Mapping' | translate}} </li>
+
+          </ol>
+        </nav>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-md-12 col-lg-12">
+      <div class="card">
+        <div class="card-body">
+          <h4 class="card-title">{{'Account_Mapping' | translate}}</h4>
+
+          <div class="row pb-3">
+            <div class="col-md-3">
+              <!--(keyup)="applyFilter($event)"-->
+              <input class="form-control" placeholder="{{'Search' | translate}}..." (input)="searchFilter($event.target.value)" />
+            </div>
+          </div>
+
+          <div class="cardtitle-divider"></div>
+          <div class="col-md-12 col-lg-12">
+            <div class="row">
+              <div class="col-md-4 col-lg-4">
+                <div class="form-group">
+                  <label for="exampleFormControlSelect1">{{'Branch_Code' | translate}} &nbsp; <span class="text-danger">{{branchCodeError}}</span> </label>
+                  <auto-loader [isLoading]="isBranchLoading"></auto-loader>
+                  <input type="text" class="form-control"
+                         placeholder="{{'Please_Enter' | translate}} {{'Branch_Code' | translate}}"
+                         [formControl]="branchCodeControl"
+                         matInput
+                         [matAutocomplete]="auto1">
+                  <mat-autocomplete #auto1="matAutocomplete" (optionSelected)="branchCodeSelected($event)">
+                    <mat-option *ngFor="let option of filteredOptions | async"
+                                [value]="option.value">
+                      <!--[value]="option.text + '-' + option.value"> (optionSelected)="selectedOption($event)" -->
+                      {{option.value}}
+                    </mat-option>
+                  </mat-autocomplete>
+                </div>
+              </div>
+              <div class="col-md-5 col-lg-5">
+                <div class="row ">
+                  <div class="col-md-12 col-lg-12 text-center pt-4">
+                    <!--<input type="submit"
+            class="btn waves-effect waves-light btn-rounded   btn-secondary btn-midblock"
+            value="CANCEL" /> &nbsp;-->
+                    <input type="submit"
+                           class="btn waves-effect waves-light btn-rounded btn-primary btn-midblock float-right"
+                           value="{{'Save' | translate}}" (click)="submit()" />
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="table-responsive">
+
+
+
+              <table class="table  table-bordered no-wrap">
+                <thead>
+                  <tr>
+                    <th>
+                      <mat-slide-toggle color="primary" [checked]="isMainChecked" (change)="checkAll($event)"> </mat-slide-toggle>
+                      <!--<input type="checkbox" (change)="checkAll($event)">-->
+                    </th>
+                    <th>{{'Account_Code' | translate}}</th>
+                    <th>{{'Description' | translate}}</th>
+
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let code of acCodeList">
+                    <td>
+                      <label class="switch">
+                        <!--<input type="checkbox" name="checkItem" class="checkItem" (change)="selectMapping($event, code.finAcCode)">-->
+                        <mat-slide-toggle color="primary" [checked]="isChecked" (change)="selectMapping($event, code.finAcCode)"> </mat-slide-toggle>
+                        <span class="slider round"></span>
+                      </label>
+                    </td>
+                    <td>{{code.finAcCode}}</td>
+                    <td width="50%">{{code.finAcDesc}}</td>
+                  </tr>
+              </table>
+            </div>
+
+            <div class="row ">
+              <div class="col-md-12 col-lg-12 text-center">
+                <!--<input type="submit"
+        class="btn waves-effect waves-light btn-rounded   btn-secondary btn-midblock"
+        value="CANCEL" /> &nbsp;-->
+                <input type="submit"
+                       class="btn waves-effect waves-light btn-rounded btn-primary btn-midblock"
+                       value="{{'Save' | translate}}" (click)="submit()" />
+              </div>
+            </div>
+          </div>
+
+
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+</div>

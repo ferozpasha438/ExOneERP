@@ -1,0 +1,117 @@
+<div class="page-breadcrumb">
+  <div class="row">
+    <div class="col-12 align-self-center">
+      <h3 class="page-title text-truncate text-dark font-weight-medium mb-1">
+        {{'Unit_of_Measure' | translate}}
+      </h3>
+      <div class="d-flex align-items-center">
+        <nav aria-label="breadcrumb">
+          <ol class="breadcrumb m-0 p-0">
+            <li class="breadcrumb-item text-muted">{{'Administration' | translate}} </li>
+            <li class="breadcrumb-item text-muted ">{{'Inventory_Management' | translate}}</li>
+            <li class="breadcrumb-item   active" aria-current="page">{{'Unit_of_Measure' | translate}} (010301)</li>
+
+          </ol>
+        </nav>
+      </div>
+    </div>
+
+  </div>
+</div>
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-md-12 col-lg-12">
+      <div class="card">
+        <div class="card-body">
+          <div class="row">
+            <div class="col-md-7 col-lg-12">
+              <h4 class="card-title pt6">{{'List_of_Units' | translate}} </h4>
+            </div>
+            <div class="col-md-3">
+              <input class="form-control" placeholder="search..." [(ngModel)]="searchValue" />
+            </div>
+            <div class="col-md-4">
+              <button (click)="applyFilter(searchValue)" class="btn btn-primary">Search</button> &nbsp;
+              <a (click)="refresh()" class=""><i class="btn btn-primary icon-refresh"></i></a>
+            </div>
+            <div class="col-md-3 col-lg-3 text-right">
+              <a data-toggle="modal"
+                 data-target="#createnewunits" class="  btn waves-effect waves-light btn-rounded btn-outline-primary" (click)="create()" href="#"> <i class="icon-plus"> </i> {{'Add_New_Unit' | translate}} </a>
+
+            </div>
+          </div>
+
+          <div class="cardtitle-divider"></div>
+          <div class="example-table-container   pt-3">
+
+            <ng-container>
+              <!--matSortActive="id"
+              matSortDisableClear matSortDirection="desc"-->
+              <table mat-table [dataSource]="data" matSortDisableClear matSort (matSortChange)="onSortOrder($event)" class="table  table-bordered no-wrap">
+                <ng-container matColumnDef="UOM Code">
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                    {{'UOM_Code' | translate}}
+                  </th>
+                  <td mat-cell *matCellDef="let row">{{ row.uomCode }}</td>
+                </ng-container>
+
+                <ng-container matColumnDef="UOM Name">
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                    {{'Uom_Name' | translate}}
+                  </th>
+                  <td mat-cell *matCellDef="let row">{{ row.uomName }}</td>
+                </ng-container>
+                <ng-container matColumnDef="UOM Desc">
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                    {{'Uom_Description' | translate}}
+                  </th>
+                  <td mat-cell *matCellDef="let row">{{ row.uomDesc}}</td>
+                </ng-container>
+
+                <ng-container matColumnDef="Actions" stickyEnd>
+                  <th mat-header-cell *matHeaderCellDef>{{'Actions' | translate}}</th>
+                  <td mat-cell *matCellDef="let row">
+
+                    <a class="tableicons" (click)="edit(row.id)"><i class="icon-note"> </i></a>
+                    <a class="tableicons" (click)="delete(row.id)"><i class="icon-trash"> </i></a>
+
+                    <!--<button mat-icon-button aria-label="Edit" (click)="editUser(row)">
+                      <mat-icon>edit</mat-icon>
+                    </button>
+                    <button mat-icon-button aria-label="Delete" (click)="deleteUser(row)">
+                      <mat-icon>delete</mat-icon>
+                    </button>-->
+                  </td>
+                </ng-container>
+
+                <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
+                <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+
+              </table>
+              <ng-container>
+                <mat-paginator [length]="totalItemsCount"
+                               [pageSize]="pageService.pageCount"
+                               [pageSizeOptions]="pageService.selectItemsPerPage"
+                               (page)="onPageSwitch($event)">
+                </mat-paginator>
+
+              </ng-container>
+            </ng-container>
+            <!--<ng-template #noData>
+              <no-apidata></no-apidata>
+            </ng-template>-->
+          </div>
+
+        </div>
+
+
+
+      </div>
+    </div>
+
+  </div>
+
+</div>
+
+
+

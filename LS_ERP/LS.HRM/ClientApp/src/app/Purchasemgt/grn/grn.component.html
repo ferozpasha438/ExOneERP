@@ -1,0 +1,164 @@
+<div class="page-breadcrumb">
+  <div class="row">
+    <div class="col-12 align-self-center">
+      <h3 class="page-title text-truncate text-dark font-weight-medium mb-1">
+        {{'GRN' | translate}}
+      </h3>
+      <div class="d-flex align-items-center">
+        <nav aria-label="breadcrumb">
+          <ol class="breadcrumb m-0 p-0">
+            <li class="breadcrumb-item text-muted">{{'Purchase_Management' | translate}} </li>
+            <li class="breadcrumb-item   active" aria-current="page">{{'GRN' | translate}} </li>
+          </ol>
+        </nav>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-md-12 col-lg-12">
+
+      <div class="card">
+        <div class="card-body">
+
+          <div class="row pb-3">
+            <div class="col-md-3">
+
+              <select class="custom-select mr-sm-2" (change)="loadApprovals($event)">
+                <option value="">{{'GRN_List' | translate}}</option>
+                <option value="approval">Approval</option>
+                <option value="unapproval">UnApproval</option>
+                <option value="settled">Settled</option>
+                <option value="unsettled">UnSettled</option>
+
+              </select>
+            </div>
+            <div class="col-md-4 arabicright">
+              <a (click)="refresh()" class="" matTooltip="{{'Refresh' | translate}}"><i class="btn btn-primary icon-refresh"></i></a>
+            </div>
+
+          </div>
+
+          <div class="row">
+            <div class="col-md-7 col-lg-9">
+              <h4 class="card-title pt6">{{'GRN_List' | translate}}</h4>
+            </div>
+            <div class="col-md-3 col-lg-3 text-right">
+              <a data-toggle="modal"
+                 data-target="#scrollable-modal" class="  btn waves-effect waves-light btn-rounded btn-outline-primary" (click)="create()" href="#"> <i class="icon-plus"> </i>{{'Add_New_GRN' | translate}}</a>
+            </div>
+          </div>
+          <div class="cardtitle-divider"></div>
+          <div class="table-responsive">
+
+            <spinner-loader [isLoading]="isLoading"></spinner-loader>
+
+            <table mat-table [dataSource]="data" matSort matSortActive="Id"
+                   matSortDisableClear matSortDirection="desc" (matSortChange)="onSortOrder($event)" class="table  table-bordered no-wrap">
+              <ng-container matColumnDef="purchaseOrderNO">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                  {{'Pr_Num' | translate}}
+                </th>
+                <td mat-cell *matCellDef="let row">{{ row.purchaseOrderNO }}</td>
+              </ng-container>
+
+              <ng-container matColumnDef="tranDate">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                  {{'Date' | translate}}
+                </th>
+                <td mat-cell *matCellDef="let row">{{ row.tranDate | date:'dd/MM/yyyy' }}</td>
+              </ng-container>
+
+              <ng-container matColumnDef="invRefNumber">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                  {{'Doc_Num' | translate}}
+                </th>
+                <td mat-cell *matCellDef="let row">{{ row.invRefNumber}}</td>
+              </ng-container>
+              <ng-container matColumnDef="branchCode">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                  {{'Branch' | translate}}
+                </th>
+                <td mat-cell *matCellDef="let row">{{ row.branchCode}}</td>
+              </ng-container>
+              <ng-container matColumnDef="vendCode">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                  {{'Vendor_Code' | translate}}
+                </th>
+                <td mat-cell *matCellDef="let row">{{ row.vendCode}}</td>
+              </ng-container>
+              <ng-container matColumnDef="amount">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                  {{'Amount' | translate}}
+                </th>
+                <td mat-cell *matCellDef="let row">{{ row.tranTotalCost}}</td>
+              </ng-container>
+
+              <ng-container matColumnDef="paymentID">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                  {{'Payment_Terms' | translate}}
+                </th>
+                <td mat-cell *matCellDef="let row">{{ row.paymentID}}</td>
+              </ng-container>
+              <ng-container matColumnDef="taxId">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                  {{'Reference' | translate}}
+                </th>
+                <td mat-cell *matCellDef="let row">{{ row.taxId}}</td>
+              </ng-container>
+              <ng-container matColumnDef="itemName">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                  {{'Item' | translate}}
+                </th>
+                <td mat-cell *matCellDef="let row">{{ row.itemNames}}</td>
+              </ng-container>
+
+              <ng-container matColumnDef="Actions" stickyEnd>
+                <th mat-header-cell *matHeaderCellDef>{{'Actions' | translate}}</th>
+                <td mat-cell *matCellDef="let row">
+
+                  <a class="tableicons pcursor" data-toggle="modal"
+                     data-target="#scrollable-modal" *ngIf="!row.isApproved && !row.isSettled" (click)="edit(row.id)" id="{{'edit_' + row.id}}" matTooltip="{{'Edit_Item' | translate}}"><i class="icon-note"> </i></a> &nbsp;
+                  <a class="tableicons pcursor" data-toggle="modal"
+                     data-target="#scrollable-modal" (click)="view(row.id)" id="{{'view_' + row.id}}" matTooltip="{{'View_Details' | translate}}"><i class="icon-list"> </i></a> &nbsp;
+
+                  <a class="tableicons pcursor" data-toggle="modal"
+                     data-target="#scrollable-modal" (click)="printing(row.id)" id="{{'view_' + row.id}}" matTooltip="{{'Print_Preview' | translate}}"><i class="icon-printer"> </i></a> &nbsp;
+
+
+                  <a class="tableicons" *ngIf="!row.isSettled && !row.isApproved" (click)="delete(row.id)" matTooltip="{{'Delete_Item' | translate}}"><i class="icon-trash"> </i></a>
+                  <ng-container *ngIf="row.hasAuthority">
+                    <a class="tableicons pcursor" *ngIf="!row.approvedUser" (click)="approvePurchaseOrder(row)" matTooltip="{{'Approve_Item' | translate}}"><i class="icon-arrow-up-circle"> </i></a> &nbsp;
+                    <a class="tableicons pcursor" *ngIf="row.canSettle && !row.isSettled" (click)="AccountPosting(row.id)" matTooltip="{{'Posting_Item' | translate}}"><i class="icon-action-undo"> </i></a> &nbsp;
+                  </ng-container>
+                  <!--<a class="tableicons pcursor" data-toggle="modal"
+        data-target="#scrollable-modal" (click)="MultipleGrn(row.purchaseOrderNO)" id="{{'view_' + row.purchaseOrderNO}}"><i class="icon-settings"> </i></a> &nbsp;-->
+                </td>
+              </ng-container>
+
+
+
+
+              <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
+              <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+
+            </table>
+            <ng-container>
+              <mat-paginator [length]="totalItemsCount"
+                             [pageSize]="pageService.pageCount"
+                             [pageSizeOptions]="pageService.selectItemsPerPage"
+                             (page)="onPageSwitch($event)">
+              </mat-paginator>
+
+            </ng-container>
+
+
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+

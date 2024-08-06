@@ -1,0 +1,197 @@
+<h3 class="modal-title">{{modalTitle | translate}}</h3>
+<button type="button" class="close" aria-hidden="true" (click)="closeModel()"> ×</button>
+<form [formGroup]="form" (ngSubmit)="submit()" novalidate class="mt-4">
+  <div class="row">
+
+    <div class="col-md-6 col-lg-6">
+      <div class="form-group">
+        <label>{{'Code' | translate}}</label>
+        <!--<input type="text" readonly={{readonly}}
+         formControlName="skillSetCode"
+         class="form-control" placeholder="{{'Please_Enter' | translate}} {{'Code' | translate}}"
+         [ngClass]="{ 'is-invalid': f.skillSetCode.errors && f.skillSetCode.touched }" (keyup)="verifyCode($event)" />
+
+  <div *ngIf="f.skillSetCode.errors" class="invalid-feedback">
+    <div *ngIf="f.skillSetCode.errors.required">{{'Required' | translate}}</div>
+
+    <div *ngIf="f.skillSetCode.errors.isExist">
+      {{'Code Already Exists' | translate}}
+    </div>
+          </div>-->
+        <input class="form-control" type="text" placeholder="{{'Please_Enter' | translate}} {{'Code' | translate}}" formControlName="skillSetCode" readonly>
+      </div>
+      </div>
+     
+
+      <div class="col-md-6 col-lg-6">
+        <div class="form-group">
+          <label>{{'Skill_Type' | translate}}</label>
+          <select class="form-control" formControlName="skillType">
+            <option value="">{{'Select' | translate}} {{'Skill_Type' | translate}} </option>
+            <option>In-house</option>
+            <option>Contract</option>
+
+          </select>
+          <validation-message [control]="form.controls.skillType"></validation-message>
+        </div>
+      </div>
+
+      <div class="col-md-6 col-lg-6">
+        <div class="form-group">
+          <label>{{'Name_In_English' | translate}}</label>
+          <input class="form-control" type="text"
+                 placeholder="{{'Please_Enter' | translate}} {{'Name_In_English' | translate}}" formControlName="nameInEnglish">
+          <validation-message [control]="form.controls.nameInEnglish"></validation-message>
+        </div>
+      </div>
+
+      <div class="col-md-6 col-lg-6">
+        <div class="form-group">
+          <label>{{'Name_In_Arabic' | translate}}</label>
+          <input class="form-control" type="text"
+                 placeholder="{{'Please_Enter' | translate}} {{'Name_In_Arabic' | translate}}" formControlName="nameInArabic">
+          <validation-message [control]="form.controls.nameInArabic"></validation-message>
+        </div>
+      </div>
+      <div class="col-md-6 col-lg-6">
+        <div class="form-group">
+          <label>{{'Details_of_Skill_Set' | translate}}</label>
+          <input class="form-control" type="text"
+                 placeholder="{{'Please_Enter' | translate}} {{'Details_of_Skill_Set' | translate}}" formControlName="detailsOfSkillSet">
+          <validation-message [control]="form.controls.detailsOfSkillSet"></validation-message>
+        </div>
+      </div>
+      <div class="col-md-6 col-lg-6">
+        <div class="form-group">
+          <label>{{'Skill_Set_Type' | translate}}</label>
+          <select class="form-control" formControlName="skillSetType">
+            <option value="">{{'Select' | translate}} {{'Skill_Set_Type' | translate}} </option>
+            <option>Technical</option>
+            <option>Non-Technical</option>
+
+          </select>
+          <validation-message [control]="form.controls.skillSetType"></validation-message>
+        </div>
+      </div>
+      <div class="col-md-6 col-lg-6">
+        <div class="form-group">
+          <label>{{'Priory_Importance_Scale' | translate}}</label>
+          <select class="form-control" formControlName="prioryImportanceScale">
+            <option value="">{{'Select' | translate}} {{'Priory_Importance_Scale' | translate}} </option>
+            <option>1</option>
+            <option>2</option>
+
+          </select>
+          <validation-message [control]="form.controls.prioryImportanceScale"></validation-message>
+        </div>
+      </div>
+
+      <div class="col-md-6 col-lg-6">
+        <div class="form-group">
+          <label>{{'Min_Buffer_Resource' | translate}}</label>
+          <input class="form-control" type="number"
+                 placeholder="{{'Please_Enter' | translate}} {{'Min_Buffer_Resource' | translate}}" formControlName="minBufferResource">
+          <validation-message [control]="form.controls.minBufferResource"></validation-message>
+        </div>
+      </div>
+      <div class="col-md-6 col-lg-6">
+        <div class="form-group">
+          <label>{{'Monthly_CTC' | translate}}</label>
+          <input class="form-control" type="number"
+                 placeholder="{{'Please_Enter' | translate}} {{'Monthly_CTC' | translate}}" formControlName="monthlyCtc">
+          <validation-message [control]="form.controls.monthlyCtc"></validation-message>
+        </div>
+      </div>
+      <div class="col-md-6 col-lg-6">
+        <div class="form-group">
+          <label>{{'Cost_To_Company_Day' | translate}}</label>
+          <input class="form-control" type="number"
+                 placeholder="{{'Please_Enter' | translate}} {{'Cost_To_Company_Day' | translate}}" formControlName="costToCompanyDay">
+          <validation-message [control]="form.controls.costToCompanyDay"></validation-message>
+        </div>
+      </div>
+      <div class="col-md-6 col-lg-6">
+        <div class="form-group">
+          <label>{{'Monthly_Overhead_Cost' | translate}}</label>
+          <input class="form-control" type="number"
+                 placeholder="{{'Please_Enter' | translate}} {{'Monthly_Overhead_Cost' | translate}}" formControlName="monthlyOverheadCost">
+          <validation-message [control]="form.controls.monthlyOverheadCost"></validation-message>
+
+        </div>
+      </div>
+      <div class="col-md-6 col-lg-6">
+        <div class="form-group">
+          <label>{{'Monthly_Other_Over_Heads' | translate}}</label>
+          <input class="form-control" type="number"
+                 placeholder="{{'Please_Enter' | translate}} {{'Monthly_Other_Over_Heads' | translate}}" formControlName="monthlyOtherOverHeads">
+          <validation-message [control]="form.controls.monthlyOtherOverHeads"></validation-message>
+        </div>
+      </div>
+      <div class="col-md-6 col-lg-6">
+        <div class="form-group">
+          <label>{{'Total_Skillset_Cost' | translate}}</label>
+          <input class="form-control" type="number"
+                 placeholder="{{'Please_Enter' | translate}} {{'Total_Skillset_Cost' | translate}}" formControlName="totalSkillsetCost">
+          <validation-message [control]="form.controls.totalSkillsetCost"></validation-message>
+        </div>
+      </div>
+      <div class="col-md-6 col-lg-6">
+        <div class="form-group">
+          <label>{{'Total_Skillset_Cost_Day' | translate}}</label>
+          <input class="form-control" type="number"
+                 placeholder="{{'Please_Enter' | translate}} {{'Total_Skillset_Cost_Day' | translate}}" formControlName="totalSkillsetCostDay">
+          <validation-message [control]="form.controls.totalSkillsetCostDay"></validation-message>
+        </div>
+      </div>
+      <div class="col-md-6 col-lg-6">
+        <div class="form-group">
+          <label>{{'Service_Price_To_Company' | translate}}</label>
+          <input class="form-control" type="number"
+                 placeholder="{{'Please_Enter' | translate}} {{'Service_Price_To_Company' | translate}}" formControlName="servicePriceToCompany">
+          <validation-message [control]="form.controls.servicePriceToCompany"></validation-message>
+        </div>
+      </div>
+      <div class="col-md-6 col-lg-6">
+        <div class="form-group">
+          <label>{{'Min_Margin_Required' | translate}}</label>
+          <input class="form-control" type="number"
+                 placeholder="{{'Please_Enter' | translate}} {{'Min_Margin_Required' | translate}}" formControlName="minMarginRequired">
+          <validation-message [control]="form.controls.minMarginRequired"></validation-message>
+        </div>
+      </div>
+      <div class="col-md-6 col-lg-6">
+        <div class="form-group">
+          <label>{{'Override_Margin_if_Required' | translate}}</label>
+          <br />
+          <mat-slide-toggle color="primary" formControlName="overrideMarginIfRequired"></mat-slide-toggle>
+        </div>
+      </div>
+
+      <div class="col-md-6 col-lg-6">
+        <div class="form-group">
+          <label>{{'Is_Active' | translate}}</label>
+          <br />
+          <mat-slide-toggle color="primary" formControlName="isActive"></mat-slide-toggle>
+        </div>
+      </div>
+      <div class="col-md-6 col-lg-6">
+        <div class="form-group">
+          <label>{{'Responsibilities_Roles' | translate}}</label>
+          <textarea class="form-control"
+                    placeholder="{{'Please_Enter' | translate}} {{'Responsibilities_Roles' | translate}}" formControlName="responsibilitiesRoles"></textarea>
+          <validation-message [control]="form.controls.responsibilitiesRoles"></validation-message>
+        </div>
+      </div>
+    </div>
+    <div class="row mt-3 ">
+      <div class="col-md-12 col-lg-12 text-center">
+        <input type="button"
+               class="btn waves-effect waves-light btn-rounded   btn-secondary btn-midblock" (click)="closeModel()"
+               value="{{'Cancel' | translate}}" /> &nbsp;
+        <input type="submit"
+               class="btn waves-effect waves-light btn-rounded btn-primary btn-midblock"
+               value="{{'Save' | translate}}" />
+      </div>
+    </div>
+
+</form>

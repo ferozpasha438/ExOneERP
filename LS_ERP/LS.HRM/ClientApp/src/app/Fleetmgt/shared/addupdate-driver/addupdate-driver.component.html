@@ -1,0 +1,83 @@
+<h3 class="modal-title">{{'Addupdate_Fleet_Driver' | translate}}</h3>
+<button type="button" class="close" aria-hidden="true" (click)="closeModel()"> ×</button>
+<form [formGroup]="form" (ngSubmit)="submit()" novalidate class="mt-4">
+  <div class="outer ">
+    <div class="row rowm0 mt-3">
+      <div class="col-md-6 col-lg-6 col-sm-6">
+        <div class="form-group">
+          <label>{{'Driver_Name' | translate}}</label>
+          <input class="form-control" type="text" placeholder="{{'Driver_Name' | translate}}"
+                 formControlName="driverName" />
+          <validation-message [control]="form.controls.driverName"></validation-message>
+        </div>
+      </div>
+
+      <div class="col-md-6 col-lg-6 col-sm-6">
+        <div class="form-group">
+          <label>{{'DriverName_Ar' | translate}}</label>
+          <input class="form-control" type="text" placeholder="{{'DriverName_Ar' | translate}}"
+                 formControlName="driverName_Ar" />
+          <validation-message [control]="form.controls.driverName_Ar"></validation-message>
+        </div>
+      </div>
+
+      <div class="col-md-6 col-lg-6 col-sm-6">
+        <div class="form-group">
+          <label>{{'Iqama_Number' | translate}}</label>
+          <input class="form-control" type="text" placeholder="{{'Iqama_Number' | translate}}"
+                 formControlName="iqamaNumber" />
+          <validation-message [control]="form.controls.iqamaNumber"></validation-message>
+        </div>
+      </div>
+
+      <div class="col-md-6 col-lg-6 col-sm-6">
+        <div class="form-group">
+          <label>{{'License_Number' | translate}}</label>
+          <input class="form-control" type="text" placeholder="{{'License_Number' | translate}}"
+                 formControlName="licenseNumber" />
+          <validation-message [control]="form.controls.licenseNumber"></validation-message>
+        </div>
+      </div>
+
+      <!--<div class="col-md-6 col-lg-6 col-sm-6">
+        <div class="form-group">
+          <label>{{'Validity' | translate}}</label>
+          <input class="form-control" type="text" placeholder="{{'Validity' | translate}}"
+                 formControlName="validity" />
+          <validation-message [control]="form.controls.validity"></validation-message>
+        </div>
+      </div>-->
+
+      <div class="col-md-6 col-lg-6 col-sm-6">
+        <div class="form-group">
+          <label>{{'Validity' | translate}}</label>
+          <div class="input-group ">
+            <input class="form-control datapickerinput" placeholder="{{'Validity' | translate}}"
+                   formControlName="validity"  [matDatepicker]="picker3">
+            <div class="input-group-prepend datapickericon">
+              <mat-datepicker-toggle matSuffix [for]="picker3"></mat-datepicker-toggle>
+              <mat-datepicker #picker3></mat-datepicker><br /><br />
+            </div>
+          </div>
+          <validation-message [control]="form.controls.validity"></validation-message>
+        </div>
+      </div>
+
+
+      <div class="col-md-6 col-lg-6 col-sm-6">
+        <label>{{'Is_Active' | translate}}</label>
+        <div class="form-group">
+          <mat-slide-toggle color="primary" formControlName="isActive"></mat-slide-toggle>
+        </div>
+      </div>
+
+    </div>
+    <div class="row customrow mt-4">
+      <div class="col-lg-12 col-md-12 text-center">
+        <input type="button" class="btn btn-secondary" value="{{'Cancel' | translate}}" (click)="closeModel()" />
+        &nbsp;&nbsp;
+        <input type="submit" class="btn waves-effect waves-light btn-primary" value="{{'Save' | translate}}">
+      </div>
+    </div>
+  </div>
+</form>

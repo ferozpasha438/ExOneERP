@@ -1,0 +1,142 @@
+<h3> {{modalTitle}} <button type="button" class="close" aria-hidden="true" (click)="closeModel()"> ×</button></h3>
+<form [formGroup]="form" (ngSubmit)="submit()" novalidate class="mt-4" #myform="ngForm">
+  <div class="modal-body">
+ {{requestData?.requestSubType}}/{{requestData?.id>0?requestData?.id:'new'}}
+    <div class="outer ">
+      <div class="row rowm0 ">
+
+        <div class="col-md-12 col-lg-12">
+
+          <div class="row mt-3">
+            <div class="col-md-12 col-lg-12">
+              <div class="p-3" style="border:1px solid #f4f4f4;">
+                <div class="row  mt-2" id="inputEntry">
+
+                  <div class="col-md-4 col-lg-4">
+                    <label class="mr-sm-2">{{'Customer_Code' | translate}}</label>
+                    <div class="form-group ">
+
+                      {{requestData.customerCode}}
+
+                    </div>
+
+                  </div>
+
+
+                  <div class="col-md-4 col-lg-4">
+                    <label class="mr-sm-2">{{'Project' | translate}}</label>
+                    <div class="form-group ">
+
+                      {{requestData.projectCode}}
+
+
+                    </div>
+
+                  </div>
+                  <div class="col-md-4 col-lg-4">
+                    <label class="mr-sm-2">{{'Site' | translate}}</label>
+                    <div class="form-group ">
+                      {{requestData.siteCode}}
+
+
+
+
+                    </div>
+
+                  </div>
+
+
+
+
+                  <div *ngIf="requestData?.isCloseReq || requestData?.isSuspendReq || requestData?.isCancelReq ||requestData?.isReOpenReq" class="col-md-4 col-lg-4">
+                    <div class="form-group ">
+                      <label class="mr-sm-2">
+                        {{'Effective_Date' | translate}}
+                      </label>
+
+                      <div class="form-group ">
+                        <div class="input-group ">
+                          <input class="form-control datapickerinput" placeholder=" {{'Please_Enter' | translate}} {{'From_Date' | translate}}" formControlName="effectiveDate"
+                                 [matDatepicker]="picker1" [min]="min1" [max]="max1" (click)="openDatePicker(picker1)">
+
+                          <div class="input-group-prepend datapickericon">
+                            <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
+                            <mat-datepicker #picker1></mat-datepicker>
+                          </div>
+
+                        </div>
+                        <span *ngIf="!(form.get('effectiveDate')?.hasError('required') && myform?.submitted)" style="color:red">
+                          <validation-message [control]="form.controls.effectiveDate"></validation-message>
+                        </span>
+                        <span *ngIf="form.get('effectiveDate')?.hasError('required')&& myform?.submitted" style="color:red">{{'Required'|translate}}</span>
+
+                      </div>
+                    </div>
+                  </div>
+
+                  <div *ngIf="requestData?.isExtendProjReq || requestData?.isReOpenReq" class="col-md-4 col-lg-4">
+                    <div class="form-group ">
+                      <label class="mr-sm-2">
+                        {{'To_Date' | translate}}
+                      </label>
+
+                      <div class="form-group ">
+                        <div class="input-group ">
+                          <input class="form-control datapickerinput" placeholder=" {{'Please_Enter' | translate}} {{'To_Date' | translate}}" formControlName="extensionDate"
+                                 [matDatepicker]="picker2" [min]="min2" (click)="openDatePicker(picker2)">
+
+                          <div class="input-group-prepend datapickericon">
+                            <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
+                            <mat-datepicker #picker2></mat-datepicker>
+                          </div>
+
+                        </div>
+                        <span *ngIf="!(form.get('extensionDate')?.hasError('required') && myform?.submitted)" style="color:red">
+                          <validation-message [control]="form.controls.extensionDate"></validation-message>
+                        </span>
+                        <span *ngIf="form.get('extensionDate')?.hasError('required')&& myform?.submitted" style="color:red">{{'Required'|translate}}</span>
+
+                      </div>
+                    </div>
+                  </div>
+
+
+
+
+
+
+                </div>
+
+              </div>
+            </div>
+
+
+
+
+          </div>
+
+        </div>
+        <div class="col-md-12 col-lg-12">
+
+          <div class="row mt-3 ">
+            <div class="col-md-12 col-lg-12 text-center">
+              <input type="button"
+                     class="btn waves-effect waves-light btn-rounded   btn-secondary btn-midblock"
+                     value="{{'Cancel' | translate}}" (click)="closeModel()" /> &nbsp;
+
+              <input type="submit" *ngIf="modalBtnTitle != 'View'"
+                     class="btn waves-effect waves-light btn-rounded btn-primary btn-midblock"
+                     value="{{'Save' | translate}}" />
+
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+    </div>
+
+
+  </div>
+
+</form>

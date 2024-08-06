@@ -1,0 +1,267 @@
+<div class="page-breadcrumb">
+  <div class="row">
+    <div class="col-12 align-self-center">
+      <h3 class="page-title text-truncate text-dark font-weight-medium mb-1">
+        {{'Customer_Complaints' | translate}}
+      </h3>
+    </div>
+  </div>
+</div>
+
+<div class="modal-body">
+
+
+  <div class="outer  ">
+    <div class="row">
+      <div class="col-md-3 col-lg-3">
+        <div class="form-group">
+          <label>{{'Branch_Code' | translate}}</label>
+          <ng-select [items]="citySelectionList"
+                     bindLabel="lable"
+                     bindValue="value" [(ngModel)]="cityCode" (change)="clearResultData()">  </ng-select>
+        </div>
+      </div>
+      <div class="col-md-6 col-lg-6">
+        <div class="form-group">
+          <label>{{'Customer_Code' | translate}}</label>
+          <ng-select [items]="customerSelectionList"
+                     bindLabel="lable"
+                     bindValue="value" [(ngModel)]="customerCode" (change)="clearResultData()">  </ng-select>
+
+        </div>
+      </div>
+      <div class="col-md-3 col-lg-3">
+        <div class="form-group">
+          <label>{{'Reason_Code' | translate}}</label>
+          <ng-select [items]="reasonCodesSelectionList"
+                     bindLabel="lable"
+                     bindValue="value" [(ngModel)]="reasonCode" (change)="clearResultData()">  </ng-select>
+        </div>
+      </div>
+      <div class="col-md-3 col-lg-3">
+        <div class="form-group">
+          <label>{{'Booked_By' | translate}}</label>
+          <ng-select [items]="usersSelectionList"
+                     bindLabel="lable"
+                     bindValue="value" [(ngModel)]="bookedBy" (change)="clearResultData()">  </ng-select>
+        </div>
+      </div>
+      <div class="col-md-3 col-lg-3">
+        <div class="form-group">
+          <label>{{'Status_Code' | translate}}</label>
+          <ng-select [items]="statusSelectionList"
+                     bindLabel="text"
+                     bindValue="value" [(ngModel)]="statusCode" (change)="clearResultData()">  </ng-select>
+        </div>
+      </div>
+      <div class="col-md-3 col-lg-3">
+        <div class="form-group">
+          <label>{{'From_Date' | translate}}</label>
+          <div class="form-group ">
+            <div class="input-group mb-2">
+              <input class="form-control datapickerinput" placeholder=" {{'Please_Enter' | translate}} {{'From_Date' | translate}}" [(ngModel)]="fromDate"
+                     [matDatepicker]="picker1" (click)="openDatePicker(picker1)">
+
+              <div class="input-group-prepend datapickericon">
+                <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
+                <mat-datepicker #picker1></mat-datepicker>
+              </div>
+
+            </div>
+          </div>
+
+        </div>
+      </div>
+      <div class="col-md-3 col-lg-3">
+        <div class="form-group">
+          <label>{{'To_Date' | translate}}</label>
+          <div class="form-group ">
+            <div class="input-group mb-2">
+              <input class="form-control datapickerinput" placeholder=" {{'Please_Enter' | translate}} {{'To_Date' | translate}}" [(ngModel)]="toDate"
+                     [matDatepicker]="picker2"  (click)="openDatePicker(picker2)" data-date-format='YYYY-MM-DD'>
+
+              <div class="input-group-prepend datapickericon">
+                <mat-datepicker-toggle matSuffix [for]="picker2" ></mat-datepicker-toggle>
+                <mat-datepicker #picker2></mat-datepicker>
+              </div>
+
+
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-md-6 col-lg-6">
+        <div class="form-group">
+          <br />
+          <button type="button" class="btn btn-primary" (click)="search()">Search</button>
+          &nbsp;
+          <button type="button" class="btn btn-primary" (click)="setForm()">
+
+            <i class="icon-refresh"></i>
+          </button>
+          &nbsp;
+          <button *ngIf="company" type="button" class="btn waves-effect waves-light btn-rounded btn-primary btn-midblock" data-toggle="modal" (click)="openPrint()">
+            {{'Print' | translate}}
+          </button>
+        </div>
+      </div>
+
+
+    </div>
+  </div>
+
+  <spinner-loader [isLoading]="isLoading"></spinner-loader>
+
+  <div class="table-responsive" *ngIf="company">
+
+    
+    <br />
+    <br />
+
+    <div class="outer" id="printcontainer">
+      <div class="container-fluid invoice-container print-container" style="width:100%; padding-top:5px;">
+        <ng-container style="padding-bottom: 5px; padding-top: 5px">
+          <table style="background-color:#ffffff; padding-bottom:5px;" cellpadding="0" cellspacing="0" width="100%">
+
+
+            <tr>
+              <td style="text-align: left; border: 0 solid #878787; padding: 5px; font-size: 0.775rem !important; color: #000000; font-family: 'Poppins', sans-serif; font-weight: 600;" width="25%"> {{company.companyName}}</td>
+
+              <td style="border: 0 solid #878787; padding: 5px; font-size: 0.975rem !important; color: #000000; font-family: 'Poppins', sans-serif; font-weight: 600; text-align: center" width="50%">
+                <img src="{{company.logoURL}}" style="width:200px;height:150px;" />
+              </td>
+
+              <td style="text-align: right; border: 0 solid #878787; padding: 5px; font-size: 0.975rem !important; color: #000000; font-family: 'Poppins', sans-serif; font-weight: 600;" width="25%"> {{company.companyNameAr}}</td>
+
+            </tr>
+            <tr>
+              <td style="border: 0 solid #878787; padding: 5px; font-size: 0.975rem !important; color: #000000; font-family: 'Poppins', sans-serif; font-weight: 600; text-align: left">
+                <div class="font-weight-medium">
+                  <br />
+                  {{company.branchName}}
+                  <br />
+                  {{company.companyAddress}}
+                  <br />
+                  {{'Tel_Phone' | translate }} :  {{company.phone}}
+                  <br />
+                </div>
+
+              </td>
+            </tr>
+          </table>
+        </ng-container>
+
+        <table style=" background: #ffffff; border: 0 solid #878787; padding: 5px; font-size: 0.775rem !important; color: #000000; font-family: 'Poppins', sans-serif; font-weight: 400; width: 100%">
+
+          <tr>
+            <th style=" border:0 solid #878787;padding:5px;font-size:0.975rem !important;color: #000000; font-family: 'Poppins', sans-serif;font-weight: 600; text-align:center" colspan="5">
+
+              The Statement of  Customer Complaints  for Date Range: {{fromDate | date:'dd/MM/yyyy'}} to {{toDate | date:'dd/MM/yyyy'}}
+
+            </th>
+          </tr>
+          <tr>
+            <td style=" border:0 solid #878787;padding:5px;font-size:0.775rem !important;color: #000000; font-family: 'Poppins', sans-serif;font-weight: 400;">
+              {{'Customer_Code'|translate}}: {{customerCode != null && customerCode !=''? customerCode:'all'}}
+            </td>
+            <td style=" border:0 solid #878787;padding:5px;font-size:0.775rem !important;color: #000000; font-family: 'Poppins', sans-serif;font-weight: 400;">
+
+              {{'Branch_Code'|translate}}: {{cityCode != null && cityCode !=''? cityCode:'all'}}
+            </td>
+            <td style=" border:0 solid #878787;padding:5px;font-size:0.775rem !important;color: #000000; font-family: 'Poppins', sans-serif;font-weight: 400;">
+              {{'Reason_Code'|translate}}: {{(reasonCode != null && reasonCode !=''? isArabic?result.nameArbReasonCode:result.nameEngReasonCode:'all')}}
+            </td>
+            <td style=" border:0 solid #878787;padding:5px;font-size:0.775rem !important;color: #000000; font-family: 'Poppins', sans-serif;font-weight: 400;">
+              {{'Status_Code'|translate}}: {{statusCode != null && statusCode !=''? statusCode:'all'}}
+            </td>
+            <td style=" border:0 solid #878787;padding:5px;font-size:0.775rem !important;color: #000000; font-family: 'Poppins', sans-serif;font-weight: 400;">
+              {{'Booked_By'|translate}}: {{(bookedBy != null && bookedBy !=''? result?.nameBookedBy:'all')}}
+            </td>
+          </tr>
+
+        </table>
+        </div>
+
+
+          <div class="container-fluid invoice-container print-container" style="width:100%; padding-top:5px;">
+            <ng-container style="padding-bottom: 5px; padding-top: 5px">
+              <table style="background: #ffffff;" border="0" cellpadding="0" cellspacing="0" width="100%">
+                <tr style="text-align:center">
+                  <th style="border:1px solid #878787;padding:5px;font-size:0.875rem !important;color: #000000; font-family: 'Poppins', sans-serif;font-weight:600;">
+                    {{'S.No'|translate}}
+                  </th>
+                  <th colspan="2" style="border:1px solid #878787;padding:5px;font-size:0.875rem !important;color: #000000; font-family: 'Poppins', sans-serif;font-weight:600;">
+                    {{'Customer'|translate}}
+                  </th>
+                  <!--<th style="border:1px solid #878787;padding:5px;font-size:0.875rem !important;color: #000000; font-family: 'Poppins', sans-serif;font-weight:600;">
+                {{'Project_Code'|translate}}
+              </th>-->
+                  <th colspan="2" style="border:1px solid #878787;padding:5px;font-size:0.875rem !important;color: #000000; font-family: 'Poppins', sans-serif;font-weight:600;">
+                    {{'Site'|translate}}
+                  </th>
+                  <th style="border:1px solid #878787;padding:5px;font-size:0.875rem !important;color: #000000; font-family: 'Poppins', sans-serif;font-weight:600;">
+                    {{'Reason_Code'|translate}}
+                  </th>
+                  <th style="border:1px solid #878787;padding:5px;font-size:0.875rem !important;color: #000000; font-family: 'Poppins', sans-serif;font-weight:600;">
+                    {{'Complaint_Date'|translate}}
+                  </th>
+                  <th style="border:1px solid #878787;padding:5px;font-size:0.875rem !important;color: #000000; font-family: 'Poppins', sans-serif;font-weight:600;">
+                    {{'Complaint_By'|translate}}
+                  </th>
+                  <th style="border:1px solid #878787;padding:5px;font-size:0.875rem !important;color: #000000; font-family: 'Poppins', sans-serif;font-weight:600;">
+                    {{'Booked_By'|translate}}
+                  </th>
+                  <th style="border:1px solid #878787;padding:5px;font-size:0.875rem !important;color: #000000; font-family: 'Poppins', sans-serif;font-weight:600;">
+                    {{'Status'|translate}}
+                  </th>
+                </tr>
+                <tr *ngFor="let row of result?.complaints;let i=index" style="text-align: center; padding-bottom: 5px; padding-top: 5px">
+                  <td style="text-align:center; border:1px solid #878787;padding:5px;font-size:0.775rem !important;color: #000000; font-family: 'Poppins', sans-serif;font-weight: 400;">
+                    {{(i+1)}}
+                  </td>
+                  <td style=" border:1px solid #878787;padding:5px;font-size:0.775rem !important;color: #000000; font-family: 'Poppins', sans-serif;font-weight: 400;">
+                    {{row.customerCode}}<br />
+                    {{(isArabic?row.customerNameArb:row.customerNameEng)}}
+                  </td>
+                  <td style=" border:1px solid #878787;padding:5px;font-size:0.775rem !important;color: #000000; font-family: 'Poppins', sans-serif;font-weight: 400;">
+                    {{row.customerAddress}}
+
+                  </td>
+
+
+                  <!--<td style="border:1px solid #878787;padding:5px;font-size:0.775rem !important;color: #000000; font-family: 'Poppins', sans-serif;font-weight: 400;">
+                {{row.projectCode}}
+              </td>-->
+                  <td style="border:1px solid #878787;padding:5px;font-size:0.775rem !important;color: #000000; font-family: 'Poppins', sans-serif;font-weight: 400;">
+                    {{row.siteCode}}<br />
+                    {{(isArabic?row.siteNameArb:row.siteNameEng)}}
+
+
+                  </td>
+                  <td style=" border:1px solid #878787;padding:5px;font-size:0.775rem !important;color: #000000; font-family: 'Poppins', sans-serif;font-weight: 400;">
+                    {{row.siteAddress}}
+                  </td>
+                  <td style="border:1px solid #878787;padding:5px;font-size:0.775rem !important;color: #000000; font-family: 'Poppins', sans-serif;font-weight: 400;">
+                    {{(isArabic?row.easonCodeNameArb:row.reasonCodeNameEng)}}
+                  </td>
+                  <td style="border:1px solid #878787;padding:5px;font-size:0.775rem !important;color: #000000; font-family: 'Poppins', sans-serif;font-weight: 400;">
+                    {{row.complaintDate | date:'dd/MM/YYY'}}
+                  </td>
+                  <td style="border:1px solid #878787;padding:5px;font-size:0.775rem !important;color: #000000; font-family: 'Poppins', sans-serif;font-weight: 400;">
+                    {{row.complaintBy}}
+                  </td>
+                  <td style="border:1px solid #878787;padding:5px;font-size:0.775rem !important;color: #000000; font-family: 'Poppins', sans-serif;font-weight: 400;">
+                    {{row.nameBookedBy}}
+                  </td>
+                  <td style="border:1px solid #878787;padding:5px;font-size:0.775rem !important;color: #000000; font-family: 'Poppins', sans-serif;font-weight: 400;">
+                    {{row.status}}
+                  </td>
+                </tr>
+
+              </table>
+            </ng-container>
+          </div>
+      </div>
+    </div>
+</div>

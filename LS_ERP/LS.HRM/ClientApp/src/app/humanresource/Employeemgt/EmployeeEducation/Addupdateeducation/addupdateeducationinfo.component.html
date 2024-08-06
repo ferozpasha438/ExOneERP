@@ -1,0 +1,111 @@
+<button type="button" class="close" aria-hidden="true" (click)="closeModel()"> ×</button>
+<h2>{{'EducationInfo' | translate}}</h2>
+<hr />
+<div class="col-md-12 col-lg-12">
+  <form [formGroup]="form" (ngSubmit)="submit()" novalidate class="mt-4">
+    <div class="row">
+      <div class="col-md-6 col-lg-6">
+        <div class="form-group">
+          <label for="employeenumber">{{'EmployeeNumber' | translate}}</label>
+          <input class="form-control" id="employeenumber" type="text"
+            placeholder="{{'Please_Enter' | translate}} {{'Employee Number' | translate}}" readonly="readonly"
+            formControlName="employeenumber">
+        </div>
+      </div>
+      <div class="col-md-6 col-lg-6">
+        <div class="form-group ">
+          <label for="dateOfCertification" class="mr-sm-2">
+            {{'DateofCertification' | translate}}
+          </label>
+          <div class="input-group ">
+            <input class="form-control input-mandatory"
+              placeholder=" {{'Please_Enter' | translate}} {{'DateofCertification' | translate}}"
+              formControlName="dateOfCertification" [matDatepicker]="dateOfCertificationDatepicker">
+            <div class="input-group-prepend datapickericon">
+              <mat-datepicker-toggle matSuffix [for]="dateOfCertificationDatepicker"></mat-datepicker-toggle>
+              <mat-datepicker #dateOfCertificationDatepicker></mat-datepicker>
+            </div>
+            <validation-message [control]="form.controls.dateOfCertification"></validation-message>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-6 col-lg-6">
+        <label for="degreeTypeCode" class="mr-sm-2">{{'DegreeType' | translate}}</label>
+        <select class="custom-select input-mandatory mr-sm-2" (change)="loadQualifications()" formControlName="degreeTypeCode">
+          <option value="">{{'DegreeType' | translate}}</option>
+          <option *ngFor="let degreeType of degreeTypes" value="{{degreeType.value}}">{{degreeType.text}}</option>
+        </select>
+        <validation-message [control]="form.controls.degreeTypeCode"></validation-message>
+      </div>
+      <div class="col-md-6 col-lg-6">
+        <div class="form-group ">
+          <label for="collegeOrUniversity">{{'CollegeOrUniversity' | translate}}</label>
+          <input class="form-control input-mandatory" id="collegeOrUniversity" type="text"
+            placeholder="{{'Please_Enter' | translate}} {{'CollegeOrUniversity' | translate}}"
+            formControlName="collegeOrUniversity">
+          <validation-message [control]="form.controls.collegeOrUniversity"></validation-message>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-6 col-lg-6 ">
+        <label for="isTechnicalQualification" class="mr-sm-2">{{'IsTechnicalQualification?' | translate}}</label>
+        <br />
+        <mat-slide-toggle color="primary" (change)="loadQualifications()"
+          formControlName="isTechnicalQualification"></mat-slide-toggle>
+      </div>
+      <div class="col-md-6 col-lg-6">
+        <label for="countryCode" class="mr-sm-2">{{'Country' | translate}}</label>
+        <select class="custom-select input-mandatory mr-sm-2" formControlName="countryCode">
+          <option value="">{{'Country' | translate}}</option>
+          <option *ngFor="let country of countries" value="{{country.value}}">{{country.text}}</option>
+        </select>
+        <validation-message [control]="form.controls.countryCode"></validation-message>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-6 col-lg-6">
+        <label for="qualificationCode" class="mr-sm-2">{{'Qualification' | translate}}</label>
+        <select class="custom-select input-mandatory mr-sm-2" formControlName="qualificationCode">
+          <option value="">{{'Qualification' | translate}}</option>
+          <option *ngFor="let qualification of qualifications" value="{{qualification.value}}">{{qualification.text}}
+          </option>
+        </select>
+        <validation-message [control]="form.controls.qualificationCode"></validation-message>
+      </div>
+      <div class="col-md-6 col-lg-6">
+        <div class="form-group ">
+          <label for="remarks" class="mr-sm-2">
+            {{'Remarks' | translate}}
+          </label>
+          <textarea class="form-control" placeholder=" {{'Please_Enter' | translate}}  {{'Remarks' | translate}}"
+            formControlName="remarks"></textarea>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-6 col-lg-6">
+        <label for="courseTypeCode" class="mr-sm-2">{{'CourseType' | translate}}</label>
+        <select class="custom-select mr-sm-2" formControlName="courseTypeCode">
+          <option value="">{{'Course Type' | translate}}</option>
+          <option *ngFor="let courseType of courseTypes" value="{{courseType.value}}">{{courseType.text}}</option>
+        </select>
+      </div>
+      <div class="col-md-6 col-lg-6">
+        <label for="isActive" class="mr-sm-2">{{'Is_Active' | translate}}</label>
+        <br />
+        <mat-slide-toggle color="primary" formControlName="isActive"></mat-slide-toggle>
+      </div>
+    </div>
+    <div class="row mt-3 ">
+      <div class="col-md-12 col-lg-12 text-center">
+        <input type="button" class="btn waves-effect waves-light btn-rounded   btn-secondary btn-midblock"
+          value="{{'Cancel' | translate}}" (click)="closeModel()" /> &nbsp;
+        <input type="submit" class="btn waves-effect waves-light btn-rounded btn-primary btn-midblock"
+          value="{{'Save' | translate}}" />
+      </div>
+    </div>
+  </form>
+</div>

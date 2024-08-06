@@ -1,0 +1,173 @@
+<div class="page-breadcrumb">
+  <div class="row">
+    <div class="col-12 align-self-center">
+      <h3 class="page-title text-truncate text-dark font-weight-medium mb-1">
+        {{'PDC_List' | translate}}
+      </h3>
+      <div class="d-flex align-items-center">
+        <nav aria-label="breadcrumb">
+          <ol class="breadcrumb m-0 p-0">
+            <li class="breadcrumb-item text-muted">{{'Finance' | translate}} </li>
+            <li class="breadcrumb-item text-muted ">{{'Account_Payable' | translate}}</li>
+            <li class="breadcrumb-item   active" aria-current="page">{{'PDC_List' | translate}} </li>
+
+          </ol>
+        </nav>
+      </div>
+    </div>
+
+  </div>
+</div>
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-md-12 col-lg-12">
+
+      <div class="card">
+        <div class="card-body">
+
+          <div class="row pb-3">
+            <div class="col-md-12 col-lg-12">
+              <!--<h4 class="card-title pt6">{{'PDC_List' | translate}} </h4>-->
+            </div>
+            <div class="col-md-3">
+              <!--(keyup)="applyFilter($event)"-->
+              <input class="form-control" placeholder="{{'Search' | translate}}..." [(ngModel)]="searchValue" />
+            </div>
+            <div class="col-md-4 arabicright">
+              <button (click)="applyFilter(searchValue)" class="btn btn-primary">{{'Search' | translate}}</button> &nbsp;
+              <a (click)="refresh()" class="" matTooltip="{{'Refresh' | translate}}"><i class="btn btn-primary icon-refresh"></i></a>
+            </div>
+          </div>
+
+
+          <div class="row">
+            <div class="col-md-6 col-lg-6">
+              <h4 class="card-title pt6"> {{'PDC_List' | translate}} </h4>
+            </div>
+            <div class="col-md-6 col-lg-6 text-right">
+              <div class="nav-item dropdown">
+                <a data-toggle="modal"
+                   data-target="#scrollable-modal" class="  btn waves-effect waves-light btn-rounded btn-outline-primary" (click)="pdcinitialLoading('pdc')" href="#"> <i class="icon-plus"> </i>{{'PDC_Clear_List' |translate}}  </a>
+                &nbsp;&nbsp; <a data-toggle="modal"
+   data-target="#scrollable-modal" class="  btn waves-effect waves-light btn-rounded btn-outline-primary" (click)="pdcinitialLoading('')" href="#"> <i class="icon-plus"> </i>{{'Non_PDC_Clear_List' |translate}}  </a>
+
+              </div>
+
+            </div>
+
+          </div>
+          <div class="cardtitle-divider"></div>
+          <div class="example-table-container table-responsive pt-3">
+
+            <spinner-loader [isLoading]="isLoading"></spinner-loader>
+
+
+            <ng-container>
+
+              <table mat-table [dataSource]="data" matSort matSortActive="Id"
+                     matSortDisableClear matSortDirection="desc" (matSortChange)="onSortOrder($event)" class="table  table-bordered no-wrap">
+                <ng-container matColumnDef="voucherNumber">
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                    {{'Voucher' | translate}}
+                  </th>
+                  <td mat-cell *matCellDef="let row">{{ row.voucherNumber }}</td>
+                </ng-container>
+
+                <ng-container matColumnDef="custName">
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                    {{'Vendor_Name' | translate}}
+                  </th>
+                  <td mat-cell *matCellDef="let row">{{ row.custName }}</td>
+                </ng-container>
+
+                <ng-container matColumnDef="branchName">
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                    {{'Branch' | translate}}
+                  </th>
+                  <td mat-cell *matCellDef="let row">{{ row.branchName }}</td>
+                </ng-container>
+
+
+                <ng-container matColumnDef="tranDate">
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                    {{'Trans_Date' | translate}}
+                  </th>
+                  <td mat-cell *matCellDef="let row">{{ row.tranDate | date:'dd/MM/yyyy' }}</td>
+                </ng-container>
+
+                <ng-container matColumnDef="docNum">
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                    {{'Document' | translate}}
+                  </th>
+                  <td mat-cell *matCellDef="let row">{{ row.docNum }}</td>
+                </ng-container>
+                <ng-container matColumnDef="checkNumber">
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                    {{'Check_Number' | translate}}
+                  </th>
+                  <td mat-cell *matCellDef="let row">{{ row.checkNumber}}</td>
+                </ng-container>
+                <ng-container matColumnDef="checkdate">
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                    {{'Check_Date' | translate}}
+                  </th>
+                  <td mat-cell *matCellDef="let row">{{ row.checkDate | date:'dd/MM/yyyy' }}</td>
+                </ng-container>
+                <ng-container matColumnDef="amount">
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                    {{'Amount' | translate}}
+                  </th>
+                  <td mat-cell *matCellDef="let row">{{ row.amount | decimalpipe}} </td>
+                </ng-container>
+
+                <ng-container matColumnDef="Actions" stickyEnd>
+                  <th mat-header-cell *matHeaderCellDef>{{'Actions' | translate}}</th>
+                  <td mat-cell *matCellDef="let row">
+
+                    <div class="nav-item dropdown">
+                      <a href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="icon-options-vertical"></i></a>
+
+                      <div class="dropdown-menu dropdown-menu-custom" aria-labelledby="navbarDropdown" style="transform: translate3d(0px, -61px, 0px)!important;">
+                        <ng-container *ngIf="!approval">
+                        <a data-toggle="modal" class="dropdown-item" href="#">.</a>
+                        <a data-toggle="modal" class="dropdown-item" href="#" (click)="edit(row.id)">{{'Edit' | translate}}</a>
+                        <a data-toggle="modal" class="dropdown-item" href="#" (click)="post(row)">{{'Post' | translate}}</a>
+                        <!--<a data-toggle="modal" class="dropdown-item" href="#" (click)="voidStatus(row)">{{'Void' | translate}}</a>-->                                                
+                        </ng-container>
+                        <a data-toggle="modal" class="dropdown-item" href="#" (click)="print(row.id)">{{'Print' | translate}}</a>
+                      </div>
+                    </div>
+
+                    <!--<a class="tableicons" (click)="print(row.vendCode)"><i class="icon-printer"> </i></a>&nbsp;-->
+                    <!--<a class="tableicons" (click)="post(row)" *ngIf="!row.isPdcCleared" matTooltip="{{'Posting_Item' | translate}}"><i class="icon-action-redo"> </i></a>-->
+                    <!--<a class="tableicons" (click)="vendorReceipt(row.id)" matTooltip="{{'Print' | translate}}"><i class="icon-settings"> </i></a>&nbsp;-->
+
+                  </td>
+                </ng-container>
+
+                <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
+                <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+
+              </table>
+              <ng-container>
+                <mat-paginator [length]="totalItemsCount"
+                               [pageSize]="pageService.pageCount"
+                               [pageSizeOptions]="pageService.selectItemsPerPage"
+                               (page)="onPageSwitch($event)">
+                </mat-paginator>
+
+              </ng-container>
+            </ng-container>
+            <!--<ng-template #noData>
+              <no-apidata></no-apidata>
+            </ng-template>-->
+          </div>
+
+
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<!--
+<!-- Long Content Scroll Modal -->

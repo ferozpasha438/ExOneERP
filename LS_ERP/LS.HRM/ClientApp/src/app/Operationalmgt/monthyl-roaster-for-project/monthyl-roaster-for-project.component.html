@@ -1,0 +1,342 @@
+<h3 class="modal-title">{{modalTitle | translate}}</h3>
+<button type="button" class="close" aria-hidden="true" (click)="closeModel()"> ×</button>
+<form [formGroup]="form" (ngSubmit)="submit()" novalidate class="mt-4">
+  <div class="modal-body">
+    <div class="outer ">
+      <div class="row rowm0 ">
+
+        <div class="col-md-12 col-lg-12">
+          <div class="row  " hidden>
+          </div>
+          <div class="row mt-3">
+            <div class="col-md-12 col-lg-12">
+              <div class="p-3" style="border:1px solid #f4f4f4;">
+                <div class="row  mt-2">
+
+                  <div class="col-md-3 col-lg-3">
+                    <label class="mr-sm-2">{{'Customer_Code' | translate}}</label>
+                    <div class="form-group ">
+                      <div class="input-group mb-2">
+                       
+
+                        <input class="form-control" type="text"
+                               placeholder="{{'Please_Enter' | translate}} {{'Customer_Code' | translate}}" formControlName="customerCode" readonly>
+
+                      </div>
+
+                      <validation-message [control]="form.controls.customerCode"></validation-message>
+
+                    </div>
+
+                  </div>
+
+                  <div class="col-md-3 col-lg-3">
+                    <label class="mr-sm-2">{{'Project_Code' | translate}}</label>
+                    <div class="form-group ">
+                      <div class="input-group mb-2">
+                        <auto-loader [isLoading]="isDataLoading"></auto-loader>
+
+                        <input class="form-control" type="text"
+                               placeholder="{{'Please_Enter' | translate}} {{'Project_Code' | translate}}" formControlName="projectCode" readonly>
+
+                      </div>
+
+                      <validation-message [control]="form.controls.projectCode"></validation-message>
+
+                    </div>
+
+                  </div>
+                  <div class="col-md-2 col-lg-2">
+                    <div class="form-group">
+                      <label>{{'Project_Start_Date' | translate}}</label>
+                      <input class="form-control" type="text"
+                             formControlName="startDate" readonly>
+                    </div>
+                  </div>
+                  <div class="col-md-2 col-lg-2">
+                    <div class="form-group">
+
+
+                      <label>{{'Project_End_Date' | translate}}</label>
+                      <input class="form-control" type="text"
+                             formControlName="endDate" readonly>
+                    </div>
+
+                  </div>
+                  <div class="col-md-3 col-lg-3">
+                    <div class="form-group ">
+                      <label class="mr-sm-2">{{'Site_Code' | translate}}</label>
+                      <select class="custom-select mr-sm-2" formControlName="siteCode" (change)="onSelectSiteCode($event)">
+                        <option value="">{{'Select' | translate}} {{'Site_Code' | translate}} </option>
+                        <option *ngFor="let site of siteCodeList" value="{{site.siteCode}}">{{site.siteCode}}({{ !isArab?site.siteName:site.siteArbName}})</option>
+                      </select>
+                      <validation-message [control]="form.controls.siteCode"></validation-message>
+                    </div>
+                  </div>
+                  <div class="col-md-3 col-lg-3">
+                    <div class="form-group ">
+                      <label class="mr-sm-2">{{'Year_Month' | translate}}</label>
+                      <div class="form-group ">
+                        <div class="input-group mb-2">
+                          <input class="form-control datapickerinput" [matDatepicker]="dp2" [min]="minDate" [max]="maxDate" placeholder="{{'Select' | translate}} {{'Year_Month'}}" (click)="openDatePicker(dp2)" formControlName="monthYear">
+                          <mat-datepicker-toggle matSuffix [for]="dp2"></mat-datepicker-toggle>
+                          <mat-datepicker #dp2 startView="year" data-date-format="mm/yyyy" (monthSelected)="closeDatePicker($event,dp2)"></mat-datepicker>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal-body" *ngIf="shiftsReport.length!=0">
+    <div class="outer">
+      <table style="width: 100%;" border="0" cellpadding="0" cellspacing="0" width="100%" class="table  table-bordered no-wrap">
+        <tr>
+          <th style="padding: 3px; font-size: 0.775rem !important; color: #000000; font-family: 'Poppins', sans-serif; font-weight: 600; text-align: center">
+            {{'S.N' | translate}}
+          </th>
+          <th style="padding: 3px; font-size: 0.775rem !important; color: #000000; font-family: 'Poppins', sans-serif; font-weight: 600; text-align: center">
+            {{'Position' | translate}}
+          </th>
+          <th style="padding: 3px; font-size: 0.775rem !important; color: #000000; font-family: 'Poppins', sans-serif; font-weight: 600; text-align: center">
+            {{'Qty_Of_Manpower' | translate}}
+          </th>
+
+          <th style="padding: 3px; font-size: 0.775rem !important; color: #000000; font-family: 'Poppins', sans-serif; font-weight: 600; text-align: center">
+            {{'Daily_Hrs' | translate}}
+          </th>
+          <th style="padding: 3px; font-size: 0.775rem !important; color: #000000; font-family: 'Poppins', sans-serif; font-weight: 600; text-align: center">
+            {{'Monthly_Hrs' | translate}}
+          </th>
+          <th style="padding: 3px; font-size: 0.775rem !important; color: #000000; font-family: 'Poppins', sans-serif; font-weight: 600; text-align: center">
+            {{'Monthly_Shifts_Schedulled' | translate}}
+          </th>
+          <th style="padding: 3px; font-size: 0.775rem !important; color: #000000; font-family: 'Poppins', sans-serif; font-weight: 600; text-align: center">
+            {{'Monthly_Shifts_Assigned' | translate}}
+          </th>
+          <th style="padding: 3px; font-size: 0.775rem !important; color: #000000; font-family: 'Poppins', sans-serif; font-weight: 600; text-align: center">
+            {{'Offs' | translate}}
+          </th>
+          <!--<th style="padding: 3px; font-size: 0.775rem !important; color: #000000; font-family: 'Poppins', sans-serif; font-weight: 600; text-align: center">
+            {{'Replacements' | translate}}
+          </th>-->
+
+        </tr>
+        <tr *ngFor="let row of shiftsReport;let i=index;">
+
+          <td style="padding: 2px; text-align: left; font-size: 0.775rem !important; color: #000000; font-family: 'Poppins', sans-serif; font-weight: 300; text-align: center">
+
+            {{i+1}}
+          </td>
+          <td style="padding: 2px; text-align: left; font-size: 0.775rem !important; color: #000000; font-family: 'Poppins', sans-serif; font-weight: 300; text-align: center">
+
+            {{ !isArab?getSkillset(row.position).text:getSkillset(row.position).textTwo}}
+          </td>
+          <td style="padding: 2px; text-align: center; font-size: 0.775rem !important; color: #000000; font-family: 'Poppins', sans-serif; font-weight: 300; text-align: center">
+
+            {{row.dailyShifts}}
+          </td>
+          <td style="padding: 2px; text-align: center; font-size: 0.775rem !important; color: #000000; font-family: 'Poppins', sans-serif; font-weight: 300; text-align: center">
+
+            {{row.dailyHrs}}
+          </td>
+          <td style="padding: 2px; text-align: center; font-size: 0.775rem !important; color: #000000; font-family: 'Poppins', sans-serif; font-weight: 300; text-align: center">
+
+            {{row.monthlyHrs}}
+          </td>
+          <td style="padding: 2px; text-align: center; font-size: 0.775rem !important; color: #000000; font-family: 'Poppins', sans-serif; font-weight: 300; text-align: center">
+
+            {{row.monthlyShiftsSchedulled}}
+          </td>
+          <td style="padding: 2px; text-align: center; font-size: 0.775rem !important; color: #000000; font-family: 'Poppins', sans-serif; font-weight: 300; text-align: center">
+
+            {{row.monthlyShiftsAssigned}}
+          </td>
+          <td style="padding: 2px; text-align: center; font-size: 0.775rem !important; color: #000000; font-family: 'Poppins', sans-serif; font-weight: 300; text-align: center">
+
+            {{row.monthlyOffs}}
+          </td>
+          <!--<td style="padding: 2px; text-align: center; font-size: 0.775rem !important; color: #000000; font-family: 'Poppins', sans-serif; font-weight: 300; text-align: center">
+
+            {{row.monthlyReplacements}}
+          </td>-->
+
+
+
+        </tr>
+
+
+      </table>
+    </div>
+  </div>
+
+
+
+
+
+
+
+  <div class="table-responsive" *ngIf="noOfDays!=0" id="inputEntry">
+
+    <table id="zero_config1" class="table  table-bordered">
+
+      <thead>
+        <tr>
+          <th colspan="2" style="font-size:0.775rem !important;color: #000000; font-family: 'Poppins', sans-serif;font-weight:600;padding: 2px">{{selectedMonth}}</th>
+
+          <th *ngFor="let item of listOfDays; let i = index;" style="font-size:0.775rem !important;color: #000000; font-family: 'Poppins', sans-serif;font-weight:600;padding: 2px">{{i+1}}</th>
+          <td></td>
+          <td></td>
+          <td></td>
+        </tr>
+        <tr>
+          <th style="font-size:0.775rem !important;color: #000000; font-family: 'Poppins', sans-serif;font-weight:600;padding: 2px">
+            {{'Employee' | translate}}
+          </th>
+          <th style="font-size:0.775rem !important;color: #000000; font-family: 'Poppins', sans-serif;font-weight:600;padding: 2px">
+            {{'Position' | translate}}
+          </th>
+          <th *ngFor="let items of listOfDays; let j = index;" style="font-size:0.775rem !important;color: #000000; font-family: 'Poppins', sans-serif;font-weight:600;padding: 2px">
+            {{items.dayText}}
+          </th>
+          <td></td>
+          <td></td>
+          <td></td>
+        </tr>
+      </thead>
+      <tbody style="font-size:0.775rem !important;color: #000000; font-family: 'Poppins', sans-serif;font-weight:300;">
+        <tr>
+          <td style="width: auto; padding: 1px 1px 1px 1px; text-align: center; padding: 1px 1px 1px 1px;">
+            {{employeeNumber}}
+          </td>
+          <td style="width: auto; padding: 1px 1px 1px 1px; text-align: center; padding: 1px 1px 1px 1px;">
+
+            {{skillsetCode}}
+          </td>
+
+          <td *ngFor="let shft of shiftsFormControls.controls; last as isLast; index as idx" style="text-align: center; width: auto; padding: 1px 1px 1px 1px; ">
+
+            <select [formControl]="shft" (change)="onSelectShift($event,idx)" style="text-align: center; font-size: small; color: #000000; padding: 3px 1px 3px 1px;">
+              <option value='' style="width: auto; padding: 1px 1px 1px 1px; text-align: center; color: #000000"></option>
+              <option *ngFor="let sc of listOfShiftCodes" value="{{sc.shiftCode}}" style="width: auto; padding: 3px 1px 3px 1px; text-align: center; color: #000000">{{sc.shiftCode}}</option>
+            </select>
+          </td>
+          <td style="width:auto;padding:1px 1px 1px 1px;text-align:center">{{newTotalShifts}}</td>
+          <td style="width:auto;padding:1px 1px 1px 1px;text-align:center"> <i class="fas fa-plus-circle" (click)="addEntry()"></i></td>
+          <td style="width:auto;padding:1px 1px 1px 1px;text-align:center"> <i class="fas fa-eraser" (click)="clearEntry()"></i></td>
+        </tr>
+
+      </tbody>
+    </table>
+  </div>
+  <div class="table-responsive" *ngIf="RoastersCount()!=0">
+
+    <table id="zero_config1" class="table  table-bordered no-wrap">
+      <thead>
+        <tr>
+          <th colspan="3" style="font-size:0.775rem !important;color: #000000; font-family: 'Poppins', sans-serif;font-weight:600;padding: 2px"> {{selectedMonth}}</th>
+
+          <th *ngFor="let item of listOfDays; let i = index;" style="font-size:0.775rem !important;color: #000000; font-family: 'Poppins', sans-serif;font-weight:600;padding: 2px">{{i+1}}</th>
+          <td></td>
+          <!--<td></td>-->
+        </tr>
+        <tr>
+          <th style="font-size:0.775rem !important;color: #000000; font-family: 'Poppins', sans-serif;font-weight:600;padding: 2px">
+            {{'Employee_Number' | translate}}
+          </th>
+  <th style="font-size:0.775rem !important;color: #000000; font-family: 'Poppins', sans-serif;font-weight:600;padding: 2px">
+            {{'Employee_Name' | translate}}
+          </th>
+          <th style="font-size:0.775rem !important;color: #000000; font-family: 'Poppins', sans-serif;font-weight:600;padding: 2px">
+            {{'Position' | translate}}
+          </th>
+
+          <th *ngFor="let items of listOfDays; let j = index;" style="font-size:0.775rem !important;color: #000000; font-family: 'Poppins', sans-serif;font-weight:600;padding: 2px">
+            {{items.dayText}}
+
+          </th>
+          <td></td>
+        </tr>
+      </thead>
+      <tbody style="font-size:0.775rem !important;color: #000000; font-family: 'Poppins', sans-serif;font-weight:300;">
+        <tr *ngFor="let rst of listOfRoasters; let k = index;">
+
+          <td style="padding: 3px">
+
+            {{rst.employeeNumber}}
+
+          </td>
+          <td style="padding: 3px">
+
+            {{ !isArab? getEmployee(rst.employeeNumber)?.text:getEmployee(rst.employeeNumber)?.textAr}}
+
+          </td>
+          <td style="padding: 3px">
+            <!--{{rst.skillsetCode}}/-->
+            {{ !isArab?getSkillset(rst.skillsetCode).text:getSkillset(rst.skillsetCode).textTwo}}
+
+
+
+          </td>
+
+
+          <td *ngFor="let d of listOfDays; let l = index;" style="padding: 3px">
+            <span *ngIf="rst.shiftCodesForMonth[l]!='x'"> {{rst.shiftCodesForMonth[l]}}</span>
+
+          </td>
+          <td style="padding: 3px"> {{totalShiftsRow[k]}} </td>
+          <td style="padding: 3px"> <i class="fas icon-note" (click)="editRoasterEntry(this.k)"></i></td>
+
+        </tr>
+        <tr>
+          <th colspan="3" style="font-size:0.775rem !important;color: #000000; font-family: 'Poppins', sans-serif;font-weight:300;padding: 2px">{{'Total_Shifts' | translate}}</th>
+          <th *ngFor="let d of listOfDays; let l = index;" style="font-size:0.775rem !important;color: #000000; font-family: 'Poppins', sans-serif;font-weight:600;padding: 2px">{{totalShiftsCol[l]}}</th>
+          <th style="padding: 3px">{{grandTotalShifts}}</th>
+
+
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="row mt-12 text-right">
+
+
+    <div class="col-md-9 col-lg-9 text-center" style="padding-top:15px">
+
+      </div>
+
+
+      <div class="col-md-1 col-lg-1 text-center" style="padding-top:15px">
+        <auto-loader [isLoading]="isLoading"></auto-loader>
+      </div>
+
+      <div class="col-md-1col-lg-1 text-center" style="padding-top:15px">
+
+        <input type="button"
+               class="btn waves-effect waves-light btn-rounded   btn-secondary btn-midblock"
+               value="{{'Cancel' | translate}}" (click)="closeModel()" />
+      </div>
+
+
+
+      <div class="col-md-1 col-lg-1 text-center" style="padding-top:15px">
+
+        <input type="submit"
+               class="btn waves-effect waves-light btn-rounded btn-primary btn-midblock"
+               value="{{'Save' | translate}}" />
+      </div>
+
+
+    </div>
+
+
+
+</form>
+

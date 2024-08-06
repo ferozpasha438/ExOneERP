@@ -1,0 +1,189 @@
+<div class="container-fluid">
+
+  <div class="row">
+    <div class="col-12 align-self-center">
+      <h3 class="page-title text-truncate text-dark font-weight-medium mb-1">
+        {{'Vendor_Payment' | translate}}
+      </h3>
+      <div class="d-flex align-items-center">
+        <nav aria-label="breadcrumb">
+          <ol class="breadcrumb m-0 p-0">
+            <li class="breadcrumb-item text-muted"> {{'Administration' | translate}} </li>
+            <li class="breadcrumb-item text-muted ">{{'Sales_Management' | translate}}</li>
+            <li class="breadcrumb-item   active" aria-current="page">{{'Vendor_Payment' | translate}}</li>
+
+          </ol>
+        </nav>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- ============================================================== -->
+  <!-- End Bread crumb and right sidebar toggle -->
+  <!-- ============================================================== -->
+  <!-- ============================================================== -->
+  <!-- Container fluid  -->
+  <!-- ============================================================== -->
+
+  <div class="row">
+    <div class="col-md-12 col-lg-12">
+      <div class="card">
+        <div class="card-body">
+          <div class="row">
+            <div class="col-md-7 col-lg-9">
+              <h4 class="card-title pt6">{{'Vendor_Payment' | translate}} </h4>
+            </div>
+          </div>
+          <div class="cardtitle-divider"></div>
+          <div class="row">
+            <div class="col-md-4 col-lg-4">
+              <div class="form-group">
+                <label>{{'Vendor_Code' | translate}}</label>
+
+                <auto-loader [isLoading]="isCodeLoading"></auto-loader>
+                <input type="text" class="form-control"
+                       placeholder="{{'Please_Enter' | translate}} {{'Vendor_Code' | translate}}"
+                       [formControl]="codeControl"
+                       matInput
+                       [matAutocomplete]="auto1">
+                <mat-autocomplete #auto1="matAutocomplete">
+                  <mat-option *ngFor="let option of filteredOptions | async"
+                              [value]="option.value">
+                    <!--[value]="option.text + '-' + option.value"> (optionSelected)="selectedOption($event)" -->
+                    ({{option.value}}) {{option.textTwo}}
+                  </mat-option>
+                </mat-autocomplete>
+
+                <!--<input class="form-control" type="text" placeholder="{{'Please_Enter' | translate}} {{'Vendor_Code' | translate}}" [(ngModel)]="vendCode">-->
+              </div>
+            </div>
+            <div class="col-md-4 col-lg-4">
+              <div class="form-group">
+                <label>{{'From_Date' | translate}}</label>
+                <div class="form-group ">
+                  <div class="input-group mb-2">
+                    <input class="form-control datapickerinput" placeholder="{{'Select_a_Date' | translate}}" [(ngModel)]="dateFrom"
+                           [matDatepicker]="picker1">
+
+                    <div class="input-group-prepend datapickericon">
+                      <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
+                      <mat-datepicker #picker1></mat-datepicker><br /><br />
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-4 col-lg-4">
+              <div class="form-group">
+                <label>{{'To_Date' | translate}}</label>
+                <div class="form-group ">
+                  <div class="input-group mb-2">
+                    <input class="form-control datapickerinput" placeholder="{{'Select_a_Date' | translate}}" [(ngModel)]="dateTo"
+                           [matDatepicker]="picker2">
+
+                    <div class="input-group-prepend datapickericon">
+                      <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
+                      <mat-datepicker #picker2></mat-datepicker><br /><br />
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+
+            <div class="col-md-12 col-lg-12">
+              <div class="form-group pt" style="padding-top:35px;padding-left:20px">
+                <!--<input class="form-check-input" type="checkbox" [(ngModel)]="isAllVendors">-->
+                <mat-slide-toggle color="primary" [(ngModel)]="isAllVendors"> </mat-slide-toggle>
+                {{'Vend_Statement_Balance' | translate}}
+
+              </div>
+            </div>
+          </div>
+          <div class="row mb-4 ">
+            <div class="col-md-12 col-lg-12 text-center">
+              <!--<input type="submit" class="btn waves-effect waves-light btn-rounded   btn-secondary btn-midblock" value=" {{'Clear' | translate}}"> &nbsp;-->
+              <button type="button" class="btn waves-effect waves-light btn-rounded btn-primary btn-midblock" data-toggle="modal" (click)="search()">
+                {{'Search' | translate}}
+              </button>
+            </div>
+          </div>
+
+
+        </div>
+
+
+
+      </div>
+    </div>
+
+  </div>
+
+
+  <div class="modal-content" *ngIf="vendorList && vendorList.length > 0">
+    <div class="modal-body">
+      <button type="button" class="btn waves-effect waves-light btn-rounded btn-primary btn-midblock" data-toggle="modal" (click)="openPrint()">
+        {{'Print' | translate}}
+      </button>
+      <br />
+      <div class="outer" id="printcontainer">
+        <div class="text-center font-weight-medium">
+          {{companyName}}  <img src="{{logoURL}}" style="width:200px;height:150px;float:right;" *ngIf="companyName" />
+          <br />
+          {{branchName}}
+          <br />
+          {{companyAddress}}
+        </div>
+
+        <br />
+        <div class="text-center font-weight-medium" *ngIf="dateFrom && dateTo">
+          <p>
+            The Statement of " Payment Summary" for {{dateFrom | date:'dd/MM/yyyy'}} to {{dateTo | date:'dd/MM/yyyy'}}
+          </p>
+        </div>
+
+        <div class="table-responsive">
+          <spinner-loader [isLoading]="isLoading"></spinner-loader>
+
+          <table style="width:100%; padding-bottom:5px;" border="1" cellpadding="0" cellspacing="0" width="100%" class="ur_tablestyle">
+            <thead>
+              <tr>
+                <th class="w10per" style="padding:10px;">{{'Vendor_Code' | translate}}</th>
+                <th>{{'Vendor_Name' | translate}}</th>
+                <th class="w10per">{{'Amount' | translate}} </th>
+
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let item of vendorList">
+                <td style="padding:8px;">{{item.vendCode}}</td>
+                <td>{{item.vendName}}</td>
+                <td class="text-right">{{item.drAmount | decimalpipe}}</td>
+
+              </tr>
+            </tbody>
+            <tfoot>
+
+              <tr class="tfoot">
+                <td colspan="1" class="text-right "> </td>
+                <td class="text-center">{{'Total_Balance' | translate}} </td>
+                <td class="text-right">{{totalBalance | decimalpipe}}</td>
+              </tr>
+
+            </tfoot>
+          </table>
+        </div>
+
+
+      </div>
+
+
+    </div>
+
+
+  </div>
+
+  <h3 *ngIf="vendorList && vendorList.length === 0">{{'No_Records' | translate}}</h3>
+</div>
+

@@ -1,0 +1,92 @@
+ <!-- Left Sidebar - style you can find in sidebar.scss  -->
+<!-- ============================================================== -->
+<aside class="left-sidebar" data-sidebarbg="skin6">
+  <!-- Sidebar scroll-->
+  <div class="scroll-sidebar" data-sidebarbg="skin6">
+    <!-- Sidebar navigation-->
+    <nav class="sidebar-nav">
+      <ul id="sidebarnav">
+        <li class="sidebar-item selected">
+          <a class="sidebar-link sidebar-link active" routerLink="/dashboard"
+             aria-expanded="false">
+            <i data-feather="home" class="feather-icon"></i><span class="hide-menu">Dashboard</span>
+          </a>
+        </li>
+        <li class="list-divider"></li>
+
+        <li *ngFor="let menu of menuItems">
+          <ul>            
+            <li class="sidebar-item" (click)="moduleExpander(menu.mainModule.module)">
+              <a class="sidebar-link has-arrow defaultColor" href="javascript:void(0)">
+                <span class="span_fontSize hide-menu">{{language === 'ar' ? menu.mainModule.moduleAr : menu.mainModule.moduleEn}} </span>
+              </a>
+            </li>
+            <li class="sidebar-item d-none {{menu.mainModule.module}}" *ngIf="menu.subModules && menu.subModules.length > 0">
+              <a class="sidebar-link" [routerLink]="[SM.isForm ? SM.path : '#']"
+                 aria-expanded="false" *ngFor="let SM of menu.subModules">
+                <i data-feather="file-text" class="feather-icon"></i><span class="hide-menu">{{language === 'ar' ? SM.menuNameArb : SM.menuNameEng}}</span>
+              </a>
+            </li>
+
+            <li class="sidebar-item d-none {{menu.mainModule.module}}">
+
+              <ng-container *ngIf="menu.mItems && menu.mItems.length > 0">
+                <ng-container *ngFor="let mItem of menu.mItems">
+                  <a class="sidebar-link has-arrow defaultColor" href="javascript:void(0)" id="{{mItem.subModule.moduleEn}}"
+                     aria-expanded="false" (click)="expander(mItem.subModule.moduleEn)">
+                    <i data-feather="file-text" class="feather-icon"></i><span class="hide-menu">{{language === 'ar' ? mItem.subModule.moduleAr : mItem.subModule.moduleEn}}</span>
+                  </a>
+
+                  <ul aria-expanded="false" class="collapse subLevel  first-level base-level-line li" id="ul_{{mItem.subModule.moduleEn}}">
+                    <!--<ul aria-expanded="false" class="collapse first-level ase-level-line li">-->
+                    <li class="sidebar-item" *ngFor="let link of mItem.links">
+                      <a [routerLink]="[link.path]" class="sidebar-link">
+                        <span class="hide-menu">
+                          {{ language === 'ar' ? link.menuNameArb : link.menuNameEng}}
+                        </span>
+                      </a>
+                    </li>
+                  </ul>
+                </ng-container>
+              </ng-container>
+
+            </li>
+
+          </ul>
+        </li>
+
+
+
+        <!--<li *ngFor="let menu of menuItems">
+          <ul>
+            <li class="nav-small-cap"><span class="hide-menu">{{language === 'ar' ? menu.moduleAr : menu.moduleEn}}</span></li>
+            <li class="sidebar-item">
+              <a class="sidebar-link has-arrow" href="javascript:void(0)"
+                 aria-expanded="false">
+                <i data-feather="file-text" class="feather-icon"></i><span class="hide-menu">{{language === 'ar' ? menu.subModuleAr : menu.subModuleEn}}</span>
+              </a>
+
+              <!--<ul aria-expanded="false" class="collapse  first-level base-level-line li">
+              <ul aria-expanded="false" class="ollapse first-level ase-level-line li">
+                <li class="sidebar-item" *ngFor="let link of menu.items">
+                  <a [routerLink]="[link.path]" class="sidebar-link">
+                    <span class="hide-menu">
+                      {{ language === 'ar' ? link.menuNameArb : link.menuNameEng}}
+                    </span>
+                  </a>
+                </li>
+              </ul>
+            </li>
+          </ul>
+        </li>-->
+
+
+
+      </ul>
+    </nav>
+    <!-- End Sidebar navigation -->
+  </div>
+  <!-- End Sidebar scroll-->
+</aside>
+<!-- ============================================================== -->
+<!-- End Left Sidebar - style you can find in sidebar.scss  -->

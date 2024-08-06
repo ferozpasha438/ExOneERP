@@ -1,0 +1,306 @@
+<h3> {{'Create_New_Service_Enquiry' | translate}} <button type="button" class="close" aria-hidden="true" (click)="closeModel()"> ×</button></h3>
+<form [formGroup]="form" (ngSubmit)="submit()" novalidate class="mt-4">
+  <div class="modal-body">
+    <div class="outer ">
+      <div class="row rowm0 ">
+
+        <div class="col-md-12 col-lg-12">
+          <div class="row  " hidden>
+
+            <div class="col-sm-3   ">
+              <label class="mr-sm-2">{{'Enquiry_Status' | translate}}</label>
+              <select class="custom-select mr-sm-2" formControlName="stusEnquiryHead">
+                <option value="Open">{{'Select ' | translate}} {{'Enquiry_Status' | translate}}</option>
+                <option value="Open">{{'Open' | translate}} </option>
+                <option value="Closed">{{'Closed' | translate}} </option>
+                <option value="InProgress">{{'InProgress' | translate}} </option>
+
+              </select>
+             
+            </div>
+
+          </div>
+          <div class="row mt-3">
+            <div class="col-md-12 col-lg-12">
+              <div class="p-3" style="border:1px solid #f4f4f4;">
+                <div class="row  mt-2">
+                  <div class="col-md-3 col-lg-3">
+
+                    <div class="form-group ">
+                      <label class="mr-sm-2">{{'Enquiry_Number' | translate}}</label>
+                      <input class="form-control" type="text" placeholder="{{'Please_Enter' | translate}} {{'Enquiry_Number' | translate}}" formControlName="enquiryNumber" readonly>
+                      <!--<validation-message [control]="form.controls.enquiryNumber"></validation-message>-->
+                    </div>
+
+                  </div>
+                  <div class="col-md-3 col-lg-3">
+                    <label class="mr-sm-2">{{'Customer_Code' | translate}}</label>
+                    <div class="form-group ">
+                      <div class="input-group mb-2">
+                        <auto-loader [isLoading]="isDataLoading"></auto-loader>
+                        <input type="text" class="form-control"
+                               placeholder="{{'Please_Enter' | translate}} {{'Customer_Code' | translate}}"
+                              
+                               [formControl]="custCodeControl"
+                               matInput
+                               [matAutocomplete]="auto3">
+                        <mat-autocomplete #auto3="matAutocomplete" (optionSelected)="onSelectionCustomerCode($event,1)">
+                          <mat-option *ngFor="let option of filteredCustCodes | async"
+                                      [value]="option.value">
+                            {{(isArabic? option?.textTwo:option?.text)}}-{{option?.value}}
+                          </mat-option>
+                        </mat-autocomplete>
+
+                      </div>
+                      <validation-message [control]="custCodeControl"></validation-message>
+                      <!--<validation-message [control]="form.controls.customerCode"></validation-message>-->
+
+                    </div>
+
+                  </div>
+                  <div class="col-md-3 col-lg-3">
+
+                    <label class="mr-sm-2">{{'Date_of_Enquiry' | translate}}</label>
+                    <div class="form-group ">
+                      <div class="input-group mb-2">
+                        <input class="form-control datapickerinput" placeholder="{{'Select_a_Date' | translate}}" formControlName="dateOfEnquiry"
+                               [matDatepicker]="picker">
+
+                        <div class="input-group-prepend datapickericon">
+
+                          <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                          <mat-datepicker #picker data-date-format="mm/yyyy"> </mat-datepicker>
+
+                        </div>
+
+
+                      </div>
+
+                    </div>
+                    <validation-message [control]="form.controls.dateOfEnquiry"></validation-message>
+                  </div>
+
+                  <div class="col-md-3 col-lg-3">
+                    <label class="mr-sm-2">{{'Estimate_Closing_Date' | translate}}</label>
+                    <div class="form-group ">
+                      <div class="input-group mb-2">
+                        <input class="form-control datapickerinput" placeholder="{{'Estimate_Closing_Date' | translate}}" formControlName="estimateClosingDate"
+                               [matDatepicker]="picker2">
+
+                        <div class="input-group-prepend datapickericon">
+                          <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
+                          <mat-datepicker #picker2 data-date-format="mm/yyyy"></mat-datepicker>
+
+                        </div>
+
+                      </div>
+
+                    </div>
+                    <validation-message [control]="form.controls.estimateClosingDate"></validation-message>
+                  </div>
+                  <div class="col-md-3 col-lg-3">
+
+                    <div class="form-group ">
+                      <label class="mr-sm-2">{{'Customer_Address' | translate}}</label>
+                      <input class="form-control" type="text" placeholder="  {{'Customer_Address' | translate}}" readonly formControlName="custAddress">
+                      <validation-message [control]="form.controls.custAddress"></validation-message>
+                    </div>
+
+                  </div>
+                  <div class="col-md-3 col-lg-3">
+                    <div class="form-group ">
+                      <label class="mr-sm-2">{{'Sales_Representative' | translate}}</label>
+                      <input class="form-control" type="text" placeholder="{{'Please_Enter' | translate}} {{'Sales_Representative' | translate}}" formControlName="saleRep" readonly="readonly">
+                    </div>
+
+                  </div>
+                  <div class="col-md-3 col-lg-3">
+
+                    <div class="form-group ">
+                      <label class="mr-sm-2">{{'Enquiry_Created_By' | translate}}</label>
+                      <input class="form-control" type="text" placeholder="{{'Please_Enter' | translate}} {{'Enquiry_Created_By' | translate}}" formControlName="userName">
+                    </div>
+
+                  </div>
+                  <div class="col-md-3 col-lg-3">
+                    <div class="form-group">
+                      <label>{{'Branch' | translate}}</label>
+                      <br />
+                      <select class="custom-select mr-sm-2" formControlName="branchCode">
+                        <option value="">{{'Select' | translate}} {{'Branch' | translate}} </option>
+                        <option *ngFor="let brnch of branchCodeList" value="{{brnch.value}}">{{brnch.value}}-{{brnch.text}}-{{brnch.textTwo}}</option>
+                      </select>
+                      <validation-message [control]="form.controls.branchCode"></validation-message>
+                    </div>
+                  </div>
+                  <div class="col-md-12 col-lg-12">
+                    <div class="form-group ">
+                      <label class="mr-sm-2">{{'Remarks' | translate}}</label>
+                      <textarea class="form-control" placeholder="{{'Please_Select' | translate}} {{'Remarks' | translate}}" formControlName="remarks">
+                    
+</textarea>
+
+                    </div>
+
+                  </div>
+
+                </div>
+
+              </div>
+            </div>
+
+          </div>
+
+        </div>
+      </div>
+      <div class="table-responsive">
+        <table id="zero_config" class="table  table-bordered no-wrap">
+          <thead>
+            <tr>
+              <th>{{'Site' | translate}}</th>
+              <th>{{'Service_Name' | translate}}</th>
+              <!--<th>{{'Service_Name_Eng' | translate}}</th>
+              <th>{{'Service_Name_Arb' | translate}}</th>-->
+              <th>{{'Service_Unit' | translate}}</th>
+              <th>{{'Price_Per_Unit' | translate}}</th>
+              <th>{{'Service_Quantity' | translate}}</th>
+              <th>{{'Unit_Quantity' | translate}}</th>
+              <th>{{'Estimated_Price' | translate}}</th>
+              <th></th>
+
+
+           
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>
+                <select class="custom-select mr-sm-2" [(ngModel)]="siteCode" [ngModelOptions]="{standalone: true}">
+                  <option value="">{{'Select' | translate}} {{'Site_Code' | translate}} </option>
+                  <option *ngFor="let sc of siteCodeList" value="{{sc.value}}">{{sc.value}}-{{ !isArab?sc.text:sc.textTwo}}</option>
+                </select>
+              </td>
+              <td>
+                <select class="custom-select mr-sm-2" [(ngModel)]="serviceCode" [ngModelOptions]="{standalone: true}" (change)="getServiceDetails($event)">
+                  <option value="">{{'Select' | translate}} {{'Service' | translate}} </option>
+                  <option *ngFor="let sc of serviceCodeList" value="{{sc.value}}">{{ !isArab?sc.text:sc.textTwo}}</option>
+                </select>
+              </td>
+
+              <!--<td>
+
+                <input class="form-control" type="text" placeholder="{{'Service_Name' | translate}}" [(ngModel)]="serviceNameEng" [ngModelOptions]="{standalone: true}" readonly="readonly">
+
+              </td>-->
+              <!--<td>
+                <input class="form-control" type="text" placeholder="{{'Service_Name_Arb' | translate}}" [(ngModel)]="serviceNameArb" [ngModelOptions]="{standalone: true}" readonly="readonly">
+
+              </td>-->
+
+              <td>
+                <select class="custom-select mr-sm-2" [(ngModel)]="unitCode" [ngModelOptions]="{standalone: true}" (change)="getServiceUnitPrice($event)">
+                  <option value="">{{'Select' | translate}} {{'Service_Unit' | translate}} </option>
+                  <option *ngFor="let sc of unitCodeList" value="{{sc.value}}">{{sc.text}}</option>
+                </select>
+              </td>
+              <td>
+                <input class="form-control" type="number" placeholder="{{'Price_Per_Unit' | translate}}" [(ngModel)]="pricePerUnit" [ngModelOptions]="{standalone: true}" (keyup)="calculateEstimatePrice($event,'pricePerUnit')">
+
+              </td>
+              <td>
+                <input class="form-control" type="number" placeholder="{{'Service_Quantity' | translate}}" [(ngModel)]="serviceQuantity" (keyup)="calculateEstimatePrice($event,'serviceQuantity')" [ngModelOptions]="{standalone: true}">
+
+              </td>
+<td>
+                <input class="form-control" type="number" placeholder="{{'Unit_Quantity' | translate}}" [(ngModel)]="unitQuantity" (keyup)="calculateEstimatePrice($event,'unitQuantity')" [ngModelOptions]="{standalone: true}">
+
+              </td>
+              <td>
+                <input class="form-control" type="number" placeholder="{{'Estimated_Price' | translate}}" [(ngModel)]="estimatedPrice" [ngModelOptions]="{standalone: true}" readonly="readonly">
+              </td>
+             
+              <td class="text-right">   <a class="tableicons" (click)="addEnquiry()"><i class="fas fa-plus-circle"></i></a> </td>
+
+            </tr>
+          </tbody>
+          <tr>
+            <td colspan="8"></td>
+          </tr>
+          <thead>
+            <tr>
+              <th>{{'Site' | translate}}</th>
+              <!--<th>{{'Service_Code' | translate}}</th>-->
+              <th>{{'Service_Name' | translate}}</th>
+              <!--<th>{{'Service_Name_Arb' | translate}}</th>-->
+              <th>{{'Service_Unit' | translate}}</th>
+
+              <th>{{'Price_Per_Unit' | translate}}</th>
+              <th>{{'Service_Quantity' | translate}}</th>
+              <th>{{'Unit_Quantity' | translate}}</th>
+              <th>{{'Estimated_Price' | translate}}</th>
+              <th></th>
+            
+
+
+
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let item of listOfEnquiries; let i = index;">
+              <td>{{ !isArab?getSite(item.siteCode)?.text:getSite(item.siteCode)?.textTwo}}</td>
+              <!--<td>{{item.serviceCode}}</td>-->
+              <!--<td>{{getService(item.serviceCode)?.text}}</td>-->
+            <td>{{ !isArab?getService(item.serviceCode)?.text:getService(item.serviceCode)?.textTwo}}</td>
+              <!--<td>{{item.serviceNameEng}}</td>
+              <td>{{item.serviceNameArb}}</td>-->
+              <td>{{item.unitCode}}</td>
+              <td>{{item.pricePerUnit}}</td>
+              <td>{{item.serviceQuantity}}</td>
+              <td>{{item.unitQuantity}}</td>
+              <td class="text-right">{{item.estimatedPrice}}</td>
+
+              <td>
+                <span *ngIf="item.enquiryID==0 || !item.isApproved">
+              <a class="tableicons" (click)="removeEnquiry(i)"><i class="fas fa-minus-circle"></i></a>
+                </span>
+              </td>
+
+              <!--<td>{{item.statusEnquiry}}</td>-->
+              <!--<td class="text-center"> <a class="tableicons" href="#"><i class="icon-note"> </i></a> </td>-->
+
+
+            </tr>
+
+          <tfoot>
+            <tr class="tfoot">
+              <td class="text-right bgcolor " colspan="5" rowspan="5"></td>
+
+              <td class="text-right bgcolor ">{{'Total_Amount' | translate}}-$</td>
+
+              <td class="text-right bgcolor">{{totalEstPrice}}</td>
+              <td class="text-right bgcolor "> </td>
+            </tr>
+
+          </tfoot>
+        </table>
+      </div>
+    </div>
+
+
+  </div>
+  <div class="modal-footer">
+    <div class="row mt-3 ">
+      <div class="col-md-12 col-lg-12 text-center">
+        <input type="button"
+               class="btn waves-effect waves-light btn-rounded   btn-secondary btn-midblock"
+               value="{{'Cancel' | translate}}" (click)="closeModel()" /> &nbsp;
+        <input type="submit"
+               class="btn waves-effect waves-light btn-rounded btn-primary btn-midblock"
+               value="{{'Save' | translate}}" />
+      </div>
+    </div>
+
+
+  </div>
+</form>
+

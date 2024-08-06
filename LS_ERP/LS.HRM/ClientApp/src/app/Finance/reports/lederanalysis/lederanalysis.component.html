@@ -1,0 +1,183 @@
+<!--<p>{{companyName}}</p>-->
+
+
+<div class="page-breadcrumb">
+  <div class="row">
+    <div class="col-12 align-self-center">
+      <h3 class="page-title text-truncate text-dark font-weight-medium mb-1">
+        {{'Ledger_Reporting' | translate}}
+      </h3>
+    </div>
+  </div>
+</div>
+
+<div class="modal-body">
+
+  <div class="outer  ">
+    <div class="row">
+      <div class="col-md-6 col-lg-6">
+        <div class="form-group">
+          <label>{{'From_Date' | translate}}</label>
+          <div class="form-group ">
+            <div class="input-group mb-2">
+              <input class="form-control datapickerinput" placeholder="{{'Select_a_Date' | translate}}" [(ngModel)]="dateFrom"
+                     [matDatepicker]="picker2">
+
+              <div class="input-group-prepend datapickericon">
+                <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
+                <mat-datepicker #picker2></mat-datepicker><br /><br />
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+      <div class="col-md-6 col-lg-6">
+        <div class="form-group">
+          <label>{{'To_Date' | translate}}</label>
+          <div class="form-group ">
+            <div class="input-group mb-2">
+              <input class="form-control datapickerinput" placeholder="{{'Select_a_Date' | translate}}" [(ngModel)]="dateTo"
+                     [matDatepicker]="picker1">
+
+              <div class="input-group-prepend datapickericon">
+                <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
+                <mat-datepicker #picker1></mat-datepicker><br /><br />
+              </div>
+
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-md-6 col-lg-6">
+        <div class="form-group">
+          <br />
+          <button type="button" class="btn btn-primary" (click)="search()">Search</button>
+        </div>
+      </div>
+
+
+    </div>
+  </div>
+
+  <spinner-loader [isLoading]="isLoading"></spinner-loader>
+  <div class="table-responsive" *ngIf="company">
+
+    <button type="button" class="btn waves-effect waves-light btn-rounded btn-primary btn-midblock" data-toggle="modal" (click)="openPrint()">
+      {{'Print' | translate}}
+    </button>
+    <br />
+    <br />
+
+
+
+    <div class="outer" id="printcontainer">
+      
+      <table style="width:100%; padding-bottom:5px;" cellpadding="0" cellspacing="0" width="100%" class="ur_tablestyle">
+        <tr>
+          <td> {{company.companyName}}</td>
+        </tr>
+        <tr>
+          <td style="text-align:center;">
+            <img src="{{company.logoURL}}" style="width:200px;height:150px;" />
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <div class="font-weight-medium">
+              <br />
+              {{company.branchName}}
+              <br />
+              {{company.companyAddress}}
+              <br />
+              {{'Tel_Phone' | translate }} :  {{company.phone}}
+              <br />
+            </div>
+
+          </td>
+        </tr>
+        <tr>
+          <td style="text-align:center;">
+            <p>
+              The Statement of " Ledger Reporting " for {{dateFrom | date:'dd/MM/yyyy'}} to {{dateTo | date:'dd/MM/yyyy'}}
+            </p>
+
+          </td>
+        </tr>
+      </table>
+
+      <table style="width:100%; padding-bottom:5px;" border="1" cellpadding="0" cellspacing="0" width="100%" class="ur_tablestyle" *ngIf="trailList && trailList.length > 0">
+        <tr>
+          <th>
+            {{'AcCode' | translate}}
+          </th>
+          <th>{{'FinName' | translate}}</th>
+          <th>{{'Opening_DrAmount' | translate}} (SR)</th>
+          <th>{{'Opening_CrAmount' | translate}} (SR)</th>
+          <th>{{'Opening_Balance' | translate}} (SR)</th>
+
+          <th>{{'ChangingDr' | translate}} (SR)</th>
+          <th>{{'ChangingCr' | translate}} (SR)</th>
+          <th>{{'ChangingBalance' | translate}} (SR)</th>
+
+          <th>{{'ClosingDr' | translate}} (SR)</th>
+          <th>{{'ClosingCr' | translate}} (SR)</th>
+          <th>{{'ClosingBalance' | translate}} (SR)</th>
+
+
+        </tr>
+        <tr *ngFor="let item of trailList">
+          <td>
+            {{item.finAcCode }}
+          </td>
+          <td>
+            {{item.finAcName }}
+          </td>
+
+          <td class="text-right">
+            {{item.drAmount | decimalpipe }}
+          </td>
+          <td class="text-right">
+            {{item.crAmount | decimalpipe }}
+          </td>
+          <td class="text-right">
+            {{item.balance | decimalpipe2 }}
+          </td>
+
+          <td class="text-right">
+            {{item.changeDrAmount | decimalpipe }}
+          </td>
+          <td class="text-right">
+            {{item.changeCrAmount  | decimalpipe}}
+          </td>
+          <td class="text-right">
+            {{item.changeBalance | decimalpipe2 }}
+          </td>
+
+          <td class="text-right">
+            {{item.closingDrAmount | decimalpipe }}
+          </td>
+          <td class="text-right">
+            {{item.closingCrAmount | decimalpipe}}
+          </td>
+          <td class="text-right">
+            {{ item.closingBalance | decimalpipe2}}
+          </td>
+
+
+
+        </tr>
+        <!--<tfoot>
+          <tr class="tfoot">
+            <td colspan="7"></td>
+            <td class="text-right">{{totalDrBalance}}</td>
+            <td class="text-right">{{totalCrBalance}}</td>
+            <td colspan="2"></td>
+          </tr>
+        </tfoot>-->
+      </table>
+    
+    </div>
+  </div>
+</div>

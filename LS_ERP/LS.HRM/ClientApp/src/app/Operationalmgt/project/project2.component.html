@@ -1,0 +1,373 @@
+
+<div class="page-breadcrumb">
+  <div class="row">
+    <div class="col-12 align-self-center">
+      <h3 class="page-title text-truncate text-dark font-weight-medium mb-1">
+        {{'Projects' | translate}}
+
+      </h3>
+      <div class="d-flex align-items-center">
+        <nav aria-label="breadcrumb">
+          <ol class="breadcrumb m-0 p-0">
+
+            <li class="breadcrumb-item text-muted"> {{'Operations' | translate}} </li>
+            <li class="breadcrumb-item   active" aria-current="page">{{'Projects' | translate}}</li>
+
+          </ol>
+        </nav>
+      </div>
+    </div>
+
+  </div>
+</div>
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-md-12 col-lg-12">
+      <div class="card">
+        <div class="card-body">
+
+
+
+          <div class="outer  ">
+            <div class="row">
+              <div class="col-md-4 col-lg-4">
+                <div class="form-group">
+                  <label>{{'Branch_Code' | translate}}</label>
+                  <ng-select [items]="citySelectionList"
+                             bindLabel="lable"
+                             bindValue="value" [(ngModel)]="filter.branchCode" (change)="applyFilter('')">  </ng-select>
+                </div>
+              </div>
+              <div class="col-md-8 col-lg-8">
+                <div class="form-group">
+                  <label>{{'Customer_Code' | translate}}</label>
+                  <ng-select [items]="customerSelectionList"
+                             bindLabel="lable"
+                             bindValue="value" [(ngModel)]="filter.customerCode" (change)="applyFilter('')">  </ng-select>
+
+                </div>
+              </div>
+
+
+
+
+              <div class="col-md-6 col-lg-6">
+                <div class="row">
+                  <div class="col-md-12 col-lg-12">
+                    <div class="form-group" style="text-align:center">
+                      <label>{{'Start_Date' | translate}}</label>
+                    </div>
+                  </div>
+                  <div class="col-md-6 col-lg-6">
+                    <div class="form-group">
+
+                      <div class="form-group ">
+                        <div class="input-group mb-2">
+                          <input class="form-control datapickerinput" placeholder="{{'From_Date' | translate}}" [(ngModel)]="filterDates.startDateFrom"
+                                 [matDatepicker]="picker1" (click)="openDatePicker(picker1)" (dateChange)="applyFilter('')">
+
+                          <div class="input-group-prepend datapickericon">
+                            <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
+                            <mat-datepicker #picker1></mat-datepicker>
+                          </div>
+
+                        </div>
+                      </div>
+
+                    </div>
+                  </div>
+                  <div class="col-md-6 col-lg-6">
+                    <div class="form-group">
+
+                      <div class="form-group ">
+                        <div class="input-group mb-2">
+                          <input class="form-control datapickerinput" placeholder=" {{'To_Date' | translate}}" [(ngModel)]="filterDates.startDateTo"
+                                 [matDatepicker]="picker2" (click)="openDatePicker(picker2)" (dateChange)="applyFilter('')">
+
+                          <div class="input-group-prepend datapickericon">
+                            <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
+                            <mat-datepicker #picker2></mat-datepicker>
+                          </div>
+                        </div>
+                      </div>
+
+                    </div>
+                  </div>
+
+                </div>
+              </div>
+              <div class="col-md-6 col-lg-6">
+                <div class="row">
+                  <div class="col-md-12 col-lg-12">
+                    <div class="form-group" style="text-align:center">
+                      <label>{{'End_Date' | translate}}</label>
+                    </div>
+                  </div>
+                  <div class="col-md-6 col-lg-6">
+                    <div class="form-group">
+
+                      <div class="form-group ">
+                        <div class="input-group mb-2">
+                          <input class="form-control datapickerinput" placeholder="{{'From_Date' | translate}}" [(ngModel)]="filterDates.endDateFrom"
+                                 [matDatepicker]="picker3" (click)="openDatePicker(picker3)" (dateChange)="applyFilter('')">
+
+                          <div class="input-group-prepend datapickericon">
+                            <mat-datepicker-toggle matSuffix [for]="picker3"></mat-datepicker-toggle>
+                            <mat-datepicker #picker3></mat-datepicker>
+                          </div>
+
+                        </div>
+                      </div>
+
+                    </div>
+                  </div>
+                  <div class="col-md-6 col-lg-6">
+                    <div class="form-group">
+
+                      <div class="form-group ">
+                        <div class="input-group mb-2">
+                          <input class="form-control datapickerinput" placeholder=" {{'To_Date' | translate}}" [(ngModel)]="filterDates.endDateTo"
+                                 [matDatepicker]="picker4" (click)="openDatePicker(picker4)" (dateChange)="applyFilter('')">
+
+                          <div class="input-group-prepend datapickericon">
+                            <mat-datepicker-toggle matSuffix [for]="picker4"></mat-datepicker-toggle>
+                            <mat-datepicker #picker4></mat-datepicker>
+                          </div>
+                        </div>
+                      </div>
+
+                    </div>
+                  </div>
+
+                </div>
+              </div>
+
+
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col-md-4 col-lg-4">
+              <input type="text"
+                     class="form-control"
+                     placeholder="{{'Search'|translate}}..."
+                     [(ngModel)]="searchValue" (keyup)="applyFilter(searchValue)" (keydown)="applyFilter(searchValue)" [ngModelOptions]="{standalone: true}" />
+            </div>
+            <div class="col-md-6 col-lg-6" style="align-content:flex-start">
+              <button class="btn btn-primary" (click)="generateReport()" *ngIf="reportData.length==0">
+                Generate Report
+
+              </button>
+              <span *ngIf="reportData.length>0">
+                <button class="btn btn-primary" [useExistingCss]="true" printTitle="ProjectsReport"
+                        printSectionId="printcontainer"
+                        ngxPrint>
+                  print
+                </button>
+                &nbsp;
+                <button class="btn btn-primary" (click)="exportexcel()">ExportExcel</button>
+
+              </span>
+              <span>
+                &nbsp;
+                <button class="btn btn-primary icon-refresh" (click)="refresh()"></button>
+              </span>
+            </div>
+
+            <div class="col-md-2 col-lg-2 text-center">
+              <spinner-loader [isLoading]="isLoading"></spinner-loader>
+            </div>
+          </div>
+
+
+
+
+          <div class="cardtitle-divider"></div>
+          <div class="table-responsive">
+
+
+            <ng-container>
+              <table mat-table [dataSource]="data" matSortDisableClear matSort (matSortChange)="onSortOrder($event)" class="table  table-bordered no-wrap">
+                <ng-container matColumnDef="customerCode">
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                    {{'Customer_Code' | translate}}
+                  </th>
+                  <td mat-cell *matCellDef="let row">{{ row.customerCode }}</td>
+                </ng-container>
+                <ng-container matColumnDef="projectCode">
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                    {{'Project_Code' | translate}}
+                  </th>
+                  <td mat-cell *matCellDef="let row">{{ row.projectCode }}</td>
+                </ng-container>
+
+                <ng-container matColumnDef="Project_Name">
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                    {{'Project_Name' | translate}}
+                  </th>
+                  <td mat-cell *matCellDef="let row">{{ !isArab? row.projectNameEng:row.projectNameArb }}</td>
+                </ng-container>
+                <ng-container matColumnDef="startDate">
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                    {{'Start_Date' | translate}}
+                  </th>
+                  <td mat-cell *matCellDef="let row">{{row.startDate | date:'longDate'}}</td>
+                </ng-container>
+                <ng-container matColumnDef="endDate">
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                    {{'End_Date' | translate}}
+                  </th>
+                  <td mat-cell *matCellDef="let row">{{row.endDate | date:'longDate'}}</td>
+                </ng-container>
+                <ng-container matColumnDef="branchCode">
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                    {{'Branch_Code' | translate}}
+                  </th>
+                  <td mat-cell *matCellDef="let row">{{ row.branchCode}}</td>
+                </ng-container>
+
+
+
+
+
+                <ng-container matColumnDef="Actions" stickyEnd>
+                  <th mat-header-cell *matHeaderCellDef>{{'Actions' | translate}}</th>
+                  <td mat-cell *matCellDef="let row" class="clickaction clickicons">
+
+
+
+
+                    <span *ngIf="row.isEstimationCompleted" (click)="estimationReport(row)" [matTooltip]="translateToolTip('Estimation_Report')"><i class="fas fa-sticky-note"></i>&nbsp;</span>
+                    <span *ngIf="row.isEstimationCompleted" (click)="summaryReport(row)" [matTooltip]="translateToolTip('Summary_Report')"><i class="fas fa-list"></i>&nbsp;</span>
+                    <span *ngIf="row.isEstimationCompleted && !row.isApproved && (row.hasAuthority && row.authorities.canApproveEstimation || row.isAdmin) && !row.approvedUser " (click)="approveEstimation(row)" [matTooltip]="translateToolTip('Approve_Estimation')"><i class="fas fa-check-circle"></i>&nbsp;</span>
+                    <span *ngIf="row.isEstimationCompleted" (click)="printEstimation(row)" [matTooltip]="translateToolTip('Print_Estimation')"><i class="fas fa-print"></i>&nbsp;</span>
+                    <!--<span *ngIf="row.isEstimationCompleted && row.isApproved && row.hasAuthority &&!row.isConvertedToProposal" (click)="convertToProposal(row)" [matTooltip]="translateToolTip('Convert_To_Proposal')"><i class="fas fa-share"></i>&nbsp;</span>-->
+
+                    <span *ngIf="!row.isConvrtedToContract && row.isEstimationCompleted && row.isApproved" (click)="printProposal(row)"><i class="fas fa-print" [matTooltip]="translateToolTip('Print_Proposal')"></i>&nbsp;</span>
+                    <!--<span *ngIf="row.isConvertedToProposal && !row.isConvrtedToContract" (click)="convertToContract(row)" [matTooltip]="translateToolTip('Convert_To_Contract')"><i class="far fa-handshake"></i>&nbsp;</span>-->
+                    <span *ngIf="row.isEstimationCompleted && !row.isConvrtedToContract && row.isApproved" (click)="convertToContract(row)" [matTooltip]="translateToolTip('Convert_To_Contract')"><i class="far fa-handshake"></i>&nbsp;</span>
+
+                    <a *ngIf="row.isEstimationCompleted && row.isConvertedToProposal && row.isApproved && !row.fileUrl && (row.canApprove || row.isAdmin)" (click)="uploadFile(row)" [matTooltip]="translateToolTip('Upload_File')"><i class=" fas fa-upload"></i>&nbsp;</a>
+
+
+                    <a *ngIf="row.isConvrtedToContract && !row.fileUrl" (click)="viewContract(row)" [matTooltip]="translateToolTip('View_Contract')"><i class="fas fa-download"></i>&nbsp;</a>
+                    <a *ngIf="row.fileUrl" (click)="viewUploadedFile(row)" [matTooltip]="translateToolTip('Download_File')"><i class="fas fa-download"></i>&nbsp;</a>
+                    <span (click)="viewProjectSites(row)" [matTooltip]="translateToolTip('View_Sites')"><i class="icon-eye"></i>&nbsp;</span>
+
+
+                  </td>
+                </ng-container>
+
+
+
+
+
+                <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
+                <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+
+              </table>
+
+
+            </ng-container>
+
+
+
+          </div>
+
+          <ng-container>
+            <mat-paginator [length]="totalItemsCount"
+                           [pageSize]="pageService.pageCount"
+                           [pageSizeOptions]="pageService.selectItemsPerPage"
+                           (page)="onPageSwitch($event)">
+            </mat-paginator>
+          </ng-container>
+
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<div id="printcontainer" *ngIf="reportData.length>0" hidden>
+  <div width="100%">
+    <table id="attndTable">
+      <tr>
+        <td colspan="2">{{'Report_On_Projects'|translate}}</td>
+      </tr>
+      <tr>
+        <td>{{'Customer_Code'|translate}}:{{(filter.customerCode==null||filter.customerCode==''?'All':filter.customerCode)}}</td>
+        <td>{{'Branch_Code'|translate}}:{{(filter.branchCode==null||filter.branchCode==''?'All':filter.branchCode)}}</td>
+      </tr>
+      <tr *ngIf="filter.startDateFrom && filter.startDateTo">
+        <td colspan="2">
+          <span>
+            {{'Start_Date'|translate}} {{'Between'|translate}} {{filter?.startDateFrom | date:'longDate'}} {{'And'|translate}} {{filter?.startDateTo | date:'longDate'}}
+          </span>
+        </td>
+
+      </tr>
+      <tr>
+        <td colspan="2">{{'Search_Key'|translate}}:{{searchValue}}</td>
+      </tr>
+      <tr *ngIf="filter.endDateFrom && filter.endDateTo">
+        <td colspan="2">
+          <span>
+            {{'End_Date'|translate}} {{'Between'|translate}} {{filter?.endDateFrom | date:'longDate'}} {{'And'|translate}} {{filter?.endDateTo | date:'longDate'}}
+          </span>
+        </td>
+
+      </tr>
+    </table>
+    <br />
+  </div>
+  <table id="attndTable" width="100%">
+    <tr>
+      <th>
+        {{'Customer_Code' | translate}}
+      </th>
+      <th>
+        {{'Project_Code' | translate}}
+      </th>
+
+      <th>
+        {{'Project_Name' | translate}}
+      </th>
+      <th>
+        {{'Start_Date' | translate}}
+      </th>
+      <th>
+        {{'End_Date' | translate}}
+      </th>
+      <th>
+        {{'Branch_Code' | translate}}
+      </th>
+    </tr>
+    <tr *ngFor="let row of reportData;let i=index;">
+      <td>{{ row.customerCode }}</td>
+      <td>{{ row.projectCode }}</td>
+      <td>{{ !isArab? row.projectNameEng:row.projectNameArb }}</td>
+      <td>{{row.startDate | date:'longDate'}}</td>
+      <td>{{row.endDate | date:'longDate'}}</td>
+      <td>{{ row.branchCode}}</td>
+
+    </tr>
+  </table>
+</div>
+
+
+<style>
+  #attndTable td, th {
+    border: solid;
+    border-width: 1px;
+    padding: 5px 5px 5px 5px;
+    text-align: center;
+  }
+
+  #attndTable table {
+    width: 100%;
+  }
+
+  #printcontainer div {
+    width: 100%;
+    padding: 10px 10px 10px 10px;
+  }
+</style>

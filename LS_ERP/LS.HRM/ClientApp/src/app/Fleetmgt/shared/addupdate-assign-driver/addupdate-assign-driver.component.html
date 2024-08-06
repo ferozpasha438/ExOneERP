@@ -1,0 +1,92 @@
+<h3 class="modal-title">{{'Addupdate_Assign_Driver' | translate}}</h3>
+<button type="button" class="close" aria-hidden="true" (click)="closeModel()"> ×</button>
+<form [formGroup]="form" (ngSubmit)="submit()" novalidate class="mt-4">
+  <div class="outer ">
+    <div class="row rowm0 mt-3">
+      
+
+      <div class="col-md-6 col-lg-6 col-sm-6">
+        <div class="form-group">
+          <label>{{'Vehicle_Number' | translate}}</label>
+          <select class="custom-select mr-sm-2" formControlName="vehicleNumber">
+            <option value="">{{'Select' | translate}} {{'Vehicle_Number' | translate}} </option>
+            <ng-container *ngIf="vehicleNumberList">
+              <option *ngFor="let item of vehicleNumberList" value="{{item.registrationNumber}}">{{ isArab ? item.registrationNumber : item.registrationNumber  }}</option>
+            </ng-container>
+          </select>
+
+          <validation-message [control]="form.controls.vehicleNumber"></validation-message>
+        </div>
+      </div>
+
+      <div class="col-md-6 col-lg-6 col-sm-6">
+        <div class="form-group">
+          <label>{{'Driver' | translate}}</label>
+          <select class="custom-select mr-sm-2" formControlName="driverName">
+            <option value="">{{'Select' | translate}} {{'Driver' | translate}} </option>
+            <ng-container *ngIf="driverList">
+              <option *ngFor="let item of driverList" value="{{item.driverName}}">{{ isArab ? item.driverName_Ar : item.driverName  }}</option>
+            </ng-container>
+          </select>
+
+          <validation-message [control]="form.controls.driverName"></validation-message>
+        </div>
+      </div>
+
+      
+      <div class="col-md-6 col-lg-6 col-sm-6">
+        <div class="form-group">
+          <label>{{'Assign_Date' | translate}}</label>
+          <div class="input-group ">
+            <input class="form-control datapickerinput" placeholder="{{'Assign_Date' | translate}}"
+                   formControlName="assignDate" [matDatepicker]="picker3">
+            <div class="input-group-prepend datapickericon">
+              <mat-datepicker-toggle matSuffix [for]="picker3"></mat-datepicker-toggle>
+              <mat-datepicker #picker3></mat-datepicker><br /><br />
+            </div>
+          </div>
+          <validation-message [control]="form.controls.assignDate"></validation-message>
+        </div>
+      </div>
+
+      
+
+
+      <div class="col-md-6 col-lg-6 col-sm-6">
+        <div class="form-group">
+          <label>{{'Notes_For_Driver' | translate}}</label>
+          <input class="form-control" type="text" placeholder="{{'Notes_For_Driver' | translate}}"
+                 formControlName="notesForDriver" />
+          <validation-message [control]="form.controls.notesForDriver"></validation-message>
+        </div>
+      </div>
+
+      
+
+      <div class="col-md-6 col-lg-6 col-sm-6">
+        <div class="form-group">
+          <label>{{'Remarks' | translate}}</label>
+          <input class="form-control" type="text" placeholder="{{'Remarks' | translate}}"
+                 formControlName="remarks" />
+          <validation-message [control]="form.controls.remarks"></validation-message>
+        </div>
+      </div>
+
+
+      <div class="col-md-6 col-lg-6 col-sm-6">
+        <label>{{'Is_Active' | translate}}</label>
+        <div class="form-group">
+          <mat-slide-toggle color="primary" formControlName="isActive"></mat-slide-toggle>
+        </div>
+      </div>
+
+    </div>
+    <div class="row customrow mt-4">
+      <div class="col-lg-12 col-md-12 text-center">
+        <input type="button" class="btn btn-secondary" value="{{'Cancel' | translate}}" (click)="closeModel()" />
+        &nbsp;&nbsp;
+        <input type="submit" class="btn waves-effect waves-light btn-primary" value="{{'Save' | translate}}">
+      </div>
+    </div>
+  </div>
+</form>

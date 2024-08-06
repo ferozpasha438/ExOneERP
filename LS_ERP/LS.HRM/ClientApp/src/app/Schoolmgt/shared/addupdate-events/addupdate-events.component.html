@@ -1,0 +1,121 @@
+<h3 class="modal-title">{{'Events' | translate}}</h3>
+<button type="button" class="close" aria-hidden="true" (click)="closeModel()"> ×</button>
+<form [formGroup]="form" (ngSubmit)="submit()" novalidate class="mt-4">
+    <div class="outer ">
+      <div class="row rowm0 mt-3">
+
+        <div class="col-md-6 col-lg-6 col-sm-6">
+          <label>{{'Branch_Code' | translate}}</label>
+          <div class="form-group">
+
+            <select class="custom-select mr-sm-2" formControlName="branchCode">
+              <option value="">{{'Select' | translate}} {{'Branch' | translate}} </option>
+              <option *ngFor="let brnch of branchCodeList" value="{{brnch.value}}">{{brnch.value}}-{{brnch.text}}</option>
+            </select>
+            <validation-message [control]="form.controls.branchCode"></validation-message>
+          </div>
+        </div>
+
+        <div class="col-md-6 col-lg-6 col-sm-6">
+          <div class="form-group">
+            <label>{{'Date' | translate}}</label>
+            <div class="input-group ">
+              <input class="form-control datapickerinput" placeholder="{{'Date' | translate}}"
+                     formControlName="hDate" [matDatepicker]="picker1">
+              <div class="input-group-prepend datapickericon">
+                <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
+                <mat-datepicker #picker1></mat-datepicker><br /><br />
+              </div>
+            </div>
+            <validation-message [control]="form.controls.hDate"></validation-message>
+          </div>
+        </div>
+
+        <div class="col-md-6 col-lg-6 col-sm-6">
+          <div class="form-group">
+            <label>{{'Event' | translate}}</label>
+            <input class="form-control" type="text" placeholder="{{'Event' | translate}}"
+                   formControlName="eventName" />
+            <validation-message [control]="form.controls.eventName"></validation-message>
+          </div>
+        </div>
+        <div class="col-md-6 col-lg-6 col-sm-6">
+          <div class="form-group">
+            <label>{{'Event_Ar' | translate}}</label>
+            <input class="form-control" type="text" placeholder="{{'Event' | translate}}"
+                   formControlName="eventNameAr" />
+            <validation-message [control]="form.controls.eventNameAr"></validation-message>
+          </div>
+        </div>
+
+        <div class="col-md-6 col-lg-6 col-sm-6">
+          <div class="form-group">
+            <label>{{'Event_Start_Time' | translate}}</label>
+            <div class="input-group ">
+              <input matInput type="datetime-local" class="form-control datapickerinput" placeholder="{{'Starting_Date' | translate}}"
+                     formControlName="fromTime">
+            </div>
+            <validation-message [control]="form.controls.fromTime"></validation-message>
+          </div>
+        </div>
+        <div class="col-md-6 col-lg-6 col-sm-6">
+          <div class="form-group">
+            <label>{{'Event_End_Time' | translate}}</label>
+            <div class="input-group ">
+             
+              <input matInput type="datetime-local" class="form-control datapickerinput" placeholder="{{'Starting_Date' | translate}}"
+                     formControlName="toTime">
+            </div>
+            <validation-message [control]="form.controls.toTime"></validation-message>
+          </div>
+        </div>
+
+
+        <div class="col-md-6 col-lg-6 col-sm-6">
+          <div class="form-group">
+            <label>{{'Event_Description' | translate}}</label>
+            <textarea class="form-control" type="text" placeholder='Event Description'
+                      formControlName="eventDescription"></textarea>
+            <validation-message [control]="form.controls.eventDescription"></validation-message>
+          </div>
+        </div>
+         <div class="col-md-6 col-lg-6 col-sm-6">
+          <div class="form-group">
+            <label>{{'Event_Description' | translate}}</label>
+            <textarea class="form-control" type="text" placeholder="{{'Event_Description' | translate}}"
+                      formControlName="eventDescriptionAr"></textarea>
+            <validation-message [control]="form.controls.eventDescriptionAr"></validation-message>
+          </div>
+        </div>
+        <div class="col-md-6 col-lg-6 col-sm-6">
+          <div class="form-group">
+            <label>{{'Notes_on_Event' | translate}}</label>
+            <textarea class="form-control" type="text" placeholder="{{'Notes_on_Event' | translate}}"
+                      formControlName="notesOnEvent"></textarea>
+            <validation-message [control]="form.controls.notesOnEvent"></validation-message>
+          </div>
+        </div>
+        <div class="col-md-6 col-lg-6 col-sm-6">
+          <div class="form-group">
+            <label>{{'Is_Active' | translate}}</label>
+            <div class="form-group">
+              <mat-slide-toggle color="primary" formControlName="isActive"></mat-slide-toggle>
+            </div>
+            <validation-message [control]="form.controls.isActive"></validation-message>
+          </div>
+        </div>
+
+      </div>      
+
+        <div class="row customrow mt-4">
+          <div class="col-lg-12 col-md-12 text-center">
+            <input type="button" class="btn btn-secondary" value="{{'Cancel' | translate}}"
+                   (click)="closeModel()" />
+             &nbsp;&nbsp;
+            <input type="submit" class="btn waves-effect waves-light btn-primary" value="{{'Save' | translate}}" *ngIf="isShowSave">
+             &nbsp;&nbsp;
+            <input type="button" (click)="approveEvent()" class="btn waves-effect waves-light btn-primary" value="{{'Approve' | translate}}" *ngIf="isApprovalLogin">
+          </div>
+        </div>
+    </div>
+</form>

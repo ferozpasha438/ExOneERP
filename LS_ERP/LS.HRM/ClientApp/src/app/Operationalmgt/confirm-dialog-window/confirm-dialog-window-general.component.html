@@ -1,0 +1,15 @@
+
+<form [formGroup]="form" novalidate class="mt-4" style="text-align:center;color:red">
+
+  <div class="alert alert-danger" role="alert">
+
+    <strong>{{titleQuestion |translate}}</strong>&nbsp;{{subTitleQuestion |translate}}&nbsp;
+    <input type="button"
+           class="btn waves-effect waves-light btn-rounded btn-success btn-midblock"
+           value="{{'Yes' | translate}}" (click)="closeModel('true')" /> &nbsp;
+    <input type="button"
+           class="btn waves-effect waves-light btn-rounded   btn-danger btn-midblock"
+           value="{{'No' | translate}}" (click)="closeModel('false')" /> &nbsp;
+  </div>
+</form>
+

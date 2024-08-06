@@ -1,0 +1,190 @@
+<h3 class="modal-title">{{'Examination_Management' | translate}}</h3>
+<button type="button" class="close" aria-hidden="true" (click)="closeModel()"> ×</button>
+<form [formGroup]="form" (ngSubmit)="submit()" novalidate class="mt-4">
+  <div class="outer">
+    <div class="row rowm0 mt-3">
+      <div class="col-md-6 col-lg-6 col-sm-6">
+        <div class="form-group">
+          <label>{{'Branch_Code' | translate}}</label>
+          <select class="custom-select mr-sm-2" formControlName="branchCode" (change)="loadUsersList()">
+            <option value="">{{'Select' | translate}} {{'Branch_Code' | translate}} </option>
+            <ng-container *ngIf="branchCodeList">
+              <option *ngFor="let item of branchCodeList" value="{{item.value}}">{{ isArab ? item.textTwo : item.text  }}</option>
+            </ng-container>
+          </select>
+          <validation-message [control]="form.controls.branchCode"></validation-message>
+        </div>
+      </div>
+      <div class="col-md-6 col-lg-6 col-sm-6">
+        <div class="form-group">
+          <label>{{'Grade_Code' | translate}}</label>
+          <select class="custom-select mr-sm-2" formControlName="gradeCode" (change)="loadUsersList()">
+            <option value="">{{'Select' | translate}} {{'Grade_Code' | translate}} </option>
+            <ng-container *ngIf="gradeCodeList">
+              <option *ngFor="let item of gradeCodeList" value="{{item.gradeCode}}">{{ isArab ? item.gradeName2 : item.gradeName  }}</option>
+            </ng-container>
+          </select>
+          <validation-message [control]="form.controls.gradeCode"></validation-message>
+        </div>
+      </div>
+      <div class="col-md-6 col-lg-6 col-sm-6">
+        <div class="form-group">
+          <label>{{'Type_of_Examination' | translate}}</label>
+          <select class="custom-select mr-sm-2" formControlName="typeofExamination">
+            <option value="">{{'Select' | translate}} {{'Type_of_Examination' | translate}} </option>
+            <ng-container *ngIf="typesOfExamsList">
+              <option *ngFor="let item of typesOfExamsList" value="{{item.value}}">{{ isArab ? item.textTwo : item.text  }}</option>
+            </ng-container>
+          </select>
+          <validation-message [control]="form.controls.typeofExamination"></validation-message>
+        </div>
+      </div>
+      <div class="col-md-6 col-lg-6 col-sm-6">
+        <div class="form-group">
+          <label>{{'Starting_Date' | translate}}</label>
+          <div class="input-group ">
+            <input class="form-control datapickerinput" placeholder="{{'Starting_Date' | translate}}"
+                   formControlName="startingDate" [matDatepicker]="picker1">
+            <div class="input-group-prepend datapickericon">
+              <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
+              <mat-datepicker #picker1></mat-datepicker><br /><br />
+            </div>
+          </div>
+          <validation-message [control]="form.controls.startingDate"></validation-message>
+        </div>
+      </div>
+      <div class="col-md-6 col-lg-6 col-sm-6">
+        <div class="form-group">
+          <label>{{'Ending_Date' | translate}}</label>
+          <div class="input-group ">
+            <input class="form-control datapickerinput" placeholder="{{'Ending_Date' | translate}}"
+                   formControlName="endingDate" [matDatepicker]="picker2">
+            <div class="input-group-prepend datapickericon">
+              <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
+              <mat-datepicker #picker2></mat-datepicker><br /><br />
+            </div>
+          </div>
+          <validation-message [control]="form.controls.endingDate"></validation-message>
+        </div>
+      </div>
+      <div class="col-md-6 col-lg-6 col-sm-6">
+        <div class="form-group">
+          <label>{{'Remarks' | translate}}</label>
+          <textarea class="form-control" type="text" placeholder="{{'Remarks' | translate}}"
+                    formControlName="remarks"></textarea>
+          <validation-message [control]="form.controls.remarks"></validation-message>
+        </div>
+      </div>
+      <div class="col-md-6 col-lg-6 col-sm-6">
+        <div class="form-group">
+          <label>{{'Prepared_By' | translate}}</label>
+          <select class="custom-select mr-sm-2" formControlName="preparedBy">
+            <option value="">{{'Select' | translate}} {{'Prepared_By' | translate}} </option>
+            <ng-container *ngIf="usersList">
+              <option *ngFor="let item of usersList" value="{{item.value}}">{{ isArab ? item.textTwo : item.text  }}</option>
+            </ng-container>
+          </select>
+          <validation-message [control]="form.controls.preparedBy"></validation-message>
+        </div>
+      </div>
+      <div class="col-md-6 col-lg-6 col-sm-6" *ngIf="isShowCompleteSection">
+        <label>{{'Is_Completed' | translate}}</label>
+        <div class="form-group">
+          <mat-slide-toggle color="primary" formControlName="isCompleted"></mat-slide-toggle>
+        </div>
+      </div>
+      <div class="col-md-6 col-lg-6 col-sm-6" *ngIf="isShowCompleteSection">
+        <div class="form-group">
+          <label>{{'Date_Of_Completion' | translate}}</label>
+          <div class="input-group ">
+            <input class="form-control datapickerinput" placeholder="{{'Date_Of_Completion' | translate}}"
+                   formControlName="dateOfCompletion" [matDatepicker]="picker3">
+            <div class="input-group-prepend datapickericon">
+              <mat-datepicker-toggle matSuffix [for]="picker3"></mat-datepicker-toggle>
+              <mat-datepicker #picker3></mat-datepicker><br /><br />
+            </div>
+          </div>
+          <validation-message [control]="form.controls.dateOfCompletion"></validation-message>
+        </div>
+      </div>
+
+      <div class="col-md-6 col-lg-6 col-sm-6" *ngIf="isShowCompleteSection">
+        <div class="form-group">
+          <label>{{'Date_of_Result' | translate}}</label>
+          <div class="input-group ">
+            <input class="form-control datapickerinput" placeholder="{{'Date_of_Result' | translate}}"
+                   formControlName="dateofResult" readonly>
+            <!--<div class="input-group-prepend datapickericon">
+          <mat-datepicker-toggle matSuffix [for]="picker4"></mat-datepicker-toggle>
+          <mat-datepicker #picker4></mat-datepicker><br /><br />
+        </div>-->
+          </div>
+          <!--<validation-message [control]="form.controls.dateofResult"></validation-message>-->
+        </div>
+      </div>
+
+      <div class="col-md-6 col-lg-6 col-sm-6" *ngIf="isShowCompleteSection">
+        <label>{{'Result_Declared' | translate}}</label>
+        <div class="form-group">
+          <mat-slide-toggle disabled color="primary" formControlName="isResultDeclared"></mat-slide-toggle>
+        </div>
+      </div>
+      <!--<div class="col-lg-12 col-md-12">
+    <input (click)="toggleShow()" type="button" class="btn btn-secondary"
+           value="{{'Proceed' | translate}}" />
+  </div>-->
+    </div>
+    <div class="card-body" *ngIf="isShown">
+      <table class="table table-striped table-bordered">
+        <thead>
+          <tr>
+            <th>{{'Subject_Code' | translate}}</th>
+            <th>{{'Starting_Date' | translate}}</th>
+            <th>{{'Ending_Date' | translate}}</th>
+          </tr>
+        </thead>
+        <tbody formArrayName="tableRows">
+          <ng-container *ngFor="let group of getFormControls.controls; let i = index" [formGroupName]="i">
+            <tr>
+              <td>
+                <div class="input-group ">
+                  <input class="form-control" type="text" placeholder="{{'Subject_Code' | translate}}"
+                         formControlName="subjectCode" readonly />
+                </div>
+              </td>
+              <td>
+                <div class="input-group ">
+                  <input matInput type="datetime-local" class="form-control datapickerinput" placeholder="{{'Starting_Date' | translate}}"
+                         formControlName="startingDateTime">
+                  <!--<div class="input-group-prepend datapickericon">
+                    <mat-datepicker-toggle matSuffix [for]="picker5"></mat-datepicker-toggle>
+                    <mat-datepicker #picker5></mat-datepicker><br /><br />
+                  </div>-->
+                </div>
+              </td>
+              <td>
+                <div class="input-group ">
+                  <input matInput type="datetime-local" class="form-control datapickerinput" placeholder="{{'Ending_Date' | translate}}"
+                         formControlName="endingDateTime">
+                  <!--<div class="input-group-prepend datapickericon">
+                    <mat-datepicker-toggle matSuffix [for]="picker6"></mat-datepicker-toggle>
+                    <mat-datepicker #picker6></mat-datepicker><br /><br />
+                  </div>-->
+                </div>
+              </td>
+            </tr>
+          </ng-container>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="row customrow mt-4">
+      <div class="col-lg-12 col-md-12 text-center">
+        <input type="button" class="btn btn-secondary" value="{{'Cancel' | translate}}"
+               (click)="closeModel()" />
+        &nbsp;&nbsp;
+        <input type="submit" class="btn waves-effect waves-light btn-primary" value="{{'Save' | translate}}">
+      </div>
+    </div>
+  </div>
+</form>

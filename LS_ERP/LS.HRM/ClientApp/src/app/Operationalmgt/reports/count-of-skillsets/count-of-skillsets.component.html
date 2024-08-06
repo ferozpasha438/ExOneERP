@@ -1,0 +1,284 @@
+
+<div class="page-breadcrumb">
+  <div class="row">
+    <div class="col-12 align-self-center">
+      <h3 class="page-title text-truncate text-dark font-weight-medium mb-1">
+        {{'Skillsets_Count_On_Project' | translate}}
+      </h3>
+    </div>
+  </div>
+</div>
+
+<div class="modal-body">
+
+
+  <div class="outer  ">
+    <div class="row">
+      <div class="col-md-2 col-lg-2">
+        <div class="form-group">
+          <label>{{'Branch_Code' | translate}}</label>
+          <ng-select [items]="citySelectionList"
+                     bindLabel="lable"
+                     bindValue="value" [(ngModel)]="cityCode" (change)="clearProjectsData()">  </ng-select>
+        </div>
+      </div>
+      <div class="col-md-6 col-lg-6">
+        <div class="form-group">
+          <label>{{'Customer_Code' | translate}}</label>
+          <ng-select [items]="customerSelectionList"
+                     bindLabel="lable"
+                     bindValue="value" [(ngModel)]="customerCode" (change)="onSelectCustomer()">  </ng-select>
+
+        </div>
+      </div>
+
+      <div class="col-md-4 col-lg-4">
+        <div class="form-group">
+          <label>{{'Site_Code' | translate}}</label>
+          <ng-select [items]="siteSelectionList"
+                     bindLabel="lable"
+                     bindValue="value" [(ngModel)]="siteCode" (change)="clearProjectsData()">  </ng-select>
+
+        </div>
+      </div>
+     
+
+      <div class="col-md-6 col-lg-6">
+        <div class="form-group">
+          <br />
+          <button type="button" class="btn btn-primary" (click)="search()">Search</button>
+          &nbsp;
+          <button type="button" class="btn btn-primary" (click)="setForm()">
+
+            <i class="icon-refresh"></i>
+          </button>
+        </div>
+      </div>
+
+
+    </div>
+  </div>
+
+  <spinner-loader [isLoading]="isLoading"></spinner-loader>
+
+  <div class="table-responsive" *ngIf="company">
+
+    <button type="button" class="btn waves-effect waves-light btn-rounded btn-primary btn-midblock" data-toggle="modal" (click)="openPrint()">
+      {{'Print' | translate}}
+    </button>
+    <br />
+    <br />
+
+    <div class="outer" id="printcontainer">
+      <table style="width:100%; padding-bottom:5px;" cellpadding="0" cellspacing="0" width="100%" class="ur_tablestyle">
+        <tr>
+          <td> {{company.companyName}}</td>
+        </tr>
+        <tr>
+          <td style="text-align:center;">
+            <img src="{{company.logoURL}}" style="width:200px;height:150px;" />
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <div class="font-weight-medium">
+              <br />
+              {{company.branchName}}
+              <br />
+              {{company.companyAddress}}
+              <br />
+              {{'Tel_Phone' | translate }} :  {{company.phone}}
+              <br />
+            </div>
+
+          </td>
+        </tr>
+        <tr>
+          <td style="text-align:center;">
+
+            The Statement of  Projects Sites {{'Customer_Code'|translate}}: {{customerCode != null && customerCode !=''? customerCode:'all'}}
+            &nbsp;{{'Branch_Code'|translate}}: {{cityCode != null && customerCode !=''? cityCode:'all'}}
+            &nbsp;{{'Site_Code'|translate}}: {{siteCode != null && siteCode !=''? siteCode:'all'}}
+           
+
+
+          </td>
+        </tr>
+
+      </table>
+
+
+
+      <div class="container-fluid invoice-container print-container" style="width:100%; padding-top:5px;" id="printcontainer">
+        <div *ngFor="let customer of customersList;let i=index" style="padding-bottom: 5px; padding-top: 5px">
+          <ng-container style="padding-bottom: 5px; padding-top: 5px">
+
+
+            <table style="width: 100%; background: #efefef;" border="0" cellpadding="0" cellspacing="0" width="100%">
+
+
+
+              <tr style="text-align:left">
+                <th style="border:1px solid #878787;padding:5px;font-size:0.875rem !important;color: #000000; font-family: 'Poppins', sans-serif;font-weight:600;">
+                  {{'Customer_Code'|translate}}
+                </th>
+                <td style="border:1px solid #878787;padding:5px;font-size:0.775rem !important;color: #000000; font-family: 'Poppins', sans-serif;font-weight: 400;">
+                  {{ customer.custCode }}
+                </td>
+                <th style="border:1px solid #878787;padding:5px;font-size:0.875rem !important;color: #000000; font-family: 'Poppins', sans-serif;font-weight:600;">
+                  {{'Customer_Name'|translate}}
+                </th>
+                <td style="border:1px solid #878787;padding:5px;font-size:0.775rem !important;color: #000000; font-family: 'Poppins', sans-serif;font-weight: 400;">
+                  {{ isArabic? customer.custArbName:customer.custName }}
+                </td>
+              </tr>
+              <tr>
+                <th style="border:1px solid #878787;padding:5px;font-size:0.875rem !important;color: #000000; font-family: 'Poppins', sans-serif;font-weight:600;">
+                  {{'Customer_Address'|translate}}
+                </th>
+                <td colspan="3" style="border:1px solid #878787;padding:5px;font-size:0.775rem !important;color: #000000; font-family: 'Poppins', sans-serif;font-weight: 400;">
+                  {{customer.custAddress1}}
+                </td>
+              </tr>
+
+              <tbody>
+              </tbody>
+
+
+            </table>
+          </ng-container>
+
+          <ng-container *ngFor="let project of getProjectsOfCustomer(customer.custCode)" style="padding-bottom: 5px; padding-top: 5px">
+
+
+            <table style="width: 100%; background: #efefef;" border="0" cellpadding="0" cellspacing="0" width="100%">
+
+
+
+              <tr style="text-align:left">
+                <th style="border:1px solid #878787;padding:5px;font-size:0.875rem !important;color: #000000; font-family: 'Poppins', sans-serif;font-weight:600;">
+                  {{'Project_Code'|translate}}
+                </th>
+                <th style="border:1px solid #878787;padding:5px;font-size:0.875rem !important;color: #000000; font-family: 'Poppins', sans-serif;font-weight:600;">
+                  {{'Project_Name'|translate}}
+                </th>
+                <th style="border:1px solid #878787;padding:5px;font-size:0.875rem !important;color: #000000; font-family: 'Poppins', sans-serif;font-weight:600;">
+                  {{'Site_Code'|translate}}
+                </th>
+                <th style="border:1px solid #878787;padding:5px;font-size:0.875rem !important;color: #000000; font-family: 'Poppins', sans-serif;font-weight:600;">
+                  {{'Site_Name'|translate}}
+                </th>
+                <th style="border:1px solid #878787;padding:5px;font-size:0.875rem !important;color: #000000; font-family: 'Poppins', sans-serif;font-weight:600;">
+                  {{'Start_Date'|translate}}
+                </th>
+                <th style="border:1px solid #878787;padding:5px;font-size:0.875rem !important;color: #000000; font-family: 'Poppins', sans-serif;font-weight:600;">
+                  {{'End_Date'|translate}}
+                </th>
+                <th style="border:1px solid #878787;padding:5px;font-size:0.875rem !important;color: #000000; font-family: 'Poppins', sans-serif;font-weight:600;">
+                  {{'Status'|translate}}
+                </th>
+
+
+
+              </tr>
+              <tr style="text-align:left">
+                <td style="border:1px solid #878787;padding:5px;font-size:0.775rem !important;color: #000000; font-family: 'Poppins', sans-serif;font-weight: 400;">
+                  {{project?.projectCode}}
+
+                </td>
+                <td style="border:1px solid #878787;padding:5px;font-size:0.775rem !important;color: #000000; font-family: 'Poppins', sans-serif;font-weight: 400;">
+                  {{ isArabic? project?.projectNameArb : project?.projectNameEng}}
+                </td>
+                <td style="border:1px solid #878787;padding:5px;font-size:0.775rem !important;color: #000000; font-family: 'Poppins', sans-serif;font-weight: 400;">
+                  {{project?.siteCode}}
+                </td>
+                <td style="border:1px solid #878787;padding:5px;font-size:0.775rem !important;color: #000000; font-family: 'Poppins', sans-serif;font-weight: 400;">
+                  {{isArabic?project?.siteNameArb: project?.siteNameEng}}
+
+                </td>
+                <td style="border:1px solid #878787;padding:5px;font-size:0.775rem !important;color: #000000; font-family: 'Poppins', sans-serif;font-weight: 400;">
+                  {{project?.startDate | date:'dd/MM/YYYY'}}
+                </td>
+                <td style="border:1px solid #878787;padding:5px;font-size:0.775rem !important;color: #000000; font-family: 'Poppins', sans-serif;font-weight: 400;">
+                  {{project?.endDate | date:'dd/MM/YYYY'}}
+                </td>
+                <td style="border:1px solid #878787;padding:5px;font-size:0.775rem !important;color: #000000; font-family: 'Poppins', sans-serif;font-weight: 400;">
+                  {{project?.status}}
+                </td>
+
+              </tr>
+            </table>
+
+            <ng-container style="padding-bottom: 5px; padding-top: 5px">
+              <span *ngIf="project?.skillsetsList==null">
+                Loading Data
+              </span>
+
+              <table *ngIf="project?.skillsetsList!=null" style="width: 100%; background: #efefef;" border="0" cellpadding="0" cellspacing="0" width="100%">
+                <ng-container *ngIf="project?.skillsetsList.length==0">
+                  <tr>
+                    <td colspan="3" style="text-align:center;border:1px solid #878787;padding:5px;font-size:0.875rem !important;color: #000000; font-family: 'Poppins', sans-serif;font-weight: 400;">
+                      No Data Found
+                    </td>
+                  </tr>
+
+                </ng-container>
+                <tr *ngIf="project?.skillsetsList.length!=0" style="text-align:left">
+                  <th style="border:1px solid #878787;padding:5px;font-size:0.875rem !important;color: #000000; font-family: 'Poppins', sans-serif;font-weight:600;">
+
+                    {{'Skillset_Code'|translate}}
+                  </th>
+                  <th style="border:1px solid #878787;padding:5px;font-size:0.875rem !important;color: #000000; font-family: 'Poppins', sans-serif;font-weight:600;">
+
+                    {{'Skillset_Name'|translate}}
+                  </th>
+                  <th style="border:1px solid #878787;padding:5px;font-size:0.875rem !important;color: #000000; font-family: 'Poppins', sans-serif;font-weight:600;">
+
+                    {{'Qty'|translate}}
+                  </th>
+                </tr>
+                <tr style="text-align:left" *ngFor="let skillset of project?.skillsetsList;">
+                  <td style="border:1px solid #878787;padding:5px;font-size:0.775rem !important;color: #000000; font-family: 'Poppins', sans-serif;font-weight: 400;">
+                    {{skillset?.skillSetCode}}
+                  </td>
+                  <td style="border:1px solid #878787;padding:5px;font-size:0.775rem !important;color: #000000; font-family: 'Poppins', sans-serif;font-weight: 400;">
+                    {{ !isArabic?skillset?.nameInEnglish:skillset?.nameInArabic}}
+                  </td>
+                  <td style="border:1px solid #878787;padding:5px;font-size:0.775rem !important;color: #000000; font-family: 'Poppins', sans-serif;font-weight: 400;">
+                    {{skillset?.quantity}}
+                  </td>
+
+                </tr>
+                <tr>
+                  <th colspan="2" style="border:1px solid #878787;padding:5px;font-size:0.875rem !important;color: #000000; font-family: 'Poppins', sans-serif;font-weight:600;">
+
+                    {{'Total'|translate}}
+</th>
+                  <td style="border:1px solid #878787;padding:5px;font-size:0.775rem !important;color: #000000; font-family: 'Poppins', sans-serif;font-weight: 400;">
+
+                    {{project?.totalSkillSetsQuantity}}
+                  </td>
+                </tr>
+                <tbody>
+                </tbody>
+
+
+              </table>
+            </ng-container>
+
+
+
+
+          </ng-container>
+
+        </div>
+
+
+      </div>
+
+
+    </div>
+  </div>
+</div>
+
+

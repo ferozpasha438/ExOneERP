@@ -1,0 +1,944 @@
+<div class="page-breadcrumb">
+  <div class="row">
+    <div class="col-12 align-self-center">
+      <h3 class="page-title text-truncate text-dark font-weight-medium mb-1">
+        {{'Inventory_Management_List' | translate}}
+      </h3>
+      <div class="d-flex align-items-center">
+        <nav aria-label="breadcrumb">
+          <ol class="breadcrumb m-0 p-0">
+            <li class="breadcrumb-item text-muted">{{'Inventory_Management' | translate}} </li>
+            <li class="breadcrumb-item   active" aria-current="page">{{'Inventory_Management_List' | translate}} </li>
+          </ol>
+        </nav>
+      </div>
+    </div>
+  </div>
+</div>
+<!--<div class="container-fluid">
+  <div class="row">
+    <div class="col-md-12 col-lg-12">
+
+      <div class="card">
+        <div class="card-body">
+          <div class="row">
+            <div class="col-md-7 col-lg-9">
+              <h4 class="card-title pt6">{{'Inventory_Management_List' | translate}}</h4>
+            </div>
+            <div class="col-md-3 col-lg-3 text-right">
+              <a data-toggle="modal"
+                 data-target="#scrollable-modal" class="  btn waves-effect waves-light btn-rounded btn-outline-primary" (click)="create()"  href="#"> <i class="icon-plus"> </i>{{'Add_New_Inventory' | translate}}</a>
+            </div>
+          </div>
+          <div class="cardtitle-divider"></div>
+          <div class="table-responsive">
+
+
+           
+
+            <ng-container>
+              <mat-paginator [length]="totalItemsCount" *ngIf="totalItemsCount > 0"
+                             [pageSize]="pageService.pageCount"
+                             [pageSizeOptions]="pageService.selectItemsPerPage"
+                             (page)="onPageSwitch($event)">
+              </mat-paginator>
+            </ng-container>
+
+
+
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </div>
+</div>-->
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-md-12 col-lg-12">
+
+      <div class="card">
+        <div class="card-body">
+
+          <div class="row pb-3">
+            <div class="col-md-3">
+
+              <select class="custom-select mr-sm-2" >
+                <option value="">{{'Inventory_Management_List' | translate}}</option>
+                <option value="TransLocK">Trans LocK</option>
+                <option value="TransPost">Trans Post</option>
+                <option value="TransVoid">Trans Void</option>
+
+
+              </select>
+
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col-md-7 col-lg-9">
+              <h4 class="card-title pt6">{{'Inventory_Management_List' | translate}}</h4>
+            </div>
+            <div class="col-md-3 col-lg-3 text-right">
+              <a data-toggle="modal"
+                 data-target="#scrollable-modal" class="  btn waves-effect waves-light btn-rounded btn-outline-primary" (click)="create()" href="#"> <i class="icon-plus"> </i>{{'Add_New_Inventory' | translate}}</a>
+            </div>
+          </div>
+          <div class="cardtitle-divider"></div>
+          <div class="table-responsive">
+
+            <spinner-loader [isLoading]="isLoading"></spinner-loader>
+
+            <table mat-table [dataSource]="data" matSort matSortActive="Id"
+                   matSortDisableClear matSortDirection="desc" (matSortChange)="onSortOrder($event)" class="table  table-bordered no-wrap">
+              <ng-container matColumnDef="ItemCode">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                  {{'Item_Code' | translate}}
+                </th>
+                <td mat-cell *matCellDef="let row">{{ row.itemCode }}</td>
+              </ng-container>
+
+              <ng-container matColumnDef="h_code">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                  {{'HSN_Code' | translate}}
+                </th>
+                <td mat-cell *matCellDef="let row">{{ row.hsnCode }}</td>
+              </ng-container>
+
+              <ng-container matColumnDef="shortname">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                  {{'Short_Name' | translate}}
+                </th>
+                <td mat-cell *matCellDef="let row">{{ row.shortName }}</td>
+              </ng-container>
+
+              <ng-container matColumnDef="itemdescription">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                  {{'Item_Description' | translate}}
+                </th>
+                <td mat-cell *matCellDef="let row">{{ row.itemDescription }}</td>
+              </ng-container>
+              <ng-container matColumnDef="category">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                  {{'Category' | translate}}
+                </th>
+                <td mat-cell *matCellDef="let row">{{ row.itemCat }}</td>
+              </ng-container>
+              <ng-container matColumnDef="itemavgcost">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                  {{'Item_Avg_Cost' | translate}}
+                </th>
+                <td mat-cell *matCellDef="let row">{{ row.itemAvgCost }}</td>
+              </ng-container>
+              <ng-container matColumnDef="itemstandardcost">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                  {{'Item_Standard_Cost' | translate}}
+                </th>
+                <td mat-cell *matCellDef="let row">{{ row.itemStandardCost }}</td>
+              </ng-container>
+              <ng-container matColumnDef="Actions" stickyEnd>
+                <th mat-header-cell *matHeaderCellDef> </th>
+                <td mat-cell *matCellDef="let row" class="text-center">
+
+                  <a class="tableicons" data-toggle="modal"
+                     data-target="#scrollable-modal" (click)="edit(row.id)"><i class="icon-note"> </i></a> &nbsp;
+                  <a class="tableicons" (click)="delete(row.id)"><i class="icon-trash"> </i></a>
+
+                </td>
+              </ng-container>
+
+              <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
+              <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+
+            </table>
+            <ng-container>
+              <mat-paginator [length]="totalItemsCount"
+                             [pageSize]="pageService.pageCount"
+                             [pageSizeOptions]="pageService.selectItemsPerPage"
+                             (page)="onPageSwitch($event)">
+              </mat-paginator>
+
+            </ng-container>
+
+
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<!--<div class="modal fade modalcustom" id="scrollable-modal" tabindex="-1" role="dialog"
+     aria-labelledby="scrollableModalTitle" aria-hidden="true">
+  <div class="modal-dialog modal-dialogmaxwidth70per  modal-dialog-scrollable modal-dialog-scrollablenew modal-dialog-scrollablecustom" role="document">
+    <div class="modal-content" style="width: 1000px; overflow: inherit;">
+      <div class="modal-header">
+
+        <h2 class="modal-title" id="scrollableModalTitle">{{'Create_New_Inventory' | translate}}</h2>
+        <button type="button" class="close" data-dismiss="modal" (click)="closeModel()"
+                aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+
+        <div class="outer ">
+          <div class="row rowm0   ">
+            <div class="col-md-12 col-lg-12">
+              <form [formGroup]="form" (ngSubmit)="inventorysubmit()" novalidate class="mt-1">
+                <mat-tab-group>
+
+                  <mat-tab label="{{'Item_Master' | translate}}" class="tabs_custom">
+                    
+                    <div class="row rowm0 rowp15 mt-3">
+
+
+                      <div class="col-md-6 col-lg-6">
+                        <div class="form-group ">
+                          <label class="mr-sm-2">{{'Item_Code' | translate}}</label>
+                          <input class="form-control" type="text" maxlength="20" placeholder="{{'Please_Enter' | translate}} {{'Item_Code' | translate}}" (change)="onTextchange($event.target.value)" disabled formControlName="itemCode" [readonly]="isReadOnly">
+                        </div>
+
+                      </div>
+                      <div class="col-md-6 col-lg-6">
+
+                        <div class="form-group ">
+                          <label class="mr-sm-2">{{'HSN_Code' | translate}}</label>
+                          <input class="form-control" maxlength="20" type="text" placeholder="{{'Please_Enter' | translate}} {{'HSN_Code' | translate}}" formControlName="hSNCode">
+                        </div>
+
+                      </div>
+                      <div class="col-md-6 col-lg-6">
+
+                        <div class="form-group ">
+                          <label class="mr-sm-2">{{'Item_Description' | translate}}</label>
+                          <input class="form-control" type="text" maxlength="100" placeholder="{{'Please_Enter' | translate}} {{'Item_Description' | translate}}" formControlName="itemDescription">
+                        </div>
+
+                      </div>
+                      <div class="col-md-6 col-lg-6">
+                        <div class="form-group ">
+                          <label class="mr-sm-2">
+                            {{'Item_Description_Arabic' | translate}}
+                          </label>
+                          <input class="form-control" type="text" maxlength="100" placeholder="{{'Please_Enter' | translate}} {{'Item_Description_Arabic' | translate}}" formControlName="itemDescriptionAr">
+                        </div>
+
+                      </div>
+
+                      <div class="col-md-6 col-lg-6">
+                        <div class="form-group ">
+                          <label class="mr-sm-2">
+                            {{'Short_Name' | translate}}
+
+                          </label>
+                          <input class="form-control" type="text" maxlength="250" placeholder=" {{'Please_Enter' | translate}}  {{'Short_Name' | translate}}" formControlName="shortName">
+                        </div>
+
+                      </div>
+                      <div class="col-md-6 col-lg-6">
+                        <div class="form-group ">
+                          <label class="mr-sm-2">
+                            {{'Short_Name_Arabic' | translate}}
+
+                          </label>
+                          <input class="form-control" type="text" maxlength="250" placeholder=" {{'Please_Enter' | translate}}  {{'Short_Name_Arabic' | translate}}" formControlName="shortNameAr">
+
+                        </div>
+
+                      </div>
+                      <div class="col-md-6 col-lg-6">
+                        <div class="form-group ">
+                          <label class="mr-sm-2">
+                            {{'Category' | translate}}
+                          </label>
+                          <select class="custom-select mr-sm-2" id="CategoryCode" (change)="onSubCategory($event.target.value)" formControlName="itemCat">
+                            <option value="">Choose Category Code</option>
+                            <ng-container *ngIf="CategoryCodeList">
+                              <option *ngFor="let ccl of CategoryCodeList" value="{{ccl.value}}">{{ccl.text}}</option>
+                            </ng-container>
+                          </select>
+                          <validation-message [control]="form.controls.itemCat"></validation-message>
+
+                        </div>
+                      </div>
+                      <div class="col-md-6 col-lg-6">
+                        <div class="form-group ">
+                          <label class="mr-sm-2">
+                            {{'Sub_Category' | translate}}
+                          </label>
+                          
+                          <select class="custom-select mr-sm-2" id="SubCategoryCode" formControlName="itemSubCat">
+                            <option value="">Choose Sub Category Code</option>
+                            <ng-container *ngIf="SubCategoryCodeList">
+                              <option *ngFor="let ccl of SubCategoryCodeList" value="{{ccl.value}}">{{ccl.text}}</option>
+                            </ng-container>
+                          </select>
+                          <validation-message [control]="form.controls.itemSubCat"></validation-message>
+                        </div>
+                      </div>
+                      <div class="col-md-6 col-lg-6">
+                        <div class="form-group ">
+                          <label class="mr-sm-2">
+                            {{'Class' | translate}}
+                          </label>
+
+
+                          <select class="custom-select mr-sm-2" id="ClassCode" formControlName="itemClass">
+                            <option value="">Choose Class Code</option>
+                            <ng-container *ngIf="ClassCodeList">
+                              <option *ngFor="let ccl of ClassCodeList" value="{{ccl.value}}">{{ccl.text}}</option>
+                            </ng-container>
+                          </select>
+                          <validation-message [control]="form.controls.itemClass"></validation-message>
+                        </div>
+                      </div>
+                      <div class="col-md-6 col-lg-6">
+                        <div class="form-group ">
+                          <label class="mr-sm-2">
+                            {{'Sub_Class' | translate}}
+                          </label>
+                         
+
+                          <select class="custom-select mr-sm-2" id="ClassCode" formControlName="itemSubClass">
+                            <option value="">Choose Sub Class Code</option>
+                            <ng-container *ngIf="SubClassCodeList">
+                              <option *ngFor="let ccl of SubClassCodeList" value="{{ccl.value}}">{{ccl.text}}</option>
+                            </ng-container>
+                          </select>
+                          <validation-message [control]="form.controls.itemSubClass"></validation-message>
+                        </div>
+                      </div>
+                      <div class="col-md-6 col-lg-6">
+                        <div class="form-group ">
+                          <label class="mr-sm-2">
+                            {{'Item_Avg_Cost' | translate}}
+                          </label>
+                          <input class="form-control" type="text" maxlength="10" placeholder=" {{'Please_Enter' | translate}}  {{'Item_Avg_Cost' | translate}}" formControlName="itemAvgCost">
+                        </div>
+                      </div>
+                      <div class="col-md-6 col-lg-6">
+                        <div class="form-group ">
+                          <label class="mr-sm-2">
+                            {{'Item_Standard_Cost' | translate}}
+                          </label>
+                          <input class="form-control" type="text" maxlength="10" placeholder=" {{'Please_Enter' | translate}}  {{'Item_Standard_Cost' | translate}}" formControlName="itemStandardCost">
+                        </div>
+                      </div>
+                      <div class="col-md-6 col-lg-6">
+                        <div class="form-group ">
+                          <label class="mr-sm-2">
+                            {{'Base_Stock_Unit' | translate}}
+                          </label>
+                          
+                          <select class="custom-select mr-sm-2" formControlName="itemBaseUnit">
+                            <option value="">Choose UOM</option>
+                            <ng-container *ngIf="UomLIst">
+                              <option *ngFor="let ccl of UomLIst" value="{{ccl.value}}">{{ccl.text}}</option>
+                            </ng-container>
+                          </select>
+                          <validation-message [control]="form.controls.itemBaseUnit"></validation-message>
+                        </div>
+                      </div>
+                      <div class="col-md-6 col-lg-6">
+                        <div class="form-group ">
+                          <label class="mr-sm-2">
+                            {{'Prime_Vendor' | translate}}
+                          </label>
+                         
+                          <ng-select [items]="VenCodeList"
+                                     bindLabel="text"
+                                     bindValue="value" formControlName="itemPrimeVendor" >
+
+                          </ng-select>
+                          <validation-message [control]="form.controls.itemPrimeVendor"></validation-message>
+                        </div>
+                      </div>
+                      <div class="col-md-4 col-lg-4">
+                        <div class="form-group ">
+                          <label class="mr-sm-2">
+                            {{'Standard_Price1_MRP' | translate}}
+                          </label>
+                          <input class="form-control" type="number" maxlength="4" placeholder=" {{'Please_Enter' | translate}}  {{'Standard_Price1_MRP' | translate}}" formControlName="itemStandardPrice1">
+                          <validation-message [control]="form.controls.itemStandardPrice1"></validation-message>
+                        </div>
+                      </div>
+                      <div class="col-md-4 col-lg-4">
+                        <div class="form-group ">
+                          <label class="mr-sm-2">
+                            {{'Standard_Price_2' | translate}}
+                          </label>
+                          <input class="form-control" type="number" maxlength="4" placeholder=" {{'Please_Enter' | translate}}  {{'Standard_Price_2' | translate}}" formControlName="itemStandardPrice2">
+                          <validation-message [control]="form.controls.itemStandardPrice2"></validation-message>
+                        </div>
+                      </div>
+                      <div class="col-md-4 col-lg-4">
+                        <div class="form-group ">
+                          <label class="mr-sm-2">
+                            {{'Standard_Price_3' | translate}}
+                          </label>
+                          <input class="form-control" type="number" maxlength="4" placeholder=" {{'Please_Enter' | translate}}  {{'Standard_Price_3' | translate}}" formControlName="itemStandardPrice3">
+                          <validation-message [control]="form.controls.itemStandardPrice3"></validation-message>
+                        </div>
+                      </div>
+                      <div class="col-md-6 col-lg-6">
+                        <div class="form-group ">
+                          <label class="mr-sm-2">
+                            {{'Item_Type' | translate}}
+                          </label>
+                         
+                          <select class="custom-select mr-sm-2" id="CategoryCode" (change)="ontype($event.target.value)" formControlName="itemType">
+                            <option value="">Choose Type Code</option>
+                            <ng-container *ngIf="ItemTypeLIst">
+                              <option *ngFor="let ccl of ItemTypeLIst" value="{{ccl.value}}">{{ccl.text}}</option>
+                            </ng-container>
+                          </select>
+                          <validation-message [control]="form.controls.itemType"></validation-message>
+                        </div>
+                      </div>
+                      <div class="col-md-6 col-lg-6">
+                        <div class="form-group ">
+                          <label class="mr-sm-2">
+                            {{'Item_Tracking' | translate}}
+                          </label>
+                         
+                          <ng-select [items]="ItemTrackingList"
+                                     bindLabel="text"
+                                     bindValue="value" formControlName="itemTracking">
+
+                          </ng-select>
+
+                          
+                          <validation-message [control]="form.controls.itemTracking"></validation-message>
+                        </div>
+                      </div>
+                      <div class="col-md-6 col-lg-6">
+                        <div class="form-group ">
+                          <label class="mr-sm-2">
+                            {{'Item_Weight' | translate}}
+                          </label>
+                          <input class="form-control" type="text" maxlength="20" placeholder=" {{'Please_Enter' | translate}}  {{'Item_Weight' | translate}}" formControlName="itemWeight">
+                        </div>
+                      </div>
+                      <div class="col-md-6 col-lg-6">
+                        <div class="form-group ">
+                          <label class="mr-sm-2">
+                            {{'Item_Tax' | translate}}
+                          </label>
+                          <select class="custom-select mr-sm-2" id="CategoryCode" formControlName="itemTaxCode">
+                            <option value="">Choose Tax Code</option>
+                            <ng-container *ngIf="TaxCodeList">
+                              <option *ngFor="let ccl of TaxCodeList" value="{{ccl.value}}">{{ccl.text}}</option>
+                            </ng-container>
+                          </select>
+                          <validation-message [control]="form.controls.itemTaxCode"></validation-message>
+                        </div>
+                      </div>
+                      <div class="col-md-6 col-lg-6" style="display:none">
+                        <div class="form-group ">
+                          <label class="mr-sm-2">
+                            {{'Item_is_Active' | translate}}
+                          </label>
+                          <div class="form-group">
+                            <mat-slide-toggle color="primary" formControlName="isActive"></mat-slide-toggle>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="col-md-6 col-lg-6">
+                        <div class="form-group ">
+                          <label class="mr-sm-2">
+                            {{'Allow_Price_Override' | translate}}
+                          </label>
+                          <div class="form-group">
+                            <mat-slide-toggle color="primary" formControlName="allowPriceOverride"></mat-slide-toggle>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="col-md-6 col-lg-6">
+                        <div class="form-group ">
+                          <label class="mr-sm-2">
+                            {{'Allow_Discounts' | translate}}
+                          </label>
+                          <div class="form-group">
+                            <mat-slide-toggle color="primary" formControlName="allowDiscounts"></mat-slide-toggle>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="col-md-6 col-lg-6">
+                        <div class="form-group ">
+                          <label class="mr-sm-2">
+                            {{'Allow_Quantity_Override' | translate}}
+                          </label>
+                          <div class="form-group">
+                            <mat-slide-toggle color="primary" formControlName="allowQuantityOverride"></mat-slide-toggle>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="row mt-3 ">
+                        <div class="col-md-12 col-lg-12 text-center">
+                          <input type="button"
+                                 class="btn waves-effect waves-light btn-rounded   btn-secondary btn-midblock"
+                                 value="CANCEL" (click)="closeModel()"/> &nbsp;
+                          <input type="submit"
+                                 class="btn waves-effect waves-light btn-rounded btn-primary btn-midblock"
+                                 value="SAVE" />
+                        </div>
+                      </div>
+                    </div>
+
+
+                   
+
+
+                  </mat-tab>
+                  <mat-tab label="{{'Item_Inventory' | translate}}">
+                    <div class="row rowm0 rowp15 mt-3">
+                      <div class="col-md-6 col-lg-6">
+                        <h4 class="mt-2">{{'Item_Inventory' | translate}}</h4>
+                      </div>
+                      <div class="col-md-6 col-lg-6">
+                        <div class="form-inline float-right">
+                          <div class="form-group ">
+                            <label class="mr-sm-2">{{'Item_Code' | translate}}</label>
+                            <input class="form-control mx-sm-3" type="text" readonly formControlName="ItemInventoryCodes">
+                          </div>
+                        </div>
+                      </div>
+                    </div><div class="cardtitle-divider mt-2"></div>
+
+
+
+                    <div class="table-responsive">
+                      <table id="zero_config" class="table  table-bordered no-wrap">
+                        <thead>
+                          <tr>
+                            <th width="18%">{{'WareHouse' | translate}}</th>
+                            <th width="18%">{{'QtyOH' | translate}}</th>
+                            <th width="18%">{{'qtyOnSalesOrder' | translate}}</th>
+                            <th>{{'QtyOnPO' | translate}}</th>
+                            <th width="8%">{{'QtyReserved' | translate}}</th>
+                            <th width="11%">{{'ItemAvgCost' | translate}}</th>
+                            <th>{{'ItemLastPOCost' | translate}}</th>
+                            <th>{{'ItemLandedCost' | translate}}</th>
+                            <th>{{'MinQty' | translate}}</th>
+                            <th>{{'MaxQty' | translate}}</th>
+                            <th>{{'EOQ' | translate}}</th>
+                            <th></th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          <tr>
+                            <td>
+                             
+                              <ng-select [items]="warehouseList" 
+                                         bindLabel="text"
+                                         bindValue="value" [(ngModel)]="whCode" [ngModelOptions]="{standalone: true}" disabled>
+                              </ng-select>
+                            </td>
+                            <td><input class="form-control" readonly style="width: 80px;" [ngModelOptions]="{standalone: true}" type="number" [(ngModel)]="qtyOH" onKeyPress="if(this.value.length==5) return false;" /></td>
+                            <td><input class="form-control" readonly [ngModelOptions]="{standalone: true}" type="number" [(ngModel)]="qtyOnSalesOrder" onKeyPress="if(this.value.length==5) return false;" /></td>
+                            <td><input class="form-control" readonly [ngModelOptions]="{standalone: true}" type="number" [(ngModel)]="qtyOnPO" onKeyPress="if(this.value.length==5) return false;" /></td>
+                            <td><input class="form-control" readonly [ngModelOptions]="{standalone: true}" type="number" [(ngModel)]="qtyReserved" onKeyPress="if(this.value.length==5) return false;" /></td>
+                            <td><input class="form-control" readonly [ngModelOptions]="{standalone: true}" type="number" [(ngModel)]="invitemAvgCost" onKeyPress="if(this.value.length==5) return false;" /></td>
+                            <td><input class="form-control" readonly  [ngModelOptions]="{standalone: true}" type="number" [(ngModel)]="itemLastPOCost" onKeyPress="if(this.value.length==5) return false;" /></td>
+                            <td><input class="form-control" readonly [ngModelOptions]="{standalone: true}" type="number" [(ngModel)]="itemLandedCost" onKeyPress="if(this.value.length==5) return false;" /></td>
+                            <td><input class="form-control" style="width: 80px;" [ngModelOptions]="{standalone: true}" type="number" [(ngModel)]="minQty" onKeyPress="if(this.value.length==5) return false;" /></td>
+                            <td><input class="form-control" style="width: 80px;" [ngModelOptions]="{standalone: true}" type="number" [(ngModel)]="maxQty" onKeyPress="if(this.value.length==5) return false;" /></td>
+                            <td><input class="form-control" style="width: 80px;" [ngModelOptions]="{standalone: true}" type="number" [(ngModel)]="eoq" onKeyPress="if(this.value.length==5) return false;" /></td>
+                           
+                            <td>
+                              <button type="button" class="btn waves-effect waves-light   btn-primary  " (click)="additem_inv()"><i class="icon-plus"></i></button>
+                            </td>
+                          </tr>
+                        </tbody>
+
+                        <thead>
+                          <tr>
+                            <th width="18%">{{'WareHouse' | translate}}</th>
+                            <th width="18%">{{'QtyOH' | translate}}</th>
+                            <th width="18%">{{'qtyOnSalesOrder' | translate}}</th>
+                            <th>{{'QtyOnPO' | translate}}</th>
+                            <th width="8%">{{'QtyReserved' | translate}}</th>
+                            <th width="11%">{{'ItemAvgCost' | translate}}</th>
+                            <th>{{'ItemLastPOCost' | translate}}</th>
+                            <th>{{'ItemLandedCost' | translate}}</th>
+                            <th>{{'MinQty' | translate}}</th>
+                            <th>{{'MaxQty' | translate}}</th>
+                            <th>{{'EOQ' | translate}}</th>
+                            <th class="text-center"></th>
+
+                          </tr>
+                        </thead>
+                        <tbody>
+                          <tr *ngFor="let item of listOfinventory; let index = i;">
+                            <td>{{item.whCode}}</td>
+                            <td>{{item.qtyOH}}</td>
+                            <td>{{item.qtyOnSalesOrder}}</td>
+                            <td>{{item.qtyOnPO}}</td>
+                            <td>{{item.qtyReserved}}</td>
+                            <td class="text-right">{{item.invitemAvgCost}}</td>
+                            <td class="text-right">{{item.itemLastPOCost}}</td>
+                            <td>{{item.itemLandedCost}}</td>
+                            <td>{{item.minQty}}</td>
+                            <td>{{item.maxQty}}</td>
+                            <td>{{item.eoq}}</td>
+                            <td class="text-center">
+                              <i class="icon-note cpointer" (click)="editInventoryItem(item)"> </i> &nbsp;
+                              <i class="icon-trash cpointer " (click)="deleteInventoryItem(item)"> </i> &nbsp;
+                            </td>
+                          </tr>
+
+
+
+
+                      </table>
+                      <div class="row mt-3 ">
+                        <div class="col-md-12 col-lg-12 text-center">
+                          <input type="button"
+                                 class="btn waves-effect waves-light btn-rounded btn-primary btn-midblock" (click)="AddInventory()"
+                                 value="SAVE" />
+                        </div>
+                      </div>
+                    </div>
+                  </mat-tab>
+                  <mat-tab label="{{'Unit_of_Measure' | translate}}">
+                   
+                    <div class="row rowm0 rowp15 mt-3">
+                      <div class="col-md-6 col-lg-6">
+                        <h4 class="mt-2">{{'Unit_of_Measure' | translate}}</h4>
+                      </div>
+                      <div class="col-md-6 col-lg-6">
+                        <div class="form-inline float-right">
+                          <div class="form-group ">
+                            <label class="mr-sm-2">{{'Item_Code' | translate}}</label>
+                            <input class="form-control mx-sm-3" type="text" readonly formControlName="ItemUOMCodes">
+                          </div>
+                        </div>
+                      </div>
+                    </div><div class="cardtitle-divider mt-2"></div>
+
+
+                          <div class="table-responsive">
+                           
+                            <table id="zero_config" class="table  table-bordered no-wrap">
+                              <thead>
+                                <tr>
+                                  <th width="18%">{{'UOM' | translate}}</th>
+                                  <th width="18%">{{'ConvFactor' | translate}}</th>
+                                  <th width="18%">{{'UOMPrice1' | translate}}</th>
+                                  <th>{{'UOMPrice2' | translate}}</th>
+                                  <th width="8%">{{'UOMPrice3' | translate}}</th>
+                                  <th width="11%">{{'UOMDiscPer' | translate}}</th>
+                                  <th>{{'UOMPrice4' | translate}}</th>
+                                  <th>{{'AvgCost' | translate}}</th>
+                                  <th>{{'LastPOCost' | translate}}</th>
+                                  <th>{{'LandedCost' | translate}}</th>
+                                  <th></th>
+                                </tr>
+                              </thead>
+                              <tbody>
+                                <tr>
+                                  <td>
+                                    <ng-select [items]="UomLIst" style="width: 140px;"
+                                               bindLabel="text"
+                                               bindValue="value" [(ngModel)]="itemUOM" [ngModelOptions]="{standalone: true}">
+                                    </ng-select>
+                                  </td>
+                                  <td><input class="form-control" style="width: 80px;" [ngModelOptions]="{standalone: true}" type="number" [(ngModel)]="itemConvFactor" onKeyPress="if(this.value.length==5) return false;" /></td>
+                                  <td><input class="form-control" [ngModelOptions]="{standalone: true}" type="number" [(ngModel)]="itemUOMPrice1" onKeyPress="if(this.value.length==5) return false;" /></td>
+                                  <td><input class="form-control" [ngModelOptions]="{standalone: true}" type="number" [(ngModel)]="itemUOMPrice2" onKeyPress="if(this.value.length==5) return false;" /></td>
+                                  <td><input class="form-control" [ngModelOptions]="{standalone: true}" type="number" [(ngModel)]="itemUOMPrice3" onKeyPress="if(this.value.length==5) return false;" /></td>
+                                  <td><input class="form-control" [ngModelOptions]="{standalone: true}" type="number" [(ngModel)]="itemUOMDiscPer" onKeyPress="if(this.value.length==5) return false;" /></td>
+                                  <td><input class="form-control" [ngModelOptions]="{standalone: true}" type="number" [(ngModel)]="itemUOMPrice4" onKeyPress="if(this.value.length==5) return false;" /></td>
+                                  <td><input class="form-control" [ngModelOptions]="{standalone: true}" style="width: 80px;" type="number" [(ngModel)]="itemUomAvgCost" onKeyPress="if(this.value.length==5) return false;" /></td>
+                                  <td><input class="form-control" style="width: 80px;" [ngModelOptions]="{standalone: true}" type="number" [(ngModel)]="itemUomLastPOCost" onKeyPress="if(this.value.length==5) return false;" /></td>
+                                  <td><input class="form-control" style="width: 80px;" [ngModelOptions]="{standalone: true}" type="number" [(ngModel)]="itemUomLandedCost" onKeyPress="if(this.value.length==5) return false;" /></td>
+                                  
+                                  <td>
+                                    <button type="button" class="btn waves-effect waves-light   btn-primary  " (click)="additem_invUOM()"><i class="icon-plus"></i></button>
+                                  </td>
+                                </tr>
+                              </tbody>
+
+                              <thead>
+                                <tr>
+                                  <th width="18%">{{'UOM' | translate}}</th>
+                                  <th width="18%">{{'ConvFactor' | translate}}</th>
+                                  <th width="18%">{{'UOMPrice1' | translate}}</th>
+                                  <th>{{'UOMPrice2' | translate}}</th>
+                                  <th width="8%">{{'UOMPrice3' | translate}}</th>
+                                  <th width="11%">{{'UOMDiscPer' | translate}}</th>
+                                  <th>{{'UOMPrice4' | translate}}</th>
+                                  <th>{{'AvgCost' | translate}}</th>
+                                  <th>{{'LastPOCost' | translate}}</th>
+                                  <th>{{'LandedCost' | translate}}</th>
+                                  <th class="text-center"></th>
+
+                                </tr>
+                              </thead>
+                              <tbody>
+                                <tr *ngFor="let item of listOfUOMinventory; let index = i;">
+                                  <td>{{item.itemUOM}}</td>
+                                  <td>{{item.itemConvFactor}}</td>
+                                  <td>{{item.itemUOMPrice1}}</td>
+                                  <td>{{item.itemUOMPrice2}}</td>
+                                  <td>{{item.itemUOMPrice3}}</td>
+                                  <td class="text-right">{{item.itemUOMDiscPer}}</td>
+                                  <td class="text-right">{{item.itemUOMPrice4}}</td>
+                                  <td>{{item.itemUomAvgCost}}</td>
+                                  <td>{{item.itemUomLastPOCost}}</td>
+                                  <td>{{item.itemUomLandedCost}}</td>
+                                  <td class="text-center">
+                                    <i class="icon-note cpointer" (click)="editInventoryUOMItem(item)"> </i> &nbsp;
+                                    <i class="icon-trash cpointer " (click)="deleteInventoryUOMItem(item)"> </i> &nbsp;
+                                  </td>
+                                </tr>
+
+
+
+
+                            </table>
+                            <div class="row mt-3 ">
+                              <div class="col-md-12 col-lg-12 text-center">
+                               
+                                <input type="button"
+                                       class="btn waves-effect waves-light btn-rounded btn-primary btn-midblock" (click)="AddUOM()"
+                                       value="SAVE" />
+                              </div>
+                            </div>
+                          </div>
+                   
+                  </mat-tab>
+
+                  <mat-tab label="{{'Item_Barcode' | translate }}">
+                  
+                    <div class="row rowm0 rowp15 mt-3">
+                      <div class="col-md-6 col-lg-6">
+                        <h4 class="mt-2">{{'Item_Barcode' | translate}}</h4>
+                      </div>
+                      <div class="col-md-6 col-lg-6">
+                        <div class="form-inline float-right">
+                          <div class="form-group ">
+                            <label class="mr-sm-2">{{'Item_Code' | translate}}</label>
+                            <input class="form-control mx-sm-3" type="text" readonly formControlName="ItemBarcodeCodes">
+                          </div>
+                        </div>
+                      </div>
+                    </div><div class="cardtitle-divider mt-2"></div>
+
+
+                          <div class="table-responsive">
+                          
+
+                            <table id="zero_config" class="table  table-bordered no-wrap">
+                              <thead>
+                                <tr>
+                                  <th>{{'Unit' | translate}}</th>
+                                  <th>{{'Barcode' | translate}}</th>
+                                  <th></th>
+                                </tr>
+                              </thead>
+                              <tbody>
+                                <tr>
+                                  <td>
+                                    <ng-select [items]="UomLIst" style="width: 140px;"
+                                               bindLabel="text"
+                                               bindValue="value" [(ngModel)]="itemBarUOM" [ngModelOptions]="{standalone: true}">
+                                    </ng-select>
+                                  </td>
+                                  <td><input class="form-control"  (blur)="onBarcodechange($event.target.value)" [ngModelOptions]="{standalone: true}" type="text" [(ngModel)]="itemBarcode"  /></td>
+                                  <td>
+                                    <button type="button" class="btn waves-effect waves-light   btn-primary  " (click)="additem_invBarcode()"><i class="icon-plus"></i></button>
+                                  </td>
+                                </tr>
+                              </tbody>
+
+                              <thead>
+                                <tr>
+                                  <th >{{'Unit' | translate}}</th>
+                                  <th >{{'Barcode' | translate}}</th>
+                                  <th class="text-center"></th>
+
+                                </tr>
+                              </thead>
+                              <tbody>
+                                <tr *ngFor="let item of listOfBarcodeinventory; let index = i;">
+                                  <td>{{item.itemBarUOM}}</td>
+                                  <td>{{item.itemBarcode}}</td>
+                                  <td class="text-center">
+                                    <i class="icon-note cpointer" (click)="editInventoryBarcodeItem(item)"> </i> &nbsp;
+                                    <i class="icon-trash cpointer " (click)="deleteInventoryBarcodeItem(item)"> </i> &nbsp;
+                                  </td>
+                                </tr>
+
+
+
+
+                            </table>
+                            <div class="row mt-3 ">
+                              <div class="col-md-12 col-lg-12 text-center">
+                               
+                                <input type="button"
+                                       class="btn waves-effect waves-light btn-rounded btn-primary btn-midblock" (click)="AddBarcode()"
+                                       value="SAVE" />
+                              </div>
+                            </div>
+                          </div>
+                   
+
+
+                  </mat-tab>
+                  <mat-tab label="{{'Item_Notes' | translate}}">
+                   
+                    <div class="row rowm0 rowp15 mt-3">
+                      <div class="col-md-6 col-lg-6">
+                        <h4 class="mt-2">{{'Item_Notes' | translate}}</h4>
+                      </div>
+                      <div class="col-md-6 col-lg-6">
+                        <div class="form-inline float-right">
+                          <div class="form-group ">
+                            <label class="mr-sm-2">{{'Item_Code' | translate}}</label>
+                            <input class="form-control mx-sm-3" type="text" readonly formControlName="ItemNotesCodes">
+                          </div>
+                        </div>
+                      </div>
+                    </div><div class="cardtitle-divider mt-2"></div>
+
+
+                    
+                  <div class="table-responsive">
+                   
+                    <table id="zero_config" class="table  table-bordered no-wrap">
+                      <thead>
+                        <tr>
+                          <th>{{'Date' | translate}}</th>
+                          <th>{{'Name' | translate}}</th>
+                          <th>{{'Notes' | translate}}</th>
+                          <th></th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr>
+                         
+                          <td><input class="form-control" [ngModelOptions]="{standalone: true}" type="date" [(ngModel)]="noteDates" /></td>
+                          <td><input class="form-control" [ngModelOptions]="{standalone: true}" type="text" [(ngModel)]="name" /></td>
+                          <td><input class="form-control" [ngModelOptions]="{standalone: true}" type="text" [(ngModel)]="notes" /></td>
+                          <td>
+                            <button type="button" class="btn waves-effect waves-light   btn-primary  " (click)="additem_invNotes()"><i class="icon-plus"></i></button>
+                          </td>
+                        </tr>
+                      </tbody>
+
+                      <thead>
+                        <tr>
+                          <th>{{'Date' | translate}}</th>
+                          <th>{{'Name' | translate}}</th>
+                          <th>{{'Notes' | translate}}</th>
+                          <th class="text-center"></th>
+
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr *ngFor="let item of listOfNotesinventory; let index = i;">
+                          <td>{{item.noteDates}}</td>
+                          <td>{{item.name}}</td>
+                          <td>{{item.notes}}</td>
+                          <td class="text-center">
+                            <i class="icon-note cpointer" (click)="editInventoryNotesItem(item)"> </i> &nbsp;
+                            <i class="icon-trash cpointer " (click)="deleteInventoryNotesItem(item)"> </i> &nbsp;
+                          </td>
+                        </tr>
+
+
+
+
+                    </table>
+                    <div class="row mt-3 ">
+                      <div class="col-md-12 col-lg-12 text-center">
+                       
+                        <input type="button"
+                               class="btn waves-effect waves-light btn-rounded btn-primary btn-midblock" (click)="AddNotes()"
+                               value="SAVE" />
+                      </div>
+                    </div>
+                  </div>
+                  
+                  </mat-tab>
+                  <mat-tab label="{{'History' | translate}}">
+                   
+                    <div class="row rowm0 rowp15 mt-3">
+                      <div class="col-md-6 col-lg-6">
+                        <h4 class="mt-2">{{'History' | translate}}</h4>
+                      </div>
+                      <div class="col-md-7 col-lg-7">
+                        <div class="form-inline float-right">
+                          <div class="form-group ">
+                            <label class="mr-sm-2">{{'Item_Code' | translate}}</label>
+                            <input class="form-control mx-sm-3" type="text" readonly formControlName="ItemHistoryCodes">
+                           
+                          </div>
+                          
+                           
+                          
+                        </div>
+                      </div>
+                    </div><div class="cardtitle-divider mt-2"></div>
+
+
+                    <div class="table-responsive">
+                     
+
+
+                      <table id="zero_config" class="table  table-bordered no-wrap">
+                        <thead>
+                          <tr>-->
+                            <!--<th>{{'Item Code' | translate}}</th>-->
+                            <!--<th>{{'WHCode' | translate}}</th>
+                            <th>{{'TranDate' | translate}}</th>
+                            <th>{{'TranNumber' | translate}}</th>
+                            <th>{{'TranUnit' | translate}}</th>
+                            <th>{{'TranQty' | translate}}</th>
+                            <th>{{'UnitConvFactor' | translate}}</th>
+                            <th>{{'TranTotQty' | translate}}</th>
+                            <th>{{'TranPrice' | translate}}</th>
+                            <th>{{'ItemAvgCost' | translate}}</th>
+                            <th>{{'TranRemarks' | translate}}</th>
+
+                          </tr>
+                        </thead>
+                        <tbody>
+                          <tr *ngFor="let item of listOfInvoices; let index = i;">-->
+                            <!--<td>{{item.itemCode}}</td>-->
+                            <!--<td>{{item.wHCode}}</td>
+                            <td>{{item.tranDate}}</td>
+                            <td>{{item.tranNumber}}</td>
+                            <td>{{item.tranUnit}}</td>
+                            <td class="text-right">{{item.tranQty}}</td>
+                            <td class="text-right">{{item.unitConvFactor}}</td>
+                            <td>{{item.tranTotQty}}</td>
+                            <td>{{item.tranPrice}}</td>
+                            <td>{{item.itemAvgCost}}</td>
+                            <td>{{item.tranRemarks}}</td>
+                          </tr>
+                      </table>
+
+
+
+
+
+                    </div>
+                   
+                  </mat-tab>
+                  
+                </mat-tab-group>
+              </form>
+            </div>
+          </div>
+        </div>
+
+
+      </div>
+      
+    </div>
+  </div>
+</div>-->

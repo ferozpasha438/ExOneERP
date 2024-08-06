@@ -1,0 +1,71 @@
+<h3 class="modal-title">{{'Uploading_Addendum' | translate}}</h3>
+<button type="button" class="close" aria-hidden="true" (click)="closeModel()"> ×</button>
+
+
+<div >
+
+
+  <div class="row" style="text-align:center">
+    <div class="col-md-12 col-lg-12">
+
+      <table class="table  table-bordered no-wrap">
+        <thead>
+          <tr>
+            <th>
+              {{'Customer_Code' | translate}}
+            </th>
+            <th>
+              {{'Project_Code'| translate}}
+            </th>
+            <th>
+              {{'Site_Code'| translate}}
+            </th>
+            <th>
+              {{'Request_Type'| translate}}
+            </th>
+            <th>
+              {{'Request_Number'| translate}}
+            </th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>
+              {{requestData.customerCode}}
+            </td>
+            <td>
+              {{requestData.projectCode}}
+            </td>
+            <td>
+              {{requestData.siteCode}}
+            </td>
+            <td>
+              {{requestType}}
+            </td>
+            <td>
+              {{requestData.requestNumber}}
+            </td>
+          </tr>
+        </tbody>
+      </table>
+
+
+    </div>
+    <div class="col-md-8 col-lg-8">
+      <div class="form-group">
+
+        <input accept=".pdf" type="file" (change)="onFileChanged($event,1)" />
+
+      </div>
+    </div>
+    <div class="col-md-4 col-lg-4 align-content-center">
+
+      <input type="button" *ngIf="requestData?.fileIForm != null"
+             class="btn waves-effect waves- active btn-rounded   btn-primary btn-midblock"
+             value="{{'Upload' | translate}}" (click)="uploadFile()" /> &nbsp;
+
+    </div>
+    
+  </div>
+</div>
+

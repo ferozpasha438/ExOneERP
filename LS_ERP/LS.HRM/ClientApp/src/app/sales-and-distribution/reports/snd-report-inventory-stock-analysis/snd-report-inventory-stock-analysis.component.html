@@ -1,0 +1,250 @@
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-12 align-self-center">
+      <h3 class="page-title text-truncate text-dark font-weight-medium mb-1">
+        {{'Sales_Statement' | translate}}
+      </h3>
+      <div class="d-flex align-items-center">
+        <nav aria-label="breadcrumb">
+          <ol class="breadcrumb m-0 p-0">
+            <li class="breadcrumb-item text-muted"> {{'Administration' | translate}} </li>
+            <li class="breadcrumb-item text-muted ">{{'Sales_Management' | translate}}</li>
+            <li class="breadcrumb-item   active" aria-current="page">{{'Inventory_Stock_Analysis' | translate}}</li>
+
+          </ol>
+        </nav>
+      </div>
+    </div>
+
+  </div>
+  <!--==============================================================
+  End Bread crumb and right sidebar toggle
+  ==============================================================
+  ==============================================================
+  Container fluid
+  ==============================================================-->
+  <div class="row">
+    <div class="col-md-12 col-lg-12">
+      <div class="card">
+        <div class="card-body">
+          <div class="row">
+            <div class="col-md-7 col-lg-9">
+              <h4 class="card-title pt6">{{'Inventory_Stock_Analysis' | translate}} </h4>
+            </div>
+          </div>
+          <div class="cardtitle-divider"></div>
+          <div class="row">
+
+            <div class="col-md-4 col-lg-4">
+              <div class="form-group">
+                <label>{{'Warehouse_Code' | translate}}</label>
+                <ng-select [items]="whSelectionList"
+                           bindLabel="lable"
+                           bindValue="value" [(ngModel)]="whCode" (change)="clearReport()" (clear)="clearCode('whCode')">  </ng-select>
+
+              </div>
+            </div>
+
+            <div class="col-md-4 col-lg-4">
+              <div class="form-group">
+                <label>{{'Item' | translate}}</label>
+                <ng-select [items]="itemSelectionList"
+                           bindLabel="lable"
+                           bindValue="value" [(ngModel)]="itemId" (change)="clearReport()" (clear)="clearCode('itemId')">  </ng-select>
+
+              </div>
+            </div>
+
+
+            <div class="col-md-4 col-lg-4">
+              <div class="form-group">
+                <label>{{'From_Date' | translate}}</label>
+                <div class="form-group ">
+                  <div class="input-group mb-2">
+                    <input class="form-control datapickerinput" placeholder="{{'Select_a_Date' | translate}}" [(ngModel)]="dateFrom"
+                           [matDatepicker]="picker1" (dateChange)="clearReport()">
+
+                    <div class="input-group-prepend datapickericon">
+                      <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
+                      <mat-datepicker #picker1></mat-datepicker><br /><br />
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-4 col-lg-4">
+              <div class="form-group">
+                <label>{{'To_Date' | translate}}</label>
+                <div class="form-group ">
+                  <div class="input-group mb-2">
+                    <input class="form-control datapickerinput" placeholder="{{'Select_a_Date' | translate}}" [(ngModel)]="dateTo"
+                           [matDatepicker]="picker2" (dateChange)="clearReport()">
+
+                    <div class="input-group-prepend datapickericon">
+                      <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
+                      <mat-datepicker #picker2></mat-datepicker><br /><br />
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-2 col-lg-2">
+              <div class="form-group pt" style="padding-top:35px;padding-left:20px">
+                <mat-slide-toggle color="primary" [(ngModel)]="showCosts"> </mat-slide-toggle>
+                {{'Show_Costs' | translate}}
+              </div>
+            </div>
+            <div class="col-md-2 col-lg-2" style="padding-top:30px;">
+
+              <div class="form-group pt">
+                <button type="button" class="btn waves-effect waves-light btn-rounded btn-primary btn-midblock" data-toggle="modal" (click)="search()">
+                  {{'Search' | translate}}
+                </button>
+              </div>
+            </div>
+
+            <div class="col-md-1 col-lg-1" style="vertical-align:bottom">
+              <div class="form-group">
+
+                <spinner-loader [isLoading]="isLoading"></spinner-loader>
+
+              </div>
+            </div>
+
+
+          </div>
+
+
+        </div>
+
+
+
+      </div>
+    </div>
+
+  </div>
+
+  <div class="modal-content" *ngIf="reports.length > 0">
+    <div class="modal-body">
+      <button type="button" class="btn waves-effect waves-light btn-rounded btn-primary btn-midblock" data-toggle="modal" (click)="openPrint()">
+        {{'Print' | translate}}
+      </button>
+      <br />
+      <div class="outer" id="printcontainer">
+        <div class="text-center font-weight-medium">
+          {{companyName}}  <img src="{{logoURL}}" style="width:200px;height:150px;float:right;" *ngIf="companyName" />
+          <br />
+          {{branchName}}
+          <br />
+          {{companyAddress}}
+        </div>
+
+        <br />
+        <div class="text-center font-weight-medium" *ngIf="dateFrom && dateTo">
+          <p>
+            The Statement of {{'Inventory Stock Analysis'| translate}} for {{dateFrom | date:'dd/MM/yyyy'}} to {{dateTo | date:'dd/MM/yyyy'}}
+          </p>
+          <span class="backspace" *ngIf="itemId">
+            Item Id:{{itemId}}
+          </span>
+          <span class="backspace" *ngIf="whCode">
+            ,Warehouse :{{whCode}}
+          </span>
+        </div>
+
+
+        <div class="table-responsive">
+          <ng-container>
+
+            <table style="width:100%;" border="1" cellspacing="0" class="ur_tablestyle">
+              <tbody>
+                <tr>
+                                    <th rowspan="2" style="text-align:center">{{'Item' | translate}} </th>
+                                    <th colspan="3" style="text-align:center">{{'Opening' | translate}} </th>
+                                    <th colspan="3" style="text-align:center">{{'Transactions' | translate}} </th>
+                                    <th colspan="3" style="text-align:center">{{'Closing' | translate}} </th>
+                </tr>
+                <tr>
+                                    <th style="text-align:center">{{'In' | translate}} </th>
+                                    <th style="text-align:center">{{'Out' | translate}} </th>
+                                    <th style="text-align:center">{{'Balance' | translate}} </th>
+   <th style="text-align:center">{{'In' | translate}} </th>
+                                    <th style="text-align:center">{{'Out' | translate}} </th>
+                                    <th style="text-align:center">{{'Balance' | translate}} </th>
+   <th style="text-align:center">{{'In' | translate}} </th>
+                                    <th style="text-align:center">{{'Out' | translate}} </th>
+                                    <th style="text-align:center">{{'Balance' | translate}} </th>
+                </tr>
+                <tr *ngFor="let item of reports; let i=index;">
+                  <td class="arabicright">{{item.itemName}}({{item.itemCode}})
+                  </td>
+                  <td style="text-align:center">
+                    {{item.openingBal.inQty}}
+                    <span *ngIf="showCosts" style="font-size:smaller"><br/>({{item.openingBal.inCost | number:'1.2'}})</span>
+                  </td>
+                  <td style="text-align:center">
+                    {{item.openingBal.outQty}}
+                    <span *ngIf="showCosts" style="font-size:smaller"><br/>({{item.openingBal.outCost | number:'1.2'}})</span>
+                  </td>
+
+                  <td style="text-align:center">
+                    {{item.openingBal.balanceQty}}
+                    <span *ngIf="showCosts" style="font-size:smaller"><br />({{item.openingBal.balanceCost | number:'1.2'}})</span>
+                  </td>
+
+                  <td style="text-align:center">
+                    {{item.transactionBal.inQty}}
+                    <span *ngIf="showCosts" style="font-size:smaller"><br />({{item.transactionBal.inCost | number:'1.2'}}) </span>
+                  </td>
+                  <td style="text-align:center">
+                    {{item.transactionBal.outQty}}
+                    <span *ngIf="showCosts" style="font-size:smaller">
+                      <br />({{item.transactionBal.outCost | number:'1.2'}})
+                    </span>
+                  </td>
+                  <td style="text-align:center">
+                    {{item.transactionBal.balanceQty}}
+                    <span *ngIf="showCosts" style="font-size:smaller"><br />{{item.transactionBal.balanceCost}} </span>
+                  </td>
+            
+                  <td style="text-align:center">
+                    {{item.closingBal.inQty}}
+                    <span *ngIf="showCosts" style="font-size:smaller"><br /> ({{item.closingBal.inCost | number:'1.2'}})</span>
+                  </td>
+                  <td style="text-align:center">
+                    {{item.closingBal.outQty}}
+                    <span *ngIf="showCosts" style="font-size:smaller"><br />({{item.closingBal.outCost | number:'1.2'}}) </span>
+                  </td>
+                  <td style="text-align:center">
+                    {{item.closingBal.balanceQty}}
+                    <span *ngIf="showCosts" style="font-size:smaller"><br />({{item.closingBal.balanceCost | number:'1.2'}})</span>
+                  </td>
+                </tr>
+
+                
+
+              </tbody>
+
+
+
+            </table>
+            <br />
+          </ng-container>
+
+
+
+        </div>
+
+
+      </div>
+
+
+    </div>
+
+
+  </div>
+</div>
+
+
+
+

@@ -1,0 +1,300 @@
+<button type="button" class="close" aria-hidden="true" (click)="closeModel()"> ×</button>
+<form [formGroup]="form" (ngSubmit)="submit()" novalidate class="mt-4">
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-md-12 col-lg-12">
+        <div class="card">
+          <div class="card-body">
+            <div class="row">
+              <div class="col-md-7 col-lg-9">
+                <h4 class="card-title pt6">{{'Logistics_Costing'| translate}} </h4>
+              </div>
+
+            </div>
+
+            <div class="cardtitle-divider"></div>
+            <div>
+              <div class="col-md-12 col-lg-12">
+                <div class="p-3" style="border:1px solid #f4f4f4;">
+                  <div class="row  mt-2">
+
+                    <div class="col-md-3 col-lg-3">
+                      <label class="mr-sm-2">{{'Customer_Code' | translate}}</label>
+                      <div class="form-group ">
+                        <div class="input-group mb-2">
+
+
+                          <input class="form-control" type="text"
+                                 placeholder="{{'Please_Enter' | translate}} {{'Customer_Code' | translate}}" formControlName="customerCode" readonly>
+
+                        </div>
+
+                        <validation-message [control]="form.controls.customerCode"></validation-message>
+
+                      </div>
+
+                    </div>
+
+                    <div class="col-md-3 col-lg-3">
+                      <label class="mr-sm-2">{{'Project_Code' | translate}}</label>
+                      <div class="form-group ">
+                        <div class="input-group mb-2">
+
+
+                          <input class="form-control" type="text"
+                                 placeholder="{{'Please_Enter' | translate}} {{'Project_Code' | translate}}" formControlName="projectCode" readonly>
+
+                        </div>
+
+                        <validation-message [control]="form.controls.projectCode"></validation-message>
+
+                      </div>
+
+                    </div>
+
+                    <div class="col-md-3 col-lg-3">
+                      <div class="form-group ">
+                        <label class="mr-sm-2">{{'Site_Code' | translate}}</label>
+                        <select class="custom-select mr-sm-2" formControlName="siteCode" (change)="onSelectSiteCode($event)">
+                          <option value="">{{'Select' | translate}} {{'Site_Code' | translate}} </option>
+                          <option *ngFor="let site of siteCodeSelectList" value="{{site.siteCode}}">{{ !isArab?site.siteName:site.siteArbName}}</option>
+                        </select>
+                        <validation-message [control]="form.controls.siteCode"></validation-message>
+                      </div>
+                    </div>
+                  </div>
+
+                </div>
+              </div>
+              <div class="row">
+
+
+
+
+                <div class="col-md-6 col-lg-6" style="padding-right:0">
+
+                  <div class="paddingtop15">
+                    <div class="row" *ngIf="projectBudgetCosting!=null">
+                      <div class="col-md-6 col-lg-6">
+
+                        <auto-loader [isLoading]="isDataLoading"></auto-loader>
+                        <input type="text" class="form-control"
+                               placeholder="{{'Vehicle_Code' | translate}}"
+                               [formControl]="vehicleNumberControl"
+                               matInput
+                               [matAutocomplete]="auto1">
+                        <mat-autocomplete #auto1="matAutocomplete" (optionSelected)="onSelectionVehicleNumber($event)">
+                          <mat-option *ngFor="let option of filteredVehicleNumbers | async"
+                                      [value]="option.vehicleNumber">
+                            {{option.vehicleNumber}}
+                          </mat-option>
+                        </mat-autocomplete>
+
+
+                      </div>
+                   
+                      <div class="col-md-4 col-lg-4">
+                        <input class="form-control" type="number"
+                               placeholder="{{'Qty' | translate}}" formControlName="qty">
+
+                      </div>
+
+                      <div class="col-md-2 col-lg-2">
+                        <a style="font-size:30px" (click)="addUpdateVehicle()"> <i class="icon-plus"> </i>  </a>
+
+                      </div>
+              
+
+                    </div>
+
+                  </div>
+
+
+
+                  <table *ngIf="projectBudgetCosting!=null" class="table  table-bordered table-borderedcustom no-wrap" id="table">
+                    <thead>
+                      <tr>
+                        <th>
+                          {{'Logistics'|translate}}
+                        </th>
+                        <th>
+                          {{'Qty'|translate}}
+                        </th>
+                        <th>{{'Cost_Per_Unit'|translate}}</th>
+                        <th>
+                          {{'Total'|translate}}
+                        </th>
+ <th>
+
+                        </th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr class="selected" *ngFor="let rc of projectBudgetCosting.logisticsCostingsList;let i = index;">
+                        <td>{{rc.vehicleNumber}}</td>
+                        <td>{{rc.qty}} </td>
+
+                        <td *ngIf="this.rc.costPerUnit!=0" style="text-align:right">{{rc.costPerUnit+rc.margin}}</td>
+                        <td *ngIf="this.rc.costPerUnit==0" style="text-align:right">-</td>
+                        <td>{{rc.qty*(rc.costPerUnit+rc.margin)}} </td>
+                        <td style="width: 10%;text-align:right">
+                          <span *ngIf="activeLogisticsIndex==-1 ">
+                            <a class="tableicons" (click)="removeVehicle(this.i)"><i class="icon-trash"> </i></a>
+                          </span>
+
+                          <span *ngIf="activeLogisticsIndex==-1" style="font-size:smaller">
+                            <button type="button" class="btn waves-effect waves-light btn-outline-primary" (click)="getLogisticsSubCostingList(rc,i)">{{'Edit'|translate}}</button>
+                          </span>
+                          <span *ngIf="activeLogisticsIndex==i && projectBudgetCosting.logisticsCostingsList[activeLogisticsIndex]?.costPerUnit+projectBudgetCosting.logisticsCostingsList[activeLogisticsIndex]?.margin==0" style="font-size:smaller">
+                            <button type="button" class="btn waves-effect waves-light btn-outline-primary" (click)="cancelEditCosting()">{{'Cancel'|translate}}</button>
+                          </span>
+                        </td>
+
+
+                      </tr>
+                      <tr>
+                        <th style="text-align:right" colspan="3">
+                          {{'Total'|translate}}
+                        </th>
+                        <th style="text-align:right">
+                          {{grandTotal}}
+                        </th>
+                      <th style="text-align:right">
+                       
+                        </th>
+                     
+
+                      </tr>
+
+                  </table>
+                </div>
+                <div class="col-md-6 col-lg-6" *ngIf="projectBudgetCosting!=null">
+                  <div class="paddingtop15">
+                    <div class="row">
+                      <div class="col-md-6 col-lg-6">
+                        <!--<input type="text" placeholder="{{'Enter'|translate}} {{'Costing_Head'|translate}}" class="form-control" formControlName="subCostCostHead"/>-->
+                        <select class="custom-select mr-sm-2" formControlName="subCostCostHead" (change)="selectCostHead($event)">
+                          <option value="">{{'Select' | translate}} {{'Costing_Head' | translate}} </option>
+                          <option *ngFor="let ch of logisticsExpenceHeadSelectList" value="{{ch.costHead}}">{{ isArab?ch.costNameInArabic:ch.costNameInEnglish}}</option>
+                        </select>
+                      </div>
+                      <div class="col-md-5 col-lg-4">
+                        <input type="number" placeholder="{{'Enter'|translate}} {{'Amount'|translate}}" class="form-control" formControlName="subCostAmount" />
+                      </div>
+                      <div class="col-md-2 col-lg-1">
+                        <a style="font-size:30px" (click)="addUpdateSubCostings()"> <i class="icon-plus"> </i>  </a>
+                      </div>
+                    </div>
+                  </div>
+                  <table class="table tablecolor  table-bordered no-wrap" *ngIf="activeLogisticsIndex!=-1">
+                    <tbody>
+                      <tr>
+                        <th width="60%">
+                          {{'Costing_Head'|translate}}
+                        </th>
+                        <th width="40%">{{'Amount'|translate}}</th>
+                        <th></th>
+                      </tr>
+                      <tr *ngFor="let lsc of logisticsSubCostingList;let j = index;">
+                        <!--<td style="width: 60%;">{{lsc.costHead}}</td>-->
+                        <td style="width: 60%;">{{ !isArab?getCostHead(lsc.costHead)?.costNameInEnglish:getCostHead(lsc.costHead)?.costNameInArabic}}</td>
+
+                        <td style="width: 30%;text-align:right">{{lsc.amount}}</td>
+                        <td style="width: 10%;text-align:right">
+                          <span>
+                            <a class="tableicons" (click)="removeSubCostings(this.j)"><i class="icon-trash"> </i></a>
+                          </span>
+                        
+                        </td>
+
+
+
+                      </tr>
+                     
+
+
+                      <tr>
+                        <th>{{'Sub_Total'|translate}}</th>
+                        <th style="text-align:right">
+                          {{projectBudgetCosting.logisticsCostingsList[activeLogisticsIndex]?.costPerUnit}}
+                        </th>
+                        <th>
+                        </th>
+                      </tr>
+
+
+
+
+                      <tr>
+                        <td style="text-align:right">{{'Margin'|translate}}</td>
+                        <!--<td style="text-align:right">
+      {{projectBudgetCosting.logisticsCostingsList[activeLogisticsIndex]?.margin}}
+    </td>-->
+                        <td>
+                          <input type="number" style="text-align:right"
+                                 class="form-control"
+                                 placeholder="{{'Margin'|translate}}"
+                                 [(ngModel)]="projectBudgetCosting.logisticsCostingsList[activeLogisticsIndex].margin" [ngModelOptions]="{standalone: true}" (keyup)="changeMargin()" />
+
+                        </td>
+                        <td>
+                        </td>
+                      </tr>
+
+
+
+
+                      <tr>
+                        <th>{{'Cost_Per_Unit'|translate}}</th>
+                        <th style="text-align:right">
+                          {{projectBudgetCosting.logisticsCostingsList[activeLogisticsIndex]?.costPerUnit+projectBudgetCosting.logisticsCostingsList[activeLogisticsIndex]?.margin}}
+                        </th>
+                        <th>
+                          <span *ngIf="projectBudgetCosting.logisticsCostingsList[activeLogisticsIndex]?.costPerUnit+projectBudgetCosting.logisticsCostingsList[activeLogisticsIndex]?.margin>0">
+                            <button type="button" class="btn waves-effect waves-light btn-outline-primary" (click)="SubCostingOK()">{{'OK'|translate}}</button>
+                          </span>
+                        </th>
+                      </tr>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</table>
+                </div>
+
+              </div>
+
+            </div>
+            <div class="row ">
+              <div class="col-md-12 col-lg-12 text-center">
+                <input type="button" class="btn waves-effect waves-light btn-rounded   btn-secondary btn-midblock" (click)="closeModel()" value="CLOSE"> &nbsp;
+                <input type="submit" *ngIf="canSave && grandTotal> 0 && activeLogisticsIndex==-1" class="btn waves-effect waves-light btn-rounded btn-primary btn-midblock" value="SAVE">
+                <input *ngIf="grandTotal== 0" type="button" class="btn waves-effect waves-light btn-rounded btn-primary btn-midblock" (click)="skippEstimationType()" value="SKIP">
+
+              </div>
+            </div>
+          </div>
+
+
+
+        </div>
+      </div>
+
+    </div>
+
+  </div>
+</form>

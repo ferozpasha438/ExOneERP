@@ -1,0 +1,368 @@
+
+<div style="position:fixed;">
+  <button (click)="printInvoice()">Print</button> &nbsp;
+  <button type="button" class="" aria-hidden="true" (click)="closeModel()"> Close</button>
+</div>
+<br />
+<br />
+<br />
+<!-- Container -->
+<div class="container-fluid invoice-container print-container" style="width:850px; padding-top:5px;" id="printcontainer">
+
+  <table style="width:100%" border="0" cellpadding="0" cellspacing="0" width="100%">
+    <tr>
+      <td style="text-align: left;width:60%">
+        <h4 style="font-size: 1rem !important;color: #0c2f54; font-family: 'Poppins', sans-serif;font-weight: 500;
+        line-height: 1.2;margin:0;padding-top:4px">
+          International Ideal Development Gen. Cont. Est.
+        </h4>
+        <h4 style="font-size: 1.2rem !important;color: #0c2f54; font-family: 'Poppins', sans-serif;font-weight: 500;
+        line-height: 1.2;margin:0;padding-top:4px">
+          .المؤسسة العالمية للتنمية المثالية للمقاولات العامة
+          ,
+        </h4>
+        <h4 style="font-size: 1rem !important;color: #0c2f54; font-family: 'Poppins', sans-serif;font-weight: 500;
+        line-height: 1.2;margin:0;padding-top:4px">
+          Al Khobar
+        </h4>
+        <h4 style="font-size: 1rem !important;color: #0c2f54; font-family: 'Poppins', sans-serif;font-weight: 500;
+        line-height: 1.2;margin:0;padding-top:4px">
+          Saudi Arabia
+        </h4>
+
+      </td>
+      <td style=" text-align: right;vertical-align: middle;">
+        <img id="logo" style="width:120px" src="assets/images/LOGOPRINT.png" title="Project_Estimation" alt="Project_Estimation_Report" />
+      </td>
+
+
+    </tr>
+  </table>
+
+
+  <ng-container style="padding-bottom: 5px; padding-top: 5px" *ngFor="let swpbc of projectBudgetEstimation?.siteWisePBCListForProject; let i=index;">
+    <div  *ngIf="i==0" style="padding-bottom:5px">
+      <table style=" background-color: lightgray; width: 100%; text-align: left;" border="0" cellpadding="0" cellspacing="0" width="100%">
+        <tr>
+          <th style=" width:20%;border:2px solid #878787;padding:5px;font-size:0.875rem !important;color: #000000; font-family: 'Poppins', sans-serif;font-weight:600;">
+            {{'Customer_Code' | translate}}
+          </th>
+          <th style="width:30%;border:2px solid #878787;padding:5px;font-size:0.875rem !important;color: #000000; font-family: 'Poppins', sans-serif;font-weight: 600;">
+            #{{project.customerCode}}
+          </th>
+
+          <th style="width:20%;border:2px solid #878787;padding:5px;font-size:0.875rem !important;color: #000000; font-family: 'Poppins', sans-serif;font-weight: 600;">
+            {{'Customer_Name' | translate}}
+          </th>
+          <th style=" border:2px solid #878787;padding:5px;font-size:0.875rem !important;color: #000000; font-family: 'Poppins', sans-serif;font-weight: 600;">
+            {{ !isArab?customerData.custName:customerData.custArbName}}
+          </th>
+
+        </tr>
+        <tr>
+          <th style=" border:2px solid #878787;padding:5px;font-size:0.875rem !important;color: #000000; font-family: 'Poppins', sans-serif;font-weight:600;">
+            {{'Address' | translate}}
+          </th>
+          <th colspan="3" style="border:2px solid #878787;padding:5px;font-size:0.875rem !important;color: #000000; font-family: 'Poppins', sans-serif;font-weight: 600;">
+            #{{customerData.custAddress1}}
+          </th>
+
+
+
+        </tr>
+        <tr>
+          <th style=" border:2px solid #878787;padding:5px;font-size:0.875rem !important;color: #000000; font-family: 'Poppins', sans-serif;font-weight:600;">
+            {{'City' | translate}}
+          </th>
+          <th style=" border:2px solid #878787;padding:5px;font-size:0.875rem !important;color: #000000; font-family: 'Poppins', sans-serif;font-weight: 600;">
+            {{ !isArab?city?.cityName:city?.cityNameAr}}
+          </th>
+
+          <th style=" border:2px solid #878787;padding:5px;font-size:0.875rem !important;color: #000000; font-family: 'Poppins', sans-serif;font-weight: 600;">
+            {{'Phone' | translate}}
+          </th>
+          <th style="border:2px solid #878787;padding:5px;font-size:0.875rem !important;color: #000000; font-family: 'Poppins', sans-serif;font-weight: 600;">
+            {{customerData.custPhone1}}
+          </th>
+
+        </tr>
+
+      </table>
+    </div>
+
+    <div *ngIf="i==0" style="padding-bottom:5px;">
+      <table style=" background-color: lightgrey; width: 100%; text-align: left;" border="0" cellpadding="0" cellspacing="0" width="100%">
+        <tr>
+          <th style=" width:20%;border:2px solid #878787;padding:5px;font-size:0.875rem !important;color: #000000; font-family: 'Poppins', sans-serif;font-weight:600;">
+            {{'Project_Code' | translate}}
+          </th>
+          <th style="width:30%;border:2px solid #878787;padding:5px;font-size:0.875rem !important;color: #000000; font-family: 'Poppins', sans-serif;font-weight: 600;">
+            {{projectData?.projectCode}}
+          </th>
+
+          <th style="width:20%;border:2px solid #878787;padding:5px;font-size:0.875rem !important;color: #000000; font-family: 'Poppins', sans-serif;font-weight: 600;">
+            {{'Est_Starting_Date' | translate}}
+          </th>
+          <th style=" border:2px solid #878787;padding:5px;font-size:0.875rem !important;color: #000000; font-family: 'Poppins', sans-serif;font-weight: 600;">
+            {{projectData?.startDate.substring(0,10)}}
+          </th>
+
+        </tr>
+        <tr>
+          <th style=" width:20%;border:2px solid #878787;padding:5px;font-size:0.875rem !important;color: #000000; font-family: 'Poppins', sans-serif;font-weight:600;">
+            {{'Project_Details' | translate}}
+          </th>
+          <th style="width:20%;border:2px solid #878787;padding:5px;font-size:0.875rem !important;color: #000000; font-family: 'Poppins', sans-serif;font-weight: 600;">
+            {{ !isArab?projectData?.projectNameEng:projectData.projectNameArb}}
+          </th>
+
+          <th style="width:20%;border:2px solid #878787;padding:5px;font-size:0.875rem !important;color: #000000; font-family: 'Poppins', sans-serif;font-weight: 600;">
+            {{'Est_Closing_Date' | translate}}
+          </th>
+          <th style=" border:2px solid #878787;padding:5px;font-size:0.875rem !important;color: #000000; font-family: 'Poppins', sans-serif;font-weight: 600;">
+            {{projectData?.endDate.substring(0,10)}}
+          </th>
+
+        </tr>
+
+      </table>
+    </div>
+
+    <div style="padding-bottom: 5px;">
+      <table  style=" background-color: lightgray;width: 100%; text-align: left;" border="0" cellpadding="0" cellspacing="0" width="100%">
+        <tr>
+          <th style=" width:20%;border:2px solid #878787;padding:5px;font-size:0.875rem !important;color: #000000; font-family: 'Poppins', sans-serif;font-weight:600;">
+            {{'Site_Code' | translate}}
+          </th>
+          <th style="border:2px solid #878787;padding:5px;font-size:0.875rem !important;color: #000000; font-family: 'Poppins', sans-serif;font-weight: 600;">
+            {{swpbc.siteData.siteCode}}
+          </th>
+        </tr>
+        <tr>
+          <th style="border:2px solid #878787;padding:5px;font-size:0.875rem !important;color: #000000; font-family: 'Poppins', sans-serif;font-weight: 600;">
+            {{'Site_Details' | translate}}
+          </th>
+          <th style=" border:2px solid #878787;padding:5px;font-size:0.875rem !important;color: #000000; font-family: 'Poppins', sans-serif;font-weight: 600;">
+            {{ !isArab?swpbc.siteData.siteName:!isArab?swpbc.siteData.siteArbName:swpbc.siteData.siteAddress}}
+          </th>
+
+        </tr>
+
+      </table>
+    </div>
+    <table  style="width:100%" border="0" cellpadding="0" cellspacing="0" width="100%">
+
+      <tr>
+        <td style="font-size: 1.5rem !important;color: #0c2f54; font-family: 'Poppins', sans-serif;font-weight: 500;
+            line-height: 1.2;margin:0;padding-top:15px;text-align: center;">
+          {{'Resource_Costing' | translate}}
+        </td>
+      </tr>
+    </table>
+
+    <div style="padding-bottom:5px">
+      <table style="width:100%;" border="0" cellpadding="0" cellspacing="0" width="100%">
+        <tr>
+          <th style="width:15%; border: 2px solid #878787; padding: 5px; text-align: center; font-size: 0.875rem !important; color: #000000; font-family: 'Poppins', sans-serif; font-weight: 600;">{{'SkillSet_Code' | translate}}</th>
+          <th style="border:2px solid #878787;padding:5px;text-align: center;font-size:0.875rem !important;color: #000000; font-family: 'Poppins', sans-serif;font-weight: 600;">{{'Name' | translate}}</th>
+          <th style="width:30%;border:2px solid #878787;padding:5px;text-align: center;font-size:0.875rem !important;color: #000000; font-family: 'Poppins', sans-serif;font-weight: 600;" colspan="3">{{'Cost_Per_Unit' | translate}}</th>
+          <th style="width:7%;border:2px solid #878787;padding:5px;text-align: center;font-size:0.875rem !important;color: #000000; font-family: 'Poppins', sans-serif;font-weight: 600;">{{'Qty' | translate}}</th>
+
+          <th style="width:15%;border:2px solid #878787;padding:5px;text-align: center;font-size:0.875rem !important;color: #000000; font-family: 'Poppins', sans-serif;font-weight: 600;">{{'Total' | translate}}</th>
+        </tr>
+        <ng-container *ngIf="swpbc.prcListForSite.length==0">
+          <tr> <td style=" border:2px solid #878787;padding:5px;text-align: center;font-size:0.775rem !important;color: #000000; font-family: 'Poppins', sans-serif;font-weight: 500;" colspan="7">-Nil-</td></tr>
+        </ng-container>
+        <ng-container *ngFor="let prcSite of swpbc.prcListForSite">
+          <tr *ngFor="let prsc of prcSite.resourceSubCostingList;let $index=index">
+            <td style=" border:2px solid #878787;padding:5px;text-align: left;font-size:0.675rem !important;color: #000000; font-family: 'Poppins', sans-serif;font-weight: 500;" *ngIf="$index===0;" [attr.rowspan]="prcSite.resourceSubCostingList.length+1">{{prcSite.skillsetCode}}</td>
+            <td style=" border:2px solid #878787;padding:5px;text-align: left;font-size:0.675rem !important;color: #000000; font-family: 'Poppins', sans-serif;font-weight: 500;" *ngIf="$index===0;" [attr.rowspan]="prcSite.resourceSubCostingList.length+1">{{ !isArab?getSkillset(prcSite.skillsetCode)?.nameInEnglish:getSkillset(prcSite.skillsetCode)?.nameInArabic}}</td>
+            <td style=" border:2px solid #878787;padding:5px;text-align: left;font-size:0.675rem !important;color: #000000; font-family: 'Poppins', sans-serif;font-weight: 500;">{{ !isArab?getopeartionsExpenseHead(prsc.costHead)?.text:getopeartionsExpenseHead(prsc.costHead)?.textTwo}}</td>
+            <td style=" border:2px solid #878787;padding:5px;text-align: right;font-size:0.675rem !important;color: #000000; font-family: 'Poppins', sans-serif;font-weight: 500;">{{(prsc.amount)|number:'3.2-5'}}</td>
+         
+            <td style=" border:2px solid #878787;padding:5px;text-align: right;font-size:0.675rem !important;color: #000000; font-family: 'Poppins', sans-serif;font-weight: 500;" *ngIf="$index===0;" [attr.rowspan]="prcSite.resourceSubCostingList.length+1" class="text-right">{{prcSite.costPerUnit |number:'3.2-5'}}</td>
+            <td style=" border:2px solid #878787;padding:5px;text-align: center;font-size:0.675rem !important;color: #000000; font-family: 'Poppins', sans-serif;font-weight: 500;" *ngIf="$index===0;" [attr.rowspan]="prcSite.resourceSubCostingList.length+1">{{prcSite.quantity}}</td>
+            <td style=" border:2px solid #878787;padding:5px;text-align: right;font-size:0.675rem !important;color: #000000; font-family: 'Poppins', sans-serif;font-weight: 500;" *ngIf="$index===0;" [attr.rowspan]="prcSite.resourceSubCostingList.length+1" class="text-right">{{prcSite.totResourceCost |number:'3.2-5'}}</td>
+          </tr>
+          <tr>
+
+            <td style=" border:2px solid #878787;padding:5px;text-align: left;font-size:0.675rem !important;color: #000000; font-family: 'Poppins', sans-serif;font-weight: 500;" class="text-left">{{'Margin'|translate}}</td>
+            <td style=" border:2px solid #878787;padding:5px;text-align: right;font-size:0.675rem !important;color: #000000; font-family: 'Poppins', sans-serif;font-weight: 500;" class="text-right">{{prcSite.margin |number:'3.2-5'}}</td>
+          </tr>
+        </ng-container>
+        <tfoot>
+          <tr>
+            <th style=" border:2px solid #878787;padding:5px;text-align: center;font-size:0.675rem !important;color: #000000; font-family: 'Poppins', sans-serif;font-weight:600;" colspan="6" class="text-right">{{'Total' | translate}} <!--{{swpbc.siteData.siteName}}({{swpbc.siteData.siteArbName}})-->  </th>
+            <th style=" border:2px solid #878787;padding:5px;text-align: center;font-size:0.675rem !important;color: #000000; font-family: 'Poppins', sans-serif;font-weight:600;" class="text-right"> {{swpbc.totRcForSite |number:'3.2-5'}}</th>
+          </tr>
+        </tfoot>
+      </table>
+    </div>
+    <table style="width:100%" border="0" cellpadding="0" cellspacing="0" width="100%">
+
+      <tr>
+        <td style="font-size: 1.5rem !important;color: #0c2f54; font-family: 'Poppins', sans-serif;font-weight: 500;
+                line-height: 1.2;margin:0;padding-top:15px;text-align: center;">
+          {{'Vehicle_Costing' | translate}}
+        </td>
+      </tr>
+    </table>
+
+    <div style="padding-bottom:5px">
+
+
+      <table style="width:100%;" border="0" cellpadding="0" cellspacing="0" width="100%">
+        <tr>
+          <th style=" width:15%; border:2px solid #878787;padding:5px;text-align: center;font-size:0.875rem !important;color: #000000; font-family: 'Poppins', sans-serif;font-weight:600;">{{'Vehicle_Number' | translate}}</th>
+          <th style=" width: 40%; border: 2px solid #878787; padding: 5px; text-align: center; font-size: 0.875rem !important; color: #000000; font-family: 'Poppins', sans-serif; font-weight: 600;">{{'Vehicle_Name' | translate}}</th>
+          <th style=" width: 25%; border: 2px solid #878787; padding: 5px; text-align: center; font-size: 0.875rem !important; color: #000000; font-family: 'Poppins', sans-serif; font-weight: 600;" colspan="3">{{'Amount_For_Vehicle' | translate}}</th>
+
+
+          <th style=" width: 20%; border: 2px solid #878787; padding: 5px; text-align: center; font-size: 0.875rem !important; color: #000000; font-family: 'Poppins', sans-serif; font-weight: 600;">{{'Total' | translate}}</th>
+        </tr>
+        
+          <tr *ngIf="swpbc.plcListForSite.length==0"> <td style=" border:2px solid #878787;padding:5px;text-align: center;font-size:0.775rem !important;color: #000000; font-family: 'Poppins', sans-serif;font-weight: 500;" colspan="6">-Nil-</td></tr>
+       
+
+
+        <ng-container *ngFor="let plcSite of swpbc.plcListForSite">
+          <tr *ngFor="let plsc of plcSite.logisticsSubCostingList;let $index=index">
+            <td style=" border:2px solid #878787;padding:5px;text-align: left;font-size:0.675rem !important;color: #000000; font-family: 'Poppins', sans-serif;font-weight: 500;" *ngIf="$index===0;" [attr.rowspan]="plcSite.logisticsSubCostingList.length+1">{{plcSite.vehicleNumber}}</td>
+            <td style=" border:2px solid #878787;padding:5px;text-align: left;font-size:0.675rem !important;color: #000000; font-family: 'Poppins', sans-serif;font-weight: 500;" *ngIf="$index===0;" [attr.rowspan]="plcSite.logisticsSubCostingList.length+1">{{ !isArab?getLogisticsVehicle(plcSite.vehicleNumber).text:getLogisticsVehicle(plcSite.vehicleNumber).textTwo}}</td>
+            <td style=" border:2px solid #878787;padding:5px;text-align: left;font-size:0.675rem !important;color: #000000; font-family: 'Poppins', sans-serif;font-weight: 500;">{{ !isArab?getopeartionsExpenseHead(plsc.costHead)?.text:getopeartionsExpenseHead(plsc.costHead)?.textTwo}}</td>
+            <td style=" border:2px solid #878787;padding:5px;text-align: right;font-size:0.675rem !important;color: #000000; font-family: 'Poppins', sans-serif;font-weight: 500;">{{plsc.amount |number:'3.2-5'}}</td>
+            <td style=" border:2px solid #878787;padding:5px;text-align: right;font-size:0.675rem !important;color: #000000; font-family: 'Poppins', sans-serif;font-weight: 500;" *ngIf="$index===0;" [attr.rowspan]="plcSite.logisticsSubCostingList.length+1" class="text-right">{{plcSite.costPerUnit |number:'3.2-5'}}</td>
+
+            <td style=" border:2px solid #878787;padding:5px;text-align: right;font-size:0.675rem !important;color: #000000; font-family: 'Poppins', sans-serif;font-weight: 500;" *ngIf="$index===0;" [attr.rowspan]="plcSite.logisticsSubCostingList.length+1" class="text-right">{{plcSite.totLogisticsCost |number:'3.2-5'}}</td>
+          </tr>
+          <tr>
+            <td style=" border:2px solid #878787;padding:5px;text-align: left;font-size:0.675rem !important;color: #000000; font-family: 'Poppins', sans-serif;font-weight: 500;">{{'Margin'|translate}}  </td>
+            <td style=" border:2px solid #878787;padding:5px;text-align: left;font-size:0.675rem !important;color: #000000; font-family: 'Poppins', sans-serif;font-weight: 500;">{{plcSite.margin |number:'3.2-5'}}</td>
+          </tr>
+
+        </ng-container>
+        <tfoot>
+          <tr>
+            <th style=" border:2px solid #878787;padding:5px;text-align: center;font-size:0.675rem !important;color: #000000; font-family: 'Poppins', sans-serif;font-weight:600;" colspan="5" class="text-right">{{'Total' | translate}} <!--{{swpbc.siteData.siteName}}({{swpbc.siteData.siteArbName}})-->  </th>
+            <th style=" border:2px solid #878787;padding:5px;text-align: center;font-size:0.675rem !important;color: #000000; font-family: 'Poppins', sans-serif;font-weight:600;" class="text-right"> {{swpbc.totLcForSite |number:'3.2-5'}}</th>
+          </tr>
+         
+        </tfoot>
+       
+        
+
+      </table>
+    </div>
+
+
+
+    <table style="width:100%" border="0" cellpadding="0" cellspacing="0" width="100%">
+
+      <tr>
+        <td style="font-size: 1.5rem !important;color: #0c2f54; font-family: 'Poppins', sans-serif;font-weight: 500;
+                    line-height: 1.2;margin:0;padding-top:15px;text-align: center;">
+          {{'Material_Costing' | translate}}
+        </td>
+      </tr>
+    </table>
+
+    <div style="padding-bottom:5px">
+      <table style="width:100%;" border="0" cellpadding="0" cellspacing="0" width="100%">
+        <tr>
+          <th style="width:10%; border:2px solid #878787;padding:5px;text-align: center;font-size:0.875rem !important;color: #000000; font-family: 'Poppins', sans-serif;font-weight:600;">{{'Material_Equipment_Code' | translate}}</th>
+          <th style="width: 40%; border: 2px solid #878787; padding: 5px; text-align: center; font-size: 0.875rem !important; color: #000000; font-family: 'Poppins', sans-serif; font-weight: 600;">{{'Material_Equipment_Name' | translate}}</th>
+          <th style="width: 30%; border: 2px solid #878787; padding: 5px; text-align: center; font-size: 0.875rem !important; color: #000000; font-family: 'Poppins', sans-serif; font-weight: 600;" colspan="3">{{'Cost_Per_Unit' | translate}}</th>
+          <th style="width: 5%; border: 2px solid #878787; padding: 5px; text-align: center; font-size: 0.875rem !important; color: #000000; font-family: 'Poppins', sans-serif; font-weight: 600;">{{'Qty' | translate}}</th>
+
+          <th style="width: 10%; border: 2px solid #878787; padding: 5px; text-align: center; font-size: 0.875rem !important; color: #000000; font-family: 'Poppins', sans-serif; font-weight: 600;">{{'Total' | translate}}</th>
+        </tr>
+        <tr *ngIf="swpbc.pmcListForSite.length==0"> <td style=" border:2px solid #878787;padding:5px;text-align: center;font-size:0.775rem !important;color: #000000; font-family: 'Poppins', sans-serif;font-weight: 500;" colspan="7">-Nil-</td></tr>
+
+
+        <ng-container *ngFor="let pmcSite of swpbc.pmcListForSite">
+          <tr *ngFor="let pmsc of pmcSite.materialEquipmentSubCostingList;let $index=index">
+            <td style=" border:2px solid #878787;padding:5px;text-align: left;font-size:0.675rem !important;color: #000000; font-family: 'Poppins', sans-serif;font-weight: 500;" *ngIf="$index===0;" [attr.rowspan]="pmcSite.materialEquipmentSubCostingList.length">{{pmcSite.materialEquipmentCode}}</td>
+            <td style=" border:2px solid #878787;padding:5px;text-align: left;font-size:0.675rem !important;color: #000000; font-family: 'Poppins', sans-serif;font-weight: 500;" *ngIf="$index===0;" [attr.rowspan]="pmcSite.materialEquipmentSubCostingList.length">{{ !isArab?getMaterialEquipments(pmcSite.materialEquipmentCode)?.text:getMaterialEquipments(pmcSite.materialEquipmentCode)?.textTwo}}</td>
+            <td style=" border:2px solid #878787;padding:5px;text-align: left;font-size:0.675rem !important;color: #000000; font-family: 'Poppins', sans-serif;font-weight: 500;">{{ !isArab?getopeartionsExpenseHead(pmsc.costHead)?.text:getopeartionsExpenseHead(pmsc.costHead)?.textTwo}}</td>
+            <td style=" border:2px solid #878787;padding:5px;text-align: right;font-size:0.675rem !important;color: #000000; font-family: 'Poppins', sans-serif;font-weight: 500;">{{pmsc.amount |number:'3.2-5'}}</td>
+            <td style=" border:2px solid #878787;padding:5px;text-align: right;font-size:0.675rem !important;color: #000000; font-family: 'Poppins', sans-serif;font-weight: 500;" *ngIf="$index===0;" [attr.rowspan]="pmcSite.materialEquipmentSubCostingList.length" class="text-right">{{pmcSite.costPerUnit |number:'3.2-5'}}</td>
+            <td style=" border:2px solid #878787;padding:5px;text-align: center;font-size:0.675rem !important;color: #000000; font-family: 'Poppins', sans-serif;font-weight: 500;" *ngIf="$index===0;" [attr.rowspan]="pmcSite.materialEquipmentSubCostingList.length">{{pmcSite.quantity}}</td>
+            <td style=" border:2px solid #878787;padding:5px;text-align: right;font-size:0.675rem !important;color: #000000; font-family: 'Poppins', sans-serif;font-weight: 500;" *ngIf="$index===0;" [attr.rowspan]="pmcSite.materialEquipmentSubCostingList.length" class="text-right">{{pmcSite.totMaterialEquipmentCost |number:'3.2-5'}}</td>
+          </tr>
+        </ng-container>
+        <tfoot>
+          <tr>
+            <th style=" border:2px solid #878787;padding:5px;text-align: center;font-size:0.675rem !important;color: #000000; font-family: 'Poppins', sans-serif;font-weight:600;" colspan="6" class="text-right">{{'Total' | translate}} <!--{{swpbc.siteData.siteName}}({{swpbc.siteData.siteArbName}})-->  </th>
+            <th style=" border:2px solid #878787;padding:5px;text-align: right;font-size:0.675rem !important;color: #000000; font-family: 'Poppins', sans-serif;font-weight:600;" class="text-right"> {{swpbc.totMcForSite |number:'3.2-5'}}</th>
+          </tr>
+        </tfoot>
+      </table>
+    </div>
+    <table style="width:100%" border="0" cellpadding="0" cellspacing="0" width="100%">
+
+      <tr>
+        <td style="font-size: 1.5rem !important;color: #0c2f54; font-family: 'Poppins', sans-serif;font-weight: 500;
+                        line-height: 1.2;margin:0;padding-top:15px;text-align: center;">
+          {{'Financial_Costing' | translate}}
+        </td>
+      </tr>
+    </table>
+
+    <div style="padding-bottom:5px">
+
+      <table style="width:100%;" border="0" cellpadding="0" cellspacing="0" width="100%">
+        <tr>
+          <th style=" border:2px solid #878787;padding:5px;text-align: center;font-size:0.875rem !important;color: #000000; font-family: 'Poppins', sans-serif;font-weight:600;">{{'Code' | translate}}</th>
+          <th style=" border:2px solid #878787;padding:5px;text-align: center;font-size:0.875rem !important;color: #000000; font-family: 'Poppins', sans-serif;font-weight:600;">{{'Name' | translate}}</th>
+          <!--<th style=" border:2px solid #878787;padding:5px;text-align: center;font-size:0.875rem !important;color: #000000; font-family: 'Poppins', sans-serif;font-weight:600;">{{'Name_Arab' | translate}}</th>-->
+          <th style=" border:2px solid #878787;padding:5px;text-align: center;font-size:0.875rem !important;color: #000000; font-family: 'Poppins', sans-serif;font-weight:600;">{{'Amount' | translate}}</th>
+        </tr>
+        <tr *ngIf="swpbc.pfcListForSite.length==0"> <td style=" border:2px solid #878787;padding:5px;text-align: center;font-size:0.775rem !important;color: #000000; font-family: 'Poppins', sans-serif;font-weight: 500;" colspan="3">-Nil-</td></tr>
+
+        <ng-container *ngFor="let pfcSite of swpbc.pfcListForSite">
+          <tr>
+            <td style=" border:2px solid #878787;padding:5px;text-align: left;font-size:0.675rem !important;color: #000000; font-family: 'Poppins', sans-serif;font-weight: 500;">{{pfcSite.financialExpenseCode}}</td>
+            <td style=" border:2px solid #878787;padding:5px;text-align: left;font-size:0.675rem !important;color: #000000; font-family: 'Poppins', sans-serif;font-weight: 500;">{{ !isArab?getopeartionsExpenseHead(pfcSite.financialExpenseCode)?.text:getopeartionsExpenseHead(pfcSite.financialExpenseCode)?.textTwo}}</td>
+            <td style=" border:2px solid #878787;padding:5px;text-align: right;font-size:0.675rem !important;color: #000000; font-family: 'Poppins', sans-serif;font-weight: 500;">{{pfcSite.costPerUnit |number:'3.2-5'}}</td>
+          </tr>
+        </ng-container>
+        <tfoot>
+          <tr>
+            <th style=" border:2px solid #878787;padding:5px;text-align: right;font-size:0.675rem !important;color: #000000; font-family: 'Poppins', sans-serif;font-weight:600;" colspan="2">{{'Total' | translate}} <!--{{swpbc.siteData.siteName}}({{swpbc.siteData.siteArbName}})-->  </th>
+            <th style=" border:2px solid #878787;padding:5px;text-align: right;font-size:0.675rem !important;color: #000000; font-family: 'Poppins', sans-serif;font-weight:600;"> {{swpbc.totFcForSite |number:'3.2-5'}}</th>
+          </tr>
+        </tfoot>
+      </table>
+
+    </div>
+    <div style="padding-top:5px">
+      <table style="width:100%;" border="0" cellpadding="0" cellspacing="0" width="100%">
+        <tr>
+          <td style=" text-align: right;vertical-align: top;border:2px solid #878787;padding:5px; font-size:0.875rem !important;color: #000000; font-family: 'Poppins', sans-serif;font-weight: 500">
+            {{'Total_Costof_the_site' | translate}}:
+          </td>
+
+          <td style="width:20%;text-align: right;vertical-align: top;border:2px solid #878787;border-left:0;padding:5px;font-size:0.875rem !important;color: #000000; font-family: 'Poppins', sans-serif;font-weight: 600">
+            {{swpbc.grandTotalCostForSite |number:'3.2-5'}}
+          </td>
+        </tr>
+      </table>
+    </div>
+    <br />
+  </ng-container>
+  <div *ngIf="!project?.isAdendum" style="padding-top: 5px; padding-bottom:5px"> 
+    <table style="width:100%;" border="0" cellpadding="0" cellspacing="0" width="100%">
+      <tr>
+        <td style=" text-align: right;vertical-align: top;border:2px solid #878787;padding:5px; font-size:0.875rem !important;color: #000000; font-family: 'Poppins', sans-serif;font-weight: 500">
+          {{'Total_Cost_Of_The_Project' | translate}}:
+        </td>
+
+        <td style="width:20%;text-align: right;vertical-align: top;border:2px solid #878787;border-left:0;padding:5px;font-size:0.875rem !important;color: #000000; font-family: 'Poppins', sans-serif;font-weight: 600">
+          {{projectBudgetEstimation?.grandTotalCostForProject |number:'3.2-5'}}
+        </td>
+      </tr>
+    </table>
+  </div>
+
+</div>
+

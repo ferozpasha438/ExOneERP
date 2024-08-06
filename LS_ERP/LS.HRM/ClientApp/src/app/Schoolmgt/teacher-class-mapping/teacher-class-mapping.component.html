@@ -1,0 +1,87 @@
+<h3 class="modal-title">{{'Teacher_Class_Mapping' | translate}}</h3>
+<button type="button" class="close" aria-hidden="true" (click)="closeModel()"> ×</button>
+<form [formGroup]="form" (ngSubmit)="submit()" novalidate class="mt-4">
+    <div class="outer ">
+        <div class="card" style="padding: 10px">           
+            <div class="row customrow mt-4">
+                <div class="col-md-3">
+                    <div class="form-group ">
+                        <label>{{'Grade_Code' | translate}}</label>
+                        <select class="custom-select mr-sm-2" [(ngModel)]="gradeCode" [ngModelOptions]="{ standalone: true }" (change)="loadRelatedItems()">
+                            <option value="">{{'Select' | translate}} {{'Grade_Code' | translate}} </option>
+                            <ng-container *ngIf="gradeCodeList">
+                              <option *ngFor="let item of gradeCodeList" value="{{item.gradeCode}}">{{ isArab ? item.gradeName2 : item.gradeName  }}</option>
+                            </ng-container>
+                        </select>
+                        <!--<validation-message [control]="form.controls.gradeCode"></validation-message>-->
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="form-group ">
+                        <label>{{'Section_In_Grade' | translate}}</label>
+                        <select class="custom-select mr-sm-2" [(ngModel)]="sectionCode" [ngModelOptions]="{ standalone: true }">
+                          <option value="">{{'Select' | translate}} {{'Section_In_Grade' | translate}} </option>
+                            <ng-container *ngIf="sectionCodeList">
+                              <option *ngFor="let item of sectionCodeList" value="{{item.sectionCode}}">{{ isArab ? item.sectionName2 : item.sectionName  }}</option>
+                            </ng-container>
+                        </select>
+                        <!--<validation-message [control]="form.controls.sectionCode"></validation-message>-->
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="form-group">
+                        <label>{{'Mapped' | translate}}</label>
+                        <div class="form-group">                   
+                            <mat-slide-toggle color="primary" [(ngModel)]="isMapped" [ngModelOptions]="{ standalone: true }"></mat-slide-toggle>                
+                        </div>
+                        <!--<validation-message [control]="form.controls.mapped"></validation-message>-->                       
+                    </div>
+                </div>
+                <div class="col-md-3 mt-3">
+                  <div class="form-group">
+                    <input type="button" class="btn waves-effect waves-light btn-primary" value="{{'Add' | translate}}"
+                           (click)="addClassItem()" />
+                  </div>
+                </div>
+            </div>
+            
+        </div>
+        <div class="row" *ngIf="classDetails.length>0">
+          <div class="col-lg-12 col-md-12 text-center">
+            <div class="card" style="padding: 10px">
+              <div class="table-responsive">
+                <table id="zero_config" class="table  table-bordered no-wrap">
+                  <thead>
+                    <tr>
+                      <th>{{'Grade_Code' | translate}}</th>
+                      <th>{{'Section_Code' | translate}}</th>
+                      <th>{{'Mapped' | translate}}</th>
+                      <th></th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr *ngFor="let item of classDetails; let index = i;">
+                      <td>{{item.gradeCode}}</td>
+                      <td>{{item.sectionCode}}</td>
+                      <td>{{item.isMapped}}</td>
+                      <td class="text-center">
+                        <i class="icon-note cpointer" (click)="editClassItem(item)"> </i> &nbsp;
+                        <i class="icon-trash cpointer " (click)="deleteClassItem(item)"> </i> &nbsp;
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="row customrow mt-4">
+            <div class="col-lg-12 col-md-12 text-center">
+                <input type="button" class="btn btn-secondary" value="{{'Cancel' | translate}}"
+                    (click)="closeModel()" />
+                &nbsp;&nbsp;
+                <input type="submit" class="btn waves-effect waves-light btn-primary" value="{{'Save' | translate}}">
+            </div>
+        </div>
+    </div>
+</form>

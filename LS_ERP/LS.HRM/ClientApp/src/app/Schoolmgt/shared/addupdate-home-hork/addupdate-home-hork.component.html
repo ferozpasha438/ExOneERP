@@ -1,0 +1,95 @@
+<h3 class="modal-title">{{'Home_Work' | translate}}</h3>
+<button type="button" class="close" aria-hidden="true" (click)="closeModel()"> ×</button>
+<form [formGroup]="form" (ngSubmit)="submit()" novalidate class="mt-4">
+  <div class="outer ">
+    <div class="row rowm0 mt-3">
+      <div class="col-md-6 col-lg-6 col-sm-6">
+        <div class="form-group">
+          <label>{{'Teacher_Code' | translate}}</label>
+          <select class="custom-select mr-sm-2" formControlName="teacherCode" (change)="loadGrades()">
+            <option value="">{{'Select' | translate}} {{'Teacher_Code' | translate}} </option>
+            <ng-container *ngIf="teacherList">
+              <option *ngFor="let item of teacherList" value="{{item.teacherCode}}">{{ isArab ? item.teacherName2 : item.teacherName1  }}</option>
+            </ng-container>
+          </select>
+          <validation-message [control]="form.controls.teacherCode"></validation-message>
+        </div>
+      </div>
+      <div class="col-md-6 col-lg-6 col-sm-6">
+        <div class="form-group">
+          <label>{{'Grade_Code' | translate}}</label>
+          <select class="custom-select mr-sm-2" formControlName="gradeCode" (change)="loadRelatedItems()">
+            <option value="">{{'Select' | translate}} {{'Grade_Code' | translate}} </option>
+            <ng-container *ngIf="gradeCodeList">
+              <option *ngFor="let item of gradeCodeList" value="{{item.gradeCode}}">{{ isArab ? item.gradeName2 : item.gradeName  }}</option>
+            </ng-container>
+          </select>
+          <validation-message [control]="form.controls.gradeCode"></validation-message>
+        </div>
+      </div>
+      <div class="col-md-6 col-lg-6 col-sm-6">
+        <div class="form-group">
+          <label>{{'Subject' | translate}}</label>
+          <select class="custom-select mr-sm-2" formControlName="subCodes">
+            <option value="">{{'Select' | translate}} {{'Subject' | translate}} </option>
+            <ng-container *ngIf="subjectCodeList">
+              <option *ngFor="let item of subjectCodeList" value="{{item.subCodes}}">{{ isArab ? item.subName2 : item.subName  }}</option>
+            </ng-container>
+          </select>
+          <validation-message [control]="form.controls.subCodes"></validation-message>
+        </div>
+      </div>
+      <div class="col-md-6 col-lg-6 col-sm-6">
+        <div class="form-group">
+          <label>{{'Home_Work_Date' | translate}}</label>
+          <div class="input-group ">
+            <input class="form-control datapickerinput" placeholder="{{'Home_Work_Date' | translate}}"
+                   formControlName="homeworkDate" [matDatepicker]="picker1">
+            <div class="input-group-prepend datapickericon">
+              <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
+              <mat-datepicker #picker1></mat-datepicker><br /><br />
+            </div>
+          </div>
+          <validation-message [control]="form.controls.homeworkDate"></validation-message>
+        </div>
+      </div>
+      <div class="col-md-6 col-lg-6 col-sm-6">
+        <div class="form-group">
+          <label>{{'Home_Work_Details' | translate}}</label>
+          <textarea class="form-control" type="text" placeholder="{{'Home_Work_Details' | translate}}"
+                    formControlName="homeWorkDescription"></textarea>
+          <validation-message [control]="form.controls.homeWorkDescription"></validation-message>
+        </div>
+      </div>
+      <div class="col-md-6 col-lg-6 col-sm-6">
+        <div class="form-group">
+          <label>{{'Home_Work_Details_AR' | translate}}</label>
+          <textarea class="form-control" type="text" placeholder="{{'Home_Work_Details_AR' | translate}}"
+                    formControlName="homeWorkDescription_Ar"></textarea>
+          <validation-message [control]="form.controls.homeWorkDescription_Ar"></validation-message>
+        </div>
+      </div>
+      <div class="col-md-6 col-lg-6 col-sm-6">
+        <div class="form-group">
+          <label>{{'Remarks' | translate}}</label>
+          <textarea class="form-control" type="text" placeholder="{{'Remarks' | translate}}"
+                    formControlName="remarks"></textarea>
+          <validation-message [control]="form.controls.remarks"></validation-message>
+        </div>
+      </div>
+      <div class="col-md-6 col-lg-6 col-sm-6">
+        <label>{{'Is_Active' | translate}}</label>
+        <div class="form-group">
+          <mat-slide-toggle color="primary" formControlName="isActive"></mat-slide-toggle>
+        </div>
+      </div>
+    </div>
+    <div class="row customrow mt-4">
+      <div class="col-lg-12 col-md-12 text-center">
+        <input type="button" class="btn btn-secondary" value="{{'Cancel' | translate}}" (click)="closeModel()" />
+        &nbsp;&nbsp;
+        <input type="submit" class="btn waves-effect waves-light btn-primary" value="{{'Save' | translate}}">
+      </div>
+    </div>
+  </div>
+</form>

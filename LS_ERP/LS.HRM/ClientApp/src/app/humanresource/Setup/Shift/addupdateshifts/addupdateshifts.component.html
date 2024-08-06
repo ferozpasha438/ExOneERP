@@ -1,0 +1,97 @@
+<div class="modal-header">
+  <h3 class="modal-title">{{modalTitle}}</h3>
+  <button type="button" class="close" aria-hidden="true" (click)="closeModel()"> ×</button>
+</div>
+<form [formGroup]="form" (ngSubmit)="submit()" novalidate class="mt-4">
+  <div class="row">
+    <div class="col-md-6 col-lg-6">
+      <div class="form-group">
+        <label for="shiftCode">{{'ShiftCode' | translate}}</label>
+        <input class="form-control input-mandatory" id="shiftCode" type="text"
+          placeholder="{{'Please_Enter' | translate}} {{'ShiftCode' | translate}}" formControlName="shiftCode"
+          [readonly]="isReadOnly">
+        <validation-message [control]="form.controls.shiftCode"></validation-message>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-6 col-lg-6">
+      <div class="form-group">
+        <label for="shiftNameEn">{{'ShiftNameAR' | translate}}</label>
+        <input class="form-control input-mandatory" id="shiftNameEn" type="text"
+          placeholder="{{'Please_Enter' | translate}} {{'ShiftNameAR' | translate}}" formControlName="shiftNameEn">
+        <validation-message [control]="form.controls.shiftNameEn"></validation-message>
+      </div>
+    </div>
+    <div class="col-md-6 col-lg-6">
+      <div class="form-group">
+        <label for="shiftNameAr">{{'ShiftNameAR' | translate}}</label>
+        <input class="form-control" id="shiftNameAr" type="text"
+          placeholder="{{'Please_Enter' | translate}} {{'ShiftNameAR' | translate}}" formControlName="shiftNameAr">
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-6 col-lg-6">
+      <div class="form-group">
+        <label for="inTime">{{'InTime' | translate}}</label>
+        <input class="form-control input-mandatory" id="inTime" type="time"
+          placeholder="{{'Please_Enter' | translate}} {{'InTime' | translate}}" formControlName="inTime">
+        <validation-message [control]="form.controls.inTime"></validation-message>
+      </div>
+    </div>
+    <div class="col-md-6 col-lg-6">
+      <div class="form-group">
+        <label for="outTime">{{'OutTime' | translate}}</label>
+        <input class="form-control input-mandatory" id="outTime" type="time"
+          placeholder="{{'Please_Enter' | translate}} {{'OutTime' | translate}}" formControlName="outTime">
+        <validation-message [control]="form.controls.outTime"></validation-message>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-6 col-lg-6">
+      <div class="form-group">
+        <label for="breakTime">{{'BreakTime' | translate}}</label>
+        <input class="form-control" id="breakTime" type="text"
+          placeholder="{{'Please_Enter' | translate}} {{'BreakTime' | translate}}" formControlName="breakTime"
+          (input)="onTimeInputChange($event)">
+      </div>
+    </div>
+    <div class="col-md-6 col-lg-6">
+      <div class="form-group">
+        <label for="inGrace">{{'InGrace' | translate}}</label>
+        <input class="form-control" step="1" id="inGrace" type="text"
+          placeholder="{{'Please_Enter' | translate}} {{'InGrace' | translate}}" formControlName="inGrace"
+          (input)="onTimeInputChange($event)">
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-6 col-lg-6">
+      <div class="form-group">
+        <label for="outGrace">{{'OutGrace' | translate}}</label>
+        <input class="form-control" id="outGrace" type="text"
+          placeholder="{{'Please_Enter' | translate}} {{'OutGrace' | translate}}" formControlName="outGrace"
+          (input)="onTimeInputChange($event)">
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-6 col-lg-6">
+      <div class="form-group">
+        <label for="isActive">{{'Is_Active' | translate}}</label>
+        <br />
+        <mat-slide-toggle color="primary" formControlName="isActive"></mat-slide-toggle>
+      </div>
+    </div>
+  </div>
+  <div class="row mt-3">
+    <div class="col-md-12 col-lg-12 text-center">
+      <input type="button" class="btn waves-effect waves-light btn-rounded   btn-secondary btn-midblock"
+        value="{{'Cancel' | translate}}" (click)="closeModel()" /> &nbsp;
+      <input type="submit" class="btn waves-effect waves-light btn-rounded btn-primary btn-midblock"
+        value="{{'Save' | translate}}" />
+    </div>
+  </div>
+</form>

@@ -1,0 +1,257 @@
+<div class="page-breadcrumb">
+  <div class="row">
+    <div class="col-12 align-self-center">
+      <h3 class="page-title text-truncate text-dark font-weight-medium mb-1">
+        {{ "TimeAndAttendance" | translate }}
+      </h3>
+      <div class="d-flex align-items-center">
+        <nav aria-label="breadcrumb">
+          <ol class="breadcrumb m-0 p-0">
+            <li class="breadcrumb-item text-muted">
+              {{ "EmployeeRoaster" | translate }}
+            </li>
+            <li class="breadcrumb-item active" aria-current="page">
+              {{ "EmployeeRoasterList" | translate }}
+            </li>
+          </ol>
+        </nav>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-md-12 col-lg-12">
+      <div class="card">
+        <div class="card-body">
+          <div class="row">
+            <div class="col-md-12 col-lg-12">
+              <h4 class="card-title pt6">
+                {{ "EmployeeRoasterList" | translate }}
+              </h4>
+            </div>
+          </div>
+          <br />
+          <div class="row">
+            <div class="col-md-4 col-lg-4">
+              <label for="payrollGroupCode" class="mr-sm-2">{{ "PayrollGroup" | translate }}</label>
+              <select class="custom-select mr-sm-2" [(ngModel)]="payrollGroupCode">
+                <option value="">{{'PayrollGroup' | translate}}</option>
+                <option *ngFor="let payrollGroup of payrollGroups" value="{{payrollGroup.value}}">
+                  {{payrollGroup.text}}</option>
+              </select>
+            </div>
+            <div class="col-md-4 col-lg-4">
+              <div class="form-group">
+                <label for="branchCode" class="mr-sm-2">{{ "Branch" | translate }}</label>
+                <ng-select [items]="branches" bindLabel="text" bindValue="value" placeholder="SelectBranch"
+                  [(ngModel)]="branchCode" [ngModelOptions]="{standalone: true}">
+                </ng-select>
+              </div>
+            </div>
+            <div class="col-md-4 col-lg-4">
+              <label for="payrollPeriodCode" class="mr-sm-2">{{ "PayrollPeriod" | translate }}</label>
+              <select class="custom-select mr-sm-2" [(ngModel)]="payrollPeriodCode">
+                <option value="">{{'PayrollPeriod' | translate}}</option>
+                <option *ngFor="let payrollPeriod of payrollPeriods" value="{{payrollPeriod.value}}">
+                  {{payrollPeriod.text}}</option>
+              </select>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-6 col-lg-6 mt-4">
+              <button (click)="GetEmployeeRoaster()" class="btn btn-primary">{{'GetEmployeeRoaster'
+                |translate}}</button>
+              &nbsp;
+              <button *ngIf="formEmployeeRoasterArr.controls.length==0" (click)="GenerateEmployeeRoaster()"
+                class="btn btn-primary">{{'GenerateEmployeeRoaster'|translate}}</button>
+            </div>
+          </div>
+          <form [formGroup]="form" (ngSubmit)="submit()" novalidate class="mt-4">
+            <div *ngIf="formEmployeeRoasterArr.controls.length>0 && roasterColumns.length>0" class="row">
+              <div class="col-md-12 col-lg-12">
+                <table class="table-responsive">
+                  <tr>
+                    <th rowspan="2">{{'SNo'| translate}}</th>
+                    <th rowspan="2">{{ "EmployeeName" | translate }}
+                    </th>
+                    <th rowspan="2">{{ "BranchName" | translate }}</th>
+                    <th *ngFor="let column of roasterColumns; let i = index">
+                      {{column.roasterDay.substring(0, 2)}}
+                    </th>
+                  </tr>
+                  <tr>
+                    <th style="display: none;" rowspan="2">{{'SNo'| translate}}</th>
+                    <th style="display: none;">{{ "EmployeeName" | translate }}
+                    </th>
+                    <th style="display: none;">{{ "BranchName" | translate }}</th>
+                    <th *ngFor="let column of roasterColumns;let i = index">
+                      {{column.roasterDate.substring(0, 2)}}</th>
+                  </tr>
+                  <tbody formArrayName="employeeRoasters">
+                    <tr *ngFor="let row of formEmployeeRoasterArr.controls; let i = index;">
+                      <td>{{ i+1 }}</td>
+                      <td>{{row.get("employeeName").value}}
+                      </td>
+                      <td>{{row.get("branchName").value}}</td>
+                      <td *ngFor="let cell of formRoasterRowsArr(i).controls  let j = index;">
+                        <div *ngIf="row.get('isShiftApplicable').value">
+                          <!-- (change)="updateEmployeeRoaster(i, j, $event)" -->
+                          <select class="select" name="select_{{i}}_{{j}}" id="select_{{i}}_{{j}}"
+                            (change)="updateEmployeeRoaster(i, j, $event)">
+                            <option *ngFor="let shift of shifts" value="{{shift.value}}"
+                              [selected]="cell.get('shiftCode').value==shift.value">
+                              {{shift.value}}</option>
+                          </select>
+                        </div>
+                        <div *ngIf="!row.get('isShiftApplicable').value">
+                          {{cell.get("shiftCode").value}}
+                        </div>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+            <br>
+            <div *ngIf="roasterColumns.length>0 && isSaveEnabled" class="row">
+              <div class="col-md-12 col-lg-12 mb-3 text-center">
+                <input type="submit" class="btn btn-primary" style="margin-right: 10px;"
+                  value="{{'Save' | translate}}" />
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<style>
+  table {
+    border-collapse: collapse;
+    width: 100%;
+  }
+
+  th {
+    background-color: #548087;
+    color: white;
+    font-weight: 500;
+    border: 1px solid #a5a5a5;
+    text-align: center;
+    font-size: 0.775rem !important;
+    width: 40px;
+    height: 40px;
+  }
+
+  td {
+    border: 1px solid #a5a5a5;
+    text-align: center;
+    font-size: 0.775rem !important;
+    width: 40px;
+    height: 40px;
+  }
+  table th:nth-child(1) {
+    width: 5%;
+  }
+  table th:nth-child(2) {
+    width: 8%;
+  }
+
+  table th:nth-child(3) {
+    width: 8%;
+  }
+
+  .select {
+    word-wrap: normal;
+    width: 40px;
+    height: 40px;
+    border: none;
+    text-align: center;
+    appearance: none;
+  }
+
+  .mt-4 {
+    margin-top: 1.9rem !important;
+  }
+
+  .present {
+    /* background-color: #e4ebdb; */
+    color: black;
+    /* border-radius: 10px; */
+  }
+
+  .holiday {
+    background-color: #fcc404;
+    /* border-radius: 10px; */
+  }
+
+  .off {
+    background-color: #d3dbe3;
+    /* border-radius: 10px; */
+  }
+
+  .presentonholiday {
+    background-color: rgb(230, 189, 241);
+    /* border-radius: 10px; */
+  }
+
+  .presentonoffday {
+    background-color: #ffffc8;
+    /* border-radius: 10px; */
+  }
+
+  .absent {
+    background-color: rgba(255, 80, 80, 0.768);
+    /* border-radius: 10px; */
+  }
+
+  section {
+    display: table;
+  }
+
+  .example-label {
+    display: table-cell;
+    font-size: 14px;
+    margin-left: 8px;
+    min-width: 120px;
+  }
+
+  .example-button-row {
+    display: table-cell;
+    max-width: 600px;
+  }
+
+  .example-button-row .mat-mdc-button-base {
+    margin: 8px 8px 8px 0;
+  }
+
+  .example-flex-container {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+  }
+
+  .example-button-container {
+    display: flex;
+    justify-content: center;
+    width: 120px;
+  }
+
+  .icon {
+    width: 60px;
+    height: 57px;
+    padding: none;
+    box-shadow: none;
+  }
+
+  .mat-fab .mat-button-wrapper {
+    padding: 0px 0;
+    display: inline-block;
+    line-height: 24px;
+  }
+
+  span.mat-button-wrapper {
+    padding: 0px;
+  }
+</style>

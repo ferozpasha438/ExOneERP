@@ -1,0 +1,61 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
+
+    <PropertyGroup>
+        <TargetFramework>net5.0</TargetFramework>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <PackageReference Include="FluentValidation.AspNetCore" Version="9.3.0" />
+        <PackageReference Include="log4net" Version="2.0.12" />
+        <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="5.0.10" />
+        <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="5.0.0">
+            <PrivateAssets>all</PrivateAssets>
+            <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+        </PackageReference>
+        <PackageReference Include="Microsoft.Extensions.Logging.Log4Net.AspNetCore" Version="5.0.4" />
+        <PackageReference Include="Swashbuckle.AspNetCore" Version="5.6.3" />
+        <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
+        <PackageReference Include="ZXing.Net" Version="0.16.6" />
+        <PackageReference Include="System.Drawing.Common" Version="5.0.2" />
+    </ItemGroup>
+
+    <ItemGroup>
+        <ProjectReference Include="..\CIN.Application\CIN.Application.csproj" />
+        <ProjectReference Include="..\CIN.DB.One\CIN.DB.One.csproj" />
+        <ProjectReference Include="..\ViewResources\ViewResources.csproj" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <Reference Include="BouncyCastle.Crypto">
+        <HintPath>..\..\Ref\BouncyCastle.Crypto.dll</HintPath>
+      </Reference>
+      <Reference Include="System.Security.Cryptography.Xml">
+        <HintPath>..\..\Ref\System.Security.Cryptography.Xml.dll</HintPath>
+      </Reference>
+      <Reference Include="Zatca.EInvoice.SDK">
+        <HintPath>..\..\Ref\Zatca.EInvoice.SDK.dll</HintPath>
+      </Reference>
+      <Reference Include="Zatca.EInvoice.SDK.Contracts">
+        <HintPath>..\..\Ref\Zatca.EInvoice.SDK.Contracts.dll</HintPath>
+      </Reference>
+    </ItemGroup>
+
+    <ItemGroup>
+        <None Update="Standard_Credit.xml">
+          <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+        </None>
+        <None Update="Standard_Debit.xml">
+          <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+        </None>
+        <None Update="Standard_Invoice.xml">
+          <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+        </None>
+        <None Update="STANDARD_NoSign.xml">
+          <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+        </None>
+        <None Update="Standard_Invoice_old.xml">
+            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+        </None>
+    </ItemGroup>
+
+</Project>

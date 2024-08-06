@@ -1,0 +1,282 @@
+
+<div class="page-breadcrumb">
+  <div class="row">
+    <div class="col-12 align-self-center">
+      <h3 class="page-title text-truncate text-dark font-weight-medium mb-1">
+        {{'Financial_Calendar' | translate}}
+      </h3>
+      <div class="d-flex align-items-center">
+
+        <nav aria-label="breadcrumb">
+          <ol class="breadcrumb m-0 p-0">
+            <li class="breadcrumb-item text-muted"> {{'Financial_Management' | translate}} </li>
+            <li class="breadcrumb-item text-muted ">{{'Finance' | translate}}</li>
+            <li class="breadcrumb-item   active" aria-current="page">{{'Financial_Calendar' | translate}} (010201)</li>
+
+          </ol>
+        </nav>
+      </div>
+    </div>
+
+  </div>
+</div>
+<div class="container-fluid">
+  <spinner-loader [isLoading]="isLoading"></spinner-loader>
+  <ng-container *ngIf="!isLoading">
+    <form [formGroup]="financialsetupform" (ngSubmit)="financialsetupSubmit()" novalidate class="mt-4">
+      <div class="row">
+        <div class="col-md-12 col-lg-12">
+          <div class="card">
+            <div class="card-body">
+              <div class="col-md-12 col-lg-12">
+                <div class="row">
+                  <div class="col-md-4 col-lg-6">
+                    <div class="form-group">
+                      <label for="financialyearopeningdate">
+                        {{'Financial_Year_Opening_Date' | translate}}
+
+                      </label>
+                      <div class="form-group ">
+                        <div class="input-group ">
+                          <input class="form-control datapickerinput" placeholder=" {{'Please_Select' | translate}} {{'Date' | translate}}" formControlName="fyOpenDate"
+                                 [matDatepicker]="picker" (blur)="setFinYear()">
+                          <validation-message [control]="financialsetupform.controls.fyOpenDate"></validation-message>
+                          <div class="input-group-prepend datapickericon">
+                            <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                            <mat-datepicker #picker></mat-datepicker>
+                          </div>
+
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-md-4 col-lg-6">
+
+                    <div class="form-group">
+                      <label for="financialyearclosingdate">
+                        {{'Financial_Year_Closing_Date' | translate}}
+
+                      </label>
+                      <div class="form-group ">
+                        <div class="input-group">
+                          <input class="form-control" placeholder="{{'Please_Select' | translate}} {{'Date' | translate}}" formControlName="fyClosingDate"
+                                 [matDatepicker]="picker2">
+                          <validation-message [control]="financialsetupform.controls.fyClosingDate"></validation-message>
+
+                          <div class="input-group-prepend datapickericon">
+                            <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
+                            <mat-datepicker #picker2 (yearSelected)="setfyYear($event)"></mat-datepicker>
+                          </div>
+
+                        </div>
+
+                      </div>
+                    </div>
+
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-md-4 col-lg-6">
+
+                    <div class="form-group">
+                      <label for="exampleFormControlSelect1"> {{'Financial_Year' | translate}}</label>
+                      <input type="text" class="form-control" placeholder="{{'Please_Select' | translate}} {{'Financial_Year' | translate}}" formControlName="fyYear" [readonly]="true">
+                      <validation-message [control]="financialsetupform.controls.fyYear"></validation-message>
+
+                    </div>
+
+                  </div>
+
+                </div>
+                <div class="row">
+                  <div class="col-md-4 col-lg-6">
+
+                    <div class="form-group ">
+                      <label class="mr-sm-2" for="inlineFormCustomSelect">
+                        {{'Prefix_Account_Category_Length' | translate}}
+                      </label>
+                      <select class="custom-select mr-sm-2" formControlName="finAcCatLen">
+                        <option value=""> {{'Choose' | translate}}</option>
+                        <option value="1">1</option>
+                        <option value="2">2</option>
+                        <option value="3">3</option>
+                      </select>
+                      <validation-message [control]="financialsetupform.controls.finAcCatLen"></validation-message>
+
+                    </div>
+
+                  </div>
+                  <div class="col-md-4 col-lg-6">
+                    <div class="form-group mb-4">
+                      <label class="mr-sm-2" for="inlineFormCustomSelect">
+                        {{'Prefix_Sub_Category_Length' | translate}}
+                      </label>
+                      <select class="custom-select mr-sm-2" id="psclength" formControlName="finAcSubCatLen">
+                        <option value=""> {{'Choose' | translate}}</option>
+                        <option value="1">1</option>
+                        <option value="2">2</option>
+                        <option value="3">3</option>
+                      </select>
+                      <validation-message [control]="financialsetupform.controls.finAcSubCatLen"></validation-message>
+                    </div>
+
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-md-4 col-lg-6">
+
+                    <div class="form-group mb-4">
+                      <label class="mr-sm-2" for="inlineFormCustomSelect">
+                        {{'Account_Sequence_Length' | translate}}
+                      </label>
+                      <select class="custom-select mr-sm-2" id="aslength" formControlName="finAcLen">
+                        <option value=""> {{'Choose' | translate}}</option>
+                        <option value="2">2</option>
+                        <option value="3">3</option>
+                        <option value="4">4</option>
+                        <option value="5">5</option>
+                      </select>
+                      <validation-message [control]="financialsetupform.controls.finAcLen"></validation-message>
+                    </div>
+
+                  </div>
+
+                </div>
+                <div class="row">
+                  <div class="col-md-4 col-lg-4">
+                    <label class="mtop6"> {{'Allow_Next_Year_Financial_transaction' | translate}} </label>
+
+                  </div>
+                  <div class="col-md-2 col-lg-2">
+                    <mat-slide-toggle color="primary" formControlName="finAllowNextYearTran"> </mat-slide-toggle>
+
+                  </div>
+
+                  <div class="col-md-3 col-lg-3">
+                    <label class="mtop6"> {{'Number_Of_Segment' | translate}} </label>
+
+                  </div>
+                  <div class="col-md-2 col-lg-2">
+
+                    <select class="custom-select mr-sm-2" formControlName="numOfSeg">
+                      <option value=""> {{'Choose' | translate}}</option>
+                      <option value="0">0</option>
+                      <option value="1">1</option>
+                      <option value="2">2</option>
+                    </select>
+                  </div>
+
+
+                </div>
+                <div class="row">
+                  <div class="col-md-4 col-lg-4">
+                    <label class="mtop6"> {{'Use_Transaction_Date_as_Posting_Date' | translate}} </label>
+
+                  </div>
+                  <div class="col-md-2 col-lg-2">
+                    <mat-slide-toggle color="primary" formControlName="finTranDateAsPostDate"> </mat-slide-toggle>
+                  </div>
+
+                  <div class="col-md-3 col-lg-3">
+                    <label class="mtop6"> {{'Cost_Allocation_Segment' | translate}} </label>
+
+                  </div>
+                  <div class="col-md-2 col-lg-2">
+                    <mat-slide-toggle color="primary" formControlName="userCostSeg"> </mat-slide-toggle>
+                  </div>
+
+                </div>
+                <div class="row">
+
+                  <div class="col-md-4 col-lg-4">
+                    <label class="mtop6"> {{'Use_System_Generate_Account_Codification' | translate}} </label>
+
+                  </div>
+                  <div class="col-md-1 col-lg-1">
+                    <mat-slide-toggle color="primary" formControlName="fInSysGenAcCode" (change)="MaskingChecked($event)"> </mat-slide-toggle>
+                  </div>
+                  <div class="col-md-3 col-lg-3" *ngIf="IsMaskingChecked">
+                    <label class="mtop6"> {{'Masking' | translate}} </label>
+                    <input type="text" class="form-control" value="XXXXX" readonly="readonly" />
+
+                  </div>
+                  <div class="col-md-3 col-lg-3" *ngIf="IsMaskingChecked">
+                    <br />
+                    <button type="button" (click)="openAccountCode()" class="btn btn-primary">{{'Topology' | translate}}</button>
+
+                  </div>
+
+                </div>
+                <div class="row">
+                  <div class="col-md-4 col-lg-6">
+
+                    <div class="form-group ">
+                      <label class="mr-sm-2">
+                        {{'Payment_Method' | translate}}
+                      </label>
+                      <select class="custom-select mr-sm-2" formControlName="paymentMethod">
+                        <option value=""> {{'Choose' | translate}}</option>
+                        <option value="OPIM"> {{'Open_Item' | translate}}</option>
+                        <option value="BLFM"> {{'Balance_Forward' | translate}}</option>
+                      </select>
+                      <validation-message [control]="financialsetupform.controls.paymentMethod"></validation-message>
+
+                    </div>
+
+                  </div>
+
+                  <div class="col-md-4 col-lg-6">
+                    <div class="form-group ">
+                      <label class="mr-sm-2">
+                        {{'MinCutOffShortAmt' | translate}}
+                      </label>
+                      <input type="number" class="form-control" value="0.0" formControlName="minCutOffShortAmt" />
+                      <validation-message [control]="financialsetupform.controls.minCutOffShortAmt"></validation-message>
+                    </div>
+                  </div>
+                  <div class="col-md-4 col-lg-6">
+                    <div class="form-group ">
+                      <label class="mr-sm-2">
+                        {{'MaxCutOffOverAmr' | translate}}
+                      </label>
+                      <input type="number" class="form-control" value="0.0" formControlName="maxCutOffOverAmr" />
+                      <validation-message [control]="financialsetupform.controls.maxCutOffOverAmr"></validation-message>
+                    </div>
+                  </div>
+
+                  <div class="col-md-4 col-lg-4">
+                    <br />
+                    <label class="mtop6"> {{'Allow_Ar_Dist_flag' | translate}} </label>
+
+                  </div>
+                  <div class="col-md-1 col-lg-1">
+                    <br />
+                    <mat-slide-toggle color="primary" formControlName="arDistFlag"> </mat-slide-toggle>
+                  </div>
+
+                </div>
+                <div class="row">
+                </div>
+
+                    <div class="row ">
+                      <div class="col-md-12 col-lg-12 text-center p-3">
+                        <input type="button"
+                               class="btn waves-effect waves-light btn-rounded   btn-secondary btn-midblock"
+                               value="{{'Cancel' | translate}} " /> &nbsp;
+                        <submitsave-button></submitsave-button>
+                        <!--<input type="submit"
+          class="btn waves-effect waves-light btn-rounded btn-primary btn-midblock"
+          value="SAVE" />-->
+                      </div>
+                    </div>
+                  </div>
+
+
+                </div>
+              </div>
+        </div>
+
+      </div>
+    </form>
+  </ng-container>
+</div>

@@ -1,0 +1,267 @@
+<div class="page-breadcrumb">
+  <div class="row">
+    <div class="col-12 align-self-center">
+      <h3 class="page-title text-truncate text-dark font-weight-medium mb-1">
+        {{'Service_Units_Mapping' | translate}}
+      </h3>
+      <div class="d-flex align-items-center">
+        <nav aria-label="breadcrumb">
+          <ol class="breadcrumb m-0 p-0">
+            <li class="breadcrumb-item text-muted"> {{'Operational_Management' | translate}} </li>
+            <li class="breadcrumb-item text-muted"> {{'Operations' | translate}} </li>
+            <li class="breadcrumb-item   active" aria-current="page">{{'Service_Code' | translate}}</li>
+
+          </ol>
+        </nav>
+      </div>
+    </div>
+
+  </div>
+</div>
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-md-12 col-lg-12">
+      <div class="card">
+        <div class="card-body">
+          <div class="row">
+            <div class="col-md-12 col-lg-12">
+              <h4 class="card-title pt6">{{'Service_Unit_Mapping_List'| translate}} </h4>
+            </div>
+
+            <div class="col-md-4 col-lg-4">
+              <input type="text"
+                     class="form-control"
+                     placeholder="{{'Search'|translate}}..."
+                     [(ngModel)]="searchValue" (keyup)="applyFilter(searchValue)" (keydown)="applyFilter(searchValue)" [ngModelOptions]="{standalone: true}" />
+            </div>
+            <div class="col-md-8 col-lg-8 text-right">
+              <a data-toggle="modal"
+                 data-target="#addServiceUnitMap" class="btn waves-effect waves-light btn-rounded btn-outline-primary" (click)="create()" href="#"> <i class="icon-plus"> </i>{{'Add_New_Service_Unit_Map' | translate}} </a>
+              &nbsp;&nbsp;
+              <a data-toggle="modal"
+                 data-target="#AddNewUnit" class="btn waves-effect waves-light btn-rounded btn-outline-primary" (click)="createUnits()" href="#"> <i class="icon-plus"> </i>{{'Add_New_Unit' | translate}} </a>
+              &nbsp;&nbsp;
+              <a data-toggle="modal"
+                 data-target="#AddNewService" class="btn waves-effect waves-light btn-rounded btn-outline-primary" (click)="createService()" href="#"> <i class="icon-plus"> </i>{{'Add_New_Service' | translate}} </a>
+            </div>
+          </div>
+
+          <div class="cardtitle-divider"></div>
+          <div class="table-responsive">
+
+
+            <div class="mat-elevation-z8">
+              <ng-container>
+                <!--matSortActive="id"
+
+                matSortDisableClear matSortDirection="desc"-->
+                <table mat-table [dataSource]="data" matSortDisableClear matSort (matSortChange)="onSortOrder($event)" class="table  table-bordered no-wrap">
+                  <ng-container matColumnDef="serviceCode">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                      {{'Service_Code' | translate}}
+                    </th>
+                    <td mat-cell *matCellDef="let row">{{ row.serviceCode }}</td>
+                  </ng-container>
+
+                  <ng-container matColumnDef="unitCode">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                      {{'Unit_Code' | translate}}
+                    </th>
+                    <td mat-cell *matCellDef="let row">{{ row.unitCode }}</td>
+                  </ng-container>
+
+                  <ng-container matColumnDef="pricePerUnit">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                      {{'Amount' | translate}}
+                    </th>
+                    <td mat-cell *matCellDef="let row">{{ row.pricePerUnit }}</td>
+                  </ng-container>
+
+                  <ng-container matColumnDef="isActive">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                      {{'Is_Active' | translate}}
+                    </th>
+                    <td mat-cell *matCellDef="let row">
+                      <span class="badge badge-pill badge-success" *ngIf="row.isActive; else inActive"> {{'Active' | translate}}</span>
+                      <ng-template #inActive>
+                        <span class="badge badge-pill badge-light"> {{'InActive' | translate}}</span>
+                      </ng-template>
+                    </td>
+                  </ng-container>
+
+
+                  <ng-container matColumnDef="Actions" stickyEnd>
+                    <th mat-header-cell *matHeaderCellDef>{{'Actions' | translate}}</th>
+                    <td mat-cell *matCellDef="let row">
+                      <a class="tableicons" (click)="edit(row.id)"><i class="icon-note"> </i></a>
+                      <!--<a class="tableicons" (click)="delete(row.id)"><i class="icon-trash"> </i></a>-->
+                    </td>
+                  </ng-container>
+
+                  <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
+                  <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+
+                </table>
+                <ng-container>
+                  <mat-paginator [length]="totalItemsCount"
+                                 [pageSize]="pageService.pageCount"
+                                 [pageSizeOptions]="pageService.selectItemsPerPage"
+                                 (page)="onPageSwitch($event)">
+                  </mat-paginator>
+
+                </ng-container>
+              </ng-container>
+            </div>
+
+          </div>
+
+        </div>
+
+
+
+      </div>
+    </div>
+
+  </div>
+
+</div>
+<!--  Modal content for the above example -->
+<!--<div class="modal fade" id="AddNewServices" tabindex="-1" role="dialog"
+     aria-labelledby="myLargeModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3 class="modal-title">{{'Add_New_Services' | translate}} </h3>
+        <button type="button" class="close" data-dismiss="modal"
+                aria-hidden="true">
+          ×
+        </button>
+      </div>
+      <div class="modal-body">
+
+        <div class="row">
+
+
+          <div class="col-md-6 col-lg-6">
+            <div class="form-group">
+              <label>{{'Services_Code' | translate}}</label>
+              <input class="form-control" type="text"
+                     placeholder="{{'Please_Enter' | translate}} {{'Services_Code' | translate}}" formControlName="">
+            </div>
+          </div>
+
+          <div class="col-md-6 col-lg-6">
+            <div class="form-group">
+              <label>{{'Service_Name_Eng' | translate}}</label>
+              <input class="form-control" type="text"
+                     placeholder="{{'Please_Enter' | translate}} {{'Service_Name_Eng' | translate}}" formControlName="">
+            </div>
+          </div>
+
+          <div class="col-md-6 col-lg-6">
+            <div class="form-group">
+              <label>{{'Service_Name_Arb' | translate}}</label>
+              <input class="form-control" type="text"
+                     placeholder="{{'Please_Enter' | translate}} {{'Service_Name_Arb' | translate}}" formControlName="">
+            </div>
+          </div>
+          <div class="col-md-6 col-lg-6">
+            <div class="form-group">
+              <label>{{'Default_Base_Unit_for_the_Service' | translate}}</label>
+              <select class="form-control" formControlName="">
+                <option>Select Unit</option>
+                <option>Select Unit1</option>
+              </select>
+            </div>
+          </div>
+          <div class="col-md-6 col-lg-6">
+            <div class="form-group">
+              <label>{{'Estimated_Services_Price_per_base_unit' | translate}}</label>
+              <input class="form-control" type="text"
+                     placeholder="{{'Please_Enter' | translate}} {{'Estimated_Services_Price_per_base_unit' | translate}}" formControlName="">
+            </div>
+          </div>
+          <div class="col-md-6 col-lg-6">
+            <div class="form-group">
+              <label>{{'Is_Active' | translate}}</label>
+              <br />
+              <mat-slide-toggle color="primary" formControlName="isActive"></mat-slide-toggle>
+            </div>
+          </div>
+
+        </div>
+        <div class="row mt-3 ">
+          <div class="col-md-12 col-lg-12 text-center">
+            <input type="submit"
+                   class="btn waves-effect waves-light btn-rounded   btn-secondary btn-midblock"
+                   value="{{'Cancel' | translate}}" /> &nbsp;
+            <input type="submit"
+                   class="btn waves-effect waves-light btn-rounded btn-primary btn-midblock"
+                   value="{{'Save' | translate}}" />
+          </div>
+        </div>
+      </div>
+    </div>-->
+<!-- /.modal-content -->
+<!--</div>--><!-- /.modal-dialog -->
+<!--</div>--><!-- /.modal -->
+<!--  Modal content for the above example -->
+<!--<div class="modal fade" id="AddNewUnitofServices" tabindex="-1" role="dialog"
+     aria-labelledby="myLargeModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3 class="modal-title">{{'Add_New_Unit_of_Services' | translate}} </h3>
+        <button type="button" class="close" data-dismiss="modal"
+                aria-hidden="true">
+          ×
+        </button>
+      </div>
+      <div class="modal-body">
+
+        <div class="row">
+
+
+          <div class="col-md-6 col-lg-6">
+            <div class="form-group">
+              <label>{{'Unit_Code' | translate}}</label>
+              <select class="form-control" formControlName="">
+                <option>Select_Unit_Code</option>
+                <option>Select_Unit1</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="col-md-6 col-lg-6">
+            <div class="form-group">
+              <label>{{'Unit_Price' | translate}}</label>
+              <input class="form-control" type="text"
+                     placeholder="{{'Please_Enter' | translate}} {{'Unit_Price' | translate}}" formControlName="">
+            </div>
+          </div>
+          <div class="col-md-6 col-lg-6">
+            <div class="form-group">
+              <label>{{'Is_Active' | translate}}</label>
+              <br />
+              <mat-slide-toggle color="primary" formControlName="isActive"></mat-slide-toggle>
+            </div>
+          </div>
+
+
+
+        </div>
+        <div class="row mt-3 ">
+          <div class="col-md-12 col-lg-12 text-center">
+            <input type="submit"
+                   class="btn waves-effect waves-light btn-rounded   btn-secondary btn-midblock"
+                   value="{{'Cancel' | translate}}" /> &nbsp;
+            <input type="submit"
+                   class="btn waves-effect waves-light btn-rounded btn-primary btn-midblock"
+                   value="{{'Save' | translate}}" />
+          </div>
+        </div>
+      </div>
+    </div>-->
+<!-- /.modal-content -->
+<!--</div>--><!-- /.modal-dialog -->
+<!--</div>--><!-- /.modal -->

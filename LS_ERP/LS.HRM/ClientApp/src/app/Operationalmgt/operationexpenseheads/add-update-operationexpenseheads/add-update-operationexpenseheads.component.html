@@ -1,0 +1,148 @@
+<div class="modal-header">
+  <h3 class="modal-title">{{'Add_Operation_Expense_Heads' | translate}} </h3>
+  <button type="button" class="close" data-dismiss="modal" (click)="closeModel()"
+          aria-hidden="true">
+    ×
+  </button>
+</div>
+<form [formGroup]="form" (ngSubmit)="submit()" novalidate class="mt-4">
+
+  <div class="row">
+
+
+    <div class="col-md-6 col-lg-6">
+      <div class="form-group">
+        <label>{{'Cost_Head' | translate}}</label>
+        <!--<input class="form-control" type="text"
+         [ngClass]="{ 'is-invalid': f.costHead.errors && f.costHead.touched}" (keyup)="verifyCode($event)"
+         placeholder="{{'Please_Enter' | translate}} {{'Cost_Head' | translate}}" formControlName="costHead" readonly={{readonly}}>-->
+        <!--<div *ngIf="f.costHead.errors" class="invalid-feedback">
+    <div *ngIf="f.costHead.errors.required">{{'Required' | translate}}</div>
+
+    <div *ngIf="f.costHead.errors.isExist">
+      {{'Code Already Exists' | translate}}
+    </div>
+
+  </div>-->
+        <input class="form-control" type="text" placeholder="{{'Please_Enter' | translate}} {{'Cost_Head' | translate}}" formControlName="costHead" readonly>
+
+
+
+
+
+      </div>
+    </div>
+    <div class="col-md-6 col-lg-6">
+      <div class="form-group">
+        <label>{{'Cost_Type' | translate}}</label>
+        <select class="form-control" formControlName="costType">
+          <option value="">{{'Select' | translate}} {{'Cost_Type' | translate}} </option>
+          <option>Fixed</option>
+          <option>Operation</option>
+
+        </select>
+        <validation-message [control]="form.controls.costType"></validation-message>
+      </div>
+    </div>
+
+
+    <div class="col-md-6 col-lg-6">
+      <div class="form-group">
+        <label>{{'Cost_Name_In_English' | translate}}</label>
+        <input class="form-control" type="text"
+               placeholder="{{'Please_Enter' | translate}} {{'Cost_Name_In_English' | translate}}" formControlName="costNameInEnglish">
+        <validation-message [control]="form.controls.costNameInEnglish"></validation-message>
+      </div>
+    </div>
+
+    <div class="col-md-6 col-lg-6">
+      <div class="form-group">
+        <label>{{'Cost_Name_In_Arabic' | translate}}</label>
+        <input class="form-control" type="text"
+               placeholder="{{'Please_Enter' | translate}} {{'Cost_Name_In_Arabic' | translate}}" formControlName="costNameInArabic">
+        <validation-message [control]="form.controls.costNameInArabic"></validation-message>
+      </div>
+    </div>
+    <div class="col-md-6 col-lg-6">
+      <div class="form-group">
+        <label>{{'Min_Service_Cost_to_Company' | translate}}</label>
+        <input class="form-control" type="number"
+               placeholder="{{'Please_Enter' | translate}} {{'Min_Service_Cost_to_Company' | translate}}" formControlName="minServiceCosttoCompany">
+        <validation-message [control]="form.controls.minServiceCosttoCompany"></validation-message>
+      </div>
+    </div>
+    <div class="col-md-6 col-lg-6">
+      <div class="form-group">
+        <label>{{'Min_Service_Price' | translate}}</label>
+        <input class="form-control" type="number"
+               placeholder="{{'Please_Enter' | translate}} {{'Min_Service_Price' | translate}}" formControlName="minServicePrice">
+        <validation-message [control]="form.controls.minServicePrice"></validation-message>
+      </div>
+    </div>
+
+    <div class="col-md-6 col-lg-6">
+      <div class="form-group">
+        <label>{{'Gross_Margin' | translate}}</label>
+        <input class="form-control" type="number"
+               placeholder="{{'Please_Enter' | translate}} {{'Gross_Margin' | translate}}" formControlName="grossMargin">
+        <validation-message [control]="form.controls.grossMargin"></validation-message>
+      </div>
+    </div>
+
+
+
+    <div class="col-md-6 col-lg-6">
+      <div class="form-group">
+        <label>{{'Is_Applicable_For_Material' | translate}}</label>
+        <br />
+        <mat-slide-toggle color="primary" formControlName="isApplicableForMaterial"></mat-slide-toggle>
+      </div>
+    </div>
+    <div class="col-md-6 col-lg-6">
+      <div class="form-group">
+        <label>{{'Is_Applicable_For_Skillset' | translate}}</label>
+        <br />
+        <mat-slide-toggle color="primary" formControlName="isApplicableForSkillset"></mat-slide-toggle>
+      </div>
+    </div>
+    <div class="col-md-6 col-lg-6">
+      <div class="form-group">
+        <label>{{'Is_Applicable_For_Vehicle' | translate}}</label>
+        <br />
+        <mat-slide-toggle color="primary" formControlName="isApplicableForVehicle"></mat-slide-toggle>
+      </div>
+    </div>
+    <div class="col-md-6 col-lg-6">
+      <div class="form-group">
+        <label>{{'Is_Applicable_For_Financial_Expense' | translate}}</label>
+        <br />
+        <mat-slide-toggle color="primary" formControlName="isApplicableForFinancialExpense"></mat-slide-toggle>
+      </div>
+    </div>
+    <div class="col-md-6 col-lg-6">
+      <div class="form-group">
+        <label>{{'Is_Active' | translate}}</label>
+        <br />
+        <mat-slide-toggle color="primary" formControlName="isActive"></mat-slide-toggle>
+      </div>
+    </div>
+    <div class="col-md-6 col-lg-6">
+      <div class="form-group">
+        <label>{{'Remarks' | translate}}</label>
+        <textarea class="form-control"
+                  placeholder="{{'Please_Enter' | translate}} {{'Remarks' | translate}}" formControlName="remarks"></textarea>
+      </div>
+    </div>
+  </div>
+  <div class="row mt-3 ">
+    <div class="col-md-12 col-lg-12 text-center">
+      <input type="button"
+             class="btn waves-effect waves-light btn-rounded   btn-secondary btn-midblock" (click)="closeModel()"
+             value="{{'Cancel' | translate}}" /> &nbsp;
+      <input type="submit"
+             class="btn waves-effect waves-light btn-rounded btn-primary btn-midblock"
+             value="{{'Save' | translate}}" />
+    </div>
+  </div>
+
+</form>

@@ -1,0 +1,63 @@
+<h3>{{'CreateNewVendorCategory_Title' | translate}} <button type="button" class="close" aria-hidden="true" (click)="closeModel()" > ×</button></h3>
+<form [formGroup]="form" (ngSubmit)="submit()" novalidate class="mt-4">
+  <div class="row">
+    <div class="col-md-6 col-lg-6">
+      <div class="form-group">
+        <label>{{'CategoryCode' | translate}}</label>
+        <input class="form-control" type="text"
+               placeholder="{{'PleaseEnter' | translate}} {{'CategoryCode' | translate}}" formControlName="venCatCode" [readonly]="isReadOnly" (change)="onTextchange($event.target.value)">
+      </div>
+    </div>
+    <div class="col-md-6 col-lg-6">
+      <div class="form-group">
+        <label>{{'CategoryName' | translate}}</label>
+        <input class="form-control" type="text"
+               placeholder="{{'PleaseEnter' | translate}} {{'CategoryName' | translate}}" formControlName="venCatName">
+      </div>
+    </div>
+    <div class="col-md-12 col-lg-12">
+      <div class="form-group">
+        <label> {{' DescriptionName' | translate}}</label>
+        <input class="form-control" type="text"
+               placeholder="{{'PleaseEnter' | translate}}  {{'DescriptionName' | translate}}" formControlName="venCatDesc">
+      </div>
+    </div>
+
+    <!--<div class="col-md-6 col-lg-6">
+      <div class="form-group">
+        <label>{{'IsActive' | translate}}</label>
+        <div class="form-group">
+
+          <mat-slide-toggle color="primary"></mat-slide-toggle>
+
+
+        </div>
+      </div>
+    </div>-->
+
+    <!--<div class="col-md-6 col-lg-6">
+      <div class="form-group">
+        <label>{{'IsActive' | translate}}</label>
+        <div class="form-group">
+
+          <mat-slide-toggle color="primary"></mat-slide-toggle>
+
+
+        </div>
+      </div>
+    </div>-->
+
+
+  </div>
+  <div class="row mt-3 ">
+    <div class="col-md-12 col-lg-12 text-center">
+      <input type="button"
+             class="btn waves-effect waves-light btn-rounded   btn-secondary btn-midblock"
+             value="CANCEL" (click)="closeModel()" /> &nbsp;
+      <input type="submit"
+             class="btn waves-effect waves-light btn-rounded btn-primary btn-midblock"
+             value="SAVE" />
+    </div>
+  </div>
+</form>
+

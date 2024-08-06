@@ -1,0 +1,502 @@
+<!--<div class="modal fade modalcustom" id="scrollable-modal" tabindex="-1" role="dialog"
+     aria-labelledby="scrollableModalTitle" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-fullview  modal-dialog-scrollable modal-dialog-scrollablenew modal-dialog-scrollablecustom" role="document">
+    <div class="modal-content">
+      <div class="modal-header" style="display:block">
+
+        <div class="row">
+          <div class="col-md-6 col-lg-6">
+            <h2 class="modal-title" id="scrollableModalTitle">{{'Create_New_Receipts' | translate}}</h2>
+          </div>
+        </div>
+        <button type="button" class="close" data-dismiss="modal"
+                aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="p-3" style="border: 1px solid #f4f4f4;">
+          <div class="outer ">
+            <div class="row rowm0   ">
+              <div class="col-md-12 col-lg-12">-->
+<h3> {{'Create_New_Receipts' | translate}} <button type="button" class="close" aria-hidden="true" (click)="closeModel()"> ×</button></h3>
+<form [formGroup]="form" (ngSubmit)="submit()" novalidate class="mt-4">
+  <div class="row rowm0 ">
+
+    <div class="col-md-12 col-lg-12">
+      <div class="row mt-3">
+        <div class="col-md-12 col-lg-12">
+          <div class="p-3" style="border:1px solid #f4f4f4;">
+            <div class="row  mt-2">
+              <div class="col-md-3 col-lg-3">
+
+                <div class="form-group ">
+                  <label class="mr-sm-2">{{'Trans_Date' | translate}}</label>
+                  <input class="form-control" type="date" placeholder="{{'Select' | translate}} {{'Trans_Date' | translate}}" formControlName="tranDate">
+                </div>
+
+              </div>
+              <!--<div class="col-md-3 col-lg-3">
+    <div class="form-group ">
+      <label class="mr-sm-2">
+        {{'Tran_User' | translate}}
+      </label>
+
+
+      <ng-select [items]="TranUserList"
+                 bindLabel="text"
+                 bindValue="value" formControlName="tranUser">
+
+      </ng-select>
+      <validation-message [control]="form.controls.tranUser"></validation-message>
+    </div>
+
+  </div>-->
+              <div class="col-md-3 col-lg-3">
+                <div class="form-group ">
+                  <label class="mr-sm-2">
+                    {{'Branch' | translate}}
+                  </label>
+
+
+                  <ng-select [items]="tranBranchList"
+                             bindLabel="text"
+                             bindValue="value" formControlName="tranBranch">
+
+                  </ng-select>
+                  <validation-message [control]="form.controls.tranBranch"></validation-message>
+                </div>
+
+              </div>
+              <div class="col-md-3 col-lg-3">
+                <div class="form-group ">
+                  <label class="mr-sm-2">
+                    {{'WareHouse' | translate}}
+                  </label>
+
+
+                  <ng-select [items]="tranLocationList"
+                             bindLabel="text"
+                             bindValue="value" formControlName="tranLocation">
+
+                  </ng-select>
+                  <validation-message [control]="form.controls.tranLocation"></validation-message>
+                </div>
+
+              </div>
+
+              <div class="col-md-3 col-lg-3">
+                <div class="form-group ">
+                  <label class="mr-sm-2">
+                    {{'Document_Number' | translate}}
+                  </label>
+                  <input class="form-control" type="text" placeholder=" {{'Please_Enter' | translate}}  {{'Document_Number' | translate}}" formControlName="tranDocNumber">
+                </div>
+              </div>
+              <div class="col-md-3 col-lg-3">
+                <div class="form-group ">
+                  <label class="mr-sm-2">
+                    {{'Reference_Number' | translate}}
+
+                  </label>
+                  <input class="form-control" type="text" placeholder=" {{'Please_Enter' | translate}}  {{'Reference_Number' | translate}}" formControlName="tranReference">
+                </div>
+
+              </div>
+              <!--<div class="col-md-3 col-lg-3">
+    <div class="form-group ">
+      <label class="mr-sm-2">{{'TranType' | translate}}</label>
+      <select class="custom-select mr-sm-2" formControlName="trantype">
+        <option value="">Choose TranType Code</option>
+        <ng-container>
+          <option value="3">Receipts List</option>
+        </ng-container>
+      </select>
+    </div>
+
+  </div>-->
+              <div class="col-md-6 col-lg-6">
+                <div class="form-group ">
+                  <label class="mr-sm-2">
+                    {{'Remarks' | translate}}
+                  </label>
+                  <textarea class="form-control" placeholder=" {{'Please_Enter' | translate}}  {{'Remarks' | translate}}" formControlName="tranRemarks"></textarea>
+                </div>
+              </div>
+              <!--<div class="col-md-3 col-lg-3">
+    <div class="form-group ">
+      <label class="mr-sm-2">
+        {{'Tran_Accounts' | translate}}
+      </label>
+
+
+      <ng-select [items]="tranInvAccountList"
+                 bindLabel="text"
+                 bindValue="value" formControlName="tranInvAccount">
+
+      </ng-select>
+      <validation-message [control]="form.controls.tranInvAccount"></validation-message>
+    </div>
+
+  </div>
+  <div class="col-md-3 col-lg-3">
+    <div class="form-group ">
+      <label class="mr-sm-2">
+        {{'InvAdjAccount' | translate}}
+      </label>
+
+
+      <ng-select [items]="tranInvAdjAccountList"
+                 bindLabel="text"
+                 bindValue="value" formControlName="tranInvAdjAccount">
+
+      </ng-select>
+      <validation-message [control]="form.controls.tranInvAdjAccount"></validation-message>
+    </div>
+
+  </div>
+  <div class="col-md-3 col-lg-3">
+    <div class="form-group ">
+      <label class="mr-sm-2">
+        {{'JV_Number' | translate}}
+      </label>
+
+
+      <ng-select [items]="jVNumList"
+                 bindLabel="text"
+                 bindValue="value" formControlName="jVNum">
+
+      </ng-select>
+      <validation-message [control]="form.controls.jVNum"></validation-message>
+    </div>
+
+  </div>-->
+            </div>
+
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+  </div>
+
+
+  <div class="table-responsive">
+    <table id="zero_config" class="table  table-bordered no-wrap">
+      <thead>
+        <tr>
+          <th width="18%">{{'Item Code' | translate}}</th>
+          <th width="18%">{{'Item Name' | translate}}</th>
+          <th>{{'Item UnitCode' | translate}}</th>
+          <th width="8%">{{'UOM Factor' | translate}}</th>
+          <th width="11%">{{'Item Cost' | translate}}</th>
+          <th>{{'Item Qty' | translate}}</th>
+          <th>{{'Tot Cost' | translate}}</th>
+          <th>{{'Disc Per' | translate}}</th>
+          <!--<th>{{'Disc Amt' | translate}}</th>
+          <th>{{'Item TaxPer' | translate}}</th>
+          <th>{{'Tax Amount' | translate}}</th>-->
+         
+
+          <th></th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>
+            <ng-select [items]="ItemCodeList"
+                       bindLabel="text"
+                       bindValue="value" [(ngModel)]="tranItemCode" (change)="loadTaxdata($event)" [ngModelOptions]="{standalone: true}">
+            </ng-select>
+
+          </td>
+          <td>
+            <!--<ng-select [items]="ItemNameList"
+                     bindLabel="text"
+                     bindValue="value" [(ngModel)]="tranItemName" [ngModelOptions]="{standalone: true}">
+          </ng-select>-->
+            <input class="form-control" type="text" placeholder="{{'tranItemName' | translate}}" readonly [(ngModel)]="tranItemName"  [ngModelOptions]="{standalone: true}">
+          </td>
+          <!--<td>
+          <input class="form-control" type="text" placeholder="{{'tranItemName2' | translate}}" [(ngModel)]="tranItemName2" [ngModelOptions]="{standalone: true}">
+        </td>-->
+
+          <td>
+            <!--<input class="form-control" type="text" placeholder="{{'Unit' | translate}}" [(ngModel)]="tranItemUnitCode" [ngModelOptions]="{standalone: true}">-->
+            <ng-select [items]="UOMList"
+                       bindLabel="text"
+                       bindValue="value" [(ngModel)]="tranItemUnit" (change)="loadUomdata($event)" [ngModelOptions]="{standalone: true}">
+            </ng-select>
+          </td>
+          <td>
+            <input class="form-control" type="text" placeholder="{{'tranUOMFactor' | translate}}" readonly [(ngModel)]="tranUOMFactor" [ngModelOptions]="{standalone: true}">
+          </td>
+          <td>
+            <input class="form-control" type="text" placeholder="{{'tranItemCost' | translate}}" [(ngModel)]="tranItemCost" [ngModelOptions]="{standalone: true}">
+          </td>
+          <td>
+            <input class="form-control" type="text" placeholder="{{'Quantity' | translate}}" [(ngModel)]="tranItemQty" [ngModelOptions]="{standalone: true}" (keyup)="calculate()">
+          </td>
+          <td>
+            <input class="form-control" type="text" placeholder="{{'tranTotCost' | translate}}" [(ngModel)]="tranTotCost" readonly [ngModelOptions]="{standalone: true}">
+          </td>
+          <!--<td>
+            <input class="form-control" type="text" placeholder="{{'discPer' | translate}}" [(ngModel)]="discPer" [ngModelOptions]="{standalone: true}" (change)="calculateDis()">
+          </td>
+          <td>
+            <input class="form-control" type="text" placeholder="{{'discAmt' | translate}}" [(ngModel)]="discAmt" readonly [ngModelOptions]="{standalone: true}">
+          </td>
+          <td>
+            <input class="form-control" type="text" placeholder="{{'itemTaxPer' | translate}}" [(ngModel)]="itemTaxPer" readonly [ngModelOptions]="{standalone: true}">
+          </td>
+          <td>
+            <input class="form-control" type="text" placeholder="{{'taxAmount' | translate}}" [(ngModel)]="taxAmount" readonly [ngModelOptions]="{standalone: true}">
+          </td>-->
+          <td>
+            <button type="button" class="btn waves-effect waves-light   btn-primary  " (click)="addInvoice()"><i class="icon-plus"></i></button>
+          </td>
+        </tr>
+      </tbody>
+
+      <thead>
+        <tr>
+          <th>{{'Item Code' | translate}}</th>
+          <th>{{'Item Name' | translate}}</th>
+          <th>{{'Item Qty' | translate}}</th>
+          <th>{{'Item UnitCode' | translate}}</th>
+          <th>{{'UOM Factor' | translate}}</th>
+          <th>{{'Item Cost' | translate}}</th>
+          <th>{{'Tot Cost' | translate}}</th>
+          <!--<th>{{'Disc Per' | translate}}</th>
+          <th>{{'Disc Amt' | translate}}</th>
+          <th>{{'Item TaxPer' | translate}}</th>
+          <th>{{'Tax Amount' | translate}}</th>-->
+          <th class="text-center"> </th>
+
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let item of listOfInvoices; let index = i;">
+          <td>{{item.tranItemCode}}</td>
+          <td>{{item.tranItemName}}</td>
+          <td>{{item.tranItemQty}}</td>
+          <td>{{item.tranItemUnitCode}}</td>
+          <td>{{item.tranUOMFactor}}</td>
+          <td class="text-right">{{item.tranItemCost}}</td>
+          <td class="text-right">{{item.tranTotCost}}</td>
+          <!--<td>{{item.discPer}}</td>
+          <td>{{item.discAmt}}</td>
+          <td>{{item.itemTaxPer}}</td>
+          <td>{{item.taxAmount}}</td>-->
+          <td class="text-center">
+            <i class="icon-note cpointer" (click)="editInvoiceItem(item)"> </i> &nbsp;
+            <i class="icon-trash cpointer " (click)="deleteInvoiceItem(item)"> </i> &nbsp;
+          </td>
+        </tr>
+
+
+
+      <tfoot>
+        <!--<tr class="tfoot">
+          <td colspan="6" rowspan="5"></td>
+
+          <td class="text-right bgcolor ">{{'Total_Amount' | translate}}</td>
+
+          <td class="text-right bgcolor">{{grandTotalStr}}</td>
+          <td class="bgcolor"></td>
+        </tr>
+        <tr class="tfoot">
+          <td class="text-right bgcolor">{{'VAT_Amount' | translate}}</td>
+          <td class="text-right bgcolor">{{grandVatTotalStr}}</td>
+          <td class="bgcolor"></td>
+        </tr>-->
+        <tr class="tfoot">
+          <td colspan="5" rowspan="5"></td>
+          <td class="text-right bgcolor_bottom">{{'Invoice_Total' | translate}}</td>
+          <td class="text-right bgcolor_bottom">{{grandInvoiceTotalStr}}</td>
+          <td class="bgcolor_bottom"></td>
+        </tr>
+      </tfoot>
+    </table>
+    <!--<table id="zero_config" class="table  table-bordered no-wrap">
+    <thead>
+      <tr>
+        <th width="18%">{{'Item Code' | translate}}</th>
+        <th width="18%">{{'Item Barcode' | translate}}</th>
+        <th width="8%">{{'Item Name' | translate}}</th>
+        <th width="8%">{{'Item Name2' | translate}}</th>
+        <th>{{'Item Qty' | translate}}</th>
+        <th>{{'Item UnitCode' | translate}}</th>
+        <th width="8%">{{'UOM Factor' | translate}}</th>
+        <th width="11%">{{'Item Cost' | translate}}</th>
+        <th>{{'Tot Cost' | translate}}</th>
+        <th>{{'Item Attribute1' | translate}}</th>
+        <th>{{'Item Attribute2' | translate}}</th>
+        <th>{{'Remarks' | translate}}</th>
+        <th>{{'Item Accounts' | translate}}</th>
+        <th>{{'Adjustments Accounts' | translate}}</th>
+        <th></th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>
+          <ng-select [items]="ItemCodeList"
+                     bindLabel="text"
+                     bindValue="value" [(ngModel)]="tranItemCode" [ngModelOptions]="{standalone: true}">
+          </ng-select>
+
+        </td>
+        <td>
+          <ng-select [items]="BarcodeList"
+                     bindLabel="text"
+                     bindValue="value" [(ngModel)]="tranBarcode" [ngModelOptions]="{standalone: true}">
+          </ng-select>
+
+        </td>
+        <td>
+          <input class="form-control" type="text" placeholder="{{'Item Name' | translate}}" [(ngModel)]="tranItemName" [ngModelOptions]="{standalone: true}">
+        </td>
+
+        <td>
+          <input class="form-control" type="text" placeholder="{{'Item Name2' | translate}}" [(ngModel)]="tranItemName2" [ngModelOptions]="{standalone: true}">
+        </td>
+        <td>
+          <input class="form-control" type="text" placeholder="{{'Item Qty' | translate}}" [(ngModel)]="tranItemQty" [ngModelOptions]="{standalone: true}">
+        </td>
+        <td>-->
+    <!--<input class="form-control" type="text" placeholder="{{'Item UnitCode' | translate}}"  [(ngModel)]="tranItemUnit" [ngModelOptions]="{standalone: true}">-->
+    <!--<ng-select [items]="UOMList"
+               bindLabel="text"
+               bindValue="value" [(ngModel)]="tranItemUnit" (change)="loadUomdata($event)" [ngModelOptions]="{standalone: true}">
+    </ng-select>
+  </td>
+  <td>
+    <input class="form-control" type="text" placeholder="{{'UOM Factor' | translate}}" [(ngModel)]="tranUOMFactor" [ngModelOptions]="{standalone: true}">
+  </td>
+  <td>
+    <input class="form-control" type="text" placeholder="{{'Item Cost' | translate}}" [(ngModel)]="tranItemCost" [ngModelOptions]="{standalone: true}" (keyup)="calculate()">
+  </td>
+  <td>
+    <input class="form-control" type="text" placeholder="{{'Tot Cost' | translate}}" [(ngModel)]="tranTotCost" [ngModelOptions]="{standalone: true}">
+  </td>
+  <td>
+    <input class="form-control" type="text" placeholder="{{'Item Attribute1' | translate}}" [(ngModel)]="itemAttribute1" [ngModelOptions]="{standalone: true}">
+  </td>
+  <td>
+    <input class="form-control" type="text" placeholder="{{'Item Attribute2' | translate}}" [(ngModel)]="itemAttribute2" [ngModelOptions]="{standalone: true}">
+  </td>
+  <td>
+    <input class="form-control" type="text" placeholder="{{'Remarks' | translate}}" [(ngModel)]="remarks" [ngModelOptions]="{standalone: true}">
+  </td>
+  <td>
+    <ng-select [items]="tranInvAccountList"
+               bindLabel="text"
+               bindValue="value" [(ngModel)]="iNVAcc" [ngModelOptions]="{standalone: true}">
+    </ng-select>
+  </td>
+  <td>-->
+    <!--<input class="form-control" type="text" placeholder="{{'itemTracking' | translate}}" [(ngModel)]="itemTracking" [ngModelOptions]="{standalone: true}">-->
+    <!--<ng-select [items]="tranInvAdjAccountList"
+                   bindLabel="text"
+                   bindValue="value" [(ngModel)]="iNVADJAcc" [ngModelOptions]="{standalone: true}">
+        </ng-select>
+
+
+      </td>
+      <td>
+        <button type="button" class="btn waves-effect waves-light   btn-primary  " (click)="addInvoice()"><i class="icon-plus"></i></button>
+      </td>
+    </tr>
+  </tbody>
+
+  <thead>
+    <tr>
+      <th>{{'Item Code' | translate}}</th>
+      <th>{{'Item Barcode' | translate}}</th>
+      <th>{{'Item Name' | translate}}</th>
+      <th>{{'Item Name2' | translate}}</th>
+      <th>{{'Item Qty' | translate}}</th>
+      <th>{{'Item UnitCode' | translate}}</th>
+      <th>{{'UOM Factor' | translate}}</th>
+      <th>{{'Item Cost' | translate}}</th>
+      <th>{{'Tot Cost' | translate}}</th>
+      <th>{{'Item Attribute1' | translate}}</th>
+      <th>{{'Item Attribute2' | translate}}</th>
+      <th>{{'Remarks' | translate}}</th>
+      <th>{{'Item Accounts' | translate}}</th>
+      <th>{{'Adjustments Accounts' | translate}}</th>
+      <th class="text-center"> </th>
+
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let item of listOfInvoices; let index = i;">
+      <td>{{item.tranItemCode}}</td>
+      <td>{{item.tranBarcode}}</td>
+      <td>{{item.tranItemName}}</td>
+      <td>{{item.tranItemName2}}</td>
+      <td>{{item.tranItemQty}}</td>
+      <td>{{item.tranItemUnit}}</td>
+      <td class="text-right">{{item.tranUOMFactor}}</td>
+      <td class="text-right">{{item.tranItemCost}}</td>
+      <td>{{item.tranTotCost}}</td>
+      <td>{{item.itemAttribute1}}</td>
+      <td>{{item.itemAttribute2}}</td>
+      <td>{{item.remarks}}</td>
+      <td>{{item.iNVAcc}}</td>
+      <td>{{item.iNVADJAcc}}</td>
+      <td class="text-center">
+        <i class="icon-note cpointer" (click)="editInvoiceItem(item)"> </i> &nbsp;
+        <i class="icon-trash cpointer " (click)="deleteInvoiceItem(item)"> </i> &nbsp;
+      </td>
+    </tr>
+
+
+
+  <tfoot>
+    <tr class="tfoot">
+      <td colspan="6" rowspan="5"></td>
+
+      <td class="text-right bgcolor ">{{'Total_Amount' | translate}}</td>
+
+      <td class="text-right bgcolor">{{grandTotalStr}}</td>
+      <td class="bgcolor"></td>
+    </tr>-->
+    <!--<tr class="tfoot">
+    <td class="text-right bgcolor">{{'VAT_Amount' | translate}}</td>
+    <td class="text-right bgcolor">{{grandVatTotalStr}}</td>
+    <td class="bgcolor"></td>
+  </tr>
+  <tr class="tfoot">
+    <td class="text-right bgcolor_bottom">{{'Invoice_Total' | translate}}</td>
+    <td class="text-right bgcolor_bottom">{{grandTotalStr}}</td>
+    <td class="bgcolor_bottom"></td>
+  </tr>-->
+    <!--</tfoot>
+  </table>-->
+
+  </div>
+
+  <div class="row">
+    <div class="col-lg-12 col-md-12 text-center">
+      <button type="button" class="btn btn-secondary" data-dismiss="modal" (click)="closeModel()">
+        {{'Cancel' | translate}}
+      </button>
+      &nbsp;&nbsp;
+      <input type="submit" class="btn waves-effect waves-light   btn-primary  " value="{{'Save' | translate}}">
+    </div>
+  </div>
+</form>
+<!--</div>
+        </div>
+
+      </div>
+
+    </div>
+  </div>
+</div>-->
+<!-- /.modal-content -->
+<!--</div>--><!-- /.modal-dialog -->
+<!--</div>--><!-- /.modal -->

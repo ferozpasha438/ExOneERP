@@ -1,0 +1,145 @@
+<div class="page-breadcrumb">
+  <div class="row">
+    <div class="col-12 align-self-center">
+      <h3 class="page-title text-truncate text-dark font-weight-medium mb-1">
+        {{'Requests_For_Open_Close_Project_Sites' | translate}}
+      </h3>
+      <div class="d-flex align-items-center">
+        <nav aria-label="breadcrumb">
+          <ol class="breadcrumb m-0 p-0">
+            <li class="breadcrumb-item text-muted"> {{'Operational_Management' | translate}} </li>
+            <li class="breadcrumb-item text-muted"> {{'Operations' | translate}} </li>
+            <li class="breadcrumb-item   active" aria-current="page">{{'Requests' | translate}}</li>
+
+          </ol>
+        </nav>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-md-12 col-lg-12">
+      <div class="card">
+        <div class="card-body">
+          <div class="row">
+
+            <div class="col-md-5 col-lg-5">
+              <input type="text"
+                     class="form-control"
+                     placeholder="{{'Search'|translate}}..."
+                     [(ngModel)]="searchValue" (keyup)="applyFilter(searchValue)" (keydown)="applyFilter(searchValue)" [ngModelOptions]="{standalone: true}" />
+            </div>
+            <div class="col-md-2 col-lg-2 text-center">
+              <spinner-loader [isLoading]="isLoading"></spinner-loader>
+            </div>
+          </div>
+
+          <div class="cardtitle-divider"></div>
+          <div class="table-responsive">
+
+            <div class="mat-elevation-z8">
+              <ng-container>
+                <!--matSortActive="id"
+
+                matSortDisableClear matSortDirection="desc"-->
+                <table mat-table [dataSource]="data" matSortDisableClear matSort (matSortChange)="onSortOrder($event)" class="table  table-bordered no-wrap">
+                  <ng-container matColumnDef="customerCode">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                      {{'Customer_Code' | translate}}
+                    </th>
+                    <td mat-cell *matCellDef="let row">{{ row.customerCode }}</td>
+                  </ng-container>
+
+                  <ng-container matColumnDef="siteCode">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                      {{'Site_Code' | translate}}
+                    </th>
+                    <td mat-cell *matCellDef="let row">{{ row.siteCode }}</td>
+                  </ng-container>
+
+                  <ng-container matColumnDef="projectCode">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                      {{'Project_Code' | translate}}
+                    </th>
+                    <td mat-cell *matCellDef="let row">{{ row.projectCode }}</td>
+                  </ng-container>
+  <ng-container matColumnDef="reqType">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                      {{'Request_Type' | translate}}
+                    </th>
+                    <td mat-cell *matCellDef="let row">{{ row.reqType }}</td>
+                  </ng-container>
+                  
+                  <!--<ng-container matColumnDef="effectiveDate">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                      {{'Effective_Date' | translate}}
+                    </th>
+                    <td mat-cell *matCellDef="let row">{{ToDateString(row.effectiveDate)}}</td>
+                  </ng-container>-->
+
+                  <ng-container matColumnDef="isApproved">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                      {{'Is_Approved' | translate}}
+                    </th>
+                    <td mat-cell *matCellDef="let row">
+                      <span class="badge badge-pill badge-success" *ngIf="row.isApproved; else inActive"> {{'Yes' | translate}}</span>
+                      <ng-template #inActive>
+                        <span class="badge badge-pill badge-light"> {{'No' | translate}}</span>
+                      </ng-template>
+                    </td>
+                  </ng-container>
+
+                  
+
+
+                  <ng-container matColumnDef="Actions" stickyEnd>
+                    <th mat-header-cell *matHeaderCellDef>{{'Actions' | translate}}</th>
+                    <td mat-cell *matCellDef="let row" class="clickaction clickicons">
+                      <span *ngIf="!row?.isApproved &&row.canEditReq" (click)="edit(row)" [matTooltip]="translateToolTip('Edit_Request')"><i class=" fas fa-edit"></i>&nbsp;</span>
+                      <span *ngIf="!row?.isApproved &&row.canEditReq" (click)="delete(row.id)" [matTooltip]="translateToolTip('Delete_Request')"><i class="far fa-trash-alt"></i>&nbsp;</span>
+                      <span *ngIf="!row?.isApproved && (!row?.isFileUploadRequired || row.fileUrl )&& ( row.canApproveReq|| row.isAdmin)" (click)="approveRequest(row.id)" [matTooltip]="translateToolTip('Approve_Request')"><i class="icon-like"></i>&nbsp;</span>
+
+
+                      <span (click)="viewRequest(row)" [matTooltip]="translateToolTip('View_Request')"><i class=" fas fa-eye"></i></span>
+
+                      <span *ngIf="row?.isFileUploadRequired && (!row.fileUrl || !row.isApproved) && (row.canApproveReq || row.isAdmin)" (click)="uploadAdendum(row)" [matTooltip]="translateToolTip('Upload_File')"><i class=" fas fa-upload"></i>&nbsp;</span>
+                      <span *ngIf="row?.isFileUploadRequired && (!row.fileUrl || !row.isApproved) && (row.canApproveReq || row.isAdmin)" (click)="viewAddendum(row)" [matTooltip]="translateToolTip('View_File')"><i class="fas fa-download"></i>&nbsp;</span>
+
+                    </td>
+
+
+
+
+
+                 
+                  </ng-container>
+
+                  <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
+                  <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+
+                </table>
+                <ng-container>
+                  <mat-paginator [length]="totalItemsCount"
+                                 [pageSize]="pageService.pageCount"
+                                 [pageSizeOptions]="pageService.selectItemsPerPage"
+                                 (page)="onPageSwitch($event)">
+                  </mat-paginator>
+
+                </ng-container>
+              </ng-container>
+
+            </div>
+
+          </div>
+
+        </div>
+
+
+
+      </div>
+    </div>
+
+  </div>
+
+</div>

@@ -1,0 +1,32 @@
+
+<link href="/assets/style_new.css" rel="stylesheet" />
+
+<div class="row">
+  <div class="col-md-12 col-lg-12">
+    <button (click)="printInvoice()">Print</button> &nbsp;
+    <button (click)="saveAsPDF()">Save As PDF</button> &nbsp;
+    <button type="button" class="" aria-hidden="true" (click)="closeModel()"> Close</button>&nbsp;
+    <select  [(ngModel)]="format" [ngModelOptions]="{standalone: true}">
+      <option value=''>{{'Select_Format' | translate}}</option>
+      <option *ngFor="let item of printFormats" value="{{item.text}}">{{item.text}}</option>
+    </select>
+  </div>
+
+  
+
+
+</div>
+
+
+
+
+
+
+
+<br />
+
+<spinner-loader [isLoading]="isLoading"></spinner-loader>
+
+
+
+<app-sndquotationviewar [res]="result" [isSavePDF]="isSavePDF" [format]="format"></app-sndquotationviewar>

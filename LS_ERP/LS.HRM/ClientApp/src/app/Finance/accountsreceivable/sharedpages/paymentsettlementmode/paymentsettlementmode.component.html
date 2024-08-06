@@ -1,0 +1,32 @@
+
+<h3> {{'Posting_Collection' | translate}}  <button type="button" class="close" aria-hidden="true" (click)="closeModel()"> ×</button></h3>
+
+  <div class="row rowm0 ">
+    <div class="col-md-12 col-lg-12">
+      <label class="mr-sm-2">{{'Posting_Date' | translate}}</label>
+      <div class="form-group ">
+        <div class="input-group mb-2">
+          <input class="form-control datapickerinput" placeholder="{{'Select_a_Date' | translate}}" [(ngModel)]="createdOn" [matDatepicker]="picker">
+
+          <div class="input-group-prepend datapickericon">
+            <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+            <mat-datepicker #picker></mat-datepicker><br /><br />
+          </div>
+
+        </div>
+
+      </div>
+
+    </div>   
+  </div>
+
+  <div class="row">
+    <div class="col-lg-12 col-md-12 text-center">
+      <button type="button" class="btn btn-secondary" data-dismiss="modal" (click)="closeModel()">
+        {{'Cancel' | translate}}
+      </button>
+      &nbsp;&nbsp;
+      <input type="button" class="btn waves-effect waves-light   btn-primary  " value="{{'Save' | translate}}" (click)="submit()">
+    </div>
+  </div>
+

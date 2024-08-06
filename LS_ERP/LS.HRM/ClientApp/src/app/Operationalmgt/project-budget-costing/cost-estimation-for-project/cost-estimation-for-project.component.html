@@ -1,0 +1,62 @@
+
+<h3 class="modal-title">{{modalTitle | translate}}</h3>
+<button type="button" class="close" aria-hidden="true" (click)="closeModel()"> ×</button>
+
+  <div class="table-responsive">
+    <table id="zero_config" class="table  table-bordered no-wrap">
+      <tr>
+        <th>{{'Site_Code' | translate}}</th>
+        <th>{{'Site_Name' | translate}}</th>
+        <th>{{'Site_Name_Arabic' | translate}}</th>
+        <th>{{'Total_SkillSet_Cost' | translate}}</th>
+        <th>{{'Total_Material_cost' | translate}}</th>
+        <th>{{'Total_Logistics_Cost' | translate}}</th>
+        <th>{{'Total_Finacial_Expense_Cost' | translate}}</th>
+        <th>{{'Total_Cost' | translate}}</th>
+
+      </tr>
+      <tr *ngFor="let swpbc of projectBudgetEstimation.siteWisePBCListForProject;">
+        <td>{{swpbc.siteData.siteCode}}</td>
+        <td>{{swpbc.siteData.siteName}}</td>
+        <td>{{swpbc.siteData.siteArbName}}</td>
+        <td>{{swpbc.totRcForSite}}</td>
+        <td>{{swpbc.totMcForSite}}</td>
+        <td>{{swpbc.totLcForSite}}</td>
+        <td>{{swpbc.totFcForSite}}</td>
+        <td>{{swpbc.grandTotalCostForSite}}</td>
+      </tr>
+
+
+    </table>
+  </div>
+
+  <div class="table-responsive" *ngFor="let swpbc of projectBudgetEstimation.siteWisePBCListForProject;">
+    <table id="zero_config" class="table  table-bordered no-wrap">
+      <tr>
+        <th>{{'SkillSet_Code' | translate}}</th>
+        <th>{{'Skillset_Name' | translate}}</th>
+        <th>{{'SkillsetName_Arabic' | translate}}</th>
+        <th colspan="3">{{'Cost_Per_Unit' | translate}}</th>
+        <th>{{'Skillset_Count' | translate}}</th>
+        <th>{{'Amount_For_SkillSet' | translate}}</th>
+        
+
+      </tr>
+      <ng-container *ngFor="let prcSite of swpbc.prcListForSite">
+        <tr *ngFor="let prsc of prcSite.resourceSubCostingList;let $index=index">
+          <td *ngIf="$index===0;" [attr.rowspan]="prcSite.resourceSubCostingList.length">{{prcSite.skillsetCode}}</td>
+          <td *ngIf="$index===0;" [attr.rowspan]="prcSite.resourceSubCostingList.length">{{prcSite.skillsetCode}}</td>
+          <td *ngIf="$index===0;" [attr.rowspan]="prcSite.resourceSubCostingList.length">{{prcSite.skillsetCode}}</td>
+          <td> {{prsc.costHead}}</td>
+          <td> {{prsc.amount}}</td>
+
+          <td *ngIf="$index===0;" [attr.rowspan]="prcSite.resourceSubCostingList.length">{{prcSite.costPerUnit}}</td>
+          <td>{{prcSite.quantity}}</td>
+          <td>{{prcSite.totResourceCost}}</td>
+        </tr>
+      </ng-container>
+
+    </table>
+  </div>
+ 
+  

@@ -1,0 +1,108 @@
+<h3>{{'Create_Sub_Category' | translate}} <button type="button" class="close" aria-hidden="true" (click)="closeModel()"> ×</button></h3>
+<form [formGroup]="form" (ngSubmit)="submit()" novalidate class="mt-4">
+  
+  <div class="row">
+    <div class="row">
+      <div class="col-md-6 col-lg-6 borderright">
+
+        <ul id="tree2" *ngFor="let cg of listOfCategories">
+          <li>
+            <input type="checkbox" /><b class="text-info cu-pointer" (click)="createSubCategory(cg.name)">{{cg.name}} </b>
+            <ng-container *ngIf="cg.list && cg.list.length > 0">
+              <ul *ngFor="let scg of cg.list">
+                <!--<li>-->
+                <!--<input type="checkbox" /><b class="text-info cu-pointer" (click)="createCateg(scg.itemSubCatCode,scg.itemSubCatName)"> {{scg.itemSubCatName}} </b>-->
+                <ng-container *ngIf="scg.list && scg.list.length > 0">
+                  <ul *ngFor="let code of scg.list">
+                    <li>
+                      <span>{{code.itemSubCatCode}} {{code.itemSubCatName}}</span>
+                    </li>
+                  </ul>
+                </ng-container>
+                <!--</li>-->
+              </ul>
+            </ng-container>
+          </li>
+        </ul>
+      </div>
+      <div class="col-md-6 col-lg-6">
+        <div class="row">
+          <div class="col-md-6 col-lg-6">
+
+            <div class="form-group">
+              <label>{{'SubCatKey' | translate}}</label>
+              <input type="text" class="form-control" maxlength="41" placeholder="{{'Please_Enter' | translate}} {{'SubCatKey' | translate}}" formControlName="subCatKey" [readonly]="isReadOnly" (change)="onTextchange($event.target.value)">
+            </div>
+
+          </div>
+          <div class="col-md-6 col-lg-6">
+
+            <div class="form-group">
+              <label>{{'Category_Code' | translate}}</label>
+              <!--<input type="text" class="form-control" placeholder="{{'Please_Enter' | translate}} {{'Category_Code' | translate}} " formControlName="itemCatCode">-->
+              <select class="custom-select mr-sm-2" id="CategoryCode" (change)="onCCChange($event.target.value)" formControlName="itemCatCode" disabled>
+                <option value="">Choose Category Code</option>
+                <ng-container *ngIf="CategoryCodeList">
+                  <option *ngFor="let ccl of CategoryCodeList" value="{{ccl.value}}">{{ccl.value}}</option>
+                </ng-container>
+              </select>
+              <validation-message [control]="form.controls.itemCatCode"></validation-message>
+            </div>
+
+          </div>
+          <div class="col-md-6 col-lg-6">
+
+            <div class="form-group">
+              <label>{{'Category_Name' | translate}} </label>
+              <!--<input type="text" class="form-control" placeholder="{{'Please_Enter' | translate}} {{'Category_Name' | translate}}" formControlName="itemCatName">-->
+              <select class="custom-select mr-sm-2" id="CategoryName" (change)="onCNChange($event.target.value)" formControlName="itemCatName" disabled>
+                <option value="">Choose Category Name</option>
+                <ng-container *ngIf="CategoryCodeList">
+                  <option *ngFor="let ccl of CategoryCodeList" value="{{ccl.value}}">{{ccl.text}}</option>
+                </ng-container>
+              </select>
+              <validation-message [control]="form.controls.itemCatName"></validation-message>
+            </div>
+
+          </div>
+          <div class="col-md-6 col-lg-6">
+
+            <div class="form-group">
+              <label>{{'Sub_Category_Code' | translate}}</label>
+              <input type="text" class="form-control" maxlength="20" placeholder="{{'Please_Enter' | translate}} {{'Sub_Category_Code' | translate}}" formControlName="itemSubCatCode">
+            </div>
+
+          </div>
+          <div class="col-md-6 col-lg-6">
+
+            <div class="form-group">
+              <label>{{'Sub_Category_Name' | translate}}</label>
+              <input type="text" class="form-control" maxlength="50" placeholder="{{'Please_Enter' | translate}} {{'Sub_Category_Name' | translate}}" formControlName="itemSubCatName">
+            </div>
+
+          </div>
+          <div class="col-md-6 col-lg-6">
+
+            <div class="form-group">
+              <label>{{'Sub_Category_Description' | translate}}</label>
+              <input type="text" class="form-control" maxlength="50" placeholder="{{'Please_Enter' | translate}} {{'Sub_Category_Description' | translate}}" formControlName="itemSubCatDesc">
+            </div>
+
+          </div>
+        </div>
+        </div>
+      </div>
+
+    </div>
+
+  <div class="row mt-3 ">
+    <div class="col-md-12 col-lg-12 text-center">
+      <input type="button"
+             class="btn waves-effect waves-light btn-rounded   btn-secondary btn-midblock"
+             value="CANCEL" (click)="closeModel()" /> &nbsp;
+      <input type="submit"
+             class="btn waves-effect waves-light btn-rounded btn-primary btn-midblock"
+             value="SAVE" />
+    </div>
+  </div>
+</form>

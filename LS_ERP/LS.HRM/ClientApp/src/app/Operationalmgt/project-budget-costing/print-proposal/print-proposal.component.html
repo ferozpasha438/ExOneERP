@@ -1,0 +1,768 @@
+
+<div>
+  <span *ngIf="templatesSelectionList.length!=0">
+    <select class="custom-select mr-sm-2" (change)="OnTemplateSelection($event)">
+      <option value="">{{'Select' | translate}} {{'SelectTemplate' | translate}} </option>
+      <option *ngFor="let template of templatesSelectionList" value="{{template.value}}"> {{ !isArabic? template.text: template.textTwo }}</option>
+    </select>
+  </span>&nbsp;
+  <br/>
+  <button  (click)="createProposalTemplate()">{{'Create_Template'|translate}}</button> &nbsp;
+  <button *ngIf="templatesSelectionList.length>0 &&  templateData!=null " (click)="printInvoice()">{{'Print'|translate}}</button> &nbsp;
+  <button *ngIf="templatesSelectionList.length>0 &&  templateData!=null " (click)="editProposalTemplate()">{{'Edit_Proposal_Template'|translate}}</button> &nbsp;
+  <button *ngIf="templatesSelectionList.length>0 &&  templateData!=null " (click)="editProposalCosting()">{{'Edit_Proposal_Costing'|translate}}</button> &nbsp;
+
+  <button type="button" class="" aria-hidden="true" (click)="closeModel()"> Close</button>
+</div>
+
+<br />
+<br />
+<br />
+<!-- Container -->
+
+<div *ngIf=" !isArabic">
+  <div class="container-fluid invoice-container print-container" style=" width:850px; padding-top:5px;" id="printcontainer" *ngIf="templatesSelectionList.length!=0 && templateData!=null">
+    <div id="ProposalPage1" style="page-break-after:always">
+      <br>
+
+      <table style="width:100%" border="0" cellpadding="0" cellspacing="0">
+        <tr>
+          <td style="width:35%">
+            <h5 style="text-align:left">
+              <strong>
+                <!--Al Saher Al Amni for Security Guards-->
+                {{companyData.companyName}}
+              </strong>
+            </h5>
+          </td>
+          <td style="text-align:center">
+            <img class="float-center" src="{{companyData.logoURL}}" style="width:200px;height:150px" />
+          </td>
+          <td style="width:35%">
+            <h5 style="text-align:right">
+              <strong>
+                <!--الساهر الامني للحراسات الامنية-->
+                {{companyData.companyNameAr}}
+              </strong>
+            </h5>
+          </td>
+        </tr>
+        <tr>
+          <td> <br> <br> <br> <br> <br> <br> <br> <br> <br> <br> <br> </td>
+        </tr>
+        <tr>
+          <td colspan="3" style="text-align:center">
+            <h4>Provision Of Manned {{templateData.titleOfService}} </h4>
+          </td>
+        </tr>
+        <tr>
+          <td colspan="3" style="text-align:center">
+            <h4>For</h4>
+          </td>
+        </tr>
+        <tr>
+          <td colspan="3" style="text-align:center">
+            <h4>{{customerData.custName}}</h4>
+          </td>
+        </tr>
+        <tr>
+          <td> <br> <br> <br> <br> <br> <br> </td>
+        </tr>
+        <tr>
+          <td colspan="3" style="text-align:center">
+            <h5>By</h5>
+          </td>
+        </tr>
+        <tr>
+          <td colspan="3" style="text-align:center">
+            <h5>
+              <!--Al Saher Al Amni for Security Guards-->
+              {{companyData.companyName}}
+            </h5>
+          </td>
+        </tr>
+        <tr>
+          <td colspan="3" style="text-align:center;white-space:pre-wrap">
+            <h5>{{companyData.companyAddress}} </h5>
+          </td>
+        </tr>
+
+      </table>
+    </div>
+
+
+
+
+    <div id="ProposalPage2" style="page-break-after:always">
+      <table style="width:100%" border="0" cellpadding="0" cellspacing="0" width="100%">
+        <tr>
+          <td>  </td>
+        </tr>
+        <tr>
+          <td style="width:35%">
+            <h5 style="text-align:left">
+              <strong>
+                <!--Al Saher Al Amni for Security Guards-->
+                {{companyData.companyName}}
+
+              </strong>
+            </h5>
+          </td>
+          <td>
+            <img class="float-center" src="{{companyData.logoURL}}" style="width:200px;height:150px" />
+          </td>
+          <td style="width:35%">
+            <h5 style="text-align:right">
+              <strong>
+                <!--الساهر الامني للحراسات الامنية-->
+                {{companyData.companyNameAr}}
+              </strong>
+            </h5>
+          </td>
+        </tr>
+      </table>
+      <br>
+      <br>
+      <br>
+      <br>
+      <br>
+      <br>
+      <br>
+      <br>
+      <br>
+      <br>
+      <table style="width:100%" border="0" cellpadding="0" cellspacing="0" width="100%">
+        <tr>
+          <td>
+            <h5 style="text-align:left"> <strong> Reference Number: {{referenceNumber}} </strong> </h5>
+          </td>
+
+          <td>
+            <h5 style="text-align:right"> <strong> Date:{{date|date:'dd/MM/YYYY'}} </strong> </h5>
+          </td>
+        </tr>
+        <tr>
+          <td colspan="2" style="text-align:Left">
+            <h5>
+              Attention : <!--{{Name of the contact Person at client}}-->
+              {{customerData.custContact1}}
+            </h5>
+          </td>
+        </tr>
+        <tr>
+          <td colspan="2" style="text-align:Left">
+            <h5>
+              Email : <!--{{Email of the contact Person at client}}-->
+              {{customerData.custEmail1}}
+            </h5>
+          </td>
+        </tr>
+        <tr>
+          <td> <br> <br> <br> <br> </td>
+        </tr>
+        <tr>
+          <td colspan="2" style="text-align:Left">
+            <h5>Respected Sir / Madam</h5>
+          </td>
+        </tr>
+        <tr>
+          <td> <br> <br> <br> </td>
+        </tr>
+        <tr>
+          <td colspan="2" style="text-align:center">
+            <h5> Proposal to Provide Security Services to {{customerData.custName}}</h5>
+          </td>
+        </tr>
+        <tr>
+          <td> <br> <br> <br> </td>
+        </tr>
+        <tr>
+          <td colspan="2" style="text-align:justify">
+            <h5>
+              <!--We are happy to submit our proposal for security services to ……. <<customer>>
+              We are greatly confident that if awarded a contract, we will provide quality security services to you.
+              With enough experience of security business and adequate management infrastructure, we assure you that
+              we will meet your level of expectations.
+              We hope you find our proposal in line with your requirements, and we look forward to receiving your
+              confirmation. Should you require any additional information or clarifications, please feel free to
+              contact us.
+              Al Saher Al Amni for Security Guards Co endeavours to provide quality service to our clients and looks
+              forward to having a long term and beneficial business relationship with <<customer>>
+
+              Please find attached our quotation for your kind perusal.-->
+              {{templateData.coveringLetter}}
+            </h5>
+          </td>
+        </tr>
+        <tr>
+          <td> <br> </td>
+        </tr>
+        <tr>
+          <td colspan="2" style="text-align:left">
+            <h5> Your's Sincerely </h5>
+          </td>
+        </tr>
+        <tr>
+          <td> <br> </td>
+        </tr>
+        <tr>
+          <td colspan="2" style="text-align:Left; white-space: pre-wrap;">
+            <h5>
+              <!--Name: Mohammed Abdullah Al Mansaky.
+              <br/>
+              Position: COO STS Group
+              <br/>
+              Email: mmansaky@sts-saher.com
+              <br />
+              Cell no: +966 56 122 5850-->
+              {{templateData.issuingAuthority}}
+            </h5>
+          </td>
+        </tr>
+      </table>
+    </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    
+
+
+
+
+
+
+
+
+
+
+
+
+    <div style="page-break-after:always" class="p-3" id="ProposalPage3">
+      <table style="width:100%" border="0" cellpadding="0" cellspacing="0" width="100%">
+        <tr>
+          <td> <br> <br> <br> <br> <br> <br> </td>
+        </tr>
+        <tr>
+          <td style="width:35%">
+            <h5 style="text-align:left">
+              <strong>
+                <!--Al Saher Al Amni for Security Guards-->
+                {{companyData.companyName}}
+              </strong>
+            </h5>
+          </td>
+          <td>
+            <img class="float-center" src="{{companyData.logoURL}}" style="width:200px;height:150px" />
+          </td>
+          <td style="width:35%">
+            <h5 style="text-align:right">
+              <strong>
+                {{companyData.companyNameAr}}
+                <!--الساهر الامني للحراسات الامنية-->
+              </strong>
+            </h5>
+          </td>
+        </tr>
+      </table>
+
+      <table style="width:100%;" border="0" cellpadding="0" cellspacing="0" width="100%">
+        <tr>
+          <td>
+            <h5> {{templateData.titleOfService}} </h5>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <p style="text-align:justify">
+              <!--Al Saher Al Amni for Security Guards Co is able to provide you with standard static guards, vehicle
+          patrol guards, CCTV operators and CPO’s. We also provide temporary guards for events.-->
+              {{templateData.commercial}}
+            </p>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <br />
+            <h5> {{templateData.titleOfService}}</h5>
+          </td>
+        </tr>
+      </table>
+
+
+     
+
+
+
+
+
+      <ng-container style="padding-bottom: 5px; padding-top: 5px">
+
+
+
+
+        <table style="width:100%" border="0" cellpadding="0" cellspacing="0" width="100%">
+
+          <tr>
+     
+            <th style=" border: 1px solid #878787; padding: 5px; text-align: center; font-size: 0.675rem !important; color: #000000; font-family: 'Poppins', sans-serif; font-weight: 600;">
+              {{'Qty' | translate}}
+            </th>
+            <th style=" border: 1px solid #878787; padding: 5px; text-align: center; font-size: 0.675rem !important; color: #000000; font-family: 'Poppins', sans-serif; font-weight: 600;">
+              {{'Position' | translate}}
+            </th>
+            <th style=" border: 1px solid #878787; padding: 5px; text-align: center; font-size: 0.675rem !important; color: #000000; font-family: 'Poppins', sans-serif; font-weight: 600;">
+              {{'Unit_Rate' | translate}}
+            </th>
+            <th style=" border: 1px solid #878787; padding: 5px; text-align: center; font-size: 0.675rem !important; color: #000000; font-family: 'Poppins', sans-serif; font-weight: 600;">
+              {{'Total' | translate}}
+            </th>
+          </tr>
+
+
+          <tr *ngFor="let propCost of proposalCosting;">
+            <td style=" border:1px solid #878787;padding:5px;text-align: center;font-size:0.775rem !important;color: #000000; font-family: 'Poppins', sans-serif;font-weight: 500;">
+              {{propCost.qty}}
+            </td>
+            <td style=" border:1px solid #878787;padding:5px;text-align: left;font-size:0.775rem !important;color: #000000; font-family: 'Poppins', sans-serif;font-weight: 500;">
+              {{propCost.itemEng}}
+            </td>
+            <td style=" border:1px solid #878787;padding:5px;text-align: right;font-size:0.775rem !important;color: #000000; font-family: 'Poppins', sans-serif;font-weight: 500;">
+              {{propCost.price |number:'3.2-5'}}
+            </td>
+            <td style=" border:1px solid #878787;padding:5px;text-align: right;font-size:0.775rem !important;color: #000000; font-family: 'Poppins', sans-serif;font-weight: 500;">
+              {{propCost.total |number:'3.2-5'}}
+            </td>
+          </tr>
+        </table>
+      </ng-container>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+      <table style="width:100%;" border="0" cellpadding="0" cellspacing="0" width="100%">
+        <tr>
+        </tr>
+        <tr>
+          <td> <br> </td>
+        </tr>
+        <tr>
+          <td>
+            <h5> NOTES: </h5>
+          </td>
+        </tr>
+        <tr>
+          <td style="text-align:justify;white-space:pre-line">
+            <!--•	Our prices include all costs towards the security service including salary, medical insurance covering family, Annual leave, GOSI, end of service benefits and all legal requirements as per KSA laws. And also includes appropriate third party insurance, uniforms, training, Etc...
+        •	In the event of the implementation of any unforeseen fees, tax, levy, regulations and/or its kind by the Government pertaining to the manpower in the future, the cost will be added to the service contract accordingly.
+        •	The Manpower distribution above is identified upon request of the client.
+        •	Basic facilities at the Site / Post (shade, AC, drinking water and washroom facilities) for efficient work conditions to be provided by the Customer.
+        •	Our price valid for 30 days from the above date.
+        •	Mobilization period: within One month from signed the contract.
+        •	Payment Terms: within 15 days of delivery of invoice.
+        •	Contract Duration: 1 Year.-->
+            {{templateData.notes}}
+          </td>
+        </tr>
+      </table>
+    </div>
+
+
+  </div>
+</div>
+
+
+<div *ngIf="isArabic">
+  <div class="container-fluid invoice-container print-container" style=" width:850px; padding-top:5px;" id="printcontainer" *ngIf="templatesSelectionList.length!=0 && templateData!=null">
+    <div id="ProposalPage1" style="page-break-after:always">
+      <br>
+
+      <table style="width:100%" border="0" cellpadding="0" cellspacing="0" width="100%">
+        <tr>
+          <td style="width:35%">
+            <h5 style="text-align:left">
+              <strong>
+                <!--Al Saher Al Amni for Security Guards-->
+                {{companyData.companyName}}
+              </strong>
+            </h5>
+          </td>
+          <td style="text-align:center">
+            <img class="float-center" src="{{companyData.logoURL}}" style="width:200px;height:150px" />
+          </td>
+          <td style="width:35%">
+            <h5 style="text-align:right">
+              <strong>
+                <!--الساهر الامني للحراسات الامنية-->
+                {{companyData.companyNameAr}}
+              </strong>
+            </h5>
+          </td>
+        </tr>
+        <tr>
+          <td> <br> <br> <br> <br> <br> <br> <br> <br> <br> <br> <br> </td>
+        </tr>
+        <tr>
+          <td colspan="3">
+            <h4 style="text-align:center"><!--Provision Of Manned--> {{templateData.titleOfService}}  توفير المأهولة </h4>
+          </td>
+        </tr>
+        <tr>
+          <td colspan="3" style="text-align:center">
+            <h4 style="text-align:center"><!--For-->من أجل</h4>
+          </td>
+        </tr>
+        <tr>
+          <td colspan="3" style="text-align:center">
+            <h4  style="text-align:center">{{customerData.custName}}</h4>
+          </td>
+        </tr>
+        <tr>
+          <td> <br> <br> <br> <br> <br> <br> </td>
+        </tr>
+        <tr>
+          <td colspan="3" style="text-align:center">
+            <h5><!--By--> ب</h5>
+          </td>
+        </tr>
+        <tr>
+          <td colspan="3" style="text-align:center">
+            <h5>
+              <!--Al Saher Al Amni for Security Guards-->
+              {{companyData.companyNameAr}}
+            </h5>
+          </td>
+        </tr>
+        <tr>
+          <td colspan="3" style="text-align:center;white-space:pre-wrap">
+            <h5>{{companyData.companyAddressAr}} </h5>
+          </td>
+        </tr>
+
+      </table>
+    </div>
+
+
+
+
+    <div id="ProposalPage2" style="page-break-after:always">
+      <table style="width:100%" border="0" cellpadding="0" cellspacing="0" width="100%">
+        <tr>
+          <td>  </td>
+        </tr>
+        <tr>
+          <td style="width:35%">
+            <h5 style="text-align:left">
+              <strong>
+                <!--Al Saher Al Amni for Security Guards-->
+                {{companyData.companyName}}
+
+              </strong>
+            </h5>
+          </td>
+          <td>
+            <img class="float-center" src="{{companyData.logoURL}}" style="width:200px;height:150px" />
+          </td>
+          <td style="width:35%">
+            <h5 style="text-align:right">
+              <strong>
+                <!--الساهر الامني للحراسات الامنية-->
+                {{companyData.companyNameAr}}
+              </strong>
+            </h5>
+          </td>
+        </tr>
+      </table>
+      <br>
+      <br>
+      <br>
+      <br>
+      <br>
+      <br>
+      <br>
+      <br>
+      <br>
+      <br>
+      <table style="width:100%" border="0" cellpadding="0" cellspacing="0" width="100%">
+        <tr>
+
+          <td>
+            <h5 style="text-align:right"> <strong> <!--Date:-->{{date|date:'dd/MM/YYYY'}}:تاريخ </strong> </h5>
+          </td>
+          <td>
+            <h5 style="text-align:left"> <strong> <!--Reference Number:--> {{referenceNumber}}: الرقم المرجعي </strong> </h5>
+          </td>
+        </tr>
+        <tr>
+          <td colspan="2" style="text-align:right">
+            <h5>
+              <!--Attention :--> <!--{{Name of the contact Person at client}}-->
+              {{customerData.custContact1}} : الشخص الذي يمكن الاتصال به
+            </h5>
+          </td>
+        </tr>
+        <tr>
+          <td colspan="2" style="text-align:right">
+            <h5>
+              <!--Email :--> <!--{{Email of the contact Person at client}}-->               {{customerData.custEmail1}}: عنوان البريد الإلكتروني
+
+            </h5>
+          </td>
+        </tr>
+        <tr>
+          <td> <br> <br> <br> <br> </td>
+        </tr>
+        <tr>
+          <td colspan="2" style="text-align:right">
+            <h5><!--Respected Sir / Madam--> سيدي المحترم / سيدتي</h5>
+          </td>
+        </tr>
+        <tr>
+          <td> <br> <br> <br> </td>
+        </tr>
+        <tr>
+          <td colspan="2" style="text-align:center">
+            <h5> <!--Proposal to Provide Security Services to--> {{customerData.custName}}  مقترح تقديم خدمات أمنية ل</h5>
+          </td>
+        </tr>
+        <tr>
+          <td> <br> <br> <br> </td>
+        </tr>
+        <tr>
+          <td colspan="2" style="text-align:justify">
+            <h5>
+              <!--We are happy to submit our proposal for security services to ……. <<customer>>
+              We are greatly confident that if awarded a contract, we will provide quality security services to you.
+              With enough experience of security business and adequate management infrastructure, we assure you that
+              we will meet your level of expectations.
+              We hope you find our proposal in line with your requirements, and we look forward to receiving your
+              confirmation. Should you require any additional information or clarifications, please feel free to
+              contact us.
+              Al Saher Al Amni for Security Guards Co endeavours to provide quality service to our clients and looks
+              forward to having a long term and beneficial business relationship with <<customer>>
+
+              Please find attached our quotation for your kind perusal.-->
+              {{templateData.coveringLetter}}
+            </h5>
+          </td>
+        </tr>
+        <tr>
+          <td> <br> </td>
+        </tr>
+        <tr>
+          <td colspan="2" style="text-align:right">
+            <h5> <!--Your's Sincerely-->مع خالص التقدير الخاص بك </h5>
+          </td>
+        </tr>
+        <tr>
+          <td> <br> </td>
+        </tr>
+        <tr>
+          <td colspan="2" style="text-align:right; white-space: pre-wrap;">
+            <h5>
+              <!--Name: Mohammed Abdullah Al Mansaky.
+              <br/>
+              Position: COO STS Group
+              <br/>
+              Email: mmansaky@sts-saher.com
+              <br />
+              Cell no: +966 56 122 5850-->
+              {{templateData.issuingAuthority}}
+            </h5>
+          </td>
+        </tr>
+      </table>
+    </div>
+
+
+    <div style="page-break-after:always" class="p-3" id="ProposalPage3">
+      <table style="width:100%" border="0" cellpadding="0" cellspacing="0" width="100%">
+        <tr>
+          <td> <br> <br> <br> <br> <br> <br> </td>
+        </tr>
+        <tr>
+          <td style="width:35%">
+            <h5 style="text-align:left">
+              <strong>
+                <!--Al Saher Al Amni for Security Guards-->
+                {{companyData.companyName}}
+              </strong>
+            </h5>
+          </td>
+          <td>
+            <img class="float-center" src="{{companyData.logoURL}}" style="width:200px;height:150px" />
+          </td>
+          <td style="width:35%">
+            <h5 style="text-align:right">
+              <strong>
+                {{companyData.companyNameAr}}
+                <!--الساهر الامني للحراسات الامنية-->
+              </strong>
+            </h5>
+          </td>
+        </tr>
+      </table>
+
+      <table style="width:100%;" border="0" cellpadding="0" cellspacing="0" width="100%">
+        <tr>
+          <td>
+            <h5> {{templateData.titleOfServiceAr}} </h5>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <p style="text-align:justify">
+              <!--Al Saher Al Amni for Security Guards Co is able to provide you with standard static guards, vehicle
+              patrol guards, CCTV operators and CPO’s. We also provide temporary guards for events.-->
+              {{templateData.commercialAr}}
+            </p>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <br />
+            <h5> {{templateData.titleOfServiceAr}}</h5>
+          </td>
+        </tr>
+      </table>
+
+
+
+
+
+
+
+
+      <ng-container style="padding-bottom: 5px; padding-top: 5px">
+
+
+
+
+        <table class="arabicright" style="width:100%" border="0" cellpadding="0" cellspacing="0" width="100%">
+
+          <tr>
+
+            <th style=" border: 1px solid #878787; padding: 5px; text-align: center; font-size: 0.675rem !important; color: #000000; font-family: 'Poppins', sans-serif; font-weight: 600;">
+              {{'Qty' | translate}}
+            </th>
+            <th style=" border: 1px solid #878787; padding: 5px; text-align: center; font-size: 0.675rem !important; color: #000000; font-family: 'Poppins', sans-serif; font-weight: 600;">
+              {{'Position' | translate}}
+            </th>
+            <th style=" border: 1px solid #878787; padding: 5px; text-align: center; font-size: 0.675rem !important; color: #000000; font-family: 'Poppins', sans-serif; font-weight: 600;">
+              {{'Unit_Rate' | translate}}
+            </th>
+            <th style=" border: 1px solid #878787; padding: 5px; text-align: center; font-size: 0.675rem !important; color: #000000; font-family: 'Poppins', sans-serif; font-weight: 600;">
+              {{'Total' | translate}}
+            </th>
+          </tr>
+
+
+          <tr *ngFor="let propCost of proposalCosting;">
+            <td style=" border:1px solid #878787;padding:5px;text-align: center;font-size:0.775rem !important;color: #000000; font-family: 'Poppins', sans-serif;font-weight: 500;">
+              {{propCost.qty}}
+            </td>
+            <td style=" border:1px solid #878787;padding:5px;text-align: left;font-size:0.775rem !important;color: #000000; font-family: 'Poppins', sans-serif;font-weight: 500;">
+              {{propCost.itemArab}}
+            </td>
+            <td style=" border:1px solid #878787;padding:5px;text-align: right;font-size:0.775rem !important;color: #000000; font-family: 'Poppins', sans-serif;font-weight: 500;">
+              {{propCost.price}}
+            </td>
+            <td style=" border:1px solid #878787;padding:5px;text-align: right;font-size:0.775rem !important;color: #000000; font-family: 'Poppins', sans-serif;font-weight: 500;">
+              {{propCost.total}}
+            </td>
+          </tr>
+        </table>
+      </ng-container>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+      <table style="width:100%;" border="0" cellpadding="0" cellspacing="0" width="100%">
+        <tr>
+        </tr>
+        <tr>
+          <td> <br> </td>
+        </tr>
+        <tr>
+          <td style="text-align:right">
+            <h5> <!--NOTES:-->: تلاحظ</h5>
+          </td>
+        </tr>
+        <tr>
+          <td style="text-align:justify;white-space:pre-line">
+            <!--•	Our prices include all costs towards the security service including salary, medical insurance covering family, Annual leave, GOSI, end of service benefits and all legal requirements as per KSA laws. And also includes appropriate third party insurance, uniforms, training, Etc...
+            •	In the event of the implementation of any unforeseen fees, tax, levy, regulations and/or its kind by the Government pertaining to the manpower in the future, the cost will be added to the service contract accordingly.
+            •	The Manpower distribution above is identified upon request of the client.
+            •	Basic facilities at the Site / Post (shade, AC, drinking water and washroom facilities) for efficient work conditions to be provided by the Customer.
+            •	Our price valid for 30 days from the above date.
+            •	Mobilization period: within One month from signed the contract.
+            •	Payment Terms: within 15 days of delivery of invoice.
+            •	Contract Duration: 1 Year.-->
+            {{templateData.notesArb}}
+          </td>
+        </tr>
+      </table>
+    </div>
+
+
+  </div>
+</div>
+ 
+
+
+
+

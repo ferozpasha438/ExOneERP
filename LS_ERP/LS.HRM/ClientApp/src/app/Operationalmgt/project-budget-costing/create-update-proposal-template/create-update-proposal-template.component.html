@@ -1,0 +1,89 @@
+<h3 class="modal-title">{{modalTitle | translate}}</h3>
+<button type="button" class="close" aria-hidden="true" (click)="closeModel()"> ×</button>
+<form [formGroup]="form" (ngSubmit)="submit()" #myform="ngForm">
+  <div class="outer ">
+    <div class="row">
+
+      <div class="col-md-6 col-lg-6">
+        <div class="form-group">
+          <label>{{'Title Of Service' | translate}}</label>
+          <input class="form-control" type="text" placeholder="{{'Please_Enter' | translate}} {{'Title Of Service' | translate}}" formControlName="titleOfService" />
+
+        </div>
+
+      </div>
+      <div class="col-md-6 col-lg-6">
+        <div class="form-group">
+          <label>{{'Title_Of_Service' | translate}}</label>
+          <input class="form-control" type="text" placeholder="{{'Please_Enter' | translate}} {{'Title_Of_Service' | translate}}" formControlName="titleOfServiceArb" />
+
+        </div>
+
+      </div>
+      <div class="col-md-6 col-lg-6">
+        <div class="form-group" style="padding-right:5px">
+          <label>{{'Covering Letter' | translate}} </label><br />
+          <textarea name="text" cols="75" rows="5" placeholder="{{'Please_Enter' | translate}} {{'Covering Letter' | translate}}" formControlName="coveringLetter"></textarea>
+        </div>
+
+      </div>
+      <div class="col-md-6 col-lg-6">
+        <div class="form-group" style="padding-right:5px">
+          <label>{{'Covering_Letter' | translate}} </label><br />
+          <textarea name="text" cols="75" rows="5" placeholder="{{'Please_Enter' | translate}} {{'Covering Letter' | translate}}" formControlName="coveringLetterArb"></textarea>
+        </div>
+
+      </div>
+      <div class="col-md-6 col-lg-6">
+        <div class="form-group" style="padding-left:5px;width:100%">
+          <label>{{'Commercial Terms' | translate}} </label><br />
+          <textarea name="text" cols="75" rows="5" placeholder="{{'Please_Enter' | translate}} {{'Commercial Terms' | translate}}" formControlName="commercial"></textarea>
+        </div>
+      </div>
+      <div class="col-md-6 col-lg-6">
+        <div class="form-group" style="padding-right:5px">
+          <label>{{'Commercial_Terms' | translate}} </label><br />
+          <textarea name="text" cols="75" rows="5" placeholder="{{'Please_Enter' | translate}} {{'Commercial_Terms' | translate}}" formControlName="commercialArb"></textarea>
+        </div>
+
+      </div>
+      <div class="col-md-6 col-lg-6">
+        <div class="form-group" style="padding-left:5px;width:100%">
+          <label>{{'Notes' | translate}} </label><br />
+          <textarea name="text" cols="75" rows="5" placeholder="{{'Please_Enter' | translate}} {{'Notes' | translate}}" formControlName="notes"></textarea>
+        </div>
+      </div>
+      <div class="col-md-6 col-lg-6">
+        <div class="form-group" style="padding-right:5px">
+          <label>{{'Notes' | translate}} </label><br />
+          <textarea name="text" cols="75" rows="5" placeholder="{{'Please_Enter' | translate}} {{'Notes' | translate}}" formControlName="notesArb"></textarea>
+        </div>
+
+      </div>
+      <div class="col-md-6 col-lg-6">
+        <div class="form-group" style="padding-left:5px;width:100%">
+          <label>{{'Issuing Authority' | translate}} </label><br />
+          <textarea name="text" cols="75" rows="5" placeholder="{{'Please_Enter' | translate}} {{'Issuing_Authority' | translate}}" formControlName="issuingAuthority"></textarea>
+        </div>
+
+      </div>
+      <div class="col-md-6 col-lg-6">
+        <div class="form-group" style="padding-left:5px;width:100%">
+          <label>{{'Issuing_Authority' | translate}} </label><br />
+          <textarea name="text" cols="75" rows="5" placeholder="{{'Please_Enter' | translate}} {{'Issuing_Authority' | translate}}" formControlName="issuingAuthorityArb"></textarea>
+        </div>
+
+      </div>
+    </div>
+  </div>
+  <div class="row mt-3 ">
+    <div class="col-md-12 col-lg-12 text-center">
+      <input type="button"
+             class="btn waves-effect waves-light btn-rounded   btn-secondary btn-midblock"
+             value="{{'Cancel' | translate}}" (click)="closeModel()" /> &nbsp;
+      <input type="submit"
+             class="btn waves-effect waves-light btn-rounded btn-primary btn-midblock"
+             value="{{'Save' | translate}}" />
+    </div>
+  </div>
+</form>

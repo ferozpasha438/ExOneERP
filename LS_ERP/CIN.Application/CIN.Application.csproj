@@ -1,0 +1,32 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+	<PropertyGroup>
+		<TargetFramework>net5.0</TargetFramework>
+	</PropertyGroup>
+
+	<ItemGroup>
+	  <None Remove="OperationsMgtQuery\EmployeesQuery.cs~RF42b99e97.TMP" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="7.0.0" />
+		<PackageReference Include="FluentValidation" Version="9.3.0" />
+		<PackageReference Include="FluentValidation.DependencyInjectionExtensions" Version="9.3.0" />
+		<PackageReference Include="log4net" Version="2.0.12" />
+		<PackageReference Include="MediatR.Extensions.Microsoft.DependencyInjection" Version="9.0.0" />
+		<PackageReference Include="Microsoft.AspNetCore.Http.Features" Version="5.0.17" />
+		<PackageReference Include="Microsoft.EntityFrameworkCore" Version="5.0.0" />
+		<PackageReference Include="System.Linq.Dynamic.Core" Version="1.2.12" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <ProjectReference Include="..\CIN.DB.One\CIN.DB.One.csproj" />
+	  <ProjectReference Include="..\CIN.Domain\CIN.Domain.csproj" />
+	  <ProjectReference Include="..\CIN.Server\CIN.Server.csproj" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <Folder Include="FinanceDtos\" />
+	</ItemGroup>
+
+</Project>

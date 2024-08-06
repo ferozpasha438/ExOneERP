@@ -1,0 +1,174 @@
+<h3 class="modal-title">{{'School_Fee_Structure_Add_New' | translate}}</h3>
+<button type="button" class="close" aria-hidden="true" (click)="closeModel()"> ×</button>
+<form [formGroup]="form" (ngSubmit)="submit()" novalidate class="mt-4">
+    <div class="outer ">
+        <div class="row rowm0 mt-3">
+            <div class="col-md-6 col-lg-6 col-sm-6">
+                <div class="form-group">
+                    <label>{{'Fee_Structure_Code' | translate}}</label>
+                    <input class="form-control" type="text" placeholder="{{'Fee_Structure_Code' | translate}}"
+                        formControlName="feeStructCode" />
+                    <validation-message [control]="form.controls.feeStructCode"></validation-message>
+                </div>
+            </div>
+            <div class="col-md-6 col-lg-6 col-sm-6">
+              <div class="form-group">
+                <label>{{'Grade_Code' | translate}}</label>
+                <select class="custom-select mr-sm-2" formControlName="gradeCode">
+                  <option value="">{{'Select' | translate}} {{'Grade_Code' | translate}} </option>
+                  <ng-container *ngIf="gradeCodeList">
+                    <option *ngFor="let item of gradeCodeList" value="{{item.gradeCode}}">{{ isArab ? item.gradeName2 : item.gradeName  }}</option>
+                  </ng-container>
+                </select>
+
+                <validation-message [control]="form.controls.gradeCode"></validation-message>
+              </div>
+            </div>
+            <div class="col-md-6 col-lg-6 col-sm-6">
+                <div class="form-group">
+                    <label>{{'Fee_Structure_Name' | translate}}</label>
+                    <input class="form-control" type="txt" placeholder="{{'Fee_Structure_Name' | translate}}"
+                        formControlName="feeStructName" />
+                    <validation-message [control]="form.controls.feeStructName"></validation-message>
+                </div>
+            </div>
+            <div class="col-md-6 col-lg-6 col-sm-6">
+                <div class="form-group">
+                    <label>{{'Fee_Structure_Name_Arabic' | translate}}</label>
+                    <input class="form-control" type="text" placeholder="{{'Fee_Structure_Name_Arabic' | translate}}"
+                        formControlName="feeStructName2" />
+                    <validation-message [control]="form.controls.feeStructName2"></validation-message>
+                </div>
+            </div>
+            <div class="col-md-6 col-lg-6 col-sm-6">
+              <div class="form-group">
+                <label>{{'Apply_Late_Fee' | translate}}</label>
+                <mat-slide-toggle color="primary" formControlName="applyLateFee"></mat-slide-toggle>
+                <!--<input class="form-control" type="text" placeholder="{{'Apply_Late_Fee' | translate}}"
+      formControlName="applyLateFee" />-->
+                
+                <validation-message [control]="form.controls.applyLateFee"></validation-message>
+              </div>
+            </div>
+            <div class="col-md-6 col-lg-6 col-sm-6">
+                <div class="form-group">
+                    <label>{{'Branch_Code' | translate}}</label>
+                    <input class="form-control" type="text" placeholder="{{'Branch_Code' | translate}}"
+                        formControlName="branchCode" />
+                    <validation-message [control]="form.controls.branchCode"></validation-message>
+                </div>
+            </div>
+            <div class="col-md-6 col-lg-6 col-sm-6">
+              <div class="form-group">
+                <label>{{'Late_Fee_Code' | translate}}</label>
+                <!--<input class="form-control" type="text" placeholder="{{'Late_Fee_Code' | translate}}"
+      formControlName="lateFeeCode" />-->
+                <select class="custom-select mr-sm-2" formControlName="lateFeeCode">
+                  <option value="">{{'Select' | translate}} {{'Late_Fee_Code' | translate}} </option>
+                  <ng-container *ngIf="feeTypeList">
+                    <option *ngFor="let item of feeTypeList" value="{{item.feeCode}}">{{ isArab ? item.feesName2 : item.feesName  }}</option>
+                  </ng-container>
+                </select>
+
+                <validation-message [control]="form.controls.lateFeeCode"></validation-message>
+              </div>
+            </div>
+            <div class="col-md-6 col-lg-6 col-sm-6">
+                <label>{{'Is_Active' | translate}}</label>  
+                <div class="form-group">                   
+                    <mat-slide-toggle color="primary" formControlName="isActive"></mat-slide-toggle>                
+                </div>
+            </div>
+            <div class="col-md-6 col-lg-6 col-sm-6">
+                <div class="form-group">
+                    <label>{{'Late_Fee_Amount' | translate}}</label>
+                    <input class="form-control" type="text" placeholder="{{'Late_Fee_Amount' | translate}}"
+                        formControlName="actualFeePayable" />
+                    <validation-message [control]="form.controls.actualFeePayable"></validation-message>
+                </div>
+            </div>
+            <div class="col-md-6 col-lg-6 col-sm-6">
+                <div class="form-group">
+                    <label>{{'Remarks' | translate}}</label>
+                    <textarea class="form-control" type="text" placeholder="{{'Remarks' | translate}}"
+                        formControlName="remarks"></textarea>
+                    <validation-message [control]="form.controls.remarks"></validation-message>
+                </div>
+            </div>           
+        </div>
+        <div class="card" style="padding: 10px">
+
+          <div class="table-responsive">
+            <table id="zero_config" class="table  table-bordered no-wrap">
+              <thead>
+                <tr>
+                  <th>{{'Term_Code' | translate}}</th>
+                  <th>{{'Fee_Code' | translate}}</th>
+                  <th>{{'Fee_Amount' | translate}}</th>
+                  <th></th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>
+                    <select class="custom-select mr-sm-2" [(ngModel)]="termCode" [ngModelOptions]="{ standalone: true }">
+                      <option value="">{{'Select' | translate}} {{'Fee_Code' | translate}} </option>
+                      <ng-container *ngIf="termsCodeList">
+                        <option *ngFor="let item of termsCodeList" value="{{item.termCode}}">{{ isArab ? item.termName2 : item.termName }}</option>
+                      </ng-container>
+                    </select>
+                    <!--<validation-message [control]="form.controls.feeCode"></validation-message>-->
+                  </td>
+                  <td>
+                    <select class="custom-select mr-sm-2" [(ngModel)]="feeCode" [ngModelOptions]="{ standalone: true }">
+                      <option value="">{{'Select' | translate}} {{'Term_Code' | translate}} </option>
+                      <ng-container *ngIf="feeTypeList">
+                        <option *ngFor="let item of feeTypeList" value="{{item.feeCode}}">{{ isArab ? item.feesName2 : item.feesName  }}</option>
+                      </ng-container>
+                    </select>
+                    <!--<validation-message [control]="form.controls.termCode"></validation-message>-->
+                  </td>
+                  <td>
+                    <input class="form-control" type="text" [(ngModel)]="feeAmount" [ngModelOptions]="{ standalone: true }">
+                    <!--<validation-message [control]="form.controls.feeAmount"></validation-message>-->
+                  </td>
+                  <td>
+                   <button type="button" class="btn waves-effect waves-light   btn-primary  " (click)="addInvoice()"><i class="icon-plus"></i></button>
+                  </td>
+                </tr>
+              </tbody>
+              <thead>
+                <tr>
+                  <th>{{'Term_Code' | translate}}</th>
+                  <th>{{'Fee_Code' | translate}}</th>
+                  <th>{{'Fee_Amount' | translate}}</th>
+                  <th></th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let item of feeStructureDetails; let index = i;">
+                  <td>{{item.termCode}}</td>
+                  <td>{{item.feeCode}}</td>
+                  <td>{{item.feeAmount}}</td>
+                  <td class="text-center">
+                    <i class="icon-note cpointer" (click)="editInvoiceItem(item)"> </i> &nbsp;
+                    <i class="icon-trash cpointer " (click)="deleteInvoiceItem(item)"> </i> &nbsp;
+                  </td>
+                </tr>
+                </tbody>
+
+
+            </table>
+
+          </div>
+         
+          <div class="row customrow mt-4">
+            <div class="col-lg-12 col-md-12 text-center">
+              <input type="button" class="btn btn-secondary" value="{{'Cancel' | translate}}" (click)="closeModel()" />
+              &nbsp;&nbsp;
+              <input type="submit" class="btn waves-effect waves-light btn-primary" value="{{'Save' | translate}}">
+            </div>
+          </div>
+        </div>
+      </div>
+</form>

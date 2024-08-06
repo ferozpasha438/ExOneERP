@@ -1,0 +1,95 @@
+<button type="button" class="close" aria-hidden="true" (click)="closeModel()">×</button>
+<br />
+<app-employeebasicinfo></app-employeebasicinfo>
+<br />
+
+<h2>{{'ContactInfo' | translate}}</h2>
+<div class="col-md-12 col-lg-12">
+  <form [formGroup]="form" (ngSubmit)="submit()" novalidate class="mt-4">
+    <div class="row">
+      <div class="col-md-6 col-lg-6">
+        <div class="form-group">
+          <label for="employeenumber">{{'EmployeeNumber' | translate}}</label>
+          <input class="form-control input-mandatory" id="employeenumber" type="text"
+                 placeholder="{{'Please_Enter' | translate}} {{'EmployeeNumber' | translate}}" formControlName="employeenumber">
+          <validation-message [control]="form.controls.employeenumber"></validation-message>
+        </div>
+      </div>
+      <div class="col-md-6 col-lg-6">
+        <div class="form-group">
+          <label for="contactNumber">{{'ContactNumber' | translate}}</label>
+          <input class="form-control" id="contactNumber" type="text"
+                 placeholder="{{'Please_Enter' | translate}} {{'ContactNumber' | translate}}" formControlName="contactNumber">
+          <validation-message [control]="form.controls.contactNumber"></validation-message>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-6 col-lg-6">
+        <div class="form-group">
+          <label for="contactpersonName">{{'ContactPersonName' | translate}}</label>
+          <input class="form-control" id="contactpersonName" type="text"
+                 placeholder="{{'Please_Enter' | translate}} {{'ContactPersonName' | translate}}" formControlName="contactpersonName">
+          <validation-message [control]="form.controls.contactpersonName"></validation-message>
+        </div>
+      </div>
+      <div class="col-md-6 col-lg-6">
+        <div class="form-group">
+          <label for="remarks">{{'Remarks' | translate}}</label>
+          <input class="form-control" id="remarks" type="text"
+                 placeholder="{{'Please_Enter' | translate}} {{'Remarks' | translate}}" formControlName="remarks">
+          <validation-message [control]="form.controls.remarks"></validation-message>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+        <div class="col-md-6 col-lg-6">
+          <div class="form-group">
+            <label for="contactAddress">{{'ContactAddress' | translate}}</label>
+            <input class="form-control" id="contactAddress" type="text"
+                   placeholder="{{'Please_Enter' | translate}} {{'ContactAddress' | translate}}" formControlName="contactAddress">
+          </div>
+        </div>
+        <div class="col-md-6 col-lg-6">
+          <div class="form-group">
+            <label for="isEmergency">{{'IsEmergency?' | translate}}</label>
+            <input class="form-control" id="isEmergency" type="text"
+                   placeholder="{{'Please_Enter' | translate}} {{'IsEmergency?' | translate}}" formControlName="isEmergency">
+            <validation-message [control]="form.controls.isEmergency"></validation-message>
+          </div>
+        </div>
+      </div>
+    <div class="row">
+      <div class="col-md-6 col-lg-6">
+        <div class="form-group">
+          <label for="relation">{{'Relation' | translate}}</label>
+          <input class="form-control" id="relation" type="text"
+                 placeholder="{{'Please_Enter' | translate}} {{'Relation' | translate}}" formControlName="relation">
+          <validation-message [control]="form.controls.relation"></validation-message>
+        </div>
+      </div>
+      
+    </div>
+    <div class="row">
+      <div class="col-md-6 col-lg-6">
+        <div class="form-group">
+          <label for="isFamily">{{'IsFamily?' | translate}}</label>
+          <input class="form-control" id="isFamily" type="text"
+                 placeholder="{{'Please_Enter' | translate}} {{'IsFamily?' | translate}}" formControlName="isFamily">
+          <validation-message [control]="form.controls.isFamily"></validation-message>
+        </div>
+      </div>
+      
+    </div>
+    <div class="row mt-3 ">
+      <div class="col-md-12 col-lg-12 text-center">
+        <input type="button"
+               class="btn waves-effect waves-light btn-rounded   btn-secondary btn-midblock"
+               value="{{'Cancel' | translate}}" (click)="closeModel()" /> &nbsp;
+        <input type="submit"
+               class="btn waves-effect waves-light btn-rounded btn-primary btn-midblock"
+               value="{{'Save' | translate}}" />
+      </div>
+    </div>
+  </form>
+</div>

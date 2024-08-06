@@ -1,0 +1,137 @@
+
+
+<div style="position:fixed;">
+  <button (click)="printEnquiryForm()">Print</button> &nbsp;
+  <button type="button" class="" aria-hidden="true" (click)="closeModel()"> Close</button>
+</div>
+<br />
+<br />
+<br />
+
+
+
+
+
+
+
+
+
+<div class="container-fluid invoice-container print-container" style="width:1050px; padding-top:5px;" id="printcontainer">
+  <h4 style="font-size: 1.2rem !important;color: #0c2f54; font-family: 'Poppins', sans-serif;font-weight: 500;
+        line-height: 1.2;margin:0;padding-top:4px">
+    {{'Survices_Enquiry_Form' | translate}}
+  </h4>
+
+
+  <table style="width:100%" border="0" cellpadding="0" cellspacing="0" width="100%">
+
+
+    <tr>
+      <th style=" width:20%;border:2px solid #878787;padding:5px;font-size:0.875rem !important;color: #000000; font-family: 'Poppins', sans-serif;font-weight:600;">{{'Enquiry_Number' | translate}}</th>
+      <td style=" width:30%; border:2px solid #878787;padding:5px;font-size:0.775rem !important;color: #000000; font-family: 'Poppins', sans-serif;font-weight: 400;"> {{enquiryNumber}}</td>
+
+      <th style=" width:20%;border:2px solid #878787;padding:5px;font-size:0.875rem !important;color: #000000; font-family: 'Poppins', sans-serif;font-weight:600;">{{'Customer_Code' | translate}}</th>
+      <td style=" width:30%; border:2px solid #878787;padding:5px;font-size:0.775rem !important;color: #000000; font-family: 'Poppins', sans-serif;font-weight: 400;">{{customerCode}}</td>
+    </tr>
+    <tr>
+      <th style=" width:20%;border:2px solid #878787;padding:5px;font-size:0.875rem !important;color: #000000; font-family: 'Poppins', sans-serif;font-weight:600;">{{'Date_of_Enquiry' | translate}}</th>
+      <td style=" width:30%; border:2px solid #878787;padding:5px;font-size:0.775rem !important;color: #000000; font-family: 'Poppins', sans-serif;font-weight: 400;">{{dateOfEnquiry}}</td>
+
+      <th style=" width:20%;border:2px solid #878787;padding:5px;font-size:0.875rem !important;color: #000000; font-family: 'Poppins', sans-serif;font-weight:600;">{{'Estimate_Closing_Date' | translate}}</th>
+      <td style=" width:30%; border:2px solid #878787;padding:5px;font-size:0.775rem !important;color: #000000; font-family: 'Poppins', sans-serif;font-weight: 400;">{{estimateClosingDate}}</td>
+    </tr>
+    <tr>
+      <th style=" width:20%;border:2px solid #878787;padding:5px;font-size:0.875rem !important;color: #000000; font-family: 'Poppins', sans-serif;font-weight:600;">{{'Customer_Address' | translate}}</th>
+      <td style=" width:30%; border:2px solid #878787;padding:5px;font-size:0.775rem !important;color: #000000; font-family: 'Poppins', sans-serif;font-weight: 400;">{{custAddress}}</td>
+
+      <th style=" width:20%;border:2px solid #878787;padding:5px;font-size:0.875rem !important;color: #000000; font-family: 'Poppins', sans-serif;font-weight:600;">{{'Sales_Representative' | translate}}</th>
+      <td style=" width:30%; border:2px solid #878787;padding:5px;font-size:0.775rem !important;color: #000000; font-family: 'Poppins', sans-serif;font-weight: 400;">{{saleRep}}</td>
+    </tr>
+    <tr>
+      <th style=" width:20%;border:2px solid #878787;padding:5px;font-size:0.875rem !important;color: #000000; font-family: 'Poppins', sans-serif;font-weight:600;">{{'User_Name' | translate}}</th>
+      <td style=" width:30%; border:2px solid #878787;padding:5px;font-size:0.775rem !important;color: #000000; font-family: 'Poppins', sans-serif;font-weight: 400;">{{userName}}</td>
+
+      <th style=" width:20%;border:2px solid #878787;padding:5px;font-size:0.875rem !important;color: #000000; font-family: 'Poppins', sans-serif;font-weight:600;">{{'Remarks' | translate}}</th>
+      <td style=" width:30%; border:2px solid #878787;padding:5px;font-size:0.775rem !important;color: #000000; font-family: 'Poppins', sans-serif;font-weight: 400;">{{remarks}}</td>
+    </tr>
+    <tr>
+      <th style=" width:20%;border:2px solid #878787;padding:5px;font-size:0.875rem !important;color: #000000; font-family: 'Poppins', sans-serif;font-weight:600;">{{'Total_Price' | translate}}</th>
+      <td style=" width:30%; border:2px solid #878787;padding:5px;font-size:0.775rem !important;color: #000000; font-family: 'Poppins', sans-serif;font-weight: 400;">{{totalEstPrice | number:'3.2-5'}}</td>
+    </tr>
+
+
+  </table>
+
+
+
+  <div style="padding-bottom:5px;padding-top:5px">
+
+
+
+
+    <table style="width:100%" border="0" cellpadding="0" cellspacing="0" width="100%">
+      <tr>
+        <th width="5%" style="border:2px solid #878787;padding:5px;font-size:0.875rem !important;color: #000000; font-family: 'Poppins', sans-serif;font-weight:600;">
+          {{'S.No' | translate}}
+        </th>
+        <th style="border:2px solid #878787;padding:5px;font-size:0.875rem !important;color: #000000; font-family: 'Poppins', sans-serif;font-weight:600;">
+          {{'Enquiry_ID' | translate}}
+        </th>
+        <th style="border:2px solid #878787;padding:5px;font-size:0.875rem !important;color: #000000; font-family: 'Poppins', sans-serif;font-weight:600;">
+          {{'Site_Code' | translate}}
+        </th>
+        <th style="border:2px solid #878787;padding:5px;font-size:0.875rem !important;color: #000000; font-family: 'Poppins', sans-serif;font-weight:600;">
+          {{'Service_Code' | translate}}
+        </th>
+        <th style="border:2px solid #878787;padding:5px;font-size:0.875rem !important;color: #000000; font-family: 'Poppins', sans-serif;font-weight:600;">
+          {{'Unit_Code' | translate}}
+        </th>
+        <th style="border:2px solid #878787;padding:5px;font-size:0.875rem !important;color: #000000; font-family: 'Poppins', sans-serif;font-weight:600;">
+          {{'Price_Per_Unit' | translate}}
+        </th>
+        <th style="border:2px solid #878787;padding:5px;font-size:0.875rem !important;color: #000000; font-family: 'Poppins', sans-serif;font-weight:600;">
+          {{'Unit_Quantity' | translate}}
+        </th>
+        <th style="border:2px solid #878787;padding:5px;font-size:0.875rem !important;color: #000000; font-family: 'Poppins', sans-serif;font-weight:600;">
+          {{'Service_Quantity' | translate}}
+        </th>
+        <th style="border:2px solid #878787;padding:5px;font-size:0.875rem !important;color: #000000; font-family: 'Poppins', sans-serif;font-weight:600;">
+          {{'Estimated_Price' | translate}}
+        </th>
+        <!--<th width="75%" style="border:2px solid #878787;padding:5px;font-size:0.875rem !important;color: #000000; font-family: 'Poppins', sans-serif;font-weight:600;">
+          {{'Status_Enquiry' | translate}}
+        </th>-->
+
+
+
+
+      </tr>
+      <tr *ngFor="let row of enquiries;let i=index;">
+        <td style="border:2px solid #878787;padding:5px;font-size:0.775rem !important;color: #000000; font-family: 'Poppins', sans-serif;font-weight: 400;">{{i+1}}</td>
+        <td style="border:2px solid #878787;padding:5px;font-size:0.775rem !important;color: #000000; font-family: 'Poppins', sans-serif;font-weight: 400;">{{row.enquiryID}}</td>
+        <td style="border:2px solid #878787;padding:5px;font-size:0.775rem !important;color: #000000; font-family: 'Poppins', sans-serif;font-weight: 400;">{{row.siteCode}}</td>
+        <td style="border:2px solid #878787;padding:5px;font-size:0.775rem !important;color: #000000; font-family: 'Poppins', sans-serif;font-weight: 400;">{{row.serviceCode}}</td>
+        <td style="border:2px solid #878787;padding:5px;font-size:0.775rem !important;color: #000000; font-family: 'Poppins', sans-serif;font-weight: 400;">{{row.unitCode}}</td>
+        <td style="border:2px solid #878787;padding:5px;font-size:0.775rem !important;color: #000000; font-family: 'Poppins', sans-serif;font-weight: 400;">{{row.pricePerUnit | number:'3.2-5'}}</td>
+        <td style="border:2px solid #878787;padding:5px;font-size:0.775rem !important;color: #000000; font-family: 'Poppins', sans-serif;font-weight: 400;">{{row.unitQuantity}}</td>
+        <td style="border:2px solid #878787;padding:5px;font-size:0.775rem !important;color: #000000; font-family: 'Poppins', sans-serif;font-weight: 400;">{{row.serviceQuantity}}</td>
+        <td style="border:2px solid #878787;padding:5px;font-size:0.775rem !important;color: #000000; font-family: 'Poppins', sans-serif;font-weight: 400;">{{row.estimatedPrice | number:'3.2-5'}}</td>
+        <!--<td style="border:2px solid #878787;padding:5px;font-size:0.775rem !important;color: #000000; font-family: 'Poppins', sans-serif;font-weight: 400;">{{row.statusEnquiry}}</td>-->
+
+
+
+
+
+
+
+      </tr>
+    </table>
+
+
+
+  </div>
+
+</div>
+
+
+

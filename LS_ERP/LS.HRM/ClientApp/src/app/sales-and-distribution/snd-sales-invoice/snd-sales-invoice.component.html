@@ -1,0 +1,267 @@
+<div class="page-breadcrumb">
+  <div class="row">
+    <div class="col-12 align-self-center">
+      <h3 class="page-title text-truncate text-dark font-weight-medium mb-1">
+        {{'Sales_Invoice' | translate}}
+      </h3>
+      <div class="d-flex align-items-center">
+        <nav aria-label="breadcrumb">
+          <ol class="breadcrumb m-0 p-0">
+            <li class="breadcrumb-item text-muted">{{'Sales_And_Distribution' | translate}} </li>
+            <li class="breadcrumb-item   active" aria-current="page">{{'Sales_Invoice' | translate}} </li>
+
+          </ol>
+        </nav>
+      </div>
+    </div>
+
+  </div>
+</div>
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-md-12 col-lg-12">
+
+      <div class="card">
+        <div class="card-body">
+
+          <div class="row pb-3">
+            <div class="col-md-12 col-lg-12">
+              <!--<h4 class="card-title pt6">{{'Sales_Invoice_List' | translate}} </h4>-->
+            </div>
+            <div class="col-md-3">
+              <!--(keyup)="applyFilter($event)"-->
+              <input class="form-control" placeholder="{{'Search' | translate}}..." [(ngModel)]="searchValue" />
+            </div>
+            <div class="col-md-3">
+              <ng-select style="width:250px" [items]="itemList"
+                         bindLabel="text"
+                         bindValue="textTwo" [(ngModel)]="itemCode" [ngModelOptions]="{standalone: true}">
+              </ng-select>
+            </div>
+
+            <div class="col-md-4 arabicright">
+              <button (click)="applyFilter(searchValue,itemCode)" class="btn btn-primary">{{'Search' | translate}}</button> &nbsp;
+              <a (click)="refresh()" class=""><i class="btn btn-primary icon-refresh"></i></a> &nbsp;
+              <button (click)="printInvoice()" class="btn btn-primary">{{'Print' | translate}}</button> &nbsp;
+            </div>
+          </div>
+
+          <div class="row pb-3">
+            <div class="col-md-3">
+              <label class="mr-sm-2">{{'Sales_Invoice_List' | translate}}</label>
+              <select class="custom-select mr-sm-2" (change)="loadApprovals($event)" id="approvalList">
+                <option value="">{{'Sales_Invoice_List' | translate}}</option>
+                <option value="approved">Approved</option>
+                <option value="unapproved">UnApproved</option>
+                <option value="settled">Settled</option>
+                <option value="unsettled">UnSettled</option>
+                <option value="posted">Posted</option>
+                <option value="cancelled">Cancelled</option>
+
+              </select>
+
+            </div>
+            <div class="col-md-3">
+              <label class="mr-sm-2">{{'Invoice_Type' | translate}}</label>
+              <select class="custom-select mr-sm-2" (change)="loadInvoices($event)">
+                <option value="1">{{'Invoice' | translate}}</option>
+                <option value="2">{{'Credit' | translate}}</option>
+              </select>
+
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col-md-4 col-lg-4">
+              <h4 class="card-title pt6">{{'Sales_Invoice_List' | translate}}</h4>
+            </div>
+
+            <div class="col-md-4 col-lg-4 text-center">
+              <spinner-loader [isLoading]="isLoading"></spinner-loader>
+            </div>
+            <div class="col-md-4 col-lg-4 text-right">
+              <div class="nav-item dropdown">
+                <a data-toggle="modal"
+                   data-target="#scrollable-modal" class="  btn waves-effect waves-light btn-rounded btn-outline-primary" (click)="create()" href="#"> <i class="icon-plus"> </i>{{'Add_New_Sales_Invoice' |translate}}  </a>
+              </div>
+            </div>
+
+          </div>
+          <div class="cardtitle-divider"></div>
+
+          <div class="example-table-container table-responsive pt-3">
+
+
+            <ng-container>
+
+              <table mat-table [dataSource]="data" matSort matSortActive="Id"
+                     matSortDisableClear matSortDirection="desc" (matSortChange)="onSortOrder($event)" class="table  table-bordered no-wrap">
+                <ng-container matColumnDef="invoiceNumber">
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                    {{'Sales_InvoiceNumber' | translate}}
+                  </th>
+                  <td mat-cell *matCellDef="let row">{{ row.invoiceNumber }}</td>
+                </ng-container>
+
+                <ng-container matColumnDef="invoiceDate">
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                    {{'Sales_Invoice_Date' | translate}}
+                  </th>
+                  <td mat-cell *matCellDef="let row">{{ row.invoiceDate | date:'dd/MM/yyyy' }}</td>
+                </ng-container>
+                <ng-container matColumnDef="companyName">
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                    {{'Organization' | translate}}
+                  </th>
+                  <td mat-cell *matCellDef="let row">{{ row.companyName }}</td>
+                </ng-container>
+                <ng-container matColumnDef="invoiceRefNumber">
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                    {{'Invoice_Reference_Number' | translate}}
+                  </th>
+                  <td mat-cell *matCellDef="let row">{{ row.invoiceRefNumber}}</td>
+                </ng-container>
+                <ng-container matColumnDef="warehouseName">
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                    {{'Store' | translate}}
+                  </th>
+                  <td mat-cell *matCellDef="let row">{{ row.warehouseName}}</td>
+                </ng-container>
+                <ng-container matColumnDef="customerName">
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                    {{'Customer' | translate}}
+                  </th>
+                  <td mat-cell *matCellDef="let row">{{ row.customerName}}</td>
+                </ng-container>
+                <ng-container matColumnDef="totalAmount">
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                    {{'Sales_Invoice_Amount' | translate}} (SAR)
+                  </th>
+                  <td mat-cell *matCellDef="let row">{{ row.totalAmount| number:'1.2'}}</td>
+                </ng-container>
+                <ng-container matColumnDef="lpoContract">
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                    {{'LPO_Contract' | translate}}
+                  </th>
+                  <td mat-cell *matCellDef="let row">{{ row.lpoContract}}</td>
+                </ng-container>
+                <ng-container matColumnDef="paymentTermId">
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                    {{'Payment_Terms' | translate}}
+                  </th>
+                  <td mat-cell *matCellDef="let row">{{ row.paymentTermId}}</td>
+                </ng-container>
+                <ng-container matColumnDef="taxIdNumber">
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                    {{'Tax_Id_Number' | translate}}
+                  </th>
+                  <td mat-cell *matCellDef="let row">{{ row.taxIdNumber}}</td>
+                </ng-container>
+                <ng-container matColumnDef="invoiceDueDate">
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                    {{'Delivery_Date' | translate}}
+                  </th>
+                  <td mat-cell *matCellDef="let row">{{ row.invoiceDueDate  | date:'dd/MM/yyyy'}}</td>
+                </ng-container>
+                <ng-container matColumnDef="Actions" stickyEnd>
+                  <th mat-header-cell *matHeaderCellDef>{{'Actions' | translate}}</th>
+                  <td mat-cell *matCellDef="let row">
+
+
+                    <div>
+                      <ng-container>
+                        <i class="fas fa-circle" id="{{getStatusColor(row)}}"> </i> &nbsp;
+                      </ng-container>
+                      <a class="tableicons pcursor" (click)="view(row)" matTooltip="{{'View_Details' | translate}}"><i class="icon-list"></i></a> &nbsp;
+
+                      <!--<a class="tableicons pcursor" *ngIf="!row.isApproved && !row.isSettled" (click)="edit(row.id)" id="{{'edit_' + row.id}}" matTooltip="{{'Edit_Item' | translate}}"><i class="icon-note"> </i></a> &nbsp;-->
+                      <!--<a class="tableicons pcursor" (click)="delete(row.id)"><i class="icon-trash"> </i></a> &nbsp; && !row.isSettled-->
+                      <ng-container *ngIf="row.hasAuthority">
+
+                        <span *ngIf="row.authority.canEditSndInvoice && !row.isApproved && !row.isVoid">
+                          <a class="tableicons pcursor" (click)="edit(row)" matTooltip="{{'Edit_Item' | translate}}"><i class="icon-note"> </i></a> &nbsp;
+
+                        </span>
+                        <span *ngIf="row.authority.canApproveSndInvoice && !row.isApproved && !row.isVoid">
+                          <a class="tableicons pcursor" (click)="approve(row)" matTooltip="{{'Approve' | translate}}"><i class="icon-arrow-up-circle"> </i></a> &nbsp;
+                        </span>
+                        <span *ngIf="row.authority.canVoidSndInvoice &&row.isApproved && !row.isSettled && !row.isVoid">
+                          <a class="tableicons pcursor" (click)="settlePayment(row)" matTooltip="{{'Settle_Payment' | translate}}"><i class="icon-action-redo"> </i></a> &nbsp;
+
+                        </span>
+                        <span *ngIf="row.authority.canPostSndInvoice && row.isSettled && !row.isPosted  && !row.isVoid">
+                          <a class="tableicons pcursor" (click)="postInvoice(row)" matTooltip="{{'Post_Invoice' | translate}}"><i class="icon-action-redo"> </i></a> &nbsp;
+
+                        </span>
+                        <span *ngIf="row.authority.canVoidSndInvoice && !row.isSettled&& !row.isPosted  && !row.isVoid">
+                          <a class="tableicons pcursor" (click)="cancelInvoice(row)" matTooltip="{{'Cancel_Invoice' | translate}}"><i class="icon-action-undo"> </i></a> &nbsp;
+
+                        </span>
+                      </ng-container>
+
+
+                    </div>
+
+
+                  </td>
+                </ng-container>
+
+                <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
+                <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+
+              </table>
+
+            </ng-container>
+            <!--<ng-template #noData>
+        <no-apidata></no-apidata>
+      </ng-template>-->
+          </div>
+          <ng-container>
+            <mat-paginator [length]="totalItemsCount"
+                           [pageSize]="pageService.pageCount"
+                           [pageSizeOptions]="pageService.selectItemsPerPage"
+                           (page)="onPageSwitch($event)">
+            </mat-paginator>
+
+          </ng-container>
+
+        </div>
+        <div class="card-body">
+          <ng-container>
+            &nbsp;&nbsp;{{'Open'|translate}}:&nbsp;<i class="fas fa-circle" id="statusOpen"> </i> &nbsp;&nbsp; |&nbsp;&nbsp;
+            {{'Approved'|translate}}:&nbsp; <i class="fas fa-circle" id="statusApproved"> </i>&nbsp;&nbsp;|&nbsp;&nbsp;
+            {{'Settled'|translate}}:&nbsp; <i class="fas fa-circle" id="statusSettled"> </i> &nbsp;&nbsp;|&nbsp;&nbsp;
+            {{'Paid'|translate}}:&nbsp; <i class="fas fa-circle" id="statusPaid"> </i> &nbsp;&nbsp;|&nbsp;&nbsp;
+            {{'Posted'|translate}}:&nbsp; <i class="fas fa-circle" id="statusPosted"> </i> &nbsp;&nbsp;|&nbsp;&nbsp;
+            {{'Void'|translate}}:&nbsp;<i class="fas fa-circle" id="statusVoid"> </i> &nbsp;&nbsp; |&nbsp;&nbsp;
+          </ng-container>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<!--
+<!-- Long Content Scroll Modal -->
+<style>
+
+  #statusOpen {
+    color:#ff6a00
+  }
+  #statusApproved {
+    color: #4cff00
+  }
+  #statusSettled{
+    color: #4800ff
+  }
+  #statusVoid {
+    color:#000000
+  }
+  #statusPaid {
+    color:#feff05
+  }
+  #statusPosted {
+    color:#ffd800
+  }
+
+
+  </style>

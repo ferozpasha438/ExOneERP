@@ -1,0 +1,99 @@
+<h3 class="modal-title">{{'Teacher_Subject_Mapping' | translate}}</h3>
+<button type="button" class="close" aria-hidden="true" (click)="closeModel()"> ×</button>
+<form [formGroup]="form" (ngSubmit)="submit()" novalidate class="mt-4">
+  <div class="outer ">
+    <div class="card" style="padding: 10px">
+      <div class="row customrow mt-4">
+        <div class="col-md-2">
+          <div class="form-group ">
+            <label>{{'Grade' | translate}}</label>
+            <select class="custom-select mr-sm-2" (change)="loadRelatedItems()"
+                    [(ngModel)]="gradeCode" [ngModelOptions]="{ standalone: true }">
+              <option value="">{{'Select' | translate}} {{'Grade' | translate}} </option>
+              <ng-container *ngIf="gradeCodeList">
+                <option *ngFor="let item of gradeCodeList" value="{{item.gradeCode}}">{{ isArab ? item.gradeName2 : item.gradeName  }}</option>
+              </ng-container>
+            </select>
+          </div>
+        </div>
+          <div class="col-md-2">
+            <div class="form-group ">
+              <label>{{'Teacher_Subject' | translate}}</label>
+              <select class="custom-select mr-sm-2" [(ngModel)]="subjectCode" [ngModelOptions]="{ standalone: true }">
+                <option value="">{{'Select' | translate}} {{'Teacher_Subject' | translate}} </option>
+                <ng-container *ngIf="subjectCodeList">
+                  <option *ngFor="let item of subjectCodeList" value="{{item.subCodes}}">{{ isArab ? item.subName2 : item.subName  }}</option>
+                </ng-container>
+              </select>
+              <!--<validation-message [control]="form.controls.subjectCode"></validation-message>-->
+            </div>
+          </div>
+          <div class="col-md-3">
+            <div class="form-group ">
+              <label>{{'Teaching_Skill_Level' | translate}}</label>
+              <div class="form-group ">
+                <mat-slider thumbLabel min="0" max="10" step="1" tickInterval="1" style="width: 100%"
+                            [(ngModel)]="teachingSkillLevel" [ngModelOptions]="{ standalone: true }"></mat-slider>
+              </div>
+              <!--<validation-message [control]="form.controls.teachingSkillLevel"></validation-message>-->
+            </div>
+          </div>
+          <div class="col-md-3">
+            <div class="form-group">
+              <label>{{'Admin_Skill_Level' | translate}}</label>
+              <div class="form-group ">
+                <mat-slider thumbLabel min="0" max="10" step="1" tickInterval="1" style="width: 100%"
+                            [(ngModel)]="adminSkillLevel" [ngModelOptions]="{ standalone: true }"></mat-slider>
+              </div>
+              <!--<validation-message [control]="form.controls.adminSkillLevel"></validation-message>-->
+            </div>
+          </div>
+          <div class="col-md-2">
+            <div class="form-group">
+              <input type="button" class="btn waves-effect waves-light btn-primary" value="{{'Add' | translate}}"
+                     (click)="addSubjectItem()" style="margin-top:15%;"/>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="row" *ngIf="subjectDetails.length>0">
+        <div class="col-lg-12 col-md-12 text-center">
+          <div class="card" style="padding: 10px">
+            <div class="table-responsive">
+              <table id="zero_config" class="table  table-bordered no-wrap">
+                <thead>
+                  <tr>
+                    <th>{{'Grade_Code' | translate}}</th>
+                    <th>{{'Subject_Code' | translate}}</th>
+                    <th>{{'Teaching_Skill_Level' | translate}}</th>
+                    <th>{{'Admin_Skill_Level' | translate}}</th>
+                    <th></th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let item of subjectDetails; let index = i;">
+                    <td>{{item.gradeCode}}</td>
+                    <td>{{item.subjectCode}}</td>
+                    <td>{{item.teachingSkillLevel}}</td>
+                    <td>{{item.adminSkillLevel}}</td>
+                    <td class="text-center">
+                      <i class="icon-note cpointer" (click)="editSubjectItem(item)"> </i> &nbsp;
+                      <i class="icon-trash cpointer " (click)="deleteSubjectItem(item)"> </i> &nbsp;
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="row customrow mt-4">
+        <div class="col-lg-12 col-md-12 text-center">
+          <input type="button" class="btn btn-secondary" value="{{'Cancel' | translate}}"
+                 (click)="closeModel()" />
+          &nbsp;&nbsp;
+          <input type="submit" class="btn waves-effect waves-light btn-primary" value="{{'Save' | translate}}">
+        </div>
+      </div>
+    </div>
+</form>

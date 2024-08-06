@@ -1,0 +1,102 @@
+
+declare @Message nvarchar(max)
+
+  SELECT  
+    @Message= case 
+	when 13 = 1 then 'its one' 
+	when 2 = 2 then 'its two' 
+	else  '' end
+  print @Message
+
+  
+select min(cast(43555555.6 as numeric(10,2)))
+select max(cast(43555555.6 as numeric(10,2)))
+
+select cast(43555555 as numeric(10,2))  
+
+select cast(43555555 as varchar) 
+
+
+
+DECLARE @i INTEGER;
+SET @i = 1;
+ 
+WHILE @i <= 10
+BEGIN
+   PRINT CONCAT('Pass...', @i);
+   SET @i = @i + 1;
+END;
+
+
+DECLARE @i INTEGER;
+SET @i = 1;
+ 
+WHILE @i <= 10
+BEGIN
+   PRINT CONCAT('Pass...', @i);
+   IF @i = 8 BREAK;
+   SET @i = @i + 1;
+END;
+
+
+DECLARE @i INTEGER;
+SET @i = 1;
+ 
+WHILE @i <= 10
+BEGIN
+   PRINT CONCAT('Pass...', @i);
+   IF @i = 9 CONTINUE;
+   SET @i = @i + 1;
+END;
+
+
+select  DATEADD(DAYOFYEAR, 1, getdate());  
+
+
+
+DROP TABLE IF EXISTS #dates;
+CREATE TABLE #dates (
+  report_date int
+);
+ 
+DECLARE @date_start DATE;
+DECLARE @date_end DATE;
+DECLARE @loop_date DATE;
+ 
+SET @date_start = '2020/11/11';
+SET @date_end = '2020/12/10';
+ 
+SET @loop_date = @date_start;
+ 
+WHILE @loop_date <= @date_end
+BEGIN
+   INSERT INTO #dates (report_date) VALUES (DAY(@loop_date));
+   SET @loop_date = DATEADD(DAY, 1, @loop_date);
+END;
+ 
+--SELECT * FROM #dates;
+DECLARE 
+    @columns NVARCHAR(MAX) = '',
+	 @sql     NVARCHAR(MAX) = '';
+
+	 SELECT 
+    @columns += QUOTENAME(report_date) + ','
+FROM 
+   #dates
+
+   SET @columns = LEFT(@columns, LEN(@columns) - 1);
+
+SET @sql ='
+SELECT * FROM   
+(
+    SELECT * FROM #dates
+) t 
+PIVOT(
+    COUNT(t.report_date) 
+    FOR  t.report_date IN ('+ @columns +')
+) AS pivot_table;';
+
+-- execute the dynamic SQL
+EXECUTE sp_executesql @sql;
+
+DROP TABLE IF EXISTS #dates;

@@ -1,0 +1,675 @@
+<h3 class="modal-title">{{modalTitle | translate}}</h3>
+<button type="button" class="close" aria-hidden="true" (click)="closeModel()"> ×</button>
+<form [formGroup]="form" (ngSubmit)="submit()" novalidate class="mt-4">
+  <div class="outer ">
+    <div class="row rowm0 ">
+      <div class="col-md-12 col-lg-12">
+        <mat-tab-group animationDuration="0ms">
+          <mat-tab label="{{'Primary_Details' | translate}}" class="tabs_custom">
+            <!--<form [formGroup]="form" (ngSubmit)="submit()" novalidate class="mt-1">-->
+            <h4 class="mt-4">{{'Primary_Details' | translate}}</h4>
+            <div class="cardtitle-divider"></div>
+            <div class="row rowm0 rowp15">
+              <div class="col-md-6 col-lg-6">
+                <div class="form-group">
+                  <!--<label>{{'Company_Logo' | translate}}</label>-->
+                  <div data-type="image-add" class="col-4 pl-2 pr-2 pt-2" style="max-width: 130px;">
+                    <div class="ratio-box text-center" data-type="image-ratio-box">
+                      <img data-type="noimage" class="btn btn-light ratio-img img-fluid p-2 image border dashed rounded" src="{{companyLogo}}" style="cursor:pointer;">
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-6 col-lg-6">
+                <div class="form-group">
+                  <label>{{'Outstanding_Balance' | translate}}</label>
+                  <input class="form-control" type="number" placeholder="{{'Please_Enter' | translate}} {{'Outstanding_Balance' | translate}}" formControlName="custOutStandBal" [readonly]="true" />
+
+                </div>
+                <div class="form-group">
+                  <label>{{'Available_Credit_Limit' | translate}} </label>
+                  <input class="form-control" type="number" placeholder="{{'Please_Enter' | translate}} {{'Available_Credit_Limit' | translate}}" formControlName="custAvailCrLimit" />
+                </div>
+              </div>
+
+              <div class="col-md-3 col-lg-3">
+                <div class="form-group ">
+                  <label class="mr-sm-2">{{'Customer_Code' | translate}}</label>
+                  <input class="form-control" type="text" placeholder="{{'Please_Enter' | translate}} {{'Customer_Code' | translate}}" formControlName="custCode" [readonly]="canAutoGenCustCode">
+                  <validation-message [control]="form.controls.custCode"></validation-message>
+                </div>
+
+              </div>
+
+              <div class="col-md-3 col-lg-3">
+
+                <div class="form-group ">
+                  <label class="mr-sm-2">{{'CustAlias_Code' | translate}}</label>
+                  <input class="form-control" type="text" placeholder="{{'Please_Enter' | translate}} {{'CustAlias_Code' | translate}}" formControlName="custAlias">
+                  <validation-message [control]="form.controls.custAlias"></validation-message>
+                </div>
+
+              </div>
+
+              <div class="col-md-6 col-lg-6">
+                <div class="form-group ">
+                  <label class="mr-sm-2">{{'GST_VAT_Number' | translate}}</label>
+                  <input class="form-control" type="text" placeholder="{{'Please_Enter' | translate}} {{'Customer_Code' | translate}}" formControlName="vatNumber">
+                  <validation-message [control]="form.controls.vatNumber"></validation-message>
+                </div>
+
+              </div>
+
+
+              <div class="col-md-6 col-lg-6">
+
+                <div class="form-group ">
+                  <label class="mr-sm-2">{{'Customer_Name' | translate}}</label>
+                  <input class="form-control" type="text" placeholder="{{'Please_Enter' | translate}} {{'Customer_Name' | translate}}" formControlName="custName">
+                  <validation-message [control]="form.controls.custName"></validation-message>
+                </div>
+
+              </div>
+
+              <div class="col-md-6 col-lg-6">
+                <div class="form-group ">
+                  <label class="mr-sm-2">
+                    {{'Customer_Name_Arabic' | translate}}
+                  </label>
+                  <input class="form-control" type="text" placeholder="{{'Please_Enter' | translate}} {{'Customer_Name_Arabic' | translate}}" formControlName="custArbName">
+                  <validation-message [control]="form.controls.custArbName"></validation-message>
+                </div>
+
+              </div>
+
+               <div class="col-md-6 col-lg-6">
+                <div class="form-group ">
+                  <label class="mr-sm-2">
+                    {{'CustNameAliasEn' | translate}}
+                  </label>
+                  <input class="form-control" type="text" placeholder="{{'Please_Enter' | translate}} {{'CustNameAliasEn' | translate}}" formControlName="custNameAliasEn">
+                  <!--<validation-message [control]="form.controls.custNameAliasEn"></validation-message>-->
+                </div>
+
+              </div>
+
+               <div class="col-md-6 col-lg-6">
+                <div class="form-group ">
+                  <label class="mr-sm-2">
+                    {{'CustNameAliasAr' | translate}}
+                  </label>
+                  <input class="form-control" type="text" placeholder="{{'Please_Enter' | translate}} {{'CustNameAliasAr' | translate}}" formControlName="custNameAliasAr">
+                  <!--<validation-message [control]="form.controls.custNameAliasAr"></validation-message>-->
+                </div>
+
+              </div>
+
+
+              <div class="col-md-6 col-lg-6">
+                <div class="form-group ">
+                  <label class="mr-sm-2">
+                    {{'Type' | translate}}
+
+                  </label>
+                  <!--<input class="form-control" type="text" placeholder=" {{'Please_Enter' | translate}}  {{'Type' | translate}}" formControlName="custType">-->
+                  <select class="custom-select mr-sm-2" formControlName="custType">
+                    <option value="">{{'Select' | translate}} {{'Type' | translate}} </option>
+                    <option *ngFor="let type of userTypes" value="{{type.value}}">{{type.text}}</option>
+                  </select>
+                  <validation-message [control]="form.controls.custType"></validation-message>
+                </div>
+
+              </div>
+              <div class="col-md-6 col-lg-6">
+                <div class="form-group ">
+                  <label class="mr-sm-2">
+                    {{'Category' | translate}}
+
+                  </label>
+                  <!--<input class="form-control" type="text" placeholder=" {{'Please_Enter' | translate}}  {{'Category' | translate}}" formControlName="custCatCode">-->
+                  <!--<label for="exampleFormControlSelectCatCode">{{'Category' | translate}}</label>-->
+                  <auto-loader [isLoading]="isDataLoading"></auto-loader>
+                  <input type="text" class="form-control"
+                         placeholder="{{'Please_Select' | translate}} {{'Category' | translate}}"
+                         [formControl]="categoryCodeControl"
+                         matInput
+                         [matAutocomplete]="auto1">
+                  <!--(change)="validate($event,'categoryCodeControl','change')"-->
+                  <mat-autocomplete #auto1="matAutocomplete">
+                    <mat-option *ngFor="let option of filteredCategoryCodes | async"
+                                [value]="option.text">
+                      <!--[value]="option.text + '-' + option.value"> (optionSelected)="selectedOption($event)" -->
+                      {{option.text}}
+                    </mat-option>
+                  </mat-autocomplete>
+                  <validation-message [control]="categoryCodeControl"></validation-message>
+                </div>
+
+              </div>
+              <div class="col-md-6 col-lg-6">
+                <div class="form-group ">
+                  <label class="mr-sm-2">
+                    {{'Customer_Rating' | translate}}
+                  </label>
+                  <!--<input class="form-control" type="number" min="0" max="5" placeholder=" {{'Please_Enter' | translate}}  {{'Customer_Rating' | translate}}" formControlName="custRating">-->
+
+                  <select class="custom-select mr-sm-2" formControlName="custRating">
+                    <option value="">{{'Select' | translate}} {{'Customer_Rating' | translate}} </option>
+                    <option *ngFor="let itm of ratingList" value="{{itm.value}}">{{ isArab ? itm.textTwo : itm.text}}</option>
+                  </select>
+                  <validation-message [control]="form.controls.custRating"></validation-message>
+
+                </div>
+              </div>
+              <div class="col-md-6 col-lg-6">
+                <div class="form-group ">
+                  <label class="mr-sm-2">
+                    {{'Terms_Code' | translate}}
+                  </label>
+
+                  <auto-loader [isLoading]="isDataLoading"></auto-loader>
+                  <input type="text" class="form-control"
+                         placeholder="{{'Please_Select' | translate}} {{'Terms_Code' | translate}}"
+                         [formControl]="salesTermsCodeControl"
+                         matInput
+                         [matAutocomplete]="auto2">
+                  <!--(change)="validate($event,'salesTermsCodeControl','change')"-->
+                  <mat-autocomplete #auto2="matAutocomplete">
+                    <mat-option *ngFor="let option of filteredSalesTermsCodes | async"
+                                [value]="option.text">
+                      <!--[value]="option.text + '-' + option.value"> (optionSelected)="selectedOption($event)" -->
+                      {{option.text}}
+                    </mat-option>
+                  </mat-autocomplete>
+                  <validation-message [control]="salesTermsCodeControl"></validation-message>
+
+
+
+                  <!--<input class="form-control" type="text" placeholder=" {{'Please_Enter' | translate}}  {{'Terms_Code' | translate}}" formControlName="salesTermsCode">-->
+                </div>
+              </div>
+              <div class="col-md-6 col-lg-6">
+                <div class="form-group ">
+                  <label class="mr-sm-2">
+                    {{'Customer_Discount' | translate}}
+                  </label>
+                  <input class="form-control" type="number" placeholder=" {{'Please_Enter' | translate}}  {{'Customer_Discount' | translate}}" formControlName="custDiscount">
+                  <!--<validation-message [control]="form.controls.custDiscount"></validation-message>-->
+
+                </div>
+              </div>
+              <div class="col-md-6 col-lg-6">
+                <div class="form-group ">
+                  <label class="mr-sm-2">
+                    {{'Credit_Limit' | translate}}
+                  </label>
+                  <input class="form-control" type="number" placeholder=" {{'Please_Enter' | translate}}  {{'Credit_Limit' | translate}}" formControlName="custCrLimit">
+                  <!--<validation-message [control]="form.controls.custCrLimit"></validation-message>-->
+
+                </div>
+              </div>
+              <div class="col-md-6 col-lg-6">
+                <div class="form-group ">
+                  <label class="mr-sm-2">
+                    {{'Account_Manager_Sales_Rep' | translate}}
+                  </label>
+                  <input class="form-control" type="text" placeholder=" {{'Please_Enter' | translate}}  {{'Account_Manager_Sales_Rep' | translate}}" formControlName="custSalesRep">
+                  <!--<validation-message [control]="form.controls.custSalesRep"></validation-message>-->
+
+                </div>
+              </div>
+              <div class="col-md-6 col-lg-6">
+                <div class="form-group ">
+                  <label class="mr-sm-2">
+                    {{'Sales_Area' | translate}}
+                  </label>
+                  <input class="form-control" type="text" placeholder=" {{'Please_Enter' | translate}}  {{'Sales_Area' | translate}}" formControlName="custSalesArea">
+                  <!--<validation-message [control]="form.controls.custSalesArea"></validation-message>-->
+
+                </div>
+              </div>
+
+
+
+
+
+
+
+
+              <div class="col-md-6 col-lg-6">
+                <div class="form-group ">
+                  <label class="mr-sm-2">
+                    {{'Discount_AR_Account' | translate}}
+                  </label>
+
+                  <auto-loader [isLoading]="isDataLoading"></auto-loader>
+                  <input type="text" class="form-control"
+                         placeholder="{{'Please_Enter' | translate}} {{'Discount_AR_Account' | translate}}"
+                         [formControl]="custARAcControl"
+                         matInput
+                         [matAutocomplete]="auto3">
+
+                  <mat-autocomplete #auto3="matAutocomplete" (optionSelected)="validate($event,'custARAcControl','change')">
+                    <mat-option *ngFor="let option of filteredcustARAc | async"
+                                [value]="option.text">
+                      {{option.text}}
+                    </mat-option>
+                  </mat-autocomplete>
+                  <validation-message [control]="custARAcControl"></validation-message>
+
+                </div>
+              </div>
+              <div class="col-md-6 col-lg-6">
+                <div class="form-group ">
+                  <label class="mr-sm-2">
+                    {{'Last_Paid_Amount' | translate}}
+                  </label>
+                  <input class="form-control" type="number" placeholder=" {{'Please_Enter' | translate}}  {{'Last_Paid_Amount' | translate}}" formControlName="custLastPayAmt">
+                  <validation-message [control]="form.controls.custLastPayAmt"></validation-message>
+
+                </div>
+              </div>
+              <div class="col-md-6 col-lg-6">
+                <div class="form-group ">
+                  <label class="mr-sm-2">
+                    {{'Last_Sales_Date' | translate}}
+                  </label>
+                  <!--<input class="form-control" type="text" placeholder=" {{'Please_Enter' | translate}}  {{'Last_Sales_Date' | translate}}" formControlName="custLastSalesDate">-->
+
+                  <div class="form-group ">
+                    <div class="input-group ">
+                      <input class="form-control datapickerinput" placeholder=" {{'Please_Enter' | translate}} {{'Last_Sales_Date' | translate}}" formControlName="custLastSalesDate"
+                             [matDatepicker]="picker">
+                      <validation-message [control]="form.controls.custLastSalesDate"></validation-message>
+                      <div class="input-group-prepend datapickericon">
+                        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                        <mat-datepicker #picker></mat-datepicker>
+                      </div>
+
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-6 col-lg-6">
+                <div class="form-group ">
+                  <label class="mr-sm-2">
+                    {{'Last_Payment_Date' | translate}}
+                  </label>
+                  <!--<input class="form-control" type="text" placeholder=" {{'Please_Enter' | translate}}  {{'Last_Payment_Date' | translate}}" formControlName="custLastPaidDate">-->
+                  <div class="form-group ">
+                    <div class="input-group ">
+                      <input class="form-control datapickerinput" placeholder=" {{'Please_Enter' | translate}} {{'Last_Payment_Date' | translate}}" formControlName="custLastPaidDate"
+                             [matDatepicker]="picker2">
+                      <validation-message [control]="form.controls.custLastPaidDate"></validation-message>
+                      <div class="input-group-prepend datapickericon">
+                        <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
+                        <mat-datepicker #picker2></mat-datepicker>
+                      </div>
+
+                    </div>
+                  </div>
+
+                </div>
+              </div>
+
+              <div class="col-md-6 col-lg-6">
+                <label class="mr-sm-2">{{'CrNumber' | translate}}</label>
+                <input class="form-control" type="text"
+                       placeholder="{{'Please_Enter' | translate}} {{'CrNumber' | translate}}" formControlName="crNumber">
+              </div>
+
+              <div class="col-md-12 col-lg-12"></div>
+
+              <div class="col-md-6 col-lg-6">
+                <h4 class="mt-4">{{'Primary_Address' | translate}}</h4>
+                <div class="cardtitle-divider"></div>
+                <div class="row mt-3">
+
+                  <div class="col-md-12 col-lg-12">
+                    <div class="form-group">
+                      <textarea class="form-control" placeholder="{{'Please_Select' | translate}} {{'Primary_Address' | translate}}" formControlName="custAddress1"> </textarea>
+                      <validation-message [control]="form.controls.custAddress1"></validation-message>
+                    </div>
+                  </div>
+
+                  <div class="col-md-6 col-lg-6">
+                    <div class="form-group ">
+                      <label>{{'City' | translate}}</label>
+                      <select class="custom-select mr-sm-2" formControlName="custCityCode1" (change)="getStateCountrybyCityCode1($event)">
+                        <option value="">{{'Select' | translate}} {{'City' | translate}} </option>
+                        <option *ngFor="let cty of cityList1" value="{{cty.value}}">{{cty.text}}</option>
+                      </select>
+                      <validation-message [control]="form.controls.custCityCode1"></validation-message>
+                    </div>
+                  </div>
+
+                  <div class="col-md-6 col-lg-6">
+                    <div class="form-group">
+                      <label>{{'State' | translate}}</label>
+                      <input class="form-control" type="text" placeholder=" {{'Please_Enter' | translate}}  {{'State' | translate}}" formControlName="stateone" readonly>
+                    </div>
+
+                  </div>
+                  <div class="col-md-6 col-lg-6">
+                    <div class="form-group">
+                      <label>{{'Country' | translate}}</label>
+                      <input class="form-control" type="text" placeholder=" {{'Please_Enter' | translate}}  {{'Country' | translate}}" formControlName="countryone" readonly>
+                    </div>
+
+                  </div>
+                  <div class="col-md-6 col-lg-6">
+                    <div class="form-group">
+                      <label>{{'Mobile' | translate}}</label>
+                      <input class="form-control" type="text" placeholder=" {{'Please_Enter' | translate}}  {{'Mobile' | translate}}" formControlName="custMobile1" maxlength="10">
+                      <validation-message [control]="form.controls.custMobile1"></validation-message>
+
+                    </div>
+
+                  </div>
+                  <div class="col-md-6 col-lg-6">
+                    <div class="form-group">
+                      <label>{{'Phone' | translate}}</label>
+                      <input class="form-control" type="text" placeholder=" {{'Please_Enter' | translate}}  {{'Phone' | translate}}" formControlName="custPhone1" maxlength="10">
+                      <validation-message [control]="form.controls.custPhone1"></validation-message>
+                    </div>
+
+                  </div>
+                  <div class="col-md-6 col-lg-6">
+                    <div class="form-group">
+                      <label>{{'Contact_Person' | translate}}</label>
+                      <input class="form-control" type="email" placeholder=" {{'Please_Enter' | translate}}  {{'Contact_Person' | translate}}" formControlName="custContact1">
+                      <validation-message [control]="form.controls.custContact1"></validation-message>
+
+                    </div>
+                  </div>
+                  <div class="col-md-12 col-lg-12">
+                    <div class="form-group">
+                      <label>{{'Email' | translate}}</label>
+                      <input class="form-control" type="email" placeholder=" {{'Please_Enter' | translate}}  {{'Email' | translate}}" formControlName="custEmail1">
+                      <validation-message [control]="form.controls.custEmail1"></validation-message>
+
+                    </div>
+                  </div>
+
+                </div>
+              </div>
+              <div class="col-md-6 col-lg-6">
+                <h4 class="mt-4">{{'Secondary_Address' | translate}}</h4>
+                <div class="cardtitle-divider"></div>
+                <div class="row mt-3">
+
+                  <div class="col-md-12 col-lg-12">
+                    <div class="form-group">
+                      <textarea class="form-control" placeholder="{{'Please_Enter' | translate}} {{'Secondary_Address' | translate}}" formControlName="custAddress2">
+                    
+</textarea>
+                      <!--<validation-message [control]="form.controls.custAddress2"></validation-message>-->
+
+                    </div>
+                  </div>
+                  <div class="col-md-6 col-lg-6">
+                    <div class="form-group ">
+                      <label>{{'City' | translate}}</label>
+                      <select class="custom-select mr-sm-2" formControlName="custCityCode2" (change)="getStateCountrybyCityCode2($event)">
+                        <option value="">{{'Select' | translate}} {{'City' | translate}} </option>
+                        <option *ngFor="let cty of cityList2" value="{{cty.value}}">{{cty.text}}</option>
+                      </select>
+                      <!--<validation-message [control]="form.controls.custCityCode1"></validation-message>-->
+                    </div>
+
+                  </div>
+                  <div class="col-md-6 col-lg-6">
+                    <div class="form-group">
+                      <label>{{'State' | translate}}</label>
+                      <input class="form-control" type="text" placeholder=" {{'Please_Enter' | translate}}  {{'State' | translate}}" formControlName="statetwo" readonly>
+                    </div>
+
+                  </div>
+
+                  <div class="col-md-6 col-lg-6">
+                    <div class="form-group">
+                      <label>{{'Country' | translate}}</label>
+                      <input class="form-control" type="text" placeholder=" {{'Please_Enter' | translate}}  {{'Country' | translate}}" formControlName="countrytwo" readonly>
+
+                    </div>
+
+                  </div>
+
+                  <div class="col-md-6 col-lg-6">
+                    <div class="form-group">
+                      <label>{{'Mobile' | translate}}</label>
+                      <input class="form-control" type="text" placeholder=" {{'Please_Enter' | translate}}  {{'Mobile' | translate}}" formControlName="custMobile2" maxlength="10">
+                      <validation-message [control]="form.controls.custMobile2"></validation-message>
+
+                    </div>
+
+                  </div>
+
+                  <div class="col-md-6 col-lg-6">
+                    <div class="form-group">
+                      <label>{{'Phone' | translate}}</label>
+                      <input class="form-control" type="text" placeholder=" {{'Please_Enter' | translate}}  {{'Phone' | translate}}" formControlName="custPhone2" maxlength="10">
+                      <validation-message [control]="form.controls.custPhone2"></validation-message>
+
+                    </div>
+
+                  </div>
+
+                  <div class="col-md-6 col-lg-6">
+                    <div class="form-group">
+                      <label>{{'Contact_Person' | translate}}</label>
+                      <input class="form-control" type="email" placeholder=" {{'Please_Enter' | translate}}  {{'Contact_Person' | translate}}" formControlName="custContact2">
+                      <!--<validation-message [control]="form.controls.custContact2"></validation-message>-->
+
+                    </div>
+                  </div>
+                  <div class="col-md-12 col-lg-12">
+                    <div class="form-group">
+                      <label>{{'Email' | translate}}</label>
+                      <input class="form-control" type="email" placeholder=" {{'Please_Enter' | translate}}  {{'Email' | translate}}" formControlName="custEmail2">
+                      <validation-message [control]="form.controls.custEmail2"></validation-message>
+
+                    </div>
+                  </div>
+
+                </div>
+              </div>
+
+
+
+
+            </div>
+
+
+            <!--</form>-->
+
+
+          </mat-tab>
+          <mat-tab label="{{'Control' | translate}}">
+            <!--<form [formGroup]="form" (ngSubmit)="submit()" novalidate class="mt-1">-->
+            <h4 class="mt-4">{{'Control' | translate}}</h4>
+            <div class="cardtitle-divider"></div>
+            <div class="row rowm0 rowp15">
+              <div class="col-md-4 col-lg-4">
+                <label class="mr-sm-2">{{'Is_Active_Customer' | translate}}</label>
+                <div class="form-group">
+                  <mat-slide-toggle color="primary" formControlName="isActive"></mat-slide-toggle>
+                </div>
+              </div>
+              <div class="col-md-4 col-lg-4">
+                <label class="mr-sm-2">{{'Allow_Credit_Sales' | translate}}</label>
+                <div class="form-group">
+                  <mat-slide-toggle color="primary" formControlName="custAllowCrsale"></mat-slide-toggle>
+                </div>
+
+              </div>
+              <div class="col-md-4 col-lg-4">
+                <label class="mr-sm-2">{{'Allow_Credit_Limit_Override' | translate}}</label>
+                <div class="form-group">
+                  <mat-slide-toggle color="primary" formControlName="custAlloCrOverride"></mat-slide-toggle>
+                </div>
+
+              </div>
+              <div class="col-md-4 col-lg-4">
+                <label class="mr-sm-2">{{'Hold_Customer_Sales' | translate}}</label>
+                <div class="form-group">
+                  <mat-slide-toggle color="primary" formControlName="custOnHold"></mat-slide-toggle>
+                </div>
+
+              </div>
+              <div class="col-md-4 col-lg-4">
+                <label class="mr-sm-2">{{'Allow_Check_Payments' | translate}} </label>
+                <div class="form-group">
+                  <mat-slide-toggle color="primary" formControlName="custAlloChkPay"></mat-slide-toggle>
+                </div>
+
+              </div>
+              <div class="col-md-4 col-lg-4">
+                <label class="mr-sm-2">{{'Set_Price_Level' | translate}} </label>
+                <div class="form-group">
+                  <mat-slide-toggle color="primary" formControlName="custSetPriceLevel"></mat-slide-toggle>
+                </div>
+
+              </div>
+              <div class="col-md-4 col-lg-4">
+                <label class="mr-sm-2">{{'Customer_is_Vendor_too' | translate}}  </label>
+                <div class="form-group">
+                  <mat-slide-toggle color="primary" formControlName="custIsVendor"></mat-slide-toggle>
+                </div>
+
+              </div>
+              <div class="col-md-4 col-lg-4">
+                <label class="mr-sm-2">{{'User_AR_account_branchwise' | translate}}  </label>
+                <div class="form-group">
+                  <mat-slide-toggle color="primary" formControlName="custArAcBranch"></mat-slide-toggle>
+                </div>
+
+              </div>
+            </div>
+            <!--</form>-->
+          </mat-tab>
+          <mat-tab label="{{'Account_Mapping' | translate }}">
+            <!--<form [formGroup]="form" (ngSubmit)="submit()" novalidate class="mt-1">-->
+            <h4 class="mt-4">{{'Account_Mapping' | translate }}</h4>
+            <div class="cardtitle-divider"></div>
+            <div class="row rowm0 rowp15">
+              <div class="col-md-6 col-lg-6">
+                <div class="form-group">
+                  <label class="mr-sm-2">{{'AR_Account' | translate}}</label>
+                  <!--<input class="form-control" type="text" placeholder="{{'Please_Enter' | translate}} {{'AR_Account' | translate}}" formControlName="custArAcCode">-->
+                  <auto-loader [isLoading]="isDataLoading"></auto-loader>
+                  <input type="text" class="form-control"
+                         placeholder="{{'Please_Enter' | translate}} {{'AR_Account' | translate}}"
+                         [formControl]="custArAcCodeControl"
+                         matInput
+                         [matAutocomplete]="auto4">
+                  <mat-autocomplete #auto4="matAutocomplete" (optionSelected)="validate($event,'custArAcCodeControl','change')">
+                    <mat-option *ngFor="let option of filteredcustArAcCode | async"
+                                [value]="option.text">
+                      {{option.text}}
+                    </mat-option>
+                  </mat-autocomplete>
+                  <validation-message [control]="custArAcCodeControl"></validation-message>
+                </div>
+              </div>
+              <div class="col-md-6 col-lg-6">
+                <div class="form-group">
+                  <label class="mr-sm-2">{{'Default_Income_Account' | translate}}</label>
+                  <!--<input class="form-control" type="text" placeholder="{{'Please_Enter' | translate}} {{'Default_Income_Account' | translate}}" formControlName="custDefExpAcCode">-->
+                  <auto-loader [isLoading]="isDataLoading"></auto-loader>
+                  <input type="text" class="form-control"
+                         placeholder="{{'Please_Enter' | translate}} {{'Default_Income_Account' | translate}}"
+                         [formControl]="custDefExpAcCodeControl"
+                         matInput
+                         [matAutocomplete]="auto5">
+                  <mat-autocomplete #auto5="matAutocomplete" (optionSelected)="validate($event,'custDefExpAcCodeControl','change')">
+                    <mat-option *ngFor="let option of filteredcustDefExpAcCode | async"
+                                [value]="option.text">
+                      {{option.text}}
+                    </mat-option>
+                  </mat-autocomplete>
+                  <validation-message [control]="custDefExpAcCodeControl"></validation-message>
+
+
+                </div>
+              </div>
+              <div class="col-md-6 col-lg-6">
+                <div class="form-group">
+                  <label class="mr-sm-2">{{'AR_Adjustment_Account' | translate}} </label>
+                  <!--<input class="form-control" type="text" placeholder="{{'Please_Enter' | translate}} {{'AR_Adjustment_Account' | translate}}" formControlName="custARAdjAcCode">-->
+                  <auto-loader [isLoading]="isDataLoading"></auto-loader>
+                  <input type="text" class="form-control"
+                         placeholder="{{'Please_Enter' | translate}} {{'AR_Adjustment_Account' | translate}}"
+                         [formControl]="custARAdjAcCodeControl"
+                         matInput
+                         [matAutocomplete]="auto6">
+                  <mat-autocomplete #auto6="matAutocomplete" (optionSelected)="validate($event,'custARAdjAcCodeControl','change')">
+                    <mat-option *ngFor="let option of filteredcustARAdjAcCode | async"
+                                [value]="option.text">
+                      {{option.text}}
+                    </mat-option>
+                  </mat-autocomplete>
+                  <validation-message [control]="custARAdjAcCodeControl"></validation-message>
+
+                </div>
+              </div>
+              <div class="col-md-6 col-lg-6">
+                <div class="form-group">
+                  <label class="mr-sm-2">{{'Discount_Account' | translate}}</label>
+                  <!--<input class="form-control" type="text" placeholder="Type Discount Account" formControlName="custARDiscAcCode">-->
+                  <auto-loader [isLoading]="isDataLoading"></auto-loader>
+                  <input type="text" class="form-control"
+                         placeholder="{{'Please_Enter' | translate}} {{'Discount_Account' | translate}}"
+                         [formControl]="custARDiscAcCodeControl"
+                         matInput
+                         [matAutocomplete]="auto7">
+
+
+                  <mat-autocomplete #auto7="matAutocomplete" (optionSelected)="validate($event,'custARDiscAcCodeControl','change')">
+                    <mat-option *ngFor="let option of filteredcustARDiscAcCode | async"
+                                [value]="option.text">
+                      {{option.text}}
+                    </mat-option>
+
+                  </mat-autocomplete>
+
+
+                  <validation-message [control]="custARDiscAcCodeControl"></validation-message>
+
+                </div>
+              </div>
+
+
+
+            </div>
+            <!--</form>-->
+
+
+
+          </mat-tab>
+          <!--<mat-tab label="{{'Document_Upload' | translate}}">
+
+
+            <button type="button" (click)="uploadFile()" class="btn btn-primary">Upload File</button>
+
+
+          </mat-tab>-->
+
+        </mat-tab-group>
+
+      </div>
+    </div>
+  </div>
+  <div class="row customrow">
+    <div class="col-lg-12 col-md-12 text-center">
+      <input type="button"
+             class="btn btn-secondary"
+             value="{{'Cancel' | translate}}" (click)="closeModel()" />
+
+      &nbsp;&nbsp;
+      <input type="submit" class="btn waves-effect waves-light   btn-primary  " value="{{'Save' | translate}}">
+
+    </div>
+
+  </div>
+</form>

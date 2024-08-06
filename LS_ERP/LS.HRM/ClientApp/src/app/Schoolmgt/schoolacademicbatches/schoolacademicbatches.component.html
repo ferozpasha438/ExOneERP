@@ -1,0 +1,130 @@
+<div class="page-breadcrumb">
+    <div class="row">
+      <div class="col-12 align-self-center">
+        <h3 class="page-title text-truncate text-dark font-weight-medium mb-1">
+            School Academic
+        </h3>
+        <div class="d-flex align-items-center">
+          <nav aria-label="breadcrumb">
+            <ol class="breadcrumb m-0 p-0">
+              <li class="breadcrumb-item text-muted">School Academic Management </li>
+              <li class="breadcrumb-item text-muted ">School Academic Batches</li>
+              <li class="breadcrumb-item   active" aria-current="page">School Academic Batches List</li>
+  
+            </ol>
+          </nav>
+        </div>
+      </div>
+  
+    </div>
+  </div>
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-md-12 col-lg-12">
+        <div class="card">
+          <div class="card-body">
+  
+            <div class="row pb-3">
+              <div class="col-md-12 col-lg-12">
+                <!--<h4 class="card-title pt6">{{'Sales_Invoice_List' | translate}} </h4>-->
+              </div>
+              <div class="col-md-3">
+                <!--(keyup)="applyFilter($event)"-->                
+                <input class="form-control" placeholder="{{'Search' | translate}}..." [(ngModel)]="searchValue" />
+              </div>
+              <div class="col-md-4 arabicright">
+                <button (click)="applyFilter(searchValue)" class="btn btn-primary">{{'Search' | translate}}</button> &nbsp;
+                <a (click)="refresh()" class=""><i class="btn btn-primary icon-refresh"></i></a>
+              </div>
+            </div>
+  
+            <div class="row">
+              <div class="col-md-4 col-lg-4">
+                <h4 class="card-title pt6">School Academic Batches</h4>
+              </div>
+              <div class="col-md-8 col-lg-8 text-right">
+                <a data-toggle="modal"
+                   data-target="#addupdateUnit" class="  btn waves-effect waves-light btn-rounded btn-outline-primary" (click)="create()" href="#"> <i class="icon-plus"> </i>{{'Add_New_Customer' | translate}}</a>
+  
+              </div>
+            </div>
+            <div class="cardtitle-divider"></div>
+            <div class="table-responsive">
+              <spinner-loader [isLoading]="isLoading"></spinner-loader>
+  
+  
+  
+              <div class="mat-elevation-z8">
+                <!--<ng-container *ngIf="data;else noData">-->
+                <ng-container>
+  
+                  <table mat-table [dataSource]="data" matSort matSortActive="id"
+                         matSortDisableClear matSortDirection="desc" class="table  table-bordered no-wrap">
+  
+                    <ng-container matColumnDef="academicYear">
+                      <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                        Academic Year
+                        <!-- {{'Customer_Code' | translate}} -->
+                      </th>
+                      <td mat-cell *matCellDef="let row">{{ row.academicYear }}</td>
+                    </ng-container>
+  
+                    <ng-container matColumnDef="startingDate">
+                      <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                        Starting Date
+                      </th>
+                      <td mat-cell *matCellDef="let row">{{ row.academicStartDate | date:'dd-MM-yyyy' }}</td>
+                    </ng-container>
+  
+  
+                    <ng-container matColumnDef="endingDate">
+                      <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                        Ending Date
+                      </th>
+                      <td mat-cell *matCellDef="let row">{{ row.academicEndDate  | date:'dd-MM-yyyy' }}</td>
+                    </ng-container>  
+                  
+  
+                    <ng-container matColumnDef="Actions" stickyEnd>
+                      <th mat-header-cell *matHeaderCellDef> {{'Actions' | translate}}</th>
+                      <td mat-cell *matCellDef="let row">
+
+                        <a class="tableicons" (click)="edit(row)" matTooltip="{{'Edit_Item' | translate}}"><i class="icon-note"> </i></a> &nbsp;
+                        <button (click)="addStudentsToNextGrade(row)" class="btn btn-primary">{{'Add_Students_to_Next_Grade' | translate}}</button> &nbsp;
+                        <button (click)="addFeeStructure(row)" class="btn btn-primary">{{'Add_Fee_Structure' | translate}}</button> &nbsp;
+                        <!--<a class="tableicons" (click)="addStudentsToNextGrade(row)" matTooltip="{{'Add_Students_to_Next_Grade' | translate}}"><i class="icon-arrow-right-circle"> </i></a>-->
+                        <!-- <a class="tableicons" (click)="delete(row.id)" matTooltip="{{'Delete_Item' | translate}}"><i class="icon-trash"> </i></a>
+                        <a class="tableicons" (click)="print(row.custCode)"  matTooltip="{{'Customer_Statement_Report' | translate}}"><i class="icon-printer"> </i></a>&nbsp;
+                        <a class="tableicons" (click)="printCustInvoices(row.custCode)" matTooltip="{{'Customer_Payment' | translate}}"><i class="icon-list"> </i></a>&nbsp; -->
+
+                      </td>
+                    </ng-container>
+  
+                    <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
+                    <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+  
+                  </table>
+  
+                  <ng-container>
+                    <mat-paginator [length]="totalItemsCount"
+                                   [pageSize]="pageService.pageCount"
+                                   [pageSizeOptions]="pageService.selectItemsPerPage"
+                                   (page)="onPageSwitch($event)">
+                    </mat-paginator>
+                  </ng-container>
+                </ng-container>
+                <!--<ng-template #noData>
+          <no-apidata></no-apidata>
+        </ng-template>-->
+              </div>
+  
+  
+            </div>
+  
+  
+  
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>

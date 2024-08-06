@@ -1,0 +1,151 @@
+<h3 class="modal-title">{{modalTitle | translate}}</h3>
+<button type="button" class="close" aria-hidden="true" (click)="closeModel()"> ×</button>
+<form [formGroup]="form" (ngSubmit)="submit()" novalidate class="mt-4">
+
+  <div class="col-md-12 col-lg-12">
+    <table style="width:100%">
+      <tr>
+        <td style="padding-right:5px;width:auto">
+          {{'Employee'| translate}}
+
+
+        </td>
+        <td>
+          <span *ngIf="inputData.isDefaultEmployee">
+            {{employee?.employeeNumber}}
+
+          </span>
+          <span *ngIf="!inputData.isDefaultEmployee">
+            {{altEmployee?.employeeNumber}}
+
+          </span>
+
+
+        </td>
+        <td *ngIf="!editEmp">
+          <span>
+            <auto-loader [isLoading]="isDataLoading"></auto-loader>
+            <input type="text" class="form-control"
+                   placeholder="{{'Enter' | translate}} {{'Employee' | translate}}"
+                   [formControl]="empCodeControl"
+                   matInput
+                   [matAutocomplete]="auto_emp">
+            <mat-autocomplete #auto_emp="matAutocomplete" (optionSelected)="autoSelectionEmployeeNumber($event)">
+              <mat-option *ngFor="let option of filteredEmployeeNumbers | async"
+                          [value]="option">
+                {{option.text}}-{{option.textTwo}}
+              </mat-option>
+            </mat-autocomplete>
+          </span>
+
+          <span>
+            <input [(ngModel)]="canShowAllEmployees" type="checkbox" [ngModelOptions]="{standalone: true}"  (change)="changeEmployeeFilter()"/>
+            {{'Show_All_Employees'|translate}}
+          </span>
+
+
+
+
+
+        </td>
+        <td>
+
+          <span *ngIf="editEmp&&inputData.isPrimarySite" class="clickaction clickicons" (click)="editEmployee()">
+            <i class="fas fa-pencil-alt"></i>
+          </span>
+          <span *ngIf="!editEmp" class="clickaction clickicons" (click)="editEmployee()">
+            <i class="far fa-times-circle"></i>
+          </span>
+        </td>
+
+      </tr>
+      <tr>
+        <td></td>
+        <td style="padding-right:5px">
+          <span *ngIf="inputData.isDefaultEmployee">
+            {{employee?.employeeName}}
+
+          </span>
+          <span *ngIf="!inputData.isDefaultEmployee">
+            {{altEmployee?.employeeName}}
+
+          </span>
+
+
+        </td>
+
+      </tr>
+      <tr>
+        <td style="padding-right:5px">{{'Attendance'| translate}} {{'Date' |translate}}</td>
+        <td>{{inputData?.attnDate.toString().substring(0,10)}}</td>
+
+      </tr>
+      <tr>
+        <td>
+          {{'Shift'|translate}}
+        </td>
+        <td *ngIf="!inputData?.isDefShiftOff">
+          {{shift?.shiftCode}}
+        </td>
+        <!--<td *ngIf="inputData?.isDefShiftOff">
+
+      <select class="custom-select mr-sm-2" [(ngModel)]="altShift.shiftCode" (change)="onSelectShift($event)" [ngModelOptions]="{standalone: true}">
+        <option value=''>{{'Select' | translate}} {{'Shift_Code' | translate}} </option>
+        <option *ngFor="let sc of listOfShiftCodes" value="{{sc.shiftCode}}">{{sc.shiftCode}}</option>
+      </select>
+    </td>-->
+        <td *ngIf="inputData?.isDefShiftOff">
+          {{inputData.altShiftCode}}
+
+        </td>
+
+      </tr>
+      <tr>
+        <td style="padding-right:5px">{{'IN_Time'| translate}}</td>
+
+        <td>
+          <input type="time" [(ngModel)]="shift.inTime" id="inTimeNew" [ngModelOptions]="{standalone: true}" />
+        </td>
+      </tr>
+      <tr>
+        <td style="padding-right:5px">{{'OUT_Time'| translate}}</td>
+
+        <td>
+          <input type="time" [(ngModel)]="shift.outTime" id="outTimeNew" [ngModelOptions]="{standalone: true}" />
+        </td>
+      </tr>
+    </table>
+  </div>
+  <div style="padding-top:10px">
+    <table style="width:100%">
+      <tr *ngIf=" !inputData.isPosted" style="text-align:center">
+        <td>
+          <button *ngIf="!inputData.isAbsent"  type="button" class="btn waves-effect waves-light btn-success" (click)="enterAttendance()">{{'Update'|translate}} {{'Attendance'|translate}}</button>
+
+        </td>
+        <td>
+          <button type="button" class="btn btn-warning" (click)="cancelAttendance()">{{'Cancel'|translate}} {{'Attendance'|translate}}</button>
+
+        </td>
+        <td>
+          <button type="button" class="btn btn-danger" (click)="closeModel()">
+            <i class="icon-close"></i>
+            {{'Close'|translate}}
+          </button>
+        </td>
+
+
+      </tr>
+      <tr  *ngIf="inputData.isPosted" >
+        <td width="100%" style="color:red;text-align:center">Attendance Already Posted, You Can't Update</td>
+      </tr>
+    </table>
+  </div>
+  
+
+
+
+
+
+
+</form>

@@ -1,0 +1,83 @@
+<h3 class="modal-title">{{'Examination_Management' | translate}}</h3>
+<button type="button" class="close" aria-hidden="true" (click)="closeModel()"> ×</button>
+<form [formGroup]="form" (ngSubmit)="submit()" novalidate class="mt-4">
+    <div class="outer ">      
+        <div class=" mt-3" >
+            <div class="customrow mt-4" style="margin: 0px; border-bottom: 1px solid #ddd">
+                <div class="row">
+                    <div class="col-md-2">
+                        <label>{{'Subject' | translate}}</label>
+                    </div>
+                    <div class="col-md-3">
+                        <label>{{'Maximum_Marks' | translate}}</label>
+                    </div>
+
+                    <div class="col-md-3">
+                        <label>{{'Qualifying_Marks' | translate}}</label>
+                    </div>
+                    <div class="col-md-2">
+                        <label>{{'Marks_Obtained' | translate}}</label>
+                    </div>
+                    <div class="col-md-2">
+                        <label>{{'Grade' | translate}}</label>
+                    </div>
+                   
+                </div>
+            </div>
+
+
+            <div class="customrow mt-4" style="margin: 0px; border-bottom: 1px solid #ddd">
+                <div class="row">
+                    <div class="col-md-2">
+                        <div class="form-group">                          
+                            <select class="custom-select mr-sm-2" formControlName="subject">
+                                <option value="">{{'Select' | translate}} {{'Subject' | translate}} </option>
+                                <option>{{'Subject' | translate}}</option>
+                            </select>  
+                            <validation-message [control]="form.controls.subject"></validation-message>                        
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="input-group ">
+                            <input class="form-control" placeholder="{{'Maximum_Marks' | translate}}"
+                                formControlName="maximumMarks">
+                                <validation-message [control]="form.controls.maximumMarks"></validation-message>
+                        </div>                       
+                    </div>
+                    <div class="col-md-3">
+                        <div class="input-group ">
+                            <input class="form-control" placeholder="{{'Qualifying_Marks' | translate}}"
+                                formControlName="qualifyingMarks">
+                                <validation-message [control]="form.controls.qualifyingMarks"></validation-message>
+                        </div>                         
+                    </div>
+                    <div class="col-md-2">
+                        <div class="input-group ">
+                            <input class="form-control" placeholder="{{'Marks_Obtained' | translate}}"
+                                formControlName="marksObtained">
+                                <validation-message [control]="form.controls.marksObtained"></validation-message>
+                        </div>                        
+                    </div>
+                    <div class="col-md-2">
+                        <div class="input-group ">
+                            <input class="form-control" placeholder="{{'Grade' | translate}}"
+                                formControlName="grade">
+                                <validation-message [control]="form.controls.grade"></validation-message>
+                        </div>                        
+                    </div>
+                   
+                </div>
+            </div>
+        </div>
+
+
+        <div class="row customrow mt-4">
+            <div class="col-lg-12 col-md-12 text-center">
+                <input type="button" class="btn btn-secondary" value="{{'Cancel' | translate}}"
+                    (click)="closeModel()" />
+                &nbsp;&nbsp;
+                <input type="submit" class="btn waves-effect waves-light btn-primary" value="{{'Save' | translate}}">
+            </div>
+        </div>
+    </div>
+</form>

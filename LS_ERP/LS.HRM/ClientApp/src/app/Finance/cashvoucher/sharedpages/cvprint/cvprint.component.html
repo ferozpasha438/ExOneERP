@@ -1,0 +1,295 @@
+
+
+<div style="position:fixed;">
+  <button (click)="printInvoice()"> {{'Print' | translate}}</button> &nbsp;
+  <button type="button" class="" aria-hidden="true" (click)="closeModel()">  {{'Close' | translate}}</button>
+</div>
+<br />
+<br />
+<br />
+
+<div class="container-fluid invoice-container print-container" style="width: 935px; margin: auto; padding: 35px; border: 1px solid #ccc; " id="printcontainer">
+  <div dir="{{utilService.getDir()}}">
+    <table style="width:100%" border="0" cellpadding="0" cellspacing="0" width="100%">
+      <tr>
+        <td style="text-align: left;width:60%">
+          <h4 style="font-size: 1rem !important;color: #0c2f54; font-family: 'Poppins', sans-serif;font-weight: 500;
+        line-height: 1.2;margin:0;padding-top:4px">
+            {{printItem.companyName}}
+          </h4>
+          <!--<h4 style="font-size: 1.2rem !important;color: #0c2f54; font-family: 'Poppins', sans-serif;font-weight: 500;
+          line-height: 1.2;margin:0;padding-top:4px">
+            .المؤسسة العالمية للتنمية المثالية للمقاولات العامة
+            ,
+          </h4>
+          <h4 style="font-size: 1rem !important;color: #0c2f54; font-family: 'Poppins', sans-serif;font-weight: 500;
+          line-height: 1.2;margin:0;padding-top:4px">
+            Al Khobar
+          </h4>-->
+          <h4 style="font-size: 1rem !important;color: #0c2f54; font-family: 'Poppins', sans-serif;font-weight: 500;
+        line-height: 1.2;margin:0;padding-top:4px">
+            {{printItem.address}}
+          </h4>
+
+        </td>
+        <td style=" text-align: right;vertical-align: middle;">
+          <img id="logo" style="width:120px" src="{{printItem.logo}}" title="invoice" alt="invoice" />
+        </td>
+
+
+      </tr>
+    </table>
+
+    <div style="padding-top:10px;padding-bottom:5px">
+      <table style="width:100%;" border="0" cellpadding="0" cellspacing="0" width="100%">
+        <tr>
+          <td style="width:47%;text-align: center;vertical-align: top;">
+            <table style="width:100%;border:2px solid #878787" border="0" cellpadding="0" cellspacing="0" width="100%">
+              <tr>
+                <td style=" padding:5px;width:33%;text-align: left;font-size:0.875rem !important;color: #000000; font-family: 'Poppins', sans-serif;font-weight: 600;">
+                  {{'Voucher_Date' | translate}}:
+                </td>
+                <td style=" padding:5px;text-align: left;font-size:0.875rem !important;color: #000000; font-family: 'Poppins', sans-serif;font-weight: 500;">
+                  {{printItem.cDate | date :'MM-dd-yyyy'}}
+                </td>
+
+              </tr>
+              <tr>
+                <td style=" padding:5px;width:33%;text-align: left;font-size:0.875rem !important;color: #000000; font-family: 'Poppins', sans-serif;font-weight: 600;">
+                  {{'Branch' | translate}}::
+                </td>
+                <td style="  padding:5px;text-align: left;font-size:0.875rem !important;color: #000000; font-family: 'Poppins', sans-serif;font-weight: 500;">
+                  {{printItem.branchName}}
+                </td>
+
+              </tr>
+              <tr>
+                <td style=" padding:5px;width:33%;text-align: left;font-size:0.875rem !important;color: #000000; font-family: 'Poppins', sans-serif;font-weight: 600;">
+                  {{'PayCode' | translate}}:
+                </td>
+                <td style=" padding:5px;text-align: left;font-size:0.875rem !important;color: #000000; font-family: 'Poppins', sans-serif;font-weight: 500;">
+                  {{printItem.cBookCode}}
+                </td>
+
+              </tr>
+              <tr>
+                <td style=" padding:5px;width:33%;text-align: left;font-size:0.875rem !important;color: #000000; font-family: 'Poppins', sans-serif;font-weight: 600;">
+                  {{'Transaction' | translate}}:
+                </td>
+                <td style="  padding:5px;text-align: left;font-size:0.875rem !important;color: #000000; font-family: 'Poppins', sans-serif;font-weight: 500;">
+                  {{printItem.source}}
+                </td>
+
+              </tr>
+            </table>
+          </td>
+          <td style="width:4%">
+          </td>
+          <td style="width:47%;vertical-align: top;">
+            <table style="width:100%;border:2px solid #878787" border="0" cellpadding="0" cellspacing="0" width="100%">
+              <tr>
+                <td style="width:60px; padding:5px; text-align: left;font-size:0.875rem !important;color: #000000; font-family: 'Poppins', sans-serif;font-weight: 600;">
+                  {{'User' | translate}}::
+                </td>
+                <td style=" padding:5px;text-align: left;font-size:0.875rem !important;color: #000000; font-family: 'Poppins', sans-serif;font-weight: 500;">
+                  {{user}}
+                </td>
+
+              </tr>
+              <tr>
+                <td style=" padding:5px; text-align: left;font-size:0.875rem !important;color: #000000; font-family: 'Poppins', sans-serif;font-weight: 600;">
+                  {{'DOC_#' | translate}}::
+                </td>
+                <td style="  padding:5px;text-align: left;font-size:0.875rem !important;color: #000000; font-family: 'Poppins', sans-serif;font-weight: 500;">
+                  {{printItem.docNum}}
+                </td>
+
+              </tr>
+              <tr>
+                <td style=" padding:5px; text-align: left;font-size:0.875rem !important;color: #000000; font-family: 'Poppins', sans-serif;font-weight: 600;">
+                  {{'Remarks' | translate}}::
+                </td>
+                <td style=" padding:5px;text-align: left;font-size:0.875rem !important;color: #000000; font-family: 'Poppins', sans-serif;font-weight: 500;">
+                  {{printItem.remarks}}
+                </td>
+
+              </tr>
+              <tr>
+                <td style=" padding:5px; text-align: left;font-size:0.875rem !important;color: #000000; font-family: 'Poppins', sans-serif;font-weight: 600;">
+                  {{'Batch_ID' | translate}}::
+                </td>
+                <td style="  padding:5px;text-align: left;font-size:0.875rem !important;color: #000000; font-family: 'Poppins', sans-serif;font-weight: 500;">
+                  {{printItem.batch}}
+                </td>
+
+              </tr>
+            </table>
+          </td>
+        </tr>
+      </table>
+
+    </div>
+    <div style="padding-bottom:5px">
+      <table style="width:100%;border:2px solid #878787" border="0" cellpadding="0" cellspacing="0" width="100%">
+        <tr>
+          <td style=" padding:5px;width:30%;text-align: left;font-size:0.875rem !important;color: #000000; font-family: 'Poppins', sans-serif;font-weight: 500;">
+            <span style="font-weight: 600;"> {{'Amount' | translate}}::</span> {{printItem.amount}}
+          </td>
+          <td style="border-left:2px solid #878787; padding:5px;text-align: left;font-size:0.875rem !important;color: #000000; font-family: 'Poppins', sans-serif;font-weight: 600;">
+            {{printItem.totalAmountText}}
+          </td>
+
+        </tr>
+      </table>
+    </div>
+
+
+    <table style="width:100%" border="0" cellpadding="0" cellspacing="0" width="100%">
+
+      <tr>
+        <td style="font-size: 1.5rem !important;color: #0c2f54; font-family: 'Poppins', sans-serif;font-weight: 500;
+            line-height: 1.2;margin:0;padding-top:15px;text-align: center;">
+          {{'Cash_Voucher' | translate}}: {{printItem.voucherType}}
+
+        </td>
+      </tr>
+    </table>
+    <div style="padding-bottom:5px">
+      <table style="width:100%;" border="0" cellpadding="0" cellspacing="0" width="100%">
+        <tr>
+          <td style="border:2px solid #878787;padding:5px;text-align: center;font-size:0.875rem !important;color: #000000; font-family: 'Poppins', sans-serif;font-weight: 600;">
+            {{'Voucher' | translate}}: :  {{printItem.voucherNumber}}
+          </td>
+          <td style="border:2px solid #878787;width:33%; padding:5px;text-align: center;font-size:0.875rem !important;color: #000000; font-family: 'Poppins', sans-serif;font-weight: 600;">
+            {{'Unapproved_Voucher' | translate}}
+          </td>
+          <td style="width:33%;border:2px solid #878787;padding:5px;text-align: center;font-size:0.875rem !important;color: #000000; font-family: 'Poppins', sans-serif;font-weight: 600;">
+            {{'Page' | translate}} 1 of 1
+          </td>
+
+        </tr>
+
+
+      </table>
+    </div>
+    <div style="padding-bottom:5px">
+      <table style="width:100%;" border="0" cellpadding="0" cellspacing="0" width="100%">
+        <tr>
+          <th style="width:5%;border:2px solid #878787;padding:5px;text-align: center;font-size:0.875rem !important;color: #000000; font-family: 'Poppins', sans-serif;font-weight:600;">
+            {{'SNO' | translate}}
+          </th>
+          <th style="width:5%;border:2px solid #878787;padding:5px;text-align: center;font-size:0.875rem !important;color: #000000; font-family: 'Poppins', sans-serif;font-weight:600;">
+            {{'Seg1' | translate}}
+          </th>
+          <th style="width:5%;border:2px solid #878787;padding:5px;text-align: center;font-size:0.875rem !important;color: #000000; font-family: 'Poppins', sans-serif;font-weight:600;">
+            {{'Seg2' | translate}}
+          </th>
+          <th style="width:15%;border:2px solid #878787;padding:5px;text-align: center;font-size:0.875rem !important;color: #000000; font-family: 'Poppins', sans-serif;font-weight: 600;">
+            {{'Ac_Code' | translate}}
+          </th>
+
+          <!--<th style="border:2px solid #878787;padding:5px;text-align: center;font-size:0.875rem !important;color: #000000; font-family: 'Poppins', sans-serif;font-weight: 600;">
+            {{'Account_Desc' | translate}}
+          </th>-->
+          <th style="width:15%;border:2px solid #878787;padding:5px;text-align: center;font-size:0.875rem !important;color: #000000; font-family: 'Poppins', sans-serif;font-weight: 600;">
+            {{'Receipt' | translate}}
+          </th>
+          <th style="width:15%;border:2px solid #878787;padding:5px;text-align: center;font-size:0.875rem !important;color: #000000; font-family: 'Poppins', sans-serif;font-weight: 600;">
+            {{'Remarks' | translate}}
+          </th>
+          <th style="width:15%;border:2px solid #878787;padding:5px;text-align: center;font-size:0.875rem !important;color: #000000; font-family: 'Poppins', sans-serif;font-weight: 600;">
+            {{'CostAllocation' | translate}}
+          </th>
+          <th style="width:15%;border:2px solid #878787;padding:5px;text-align: center;font-size:0.875rem !important;color: #000000; font-family: 'Poppins', sans-serif;font-weight: 600;">
+            {{'CostSegCode' | translate}}
+          </th>
+          <th style="width:15%;border:2px solid #878787;padding:5px;text-align: center;font-size:0.875rem !important;color: #000000; font-family: 'Poppins', sans-serif;font-weight: 600;">
+            {{'Dr_Amount' | translate}}
+          </th>
+          <th style="width:15%;border:2px solid #878787;padding:5px;text-align: center;font-size:0.875rem !important;color: #000000; font-family: 'Poppins', sans-serif;font-weight: 600;">
+            {{'Cr_Amount' | translate}}
+          </th>
+        </tr>
+        <tr *ngFor="let item of printItem.itemList">
+          <td style=" border:2px solid #878787;padding:5px;text-align: center;font-size:0.675rem !important;color: #000000; font-family: 'Poppins', sans-serif;font-weight: 500;">
+            {{item.id}}
+          </td>
+          <td style=" border:2px solid #878787;padding:5px;text-align: center;font-size:0.675rem !important;color: #000000; font-family: 'Poppins', sans-serif;font-weight: 500;">
+            {{item.batch}}
+          </td>
+          <td style=" border:2px solid #878787;padding:5px;text-align: center;font-size:0.675rem !important;color: #000000; font-family: 'Poppins', sans-serif;font-weight: 500;">
+            {{item.batch2}}
+          </td>
+          <td style="border:2px solid #878787;padding:5px;text-align: center;font-size:0.875rem !important;color: #000000; font-family: 'Poppins', sans-serif;font-weight: 500;">
+            ({{item.finAcCode}})   {{item.description}}
+          </td>
+
+          <!--<td style=" border:2px solid #878787;padding:5px;text-align: left;font-size:0.675rem !important;color: #000000; font-family: 'Poppins', sans-serif;font-weight: 500;">
+            {{item.description}}
+          </td>-->
+          <td style="width:15%;border:2px solid #878787;padding:5px;text-align: center;font-size:0.675rem !important;color: #000000; font-family: 'Poppins', sans-serif;font-weight: 500;">
+
+            {{printItem.voucherType}}
+          </td>
+          <td style="width:15%;border:2px solid #878787;padding:5px;text-align: center;font-size:0.875rem !important;color: #000000; font-family: 'Poppins', sans-serif;font-weight: 500;">
+            {{item.remarks}}
+          </td>
+          <td style="width:15%;border:2px solid #878787;padding:5px;text-align: center;font-size:0.675rem !important;color: #000000; font-family: 'Poppins', sans-serif;font-weight: 500;">
+            {{item.costAllocationName}}
+          </td>
+          <td style="width:15%;border:2px solid #878787;padding:5px;text-align: center;font-size:0.675rem !important;color: #000000; font-family: 'Poppins', sans-serif;font-weight: 500;">
+            {{item.costSegCodeName}}
+          </td>
+          <td style="width:15%;border:2px solid #878787;padding:5px;text-align: right;font-size:0.875rem !important;color: #706f6f; font-family: 'Poppins', sans-serif;font-weight: 600;">
+            {{item.drAmount}}
+          </td>
+          <td style="width:15%;border:2px solid #878787;padding:5px;text-align: right;font-size:0.875rem !important;color: #706f6f; font-family: 'Poppins', sans-serif;font-weight: 600;">
+            {{item.crAmount}}
+          </td>
+        </tr>
+        <tr>
+          <td rowspan="2" colspan="8" style=" border:2px solid #878787;padding:5px;font-size:0.675rem !important;color: #000000; font-family: 'Poppins', sans-serif;font-weight: 500;">
+            <div style="text-align: right;font-size:0.875rem !important;color: #000000; font-family: 'Poppins', sans-serif;font-weight: 600;">   {{'Total_Amount' | translate}}:</div>
+
+          </td>
+        </tr>
+        <tr>
+          <td style=" border:2px solid #878787; padding:5px;text-align: right;font-size:0.975rem !important;color: #706f6f; font-family: 'Poppins', sans-serif;font-weight: 700;">
+            {{printItem.totalDrPayment}}
+          </td>
+          <td style=" border:2px solid #878787; padding:5px;text-align: right;font-size:0.975rem !important;color: #706f6f; font-family: 'Poppins', sans-serif;font-weight: 700;">
+            {{printItem.totalCrPayment}}
+          </td>
+
+        </tr>
+        <tr>
+
+          <td colspan="11" style=" border:2px solid #878787;padding:5px;text-align: left;font-size:0.875rem !important;color: #000000; font-family: 'Poppins', sans-serif;font-weight:700;">
+            {{printItem.totalPaymentText}}
+          </td>
+
+        </tr>
+      </table>
+      <div style="padding-top:5px">
+        <table style="width:100%;" border="0" cellpadding="0" cellspacing="0" width="100%">
+          <tr>
+            <td style="width:33%;height:70px;text-align: left;vertical-align: top;border:2px solid #878787;padding:5px; font-size:0.875rem !important;color: #000000; font-family: 'Poppins', sans-serif;font-weight: 500">
+              {{'Signature_Accountant' | translate}}:
+            </td>
+            <td style="text-align: left;vertical-align: top;border:2px solid #878787;border-left:0;padding:5px; font-size:0.875rem !important;color: #000000; font-family: 'Poppins', sans-serif;font-weight: 500 ">
+              {{'Signature_Approval_Authority' | translate}}:
+            </td>
+            <td style="width:33%;text-align: left;vertical-align: top;border:2px solid #878787;border-left:0;padding:5px;font-size:0.875rem !important;color: #000000; font-family: 'Poppins', sans-serif;font-weight: 500">
+              {{'Signature_Received_By' | translate}}:
+            </td>
+          </tr>
+        </table>
+      </div>
+
+
+
+    </div>
+  </div>
+
+
+</div>

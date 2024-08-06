@@ -1,0 +1,11 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<!--
+https://go.microsoft.com/fwlink/?LinkID=208121.
+-->
+<Project>
+  <PropertyGroup>
+    <_PublishTargetUrl>D:\Publish_ERPUI</_PublishTargetUrl>
+    <History>True|2023-09-05T14:02:55.7704891Z;True|2023-07-25T14:23:32.2008501+05:30;True|2023-07-24T14:23:46.3382817+05:30;True|2023-07-23T12:45:39.4596348+05:30;True|2023-07-17T19:10:40.8120701+05:30;True|2023-07-17T17:24:26.3661629+05:30;True|2023-07-13T13:44:19.2984090+05:30;False|2023-07-13T13:38:17.6036681+05:30;True|2023-07-05T13:42:15.3962052+05:30;True|2023-07-05T13:18:30.7538915+05:30;</History>
+    <LastFailureDetails />
+  </PropertyGroup>
+</Project>

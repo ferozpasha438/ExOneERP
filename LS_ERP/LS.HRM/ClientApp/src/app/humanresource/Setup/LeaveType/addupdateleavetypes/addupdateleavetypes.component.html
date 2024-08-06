@@ -1,0 +1,173 @@
+<div class="modal-header">
+  <h3 class="modal-title">{{modalTitle}}</h3>
+  <button type="button" class="close" aria-hidden="true" (click)="closeModel()"> ×</button>
+</div>
+<form [formGroup]="form" (ngSubmit)="submit()" novalidate class="mt-4">
+  <div class="row pl-5 pr-5">
+    <div class="col-md-6 col-lg-6">
+      <div class="form-group">
+        <label for="leaveTypeCode">{{'LeaveTypeCode' | translate}}</label>
+        <input class="form-control input-mandatory" id="leaveTypeCode" type="text"
+               placeholder="{{'Please_Enter' | translate}} {{'LeaveTypeCode' | translate}} " formControlName="leaveTypeCode" [readonly]="isReadOnly">
+        <validation-message [control]="form.controls.leaveTypeCode"></validation-message>
+      </div>
+    </div>
+
+    <div class="col-md-6 col-lg-6">
+      <div class="form-group">
+        <label for="LeaveTypeEn">{{'LeaveTypeEn' | translate}}</label>
+        <input class="form-control input-mandatory" id="LeaveTypeEn" type="text"
+               placeholder="{{'Please_Enter' | translate}} {{'LeaveTypeEn' | translate}}" formControlName="leaveTypeEn">
+        <validation-message [control]="form.controls.leaveTypeEn"></validation-message>
+      </div>
+    </div>
+
+    <div class="col-md-6 col-lg-6">
+      <div class="form-group">
+        <label for="LeaveTypeAr">{{'LeaveTypeAr' | translate}}</label>
+        <input class="form-control input-mandatory" id="LeaveTypeAr" type="text"
+               placeholder="{{'Please_Enter' | translate}} {{'LeaveTypeAr' | translate}}" formControlName="leaveTypeAr">
+      </div>
+    </div>
+
+    <div class="col-md-6 col-lg-6">
+      <div class="form-group">
+        <label>{{'TypeOfLeave' | translate}}</label>
+        <select class="custom-select mr-sm-2" formControlName="type" (change)="loadLeaveType($event)">
+          <option value="">{{'Select_Organization' | translate}}</option>
+          <option *ngFor="let item of leaveTypes" value="{{item.value}}">{{item.text}}</option>
+        </select>
+        <validation-message [control]="form.controls.type"></validation-message>
+      </div>
+    </div>
+
+    <div class="col-md-6 col-lg-6" *ngIf="isProRata">
+      <div class="form-group">
+        <label>{{'ProRataLeaves' | translate}}</label>
+        <input class="form-control input-mandatory" type="number"
+               placeholder="{{'Please_Enter' | translate}} {{'ProRataLeaves' | translate}}" formControlName="monthlyProRataLeaves">
+      </div>
+    </div>
+
+    <div class="col-md-6 col-lg-6">
+      <div class="form-group">
+        <label>{{'IsPaid' | translate}}</label>
+        <br />
+        <mat-slide-toggle color="primary" formControlName="isSalaryPaid" (change)="isPaidChecked($event)"></mat-slide-toggle>
+      </div>
+    </div>
+
+    <div class="col-md-6 col-lg-6" *ngIf="isPaid">
+      <div class="form-group">
+        <label>{{'PaidPercentage' | translate}}</label>
+        <input class="form-control input-mandatory" type="number"
+               placeholder="{{'Please_Enter' | translate}} {{'PaidPercentage' | translate}}" formControlName="salaryPercentage">
+      </div>
+    </div>
+
+    <div class="col-md-6 col-lg-6">
+      <div class="form-group">
+        <label>{{'Gender' | translate}}</label>
+        <select class="custom-select mr-sm-2" formControlName="gender">
+          <option value="">{{'Select_Gender' | translate}}</option>
+          <option *ngFor="let item of genders" value="{{item.value}}">{{item.text}}</option>
+        </select>
+        <validation-message [control]="form.controls.gender"></validation-message>
+      </div>
+    </div>
+
+    <div class="col-md-6 col-lg-6">
+      <div class="form-group">
+        <label for="Nationality">{{'Nationality' | translate}}</label>
+        <ng-select [items]="countries"
+                   bindLabel="text"
+                   bindValue="value" formControlName="nationalityId"></ng-select>
+          <validation-message [control]="form.controls.nationalityId"></validation-message>
+      </div>
+    </div>
+
+    <div class="col-md-6 col-lg-6">
+      <div class="form-group">
+        <label for="Maximum_Leaves_Per_Request">{{'MaximumLeavesPerRequest' | translate}}</label>
+        <input class="form-control input-mandatory" id="Maximum_Leaves_Per_Request" type="number"
+               placeholder="{{'Please_Enter' | translate}} {{'MaximumLeavesPerRequest' | translate}}" formControlName="maxLeaveDays">
+      </div>
+    </div>
+
+    <div class="col-md-6 col-lg-6">
+      <div class="form-group">
+        <label for="isActive">{{'IsUsedForVacation' | translate}}</label>
+        <br />
+        <mat-slide-toggle color="primary" formControlName="isUsedForVacation" (change)="isAccumulatedChecked($event)"></mat-slide-toggle>
+      </div>
+    </div>
+
+    <div class="col-md-6 col-lg-6" *ngIf="isAccumulated">
+      <div class="form-group">
+        <label for="MaxAccumulatedLeave">{{'MaxAccumulatedLeave' | translate}}</label>
+        <input class="form-control input-mandatory" id="MaxAccumulatedLeave" type="number"
+               placeholder="{{'Please_Enter' | translate}} {{'MaxAccumulatedLeave' | translate}}" formControlName="maxAccumulatedLeave">
+      </div>
+    </div>
+
+    <div class="col-md-6 col-lg-6">
+      <div class="form-group">
+        <label>{{'CarryForwardToNextYear ' | translate}}</label>
+        <br />
+        <mat-slide-toggle color="primary" formControlName="isCarryForward"></mat-slide-toggle>
+      </div>
+    </div>
+
+    <div class="col-md-6 col-lg-6">
+      <div class="form-group">
+        <label>{{'AttachmentRequired' | translate}}</label>
+        <br />
+        <mat-slide-toggle color="primary" formControlName="isDocumentRequired"></mat-slide-toggle>
+      </div>
+    </div>
+
+    <div class="col-md-6 col-lg-6">
+      <div class="form-group">
+        <label>{{'TravelRequired' | translate}}</label>
+        <br />
+        <mat-slide-toggle color="primary" formControlName="isTravelRequired"></mat-slide-toggle>
+      </div>
+    </div>
+
+    <div class="col-md-6 col-lg-6">
+      <div class="form-group">
+        <label>{{'ExitANDRe-EntryRequired' | translate}}</label>
+        <br />
+        <mat-slide-toggle color="primary" formControlName="isExitAndreEntryRequired"></mat-slide-toggle>
+      </div>
+    </div>
+
+    <div class="col-md-6 col-lg-6">
+      <div class="form-group">
+        <label>{{'LeaveEncashment' | translate}}</label>
+        <br />
+        <mat-slide-toggle color="primary" formControlName="isLeaveEncashment"></mat-slide-toggle>
+      </div>
+    </div>
+
+    <div class="col-md-6 col-lg-6">
+      <div class="form-group">
+        <label for="isActive">{{'Is_Active' | translate}}</label>
+        <br />
+        <mat-slide-toggle color="primary" formControlName="isActive"></mat-slide-toggle>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="row mt-3 ">
+    <div class="col-md-12 col-lg-12 text-center">
+      <input type="button"
+             class="btn waves-effect waves-light btn-rounded   btn-secondary btn-midblock"
+             value="{{'Cancel' | translate}}" (click)="closeModel()" /> &nbsp;
+      <input type="submit"
+             class="btn waves-effect waves-light btn-rounded btn-primary btn-midblock"
+             value="{{'Save' | translate}}" />
+    </div>
+  </div>
+</form>

@@ -1,0 +1,1418 @@
+<h3 class="modal-title">{{modalTitle | translate}}</h3>
+<button type="button" class="close" aria-hidden="true" (click)="closeModel()"> ×</button>
+<form [formGroup]="form" (ngSubmit)="submit()" novalidate class="mt-4">
+  <div class="modal-body">
+    <div class="outer ">
+      <div class="row rowm0 ">
+
+        <div class="col-md-12 col-lg-12">
+          <div class="row" hidden>
+          </div>
+          <div class="row mt-3">
+            <div class="col-md-12 col-lg-12">
+              <div class="p-3" style="border:1px solid #f4f4f4;">
+                <div class="row  mt-2">
+
+                  <div class="col-md-3 col-lg-3">
+                    <label class="mr-sm-2">{{'Customer_Code' | translate}}</label>
+                    <div class="form-group ">
+                      <div class="input-group mb-2">
+
+
+                        <input class="form-control" type="text"
+                               placeholder="{{'Please_Enter' | translate}} {{'Customer_Code' | translate}}" formControlName="customerCode" readonly>
+
+                      </div>
+
+                      <validation-message [control]="form.controls.customerCode"></validation-message>
+
+                    </div>
+
+                  </div>
+
+                  <div class="col-md-3 col-lg-3">
+                    <label class="mr-sm-2">{{'Project_Code' | translate}}</label>
+                    <div class="form-group ">
+                      <div class="input-group mb-2">
+
+
+                        <input class="form-control" type="text"
+                               placeholder="{{'Please_Enter' | translate}} {{'Project_Code' | translate}}" formControlName="projectCode" readonly>
+
+                      </div>
+
+                      <validation-message [control]="form.controls.projectCode"></validation-message>
+
+                    </div>
+
+                  </div>
+                  <div class="col-md-3 col-lg-3">
+                    <div class="form-group">
+                      <label>{{'Project_Start_Date' | translate}}</label>
+                      <input class="form-control" type="text"
+                             formControlName="startDate" readonly>
+                    </div>
+                  </div>
+                  <div class="col-md-3 col-lg-3">
+                    <div class="form-group">
+
+
+                      <label>{{'Project_End_Date' | translate}}</label>
+                      <input class="form-control" type="text"
+                             formControlName="endDate" readonly>
+                    </div>
+
+                  </div>
+                  <div class="col-md-3 col-lg-3">
+                    <div class="form-group ">
+                      <label class="mr-sm-2">{{'Site_Code' | translate}}</label>
+                      <select class="custom-select mr-sm-2" formControlName="siteCode" (change)="onSelectSiteCode($event)">
+                        <option value="">{{'Select' | translate}} {{'Site_Code' | translate}} </option>
+                        <option *ngFor="let site of siteCodeList" value="{{site.siteCode}}">{{site.siteCode}}({{ !isArab?site.siteName:site.siteArbName}})</option>
+                      </select>
+                      <validation-message [control]="form.controls.siteCode"></validation-message>
+                    </div>
+                  </div>
+                  <div class="col-md-3 col-lg-3">
+                    <div class="form-group ">
+                      <label class="mr-sm-2">{{'Time_Sheet_Month' | translate}}</label>
+                      <div class="form-group ">
+                        <div class="input-group mb-2">
+                          <input class="form-control datapickerinput" [matDatepicker]="dp2" [min]="minDate" [max]="maxDate" placeholder="{{'Select' | translate}} {{'Year_Month'}}" (click)="openDatePicker(dp2)" formControlName="monthYear">
+                          <mat-datepicker-toggle matSuffix [for]="dp2"></mat-datepicker-toggle>
+                          <mat-datepicker #dp2 startView="year" data-date-format="mm/yyyy" (monthSelected)="closeDatePicker($event,dp2)"></mat-datepicker>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <!--newTable start here-->
+
+  <div class="table-responsive" *ngIf="getRoasterReport()">
+    <span *ngIf="roasterReport.length!=0">
+      <auto-loader [isLoading]="isLoading"></auto-loader>
+    </span>
+    <table width="100%" id="excel_table">
+      <tr>
+        <td colspan="8" style="text-align:center;" id="bg_white">
+          {{ !isArab?project.projectNameEng:project.projectNameArb}}
+          <br />
+          {{ !isArab?getSiteData(siteCode)?.siteName:getSiteData(siteCode)?.siteArbName}}
+        </td>
+      </tr>
+      <tr>
+        <th class="baw">
+          {{'S.N' | translate}}
+        </th>
+        <th class="baw">
+          {{'Position' | translate}}
+        </th>
+        <th class="baw">
+          {{'Qty_Of_Manpower' | translate}}
+        </th>
+
+        <th class="baw">
+          {{'Daily_Hrs' | translate}}
+        </th>
+        <th class="baw">
+          {{'Monthly_Hrs' | translate}}
+        </th>
+        <th class="baw">
+          {{'Monthly_Shifts_Schedulled' | translate}}
+        </th>
+        <th class="baw">
+          {{'Monthly_Shifts_Assigned' | translate}}
+        </th>
+        <th class="baw">
+          {{'Offs' | translate}}
+        </th>
+  
+
+      </tr>
+      <tr *ngFor="let row of roasterReport;let i=index;">
+
+        <td class="baw">
+
+          {{i+1}}
+        </td>
+        <td class="baw">
+
+          {{ !isArab?getSkillset(row.skillsetCode).text:getSkillset(row.skillsetCode).textTwo}}
+        </td>
+        <td class="baw">
+          {{row.qty}}
+
+        </td>
+        <td class="baw">
+
+          {{row.qty*workingHoursInSite}}
+        </td>
+        <td class="baw">
+          {{(row.contractualShifts+row.offs)*workingHoursInSite}}
+        </td>
+        <td class="baw">
+          {{row.contractualShifts+row.offs}}
+
+        </td>
+        <td class="baw">
+          {{row.contractualShifts}}
+
+        </td>
+        <td class="baw">
+          {{row.offs}}
+
+        </td>
+
+
+
+
+
+      </tr>
+      <tr>
+
+        <td class="baw" colspan="2">
+          {{'Total'|translate}}
+
+        </td>
+
+        <td class="baw">
+          {{totRoastersReport?.qty}}
+
+        </td>
+        <td class="baw">
+          {{totRoastersReport?.qty*workingHoursInSite}}
+
+        </td>
+        <td class="baw">
+          {{((totRoastersReport?.contractualShifts+totRoastersReport?.offs)*workingHoursInSite)}}
+        </td>
+        <td class="baw">
+          {{totRoastersReport.contractualShifts+totRoastersReport.offs}}
+
+        </td>
+        <td class="baw">
+
+          {{totRoastersReport.contractualShifts}}
+        </td>
+        <td class="baw">
+
+          {{totRoastersReport.offs}}
+        </td>
+     
+
+
+
+      </tr>
+
+
+    </table>
+  </div>
+
+  <!--newTable end here-->
+
+
+  <div class="table-responsive" *ngIf="listOfRoasters.length!=0">
+
+    <table class="sambaAttendanceTable  table-bordered no-wrap" id="excel_table2">
+
+      <tr>
+        <td colspan="4" id="emptyCell">
+        </td>
+
+        <td *ngFor="let d2 of listOfDays; let l2 = index;" id="emptyCell">
+          <span *ngIf="l2==activeColumn" [matTooltip]="translateToolTip('Auto_Attendance')" (click)="confirmAutoAttendancePerDay(l2)" class="clickaction clickicons" style="font-size:smaller">
+            <i class="fas fa-sync-alt" style="resize:both"></i>
+          </span>
+
+        </td>
+
+
+      </tr>
+      <tr>
+        <th colspan="4" style="font-size:0.775rem !important;color: #000000; font-family: 'Poppins', sans-serif;font-weight:600;padding: 2px"> {{selectedMonth}}</th>
+
+        <th *ngFor="let item of listOfDays; let i = index;" style="font-size:0.775rem !important;color: #000000; font-family: 'Poppins', sans-serif;font-weight:600;padding: 2px">{{i+1}}</th>
+        <th style="font-size:0.675rem !important;color: #000000; font-family: 'Poppins', sans-serif;font-weight:600;padding: 2px;background-color:lightgreen">
+          عدد أيام العمل الفعلية
+        </th>
+        <th width="2%" style="font-size:0.675rem !important;color: #000000; font-family: 'Poppins', sans-serif;font-weight:600;padding: 2px;background-color:lightgreen">
+          عدد ساعات العمل الفعلية
+        </th>
+        <th style="font-size: 0.675rem !important; color: #000000; font-family: 'Poppins', sans-serif; font-weight: 600; padding: 2px; background-color: lightgreen">
+          أيام العطلة الأسبوعية
+        </th>
+        <th style="font-size: 0.675rem !important; color: #000000; font-family: 'Poppins', sans-serif; font-weight: 600; padding: 2px; background-color: lightgreen">
+          اجازة سنوية
+        </th>
+        <th style="font-size: 0.675rem !important; color: #000000; font-family: 'Poppins', sans-serif; font-weight: 600; padding: 2px; background-color: lightgreen">
+          إجازة خاصة/طارئة
+        </th>
+        <th style="font-size: 0.675rem !important; color: #000000; font-family: 'Poppins', sans-serif; font-weight: 600; padding: 2px; background-color: lightgreen">
+          اجازة غير مدفوعه
+        </th>
+
+        <th style="font-size: 0.675rem !important; color: #000000; font-family: 'Poppins', sans-serif; font-weight: 600; padding: 2px; background-color: lightgreen">
+          اجازة مرضية
+        </th>
+        <th style="font-size: 0.675rem !important; color: #000000; font-family: 'Poppins', sans-serif; font-weight: 600; padding: 2px; background-color: lightgreen">
+          إجازة اختبارات
+        </th>
+        <th style="font-size: 0.675rem !important; color: #000000; font-family: 'Poppins', sans-serif; font-weight: 600; padding: 2px; background-color: lightgreen">
+          غياب
+        </th>
+        <th style="font-size: 0.675rem !important; color: #000000; font-family: 'Poppins', sans-serif; font-weight: 600; padding: 2px; background-color: lightgreen">
+          انسحاب
+        </th>
+
+
+        <th style="font-size: 0.675rem !important; color: #000000; font-family: 'Poppins', sans-serif; font-weight: 600; padding: 2px; background-color:red">
+          جزاءات
+        </th>
+
+
+        <th style="font-size:0.675rem !important;color: #000000; font-family: 'Poppins', sans-serif;font-weight:600;padding: 2px ;background-color:red">
+          عدد ساعات التاخير
+        </th>
+        <th style="font-size: 0.675rem !important; color: #000000; font-family: 'Poppins', sans-serif; font-weight: 600; padding: 2px; background-color: #c0d5fa">
+          وقت اضافى
+        </th>
+
+      </tr>
+      <tr>
+        <th colspan="2" style="font-size:0.775rem !important;color: #000000; font-family: 'Poppins', sans-serif;font-weight:600;padding: 2px">
+          {{'Employee' | translate}}
+        </th>
+        <th colspan="2" style="font-size:0.775rem !important;color: #000000; font-family: 'Poppins', sans-serif;font-weight:600;padding: 2px">
+          {{'Position' | translate}} & {{'Default_Shift' | translate}}
+        </th>
+
+        <th *ngFor="let items of listOfDays; let j = index;" style="font-size:0.775rem !important;color: #000000; font-family: 'Poppins', sans-serif;font-weight:600;padding: 2px">
+          {{items.dayText}}
+
+        </th>
+        <th style="font-size: 0.675rem !important; color: #000000; font-family: 'Poppins', sans-serif; font-weight: 600; padding: 2px; background-color: lightgreen">
+          W D C
+        </th>
+        <th style="font-size: 0.675rem !important; color: #000000; font-family: 'Poppins', sans-serif; font-weight: 600; padding: 2px; background-color: lightgreen">
+          Nor. Hrs
+        </th>
+        <th style="font-size: 0.675rem !important; color: #000000; font-family: 'Poppins', sans-serif; font-weight: 600; padding: 2px; background-color: lightgreen">
+          OF
+        </th>
+        <th style="font-size: 0.675rem !important; color: #000000; font-family: 'Poppins', sans-serif; font-weight: 600; padding: 2px; background-color: lightgreen">
+          AL
+        </th>
+        <th style="font-size: 0.675rem !important; color: #000000; font-family: 'Poppins', sans-serif; font-weight: 600; padding: 2px; background-color: lightgreen">
+          EL
+        </th>
+        <th style="font-size: 0.675rem !important; color: #000000; font-family: 'Poppins', sans-serif; font-weight: 600; padding: 2px; background-color: lightgreen">
+          UL
+        </th>
+
+        <th style="font-size: 0.675rem !important; color: #000000; font-family: 'Poppins', sans-serif; font-weight: 600; padding: 2px; background-color: lightgreen">
+          SL
+        </th>
+        <th style="font-size: 0.675rem !important; color: #000000; font-family: 'Poppins', sans-serif; font-weight: 600; padding: 2px; background-color: lightgreen">
+          STL
+        </th>
+        <th style="font-size: 0.675rem !important; color: #000000; font-family: 'Poppins', sans-serif; font-weight: 600; padding: 2px; background-color: lightgreen">
+          A
+        </th>
+        <th style="font-size: 0.675rem !important; color: #000000; font-family: 'Poppins', sans-serif; font-weight: 600; padding: 2px; background-color: lightgreen">
+          W
+        </th>
+        <th style="font-size:0.675rem !important;color: #000000; font-family: 'Poppins', sans-serif;font-weight:600;padding: 2px; background-color:red">
+          Penalty
+        </th>
+        <th style="font-size: 0.675rem !important; color: #000000; font-family: 'Poppins', sans-serif; font-weight: 600; padding: 2px; background-color: red">
+          Late Hours
+        </th>
+        <th style="font-size: 0.675rem !important; color: #000000; font-family: 'Poppins', sans-serif; font-weight: 600; padding: 2px; background-color: #c0d5fa">
+          OT
+        </th>
+
+
+        <!--<th style="font-size:0.675rem !important;color: #000000; font-family: 'Poppins', sans-serif;font-weight:600;padding: 2px">
+          W
+        </th>-->
+
+
+      </tr>
+
+      <tbody style="font-size: 0.675rem !important; color: #000000; font-family: 'Poppins', sans-serif; font-weight: 300; text-align: center">
+
+        <tr *ngFor="let rst of listOfRoasters; let k = index;">
+          <td style="padding: 3px; text-align: left">
+
+            {{rst.employeeNumber}}
+          </td>
+          <td style="padding: 3px; text-align: left">
+
+            {{ !isArab?getEmployee(rst.employeeNumber)?.text:getEmployee(rst.employeeNumber)?.textTwo}}
+
+          </td>
+          <td style="padding: 3px; text-align: left">
+            <!--{{rst.skillsetCode}}/-->
+            {{ !isArab?getSkillset(rst.skillsetCode)?.text:getSkillset(rst.skillsetCode).textTwo}}
+
+
+
+          </td>
+          <!--<td style="padding: 3px; text-align: right">
+
+            {{getSkillset(rst.skillsetCode).textTwo}}
+
+
+
+          </td>-->
+          <td style="padding: 5px;" id={{getDefShiftBackGround(k)}}>
+            <span *ngIf="attendanceData?.length==listOfRoasters.length && listOfRoasters.length!=0">
+              <span *ngIf="attendanceData[attendanceData.length-1]?.length==noOfDays">
+                {{ !isArab? getDefShiftTypeName(k)?.nameEn:getDefShiftTypeName(k)?.nameAr}}
+
+              </span>
+            </span>
+
+
+
+
+          </td>
+
+
+          <td *ngFor="let d of listOfDays; let l = index;" (click)="manualAttendance(k,l)" (contextmenu)="onRightClick(k,l)" style="padding: 2px; text-align: center;" id={{getCellBackGroud(k,l)}}>
+
+
+
+            {{getAttendanceCellData(k,l)}}
+
+
+
+          </td>
+          <td style="background-color:cornsilk">
+            <span *ngIf="attendanceData?.length==listOfRoasters.length && listOfRoasters.length!=0">
+              <span *ngIf="attendanceData[listOfRoasters.length - 1].length == noOfDays">
+                <span hidden> {{showTime(EmployeeWiseShiftCount(k).total,employeeConsolidateData[k]?.totMins)}}</span>
+                {{employeeConsolidateData[k]?.nwd}}
+              </span>
+            </span>
+          </td>
+          <td style="background-color:cornsilk">
+            <span *ngIf="attendanceData?.length==listOfRoasters.length && listOfRoasters.length!=0">
+              <span *ngIf="attendanceData[listOfRoasters.length - 1].length == noOfDays">
+                {{employeeConsolidateData[k]?.nwd*workingHoursInSite}}
+              </span>
+            </span>
+          </td>
+
+          <td style="background-color:cornsilk">
+            <span *ngIf="attendanceData?.length==listOfRoasters.length && listOfRoasters.length!=0">
+              <span *ngIf="attendanceData[listOfRoasters.length - 1].length == noOfDays">
+                {{employeeConsolidateData[k]?.off}}
+              </span>
+            </span>
+          </td>
+          <td style="background-color:cornsilk">
+            <span *ngIf="attendanceData?.length==listOfRoasters.length && listOfRoasters.length!=0">
+              <span *ngIf="attendanceData[listOfRoasters.length - 1].length == noOfDays">
+                {{employeeConsolidateData[k]?.al_count}}
+              </span>
+            </span>
+          </td>
+          <td style="background-color:cornsilk">
+            <span *ngIf="attendanceData?.length==listOfRoasters.length && listOfRoasters.length!=0">
+              <span *ngIf="attendanceData[listOfRoasters.length - 1].length == noOfDays">
+                {{employeeConsolidateData[k]?.el_count}}
+              </span>
+            </span>
+          </td>
+          <td style="background-color:cornsilk">
+            <span *ngIf="attendanceData?.length==listOfRoasters.length && listOfRoasters.length!=0">
+              <span *ngIf="attendanceData[listOfRoasters.length - 1].length == noOfDays">
+                {{employeeConsolidateData[k]?.ul_count}}
+              </span>
+            </span>
+          </td>
+
+          <td style="background-color:cornsilk">
+            <span *ngIf="attendanceData?.length==listOfRoasters.length && listOfRoasters.length!=0">
+              <span *ngIf="attendanceData[listOfRoasters.length - 1].length == noOfDays">
+                {{employeeConsolidateData[k]?.sl_count}}
+              </span>
+            </span>
+          </td>
+          <td style="background-color:cornsilk">
+            <span *ngIf="attendanceData?.length==listOfRoasters.length && listOfRoasters.length!=0">
+              <span *ngIf="attendanceData[listOfRoasters.length - 1].length == noOfDays">
+                {{employeeConsolidateData[k]?.stl_count}}
+              </span>
+            </span>
+          </td>
+
+          <td style="background-color:cornsilk">
+            <span *ngIf="attendanceData?.length==listOfRoasters.length && listOfRoasters.length!=0">
+              <span *ngIf="attendanceData[listOfRoasters.length - 1].length == noOfDays">
+                {{employeeConsolidateData[k]?.a}}
+              </span>
+            </span>
+          </td>
+
+          <td style="background-color:cornsilk">
+            <span *ngIf="attendanceData?.length==listOfRoasters.length && listOfRoasters.length!=0">
+              <span *ngIf="attendanceData[listOfRoasters.length - 1].length == noOfDays">
+                {{employeeConsolidateData[k]?.w_count}}
+              </span>
+            </span>
+          </td>
+          <!--<td *ngIf="!attendanceData[k][0]?.isPrimarySite" style="background-color:cornsilk">-</td>-->
+          <!--<td *ngIf="attendanceData[k][0]?.isPrimarySite" style="background-color:cornsilk">
+            <span *ngIf="attendanceData?.length==listOfRoasters.length && listOfRoasters.length!=0">
+              <span *ngIf="attendanceData[listOfRoasters.length - 1].length == noOfDays">
+
+                {{employeeConsolidateData[k]?.wd}}
+              </span>
+            </span>
+          </td>-->
+          <!--<td *ngIf="!attendanceData[k][0]?.isPrimarySite" style="background-color:cornsilk">-</td>-->
+          <!--<td style="background-color:cornsilk">
+            <span *ngIf="attendanceData?.length==listOfRoasters.length && listOfRoasters.length!=0">
+              <span *ngIf="attendanceData[listOfRoasters.length - 1].length == noOfDays">
+                {{employeeConsolidateData[k]?.nwd}}
+              </span>
+            </span>
+          </td>
+
+
+          <td *ngIf="attendanceData[k][0]?.isPrimarySite" style="background-color:cornsilk">
+            <span *ngIf="attendanceData?.length==listOfRoasters.length && listOfRoasters.length!=0">
+              <span *ngIf="attendanceData[listOfRoasters.length - 1].length == noOfDays">
+                {{employeeConsolidateData[k]?.wh}}
+              </span>
+            </span>
+
+          </td>
+          <td *ngIf="!attendanceData[k][0]?.isPrimarySite" style="background-color:cornsilk">-</td>
+
+          <td style="background-color:cornsilk">
+            <span *ngIf="attendanceData?.length==listOfRoasters.length && listOfRoasters.length!=0">
+              <span *ngIf="attendanceData[listOfRoasters.length - 1].length == noOfDays">
+                {{employeeConsolidateData[k]?.lateDays}}
+              </span>
+            </span>
+          </td>-->
+
+          <td style="background-color:cornsilk">
+            <span *ngIf="attendanceData?.length==listOfRoasters.length && listOfRoasters.length!=0">
+              <span *ngIf="attendanceData[listOfRoasters.length - 1].length == noOfDays">
+                {{employeeConsolidateData[k]?.penalty}}
+              </span>
+            </span>
+          </td>
+
+
+          <td style="background-color:cornsilk">
+            <span *ngIf="attendanceData?.length==listOfRoasters.length && listOfRoasters.length!=0">
+              <span *ngIf="attendanceData[listOfRoasters.length - 1].length == noOfDays">
+                <!--{{employeeConsolidateData[k]?.lateHrs}}.{{employeeConsolidateData[k]?.lateMins}}-->
+                {{showTime(employeeConsolidateData[k]?.lateHrs,employeeConsolidateData[k]?.lateMins)}}
+              </span>
+            </span>
+          </td>
+          <td style="background-color:cornsilk">
+            <span *ngIf="attendanceData?.length==listOfRoasters.length && listOfRoasters.length!=0">
+              <span *ngIf="attendanceData[listOfRoasters.length - 1].length == noOfDays">
+
+
+
+                <!--{{employeeConsolidateData[k]?.overTime}}.{{employeeConsolidateData[k]?.overTimeMins}}-->
+                {{showTime(employeeConsolidateData[k]?.overTime,employeeConsolidateData[k]?.overTimeMins)}}
+
+              </span>
+            </span>
+          </td>
+
+
+
+
+
+
+        </tr>
+
+        <tr>
+          <td colspan="4" style="text-align: right; font-size: 0.675rem !important; color: #000000; font-family: 'Poppins', sans-serif; font-weight: 600; padding: 2px">
+
+            {{'Total'|translate}}
+
+          </td>
+          <td *ngFor="let d of listOfDays; let l = index;" style="background-color: #e8eef3"></td>
+          <td style="background-color:lightgray">
+            <span *ngIf="attendanceData?.length==listOfRoasters.length && listOfRoasters.length!=0">
+              <span *ngIf="attendanceData[listOfRoasters.length - 1].length == noOfDays">
+                {{Totals()?.nwd}}
+              </span>
+            </span>
+
+          </td>
+          <td style="background-color:lightgray">
+            <span *ngIf="attendanceData?.length==listOfRoasters.length && listOfRoasters.length!=0">
+              <span *ngIf="attendanceData[listOfRoasters.length - 1].length == noOfDays">
+                {{Totals()?.nwd*workingHoursInSite}}
+              </span>
+            </span>
+
+          </td>
+          <td style="background-color: lightgray">
+            <span *ngIf="attendanceData?.length==listOfRoasters.length && listOfRoasters.length!=0">
+              <span *ngIf="attendanceData[attendanceData.length-1]?.length==noOfDays">
+                {{Totals()?.offs}}
+              </span>
+            </span>
+
+          </td>
+          <td style="background-color: lightgray">
+            <span *ngIf="attendanceData?.length==listOfRoasters.length && listOfRoasters.length!=0">
+              <span *ngIf="attendanceData[attendanceData.length-1]?.length==noOfDays">
+                {{Totals()?.al_count}}
+              </span>
+            </span>
+          </td>
+          <td style="background-color: lightgray">
+            <span *ngIf="attendanceData?.length==listOfRoasters.length && listOfRoasters.length!=0">
+              <span *ngIf="attendanceData[attendanceData.length-1]?.length==noOfDays">
+                {{Totals()?.el_count}}
+              </span>
+            </span>
+          </td>
+          <td style="background-color: lightgray">
+            <span *ngIf="attendanceData?.length==listOfRoasters.length && listOfRoasters.length!=0">
+              <span *ngIf="attendanceData[attendanceData.length-1]?.length==noOfDays">
+                {{Totals()?.ul_count}}
+              </span>
+            </span>
+          </td>
+
+          <td style="background-color: lightgray">
+            <span *ngIf="attendanceData?.length==listOfRoasters.length && listOfRoasters.length!=0">
+              <span *ngIf="attendanceData[attendanceData.length-1]?.length==noOfDays">
+                {{Totals()?.sl_count}}
+              </span>
+            </span>
+          </td>
+          <td style="background-color: lightgray">
+            <span *ngIf="attendanceData?.length==listOfRoasters.length && listOfRoasters.length!=0">
+              <span *ngIf="attendanceData[attendanceData.length-1]?.length==noOfDays">
+                {{Totals()?.stl_count}}
+              </span>
+            </span>
+          </td>
+
+          <td style="background-color: lightgray">
+            <span *ngIf="attendanceData?.length==listOfRoasters.length && listOfRoasters.length!=0">
+              <span *ngIf="attendanceData[attendanceData.length-1]?.length==noOfDays">
+                {{Totals()?.a}}
+              </span>
+            </span>
+          </td>
+          <td style="background-color: lightgray">
+            <span *ngIf="attendanceData?.length==listOfRoasters.length && listOfRoasters.length!=0">
+              <span *ngIf="attendanceData[attendanceData.length-1]?.length==noOfDays">
+                {{Totals()?.w_count}}
+              </span>
+            </span>
+          </td>
+          <td style="background-color: lightgray">
+            <span *ngIf="attendanceData?.length==listOfRoasters.length && listOfRoasters.length!=0">
+              <span *ngIf="attendanceData[attendanceData.length-1]?.length==noOfDays">
+                {{Totals()?.penalty}}
+              </span>
+            </span>
+          </td>
+
+
+          <td style="background-color: lightgray">
+            <span *ngIf="attendanceData?.length==listOfRoasters.length && listOfRoasters.length!=0">
+              <span *ngIf="attendanceData[attendanceData.length-1]?.length==noOfDays">
+                {{showTime(Totals()?.lateHrs,Totals()?.lateMins)}}
+              </span>
+            </span>
+          </td>
+          <td style="background-color: lightgray">
+            <span *ngIf="attendanceData?.length==listOfRoasters.length && listOfRoasters.length!=0">
+              <span *ngIf="attendanceData[attendanceData.length-1]?.length==noOfDays">
+
+                <!--{{Totals()?.overTime}}.{{Totals()?.overTimeMins}}-->
+                {{showTime(Totals()?.overTime,Totals()?.overTimeMins)}}
+              </span>
+            </span>
+          </td>
+
+
+        </tr>
+
+
+        <tr>
+          <td colspan="4" style=" background-color:yellow;text-align: right; font-size: 0.675rem !important; color: #000000; font-family: 'Poppins' , sans-serif; font-weight: 600; padding: 2px">
+
+            {{'Total_Contracted_Hours'|translate}}
+
+          </td>
+          <td *ngFor="let d of listOfDays; let l = index;" style="background-color:yellow">
+            <!--<span *ngIf="attendanceData?.length==listOfRoasters.length && listOfRoasters.length!=0">
+              <span *ngIf="attendanceData[listOfRoasters.length - 1].length == noOfDays">
+                <span *ngIf="daywiseConsolidateData.length>=l+1">-->
+            <!--{{daywiseConsolidateData[l]?.tch}}-->
+            {{DayWiseShiftCount(l).tch}}
+            <!--</span>
+              </span>
+            </span>-->
+          </td>
+          <td style="background-color: yellow">
+            <span *ngIf="attendanceData?.length==listOfRoasters.length && listOfRoasters.length!=0">
+              <span *ngIf="attendanceData[attendanceData.length-1]?.length==noOfDays">
+                {{Totals()?.contractualShifts*workingHoursInSite}}
+              </span>
+            </span>
+          </td>
+          <td style="background-color: white">
+          </td>
+          <td style="background-color: white">
+          </td>
+          <td style="background-color: white">
+          </td>
+          <td style="background-color: white">
+          </td>
+          <td style="background-color: white">
+          </td>
+          <td style="background-color: white">
+          </td>
+          <td style="background-color: white">
+          </td>
+          <td style="background-color: white">
+          </td>
+          <td style="background-color: white">
+          </td>
+          <td style="background-color: white">
+          </td>
+          <td style="background-color: white">
+          </td>
+          <td style="background-color: white">
+          </td>
+        </tr>
+
+        <tr>
+          <td colspan="4" style="text-align: right; font-size: 0.675rem !important; color: #000000; font-family: 'Poppins', sans-serif; font-weight: 600; padding: 2px">
+
+            {{'Total_Contracted_Shifts'|translate}}
+
+          </td>
+          <td *ngFor="let d of listOfDays; let l = index;" style="background-color:cornsilk">
+
+            <!--<span *ngIf="attendanceData?.length==listOfRoasters.length && listOfRoasters.length!=0">
+              <span *ngIf="attendanceData[attendanceData.length-1]?.length==noOfDays">
+                <span *ngIf="daywiseConsolidateData.length>=l+1">-->
+            {{daywiseConsolidateData[l]?.tcs}}
+            <!--</span>
+              </span>
+            </span>-->
+          </td>
+          <td style="background-color: cornsilk">
+            <span *ngIf="attendanceData?.length==listOfRoasters.length && listOfRoasters.length!=0">
+              <span *ngIf="attendanceData[attendanceData.length-1]?.length==noOfDays">
+                {{Totals()?.contractualShifts}}
+              </span>
+            </span>
+          </td>
+          <td style="background-color: white">
+          </td>
+          <td style="background-color: white">
+          </td>
+          <td style="background-color: white">
+          </td>
+          <td style="background-color: white">
+          </td>
+          <td style="background-color: white">
+          </td>
+          <td style="background-color: white">
+          </td>
+          <td style="background-color: white">
+          </td>
+          <td style="background-color: white">
+          </td>
+          <td style="background-color: white">
+          </td>
+          <td style="background-color: white">
+          </td>
+          <td style="background-color: white">
+          </td>
+          <td style="background-color: white">
+          </td>
+        </tr>
+
+
+
+        <tr>
+          <td colspan="4" style="background-color: yellow;text-align: right; font-size: 0.675rem !important; color: #000000; font-family: 'Poppins', sans-serif; font-weight: 600; padding: 2px">
+
+            {{'Actual_Hours'|translate}}
+
+          </td>
+          <td *ngFor="let d of listOfDays; let l = index;" style="background-color: yellow">
+            <!--<span *ngIf="attendanceData?.length==listOfRoasters.length && listOfRoasters.length!=0">
+              <span *ngIf="attendanceData[listOfRoasters.length - 1].length == noOfDays">-->
+            {{showTime(DayWiseShiftCount(l)?.hours,DayWiseShiftCount(l)?.mins)}}
+            <!--</span>
+            </span>-->
+          </td>
+          <td style="background-color: yellow">
+
+            <span *ngIf="attendanceData?.length==listOfRoasters.length && listOfRoasters.length!=0">
+              <span *ngIf="attendanceData[listOfRoasters.length - 1].length == noOfDays">
+                {{showTime(Totals()?.total,Totals()?.totMins)}}
+              </span>
+            </span>
+          </td>
+          <td style="background-color: white">
+          </td>
+          <td style="background-color: white">
+          </td>
+          <td style="background-color: white">
+          </td>
+          <td style="background-color: white">
+          </td>
+          <td style="background-color: white">
+          </td>
+          <td style="background-color: white">
+          </td>
+          <td style="background-color: white">
+          </td>
+          <td style="background-color: white">
+          </td>
+          <td style="background-color: white">
+          </td>
+          <td style="background-color: white">
+          </td>
+          <td style="background-color: white">
+          </td>
+          <td style="background-color: white">
+          </td>
+        </tr>
+
+
+        <tr>
+          <td colspan="4" style="text-align: right; font-size: 0.675rem !important; color: #000000; font-family: 'Poppins', sans-serif; font-weight: 600; padding: 2px">
+
+            {{'Actual_Shifts'|translate}}
+
+          </td>
+          <td *ngFor="let d of listOfDays; let l = index;" style="background-color:cornsilk">
+            <!--<span *ngIf="attendanceData?.length==listOfRoasters.length && listOfRoasters.length!=0">
+              <span *ngIf="attendanceData[attendanceData.length-1]?.length==noOfDays">-->
+            {{daywiseConsolidateData[l]?.taws}}
+            <!--</span>
+            </span>-->
+
+          </td>
+          <td style="background-color: cornsilk">
+            <span *ngIf="attendanceData?.length==listOfRoasters.length">
+              <span *ngIf="attendanceData[attendanceData.length-1]?.length==noOfDays">
+                {{Totals()?.actualShifts}}
+              </span>
+            </span>
+
+          </td>
+          <td style="background-color: white">
+          </td>
+          <td style="background-color: white">
+          </td>
+          <td style="background-color: white">
+          </td>
+          <td style="background-color: white">
+          </td>
+          <td style="background-color: white">
+          </td>
+          <td style="background-color: white">
+          </td>
+          <td style="background-color: white">
+          </td>
+          <td style="background-color: white">
+          </td>
+          <td style="background-color: white">
+          </td>
+          <td style="background-color: white">
+          </td>
+          <td style="background-color: white">
+          </td>
+          <td style="background-color: white">
+          </td>
+        </tr>
+
+
+        <tr>
+          <td colspan="4" style="background-color:sandybrown;text-align: right; font-size: 0.675rem !important; color: #000000; font-family: 'Poppins', sans-serif; font-weight: 600; padding: 2px">
+
+            {{'Variance_of_Shifts'|translate}}
+
+          </td>
+          <td *ngFor="let d of listOfDays; let l = index;" style="background-color: sandybrown">
+            <!--<span *ngIf="attendanceData?.length==listOfRoasters.length && listOfRoasters.length!=0">
+              <span *ngIf="attendanceData[attendanceData.length-1]?.length==noOfDays">
+                <span *ngIf="daywiseConsolidateData.length>=l+1">-->
+            {{daywiseConsolidateData[l]?.varInShift}}
+            <!--</span>
+              </span>
+            </span>-->
+          </td>
+          <td style="background-color: sandybrown">
+            <span *ngIf="attendanceData?.length==listOfRoasters.length && listOfRoasters.length!=0">
+              <span *ngIf="attendanceData[attendanceData.length-1]?.length==noOfDays">
+                {{Totals()?.varInShifts}}
+              </span>
+            </span>
+
+          </td>
+          <td style="background-color: white">
+          </td>
+          <td style="background-color: white">
+          </td>
+          <td style="background-color: white">
+          </td>
+          <td style="background-color: white">
+          </td>
+          <td style="background-color: white">
+          </td>
+          <td style="background-color: white">
+          </td>
+          <td style="background-color: white">
+          </td>
+          <td style="background-color: white">
+          </td>
+          <td style="background-color: white">
+          </td>
+          <td style="background-color: white">
+          </td>
+          <td style="background-color: white">
+          </td>
+          <td style="background-color: white">
+          </td>
+        </tr>
+
+
+
+
+
+
+
+
+
+
+
+
+
+      </tbody>
+    </table>
+
+  </div>
+
+
+
+  <div *ngIf="listOfRoasters.length!=0">
+    <div class="col-md-12 col-lg-12" style="padding:5px;align-items:center">
+      <div class="row mt-1">
+        <div class="col-md-5 col-lg-5" style="padding-right:5px">
+          <table style="width:100%;background-color:white" border="1" cellpadding="0" cellspacing="0" id="excel_table3">
+
+
+            <tr>
+              <td style="width:75%;text-align:left; border:1px solid #878787;padding:2px;font-size:0.875rem !important;color: #000000; font-family: 'Poppins', sans-serif;font-weight:600; background-color:white">
+
+                {{'Contracted_Shifts'|translate}}
+              </td>
+
+              <td style="border:1px solid #878787;padding:2px;font-size:0.875rem !important;color: #000000; font-family: 'Poppins', sans-serif;font-weight:500; background-color:white">
+                <span *ngIf="attendanceData?.length==listOfRoasters.length && listOfRoasters.length!=0">
+                  <span *ngIf="attendanceData[attendanceData.length-1]?.length==noOfDays">
+                    {{Totals()?.contractualShifts}}
+                  </span>
+                </span>
+              </td>
+
+            </tr>
+            <tr>
+              <td style="width:75%;text-align:left; border:1px solid #878787;padding:2px;font-size:0.875rem !important;color: #000000; font-family: 'Poppins', sans-serif;font-weight:600; background-color:white">
+
+                {{'Contracted_Hours'|translate}}
+              </td>
+
+              <td style="border:1px solid #878787;padding:2px;font-size:0.875rem !important;color: #000000; font-family: 'Poppins', sans-serif;font-weight:500; background-color:white">
+                <span *ngIf="attendanceData?.length==listOfRoasters.length && listOfRoasters.length!=0">
+                  <span *ngIf="attendanceData[attendanceData.length-1]?.length==noOfDays">
+                    {{Totals()?.contractualShifts*workingHoursInSite}}
+                  </span>
+                </span>
+              </td>
+
+            </tr>
+
+            <tr>
+              <td style="width: 75%; text-align: left; border: 1px solid #878787; padding: 2px; font-size: 0.875rem !important; color: #000000; font-family: 'Poppins', sans-serif; font-weight: 600; background-color: white ">
+
+                {{'Actual_Shifts'|translate}}({{'With_Overtime'|translate}})
+              </td>
+              <td style="border:1px solid #878787;padding:2px;font-size:0.875rem !important;color: #000000; font-family: 'Poppins', sans-serif;font-weight:500; background-color:white">
+                <span *ngIf="attendanceData?.length==listOfRoasters.length && listOfRoasters.length!=0">
+                  <span *ngIf="attendanceData[attendanceData.length-1]?.length==noOfDays">
+                    <!--{{Totals()?.actualShifts}}-->
+                    {{convertTimeToShifts(Totals()?.tAWOt.hrs,Totals()?.tAWOt.mins,workingHoursInSite)}}
+                  </span>
+                </span>
+              </td>
+
+            </tr>
+            <tr>
+              <td style="width: 75%; text-align: left; border: 1px solid #878787; padding: 2px; font-size: 0.875rem !important; color: #000000; font-family: 'Poppins', sans-serif; font-weight: 600; background-color: white ">
+
+                {{'Actual_Hours'|translate}}({{'With_Overtime'|translate}})
+              </td>
+              <td style="border:1px solid #878787;padding:2px;font-size:0.875rem !important;color: #000000; font-family: 'Poppins', sans-serif;font-weight:500; background-color:white">
+                <span *ngIf="attendanceData?.length==listOfRoasters.length && listOfRoasters.length!=0">
+                  <span *ngIf="attendanceData[attendanceData.length-1]?.length==noOfDays">
+                    <!--{{showTime(Totals()?.total,Totals()?.totMins)}}-->
+                    {{showTime(Totals()?.tAWOt.hrs,Totals()?.tAWOt.mins)}}
+
+
+                  </span>
+                </span>
+              </td>
+
+            </tr>
+            <tr>
+              <td style="width: 75%; text-align: left; border: 1px solid #878787; padding: 2px; font-size: 0.875rem !important; color: #000000; font-family: 'Poppins', sans-serif; font-weight: 600; background-color: white ">
+
+                {{'Actual_Shifts'|translate}}({{'Without_Overtime'|translate}})
+              </td>
+              <td style="border:1px solid #878787;padding:2px;font-size:0.875rem !important;color: #000000; font-family: 'Poppins', sans-serif;font-weight:500; background-color:white">
+                <span *ngIf="attendanceData?.length==listOfRoasters.length && listOfRoasters.length!=0">
+                  <span *ngIf="attendanceData[attendanceData.length-1]?.length==noOfDays">
+                    <!--{{Totals()?.actualShifts-Totals()?.ot_count}}-->
+                    <!--{{Totals()?.actualShifts}}-->
+                    {{convertTimeToShifts(Totals()?.total,Totals()?.totMins,workingHoursInSite)}}
+                  </span>
+                </span>
+              </td>
+
+            </tr>
+            <tr>
+              <td style="width: 75%; text-align: left; border: 1px solid #878787; padding: 2px; font-size: 0.875rem !important; color: #000000; font-family: 'Poppins', sans-serif; font-weight: 600; background-color: white ">
+
+                {{'Actual_Hours'|translate}}({{'Without_Overtime'|translate}})
+              </td>
+              <td style="border:1px solid #878787;padding:2px;font-size:0.875rem !important;color: #000000; font-family: 'Poppins', sans-serif;font-weight:500; background-color:white">
+                <span *ngIf="attendanceData?.length==listOfRoasters.length && listOfRoasters.length!=0">
+                  <span *ngIf="attendanceData[attendanceData.length-1]?.length==noOfDays">
+                    <!--{{showTime(Totals()?.tawhWoOt,Totals()?.tawmWoOt)}}-->
+                    {{showTime(Totals()?.total,Totals()?.totMins)}}
+
+
+                  </span>
+                </span>
+              </td>
+
+            </tr>
+
+
+
+
+
+            <!--<tr>
+            <td style="width: 75%; text-align: left; border: 1px solid #878787; padding: 2px; font-size: 0.875rem !important; color: #000000; font-family: 'Poppins', sans-serif; font-weight: 600; background-color: white ">
+
+              {{'Late'|translate}}
+            </td>
+            <td style="border:1px solid #878787;padding:2px;font-size:0.875rem !important;color: #000000; font-family: 'Poppins', sans-serif;font-weight:500; background-color:white">
+              <span *ngIf="attendanceData?.length==listOfRoasters.length && listOfRoasters.length!=0">
+                <span *ngIf="attendanceData[attendanceData.length-1]?.length==noOfDays">
+                  {{showTime(Totals()?.lateHrs,Totals()?.lateMins)}}-->
+            <!--{{Totals()?.lateHrs}}. {{Totals()?.lateMins}}-->
+            <!--</span>
+                </span>
+              </td>
+
+            </tr>-->
+            <tr>
+              <td style="width: 75%; text-align: left; border: 1px solid #878787; padding: 2px; font-size: 0.875rem !important; color: #000000; font-family: 'Poppins', sans-serif; font-weight: 600; background-color: white ">
+
+                {{'Overtime'|translate}} {{'Hours'|translate}}
+              </td>
+              <td style="border:1px solid #878787;padding:2px;font-size:0.875rem !important;color: #000000; font-family: 'Poppins', sans-serif;font-weight:500; background-color:white">
+                <span *ngIf="attendanceData?.length==listOfRoasters.length && listOfRoasters.length!=0">
+                  <span *ngIf="attendanceData[attendanceData.length-1]?.length==noOfDays">
+                    {{showTime(Totals()?.overTime,Totals()?.overTimeMins)}}
+                    <!--{{showTime(Totals()?.spl_ot?.hrs,Totals()?.spl_ot?.mins)}}-->
+
+                  </span>
+                </span>
+              </td>
+
+            </tr>
+            <!--<tr>
+              <td style="width: 75%; text-align: left; border: 1px solid #878787; padding: 2px; font-size: 0.875rem !important; color: #000000; font-family: 'Poppins', sans-serif; font-weight: 600; background-color: white ">
+
+                {{'Variance_of_Shifts'|translate}} {{'Hours'|translate}}
+              </td>
+              <td style="border:1px solid #878787;padding:2px;font-size:0.875rem !important;color: #000000; font-family: 'Poppins', sans-serif;font-weight:500; background-color:white">
+                <span *ngIf="attendanceData?.length==listOfRoasters.length && listOfRoasters.length!=0">
+                  <span *ngIf="attendanceData[attendanceData.length-1]?.length==noOfDays">
+                    {{showTime(Totals()?.diffHrs,Totals()?.diffMins)}}
+                  </span>
+                </span>
+              </td>
+
+            </tr>-->
+            <!--<tr>
+              <td style="width: 75%; text-align: left; border: 1px solid #878787; padding: 2px; font-size: 0.875rem !important; color: #000000; font-family: 'Poppins', sans-serif; font-weight: 600; background-color: white ">
+
+                {{'Absent'|translate}}/{{'Not_Assigned'|translate}}
+              </td>
+              <td style="border:1px solid #878787;padding:2px;font-size:0.875rem !important;color: #000000; font-family: 'Poppins', sans-serif;font-weight:500; background-color:white">
+                <span *ngIf="attendanceData?.length==listOfRoasters.length && listOfRoasters.length!=0">
+                  <span *ngIf="attendanceData[attendanceData.length-1]?.length==noOfDays">
+                    {{Totals()?.notAssigned}}
+                  </span>
+                </span>
+
+              </td>
+
+            </tr>-->
+            <tr>
+              <td style="width: 75%; text-align: left; border: 1px solid #878787; padding: 2px; font-size: 0.875rem !important; color: #000000; font-family: 'Poppins', sans-serif; font-weight: 600; background-color: white ">
+
+                {{'Overtime'|translate}} {{'Shifts'|translate}}
+              </td>
+              <td style="border:1px solid #878787;padding:2px;font-size:0.875rem !important;color: #000000; font-family: 'Poppins', sans-serif;font-weight:500; background-color:white">
+                <span *ngIf="attendanceData?.length==listOfRoasters.length && listOfRoasters.length!=0">
+                  <span *ngIf="attendanceData[attendanceData.length-1]?.length==noOfDays">
+                    <!--{{Totals()?.ot_count}}-->
+                    {{convertTimeToShifts(Totals()?.spl_ot?.hrs,Totals()?.spl_ot?.mins,workingHoursInSite)}}
+                      <!--{{convertTimeToShifts(Totals()?.overTime,Totals()?.overTimeMins,workingHoursInSite)}}-->
+
+
+                  </span>
+                </span>
+
+              </td>
+
+            </tr>
+            <!--<tr>
+              <td style="width: 75%; text-align: left; border: 1px solid #878787; padding: 2px; font-size: 0.875rem !important; color: #000000; font-family: 'Poppins', sans-serif; font-weight: 600; background-color: white ">
+
+                {{'Variance_of_Shifts'|translate}}
+              </td>
+              <td style="border:1px solid #878787;padding:2px;font-size:0.875rem !important;color: #000000; font-family: 'Poppins', sans-serif;font-weight:500; background-color:white">
+                <span *ngIf="attendanceData?.length==listOfRoasters.length && listOfRoasters.length!=0">
+                  <span *ngIf="attendanceData[attendanceData.length-1]?.length==noOfDays">
+                    {{Totals()?.wd-Totals()?.actualShifts}}
+                  </span>
+                </span>
+              </td>
+
+            </tr>-->
+          </table>
+
+        </div>
+
+
+        <!--<div class="col-md-5 col-lg-5" style="padding-right:5px">-->
+        <!--empty-->
+        <!--</div>-->
+
+        <div class="col-md-4 col-lg-4" style="padding-right:5px">
+          <!--<table style="width:100%;" border="1" cellpadding="0" cellspacing="0">
+            <tr>-->
+          <!--<td style="border: 1px solid #878787;padding:2px; font-size: 0.875rem !important; color: #000000; font-family: 'Poppins', sans-serif; font-weight: 500; background-color: yellow">
+
+            {{'OFF'|translate}}
+          </td>-->
+          <!--<td style="border: 1px solid #878787;padding:2px; font-size: 0.875rem !important; color: #000000; font-family: 'Poppins', sans-serif; font-weight: 500; background-color: red">
+                A-{{'Absent'|translate}}
+              </td>
+              <td *ngFor="let shift of listOfShiftCodes2;let s=index;" id={{getShiftColour(s)}} style="padding:2px 5px">
+
+                {{shift.shiftName_EN}}/{{shift.shiftName_AR}}
+
+              </td>
+            </tr>
+          </table>-->
+
+          <table style="width:100%;background-color:white" border="1" cellpadding="0" cellspacing="0" id="excel_table4">
+
+            <tr *ngFor="let shift of listOfShiftCodes2;let s=index;">
+              <td style="border:1px solid #878787;padding:2px;font-size:0.875rem !important;color: #000000; font-family: 'Poppins', sans-serif;font-weight:600; background-color:white">
+
+                {{shift.shiftCode}}
+              </td>
+              <td id={{getShiftColour(s)}} style=" border:1px solid #878787;padding:2px;font-size:0.875rem !important;color: #000000; font-family: 'Poppins' , sans-serif;font-weight:600;">
+
+                {{shift.shiftName_EN}}/{{shift.shiftName_AR}}
+
+              </td>
+              <td style="border:1px solid #878787;padding:2px;font-size:0.875rem !important;color: #000000; font-family: 'Poppins', sans-serif;font-weight:600; background-color:white">
+                =
+              </td>
+              <td id={{getShiftColour(s)}} style="border:1px solid #878787;padding:2px;font-size:0.875rem !important;color: #000000; font-family: 'Poppins', sans-serif;font-weight:600;">
+
+                <!--{{ !isArab?shift.shiftName_EN:shift.shiftName_AR}}-->
+                {{ !isArab?getShiftTypeNumber(s)?.nameEn:getShiftTypeNumber(s)?.nameAr}}
+
+              </td>
+            </tr>
+
+          </table>
+
+        </div>
+
+
+
+      </div>
+    </div>
+  </div>
+
+
+
+
+
+
+  <!--<div class="row mt-12 " *ngIf="listOfRoasters.length!=0">-->
+  <!--<div class="row mt-12 ">
+      <spinner-loader [isLoading]="isLoading"></spinner-loader>
+      <div class="col-md-9 col-lg-9"><h5 style="color:darkgreen">{{'No_of_Updates'}}:{{updatedAttendance.length}}</h5></div>
+
+    </div>
+  </div>-->
+
+
+
+
+
+
+  <div *ngIf="!isLoading" class="modal-footer">
+    <div class="row mt-12" *ngIf="listOfRoasters.length!=0" hidden>
+      <div class="col-md-12 col-lg-12 text-center">
+        <input type="button"
+               class="btn waves-effect waves-light btn-rounded  btn-primary btn-midblock"
+               value="{{'Download_Exel' | translate}}" (click)="exportexcel()" />
+
+      </div>
+    </div>
+    <div class="row mt-12" *ngIf="listOfRoasters.length!=0">
+      <div class="col-md-6 col-lg-6 text-center">
+        <input type="button"
+               class="btn waves-effect waves-light btn-rounded   btn-primary btn-midblock"
+               value="{{'Enter_Default_Attendance' | translate}}" (click)="confirmAutoAttendanceForMonth()" />
+
+      </div>
+      <div class="col-md-6 col-lg-6 text-center">
+        <input type="button"
+               class="btn waves-effect waves-light btn-rounded   btn-primary btn-danger"
+               value="{{'Clear_Attendance' | translate}}" (click)="confirmClearAttendance()"/>
+
+      </div>
+    </div>
+    <div class="row mt-12" *ngIf="listOfRoasters.length!=0">
+      <div class="col-md-12 col-lg-12 text-center">
+        <input type="button"
+               class="btn waves-effect waves-light btn-rounded   btn-primary btn-midblock"
+               value="{{'Refresh' | translate}}" (click)="loadData()" />
+
+      </div>
+    </div>
+    <div class="row mt-12" *ngIf="updatedAttendance.length!=0 && listOfRoasters.length!=0">
+      <div class="col-md-12 col-lg-12 text-center">
+        <input type="button"
+               class="btn waves-effect waves-light btn-rounded   btn-primary btn-midblock"
+               value="{{'Post_Attendance' | translate}}" (click)="confirmPostAttendance()" />
+
+      </div>
+    </div>
+
+    <div class="row mt-12">
+      <div class="col-md-12 col-lg-12 text-center">
+        <input type="button"
+               class="btn waves-effect waves-light btn-rounded   btn-secondary btn-midblock"
+               value="{{'Cancel' | translate}}" (click)="closeModel()" /> &nbsp;
+      </div>
+    </div>
+  </div>
+</form>
+
+
+
+
+
+
+
+
+
+<style>
+  #emptyCell {
+    background-color: white;
+    border: none;
+    outline: none;
+    font-size: small;
+  }
+
+  #bg_gray {
+    background-color: lightgray; /* For browsers that do not support gradients */
+  }
+
+  #bg_white {
+    background-color: white; /* For browsers that do not support gradients */
+  }
+
+  #bg_red {
+    background-color: red; /* For browsers that do not support gradients */
+  }
+
+  #bg_black {
+    background-color: #e8eef3; /* For browsers that do not support gradients */
+  }
+
+  #bg_Active {
+    background-color: orange; /* For browsers that do not support gradients */
+  }
+
+
+  #bg_Shift0 {
+    background-color: #4cff00; /* For browsers that do not support gradients */
+  }
+
+  #bg_Shift1 {
+    background-color: #b200ff; /* For browsers that do not support gradients */
+  }
+
+  #bg_Shift2 {
+    background-color: #0094ff; /* For browsers that do not support gradients */
+  }
+
+
+  #bg_Shift3 {
+    background-color: #ff006e; /* For browsers that do not support gradients */
+  }
+   #bg_Shift4 {
+    background-color: lightgreen; /* For browsers that do not support gradients */
+  }
+
+  #bg_offShift {
+    background-color: yellow;
+  }
+  #bg_Posted {
+    background-color: #d2fa9c;
+  }
+
+
+
+
+
+
+
+
+  #attendTable {
+    border: solid;
+    border-color: black;
+    border-width: 1px;
+    border-block-color: black;
+    border-block: solid;
+    border-block-width: 1px;
+    border-inline-color: aqua
+  }
+
+  table.sambaAttendanceTable td, th, tr, tbody {
+    border: solid;
+    border-color: #e8eef3;
+    border-width: 1px;
+    border-block-color: #e8eef3;
+    border-block: solid;
+    border-block-width: 1px;
+    background-color: lightgray;
+    border-inline-color: #e8eef3;
+    border-inline-width: 1px;
+    border-top-width: 1px;
+    border-top-color: #e8eef3;
+    border-bottom-width: 1px;
+    border-bottom-color: #e8eef3;
+    padding: 1px,1px,1px,1px;
+    text-align: center;
+  }
+
+  table.sambaAttendanceTable {
+    border: solid;
+    border-color: black;
+    border-width: 1px;
+    width: 100%
+  }
+
+  th.baw {
+    border: solid;
+    border-color: black;
+    border-width: 1px;
+    border-block-color: black;
+    border-block: solid;
+    border-block-width: 1px;
+    background-color: lightgray;
+    border-inline-color: black;
+    border-inline-width: 1px;
+    border-top-width: 1px;
+    border-top-color: black;
+    border-bottom-width: 1px;
+    border-bottom-color: black;
+    padding: 1px,1px,1px,1px;
+    text-align: center;
+    font-size: 0.775rem !important;
+    color: #000000;
+    font-family: 'Poppins', sans-serif;
+    font-weight: 600;
+    padding: 2px
+  }
+
+  td.baw {
+    border: solid;
+    border-color: black;
+    border-width: 1px;
+    border-block-color: black;
+    border-block: solid;
+    border-block-width: 1px;
+    background-color: white;
+    border-inline-color: black;
+    border-inline-width: 1px;
+    border-inline-width: 1px;
+    border-top-width: 1px;
+    border-top-color: black;
+    border-bottom-width: 1px;
+    border-bottom-color: black;
+    padding: 1px,1px,1px,1px;
+    text-align: center;
+    font-size: 0.675rem !important;
+    color: #000000;
+    font-family: 'Poppins', sans-serif;
+    font-weight: 500;
+    padding: 2px
+  }
+</style>

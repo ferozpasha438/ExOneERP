@@ -1,0 +1,111 @@
+<br />
+<button type="button" class="close" aria-hidden="true" (click)="closeModel()"> ×</button>
+<h2>{{'VisaInfo' | translate}}</h2>
+<hr />
+<div class="col-md-12 col-lg-12">
+  <form [formGroup]="form" (ngSubmit)="submit()" novalidate class="mt-4">
+    <div class="row">
+      <div class="col-md-6 col-lg-6">
+        <div class="form-group">
+          <label for="employeenumber">{{'EmployeeNumber' | translate}}</label>
+          <input class="form-control" id="employeenumber" type="text"
+            placeholder="{{'Please_Enter' | translate}} {{'EmployeeNumber' | translate}}" readonly="readonly"
+            formControlName="employeenumber">
+        </div>
+      </div>
+      <div class="col-md-6 col-lg-6">
+        <div class="form-group ">
+          <label for="validFrom" class="mr-sm-2">
+            {{'ValidFrom' | translate}}
+          </label>
+          <div class="input-group">
+            <input class="form-control input-mandatory"
+              placeholder=" {{'Please_Enter' | translate}} {{'ValidFrom' | translate}}"
+              formControlName="validFrom" [matDatepicker]="validFromDatepicker">
+            <div class="input-group-prepend datapickericon">
+              <mat-datepicker-toggle matSuffix [for]="validFromDatepicker"></mat-datepicker-toggle>
+              <mat-datepicker #validFromDatepicker></mat-datepicker>
+            </div>
+            <validation-message [control]="form.controls.validFrom"></validation-message>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-6 col-lg-6">
+        <div class="form-group">
+          <label for="countryCode" class="mr-sm-2">{{'Country' | translate}}</label>
+          <select class="custom-select input-mandatory mr-sm-2" #countryCode formControlName="countryCode"
+            (change)="loadVisaTypes(countryCode.value)">
+            <option value="">{{'Country' | translate}}</option>
+            <option *ngFor="let country of countries" value="{{country.value}}">{{country.text}}</option>
+          </select>
+          <validation-message [control]="form.controls.countryCode"></validation-message>
+        </div>
+      </div>
+      <div class="col-md-6 col-lg-6">
+        <div class="form-group ">
+          <label for="validTo" class="mr-sm-2">
+            {{'ValidTo' | translate}}
+          </label>
+          <div class="input-group ">
+            <input class="form-control input-mandatory"
+              placeholder=" {{'Please_Enter' | translate}} {{'ValidTo' | translate}}"
+              formControlName="validTo" [matDatepicker]="validToDatepicker">
+            <div class="input-group-prepend datapickericon">
+              <mat-datepicker-toggle matSuffix [for]="validToDatepicker"></mat-datepicker-toggle>
+              <mat-datepicker #validToDatepicker></mat-datepicker>
+            </div>
+            <validation-message [control]="form.controls.validTo"></validation-message>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-6 col-lg-6">
+        <div class="form-group">
+          <label for="visaTypeCode" class="mr-sm-2">{{'VisaType' | translate}}</label>
+          <select class="custom-select input-mandatory mr-sm-2" formControlName="visaTypeCode">
+            <option value="">{{'Visa Type' | translate}}</option>
+            <option *ngFor="let visaType of visaTypes" value="{{visaType.value}}">{{visaType.text}}</option>
+          </select>
+          <validation-message [control]="form.controls.visaTypeCode"></validation-message>
+        </div>
+      </div>
+      <div class="col-md-6 col-lg-6">
+        <div class="form-group">
+          <label for="issueLocation">{{'IssueLocation' | translate}}</label>
+          <input class="form-control input-mandatory" type="text" formControlName="issueLocation"
+            placeholder="{{'Please_Enter' | translate}} {{'IssueLocation' | translate}}">
+          <validation-message [control]="form.controls.issueLocation"></validation-message>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-6 col-lg-6">
+        <div class="form-group">
+          <label for="visaNumber">{{'VisaNumber' | translate}}</label>
+          <input class="form-control input-mandatory" type="text" formControlName="visaNumber"
+            placeholder="{{'Please_Enter' | translate}} {{'VisaNumber' | translate}}">
+          <validation-message [control]="form.controls.visaNumber"></validation-message>
+        </div>
+      </div>
+      <div class="col-md-6 col-lg-6">
+        <label for="isActive" class="mr-sm-2">{{'Is_Active' | translate}}</label>
+        <br />
+        <mat-slide-toggle color="primary" formControlName="isActive"></mat-slide-toggle>
+      </div>
+    </div>
+    <div class="row mt-3 ">
+      <div class="col-md-12 col-lg-12 text-center">
+        <input type="button"
+               class="btn waves-effect waves-light btn-rounded   btn-secondary btn-midblock"
+               value="{{'Cancel' | translate}}" (click)="closeModel()" /> &nbsp;
+        <input type="submit"
+               class="btn waves-effect waves-light btn-rounded btn-primary btn-midblock"
+               value="{{'Save' | translate}}" />
+      </div>
+    </div>
+  </form>
+</div>
+

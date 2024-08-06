@@ -1,0 +1,78 @@
+<div class="card-body">
+  <h3> {{modalTitle}} <button type="button" class="close" aria-hidden="true" (click)="closeModel()"> ×</button></h3>
+
+  <div class="page-breadcrumb">
+    <div class="row">
+      <div class="col-12 align-self-center">
+        <div class="d-flex align-items-center">
+          <nav aria-label="breadcrumb">
+            <ol class="breadcrumb m-0 p-0">
+              <li class="breadcrumb-item text-muted"> {{'Operational_Management' | translate}} </li>
+              <li class="breadcrumb-item text-muted"> {{'Primary_Site_Log' | translate}} </li>
+              <li class="breadcrumb-item   active" aria-current="page">{{employeeNumber}}({{employeeName}}/{{employeeNameAr}})</li>
+
+            </ol>
+          </nav>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-md-12 col-lg-12">
+
+        <div class="card-body">
+          <div class="cardtitle-divider"></div>
+          <div class="col-md-12 col-lg-12" style="text-align:center">
+            <table class="table  table-bordered no-wrap">
+              <thead>
+                <tr>
+                  <th colspan="2">
+                    {{'Site'|translate}}
+                  </th>
+                  <th>
+                    {{'Transfer_Date'|translate}}
+                  </th>
+
+                  <th>
+                  </th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let item of data;let i=index;">
+                  <td>
+
+                    {{item.primarySiteCode}}
+                  </td>
+                  <td>
+                    {{item.primarySiteName}}<br />
+                    {{item.primarySiteNameAr}}
+                  </td>
+
+                  <td>
+                    {{item.primarySiteLogId>0? (item.lastTransferDate | date:'dd/MM/yyyy'):"-"}}
+                  </td>
+                  <td>
+
+                    <span>
+                      <a class="tableicons pcursor" (click)="edit(item)" matTooltip="{{'edit' | translate}}"><i class="icon-note"></i></a>&nbsp;
+                    </span>
+                  
+                  </td>
+
+                </tr>
+
+              </tbody>
+            </table>
+          </div>
+
+        </div>
+
+
+
+      </div>
+    </div>
+
+  </div>
+
+</div>

@@ -1,0 +1,81 @@
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-md-12 col-lg-12">
+      <div class="card">
+        <div class="card-body">
+          <div class="row pb-3">
+            <div class="col-md-12 col-lg-12">
+              <h4 class="card-title pt6">{{'LeaveTemplates' | translate}} </h4>
+            </div>
+            <div class="col-md-3">
+              <input class="form-control" placeholder="{{'Search' | translate}}..." [(ngModel)]="searchValue" />
+            </div>
+            <div class="col-md-4 arabicright">
+              <button (click)="applyFilter(searchValue)" class="btn btn-primary">{{'Search' | translate}}</button> &nbsp;
+              <a (click)="refresh()" class=""><i class="btn btn-primary icon-refresh"></i></a>
+            </div>
+            <div class="col-md-5 col-lg-5 text-right">
+              <a data-toggle="modal" data-target="#createnewbranch" class="btn waves-effect waves-light btn-rounded btn-outline-primary" (click)="create()" href="#"> <i class="icon-plus"> </i>{{'AddLeaveType' | translate}}  </a>
+            </div>
+          </div>
+          <div class="cardtitle-divider"></div>
+          <div class="table-responsive">
+            <spinner-loader [isLoading]="isLoading"></spinner-loader>
+            <div class="mat-elevation-z8">
+              <ng-container>
+                <table mat-table [dataSource]="data" matSortDisableClear matSort class="table  table-bordered no-wrap">
+                  <ng-container matColumnDef="templateCode">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                      {{'TemplateCode' | translate}}
+                    </th>
+                    <td mat-cell *matCellDef="let row">{{ row.templateCode }}</td>
+                  </ng-container>
+                  <ng-container matColumnDef="templateName">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                      {{'TemplateName' | translate}}
+                    </th>
+                    <td mat-cell *matCellDef="let row">{{ !isArab ? row.templateNameEn : row.templateNameAr }}</td>
+                  </ng-container>
+                  <ng-container matColumnDef="gradeCode">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                      {{'GradeCode' | translate}}
+                    </th>
+                    <td mat-cell *matCellDef="let row">{{ row.gradeCode }}</td>
+                  </ng-container>
+                  <ng-container matColumnDef="positionCode">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                      {{'PositionCode' | translate}}
+                    </th>
+                    <td mat-cell *matCellDef="let row">{{ row.positionCode }}</td>
+                  </ng-container>
+                  <ng-container matColumnDef="isActive">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                      {{'Is_Active' | translate}}
+                    </th>
+                    <td mat-cell *matCellDef="let row">{{ row.isActive }}</td>
+                  </ng-container>
+                  <ng-container matColumnDef="Actions" stickyEnd>
+                    <th mat-header-cell *matHeaderCellDef>{{'Actions' | translate}}</th>
+                    <td mat-cell *matCellDef="let row">
+                      <a class="tableicons" (click)="edit(row.id)" matTooltip="{{'Edit_Item' | translate}}"><i class="icon-note"> </i></a> &nbsp;
+                      <!--<a class="tableicons" (click)="delete(row.id)" matTooltip="{{'Delete_Item' | translate}}"><i class="icon-trash"> </i></a>-->
+                    </td>
+                  </ng-container>
+                  <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
+                  <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+                </table>
+                <ng-container>
+                  <mat-paginator [length]="totalItemsCount"
+                                 [pageSize]="pageService.pageCount"
+                                 [pageSizeOptions]="pageService.selectItemsPerPage">
+                  </mat-paginator>
+                </ng-container>
+              </ng-container>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+

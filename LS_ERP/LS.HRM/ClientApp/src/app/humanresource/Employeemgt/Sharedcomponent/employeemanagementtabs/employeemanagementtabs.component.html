@@ -1,0 +1,54 @@
+<button type="button" class="close" aria-hidden="true" (click)="closeModel()"> ×</button>
+<mat-tab-group *ngIf="isTabDisabled; else enabledMatTabGroup;" (selectedTabChange)="onChange($event)">
+  <mat-tab label="{{EmployeePersonalInfo|translate}}"> <app-getemployeepersonalinfo
+      [employeeNumber]="employeeNumber"></app-getemployeepersonalinfo> </mat-tab>
+  <mat-tab label="{{'EmployeeDependents'|translate}}" disabled="true"></mat-tab>
+  <mat-tab label="{{'EmployeeAddress'|translate}}" disabled="true"></mat-tab>
+  <mat-tab label="{{'EmployeeEducation'|translate}}" disabled="true"></mat-tab>
+  <mat-tab label="{{'EmployeeDocument'|translate}}" disabled="true"></mat-tab>
+  <mat-tab label="{{'EmployeeContract'|translate}}" disabled="true"></mat-tab>
+  <mat-tab label="{{'EmployeeInsurance'|translate}}" disabled="true"></mat-tab>
+  <mat-tab label="{{'EmployeeShift'|translate}}" disabled="true"></mat-tab>
+  <mat-tab label="{{'EmployeeVisa'|translate}}" disabled="true"></mat-tab>
+  <mat-tab label="{{'EmployeePayroll'|translate}}" disabled="true"></mat-tab>
+  <mat-tab label="{{'EmployeeLeave'|translate}}" disabled="true"></mat-tab>
+</mat-tab-group>
+<ng-template #enabledMatTabGroup>
+  <mat-tab-group (selectedTabChange)="onChange($event)">
+    <mat-tab label="{{'EmployeePersonalInfo'|translate}}">
+      <app-getemployeepersonalinfo *ngIf="index===0" [employeeNumber]="employeeNumber"></app-getemployeepersonalinfo>
+    </mat-tab>
+    <mat-tab label="{{'EmployeeDependents'|translate}}">
+      <app-getemployeedependentinfo *ngIf="index===1" [employeeNumber]="employeeNumber"></app-getemployeedependentinfo>
+    </mat-tab>
+    <mat-tab label="{{'EmployeeAddress'|translate}}">
+      <app-getemployeeaddress *ngIf="index===2" [employeeNumber]="employeeNumber"></app-getemployeeaddress>
+    </mat-tab>
+    <mat-tab label="{{'EmployeeEducation'|translate}}">
+      <app-getemployeeeducationinfo *ngIf="index===3" [employeeNumber]="employeeNumber"></app-getemployeeeducationinfo>
+    </mat-tab>
+    <mat-tab label="{{'EmployeeDocument'|translate}}">
+      <app-getemployeedocumentinfo *ngIf="index===4" [employeeNumber]="employeeNumber"></app-getemployeedocumentinfo>
+    </mat-tab>
+    <mat-tab label="{{'EmployeeContract'|translate}}">
+      <app-getemployeecontractinfo *ngIf="index===5"></app-getemployeecontractinfo>
+    </mat-tab>
+    <mat-tab label="{{'EmployeeInsurance'|translate}}">
+      <app-getemployeeinsuranceinfo *ngIf="index===6" [employeeNumber]="employeeNumber"></app-getemployeeinsuranceinfo>
+    </mat-tab>
+    <mat-tab label="{{'EmployeeShift'|translate}}">
+      <app-getshiftinfo *ngIf="index===7" [employeeNumber]="employeeNumber"></app-getshiftinfo>
+    </mat-tab>
+    <mat-tab label="{{'EmployeeVisa'|translate}}">
+      <app-getemployeevisainfo *ngIf="index===8" [employeeNumber]="employeeNumber"></app-getemployeevisainfo>
+    </mat-tab>
+    <mat-tab label="{{'EmployeePayroll'|translate}}">
+      <app-getemployeepayrollstructure *ngIf="index===9"
+        [employeeNumber]="employeeNumber"></app-getemployeepayrollstructure>
+    </mat-tab>
+    <mat-tab label="{{'EmployeeLeave'|translate}}">
+      <app-getemployeeleave *ngIf="index===10"
+        [employeeNumber]="employeeNumber"></app-getemployeeleave>
+    </mat-tab>
+  </mat-tab-group>
+</ng-template>

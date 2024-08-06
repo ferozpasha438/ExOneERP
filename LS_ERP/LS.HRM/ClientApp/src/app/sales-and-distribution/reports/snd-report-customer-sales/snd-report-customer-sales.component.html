@@ -1,0 +1,339 @@
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-12 align-self-center">
+     
+      <div class="d-flex align-items-center">
+        <nav aria-label="breadcrumb">
+          <ol class="breadcrumb m-0 p-0">
+            <li class="breadcrumb-item text-muted"> {{'Administration' | translate}} </li>
+            <li class="breadcrumb-item text-muted ">{{'Sales_Management' | translate}}</li>
+            <li class="breadcrumb-item   active" aria-current="page">{{'Customer_Sales_Statement' | translate}}</li>
+
+          </ol>
+        </nav>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- ============================================================== -->
+  <!-- End Bread crumb and right sidebar toggle -->
+  <!-- ============================================================== -->
+  <!-- ============================================================== -->
+  <!-- Container fluid  -->
+  <!-- ============================================================== -->
+
+  <div class="row">
+    <div class="col-md-12 col-lg-12">
+      <div class="card">
+        <div class="card-body">
+          
+          <div class="cardtitle-divider"></div>
+          <div class="row">
+
+
+
+
+
+
+
+
+            
+
+
+            <div class="col-md-4 col-lg-4">
+              <div class="form-group">
+                <label>{{'Customer_Code' | translate}}</label>
+
+                <auto-loader [isLoading]="isCodeLoading"></auto-loader>
+                <input type="text" class="form-control"
+                       placeholder="{{'Please_Enter' | translate}} {{'Customer_Code' | translate}}"
+                       [formControl]="codeControl"
+                       matInput
+                       [matAutocomplete]="auto1" >
+                <mat-autocomplete #auto1="matAutocomplete" (optionSelected)="clearReport()">
+                  <mat-option *ngFor="let option of filteredOptions | async"
+                              [value]="option.value" >
+                    ({{option.value}}) {{option.textTwo}}
+                  </mat-option>
+                </mat-autocomplete>
+
+              </div>
+            </div>
+
+
+            <div class="col-md-4 col-lg-4">
+              <div class="form-group">
+                <label>{{'From_Date' | translate}}</label>
+                <div class="form-group ">
+                  <div class="input-group mb-2">
+                    <input class="form-control datapickerinput" placeholder="{{'Select_a_Date' | translate}}" [(ngModel)]="dateFrom"
+                           [matDatepicker]="picker1" (dateChange)="clearReport()">
+
+                    <div class="input-group-prepend datapickericon">
+                      <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
+                      <mat-datepicker #picker1></mat-datepicker><br /><br />
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-4 col-lg-4">
+              <div class="form-group">
+                <label>{{'To_Date' | translate}}</label>
+                <div class="form-group ">
+                  <div class="input-group mb-2">
+                    <input class="form-control datapickerinput" placeholder="{{'Select_a_Date' | translate}}" [(ngModel)]="dateTo"
+                           [matDatepicker]="picker2" (dateChange)="clearReport()">
+
+                    <div class="input-group-prepend datapickericon">
+                      <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
+                      <mat-datepicker #picker2></mat-datepicker><br /><br />
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+
+            <div class="col-md-2 col-lg-2">
+              <div class="form-group pt" style="padding-top:35px;padding-left:20px">
+                <mat-slide-toggle color="primary" [(ngModel)]="isSummary" (change)="clearReport()"> </mat-slide-toggle>
+                {{'IsSummary' | translate}}
+              </div>
+            </div>
+            <div class="col-md-2 col-lg-2">
+              <div class="form-group pt" style="padding-top:35px;padding-left:20px">
+                <mat-slide-toggle color="primary" [(ngModel)]="showMargin"> </mat-slide-toggle>
+                {{'Show_Margin' | translate}}
+              </div>
+            </div>
+            <div class="col-md-2 col-lg-2" style="padding-top:35px;">
+              <spinner-loader [isLoading]="isLoading"></spinner-loader>
+            </div>
+          </div>
+          <div class="row mb-4 ">
+            <div class="col-md-12 col-lg-12 text-center">
+              <button type="button" class="btn waves-effect waves-light btn-rounded btn-primary btn-midblock" data-toggle="modal" (click)="search()">
+                {{'Search' | translate}}
+              </button>
+            </div>
+          </div>
+
+
+        </div>
+
+
+
+      </div>
+    </div>
+
+  </div>
+
+  <div class="modal-content" *ngIf="summaryList.length > 0 || detailList.length > 0">
+    <div class="modal-body">
+      <button type="button" class="btn waves-effect waves-light btn-rounded btn-primary btn-midblock" data-toggle="modal" (click)="openPrint()">
+        {{'Print' | translate}}
+      </button>
+      <br />
+      <div class="outer" id="printcontainer">
+        <div class="text-center font-weight-medium">
+          {{companyName}}  <img src="{{logoURL}}" style="width:200px;height:150px;float:right;" *ngIf="companyName" />
+          <br />
+          {{branchName}}
+          <br />
+          {{companyAddress}}
+        </div>
+
+        <br />
+        <div class="text-center font-weight-medium" *ngIf="dateFrom && dateTo">
+          <p>
+            The Statement of " Invoice Summary" for {{dateFrom | date:'dd/MM/yyyy'}} to {{dateTo | date:'dd/MM/yyyy'}}
+          </p>
+          <span class="backspace" *ngIf="codeControl.value">
+            ,Customer Code :{{codeControl.value}}
+          </span>
+        </div>
+
+
+        <div class="table-responsive">
+          <ng-container *ngIf="isSummary; else detailedList;">
+
+            <table style="width:100%;" border="1" cellpadding="0" cellspacing="0" class="ur_tablestyle">
+              <tbody>
+                <tr>
+                  <th class="w10per">{{'Customer_Code' | translate}}</th>
+                  <th>{{'Customer_Name' | translate}}</th>
+                  <th>{{'Count' | translate}} </th>
+                  <th class="w10per">{{'Amount' | translate}} </th>
+                  <th class="w10per">{{'Discount_Amount' | translate}} </th>
+                  <th class="w10per">{{'Net_Amount' | translate}} </th>
+                  <th class="w10per">{{'Tax_Amount' | translate}} </th>
+                  <th class="w10per">{{'Sales_Amount' | translate}} </th>
+                  <ng-container *ngIf="showMargin">
+                    <th class="w10per">{{'Cost' | translate}} </th>
+                    <th class="w10per">{{'Gross_Margin' | translate}} </th>
+                    <th class="w10per">{{'GM%' | translate}} </th>
+                    </ng-container>
+                </tr>
+                <tr *ngFor="let item of summaryList">
+                  <td class="text-center">{{item.customerCode}}</td>
+                  <td>{{item.customerName}}</td>
+                  <td class="text-center">{{item.invoiceCount}}</td>
+                  <td class="text-right">{{item.subTotal |  number:'1.0-1'}}</td>
+                  <td class="text-right">{{(item.discountAmount) |  number:'1.0-1'}}</td>
+                  <td class="text-right">{{item.amountBeforeTax |  number:'1.0-1'}}</td>
+                  <td class="text-right">{{item.taxAmount |  number:'1.0-1'}}</td>
+                  <td class="text-right">{{item.totalAmount |  number:'1.0-1'}}</td>
+                  <ng-container *ngIf="showMargin">
+                    <td class="text-right">{{item.totalCost |  number:'1.0-1'}}</td>
+                    <td class="text-right">{{item.grossMargin |  number:'1.0-1'}}</td>
+                    <td class="text-right">{{item.grossMarginPer | number:'1.0-1'}}%</td>
+                    </ng-container>
+                </tr>
+
+
+                <tr>
+                  <th colspan="2" class="text-right">{{'Total'|translate}}</th>
+                  <th class="text-center">{{totCount}}</th>
+                  <th class="text-right">{{totAmount |  number:'1.0-1'}}</th>
+                  <th class="text-right">{{totDiscount |  number:'1.0-1'}}</th>
+                  <th class="text-right">{{totNetAmountBT |  number:'1.0-1'}}</th>
+                  <th class="text-right">{{totTaxAmount |  number:'1.0-1'}}</th>
+                  <th class="text-right">{{totSalesAmount |  number:'1.0-1'}}</th>
+                  <ng-container *ngIf="showMargin">
+                    <th class="text-right">{{totCost |  number:'1.0-1'}}</th>
+                    <th class="text-right">{{totGrossMargin |  number:'1.0-1'}}</th>
+                    <th class="text-right">{{totGrossMarginPer | number:'1.0-1'}}%</th>
+                    </ng-container>
+
+                </tr>
+              </tbody>
+
+            </table>
+          </ng-container>
+          <ng-template #detailedList style="border:none">
+
+
+
+            <ng-container *ngFor="let item of detailList" style="border:none">
+
+
+              <table style="width:100%;" border="1" cellpadding="0" cellspacing="0" class="ur_tablestyle">
+                <tbody>
+                 
+                  <tr>
+                    <th colspan="12" class="w10per">{{'Customer_Code' | translate}}:{{item.customerCode}},  {{'Customer_Name' | translate}}:{{item.customerName}},  {{'Count' | translate}}:{{item.invoiceCount}}</th>
+                   
+                  </tr>
+
+                  <tr>
+                    <th class="w10per">{{'Invoice_Date' | translate}}</th>
+                    <th class="w10per">{{'Invoice_Number' | translate}}</th>
+                    <th class="w10per">{{'WHCode' | translate}}</th>
+                    <th class="w10per">{{'Warehouse_Name' | translate}}</th>
+                    <th class="w10per">{{'Amount' | translate}} </th>
+                    <th class="w10per">{{'Discount_Amount' | translate}} </th>
+                    <th class="w10per">{{'Net_Amount' | translate}} </th>
+                    <th class="w10per">{{'Tax_Amount' | translate}} </th>
+                    <th class="w10per">{{'Sales_Amount' | translate}} </th>
+                    <ng-container *ngIf="showMargin">
+                      <th class="w10per">{{'Cost' | translate}} </th>
+                      <th class="w10per">{{'Gross_Margin' | translate}} </th>
+                      <th class="w10per">{{'GM%' | translate}} </th>
+                      </ng-container>
+                  </tr>
+                  <tr *ngFor="let ci of item.invoicesSummaryList;">
+                    <td style="white-space:nowrap">{{ci?.invoiceDate | date:'dd-MM-yyyy'}}</td>
+                    <td>{{ci?.invoiceNumber}}</td>
+                    <td>{{ci?.warehouseCode}}</td>
+                    <td>{{ci?.warehouseName}}</td>
+                    <td class="text-right">{{ci?.subTotal | decimalpipe}}</td>
+                    <td class="text-right">{{(ci?.discountAmount) | decimalpipe}}</td>
+                    <td class="text-right">{{ci?.amountBeforeTax | decimalpipe}}</td>
+                    <td class="text-right">{{ci?.taxAmount | decimalpipe}}</td>
+                    <td class="text-right">{{ci?.totalAmount | decimalpipe}}</td>
+                    <ng-container *ngIf="showMargin">
+                      <td class="text-right">{{ci?.totalCost | decimalpipe}}</td>
+                      <td class="text-right">{{ci?.grossMargin | decimalpipe}}</td>
+                      <td class="text-right">{{ci?.grossMarginPer | decimalpipe}}</td>
+                      </ng-container>
+                  </tr>
+                  <tr>
+                    <th colspan="4">{{'Total' | translate}}</th>
+                    <!-- <td class="text-center">{{item.invoiceCount}}</td>-->
+                   
+                    <th class="text-right">{{item.subTotal |  number:'1.0-1'}}</th>
+                    <th class="text-right">{{(item.discountAmount) |  number:'1.0-1'}}</th>
+                    <th class="text-right">{{item.amountBeforeTax |  number:'1.0-1'}}</th>
+                    <th class="text-right">{{item.taxAmount |  number:'1.0-1'}}</th>
+                    <th class="text-right">{{item.totalAmount |  number:'1.0-1'}}</th>
+                    <ng-container *ngIf="showMargin">
+                      <th class="text-right">{{item.totalCost |  number:'1.0-1'}}</th>
+                      <th class="text-right">{{item.grossMargin |  number:'1.0-1'}}</th>
+                      <th class="text-right">{{item.grossMarginPer |  number:'1.0-1'}}</th>
+                      </ng-container>
+                  </tr>
+
+
+
+                </tbody>
+
+              </table>
+<br />
+
+
+
+
+            </ng-container>
+            <table style="width:100%;" border="1" cellpadding="0" cellspacing="0" class="ur_tablestyle">
+              <tbody>
+                <tr>
+
+                  <th rowspan="2" class="w10per">{{'Total' | translate}}</th>
+                  <th>{{'Count' | translate}} </th>
+                  <th class="w10per">{{'Amount' | translate}} </th>
+                  <th class="w10per">{{'Discount_Amount' | translate}} </th>
+                  <th class="w10per">{{'Net_Amount' | translate}} </th>
+                  <th class="w10per">{{'Tax_Amount' | translate}} </th>
+                  <th class="w10per">{{'Sales_Amount' | translate}} </th>
+                  <ng-container *ngIf="showMargin">
+                    <th class="w10per">{{'Cost' | translate}} </th>
+                    <th class="w10per">{{'Gross_Margin' | translate}} </th>
+                    <th class="w10per">{{'GM%' | translate}} </th>
+                    </ng-container>
+                </tr>
+                <tr>
+                  <td class="text-center">{{totCount}}</td>
+                  <td class="text-right">{{totAmount |  number:'1.0-1'}}</td>
+                  <td class="text-right">{{totDiscount |  number:'1.0-1'}}</td>
+                  <td class="text-right">{{totNetAmountBT |  number:'1.0-1'}}</td>
+                  <td class="text-right">{{totTaxAmount |  number:'1.0-1'}}</td>
+                  <td class="text-right">{{totSalesAmount |  number:'1.0-1'}}</td>
+                  <ng-container *ngIf="showMargin">
+                    <td class="text-right">{{totCost |  number:'1.0-1'}}</td>
+                    <td class="text-right">{{totGrossMargin |  number:'1.0-1'}}</td>
+                    <td class="text-right">{{totGrossMarginPer | number:'1.0-1'}}%</td>
+                    </ng-container>
+
+                </tr>
+              </tbody>
+            </table>
+
+
+          </ng-template>
+
+        </div>
+
+
+      </div>
+
+
+    </div>
+
+
+  </div>
+
+  <!--<h3 *ngIf="vendorList && vendorList.length === 0">{{'No_Records' | translate}}</h3>-->
+
+</div>

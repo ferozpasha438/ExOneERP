@@ -1,0 +1,319 @@
+<h3> {{'Create_New_Cash_Voucher' | translate}} <button type="button" class="close" aria-hidden="true" (click)="closeModel()"> ×</button></h3>
+<form [formGroup]="form" (ngSubmit)="submit()" novalidate class="mt-4">
+  <div class="modal-body">
+
+    <div class="outer  ">
+
+      <div class="row">
+        <!--<div class="col-md-6 col-lg-6">
+    <div class="form-group">
+      <label>{{'Create_Voucher' | translate}} </label>
+      <input class="form-control" type="text"
+             placeholder="{{'PleaseEnter' | translate}} {{'Create_Voucher' | translate}}" formControlName="">
+    </div>
+  </div>-->
+        <div class="col-md-6 col-lg-6">
+          <div class="form-group">
+            <label>{{'Date' | translate}}</label>
+            <div class="input-group mb-2">
+              <input class="form-control datapickerinput" placeholder="{{'Select_a_Date' | translate}}" formControlName="jvDate"
+                     [matDatepicker]="picker">
+
+              <div class="input-group-prepend datapickericon">
+                <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                <mat-datepicker #picker></mat-datepicker><br /><br />
+              </div>
+            </div>
+            <validation-message [control]="form.controls.jvDate"></validation-message>
+          </div>
+        </div>
+
+        <div class="col-md-6 col-lg-6">
+          <div class="form-group">
+            <label>{{'Amount' | translate}}</label>
+            <input class="form-control" type="number"
+                   placeholder="{{'PleaseEnter' | translate}} {{'Amount' | translate}} " formControlName="amount">
+            <validation-message [control]="form.controls.amount"></validation-message>
+          </div>
+        </div>
+
+
+        <div class="col-md-6 col-lg-6 d-none">
+
+          <div class="form-group ">
+            <label class="mr-sm-2">{{'Customer' | translate}}</label>
+
+            <ng-select [items]="customerList"
+                       bindLabel="text" (clear)="resetCodeSegmentReadonly()"
+                       bindValue="textTwo" formControlName="customerId" (change)="customerChange($event)">
+            </ng-select>
+          </div>
+        </div>
+
+        <div class="col-md-6 col-lg-6 d-none">
+          <div class="form-group ">
+            <label class="mr-sm-2">{{'Customer_Sites' | translate}}</label>
+            <ng-select [items]="customerSiteList"
+                       bindLabel="text"
+                       bindValue="value" formControlName="siteCode">
+            </ng-select>
+          </div>
+        </div>
+
+
+
+
+        <div class="col-md-6 col-lg-6">
+          <div class="form-group">
+            <label>{{'Company' | translate}}</label>
+            <select class="custom-select mr-sm-2" formControlName="companyId" (change)="loadBranchs($event)">
+              <option value="">{{'Select_Organization' | translate}}</option>
+              <option *ngFor="let item of companyList" value="{{item.value}}">{{item.text}}</option>
+            </select>
+            <validation-message [control]="form.controls.companyId"></validation-message>
+          </div>
+        </div>
+
+        <div class="col-md-6 col-lg-6">
+
+          <div class="form-group mb-4">
+            <label class="mr-sm-2">{{'Branch' | translate}}</label> &nbsp;&nbsp;
+
+            <mat-slide-toggle color="primary" (change)="hasBranchHiddenChecked($event)"> </mat-slide-toggle>
+
+            <select class="custom-select mr-sm-2" formControlName="branchCode" (change)="selectBranch($event)">
+              <option value="">{{'Select_Branch' | translate}}</option>
+              <option *ngFor="let item of branchList" value="{{item.value}}">{{item.text}}</option>
+            </select>
+            <validation-message [control]="form.controls.branchCode"></validation-message>
+
+          </div>
+        </div>
+
+        <div class="col-md-6 col-lg-6">
+          <div class="form-group">
+            <label>{{'DocumentNumber' | translate}}</label>
+            <input class="form-control" type="text"
+                   placeholder="{{'PleaseEnter' | translate}} {{'DocumentNumber' | translate}} " formControlName="docNum">
+            <validation-message [control]="form.controls.docNum"></validation-message>
+          </div>
+        </div>
+
+        <div class="col-md-3 col-lg-3">
+          <div class="form-group ">
+            <label class="mr-sm-2">{{'Cash_Book_Code' | translate}}</label>
+            <select class="custom-select mr-sm-2" formControlName="cBookCode">
+              <option value="">{{'Cash_Book_Code' | translate}}</option>
+              <option *ngFor="let item of payCodeList" value="{{item.text}}">{{item.text}}</option>
+            </select>
+            <validation-message [control]="form.controls.cBookCode"></validation-message>
+          </div>
+
+        </div>
+
+        <!--<div class="col-md-6 col-lg-6">
+    <div class="form-group">
+      <label>{{'Cash_Book_Code' | translate}}</label>
+      <input class="form-control" type="text"
+             placeholder="{{'PleaseEnter' | translate}} {{' Cash_Book_Code' | translate}}" formControlName="cBookCode">
+      <validation-message [control]="form.controls.cBookCode"></validation-message>
+    </div>
+  </div>-->
+
+        <div class="col-md-6 col-lg-6">
+
+          <div class="form-group mb-4">
+            <label class="mr-sm-2">{{'VoucherType' | translate}}</label>
+            <select class="custom-select mr-sm-2" formControlName="voucherType" (change)="selectVoucherType($event)">
+              <option value="">{{'Choose' | translate}} {{'VoucherType' | translate}}</option>
+              <option value="Receipts">{{'Receipts' | translate}}</option>
+              <option value="Payment">{{'Payment' | translate}}</option>
+
+            </select>
+            <validation-message [control]="form.controls.voucherType"></validation-message>
+          </div>
+
+        </div>
+
+
+        <div class="col-md-6 col-lg-6">
+          <div class="form-group">
+            <label>{{'Batch' | translate}}</label>
+            <!--<input class="form-control" type="text"
+      placeholder="{{'PleaseEnter' | translate}} {{'Batch' | translate}}" formControlName="batch">-->
+
+            <ng-select [items]="batchSetupList"
+                       bindLabel="text"
+                       bindValue="value" formControlName="batch">  </ng-select>
+
+            <!--<validation-message [control]="form.controls.batch"></validation-message>-->
+          </div>
+        </div>
+        <div class="col-md-12 col-lg-12">
+          <div class="form-group">
+            <label>{{'Remarks' | translate}}</label>
+            <textarea class="form-control" placeholder="{{'PleaseEnter' | translate}} {{'Remarks' | translate}}" formControlName="remarks">
+                  </textarea>
+
+          </div>
+        </div>
+        <div class="col-md-12 col-lg-12">
+          <div class="form-group">
+            <label>{{'Narration' | translate}}</label>
+            <textarea class="form-control" placeholder="{{'PleaseEnter' | translate}} {{'Narration' | translate}}" formControlName="narration">                  </textarea>
+
+          </div>
+        </div>
+
+      </div>
+      <div class="">
+        <table id="zero_config" class="table  table-bordered no-wrap">
+          <thead>
+            <tr>
+              <!--<th>{{'S_no' | translate}}</th>-->
+              <th *ngIf="hasBranchHidden" width="10%">{{'Branch' | translate}}</th>
+              <ng-container *ngIf="isSeg2">
+                <th width="10%">{{'Service' | translate}}</th>
+                <th width="10%">{{'Branch' | translate}}</th>
+              </ng-container>
+              <ng-container *ngIf="isSeg1">
+                <th width="10%">{{'Service' | translate}}</th>
+              </ng-container>
+              <th style="width:25%;">{{'A_C_Code' | translate}} </th>
+              <th>{{'Description' | translate}}</th>
+              <th>{{'Line_Remarks' | translate}}</th>
+              <th>{{'CostAllocation' | translate}}</th>
+              <th>{{'CostSegCode' | translate}}</th>
+              <th width="9%" *ngIf="isPaymentType">{{'Dr_Amount' | translate}}</th>
+              <th width="9%" *ngIf="!isPaymentType">
+                {{'Cr_Amount' | translate}}
+              </th>
+              <th class="text-center"> </th>
+
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+
+              <td *ngIf="hasBranchHidden">
+                <select class="custom-select mr-sm-2  voucher-width-120" [(ngModel)]="branchCode" [ngModelOptions]="{standalone: true}" (change)="loadAccountCodes($event)" [disabled]="branchList.length == 1">
+                  <option value="">{{'Branch' | translate}}</option>
+                  <option *ngFor="let item of branchList" value="{{item.value}}">{{item.text}}</option>
+                </select>
+              </td>
+
+              <!--<td><input class="form-control" type="text" value="" [(ngModel)]="batch" [ngModelOptions]="{standalone: true}"></td>
+  <td><input class="form-control" type="text" value="" [(ngModel)]="batch2" [ngModelOptions]="{standalone: true}"></td>-->
+
+              <ng-container *ngIf="isSeg2">
+                <td>
+                  <ng-select [items]="segmentSetupList"
+                             bindLabel="text"
+                             bindValue="value" [(ngModel)]="batch" [ngModelOptions]="{standalone: true}" class="voucher-width-180">  </ng-select>
+                </td>
+
+                <td>
+                  <ng-select [items]="segmentTwoSetupList"
+                             bindLabel="text"
+                             bindValue="value" [(ngModel)]="batch2" [ngModelOptions]="{standalone: true}" class="voucher-width-180">  </ng-select>
+                </td>
+              </ng-container>
+              <ng-container *ngIf="isSeg1">
+                <td>
+                  <ng-select [items]="segmentSetupList"
+                             bindLabel="text"
+                             bindValue="value" [(ngModel)]="batch" [ngModelOptions]="{standalone: true}" class="voucher-width-180">  </ng-select>
+                </td>
+              </ng-container>
+
+              <td>
+                <ng-select [items]="accountCodeList"
+                           bindLabel="text"
+                           bindValue="value" [(ngModel)]="finAcCode" [ngModelOptions]="{standalone: true}" class="voucher-width-250">  </ng-select>
+
+                <!--<select class="custom-select mr-sm-2" [(ngModel)]="finAcCode" [ngModelOptions]="{standalone: true}">
+      <option value="">{{'A_C_Code' | translate}}</option>
+      <option *ngFor="let item of accountCodeList" value="{{item.value}}">{{item.text}}</option>
+    </select>-->
+                <!--<validation-message [control]="itemList.controls[1].finAcCode"></validation-message>-->
+              </td>
+              <td><textarea  rows="5" class="form-control voucher-width-200" type="text" value="Nil" [(ngModel)]="description" [ngModelOptions]="{standalone: true}"></textarea></td>
+              <td><textarea  rows="5" class="form-control voucher-width-200" type="text" value="Travelling" [(ngModel)]="remarks" [ngModelOptions]="{standalone: true}"></textarea></td>
+
+              <td>
+                <ng-select [items]="costAllocationList"
+                           bindLabel="text"
+                           bindValue="value" [(ngModel)]="costAllocation" [ngModelOptions]="{standalone: true}" (change)="loadSegCodedata($event)"
+                           class="voucher-width-180"  [readonly]="isCodeSegmentReadonly">  </ng-select>
+              </td>
+
+              <td>
+                <ng-select [items]="costSegCodeList"
+                           bindLabel="text"
+                           bindValue="textTwo" [(ngModel)]="costSegCode" [ngModelOptions]="{standalone: true}" (change)="selectSegCodedata($event)"
+                           class="voucher-width-230"  [readonly]="isCodeSegmentReadonly">  </ng-select>
+              </td>
+
+
+              <td><input class="form-control voucher-width-120" type="number" value="" [(ngModel)]="payment" [ngModelOptions]="{standalone: true}"></td>
+              <!--<td><input class="form-control" type="number" value="$1,200" [(ngModel)]="payment" [ngModelOptions]="{standalone: true}" (keyup)="drAmount > 0 ? crAmount = 0 : crAmount = 0 "></td>-->
+              <!--<td><input class="form-control" type="number" value="$1,200" [(ngModel)]="crAmount" [ngModelOptions]="{standalone: true}" (keyup)="crAmount > 0 ? drAmount = 0 : drAmount = 0"></td>-->
+              <td>
+                <i class="fas fa-plus-circle" (click)="addItem()"> </i> &nbsp;&nbsp;
+                <i class="fas fa-eraser text-danger" (click)="setToDefault()"> </i>
+
+              </td>
+            </tr>
+          </tbody>
+
+          <tbody *ngIf="itemList.length > 0">
+            <tr *ngFor="let item of itemList; let index = i;">
+              <td *ngIf="hasBranchHidden">{{item.branchName}}</td>
+              <ng-container *ngIf="isSeg2">
+                <td>{{item.batch}}</td>
+                <td>{{item.batch2}}</td>
+              </ng-container>
+              <ng-container *ngIf="isSeg1">
+                <td>{{item.batch}}</td>
+              </ng-container>
+              <td>{{item.finAcCode}}</td>
+              <td>{{item.description}}</td>
+              <td>{{item.remarks}}</td>
+              <td>{{item.costAllocationName}}</td>
+              <td>{{item.costSegCodeName}}</td>
+              <td>{{item.payment}}</td>
+              <td class="text-center">
+                <i class="icon-note cpointer" (click)="editInvoiceItem(item)"> </i> &nbsp;
+                <i class="icon-trash cpointer " (click)="deleteInvoiceItem(item)"> </i> &nbsp;
+              </td>
+            </tr>
+          </tbody>
+
+
+          <!--<tfoot>
+            <tr class="tfoot">
+
+              <td colspan="6" class="text-right ">Total Amount</td>
+              <td class="text-right">$1,200</td>
+              <td class="text-right" colspan="2">$1,200</td>
+            </tr>
+
+          </tfoot>-->
+        </table>
+      </div>
+
+
+    </div>
+
+
+  </div>
+  <div class="row">
+    <div class="col-lg-12 col-md-12 text-center">
+      <button type="button" class="btn btn-secondary" data-dismiss="modal" (click)="closeModel()">
+        {{'Cancel' | translate}}
+      </button>
+      &nbsp;&nbsp;
+      <input type="submit" class="btn waves-effect waves-light   btn-primary  " value="{{'Save' | translate}}">
+    </div>
+  </div>
+</form>

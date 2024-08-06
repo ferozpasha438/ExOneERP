@@ -1,0 +1,22 @@
+<h3>{{childTitle}}</h3>
+<b> {{ctMsg}}</b>
+<ul>
+  <li *ngFor="let cname of myctArray">
+    {{cname}}
+  </li>
+</ul>
+
+<b>{{addMsg}}</b>
+<br />
+<div>
+  First Name:<input (input)="student.fname=getVal($event.target)" /> <br />
+  Last Name:<input (input)="student.lname=getVal($event.target)" />
+  <br /> <button (click)="addStudent()">Add Student</button>
+</div>
+
+<br /><b>{{message}}</b>
+<br />
+<div>
+  Message :<input (input)="msg=getVal($event.target)" />
+  <br /> <button (click)="sendMsg()">Send</button>
+</div>		

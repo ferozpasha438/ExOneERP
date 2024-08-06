@@ -1,0 +1,206 @@
+<div class="page-breadcrumb">
+  <div class="row">
+    <div class="col-12 align-self-center">
+      <h3 class="page-title text-truncate text-dark font-weight-medium mb-1">
+        {{'Journal_Voucher' | translate}}
+      </h3>
+      <div class="d-flex align-items-center">
+        <nav aria-label="breadcrumb">
+          <ol class="breadcrumb m-0 p-0">
+            <li class="breadcrumb-item text-muted">  {{'Financial_Transaction' | translate}} </li>
+            <li class="breadcrumb-item text-muted ">{{'General_Ledger' | translate}}</li>
+            <li class="breadcrumb-item   active" aria-current="page">{{'Journal_Voucher' | translate}}</li>
+
+          </ol>
+        </nav>
+      </div>
+    </div>
+
+  </div>
+</div>
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-md-12 col-lg-12">
+      <div class="card">
+        <div class="card-body">
+
+          <div class="row pb-3">
+            <div class="col-md-12 col-lg-12">
+              <!--<h4 class="card-title pt6">{{'Sales_Invoice_List' | translate}} </h4>-->
+            </div>
+            <div class="col-md-3">
+              <!--(keyup)="applyFilter($event)"-->
+              <input class="form-control" placeholder="{{'Search' | translate}}..." [(ngModel)]="searchValue" />
+            </div>
+            <div class="col-md-4 arabicright">
+              <button (click)="applyFilter(searchValue)" class="btn btn-primary">{{'Search' | translate}}</button> &nbsp;
+              <a (click)="refresh()" class=""><i class="btn btn-primary icon-refresh"></i></a>
+            </div>
+          </div>
+
+
+          <div class="row">
+            <div class="col-md-7 col-lg-9">
+              <h4 class="card-title pt6">{{'Journal_Voucher_List' | translate}}  </h4>
+            </div>
+            <div class="col-md-3 col-lg-3 text-right">
+              <div class="nav-item dropdown">
+                <a data-toggle="modal"
+                   data-target="#scrollable-modal" class="  btn waves-effect waves-light btn-rounded btn-outline-primary" (click)="create()" href="#"> <i class="icon-plus"> </i>{{'New' |translate}}  </a>
+
+
+              </div>
+
+
+            </div>
+          </div>
+
+          <div class="cardtitle-divider"></div>
+          <spinner-loader [isLoading]="isLoading"></spinner-loader>
+          <div class="table-responsive">
+
+            <table mat-table [dataSource]="data" matSort matSortActive="Id"
+                   matSortDisableClear matSortDirection="desc" (matSortChange)="onSortOrder($event)" class="table  table-bordered no-wrap">
+              <ng-container matColumnDef="VoucherNumber">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                  {{'JV_Number' | translate}}
+                </th>
+                <td mat-cell *matCellDef="let row">{{ row.voucherNumber }}</td>
+              </ng-container>
+
+              <ng-container matColumnDef="JvDate">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                  {{'Date' | translate}}
+                </th>
+                <td mat-cell *matCellDef="let row">{{ row.jvDate | date:'dd-MM-yyyy' }}</td>
+              </ng-container>
+
+              <ng-container matColumnDef="BranchCode">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                  {{'Branch' | translate}}
+                </th>
+                <td mat-cell *matCellDef="let row">{{ row.branchName }}</td>
+              </ng-container>
+
+              <ng-container matColumnDef="Amount">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                  {{'Amount' | translate}}
+                </th>
+                <td mat-cell *matCellDef="let row">{{ row.amount | leadingZeros}}</td>
+              </ng-container>
+
+              <ng-container matColumnDef="Source">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                  {{'Source' | translate}}
+                </th>
+                <td mat-cell *matCellDef="let row">{{ row.source}}</td>
+              </ng-container>
+              <ng-container matColumnDef="DocNum">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                  {{'Document' | translate}}
+                </th>
+                <td mat-cell *matCellDef="let row">{{ row.docNum}}</td>
+              </ng-container>
+              <ng-container matColumnDef="Remarks">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                  {{'Remarks' | translate}}
+                </th>
+                <td mat-cell *matCellDef="let row">{{ row.remarks}}</td>
+              </ng-container>
+              <ng-container matColumnDef="Approved">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                  {{'Approved' | translate}}
+                </th>
+                <td mat-cell *matCellDef="let row">{{ row.approvedUser}}</td>
+              </ng-container>
+
+              <!--<ng-container matColumnDef="ApprovedDate">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>
+          {{'AppDate' | translate}}
+        </th>
+        <td mat-cell *matCellDef="let row">{{ row.approvedDate}}</td>
+      </ng-container>-->
+
+              <ng-container matColumnDef="Posted">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                  {{'Posted' | translate}}
+                </th>
+                <td mat-cell *matCellDef="let row">{{ row.posted}}</td>
+              </ng-container>
+
+              <ng-container matColumnDef="Void">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                  {{'Void' | translate}}
+                </th>
+                <td mat-cell *matCellDef="let row">{{ row.isVoid}}</td>
+              </ng-container>
+
+              <ng-container matColumnDef="PostedDate">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                  {{'PostedDate' | translate}}
+                </th>
+                <td mat-cell *matCellDef="let row">{{ row.postedDate | date :'dd-MM-yyyy'}}</td>
+              </ng-container>
+              <ng-container matColumnDef="Actions">
+                <th mat-header-cell *matHeaderCellDef>
+                  {{'Actions' | translate}}
+                </th>
+                <td mat-cell *matCellDef="let row" class="text-center">
+                  <div class="nav-item dropdown">
+                    <a href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="icon-options-vertical"></i></a>
+
+                    <div class="dropdown-menu dropdown-menu-custom" aria-labelledby="navbarDropdown" style="transform: translate3d(0px, -61px, 0px)!important;">
+                      <a data-toggle="modal" class="dropdown-item" href="#" (click)="edit(row.id)" *ngIf="!row.isApproved && !row.isSettled">{{'Edit' | translate}}</a>
+                      <a data-toggle="modal" class="dropdown-item" href="#" (click)="print(row.id)">{{'Print' | translate}}</a>
+                      <a data-toggle="modal" class="dropdown-item" href="#" (click)="copy(row.id)">{{'Copy' | translate}}</a>
+                      <!--<a data-toggle="modal" class="dropdown-item" href="#" (click)="printList(row.id)">{{'PrintList' | translate}}</a>-->
+                      <ng-container *ngIf="row.hasAuthority && row.isDrCrAmtSame">
+                        <a data-toggle="modal" class="dropdown-item" href="#" (click)="approve(row.id)" *ngIf="!row.approvedUser && !row.isSettled">{{'Approve' | translate}}</a>
+
+                        <ng-container *ngIf="row.isDrCrAmtSame">
+                          <a data-toggle="modal" class="dropdown-item" href="#" (click)="posting(row.id)" *ngIf="row.canSettle && (!row.isSettled && !row.isVoid )">{{'Post' | translate}}</a>
+                          <a data-toggle="modal" class="dropdown-item" href="#" (click)="voidStatus(row.id)" *ngIf="row.canSettle && (!row.isSettled && !row.isVoid ) ">{{'Void' | translate}}</a>
+                        </ng-container>
+                      </ng-container>
+                    </div>
+                  </div>
+
+                  <!--<a class="tableicons" (click)="edit(row.id)"><i class="icon-note"> </i></a> &nbsp;
+          <a class="tableicons" (click)="delete(row.id)"><i class="icon-trash"> </i></a>-->
+
+                </td>
+              </ng-container>
+
+              <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
+              <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+
+            </table>
+
+            <ng-container>
+              <mat-paginator [length]="totalItemsCount" *ngIf="totalItemsCount > 0"
+                             [pageSize]="pageService.pageCount"
+                             [pageSizeOptions]="pageService.selectItemsPerPage"
+                             (page)="onPageSwitch($event)">
+              </mat-paginator>
+            </ng-container>
+
+
+
+
+          </div>
+
+        </div>
+
+
+
+      </div>
+    </div>
+
+  </div>
+
+</div>
+
+
+
+
+

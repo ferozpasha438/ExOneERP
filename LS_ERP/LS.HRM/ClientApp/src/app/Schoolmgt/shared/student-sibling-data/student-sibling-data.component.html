@@ -1,0 +1,162 @@
+<div class="page-breadcrumb">
+  <div class="row">
+    <div class="col-12 align-self-center">
+      <h3 class="modal-title">{{'Student_Sibling_Data' | translate}}</h3>
+      <button type="button" class="close" aria-hidden="true" (click)="closeModel()"> ×</button>
+    </div>
+  </div>
+</div>
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-md-12 col-lg-12">
+      <div class="card">
+        <div class="card-body">
+          <div class="row">
+            <div class="col-md-4 col-lg-4">
+              <h4 class="card-title pt6">{{'Student_Sibling_Data' | translate}}</h4>
+            </div>
+          </div>
+          <div class="cardtitle-divider"></div>
+          <div class="table-responsive">
+            <spinner-loader [isLoading]="isLoading"></spinner-loader>
+            <div class="mat-elevation-z8">
+              <ng-container>
+                <table mat-table [dataSource]="data" matSort matSortActive="id" matSortDisableClear
+                       matSortDirection="desc" class="table  table-bordered no-wrap">
+                  <ng-container matColumnDef="relationType">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                      {{'Relationship' | translate}}
+                    </th>
+                    <td mat-cell *matCellDef="let row">{{ row.relationType }}</td>
+                  </ng-container>
+                  <ng-container matColumnDef="name">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                      {{'Name_of_the_Sibling' | translate}}
+                    </th>
+                    <td mat-cell *matCellDef="let row">{{ row.name }}</td>
+                  </ng-container>
+
+                  <ng-container matColumnDef="occupation">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                      {{'Occupation' | translate}}
+                    </th>
+                    <td mat-cell *matCellDef="let row">{{ row.occupation }}</td>
+                  </ng-container>
+                  <ng-container matColumnDef="deisgnation">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                      {{'Deisgnation' | translate}}
+                    </th>
+                    <td mat-cell *matCellDef="let row">{{ row.deisgnation }}</td>
+                  </ng-container>
+                  <ng-container matColumnDef="email">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                      {{'Email' | translate}}
+                    </th>
+                    <td mat-cell *matCellDef="let row">{{ row.email }}</td>
+                  </ng-container>
+                  <ng-container matColumnDef="mobile1">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                      {{'Phone' | translate}}
+                    </th>
+                    <td mat-cell *matCellDef="let row">{{ row.mobile1 }}</td>
+                  </ng-container>
+                  <ng-container matColumnDef="remarks">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                      {{'Remarks' | translate}}
+                    </th>
+                    <td mat-cell *matCellDef="let row">{{ row.remarks }}</td>
+                  </ng-container>
+                  <ng-container matColumnDef="Actions" stickyEnd>
+                    <th mat-header-cell *matHeaderCellDef> {{'Actions' | translate}}</th>
+                    <td mat-cell *matCellDef="let row">
+                      <a class="tableicons" matTooltip="{{'Edit_Item' | translate}}" (click)="edit(row)">
+                        <i class="icon-note"> </i>
+                      </a>
+                    </td>
+                  </ng-container>
+                  <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
+                  <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+                </table>
+                <ng-container>
+                  <mat-paginator [length]="totalItemsCount" [pageSize]="pageService.pageCount"
+                                 [pageSizeOptions]="pageService.selectItemsPerPage"
+                                 (page)="onPageSwitch($event)">
+                  </mat-paginator>
+                </ng-container>
+              </ng-container>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<form [formGroup]="form" (ngSubmit)="submit()" novalidate class="mt-4">
+  <div class="outer ">
+    <div class="row rowm0 mt-3 m-0">
+      <div class="col-md-3 col-lg-3 col-sm-3">
+        <div class="form-group">
+          <label>{{'Relationship' | translate}}</label>
+          <input class="form-control" type="text" placeholder="{{'Relationship' | translate}}"
+                 formControlName="relationType" />
+          <validation-message [control]="form.controls.relationType"></validation-message>
+        </div>
+      </div>
+      <div class="col-md-3 col-lg-3 col-sm-3">
+        <div class="form-group">
+          <label>{{'Name_of_the_Sibling' | translate}}</label>
+          <input class="form-control" type="text" placeholder="{{'Name_of_the_Sibling' | translate}}"
+                 formControlName="name" />
+          <validation-message [control]="form.controls.name"></validation-message>
+        </div>
+      </div>
+      <div class="col-md-3 col-lg-3 col-sm-3">
+        <div class="form-group">
+          <label>{{'Occupation' | translate}}</label>
+          <input class="form-control" type="text" placeholder="{{'Occupation' | translate}}"
+                 formControlName="occupation" />
+          <validation-message [control]="form.controls.occupation"></validation-message>
+        </div>
+      </div>
+      <div class="col-md-3 col-lg-3 col-sm-3">
+        <div class="form-group">
+          <label>{{'Deisgnation' | translate}}</label>
+          <input class="form-control" type="text" placeholder="{{'Deisgnation' | translate}}"
+                 formControlName="deisgnation" />
+          <validation-message [control]="form.controls.deisgnation"></validation-message>
+        </div>
+      </div>
+      <div class="col-md-3 col-lg-3 col-sm-3">
+        <div class="form-group">
+          <label>{{'Phone' | translate}}</label>
+          <input class="form-control" type="text" placeholder="{{'Phone' | translate}}"
+                 formControlName="mobile1" />
+          <validation-message [control]="form.controls.mobile1"></validation-message>
+        </div>
+      </div>
+      <div class="col-md-3 col-lg-3 col-sm-3">
+        <div class="form-group">
+          <label>{{'Email' | translate}}</label>
+          <input class="form-control" type="text" placeholder="{{'Email' | translate}}"
+                 formControlName="email" />
+          <validation-message [control]="form.controls.email"></validation-message>
+        </div>
+      </div>
+      <div class="col-md-3 col-lg-3 col-sm-3">
+        <div class="form-group">
+          <label>{{'Remarks' | translate}}</label>
+          <input class="form-control" type="text" placeholder="{{'Remarks' | translate}}"
+                 formControlName="remarks" />
+          <validation-message [control]="form.controls.remarks"></validation-message>
+        </div>
+      </div>
+    </div>
+    <div class="row customrow mt-4">
+      <div class="col-lg-12 col-md-12 text-center">
+        <input type="button" class="btn btn-secondary" value="{{'Cancel' | translate}}" (click)="closeModel()" />
+        &nbsp;&nbsp;
+        <input type="submit" class="btn waves-effect waves-light btn-primary" value="{{'Save' | translate}}">
+      </div>
+    </div>
+  </div>
+</form>

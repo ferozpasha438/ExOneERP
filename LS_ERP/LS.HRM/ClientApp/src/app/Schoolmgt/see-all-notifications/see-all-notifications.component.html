@@ -1,0 +1,42 @@
+<style>
+  .divNotification {
+    border: 1px solid #e6e6e6;
+    padding: 2%;
+    margin-bottom: 1%;
+  }
+    .divNotification h2 {
+      font-size: 20px;
+      color: #000;
+    }
+    .divNotification p {
+      font-size: 14px;
+      padding-left:1%;
+    }
+</style>
+<div class="page-breadcrumb">
+  <div class="row">
+    <div class="col-12 align-self-center">
+      <h3 class="page-title text-truncate text-dark font-weight-medium mb-1">
+        {{'All_Notifications' | translate}}
+      </h3>
+    </div>
+  </div>
+</div>
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-md-12 col-lg-12">
+      <div class="card">
+        <div class="card-body">
+          <div class="row">
+            <div class="col-md-12 col-lg-12">
+                <div class="divNotification" *ngFor="let not of notificationList">
+                  <h2>{{isArab?not.title_Ar:not.title}} / {{this.utilService.selectedDate(not.notifyDate)}}</h2>
+                  <p>{{isArab?not.notifyMessage_Ar:not.notifyMessage}}</p>
+                </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,169 @@
+
+
+<div class="container-fluid invoice-container print-container" style="width:850px; padding-top:5px;" id="printcontainer">
+  <h4 style="font-size: 1rem !important;color: #0c2f54; font-family: 'Poppins', sans-serif;font-weight: 500;
+        line-height: 1.2;margin:0;padding-top:4px">
+    {{'Survey_Form' | translate}}:
+  </h4>
+  <h4 style="font-size: 1.2rem !important;color: #0c2f54; font-family: 'Poppins', sans-serif;font-weight: 500;
+        line-height: 1.2;margin:0;padding-top:4px">
+    {{surveyFormHeader?.surveyFormNameArb}}({{surveyFormHeader?.surveyFormNameEng}})
+  </h4>
+  <table style="width:100%" border="0" cellpadding="0" cellspacing="0" width="100%">
+    <tr>
+      <th style=" width:20%;border:2px solid #878787;padding:5px;font-size:0.875rem !important;color: #000000; font-family: 'Poppins', sans-serif;font-weight:600;">{{'Enquiry_ID'| translate}}</th>
+      <td style=" width:30%; border:2px solid #878787;padding:5px;font-size:0.775rem !important;color: #000000; font-family: 'Poppins', sans-serif;font-weight: 400;">{{inputData.enquiryID}}</td>
+      <th style=" width:20%;border:2px solid #878787;padding:5px;font-size:0.875rem !important;color: #000000; font-family: 'Poppins', sans-serif;font-weight:600;">{{'Enquiry_Number' | translate}}</th>
+      <td style=" width:30%; border:2px solid #878787;padding:5px;font-size:0.775rem !important;color: #000000; font-family: 'Poppins', sans-serif;font-weight: 400;">{{inputData.enquiryNumber}}</td>
+
+    </tr>
+    <tr>
+
+
+      <th style=" width:20%;border:2px solid #878787;padding:5px;font-size:0.875rem !important;color: #000000; font-family: 'Poppins', sans-serif;font-weight:600;">{{'Service_Code' | translate}}</th>
+      <td style=" width:30%; border:2px solid #878787;padding:5px;font-size:0.775rem !important;color: #000000; font-family: 'Poppins', sans-serif;font-weight: 400;">{{service?.serviceCode}}</td>
+
+      <th style=" width:20%;border:2px solid #878787;padding:5px;font-size:0.875rem !important;color: #000000; font-family: 'Poppins', sans-serif;font-weight:600;">{{'Customer'| translate}}</th>
+      <td style=" width:30%; border:2px solid #878787;padding:5px;font-size:0.775rem !important;color: #000000; font-family: 'Poppins', sans-serif;font-weight: 400;">{{customer?.custCode}}</td>
+    </tr>
+    <tr>
+      <th rowspan="2" style=" width:20%;border:2px solid #878787;padding:5px;font-size:0.875rem !important;color: #000000; font-family: 'Poppins', sans-serif;font-weight:600;">{{'Service_Name' | translate}}</th>
+      <td  style=" width:30%; border:2px solid #878787;padding:5px;font-size:0.775rem !important;color: #000000; font-family: 'Poppins', sans-serif;font-weight: 400;">{{service?.serviceNameEng}}</td>
+      <th style=" width:20%;border:2px solid #878787;padding:5px;font-size:0.875rem !important;color: #000000; font-family: 'Poppins', sans-serif;font-weight:600;">{{'Name' | translate}}</th>
+      <td style=" width:30%; border:2px solid #878787;padding:5px;font-size:0.775rem !important;color: #000000; font-family: 'Poppins', sans-serif;font-weight: 400;">{{customer?.custName}}</td>
+
+    </tr>
+
+    <tr>
+      
+      <td style=" width:30%; border:2px solid #878787;padding:5px;font-size:0.775rem !important;color: #000000; font-family: 'Poppins', sans-serif;font-weight: 400;">{{service?.serviceNameArb}}</td>
+      <th style=" width:20%;border:2px solid #878787;padding:5px;font-size:0.875rem !important;color: #000000; font-family: 'Poppins', sans-serif;font-weight:600;">{{'Mobile' | translate}}</th>
+      <td style=" width:30%; border:2px solid #878787;padding:5px;font-size:0.775rem !important;color: #000000; font-family: 'Poppins', sans-serif;font-weight: 400;">{{customer?.custMobile1}}</td>
+    </tr>
+    <tr>
+
+      <th rowspan="2" style=" width:20%;border:2px solid #878787;padding:5px;font-size:0.875rem !important;color: #000000; font-family: 'Poppins', sans-serif;font-weight:600;">{{'Site_Name' | translate}}</th>
+      <td style=" width:30%; border:2px solid #878787;padding:5px;font-size:0.775rem !important;color: #000000; font-family: 'Poppins', sans-serif;font-weight: 400;">{{site?.siteName}}</td>
+      <th style=" width:20%;border:2px solid #878787;padding:5px;font-size:0.875rem !important;color: #000000; font-family: 'Poppins', sans-serif;font-weight:600;">{{'Address' | translate}}</th>
+      <td style=" width:30%; border:2px solid #878787;padding:5px;font-size:0.775rem !important;color: #000000; font-family: 'Poppins', sans-serif;font-weight: 400;">{{site?.siteAddress}}</td>
+
+
+    </tr>
+    <tr>
+
+
+    
+      <td style=" width:30%; border:2px solid #878787;padding:5px;font-size:0.775rem !important;color: #000000; font-family: 'Poppins', sans-serif;font-weight: 400;">{{site?.siteArbName}}</td>
+
+      <th style=" width:20%;border:2px solid #878787;padding:5px;font-size:0.875rem !important;color: #000000; font-family: 'Poppins', sans-serif;font-weight:600;">{{'City' | translate}}</th>
+      <td style=" width:30%; border:2px solid #878787;padding:5px;font-size:0.775rem !important;color: #000000; font-family: 'Poppins', sans-serif;font-weight: 400;">{{customer?.custCityCode1}}</td>
+    </tr>
+
+    <tr>
+      <th style=" width:20%;border:2px solid #878787;padding:5px;font-size:0.875rem !important;color: #000000; font-family: 'Poppins', sans-serif;font-weight:600;">{{'Geo_Location'| translate}}</th>
+      <td colspan="3" style="border:2px solid #878787;padding:5px;font-size:0.775rem !important;color: #000000; font-family: 'Poppins' , sans-serif;font-weight: 400;">{{site?.siteGeoLatitude}}/{{site?.siteGeoLongitude}}/{{site?.siteGeoGain}}</td>
+
+    </tr>
+
+
+  </table>
+
+  <div style="padding-bottom:5px;padding-top:5px" *ngIf="!(enquiry?.isSurveyCompleted) && showElements" class="mat-elevation-z8">
+
+    <table style="width:100%;" border="0" cellpadding="0" cellspacing="0">
+      <tr>
+        <th width="3%" style="border:2px solid #878787;padding:2px 2px;font-size:0.875rem !important;color: #000000; font-family: 'Poppins', sans-serif;font-weight:600;">
+          {{'S.No' | translate}}
+        </th>
+        <th width="75%" style="border:2px solid #878787;padding:5px;font-size:0.875rem !important;color: #000000; font-family: 'Poppins', sans-serif;font-weight:600;">
+          {{'Form_Attribute' | translate}}
+        </th>
+        <th style="border:2px solid #878787;padding:5px;font-size:0.875rem !important;color: #000000; font-family: 'Poppins', sans-serif;font-weight:600;">
+        </th>
+      </tr>
+      <tr *ngFor="let row of surveyFormDataEntries;let i = index;">
+        <td style="border:2px solid #878787;padding:5px;font-size:0.775rem !important;color: #000000; font-family: 'Poppins', sans-serif;font-weight:400;">{{i + 1}}</td>
+        <td style="border:2px solid #878787;padding:5px;font-size:0.775rem !important;color: #000000; font-family: 'Poppins', sans-serif;font-weight:400;">{{ row.elementEngName }} <br>{{ row.elementArbName }}</td>
+        <td style="border:2px solid #878787;padding:5px;font-size:0.775rem !important;color: #000000; font-family: 'Poppins', sans-serif;font-weight:400;" *ngIf="row.elementType=='Absolute'"><input class="form-control" type="text" id="{{i}}" (change)="setEntryValue($event,i)" placeholder="{{'Enter' | translate}} {{'Value' | translate}}" value='{{row.entryValue}}' /></td>
+        <td style="border:2px solid #878787;padding:5px;font-size:0.775rem !important;color: #000000; font-family: 'Poppins', sans-serif;font-weight:400;" *ngIf="row.elementType=='Boolean'">
+          <!--<div class="radio">
+            <input id="{{i}}-Yes" name="rdoption" type="radio" value="Yes" (click)="setEntryValue($event,i)">&nbsp;&nbsp;
+            <label for="{{i}}-Yes" class="radio-label">Yes</label>
+          </div>
+          <div class="radio">
+            <input id="{{i}}-No" name="rdoption" type="radio" value="No" (click)="setEntryValue($event,i)">&nbsp;&nbsp;
+            <label for="{{i}}-No" class="radio-label">No</label>
+          </div>-->
+          <select class="custom-select mr-sm-2" id="{{i}}" [ngModelOptions]="{standalone: true}" (change)="setEntryValue($event,i)" value='{{row.entryValue}}' style="font-size:0.775rem !important;color: #000000; font-family: 'Poppins', sans-serif;font-weight:400;">
+            <option value="">{{'Select' | translate}}</option>
+            <option value="Yes">{{'Yes' | translate}}</option>
+            <option value="No">{{'No' | translate}}</option>
+          </select>
+
+        </td>
+        <td style="border:2px solid #878787;padding:5px;font-size:0.775rem !important;color: #000000; font-family: 'Poppins', sans-serif;font-weight:400;"  *ngIf="row.elementType=='List'">
+          <!--<div class="radio" *ngFor="let listdata of row.listValueString.split(',');let i = index;">
+                    <input id="listdata-{{i}}" name="listdata" type="radio" value="{{listdata}}">&nbsp;&nbsp;
+          <label for="listdata-{{i}}" class="radio-label">{{listdata}}</label>
+                  </div>-->
+
+
+          <select class="custom-select mr-sm-2" id="{{i}}" [(ngModel)]="row.entryValue" [ngModelOptions]="{standalone: true}" (change)="setEntryValue($event,i)" style="font-size:0.775rem !important;color: #000000; font-family: 'Poppins', sans-serif;font-weight:400;">
+            <option value="">{{'Select' | translate}}</option>
+            <option *ngFor="let listdata of row.listValueString.split(',')" value='{{listdata}}'>{{listdata}}</option>
+          </select>
+        </td>
+        <td style="border:2px solid #878787;padding:5px;font-size:0.775rem !important;color: #000000; font-family: 'Poppins', sans-serif;font-weight:400;" *ngIf="row.elementType=='Scale'"><input class="form-control" id="{{i}}" (change)="setEntryValue($event,i)" type="number" min="row.minValue" max="row.maxValue" placeholder="{{'Enter' | translate}} {{'Value' | translate}}" value='{{row.entryValue}}'></td>
+        <td style="border:2px solid #878787;padding:5px;font-size:0.775rem !important;color: #000000; font-family: 'Poppins', sans-serif;font-weight:400;" *ngIf="row.elementType=='Percentage'"><input class="form-control" id="{{i}}" (change)="setEntryValue($event,i)" type="number" min="1" max="100" placeholder="{{'Enter' | translate}} {{'Value' | translate}}" value='{{row.entryValue}}'></td>
+        <!--<td>{{ row.minValue }}</td>
+        <td>{{ row.maxValue }}</td>-->
+      </tr>
+
+
+      
+
+    </table>
+
+
+    
+
+  </div>
+  <div style="padding-bottom:5px;padding-top:5px" *ngIf="enquiry?.isSurveyCompleted || !showElements" class="mat-elevation-z8">
+    <table class="table  table-bordered no-wrap">
+      <tr>
+        <th width="3%" style="border:2px solid #878787;padding:2px 2px;font-size:0.875rem !important;color: #000000; font-family: 'Poppins', sans-serif;font-weight:600;">
+          {{'S.No' | translate}}
+        </th>
+        <th width="75%" style="border:2px solid #878787;padding:2px 2px;font-size:0.875rem !important;color: #000000; font-family: 'Poppins', sans-serif;font-weight:600;">
+          {{'Form_Attribute' | translate}}
+        </th>
+        <th style="border:2px solid #878787;padding:5px;font-size:0.775rem !important;color: #000000; font-family: 'Poppins', sans-serif;font-weight:400;">
+        </th>
+      </tr>
+      <tr *ngFor="let row of surveyFormDataEntries;let i = index;">
+        <td style="border:2px solid #878787;padding:5px;font-size:0.775rem !important;color: #000000; font-family: 'Poppins', sans-serif;font-weight:400;">{{i + 1}}</td>
+        <td style="border:2px solid #878787;padding:5px;font-size:0.775rem !important;color: #000000; font-family: 'Poppins', sans-serif;font-weight:400;">{{ row.elementEngName }} <br>{{ row.elementArbName }}</td>
+        <td style="border:2px solid #878787;padding:5px;font-size:0.775rem !important;color: #000000; font-family: 'Poppins', sans-serif;font-weight:400;">{{row.entryValue}}</td>
+      </tr>
+    </table>
+  </div>
+</div>
+
+
+<div style="padding-bottom:5px;padding-top:5px">
+  <div class="col-md-12 col-lg-12 text-center">
+    <!--<input type="button"
+           class="btn waves-effect waves-light btn-rounded   btn-primary btn-midblock"
+           value="{{'Print' | translate}}" (click)="printComponent('prinatble')" /> &nbsp;-->
+    <input type="button" *ngIf="!(enquiry?.isSurveyCompleted)"
+           class="btn waves-effect waves-light btn-rounded   btn-primary btn-midblock" (click)="submit('Save')"
+           value="{{'Save' | translate}}" /> &nbsp;
+    <input type="button" *ngIf="!(enquiry?.isSurveyCompleted)"
+           class="btn waves-effect waves-light btn-rounded   btn-primary btn-midblock" (click)="submit('Complete_Survey')"
+           value="{{'Complete Survey' | translate}}" /> &nbsp;
+    <input type="button"
+           class="btn waves-effect waves-light btn-rounded   btn-primary btn-midblock" (click)="closeModel()"
+           value="{{'Cancel' | translate}}" /> &nbsp;
+  </div>
+</div>
+

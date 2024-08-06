@@ -1,0 +1,115 @@
+<div class="modal-header">
+  <h3 class="modal-title">{{modalTitle}}</h3>
+  <button type="button" class="close" aria-hidden="true" (click)="closeModel()"> ×</button>
+</div>
+<form [formGroup]="form" (ngSubmit)="submit()" novalidate class="mt-4">
+  <div class="row">
+    <div class="col-md-6 col-lg-6">
+      <div class="form-group">
+        <label for="payrollPeriodCode">{{'Payroll Period Code' | translate}}</label>
+        <input class="form-control" id="payrollPeriodCode" type="text"
+          placeholder="{{'Please_Enter' | translate}} {{'Payroll Period Code' | translate}} "
+          formControlName="payrollPeriodCode" [readonly]="isReadOnly">
+        <validation-message [control]="form.controls.payrollPeriodCode"></validation-message>
+      </div>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-md-6 col-lg-6">
+      <div class="form-group">
+        <label for="payrollPeriodNameEn">{{'PayrollPeriodNameEn' | translate}}</label>
+        <input class="form-control input-mandatory" id="payrollPeriodNameEn" type="text"
+          placeholder="{{'Please_Enter' | translate}} {{'PayrollPeriodNameEn' | translate}}"
+          formControlName="payrollPeriodNameEn">
+        <validation-message [control]="form.controls.payrollPeriodNameEn"></validation-message>
+      </div>
+    </div>
+    <div class="col-md-6 col-lg-6">
+      <div class="form-group">
+        <label for="payrollPeriodNameAr">{{'PayrollPeriodNameAr' | translate}}</label>
+        <input class="form-control input-mandatory" id="payrollPeriodNameAr" type="text"
+          placeholder="{{'Please_Enter' | translate}} {{'payrollPeriodNameAr' | translate}}"
+          formControlName="payrollPeriodNameAr">
+        <validation-message [control]="form.controls.payrollPeriodNameAr"></validation-message>
+      </div>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-md-6 col-lg-6">
+      <div class="form-group">
+        <label for="payrollPeriodStartDate" class="mr-sm-2">
+          {{'PayrollPeriodStartDate' | translate}}
+        </label>
+        <div class="input-group">
+          <input class="form-control input-mandatory"
+            placeholder=" {{'Please_Enter' | translate}} {{'PayrollPeriodStartDate' | translate}}"
+            formControlName="payrollPeriodStartDate" [matDatepicker]="payrollPeriodStartDate">
+          <div class="input-group-prepend datapickericon">
+            <mat-datepicker-toggle matSuffix [for]="payrollPeriodStartDate"></mat-datepicker-toggle>
+            <mat-datepicker #payrollPeriodStartDate></mat-datepicker>
+          </div>
+        </div>
+        <validation-message [control]="form.controls.payrollPeriodStartDate"></validation-message>
+      </div>
+    </div>
+    <div class="col-md-6 col-lg-6">
+      <div class="form-group">
+        <div class="form-group">
+          <label for="payrollPeriodEndDate" class="mr-sm-2">
+            {{'PayrollPeriodEndDate' | translate}}
+          </label>
+          <div class="input-group ">
+            <input class="form-control input-mandatory"
+              placeholder=" {{'Please_Enter' | translate}} {{'PayrollPeriodEndDate' | translate}}"
+              formControlName="payrollPeriodEndDate" [matDatepicker]="payrollPeriodEndDate">
+            <div class="input-group-prepend datapickericon">
+              <mat-datepicker-toggle matSuffix [for]="payrollPeriodEndDate"></mat-datepicker-toggle>
+              <mat-datepicker #payrollPeriodEndDate></mat-datepicker>
+            </div>
+          </div>
+          <validation-message [control]="form.controls.payrollPeriodEndDate"></validation-message>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-md-6 col-lg-6">
+        <div class="form-group" style="display: flex;">
+            <mat-slide-toggle color="primary" formControlName="isOpen"></mat-slide-toggle>
+            <br />
+            &nbsp;
+            <label for="isOpen">{{'Is Open' | translate}}</label>
+        </div>
+    </div>
+    <div class="col-md-6 col-lg-6">
+        <div class="form-group" style="display: flex;">
+            <mat-slide-toggle color="primary" formControlName="isClose"></mat-slide-toggle>
+            <br />
+            &nbsp;
+            <label for="isClose">{{'Is Close' | translate}}</label>
+        </div>
+    </div>
+</div>
+
+  <div class="row">
+    <div class="col-md-6 col-lg-6">
+      <div class="form-group">
+        <label for="isActive">{{'Is_Active' | translate}}</label>
+        <br />
+        <mat-slide-toggle color="primary" formControlName="isActive"></mat-slide-toggle>
+      </div>
+    </div>
+  </div>
+  
+  <div class="row mt-3 ">
+    <div class="col-md-12 col-lg-12 text-center">
+      <input type="button" class="btn waves-effect waves-light btn-rounded   btn-secondary btn-midblock"
+        value="{{'Cancel' | translate}}" (click)="closeModel()" /> &nbsp;
+      <input type="submit" class="btn waves-effect waves-light btn-rounded btn-primary btn-midblock"
+        value="{{'Save' | translate}}" />
+    </div>
+  </div>
+</form>

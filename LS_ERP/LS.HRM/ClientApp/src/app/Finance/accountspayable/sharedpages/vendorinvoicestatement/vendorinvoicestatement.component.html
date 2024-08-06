@@ -1,0 +1,68 @@
+<div>
+  <button (click)="printInvoice()">Print</button> &nbsp;
+  <!--<button (click)="saveAsPDF()">Save As PDF</button>--> &nbsp;
+  <button type="button" class="" aria-hidden="true" (click)="closeModel()"> Close</button><br />
+  <button type="button" class="close" aria-hidden="true" (click)="closeModel()"> ×</button>
+</div>
+<br />
+<br />
+<br />
+
+<style>
+  @media print {
+    div.print-container {
+      padding-top: 50px !important;
+      border: 1px solid red;
+    }
+  }
+
+  .ur_tablestyle th, .ur_tablestyle td {
+    padding: 7px;
+  }
+</style>
+
+<div class="row">
+  <div class="col-12 align-self-center">
+    <h3 class="page-title text-truncate text-dark font-weight-medium mb-1">
+      {{'Vendor_Payment' | translate}}
+    </h3>
+  </div>
+</div>
+
+<div id="printcontainer">
+  <table style="width:100%; padding-bottom:5px;" border="1" cellpadding="10" cellspacing="0" width="100%" class="ur_tablestyle">
+    <thead>
+      <tr>
+        <!--<th>{{'custCode' | translate}}</th>-->
+        <!--<th>{{'pamentCode' | translate}} </th>-->
+        <th>{{'InvoiceDate' | translate}} </th>
+        <th>{{'CreditDays' | translate}} </th>
+        <th>{{'DueDate' | translate}} </th>
+        <th>{{'tranSource' | translate}} </th>
+        <th>{{'trantype' | translate}} </th>
+        <th>{{'NetAmount' | translate}} </th>
+        <th>{{'PaidAmount' | translate}} </th>
+        <th>{{'BalanceAmount' | translate}} </th>
+        <th>{{'AppliedAmount' | translate}}</th>
+
+        <!--<th class="text-center"><i class="fas fa-plus-circle" (click)="addItem()"> </i> </th>-->
+
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let item of list">
+        <!--<td>{{item.custCode}}</td>-->
+        <!--<td>{{item.pamentCode}}</td>-->
+        <td>{{item.invoiceDate | date:'dd-MM-yyyy'}}</td>
+        <td>{{item.creditDays}}</td>
+        <td>{{item.dueDate | date:'dd-MM-yyyy'}}</td>
+        <td>{{item.tranSource}}</td>
+        <td>{{item.trantype}}</td>
+        <td>{{item.netAmount}}</td>
+        <td>{{item.paidAmount}}</td>
+        <td>{{item.balanceAmount}}</td>
+        <td>{{item.appliedAmount}}</td>
+      </tr>
+    </tbody>
+  </table>
+</div>

@@ -1,0 +1,305 @@
+<link href="/assets/style_new.css" rel="stylesheet" />
+<style>
+  @media print {
+    div.print-container {
+      padding-top: 50px !important;
+      border: 1px solid red;
+    }
+  }
+
+  .customrow {
+    width: 850px;
+    margin: auto
+  }
+
+  .custumtable tr td, .custumtable tr th {
+    border: 0.3px solid #d1d0d0 !important;
+    padding-left: 5px;
+  }
+
+  .custumtable {
+    border: 0.3px solid #d1d0d0 !important;
+  }
+
+  .custumtable_bottom {
+    border-top: 0px solid #878787 !important;
+  }
+
+    .custumtable_bottom tr td, .custumtable_bottom tr th {
+      border-top: 0px solid #20b4e2 !important;
+      border-left: 0.5px solid #20b4e2 !important;
+      border-right: 0.5px solid #20b4e2 !important;
+      border-bottom: 0.5px solid #20b4e2 !important
+    }
+</style>
+<div class="row">
+  <div class="col-md-3 col-lg-3 col-sm-3">
+    <div class="form-group">
+      <select class="form-control" [(ngModel)]="selectedType" (change)="changeOption()">
+        <option value="layout1">{{'Layout_One' | translate}} </option>
+        <option value="layout2">{{'Layout_Two' | translate}}</option>
+      </select>
+    </div>
+  </div>
+  <div class="col-md-9 col-lg-9 col-sm-9">
+    <button (click)="printInvoice()">Print</button> &nbsp;
+    <button (click)="saveAsPDF()">Save As PDF</button> &nbsp;
+    <button type="button" class="" aria-hidden="true" (click)="closeModel()"> Close</button>
+  </div>
+</div>
+<br />
+<spinner-loader [isLoading]="isLoading"></spinner-loader>
+<br />
+<!-- Container -->
+<!--<ng-container *ngIf="layout1">
+  <div class="container-fluid invoice-container print-container" style="width: 850px; margin: auto; padding-top: 30px !important; border: 1px solid #ccc; border-radius: 10px;" id="printcontainer">
+    <table style="width:100%" border="0" cellpadding="0" cellspacing="0" width="100%" class="ur_tablestyle">
+      <tr>
+        <td align="center" colspan="2">
+          <h2 style="color: #0c2f54; font-family: 'Poppins', sans-serif;font-weight: 500;
+        line-height: 1.2;margin:0;padding-top:4px">
+            {{'Fee_Receipt_Voucher' | translate}}
+          </h2>
+          <br /><br />
+          <span></span>
+        </td>
+      </tr>
+      <tr>
+        <td style="text-align: left;width:35%" class="table_left">
+          {{'Date' | translate}} : {{voucherDate}}
+        </td>
+        <td style="text-align: left;width:35%" class="table_right">
+          {{'Voucher_Number' | translate}} : {{voucherNum}}
+        </td>
+      </tr>
+      <tr>
+        <td style="text-align: left;width:35%" class="table_left" colspan="2">
+          <br /> {{'Student_Name' | translate}} : {{studentName}} <br />
+          {{'Student_Admission_Number' | translate}} : {{stuAdmNum}} <br />
+          {{'Amount' | translate}} : {{totalFeeAmount}} <br /><br />
+        </td>
+      </tr>
+      <tr>
+        <td style="text-align: left;width:35%" class="table_left" colspan="2">
+          <table border="1" class="custumtable" style="width:100%" cellpadding="0" cellspacing="0" width="100%">
+            <tr *ngFor="let item of result">
+              <td>{{isArabic? item.termName2:item.termName}} </td>
+              <td>{{item.feeAmount}} </td>
+            </tr>
+            <tr>
+              <td>{{'Total' | translate}}</td>
+              <td>{{totalFeeAmount}} </td>
+            </tr>
+          </table>
+        </td>
+      </tr>
+      <tr>
+        <td style="text-align: right;width:35%" class="table_left" colspan="2">
+          &nbsp;
+        </td>
+      </tr>
+      <tr>
+        <td style="text-align: right;width:35%" class="table_left" colspan="2">
+          <b>{{'Signature and Stamp' | translate}}</b>
+        </td>
+      </tr>
+      <tr>
+        <td style="text-align: right;width:35%" class="table_left" colspan="2">
+          &nbsp;
+        </td>
+      </tr>
+      <tr>
+        <td style="text-align: right;width:35%" class="table_left" colspan="2">
+          &nbsp;
+        </td>
+      </tr>
+      <tr>
+        <td style="text-align: right;width:35%" class="table_left" colspan="2">
+          &nbsp;
+        </td>
+      </tr>
+      <tr>
+        <td style="text-align: right;width:35%" class="table_left" colspan="2">
+          &nbsp;
+        </td>
+      </tr>
+    </table>
+  </div>
+
+</ng-container>-->
+
+
+<ng-container *ngIf="layout1">
+  <div id="printcontainer" class="p-1 shadow">
+    <table style="width:100%; padding-bottom:5px;" cellpadding="0" cellspacing="0" width="100%" class="ur_tablestyle">
+      <tr style="text-align:left;">
+        <td>
+          <!--<h6 style="white-space:pre-line;font-size:22px;">{{company.companyName}}</h6>
+          <h6 style="white-space:pre-line;">{{company.companyAddress}}</h6>
+          <h6 style="white-space:pre-line;">
+            <span *ngIf="company.mobile;else phone_number"> {{'Mobile' | translate }} : {{company.mobile}}</span>
+            <ng-template #phone_number>{{'Tel_Phone' | translate }} : {{company.phone}}</ng-template>
+          </h6>-->
+        </td>
+        <td>
+          <img src="https://hvserp.com/school_img_1.jpg" style="width:200px;height:150px;" class="float-right" />
+        </td>
+      </tr>
+    </table>
+
+
+    <table style="width:100%" border="1" cellpadding="0" cellspacing="0" width="100%" class="table  table-bordered no-wrap">
+      <thead>
+        <tr style="">
+          <td colspan="3" style="text-align:center"> Tax Invoice  </td>
+        </tr>
+        <tr style="background-color:whitesmoke">
+          <td style="width: 33%; padding:6px;"> Issue Date / تاريخ الفاتورة  </td>
+          <td style="width: 33%;padding:6px;"> Due Date / تاريخ الاستحقاق  </td>
+          <td style="width: 33%;padding:6px;"> Invoice Number / رقم الفاتورة </td>
+        </tr>
+        <tr>
+          <td style="padding:6px;padding:6px;"> {{voucherDate | date:'dd/MM/yyyy'}} </td>
+          <td style="padding:6px;padding:6px;"> {{voucherDate | date:'dd/MM/yyyy'}} </td>
+          <td style="padding:6px;padding:6px;"> {{voucherNum}} </td>
+        </tr>
+        <tr style="background-color:whitesmoke">
+          <td style="width: 33%;padding:6px;">{{'Student_Name' | translate}}  </td>
+          <td style="width: 33%;padding:6px;">{{'Student_Admission_Number' | translate}} </td>
+          <td style="width: 33%;padding:6px;">{{'Payment Method' | translate}} </td>
+        </tr>
+        <tr>
+          <td style="padding:6px;"> {{studentName}}</td>
+          <td style="padding:6px;"> {{stuAdmNum}}</td>
+          <!--<td style="padding:6px;"> {{paidOnline?"Online":"Cash"}}</td>-->
+        <td style="padding:6px;"> {{payCode}}</td>
+        </tr>
+        <tr> </tr>
+      </thead>
+    </table>
+
+    <br /><br />
+
+    <table style="width:100%" border="1" cellpadding="0" cellspacing="0" width="100%" class="table  table-bordered no-wrap">
+      <thead class="alert-dark ">
+        <tr>
+          <th style="padding:6px;"> S-No/الرقم التسلسلي  </th>
+          <th style="padding:6px;width:45%;"> Description/وصف الرسوم  </th>
+          <th style="padding:6px;"> Amount/المبلغ</th>
+          <th style="padding:6px;"> Discount Percentage/نسبة الخصم</th>
+          <th style="padding:6px;"> Discount Amount/مبلغ الخصم</th>
+          <th style="padding:6px;"> VAT/ضريبة </th>
+          <th style="text-align: right; padding: 6px;">Total/المجموع </th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let item of result; let i = index;">
+          <td style="padding:6px;">{{i+1}}</td>
+          <td style="padding:6px;">
+            {{isArabic? item.termName2:item.termName}}
+          </td>
+          <td style="text-align:center;padding:6px;">{{item.netFeeAmount | number : '3.2-5' }} </td>
+          <td style="text-align:center;padding:6px;">{{((item.discAmount/item.netFeeAmount)*100) | number }} </td>
+          <td style="text-align:center;padding:6px;">{{item.discAmount | number : '3.2-5' }} </td>
+          <td style="text-align:center;padding:6px;">{{item.taxAmount | number : '3.2-5'}} </td>
+          <td style="text-align: right; padding: 6px;">{{item.totFeeAmount | number : '3.2-5'}}</td>
+        </tr>
+        <tr>
+          <td colspan="5">
+            <br />
+            <br />
+          </td>
+        </tr>
+        <tr>
+          <td style="text-align: right;width:35%" class="table_left" colspan="7">
+            <b>{{'Signature and Stamp' | translate}}</b>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    <br />
+    <br />
+  </div>
+</ng-container>
+<ng-container *ngIf="layout2">
+  <div class="container-fluid invoice-container print-container" style="width: 850px; margin: auto; padding-top: 30px !important; border: 1px solid #ccc; border-radius: 10px;" id="printcontainer">
+    <table style="width:100%" border="0" cellpadding="0" cellspacing="0" width="100%" class="ur_tablestyle">
+      <tr>
+        <td align="center" colspan="2">
+          <h2 style="color: #0c2f54; font-family: 'Poppins', sans-serif;font-weight: 500;
+        line-height: 1.2;margin:0;padding-top:4px">
+            {{'Fee_Receipt_Voucher' | translate}}
+          </h2>
+          <br /><br />
+          <span></span>
+        </td>
+      </tr>
+      <tr>
+        <td style="text-align: left;width:35%" class="table_left" colspan="2">
+          <table border="1" class="custumtable" style="width:100%" cellpadding="0" cellspacing="0" width="100%">
+            <tr>
+              <th>{{'Date' | translate}}</th>
+              <th>{{'Voucher_Number' | translate}} </th>
+              <th>{{'Student_Name' | translate}} </th>
+              <th>{{'Student_Admission_Number' | translate}}  </th>
+              <th>{{'Amount' | translate}}  </th>
+            </tr>
+            <tr>
+              <td>{{voucherDate}}</td>
+              <td>{{voucherNum}}</td>
+              <td>{{studentName}}</td>
+              <td>{{stuAdmNum}}</td>
+              <td>{{totalFeeAmount}}</td>
+            </tr>
+          </table>
+        </td>
+      </tr>
+      <tr>
+        <td style="text-align: left;width:35%" class="table_left" colspan="2">
+          <br /><br />
+          <table border="1" class="custumtable" style="width:100%" cellpadding="0" cellspacing="0" width="100%">
+            <tr *ngFor="let item of result">
+              <td>{{isArabic? item.termName2:item.termName}} </td>
+              <td>{{item.feeAmount}} </td>
+            </tr>
+            <tr>
+              <td>{{'Total' | translate}}</td>
+              <td>{{totalFeeAmount}} </td>
+            </tr>
+          </table>
+        </td>
+      </tr>
+      <tr>
+        <td style="text-align: right;width:35%" class="table_left" colspan="2">
+          &nbsp;
+        </td>
+      </tr>
+      <tr>
+        <td style="text-align: right;width:35%" class="table_left" colspan="2">
+          <b>{{'Signature and Stamp' | translate}}</b>
+        </td>
+      </tr>
+      <tr>
+        <td style="text-align: right;width:35%" class="table_left" colspan="2">
+          &nbsp;
+        </td>
+      </tr>
+      <tr>
+        <td style="text-align: right;width:35%" class="table_left" colspan="2">
+          &nbsp;
+        </td>
+      </tr>
+      <tr>
+        <td style="text-align: right;width:35%" class="table_left" colspan="2">
+          &nbsp;
+        </td>
+      </tr>
+      <tr>
+        <td style="text-align: right;width:35%" class="table_left" colspan="2">
+          &nbsp;
+        </td>
+      </tr>
+    </table>
+  </div>
+</ng-container>
+

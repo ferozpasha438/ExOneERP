@@ -1,0 +1,113 @@
+<div class="modal-header">
+  <h3 class="modal-title">{{'Topology' | translate}}</h3>
+  <button type="button" class="close" aria-hidden="true" (click)="closeModel()"> ×</button>
+
+</div>
+
+<form [formGroup]="form" (ngSubmit)="submit()" novalidate class="mt-4">
+  <table class="table table-bordered">
+    <tr>
+      <td>
+        <label for="BranchCode">{{'Account_Code' | translate}}</label>
+      </td>
+      <td>
+        <input class="form-control" id="BranchCode" type="text"
+               placeholder="{{'Please_Enter' | translate}} {{'Account_Code' | translate}} "  formControlName="codeType1">
+        <validation-message [control]="form.controls.codeType1"></validation-message>
+      </td>
+      <td>
+        <select class="custom-select mr-sm-2" id="coty" formControlName="segment1">
+          <option value="">{{'Choose' | translate}} {{'Account_Code' | translate}}</option>
+          <option *ngFor="let cty of segmentList" value="{{cty.value}}">{{cty.text}}</option>
+        </select>
+
+          <!--<input class="form-control" id="BranchCode" type="number"
+                 placeholder="{{'Please_Enter' | translate}} {{'Account_Code' | translate}} " formControlName="segment1">-->
+          <validation-message [control]="form.controls.segment1"></validation-message>
+      </td>
+    </tr>
+    <!--<tr>
+      <td>
+        <label for="BranchCode">{{'Segment1' | translate}}</label>
+      </td>
+      <td>
+        <input class="form-control" id="BranchCode" type="text"
+               placeholder="{{'Please_Enter' | translate}} {{'Segment1' | translate}} "  formControlName="codeType2">
+        <validation-message [control]="form.controls.codeType2"></validation-message>
+      </td>
+      <td>
+        <select class="custom-select mr-sm-2" id="coty" formControlName="segment2">
+          <option value="">{{'Choose' | translate}} {{'Segment1' | translate}}</option>
+          <option *ngFor="let cty of segmentList" value="{{cty.value}}">{{cty.text}}</option>
+        </select>-->
+        <!--<input class="form-control" id="BranchCode" type="number"
+               placeholder="{{'Please_Enter' | translate}} {{'Segment1' | translate}} " formControlName="segment2">-->
+        <!--<validation-message [control]="form.controls.segment2"></validation-message>
+      </td>
+    </tr>-->
+
+
+    <!--<tr>
+      <td>
+        <label for="BranchCode">{{'Segment2' | translate}}</label>
+      </td>
+      <td>
+        <input class="form-control" id="BranchCode" type="text"
+               placeholder="{{'Please_Enter' | translate}} {{'Segment2' | translate}} "  formControlName="codeType3">
+        <validation-message [control]="form.controls.codeType3"></validation-message>
+      </td>
+      <td>
+        <select class="custom-select mr-sm-2" id="coty" formControlName="segment3">
+          <option value="">{{'Choose' | translate}} {{'Segment2' | translate}}</option>
+          <option *ngFor="let cty of segmentList" value="{{cty.value}}">{{cty.text}}</option>
+        </select>
+
+        <input class="form-control" id="BranchCode" type="number"
+               placeholder="{{'Please_Enter' | translate}} {{'Segment2' | translate}} " formControlName="segment3">
+        <validation-message [control]="form.controls.segment3"></validation-message>
+      </td>
+    </tr>-->
+
+
+
+  </table>
+
+
+  <!--<div class="row">
+    <div class="col-md-6 col-lg-6">
+      <div class="form-group">
+        <label for="BranchCode">{{'Account_Code' | translate}}</label>
+        <input class="form-control" id="BranchCode" type="text"
+               placeholder="{{'Please_Enter' | translate}} {{'Branch_Code' | translate}} "  formControlName="branchCode">
+        <validation-message [control]="form.controls.branchCode"></validation-message>
+      </div>
+    </div>
+    <div class="col-md-6 col-lg-6">
+      <div class="form-group">
+        <label for="BranchName">{{'Segment1' | translate}}</label>
+        <input class="form-control" id="BranchName" type="text"
+               placeholder="{{'Please_Enter' | translate}} {{'Branch_Name' | translate}}" formControlName="branchName">
+        <validation-message [control]="form.controls.branchName"></validation-message>
+      </div>
+    </div>
+    <div class="col-md-6 col-lg-6">
+      <div class="form-group">
+        <label for="BranchName">{{'Segment2' | translate}}</label>
+        <input class="form-control" id="BranchName" type="number"
+               placeholder="{{'Please_Enter' | translate}} {{'Branch_Name' | translate}}" formControlName="branchName">
+        <validation-message [control]="form.controls.branchName"></validation-message>
+      </div>
+    </div>
+  </div>-->
+
+  <div class="row mt-3 ">
+    <div class="col-md-12 col-lg-12 text-center">
+      <input type="button"
+             class="btn waves-effect waves-light btn-rounded   btn-secondary btn-midblock"
+             value="{{'Cancel' | translate}}" (click)="closeModel()" /> &nbsp;
+      <input type="submit"
+             class="btn waves-effect waves-light btn-rounded btn-primary btn-midblock"
+             value="{{'Save' | translate}}" />
+    </div>
+  </div>
+</form>

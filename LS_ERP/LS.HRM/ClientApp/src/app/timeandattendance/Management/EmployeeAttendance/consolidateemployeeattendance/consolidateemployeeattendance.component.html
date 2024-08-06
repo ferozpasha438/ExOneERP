@@ -1,0 +1,118 @@
+<div class="row">
+    <div class="col-md-4"></div>
+    <div class="col-md-4">
+        <h3 class="modal-title text-center" style="font-size:30px;">{{modalTitle}}</h3>
+    </div>
+    <div class="col-md-4 text-right">
+        <button type="button" class="close" aria-hidden="true" (click)="closeModel()"> ×</button>
+    </div>
+</div>
+<hr>
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-md-12 col-lg-12">
+            <div class="card">
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-3">
+                            <label for="">{{'Search' | translate}}</label>
+                            <input class="form-control" placeholder="{{'Search' | translate}}..."
+                                [(ngModel)]="searchValue" (change)="ConsolidateEmployeeAttendance()" />
+                        </div>
+                    </div>
+                    &nbsp;
+                    <div *ngIf="consolidatedAttendanceList.length>0" class="row">
+                        <div class="col-md-12 col-lg-12">
+                            <table class="form-group">
+                                <tr>
+                                    <th [ngClass]="{'even-row': (i % 2 === 0), 'odd-row': (i % 2 !== 0)}">{{
+                                        "EmployeeName" | translate }}</th>
+                                    <th [ngClass]="{'even-row': (i % 2 === 0), 'odd-row': (i % 2 !== 0)}">{{
+                                        "BranchName" | translate }}</th>
+                                    <th [ngClass]="{'even-row': (i % 2 === 0), 'odd-row': (i % 2 !== 0)}">{{
+                                        "TotalDays" | translate }}</th>
+                                    <th [ngClass]="{'even-row': (i % 2 === 0), 'odd-row': (i % 2 !== 0)}">{{
+                                        "TotalPresentDays" | translate }}</th>
+                                    <th [ngClass]="{'even-row': (i % 2 === 0), 'odd-row': (i % 2 !== 0)}">{{
+                                        "TotalOffDays" | translate }}</th>
+                                    <th [ngClass]="{'even-row': (i % 2 === 0), 'odd-row': (i % 2 !== 0)}">{{
+                                        "TotalHolidays" | translate }}</th>
+                                    <th [ngClass]="{'even-row': (i % 2 === 0), 'odd-row': (i % 2 !== 0)}">{{
+                                        "TotalAbsents" | translate }}</th>
+                                    <th [ngClass]="{'even-row': (i % 2 === 0), 'odd-row': (i % 2 !== 0)}">{{
+                                        "NetWorkingDays" | translate }}</th>
+                                    <th [ngClass]="{'even-row': (i % 2 === 0), 'odd-row': (i % 2 !== 0)}">{{
+                                        "TotalLateDays" | translate }}</th>
+                                    <th [ngClass]="{'even-row': (i % 2 === 0), 'odd-row': (i % 2 !== 0)}">{{
+                                        "TotalLateHours" | translate }}</th>
+                                    <th [ngClass]="{'even-row': (i % 2 === 0), 'odd-row': (i % 2 !== 0)}">{{
+                                        "NormalOTHours" | translate }}</th>
+                                    <th [ngClass]="{'even-row': (i % 2 === 0), 'odd-row': (i % 2 !== 0)}">{{
+                                        "SpecialOTHours" | translate }}</th>
+                                </tr>
+                                <tbody>
+                                    <tr *ngFor="let employee of consolidatedAttendanceList; let i = index;">
+                                        <td [ngClass]="{'even-row': (i % 2 === 0), 'odd-row': (i % 2 !== 0)}">{{
+                                            employee.employeeName }}</td>
+                                        <td [ngClass]="{'even-row': (i % 2 === 0), 'odd-row': (i % 2 !== 0)}">{{
+                                            employee.branchName }}</td>
+                                        <td [ngClass]="{'even-row': (i % 2 === 0), 'odd-row': (i % 2 !== 0)}">{{
+                                            employee.totalDays }}</td>
+                                        <td [ngClass]="{'even-row': (i % 2 === 0), 'odd-row': (i % 2 !== 0)}">{{
+                                            employee.totalPresentDays }}</td>
+                                        <td [ngClass]="{'even-row': (i % 2 === 0), 'odd-row': (i % 2 !== 0)}">{{
+                                            employee.totalOffDays }}</td>
+                                        <td [ngClass]="{'even-row': (i % 2 === 0), 'odd-row': (i % 2 !== 0)}">{{
+                                            employee.totalHolidays }}</td>
+                                        <td [ngClass]="{'even-row': (i % 2 === 0), 'odd-row': (i % 2 !== 0)}">{{
+                                            employee.totalAbsents }}</td>
+                                        <td [ngClass]="{'even-row': (i % 2 === 0), 'odd-row': (i % 2 !== 0)}">{{
+                                            employee.netWorkingDays }}</td>
+                                        <td [ngClass]="{'even-row': (i % 2 === 0), 'odd-row': (i % 2 !== 0)}">{{
+                                            employee.totalLateDays }}</td>
+                                        <td [ngClass]="{'even-row': (i % 2 === 0), 'odd-row': (i % 2 !== 0)}">{{
+                                            this.utilService.convertTicksToTimeStamp(employee.totalLateHours) }}
+                                        </td>
+                                        <td [ngClass]="{'even-row': (i % 2 === 0), 'odd-row': (i % 2 !== 0)}">{{
+                                            this.utilService.convertTicksToTimeStamp(employee.normalOTHours) }}</td>
+                                        <td [ngClass]="{'even-row': (i % 2 === 0), 'odd-row': (i % 2 !== 0)}">{{
+                                            this.utilService.convertTicksToTimeStamp(employee.specialOTHours) }}</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<style>
+    table {
+        border-collapse: collapse;
+        width: 100%;
+    }
+
+    td,
+    th {
+        border: 1px solid #a5a5a5;
+        text-align: center;
+        padding: 1px;
+        font-size: 0.775rem !important;
+    }
+
+    th {
+        color: black;
+    }
+
+    .even-row {
+        background-color: #ffffff;
+        color: rgb(29, 29, 29);
+
+    }
+
+    .odd-row {
+        background-color: #dbe5f3;
+        color: rgb(29, 29, 29);
+    }
+</style>

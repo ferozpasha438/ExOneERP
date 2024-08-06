@@ -1,0 +1,216 @@
+
+<form [formGroup]="form" (ngSubmit)="submit()" novalidate class="mt-4">
+  <div class="modal-body">
+    <div class="outer ">
+      <div class="row rowm0 ">
+
+        <div class="col-md-12 col-lg-12">
+          <div class="row  " hidden>
+          </div>
+          <div class="row mt-3">
+            <div class="col-md-12 col-lg-12">
+              <div class="p-3" style="border:1px solid #f4f4f4;">
+                <div class="row  mt-2">
+
+                  <div class="col-md-3 col-lg-3">
+                    <label class="mr-sm-2">{{'Customer_Code' | translate}}</label>
+                    <div class="form-group ">
+                      <div class="input-group mb-2">
+                        <auto-loader [isLoading]="isDataLoading"></auto-loader>
+                        <input type="text" class="form-control"
+                               placeholder="{{'Please_Enter' | translate}} {{'Customer_Code' | translate}}"
+                               (change)="onSelectionCustomerCode($event,'change')"
+                               [formControl]="custCodeControl"
+                               matInput
+                               [matAutocomplete]="auto3">
+                        <mat-autocomplete #auto3="matAutocomplete" (optionSelected)="onSelectionCustomerCode($event,'select')">
+                          <mat-option *ngFor="let option of filteredCustCodes | async"
+                                      [value]="option.value">
+                            {{option.value}}-{{option.text}}
+                          </mat-option>
+                        </mat-autocomplete>
+
+                      </div>
+                      <validation-message [control]="custCodeControl"></validation-message>
+                      <!--<validation-message [control]="form.controls.customerCode"></validation-message>-->
+
+                    </div>
+
+                  </div>
+
+                  <div class="col-md-3 col-lg-3">
+                    <div class="form-group ">
+                      <label class="mr-sm-2">{{'Site_Code' | translate}}</label>
+                      <select class="custom-select mr-sm-2" formControlName="siteCode" (change)="onSelectSiteCode($event)">
+                        <option value="">{{'Select' | translate}} {{'Site_Code' | translate}} </option>
+                        <option *ngFor="let cty of siteCodeList" value="{{cty.value}}">{{cty.value |translate }}</option>
+                      </select>
+                      <validation-message [control]="form.controls.siteCode"></validation-message>
+                    </div>
+                  </div>
+
+
+
+
+
+
+
+
+                  <!--<div class="col-md-3 col-lg-3">
+                    <div class="form-group ">
+                      <label class="mr-sm-2">{{'Project_Code' | translate}}</label>
+                      <select class="custom-select mr-sm-2" formControlName="projectCode" (change)="onSelectProjectCode($event)">
+                        <option value="">{{'Select' | translate}} {{'Project_Code' | translate}} </option>
+                        <option *ngFor="let cty of projectCodeList" value="{{cty.value}}">{{cty.value}}</option>
+                      </select>
+                      <validation-message [control]="form.controls.projectCode"></validation-message>
+                    </div>
+                  </div>-->
+
+
+
+
+                  <div class="col-md-3 col-lg-3">
+                    <div class="form-group ">
+                      <label class="mr-sm-2">{{'Year_Month' | translate}}</label>
+                      <div class="form-group ">
+                        <div class="input-group mb-2">
+
+                          <input class="form-control datapickerinput" [matDatepicker]="dp2" placeholder="{{'Select' | translate}} {{'Year_Month'}}" (click)="openDatePicker(dp2)" formControlName="monthYear">
+                          <mat-datepicker-toggle matSuffix [for]="dp2"></mat-datepicker-toggle>
+                          <mat-datepicker #dp2 startView="year" data-date-format="mm/yyyy" (monthSelected)="closeDatePicker($event,dp2)"></mat-datepicker>
+
+
+                        </div>
+
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+              </div>
+            </div>
+
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="table-responsive" *ngIf="noOfDays!=0" id="inputEntry">
+
+    <table id="zero_config1" class="table  table-bordered no-wrap">
+
+      <thead>
+        <tr>
+          <th></th>
+
+          <th *ngFor="let item of listOfDays; let i = index;">{{i+1}}</th>
+          <td></td>
+          <td></td>
+        </tr>
+        <tr>
+          <th>
+            {{'Employee' | translate}}
+          </th>
+          <th *ngFor="let items of listOfDays; let j = index;">
+            {{items.dayText}}
+          </th>
+          <td></td>
+          <td></td>
+        </tr>
+      </thead>
+      <tbody>
+
+
+
+        <tr>
+          <td>
+            <auto-loader [isLoading]="isDataLoading"></auto-loader>
+            <input type="text" class="form-control"
+                   placeholder="{{'Please_Enter' | translate}} {{'Employee' | translate}}"
+                   [formControl]="empCodeControl"
+                   matInput
+                   [matAutocomplete]="auto_emp">
+            <mat-autocomplete #auto_emp="matAutocomplete" (optionSelected)="autoSelectionEmployeeNumber($event,'select')">
+              <mat-option *ngFor="let option of filteredEmployeeNumbers | async"
+                          [value]="option.employeeNumber">
+                {{option.employeeName}}-{{option.employeeNumber}}
+              </mat-option>
+            </mat-autocomplete>
+            <!--<validation-message [control]="empCodeControl"></validation-message>-->
+          </td>
+          <td *ngFor="let shft of shiftsFormControls.controls; last as isLast; index as idx">
+            <select class="custom-select mr-sm-2" [formControl]="shft" (change)="onSelectShift($event,idx)">
+              <option value=''>{{'Select' | translate}} {{'Shift_Code' | translate}} </option>
+              <option *ngFor="let sc of listOfShiftCodes" value="{{sc.value}}">{{sc.value}}</option>
+            </select>
+          </td>
+          <td>{{newTotalShifts}}</td>
+          <td> <i class="fas fa-plus-circle" (click)="addEntry()"></i></td>
+        </tr>
+
+      </tbody>
+    </table>
+
+  </div>
+  <div class="table-responsive" *ngIf="RoastersCount()!=0">
+
+    <table id="zero_config1" class="table  table-bordered no-wrap">
+      <thead>
+        <tr>
+          <th></th>
+
+          <th *ngFor="let item of listOfDays; let i = index;">{{i+1}}</th>
+          <td></td>
+          <td></td>
+        </tr>
+        <tr>
+          <th>
+            {{'Employee' | translate}}
+          </th>
+
+          <th *ngFor="let items of listOfDays; let j = index;">
+            {{items.dayText}}
+
+          </th>
+          <td></td>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let rst of listOfRoasters; let k = index;">
+          <td>
+            {{rst.employeeNumber}}
+          </td>
+          <td *ngFor="let d of listOfDays; let l = index;" matTooltip="{{getCellInfo(k,l)}}">
+            {{rst.s[l]}}
+          </td>
+          <td> {{totalShiftsRow[k]}} </td>
+          <td> <i class="fas icon-trash" (click)="removeEntry(this.k)"></i>  &nbsp; <i class="fas icon-note" (click)="editRoasterEntry(this.k)"></i></td>
+
+        </tr>
+        <tr>
+          <th>{{'Total_Shifts' | translate}}</th>
+          <td *ngFor="let d of listOfDays; let l = index;">{{totalShiftsCol[l]}}</td>
+          <td>{{grandTotalShifts}}</td>
+
+
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="modal-footer">
+    <div class="row mt-3 ">
+      <div class="col-md-12 col-lg-12 text-center">
+        <input type="button"
+               class="btn waves-effect waves-light btn-rounded   btn-secondary btn-midblock"
+               value="{{'Cancel' | translate}}" (click)="goBack()" /> &nbsp;
+        <input type="submit"
+               class="btn waves-effect waves-light btn-rounded btn-primary btn-midblock"
+               value="{{'Save' | translate}}" />
+      </div>
+    </div>
+  </div>
+</form>
+

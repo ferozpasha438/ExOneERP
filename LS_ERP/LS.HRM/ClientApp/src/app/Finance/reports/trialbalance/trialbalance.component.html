@@ -1,0 +1,182 @@
+
+<div class="page-breadcrumb">
+  <div class="row">
+    <div class="col-12 align-self-center">
+      <h3 class="page-title text-truncate text-dark font-weight-medium mb-1">
+        {{'Trial_Balance' | translate}}
+      </h3>
+    </div>
+  </div>
+</div>
+
+<div class="modal-body">
+  <div class="outer  ">
+    <div class="row">
+      <div class="col-md-6 col-lg-6">
+        <div class="form-group">
+          <label>{{'CutOff_Date' | translate}}</label>
+          <div class="form-group ">
+            <div class="input-group mb-2">
+              <input class="form-control datapickerinput" placeholder="{{'Select_a_Date' | translate}}" [(ngModel)]="dateFrom"
+                     [matDatepicker]="picker2">
+
+              <div class="input-group-prepend datapickericon">
+                <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
+                <mat-datepicker #picker2></mat-datepicker><br /><br />
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      <!--<div class="col-md-6 col-lg-6">
+        <div class="form-group">
+          <label>{{'To_Date' | translate}}</label>
+          <div class="form-group ">
+            <div class="input-group mb-2">
+              <input class="form-control datapickerinput" placeholder="{{'Select_a_Date' | translate}}" [(ngModel)]="dateTo"
+                     [matDatepicker]="picker1">
+
+              <div class="input-group-prepend datapickericon">
+                <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
+                <mat-datepicker #picker1></mat-datepicker><br /><br />
+              </div>
+
+            </div>
+          </div>
+        </div>
+      </div>-->
+
+    <div class="col-md-6 col-lg-6">
+      <div class="form-group">
+        <br />
+        <button type="button" class="btn btn-primary" (click)="search()">Search</button> &nbsp;&nbsp;
+        <button type="button" class="btn waves-effect waves-light btn-rounded btn-primary btn-midblock" data-toggle="modal" (click)="openPrint()">
+          {{'Print' | translate}}
+        </button>
+      </div>
+    </div>
+
+
+    </div>
+  </div>
+
+  <spinner-loader [isLoading]="isLoading"></spinner-loader>
+
+  <div class="table-responsive" *ngIf="company">   
+    <br />
+
+    <div class="outer" id="printcontainer">
+
+      <table style="width:100%; padding-bottom:5px;" cellpadding="0" cellspacing="0" width="100%" class="ur_tablestyle">
+        <tr>
+          <td> {{company.companyName}}</td>
+        </tr>
+        <tr>
+          <td style="text-align:center;">
+            <img src="{{company.logoURL}}" style="width:200px;height:150px;" />
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <div class="font-weight-medium">
+              <br />
+              {{company.branchName}}
+              <br />
+              {{company.companyAddress}}
+              <br />
+              {{'Tel_Phone' | translate }} :  {{company.phone}}
+              <br />
+            </div>
+
+          </td>
+        </tr>
+        <tr>
+          <td style="text-align:center;">
+            <p>
+              The Statement of " Trial Balance " for {{dateFrom | date:'dd/MM/yyyy'}} to {{dateTo | date:'dd/MM/yyyy'}}
+            </p>
+
+          </td>
+        </tr>
+      </table>
+
+      <table style="width:100%; padding-bottom:5px;" border="1" cellpadding="0" cellspacing="0" width="100%" class="table  table-bordered no-wrap ur_tablestyle" *ngIf="trailList && trailList.length > 0">
+        <tr>
+          <th>{{'FinAcCode' | translate}}</th>
+          <th>{{'Description' | translate}}</th>
+          <th>{{'Opening_DrAmount' | translate}} </th>
+          <th>{{'Opening_CrAmount' | translate}} </th>
+          <th>{{'Opening_Balance' | translate}} </th>
+
+          <th>{{'ChangingDr' | translate}} </th>
+          <th>{{'ChangingCr' | translate}} </th>
+          <th>{{'ChangingBalance' | translate}} </th>
+
+          <th>{{'ClosingDr' | translate}} </th>
+          <th>{{'ClosingCr' | translate}} </th>
+          <th>{{'ClosingBalance' | translate}} </th>
+
+
+        </tr>
+        <tr *ngFor="let item of trailList">
+          <td>
+            {{item.finAcCode }}
+          </td>
+          <td>
+            <div class="desc-word-breaking" title="{{item.finAcName }}">{{item.finAcName }}</div>
+          </td>
+          <td class="text-right">
+            {{item.drAmount | decimalpipe }}
+          </td>
+          <td class="text-right">
+            {{item.crAmount  | decimalpipe}}
+          </td>
+          <td class="text-right">
+            {{item.balance | decimalpipe2 }}
+          </td>
+
+          <td class="text-right">
+            {{item.changeDrAmount | decimalpipe }}
+          </td>
+          <td class="text-right">
+            {{item.changeCrAmount  | decimalpipe}}
+          </td>
+          <td class="text-right">
+            {{item.changeBalance | decimalpipe2 }}
+          </td>
+
+          <td class="text-right">
+            {{item.closingDrAmount | decimalpipe }}
+          </td>
+          <td class="text-right">
+            {{item.closingCrAmount | decimalpipe}}
+          </td>
+          <td class="text-right">
+            {{ item.closingBalance | decimalpipe2}}
+          </td>
+
+        </tr>
+
+        <tfoot>
+          <tr class="tfoot">
+            <td colspan="2"></td>
+            <td class="text-right">{{total.totalDr | decimalpipe2}}</td>
+            <td class="text-right">{{total.totalCr | decimalpipe2}}</td>
+            <td class="text-right">{{total.totalDrBalance | decimalpipe2}}</td>
+
+            <td class="text-right">{{total.totalDrCutOff | decimalpipe2}}</td>
+            <td class="text-right">{{total.totalCrCutOff | decimalpipe2}}</td>
+            <td class="text-right">{{total.totalCrBalance | decimalpipe2}}</td>
+
+            <td class="text-right">{{total.totalDrClosing | decimalpipe2}}</td>
+            <td class="text-right">{{total.totalCrClosing | decimalpipe2}}</td>
+            <td class="text-right">{{total.totalBalance | decimalpipe2}}</td>
+          </tr>
+        </tfoot>
+
+      </table>
+    </div>
+  </div>
+</div>

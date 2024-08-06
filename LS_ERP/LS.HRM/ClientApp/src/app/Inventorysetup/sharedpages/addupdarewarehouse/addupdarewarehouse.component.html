@@ -1,0 +1,136 @@
+<h3> {{'Create_New_Warehouse' | translate}} <button type="button" class="close" aria-hidden="true" (click)="closeModel()"> ×</button></h3>
+<form [formGroup]="form" (ngSubmit)="submit()" novalidate class="mt-4">
+  <div class="row">
+
+    <div class="col-md-12 col-lg-6">
+      <div class="form-group">
+        <label>{{'Warehouse_Code' | translate}} </label>
+
+        <br />
+        <input class="form-control" type="text" maxlength="10" [readonly]="isReadOnly"
+               placeholder="{{'Please_Enter' | translate}} {{'Warehouse_Code' | translate}}" formControlName="whCode" (change)="onTextchange($event.target.value)">
+        <validation-message [control]="form.controls.whCode"></validation-message>
+      </div>
+    </div>
+    <div class="col-md-6 col-lg-6">
+      <div class="form-group">
+        <label>{{'Warehouse_Name' | translate}}</label>
+        <input class="form-control" type="text" maxlength="50"
+               placeholder="{{'Please_Enter' | translate}} {{'Warehouse_Name' | translate}}" formControlName="whName">
+        <validation-message [control]="form.controls.whName"></validation-message>
+      </div>
+    </div>
+    <div class="col-md-6 col-lg-6">
+      <div class="form-group">
+        <label>{{'Description' | translate}}</label>
+        <input class="form-control" type="text" maxlength="50"
+               placeholder="{{'Please_Enter' | translate}} {{'Description' | translate}}" formControlName="whDesc">
+      </div>
+    </div>
+    <div class="col-md-6 col-lg-6">
+      <div class="form-group">
+        <label>{{'Allow_Direct_Purchases' | translate}}</label>
+        <div class="form-group">
+
+          <div>
+            <mat-slide-toggle color="primary" formControlName="whAllowDirectPur"> </mat-slide-toggle>
+
+          </div>
+
+
+        </div>
+      </div>
+    </div>
+    <div class="col-md-6 col-lg-6">
+      <div class="form-group">
+        <label>{{'Inv_Dist_group' | translate}}</label>
+        <!--<input class="form-control" type="text"
+      placeholder="{{'Please_Enter' | translate}} {{'Inv_Dist_group' | translate}}" formControlName="invDistGroup">-->
+        <select class="custom-select mr-sm-2" id="DStGroup" formControlName="invDistGroup">
+          <option value="">{{'Choose' | translate}} {{'Inv_Dist_group' | translate}}</option>
+          <ng-container *ngIf="DstgroupList">
+            <option *ngFor="let DstG of DstgroupList" value="{{DstG.value}}">{{DstG.value}}</option>
+          </ng-container>
+        </select>
+        <validation-message [control]="form.controls.invDistGroup"></validation-message>
+      </div>
+    </div>
+    <div class="col-md-6 col-lg-6">
+      <div class="form-group">
+        <label>{{'Address' | translate}}</label>
+        <input class="form-control" type="text" maxlength="500"
+               placeholder="{{'Please_Enter' | translate}} {{'Address' | translate}}" formControlName="whAddress">
+        <validation-message [control]="form.controls.wHAddress"></validation-message>
+      </div>
+    </div>
+
+    <div class="col-md-6 col-lg-6">
+      <div class="form-group">
+        <label>{{'City' | translate}}</label>
+
+        <select class="custom-select mr-sm-2" id="City" formControlName="whCity">
+          <option value="">{{'Choose' | translate}} {{'City' | translate}}</option>
+          <ng-container *ngIf="cityList">
+            <option *ngFor="let ccl of cityList" value="{{ccl.value}}">{{ccl.text}}</option>
+          </ng-container>
+        </select>
+        <validation-message [control]="form.controls.whCity"></validation-message>
+
+      </div>
+    </div>
+    <div class="col-md-6 col-lg-6">
+      <div class="form-group">
+        <label>{{'State' | translate}}</label>
+        <input class="form-control" type="text"
+               placeholder="{{'Please_Enter' | translate}} {{'State' | translate}}" formControlName="whState">
+      </div>
+    </div>
+    <div class="col-md-6 col-lg-6">
+      <div class="form-group">
+        <label>{{'Warehouse_Incharge' | translate}}</label>
+        <input class="form-control" type="text" maxlength="50"
+               placeholder="{{'Please_Enter' | translate}} {{'Warehouse_Incharge' | translate}}" formControlName="whIncharge">
+        <validation-message [control]="form.controls.whIncharge"></validation-message>
+      </div>
+    </div>
+
+    <div class="col-md-6 col-lg-6">
+
+      <div class="form-group mb-4">
+        <label class="mr-sm-2">{{'Branch_Code' | translate}}</label>
+        <select class="custom-select mr-sm-2" id="branch" formControlName="whBranchCode">
+          <option value="">{{'Choose' | translate}} {{'Branch_Code' | translate}}</option>
+          <ng-container *ngIf="branchCodeList">
+            <option *ngFor="let branch of branchCodeList" value="{{branch.value}}">{{branch.value}}</option>
+          </ng-container>
+        </select>
+        <validation-message [control]="form.controls.whBranchCode"></validation-message>
+      </div>
+
+    </div>
+
+    <!--<div class="col-md-6 col-lg-6">
+    <div class="form-group">
+      <label class="mr-sm-2">{{'Is_Active' | translate}}</label>
+      <div>
+
+
+        <mat-slide-toggle color="primary" formControlName="isActive"> </mat-slide-toggle>
+      </div>
+    </div>
+  </div>-->
+
+
+
+  </div>
+  <div class="row mt-3 ">
+    <div class="col-md-12 col-lg-12 text-center">
+      <input type="button"
+             class="btn waves-effect waves-light btn-rounded   btn-secondary btn-midblock" (click)="closeModel()"
+             value="{{'Cancel' | translate}}" /> &nbsp;
+      <input type="submit"
+             class="btn waves-effect waves-light btn-rounded btn-primary btn-midblock"
+             value="{{'Save' | translate}}" />
+    </div>
+  </div>
+</form>

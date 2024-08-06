@@ -1,0 +1,177 @@
+<div class="page-breadcrumb">
+    <div class="row">
+        <div class="col-12 align-self-center">
+            <h3 class="modal-title">{{'Summary_of_Attendance' | translate}}</h3>
+            <button type="button" class="close" aria-hidden="true" (click)="closeModel()"> ×</button>
+        </div>
+    </div>
+</div>
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-md-12 col-lg-12">
+            <div class="card">
+                <div class="card-body">
+                    <div class="cardtitle-divider"></div>
+                    <div class="row pb-3">
+                        <div class="col-md-3">
+                            <div class="form-group ">
+                                <label>{{'Month' | translate}}</label>
+                                <select class="custom-select mr-sm-2" [(ngModel)]="selectedMonth" (change)="getAttandaceData()">
+                                  <option value="">{{'Select' | translate}} {{'Month' | translate}} </option>
+                                  <option value="1">{{'January' | translate}}</option>
+                                  <option value="2">{{'February' | translate}}</option>
+                                  <option value="3">{{'March' | translate}}</option>
+                                  <option value="4">{{'April' | translate}}</option>
+                                  <option value="5">{{'May' | translate}}</option>
+                                  <option value="6">{{'June' | translate}}</option>
+                                  <option value="7">{{'July' | translate}}</option>
+                                  <option value="8">{{'August' | translate}}</option>
+                                  <option value="9">{{'September' | translate}}</option>
+                                  <option value="10">{{'October' | translate}}</option>
+                                  <option value="11">{{'November' | translate}}</option>
+                                  <option value="12">{{'December' | translate}}</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-4 arabicright">
+                            <div class="form-group">
+                                <label>{{'Year' | translate}}</label>
+                                <input class="form-control" type="text" placeholder="{{'Year' | translate}}"
+                                    [(ngModel)]="selectedYear" (change)="getAttandaceData()" />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="table-responsive">
+                        <spinner-loader [isLoading]="isLoading"></spinner-loader>
+                        <div class="mat-elevation-z8">
+                            <ng-container>
+                              <table mat-table [dataSource]="data" matSort matSortActive="id" matSortDisableClear
+                                     matSortDirection="desc" class="table  table-bordered no-wrap">
+                                <ng-container matColumnDef="attDate">
+                                  <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                                    {{'Attendance_Date' | translate}}
+                                  </th>
+                                  <td mat-cell *matCellDef="let row">
+                                    <a href=""
+                                       style="border-bottom: 1px solid;font-style: italic;font-weight: bold">
+                                      {{ row.attDate }}
+                                    </a>
+                                  </td>
+                                </ng-container>
+                                <ng-container matColumnDef="inTime">
+                                  <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                                    {{'In' | translate}}
+                                  </th>
+                                  <td mat-cell *matCellDef="let row">{{ row.inTime }}</td>
+                                </ng-container>
+                                <ng-container matColumnDef="outTime">
+                                  <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                                    {{'Out' | translate}}
+                                  </th>
+                                  <td mat-cell *matCellDef="let row">{{ row.outTime }}</td>
+                                </ng-container>
+                                <ng-container matColumnDef="flag">
+                                  <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                                    {{'Flag' | translate}}
+                                  </th>
+                                  <td mat-cell *matCellDef="let row">{{ row.flag }}</td>
+                                </ng-container>
+                                <ng-container matColumnDef="leaveCode">
+                                  <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                                    {{'LeaveCode' | translate}}
+                                  </th>
+                                  <td mat-cell *matCellDef="let row">{{ row.leaveCode }}</td>
+                                </ng-container>
+                                <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
+                                <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+                                <ng-container>
+                                  <mat-paginator [length]="totalItemsCount" [pageSize]="31"
+                                                 [pageSizeOptions]="31"
+                                                 (page)="onPageSwitch($event)">
+                                  </mat-paginator>
+                                </ng-container>
+                              </table>                               
+                            </ng-container>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="outer ">
+    <div class="col-md-12">
+        <div class="card">
+            <div class="card-body">
+                <div class="table-responsive">
+                    <div class="mat-elevation-z8">
+                        <ng-container>
+                          <table mat-table [dataSource]="data2" matSort matSortActive="id" matSortDisableClear
+                                 matSortDirection="desc" class="table  table-bordered no-wrap">
+                            <ng-container matColumnDef="fromDate">
+                              <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                                {{'From_Date' | translate}}
+                              </th>
+                              <td mat-cell *matCellDef="let row">
+                                <a href="">
+                                  {{ row.fromDate }}
+                                </a>
+                              </td>
+                            </ng-container>
+                            <ng-container matColumnDef="toDate">
+                              <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                                {{'To_Date' | translate}}
+                              </th>
+                              <td mat-cell *matCellDef="let row">
+                                <a href="">
+                                  {{ row.toDate }}
+                                </a>
+                              </td>
+                            </ng-container>
+                            <ng-container matColumnDef="noOfDays">
+                              <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                                {{'Total_days' | translate}}
+                              </th>
+                              <td mat-cell *matCellDef="let row">{{ row.noOfDays }}</td>
+                            </ng-container>
+                            <ng-container matColumnDef="presentDays">
+                              <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                                {{'Present' | translate}}
+                              </th>
+                              <td mat-cell *matCellDef="let row">{{ row.presentDays }}</td>
+                            </ng-container>
+
+                            <ng-container matColumnDef="absentDays">
+                              <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                                {{'Absent' | translate}}
+                              </th>
+                              <td mat-cell *matCellDef="let row">{{ row.absentDays }}</td>
+                            </ng-container>
+                            <ng-container matColumnDef="leaveDays">
+                              <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                                {{'Leaves' | translate}}
+                              </th>
+                              <td mat-cell *matCellDef="let row">{{ row.leaveDays }}</td>
+                            </ng-container>
+                            <ng-container matColumnDef="holidayDays">
+                              <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                                {{'Holidays' | translate}}
+                              </th>
+                              <td mat-cell *matCellDef="let row">{{ row.holidayDays }}</td>
+                            </ng-container>
+                            <tr mat-header-row *matHeaderRowDef="displayedlist; sticky: true"></tr>
+                            <tr mat-row *matRowDef="let row; columns: displayedlist"></tr>
+                            <ng-container>
+                              <mat-paginator [length]="1" [pageSize]="1"
+                                             [pageSizeOptions]="1">
+                              </mat-paginator>
+                            </ng-container>
+                          </table>
+                        </ng-container>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

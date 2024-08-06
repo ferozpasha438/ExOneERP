@@ -1,0 +1,289 @@
+
+<div class="page-breadcrumb">
+  <div class="row">
+    <div class="col-12 align-self-center">
+      <h3 class="page-title text-truncate text-dark font-weight-medium mb-1">
+        {{'Customer_Sites' | translate}}
+      </h3>
+      <div class="d-flex align-items-center">
+        <nav aria-label="breadcrumb">
+          <ol class="breadcrumb m-0 p-0">
+            <!--<li class="breadcrumb-item text-muted"> {{'Operational_Management' | translate}} </li>-->
+            <li class="breadcrumb-item text-muted"> {{'Operations' | translate}} </li>
+            <li class="breadcrumb-item text-muted"> {{'Sites_List' | translate}} </li>
+            <li class="breadcrumb-item   active" aria-current="page">{{customerCode}}</li>
+
+          </ol>
+        </nav>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+
+
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-md-12 col-lg-12">
+      <div class="card">
+        <div class="card-body">
+          <div class="row" align="right">
+            <!--<div class="col-md-6 col-lg-6">
+              <h4 class="card-title pt6">{{'Sites_List_For' | translate}}{{customerCode}} </h4>
+            </div>-->
+
+
+            <div class="col-md-12 col-lg-12 text-right" align="right">
+
+              <a data-toggle="modal" data-target="#addnewcustomersite" class="  btn waves-effect waves-light btn-rounded btn-outline-primary" (click)="create()" href="#"> <i class="icon-plus"> </i>{{'Add_New_Customer_Site' | translate}} </a>
+
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-4 col-lg-4">
+              <div class="form-group">
+                <label>{{'Branch_Code' | translate}}</label>
+                <ng-select [items]="citySelectionList"
+                           bindLabel="lable"
+                           bindValue="value" [(ngModel)]="filter.branchCode" (change)="applyFilter('')">  </ng-select>
+              </div>
+            </div>
+            <div class="col-md-8 col-lg-8">
+              <div class="form-group">
+                <label>{{'Customer_Code' | translate}}</label>
+                <ng-select [items]="customerSelectionList"
+                           bindLabel="lable"
+                           bindValue="value" [(ngModel)]="filter.customerCode" (change)="applyFilter('')">  </ng-select>
+
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-4 col-lg-4">
+              <input type="text"
+                     class="form-control"
+                     placeholder="{{'Search'|translate}}..."
+                     [(ngModel)]="searchValue" (keyup)="applyFilter(searchValue)" (keydown)="applyFilter(searchValue)" [ngModelOptions]="{standalone: true}" />
+            </div>
+            <div class="col-md-6 col-lg-6" style="align-content:flex-start">
+              <button class="btn btn-primary" (click)="generateReport()" *ngIf="reportData.length==0">
+                Generate Report
+
+              </button>
+              <span *ngIf="reportData.length>0">
+                <button class="btn btn-primary" [useExistingCss]="true" printTitle="Customer Sites Report"
+                        printSectionId="printcontainer"
+                        ngxPrint>
+                  print
+                </button>
+                &nbsp;
+                <button class="btn btn-primary" (click)="exportexcel()">ExportExcel</button>
+
+              </span>
+              <span>
+                &nbsp;
+                <button class="btn btn-primary icon-refresh" (click)="refresh()"></button>
+              </span>
+            </div>
+
+            <div class="col-md-2 col-lg-2 text-center">
+              <spinner-loader [isLoading]="isLoading"></spinner-loader>
+            </div>
+          </div>
+
+
+          <div class="cardtitle-divider"></div>
+          <div class="table-responsive">
+
+
+            <!--matSortActive="id"
+
+            matSortDisableClear matSortDirection="desc"-->
+            <table mat-table [dataSource]="data" matSortDisableClear matSort (matSortChange)="onSortOrder($event)" class="table  table-bordered no-wrap">
+              <ng-container matColumnDef="customerCode">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                  {{'Customer_Code' | translate}}
+                </th>
+                <td mat-cell *matCellDef="let row">{{ row.customerCode }}</td>
+              </ng-container>
+              <ng-container matColumnDef="siteCode">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                  {{'Site_Code' | translate}}
+                </th>
+                <td mat-cell *matCellDef="let row">{{ row.siteCode }}</td>
+              </ng-container>
+
+              <ng-container matColumnDef="siteName">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                  {{'Site_Eng_Name' | translate}}
+                </th>
+                <td mat-cell *matCellDef="let row">{{ row.siteName }}</td>
+              </ng-container>
+
+              <ng-container matColumnDef="siteArbName">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                  {{'Site_Arb_Name' | translate}}
+                </th>
+                <td mat-cell *matCellDef="let row">{{ row.siteArbName }}</td>
+              </ng-container>
+
+
+              <ng-container matColumnDef="siteAddress">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                  {{'Address' | translate}}
+                </th>
+                <td mat-cell *matCellDef="let row">{{ row.siteAddress }}</td>
+              </ng-container>
+              <ng-container matColumnDef="siteCityCode">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                  {{'City' | translate}}
+                </th>
+                <td mat-cell *matCellDef="let row">{{ row.siteCityCode }}</td>
+              </ng-container>
+              <ng-container matColumnDef="isActive">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                  {{'Is_Active' | translate}}
+                </th>
+                <td mat-cell *matCellDef="let row">
+                  <span class="badge badge-pill badge-success" *ngIf="row.isActive; else inActive"> {{'Active' | translate}}</span>
+                  <ng-template #inActive>
+                    <span class="badge badge-pill badge-light"> {{'InActive' | translate}}</span>
+                  </ng-template>
+                </td>
+              </ng-container>
+              <ng-container matColumnDef="Actions">
+                <th mat-header-cell *matHeaderCellDef>{{'Actions' | translate}}</th>
+                <td mat-cell *matCellDef="let row">
+                  <div class="nav-item dropdown">
+                    <a href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="icon-options-vertical"></i></a>
+
+                    <div class="dropdown-menu" aria-labelledby="navbarDropdown" x-placement="bottom-start">
+
+<<<<<<< HEAD
+                      <a class="dropdown-item tableicons" (click)="editSite(row.id)"><i class="icon-note"> </i> {{'Edit_Site' | translate}} </a>
+=======
+                        <a class="dropdown-item tableicons" (click)="editSite(row.id)"><i class="icon-note"> </i> {{'Edit_Site' | translate}} </a>
+                        <a class="dropdown-item tableicons" (click)="editStandardDeviation(row.id)"><i class="icon-note"> </i> {{'Edit_SD' | translate}} </a>
+>>>>>>> 96bf9ddb8d6e38ae15a95460b4f79959d54e0741
+
+
+                    </div>
+                  </div>
+
+
+                </td>
+              </ng-container>
+
+
+
+
+              <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
+              <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+
+            </table>
+
+
+
+
+          </div>
+          <ng-container>
+            <mat-paginator [length]="totalItemsCount"
+                           [pageSize]="pageService.pageCount"
+                           [pageSizeOptions]="pageService.selectItemsPerPage"
+                           (page)="onPageSwitch($event)">
+            </mat-paginator>
+
+          </ng-container>
+        </div>
+
+
+
+      </div>
+    </div>
+
+  </div>
+
+</div>
+
+
+<div id="printcontainer" *ngIf="reportData.length>0" hidden>
+  <div width="100%">
+    <table id="attndTable">
+      <tr>
+        <td colspan="2">{{'Report_On_Customer_Sites'|translate}}</td>
+      </tr>
+      <tr>
+        <td>{{'Customer_Code'|translate}}:{{(filter?.customerCode==null||filter.customerCode==''?'All':filter.customerCode)}}</td>
+        <td>{{'Branch_Code'|translate}}:{{(filter?.branchCode==null||filter.branchCode==''?'All':filter.branchCode)}}</td>
+      </tr>
+      <tr>
+        <td colspan="2">{{'Search_Key'|translate}}:{{searchValue}}</td>
+      </tr>
+    </table>
+    <br />
+  </div>
+  <table id="attndTable" width="100%">
+    <tr>
+      <th>
+        {{'Customer_Code' | translate}}
+      </th>
+      <th>
+        {{'Site_Code' | translate}}
+      </th>
+      <th>
+        {{'Site_Eng_Name' | translate}}
+      </th>
+
+      <th>
+        {{'Site_Arb_Name' | translate}}
+      </th>
+
+
+      <th>
+        {{'Address' | translate}}
+      </th>
+      <th>
+        {{'Branch_Code' | translate}}
+      </th>
+      <th>
+        {{'Is_Active' | translate}}
+      </th>
+
+
+
+    </tr>
+    <tr *ngFor="let row of reportData;let i=index;">
+      <td>{{ row.customerCode }}</td>
+      <td>{{ row.siteCode }}</td>
+      <td>{{ row.siteName }}</td>
+      <td>{{ row.siteArbName }}</td>
+
+      <td>{{ row.siteAddress }}</td>
+      <td>{{ row.siteCityCode}}</td>
+      <td>{{ row.isActive}}</td>
+
+    </tr>
+  </table>
+
+
+</div>
+
+
+<style>
+  #attndTable td, th {
+    border: solid;
+    border-width: 1px;
+    padding: 5px 5px 5px 5px;
+    text-align: center;
+  }
+
+  #attndTable table {
+    width: 100%;
+  }
+
+  #printcontainer div {
+    width: 100%;
+    padding: 10px 10px 10px 10px;
+  }
+</style>

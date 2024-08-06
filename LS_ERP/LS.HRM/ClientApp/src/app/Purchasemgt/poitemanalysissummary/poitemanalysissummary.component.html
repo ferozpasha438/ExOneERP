@@ -1,0 +1,336 @@
+<div class="container-fluid">
+
+  <div class="row">
+    <div class="col-12 align-self-center">
+      <h3 class="page-title text-truncate text-dark font-weight-medium mb-1">
+        {{'PO_Items_Statement' | translate}}
+      </h3>
+      <div class="d-flex align-items-center">
+        <nav aria-label="breadcrumb">
+          <ol class="breadcrumb m-0 p-0">
+            <li class="breadcrumb-item text-muted"> {{'Administration' | translate}} </li>
+            <li class="breadcrumb-item text-muted ">{{'Purchase_Management' | translate}}</li>
+            <li class="breadcrumb-item   active" aria-current="page">{{'PO_Items_Statement' | translate}}</li>
+
+          </ol>
+        </nav>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- ============================================================== -->
+  <!-- End Bread crumb and right sidebar toggle -->
+  <!-- ============================================================== -->
+  <!-- ============================================================== -->
+  <!-- Container fluid  -->
+  <!-- ============================================================== -->
+
+  <div class="row">
+    <div class="col-md-12 col-lg-12">
+      <div class="card">
+        <div class="card-body">
+          <!--<div class="row">
+            <div class="col-md-7 col-lg-9">
+              <h4 class="card-title pt6">{{'PO_Items_Statement' | translate}} </h4>
+            </div>
+          </div>-->
+          <div class="cardtitle-divider"></div>
+          <div class="row">
+            <div class="col-md-6 col-lg-6">
+              <div class="form-group">
+                <label for="exampleFormControlSelect1">{{'Branch_Code' | translate}}</label>
+                <auto-loader [isLoading]="isBranchLoading"></auto-loader>
+                <input type="text" class="form-control"
+                       placeholder="{{'Please_Enter' | translate}} {{'Branch_Code' | translate}}"
+                       [formControl]="branchCodeControl"
+                       matInput
+                       [matAutocomplete]="auto1">
+                <mat-autocomplete #auto1="matAutocomplete">
+                  <mat-option *ngFor="let option of filteredBranchOptions | async"
+                              [value]="option.value">
+                    <!--[value]="option.text + '-' + option.value"> (optionSelected)="selectedOption($event)" -->
+                    {{option.value}}
+                  </mat-option>
+                </mat-autocomplete>
+              </div>
+            </div>
+
+            <div class="col-md-6 col-lg-6">
+              <div class="form-group">
+                <label>{{'Vendor_Code' | translate}}</label>
+
+                <auto-loader [isLoading]="isCodeLoading"></auto-loader>
+                <input type="text" class="form-control"
+                       placeholder="{{'Please_Enter' | translate}} {{'Vendor_Code' | translate}}"
+                       [formControl]="codeControl"
+                       matInput
+                       [matAutocomplete]="vendCode1">
+                <mat-autocomplete #vendCode1="matAutocomplete">
+                  <mat-option *ngFor="let option of filteredOptions | async"
+                              [value]="option.value">
+                    <!--[value]="option.text + '-' + option.value"> (optionSelected)="selectedOption($event)" -->
+                    ({{option.value}}) {{option.textTwo}}
+                  </mat-option>
+                </mat-autocomplete>
+
+                <!--<input class="form-control" type="text" placeholder="{{'Please_Enter' | translate}} {{'Vendor_Code' | translate}}" [(ngModel)]="vendCode">-->
+              </div>
+            </div>
+
+            <div class="col-md-6 col-lg-6">
+              <div class="form-group">
+                <label>{{'Item_Code' | translate}}</label>
+
+                <auto-loader [isLoading]="isItemLoading"></auto-loader>
+                <input type="text" class="form-control"
+                       placeholder="{{'Please_Enter' | translate}} {{'Item_Code' | translate}}"
+                       [formControl]="itemControl"
+                       matInput
+                       [matAutocomplete]="itemCode1">
+                <mat-autocomplete #itemCode1="matAutocomplete">
+                  <mat-option *ngFor="let option of filteredItemsOptions | async"
+                              [value]="option.value">
+                    <!--[value]="option.text + '-' + option.value"> (optionSelected)="selectedOption($event)" -->
+                    ({{option.value}}) {{option.text}}
+                  </mat-option>
+                </mat-autocomplete>
+
+                <!--<input class="form-control" type="text" placeholder="{{'Please_Enter' | translate}} {{'Vendor_Code' | translate}}" [(ngModel)]="vendCode">-->
+              </div>
+            </div>
+
+
+            <!--<div class="col-md-4 col-lg-4">
+            <div class="form-group">
+              <label>{{'Choose' | translate}}</label>
+              <select class="custom-select mr-sm-2" id="Price Decimal" [(ngModel)]="type">-->
+            <!--<option value="">{{'Choose' | translate}} {{'Price_Decimal' | translate}}</option>-->
+            <!--<option value="All">All</option>
+                <option value="closed">{{'Posted' | translate}}</option>
+                <option value="opened">{{'UnPosted' | translate}}</option>
+              </select>
+            </div>
+          </div>-->
+          <div class="col-md-6 col-lg-6">
+            <div class="form-group">
+              <label>{{'From_Date' | translate}}</label>
+              <div class="form-group ">
+                <div class="input-group mb-2">
+                  <input class="form-control datapickerinput" placeholder="{{'Select_a_Date' | translate}}" [(ngModel)]="dateFrom"
+                         [matDatepicker]="picker1">
+
+                  <div class="input-group-prepend datapickericon">
+                    <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
+                    <mat-datepicker #picker1></mat-datepicker><br /><br />
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-6 col-lg-6">
+            <div class="form-group">
+              <label>{{'To_Date' | translate}}</label>
+              <div class="form-group ">
+                <div class="input-group mb-2">
+                  <input class="form-control datapickerinput" placeholder="{{'Select_a_Date' | translate}}" [(ngModel)]="dateTo"
+                         [matDatepicker]="picker2">
+
+                  <div class="input-group-prepend datapickericon">
+                    <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
+                    <mat-datepicker #picker2></mat-datepicker><br /><br />
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+
+            
+          </div>
+          <div class="row mb-4 ">
+            <div class="col-md-12 col-lg-12 text-center">
+              <!--<input type="submit" class="btn waves-effect waves-light btn-rounded   btn-secondary btn-midblock" value=" {{'Clear' | translate}}"> &nbsp;-->
+              <button type="button" class="btn waves-effect waves-light btn-rounded btn-primary btn-midblock" data-toggle="modal" (click)="search()">
+                {{'Search' | translate}}
+              </button>
+            </div>
+          </div>
+
+
+        </div>
+
+
+
+      </div>
+    </div>
+
+  </div>
+
+
+  <spinner-loader [isLoading]="isLoading"></spinner-loader>
+  <div class="modal-content" *ngIf="vendorList && vendorList.length > 0 || vendorSummaryList && vendorSummaryList.length > 0">
+    <div class="modal-body">
+      <button type="button" class="btn waves-effect waves-light btn-rounded btn-primary btn-midblock" data-toggle="modal" (click)="openPrint()">
+        {{'Print' | translate}}
+      </button>
+      <br />
+      <div class="outer" id="printcontainer">
+        <div class="text-center font-weight-medium">
+          {{companyName}}  <img src="{{logoURL}}" style="width:200px;height:150px;float:right;" *ngIf="companyName" />
+          <br />
+          {{branchName}}
+          <br />
+          {{companyAddress}}
+        </div>
+
+        <br />
+        <div class="text-center font-weight-medium" *ngIf="dateFrom && dateTo">
+          <p>
+            The Statement of " Item Purchase History" for {{dateFrom | date:'dd/MM/yyyy'}} to {{dateTo | date:'dd/MM/yyyy'}}
+          </p>
+        </div>
+
+        <div class="table-responsive">
+
+          <table style="width:100%; padding-bottom:5px;" cellpadding="0" cellspacing="0" width="100%" class="ur_tablestyle">
+            <tbody>
+              <tr *ngFor="let items of vendorList">
+                <td colspan="11">
+
+                  <table style="width:100%; padding-bottom:5px;" border="1" cellpadding="0" cellspacing="0" width="100%" class="ur_tablestyle">
+                    <tr>
+                      <th>
+                        {{'Item_Code' | translate}} : {{items[0].itemCode}}, &nbsp; &nbsp; {{'Item_Short_Name' | translate}} : {{items[0].itemName}}
+                      </th>
+                    </tr>
+                  </table>
+
+                  <table style="width:100%; padding-bottom:5px;" border="1" cellpadding="0" cellspacing="0" width="100%" class="ur_tablestyle">
+                    <tr>
+                      <th class="w10per" style="padding:10px;">{{'Vendor_Code' | translate}}</th>
+                      <th>{{'Vendor_Name' | translate}}</th>
+                      <!--<th>{{'Num_Of_Inv' | translate}}</th>-->
+                      <th>{{'QtyOH' | translate}}</th>
+                      <th>{{'Item_Avg_Cost' | translate}}</th>
+                      <th>{{'Discount Value' | translate}}</th>
+                      <th>{{'VAT' | translate}}</th>
+                      <th>{{'GRN_Total' | translate}}</th>
+                    </tr>
+
+
+                    <tr *ngFor="let item of items">
+                      <td style="padding:8px;">{{item.vendCode}}</td>
+                      <td>{{item.vendName}}</td>
+                      <!--<td class="text-right">{{item.remarks}}</td>-->
+                      <td class="text-right">{{item.trantype | decimalpipe}}</td>
+
+                      <td class="text-right">{{item.drAmount | decimalpipe}}</td>
+                      <td class="text-right">{{item.openingBalance | decimalpipe}}</td>
+                      <td class="text-right">{{item.crAmount | decimalpipe}}</td>
+                      <td class="text-right">{{item.balance | decimalpipe}}</td>
+                    </tr>
+
+                  </table>
+                  <br />
+                  <br />
+                </td>
+
+              </tr>
+
+
+              <tr>
+                <td style="text-align:right" colspan="7"><strong>Total Purchases</strong></td>
+                <td class="align-right" style="text-align:right"><strong>{{tranTotalCost | decimalpipe}}</strong></td>
+                <td class="align-right" style="text-align:right"><strong>{{tranDiscAmount | decimalpipe}}</strong></td>
+                <!--<td class="align-right" style="text-align:right"><strong>{{totalBalance | decimalpipe}}</strong></td>-->
+                <td class="align-right" style="text-align:right"><strong>{{taxes | decimalpipe}}</strong></td>
+                <td class="align-right" style="text-align:right"><strong>{{netTotalBalanceAmount | decimalpipe}}</strong></td>
+
+              </tr>
+
+
+
+              <tr>
+                <td colspan="10" style="text-align:right"> Summary Of Transaction </td>
+                <td style="text-align:right"> Total Amount </td>
+                <td colspan="0">  </td>
+              </tr>
+              <tr>
+                <td colspan="10" style="text-align:right"> Total Purchases </td>
+                <td style="text-align:right"> {{totalBalance | decimalpipe}} </td>
+
+                <td colspan="0">  </td>
+              </tr>
+              <tr>
+                <td colspan="10" style="text-align:right"> Total Tax </td>
+                <td style="text-align:right"> {{taxes | decimalpipe}} </td>
+                <td colspan="0">  </td>
+              </tr>
+              <tr>
+                <td colspan="10" style="text-align:right">Total With Tax </td>
+                <td style="text-align:right">{{netTotalBalanceAmount | decimalpipe}} </td>
+                <td colspan="0">  </td>
+              </tr>
+              <tr>
+                <td colspan="10" style="text-align:right">
+                  Total Item Quantity 
+                </td>
+                <td style="text-align:right">{{totalItemQty | decimalpipe}} </td>
+                <td colspan="0">  </td>
+              </tr>
+              <tr>
+                <td style="text-align:right" colspan="6"></td>
+                <td colspan="6">
+                  <h5> Break Down By Warehouse</h5>
+
+                  <table style="width:100%; padding-bottom:5px;" border="1" cellpadding="0" cellspacing="0" width="100%" class="ur_tablestyle">
+                    <tr>
+                      <th class="w10per" style="padding:10px;">{{'Item_Short_Name' | translate}}</th>
+                      <th>{{'Warehouse' | translate}}</th>                      
+                      <th>{{'QtyOH' | translate}}</th>                     
+                    </tr>
+                    <tr *ngFor="let item of poItemList">
+                      <td>{{item.text}}</td>
+                      <td>{{item.textTwo}}</td>
+                      <td style="text-align:right">{{item.value | decimalpipe}}</td>
+                      </tr>
+                    </table>
+
+                      <!--<ol>
+                        <li *ngFor="let item of poItemList"> &nbsp;&nbsp; Item Name = {{item.text}}; WareHouse = {{item.textTwo}}, Qty = {{item.value | decimalpipe}}</li>
+                      </ol>-->
+                </td>
+              </tr>
+
+            </tbody>
+
+            <!--<tfoot>
+      <tr class="tfoot">
+        <td colspan="3" class="text-right "> </td>
+        <td class="text-center">{{'Total_Balance' | translate}} </td>
+        <td class="text-right">{{totalBalance | decimalpipe}}</td>
+      </tr>
+    </tfoot>-->
+
+          </table>
+        </div>
+
+
+      </div>
+
+
+    </div>
+
+     <div class="example-table-container table-responsive pt-3">
+              <mat-paginator [length]="totalItemsCount"
+                             [pageSize]="pageService.pageCount"
+                             [pageSizeOptions]="pageService.selectItemsPerPage"
+                             (page)="onPageSwitch($event)">
+              </mat-paginator>
+            </div>
+  </div>
+
+  <h3 *ngIf="vendorList && vendorList.length === 0">{{'No_Records' | translate}}</h3>
+</div>
+

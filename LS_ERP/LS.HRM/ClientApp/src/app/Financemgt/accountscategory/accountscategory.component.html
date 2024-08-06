@@ -1,0 +1,82 @@
+<style>
+  label.expansion {
+    font-size: 20px;
+    font-weight: bold;
+    color: #000000;
+  }
+  input.toggle_checkbox{
+      width:0px;height:0px;
+  }
+</style>
+<div class="page-breadcrumb">
+  <div class="row">
+    <div class="col-12 align-self-center">
+      <h3 class="page-title text-truncate text-dark font-weight-medium mb-1">
+        {{'Account_Category' | translate}}
+      </h3>
+      <div class="d-flex align-items-center">
+        
+        <nav aria-label="breadcrumb">
+          <ol class="breadcrumb m-0 p-0">
+            <li class="breadcrumb-item text-muted"> {{'Financial_Management' | translate}} </li>
+            <li class="breadcrumb-item text-muted"> {{'Finance' | translate}} </li>
+            <li class="breadcrumb-item   active" aria-current="page"> {{'Account_Category' | translate}} </li>
+
+          </ol>
+        </nav>
+      </div>
+    </div>
+
+  </div>
+</div>
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-md-12 col-lg-12">
+      <div class="card">
+        <div class="card-body">
+
+          <div class="row">
+            <div class="col-md-6 col-lg-6 borderright">
+              <br />
+              <input [(ngModel)]="accountSearch" (input)="accountSearchChage()" class="form-control p-3" placeholder=" {{'Search' | translate}}" />
+              <br />
+
+            </div>
+            <div class="col-md-12 col-lg-12 borderright">
+
+
+              <ul id="tree2" *ngFor="let cg of listOfCategories" class="treeupper">
+                <li>
+                  <p class="bfinAcCode" data-content="{{cg.name}}"><input type="checkbox" (change)="categoryCheck($event, cg.name)" id="{{cg.name+'_expan'}}" class="toggle_checkbox" /> &nbsp;&nbsp; <label for="{{cg.name+'_expan'}}" class="expansion {{cg.name+'_expan'}}">⇩</label> &nbsp;&nbsp;<b class="text-info cu-pointer" (click)="createAsset(cg.name)"> {{cg.name}} </b></p>
+                    <ng-container *ngIf="cg.list && cg.list.length > 0">
+                      <ul *ngFor="let scg of cg.list" class="{{'treesub ' + cg.name}}">
+                        <li>
+                          <p class="bfinAcCode" data-content="{{scg.finCatCode}}"><input type="checkbox" (change)="subCategoryCheck($event, scg.finCatCode)" id="{{scg.finCatCode+'_expan'}}" class="toggle_checkbox" />&nbsp;&nbsp; <label for="{{scg.finCatCode+'_expan'}}" class="expansion {{scg.finCatCode+'_expan'}}">⇩</label>&nbsp;&nbsp;<b class="text-info cu-pointer" (click)="createCateg(scg.finCatCode,scg.finCatName)"> {{scg.finCatName}} </b></p>
+                            <ng-container *ngIf="scg.list && scg.list.length > 0">
+                              <ul *ngFor="let acCode of scg.list" class="{{'treesubsub ' + scg.finCatCode}}">
+                                <li>
+                                  <p class="bfinAcCode" data-content="{{acCode.finSubCatCode}}"><input type="checkbox" (change)="itemCategoryCheck($event, acCode.finSubCatCode)" id="{{acCode.finSubCatCode+'_expan'}}" class="toggle_checkbox" />&nbsp;&nbsp;<label for="{{acCode.finSubCatCode+'_expan'}}" class="expansion {{acCode.finSubCatCode+'_expan'}}">⇩</label>&nbsp;&nbsp;<b class="text-info cu-pointer" (click)="createSubCateg(acCode.finSubCatCode, acCode.finSubCatName)"> {{acCode.finSubCatName}} </b></p>
+                                    <ng-container *ngIf="acCode.list && acCode.list.length > 0">
+                                      <ul *ngFor="let code of acCode.list" class="{{'treesubsubsub ' + acCode.finSubCatCode}}">
+                                        <li>
+                                          <span (click)="editAccountCode(code.id)" data-content="{{code.finAcCode + ' ' + code.finAcName}}" class="text-primary pcursor bfinAcCode">({{code.finAcCode}}) {{code.finAcName}}</span>
+                                        </li>
+                                      </ul>
+                                    </ng-container>
+                                  </li>
+                              </ul>
+                            </ng-container>
+                         </li>
+                      </ul>
+                    </ng-container>
+                   </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+</div>

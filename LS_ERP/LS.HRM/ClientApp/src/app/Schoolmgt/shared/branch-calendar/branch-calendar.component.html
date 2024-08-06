@@ -1,0 +1,52 @@
+<style>
+  .first-cell {
+    width: 72px;
+  }
+
+  .second-cell {
+    width: 95px;
+  }
+</style>
+<div class="modal-header">
+  <h3 class="modal-title">{{'Calendar' | translate}}</h3>
+  <button type="button" class="close" aria-hidden="true" (click)="closeModel()"> ×</button>
+
+</div>
+<form novalidate class="mt-4">
+  <div class="row">
+    <div class="col-md-12 col-lg-12">
+      <div class="row" *ngIf="isShowDiv">
+        <div class="col-md-2 col-lg-2">
+          <div class="row">
+            <div class="col-md-12 col-lg-12" style="padding: 8%;">
+              <span style="background-color: red; color: #fff; padding: 5%; ">{{'Weekend' | translate}}</span>
+            </div>
+            <div class="col-md-12 col-lg-12" style="padding: 8%;">
+              <span style="background-color: green; color: #fff; padding: 5%; ">{{'Holiday' | translate}}</span>
+            </div>
+            <div class="col-md-12 col-lg-12" style="padding: 8%;">
+              <span style="background-color: yellow; color: #fff; padding: 5%; ">{{'Event' | translate}}</span>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-6 col-lg-6">
+          <mat-calendar #calendar [dateClass]="dateClass()" [(selected)]="selectedDate"
+                        [minDate]="minDate" [maxDate]="maxDate">
+          </mat-calendar>
+        </div>
+        <div class="col-md-4 col-lg-4">
+          <div *ngFor="let dayData of allDatesData; let i = index">
+            <span class="spanDiv{{dayData.eventType}}">{{dayData.eventDate}} &nbsp;&nbsp;({{isArab?dayData.eventNameAr:dayData.eventName}})</span>
+          </div>
+        </div>
+      </div>
+      <div class="row mt-3 ">
+        <div class="col-md-12 col-lg-12 text-center">
+          <input type="button"
+                 class="btn waves-effect waves-light btn-rounded   btn-secondary btn-midblock"
+                 value="{{'Cancel' | translate}}" (click)="closeModel()" /> &nbsp;
+        </div>
+      </div>
+    </div>
+  </div>
+</form>

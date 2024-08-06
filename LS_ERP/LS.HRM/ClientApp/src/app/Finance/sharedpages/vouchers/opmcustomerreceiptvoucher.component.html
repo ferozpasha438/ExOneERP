@@ -1,0 +1,240 @@
+
+
+
+<spinner-loader [isLoading]="isLoading"></spinner-loader>
+
+<div>
+  <button (click)="printVoucher()">print</button> &nbsp;
+  <!--<button (click)="saveAsPDF()">Save As PDF</button>--> &nbsp;
+  <button type="button" class="" aria-hidden="true" (click)="closeModel()"> Close</button><br />
+  <button type="button" class="close" aria-hidden="true" (click)="closeModel()"> ×</button>
+</div>
+<br />
+
+<!-- Container -->
+<div class="container-fluid invoice-container print-container" style="width:850px;margin: auto;" id="printcontainer">
+
+  <link rel='stylesheet' href='https://fonts.googleapis.com/css?family=Poppins:100,200,300,400,500,600,700,800,900'
+        type='text/css'>
+
+  <table style="width:100%" border="0" cellpadding="0" cellspacing="0" width="100%">
+
+    <tr>
+      <td style="font-size: 1.5rem !important;color: #0c2f54; font-family: 'Poppins', sans-serif;font-weight: 500;
+        line-height: 1.2;margin:0;padding-top:15px;text-align: center;">
+        Customer Receipt Voucher
+
+      </td>
+    </tr>
+  </table>
+  <div style="padding-top:10px;padding-bottom:5px">
+    <table style="width:100%;" border="0" cellpadding="0" cellspacing="0" width="100%">
+      <tr>
+        <td style="width:100%;text-align: center;">
+          <div style="border:2px solid #878787;border-radius:5px;padding:10PX">
+            <table style="width:100%;" border="0" cellpadding="0" cellspacing="0" width="100%">
+              <tr>
+                <td style="padding:5px;width:50%;text-align: left;vertical-align: top;">
+                  <table style="width:100%;" border="0" cellpadding="0" cellspacing="0" width="100%">
+                    <tr>
+                      <td style="font-family: 'Poppins', sans-serif;font-weight: 500;font-size:0.875rem !important;color: #878787;">
+
+                        <span style="font-family: 'Poppins', sans-serif;font-weight: 600;font-size:0.875rem !important;color: #000000;">Customer Voucher#:</span> {{voucher.voucherNumber}}
+
+                      </td>
+                    </tr>
+                    <tr>
+                      <td style="vertical-align: top;">
+                        <table style="width:100%;" border="0" cellpadding="0" cellspacing="0" width="100%">
+                          <tr>
+                            <td style="vertical-align: top;font-family: 'Poppins', sans-serif;font-weight: 600;font-size:0.875rem !important;color: #000000;width:130px">
+                              Customer Details:
+                            </td>
+                            <td style="font-family: 'Poppins', sans-serif;font-weight: 500;font-size:0.875rem !important;color: #878787;">
+                              {{voucher.company}}, {{voucher.customerName}}, {{voucher.address}}
+                            </td>
+                          </tr>
+                        </table>
+
+                      </td>
+                    </tr>
+                    <tr>
+                      <td style=" width:50%;text-align: left;">
+                        <div style="font-family: 'Poppins', sans-serif;font-weight: 500;font-size:0.875rem !important;color: #878787;">
+                          <span style="font-family: 'Poppins', sans-serif;font-weight: 600;font-size:0.875rem !important;color: #000000;">Document Num:</span> {{voucher.docNum}}
+                        </div>
+                      </td>
+
+                    </tr>
+                  </table>
+
+                </td>
+                <td style="padding:5px; text-align: left;vertical-align: top;">
+                  <div style="font-family: 'Poppins', sans-serif;font-weight: 500;font-size:0.875rem !important;color: #878787;float: right;">
+                    <table>
+                      <tr>
+                        <td>
+                          <span style="font-family: 'Poppins', sans-serif;font-weight: 600;font-size:0.875rem !important;color: #000000;"> Date:</span> {{voucher.date  | date:'dd/MM/yyyy'}}
+                        </td>
+                      </tr>
+                      <tr>
+                        <td style="text-align: center;">
+                          <div style="float: right;">
+                            <img src="{{voucher.logo}}" style="width:200px;height:150px;" />
+                            <!--<img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADIAAAAyCAYAAAAeP4ixAAAABmJLR0QA/wD/AP+gvaeTAAABs0lEQVRoge2YXU7CQBSFv7gKfsqbuhlYgstAXQBuhhCexEfcgC5FEgEf8AkfeicxpJ32DrcytfMlkyZMe88cOnPaDiQSiUQFE2ANfAHHBttedMZNmHhqePBlbWZpYiJFD8AU6FsWL6AP3IveEcM78yoFp1YFa/Igumurgnsp2LMqWJOe6O6sCrr5eglKta/+eCCNUWWkKGIdKWIrmi9i1dM61ohVG4k1YtVGYo1YtZEoI9bX15n4LSMDFuRTQJNIO2AJ3Jw1agW+25sBG3QGTtsGGAZom66RhfQ9FwymSmgIrOSceYC2qRE3nYr+0TpCIznnM0Db1IiFkHn9zqdWdCQjJbhXiyzw+pEctwZjAcIX41L6VvjNFNXIgBf5fRGgrb7A13cLfPw6J/RheX1pI5A/X+bk00NjYEt+J8pM1NFWXRDlm3GnU2svx6Y/f09xr0SFH10hRt7keBc0nHCc3rvmIt86GEvfgfwbexA8tHoMgEfgW3RVW0ZVC3qGLpGsmno3vk4yjcl3O9xGRVPtrM27KCPWx7+P3ygj1keZkVZFrI9WRWwVrYnYOrQiYhOJRIf4ATasuFAsh80qAAAAAElFTkSuQmCC" />--><br />
+                            <div style="font-family: 'Poppins', sans-serif;font-weight: 500;font-size:0.875rem !important;color: #000000;"></div>
+                          </div>
+                        </td>
+                      </tr>
+                    </table>
+
+                  </div>
+                </td>
+              </tr>
+
+
+            </table>
+          </div>
+
+
+
+        </td>
+
+      </tr>
+    </table>
+
+  </div>
+
+  <div style="padding-top:10px;padding-bottom:5px">
+    <table style="width:100%;" border="0" cellpadding="0" cellspacing="0" width="100%">
+      <tr>
+        <td style="width:100%;text-align: center;">
+          <div style="border:2px solid #878787;border-radius:5px;padding:10PX">
+            <table style="width:100%;" border="0" cellpadding="0" cellspacing="0" width="100%">
+              <tr>
+                <td style="padding:5px;width:50%;text-align: left;">
+                  <div style="font-family: 'Poppins', sans-serif;font-weight: 500;font-size:0.875rem !important;color: #878787;">
+                    <span style="font-family: 'Poppins', sans-serif;font-weight: 600;font-size:0.875rem !important;color: #000000;">Received From:</span> {{voucher.receivedFrom}}
+                  </div>
+                </td>
+                <td style="padding:5px; text-align: left;">
+                  <div style="font-family: 'Poppins', sans-serif;font-weight: 500;font-size:0.875rem !important;color: #878787;float: right;">
+                    <span style="font-family: 'Poppins', sans-serif;font-weight: 600;font-size:0.875rem !important;color: #000000;">Voucher Date:</span> {{voucher.voucherDate | date:'dd/MM/yyyy'}}
+                  </div>
+                </td>
+              </tr>
+              <tr>
+                <td style="padding:2px 5px 2px 5px;width:50%;text-align: left;">
+                  <div style="font-family: 'Poppins', sans-serif;font-weight: 500;font-size:0.875rem !important;color: #878787;">
+                    <span style="font-family: 'Poppins', sans-serif;font-weight: 600;font-size:0.875rem !important;color: #000000;">Branch:</span>  {{voucher.branchName}}
+                  </div>
+                </td>
+                <td style="padding:2px 5px 2px 5px;width:50%;text-align: left;">
+                  <div style="font-family: 'Poppins', sans-serif;font-weight: 500;font-size:0.875rem !important;color: #878787;float: right;">
+                    <span style="font-family: 'Poppins', sans-serif;font-weight: 600;font-size:0.875rem !important;color: #000000;">Payment Mode:</span> {{voucher.payType}}
+                  </div>
+                </td>
+              </tr>
+              <tr>
+                <td style="padding:2px 5px 2px 5px;width:50%;text-align: left;">
+                  <div style="font-family: 'Poppins', sans-serif;font-weight: 500;font-size:0.875rem !important;color: #878787;">
+                    <span style="font-family: 'Poppins', sans-serif;font-weight: 600;font-size:0.875rem !important;color: #000000;">Bank:</span>  {{voucher.branchName}}
+                  </div>
+                </td>
+                <td style="padding:2px 5px 2px 5px;width:50%;text-align: left;">
+                  <div style="font-family: 'Poppins', sans-serif;font-weight: 500;font-size:0.875rem !important;color: #878787;float: right;">
+                    <span style="font-family: 'Poppins', sans-serif;font-weight: 600;font-size:0.875rem !important;color: #000000;">Amount:</span> {{voucher.amount}}
+                  </div>
+                </td>
+              </tr>
+              <tr>
+                <td style="padding:2px 5px 2px 5px;width:50%;text-align: left;">
+                  <div style="font-family: 'Poppins', sans-serif;font-weight: 500;font-size:0.875rem !important;color: #878787;">
+                    <span style="font-family: 'Poppins', sans-serif;font-weight: 600;font-size:0.875rem !important;color: #000000;">Cheque:</span>  {{voucher.checkNumber}}
+                  </div>
+                </td>
+                <td style="padding:2px 5px 2px 5px;width:50%;text-align: left;">
+                  <div style="font-family: 'Poppins', sans-serif;font-weight: 500;font-size:0.875rem !important;color: #878787;float: right;">
+                    <span style="font-family: 'Poppins', sans-serif;font-weight: 600;font-size:0.875rem !important;color: #000000;">Check Date:</span> {{voucher.checkdate | date:'dd/MM/yyyy'}}
+                  </div>
+                </td>
+              </tr>
+            </table>
+          </div>
+
+
+
+        </td>
+
+      </tr>
+    </table>
+
+  </div>
+
+  <div style="padding-top:10px;padding-bottom:5px">
+
+    <table style="width:100%" border="0" cellpadding="0" cellspacing="0" width="100%">
+
+      <tr>
+        <td style="font-size: 1.5rem !important;color: #0c2f54; font-family: 'Poppins', sans-serif;font-weight: 500;
+        line-height: 1.2;margin:0;padding-top:15px;text-align: center;">
+    Paid Invoices
+        </td>
+      </tr>
+    </table>
+
+    <table style="width:100%;" border="1" cellpadding="0" cellspacing="0" width="100%">
+      <tr>
+        <th>{{'Invoice_InvoiceGrid_InvoiceNumber' | translate}}</th>
+        <th>{{'Invoice_Date' | translate}}</th>
+        <th>{{'Delivery_Date' | translate}}</th>
+        <th>{{'Total_Amount' | translate}}</th>
+        <th>{{'Type' | translate}}</th>
+      </tr>
+      <tr *ngFor="let item of paidInvoices">
+        <td>{{item.invoiceNumber}}</td>
+        <td>{{item.invoiceDate}}</td>
+        <td>{{item.invoiceDueDate}}</td>
+        <td>{{item.totalAmount}}</td>
+        <td>{{item.isCreditConverted ? 'Credit' : 'Invoice'}}</td>
+      </tr>
+    </table>
+  </div>
+
+  <!--<div style="padding-top:10px;padding-bottom:5px">
+
+    <table style="width:100%" border="0" cellpadding="0" cellspacing="0" width="100%">
+
+      <tr>
+        <td style="font-size: 1.5rem !important;color: #0c2f54; font-family: 'Poppins', sans-serif;font-weight: 500;
+        line-height: 1.2;margin:0;padding-top:15px;text-align: center;">
+    UnPaid Invoices
+        </td>
+      </tr>
+    </table>
+
+    <table style="width:100%;" border="1" cellpadding="0" cellspacing="0" width="100%">
+      <tr>
+        <th>{{'Invoice_InvoiceGrid_InvoiceNumber' | translate}}</th>
+        <th>{{'Invoice_Date' | translate}}</th>
+        <th>{{'Delivery_Date' | translate}}</th>
+        <th>{{'Total_Amount' | translate}}</th>
+        <th>{{'Type' | translate}}</th>
+      </tr>
+      <tr *ngFor="let item of unPaidInvoices">
+        <td>{{item.invoiceNumber}}</td>
+        <td>{{item.invoiceDate}}</td>
+        <td>{{item.invoiceDueDate}}</td>
+        <td>{{item.totalAmount}}</td>
+        <td>{{item.isCreditConverted ? 'Credit' : 'Invoice'}}</td>
+      </tr>
+    </table>
+  </div>-->
+
+  <div style="width:40%;padding-top:30px">
+    <hr style="margin:0;">
+    <div style="font-family: 'Poppins', sans-serif;font-weight: 500;font-size:0.825rem !important;color: #000000;">
+      Prepared by 
+    </div>
+  </div>
+</div>

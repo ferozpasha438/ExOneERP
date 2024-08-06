@@ -1,0 +1,24 @@
+
+<h3>{{'Audits' | translate}}</h3>
+<div class="row pt-3">
+  <table class="table" *ngIf="requestAudits">
+    <thead>
+      <tr>
+        <th><label class="mr-sm-2">{{'entryName' | translate}}</label></th>
+        <th><label class="mr-sm-2">{{'entryDate' | translate}}</label></th>
+        <th><label class="mr-sm-2">{{'actionName' | translate}}</label></th>
+        <th><label class="mr-sm-2">{{'remarks' | translate}}</label></th>
+        <th></th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let item of requestAudits">
+        <td>{{item.entryName}}</td>
+        <td>{{item.entryDate | date:'dd/MM/yyyy'}}</td>
+        <td>{{item.actionName}}</td>
+        <td>{{item.remarks}}</td>
+      </tr>
+    </tbody>
+  </table>
+
+</div>

@@ -1,0 +1,25 @@
+<h2 class="arabicright">{{'EmployeeDetails' | translate}}</h2>
+<hr />
+<br />
+<div class="row">
+  <div class="col-sm-2 col-lg-2">
+    <img src="{{employeeBasicInfo.employeeImageUrl}}" class="h-md-75 w-md-100 btn-rounded">
+    <div class="form-group" *ngIf="employeeBasicInfo.allowImageUpload">
+      <div>
+        <input #csvInput hidden="true" type="file" onclick="this.value=null" (change)="onFileChanged($event)"
+          accept="image/*" />
+        <button mat-flat-button color="primary" (click)="csvInput.click()" style="width: 100%; margin-top: 5px;">{{"ChoosePicture"| translate}}</button>
+      </div>
+    </div>
+  </div>
+  <div class="col-sm-3 col-lg-3">
+    <div class="form-group">
+      <label for="empBasicInformation.employeeName">{{'EmployeeName' | translate}}</label>
+      <input class="form-control" type="text" readonly value="{{employeeBasicInfo.employeeName}}">
+    </div>
+    <div class="form-group">
+      <label for="empBasicInformation.employeeNumber">{{'EmployeeNumber' | translate}}</label>
+      <input class="form-control" type="text" readonly value="{{employeeBasicInfo.employeeNumber}}">
+    </div>
+  </div>
+</div>

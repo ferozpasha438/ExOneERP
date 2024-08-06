@@ -1,0 +1,220 @@
+
+<div class="page-breadcrumb">
+  <div class="row">
+    <div class="col-12 align-self-center">
+      <h3 class="page-title text-truncate text-dark font-weight-medium mb-1">
+        {{'Project_Count_Matrix' | translate}}
+      </h3>
+    </div>
+  </div>
+</div>
+
+<div class="modal-body">
+
+
+  <div class="outer  ">
+    <div class="row">
+      <div class="col-md-2 col-lg-2">
+        <div class="form-group">
+          <label>{{'Branch_Code' | translate}}</label>
+          <ng-select [items]="citySelectionList"
+                     bindLabel="lable"
+                     bindValue="value" [(ngModel)]="cityCode" (change)="clearProjectsData()">  </ng-select>
+        </div>
+      </div>
+      <div class="col-md-6 col-lg-6">
+        <div class="form-group">
+          <label>{{'Customer_Code' | translate}}</label>
+          <ng-select [items]="customerSelectionList"
+                     bindLabel="lable"
+                     bindValue="value" [(ngModel)]="customerCode" (change)="clearProjectsData()">  </ng-select>
+
+        </div>
+      </div>
+      <div class="col-md-2 col-lg-2">
+        <div class="form-group">
+          <label>{{'Service_Code' | translate}}</label>
+          <ng-select [items]="serviceSelectionList"
+                     bindLabel="lable"
+                     bindValue="value" [(ngModel)]="serviceCode" (change)="clearProjectsData()">  </ng-select>
+        </div>
+      </div>
+      <div class="col-md-2 col-lg-2">
+        <div class="form-group">
+          <label>{{'Status_Code' | translate}}</label>
+          <ng-select [items]="statusSelectionList"
+                     bindLabel="text"
+                     bindValue="value" [(ngModel)]="statusCode" (change)="clearProjectsData()">  </ng-select>
+        </div>
+      </div>
+      <div class="col-md-3 col-lg-3">
+        <div class="form-group">
+          <label>{{'From_Date' | translate}}</label>
+          <div class="form-group ">
+            <div class="input-group mb-2">
+              <input class="form-control datapickerinput" placeholder=" {{'Please_Enter' | translate}} {{'From_Date' | translate}}" [(ngModel)]="fromDate"
+                     [matDatepicker]="picker1" (click)="openDatePicker(picker1)">
+
+              <div class="input-group-prepend datapickericon">
+                <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
+                <mat-datepicker #picker1></mat-datepicker>
+              </div>
+
+            </div>
+          </div>
+
+        </div>
+      </div>
+      <div class="col-md-3 col-lg-3">
+        <div class="form-group">
+          <label>{{'To_Date' | translate}}</label>
+          <div class="form-group ">
+            <div class="input-group mb-2">
+              <input class="form-control datapickerinput" placeholder=" {{'Please_Enter' | translate}} {{'To_Date' | translate}}" [(ngModel)]="toDate"
+                     [matDatepicker]="picker2" (click)="openDatePicker(picker2)">
+
+              <div class="input-group-prepend datapickericon">
+                <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
+                <mat-datepicker #picker2></mat-datepicker>
+              </div>
+
+
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-md-6 col-lg-6">
+        <div class="form-group">
+          <br />
+          <button type="button" class="btn btn-primary" (click)="search()">Search</button>
+          &nbsp;
+          <button type="button" class="btn btn-primary" (click)="setForm()">
+
+            <i class="icon-refresh"></i>
+          </button>
+        </div>
+      </div>
+
+
+    </div>
+  </div>
+
+  <spinner-loader [isLoading]="isLoading"></spinner-loader>
+
+  <div class="table-responsive" *ngIf="company">
+
+    <button type="button" class="btn waves-effect waves-light btn-rounded btn-primary btn-midblock" data-toggle="modal" (click)="openPrint()">
+      {{'Print' | translate}}
+    </button>
+    <br />
+    <br />
+
+    <div class="outer" id="printcontainer">
+      <table style="width: 100%; padding-bottom:5px;" cellpadding="0" cellspacing="0" width="100%" class="ur_tablestyle">
+        <tr>
+          <td> {{company.companyName}}</td>
+        </tr>
+        <tr>
+          <td style="text-align:center;">
+            <img src="{{company.logoURL}}" style="width:200px;height:150px;" />
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <div class="font-weight-medium">
+              <br />
+              {{company.branchName}}
+              <br />
+              {{company.companyAddress}}
+              <br />
+              {{'Tel_Phone' | translate }} :  {{company.phone}}
+              <br />
+            </div>
+
+          </td>
+        </tr>
+        <tr>
+          <td style="text-align:center;">
+
+            The Statement of  Projects Sites  for Date Range: {{fromDate | date:'dd/MM/yyyy'}} to {{toDate | date:'dd/MM/yyyy'}}
+            &nbsp; {{'Customer_Code'|translate}}: {{customerCode != null && customerCode !=''? customerCode:'all'}}
+            &nbsp;{{'Branch_Code'|translate}}: {{cityCode != null && cityCode !=''? cityCode:'all'}}
+            &nbsp;{{'Service_Code'|translate}}: {{serviceCode != null && serviceCode !=''? serviceCode:'all'}}
+            &nbsp;{{'Status_Code'|translate}}: {{statusCode != null && statusCode !=''? statusCode:'all'}}
+
+
+          </td>
+        </tr>
+
+      </table>
+
+
+
+      <div class="container-fluid invoice-container print-container" style="width:100%; padding-top:5px;" id="printcontainer">
+         <ng-container style="padding-bottom: 5px; padding-top: 5px">
+            <table style="width: 100%; background: #efefef;" border="0" cellpadding="0" cellspacing="0" width="100%">
+              <tr>
+                <th style="border:1px solid #878787;padding:5px;font-size:0.875rem !important;color: #000000; font-family: 'Poppins', sans-serif;font-weight:600;">
+                  {{'Customer_Code'|translate}}
+                </th>
+                <th style="border:1px solid #878787;padding:5px;font-size:0.875rem !important;color: #000000; font-family: 'Poppins', sans-serif;font-weight:600;">
+                  {{'Customer_Name'|translate}}
+                </th>
+                <th style="border:1px solid #878787;padding:5px;font-size:0.875rem !important;color: #000000; font-family: 'Poppins', sans-serif;font-weight:600;">
+                  {{'InActive'|translate}}
+                </th>
+                <th style="border:1px solid #878787;padding:5px;font-size:0.875rem !important;color: #000000; font-family: 'Poppins', sans-serif;font-weight:600;">
+                  {{'Closed'|translate}}
+                </th>
+                <th style="border:1px solid #878787;padding:5px;font-size:0.875rem !important;color: #000000; font-family: 'Poppins', sans-serif;font-weight:600;">
+                  {{'InProgress'|translate}}
+                </th>
+                <th style="border:1px solid #878787;padding:5px;font-size:0.875rem !important;color: #000000; font-family: 'Poppins', sans-serif;font-weight:600;">
+                  {{'Suspended'|translate}}
+                </th>
+                <th style="border:1px solid #878787;padding:5px;font-size:0.875rem !important;color: #000000; font-family: 'Poppins', sans-serif;font-weight:600;">
+                  {{'Completed'|translate}}
+                </th>
+ <th style="border:1px solid #878787;padding:5px;font-size:0.875rem !important;color: #000000; font-family: 'Poppins', sans-serif;font-weight:600;">
+                  {{'Total'|translate}}
+                </th>
+              </tr>
+              <tr *ngFor="let customer of customersList;let i=index" style="padding-bottom: 5px; padding-top: 5px">
+                <td style="border:1px solid #878787;padding:5px;font-size:0.775rem !important;color: #000000; font-family: 'Poppins', sans-serif;font-weight: 400;">
+                  {{ customer.custCode }}
+                </td>
+                <td style="border:1px solid #878787;padding:5px;font-size:0.775rem !important;color: #000000; font-family: 'Poppins', sans-serif;font-weight: 400;">
+                  {{ isArabic? customer.custArbName:customer.custName }}
+                </td>
+                <td style="border:1px solid #878787;padding:5px;font-size:0.775rem !important;color: #000000; font-family: 'Poppins', sans-serif;font-weight: 400;">
+                  {{getTotal(customer.custCode)?.inActive}}
+                </td>
+
+                <td style="border:1px solid #878787;padding:5px;font-size:0.775rem !important;color: #000000; font-family: 'Poppins', sans-serif;font-weight: 400;">
+                  {{getTotal(customer.custCode)?.closed}}
+                </td>
+
+                <td style="border:1px solid #878787;padding:5px;font-size:0.775rem !important;color: #000000; font-family: 'Poppins', sans-serif;font-weight: 400;">
+                  {{getTotal(customer.custCode)?.inProgress}}
+                </td>
+
+                <td style="border:1px solid #878787;padding:5px;font-size:0.775rem !important;color: #000000; font-family: 'Poppins', sans-serif;font-weight: 400;">
+                  {{getTotal(customer.custCode)?.suspended}}
+                </td>
+
+                <td style="border:1px solid #878787;padding:5px;font-size:0.775rem !important;color: #000000; font-family: 'Poppins', sans-serif;font-weight: 400;">
+                  {{getTotal(customer.custCode)?.completed}}
+                </td>
+                <td style="border:1px solid #878787;padding:5px;font-size:0.775rem !important;color: #000000; font-family: 'Poppins', sans-serif;font-weight: 400;">
+                  {{getTotal(customer.custCode)?.total}}
+                </td>
+              </tr>
+              </table>
+          </ng-container>
+      </div>
+    </div>
+  </div>
+</div>
+
+

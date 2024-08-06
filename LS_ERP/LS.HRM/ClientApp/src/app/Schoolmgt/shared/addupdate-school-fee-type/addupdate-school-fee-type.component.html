@@ -1,0 +1,145 @@
+<h3 class="modal-title">{{'School_Fee_Type' | translate}}</h3>
+<button type="button" class="close" aria-hidden="true" (click)="closeModel()"> ×</button>
+<form [formGroup]="form" (ngSubmit)="submit()" novalidate class="mt-4">
+    <div class="outer ">
+        <div class="row rowm0 mt-3">
+            <div class="col-md-4 col-lg-4 col-sm-4">
+                <div class="card" style="padding: 10px">
+                <div class="form-group">
+                    <label>{{'Fee_Code' | translate}}</label>
+                    <input class="form-control" type="text" placeholder="{{'Fee_Code' | translate}}"
+                        formControlName="feeCode" />
+                    <validation-message [control]="form.controls.feeCode"></validation-message>
+                </div>
+                <div class="form-group">
+                    <label>{{'Fee_Name' | translate}}</label>
+                    <input class="form-control" type="text" placeholder="{{'Fee_Name' | translate}}"
+                        formControlName="feesName" />
+                    <validation-message [control]="form.controls.feesName"></validation-message>
+                </div>
+                <div class="form-group">
+                    <label>{{'Fee_Name_in_Arabic' | translate}}</label>
+                    <input class="form-control" type="text" placeholder="{{'Fee_Name_in_Arabic' | translate}}"
+                        formControlName="feeName2" />
+                    <validation-message [control]="form.controls.feeName2"></validation-message>
+                </div>
+                <div class="form-group">
+                    <label>{{'Frequency' | translate}}</label>
+                    <input class="form-control" type="text" placeholder="{{'Frequency' | translate}}"
+                        formControlName="frequency" />
+                    <validation-message [control]="form.controls.frequency"></validation-message>
+                </div>
+                <div class="form-group">
+                    <label>{{'Is_Active' | translate}}</label>
+                    <div>                   
+                        <mat-slide-toggle color="primary" formControlName="isActive"></mat-slide-toggle>                
+                    </div>
+                    <validation-message [control]="form.controls.isActive"></validation-message>
+                </div>                
+            </div>
+            </div>
+            <div class="col-md-4 col-lg-4 col-sm-4">
+                <div class="card" style="padding: 10px">
+                <div class="form-group">
+                    <label>{{'Est_fee_amount' | translate}}</label>
+                    <input class="form-control" type="text" placeholder="{{'Est_fee_amount' | translate}}"
+                        formControlName="estFeeAmount" />
+                    <validation-message [control]="form.controls.estFeeAmount"></validation-message>
+                </div>
+                <div class="form-group">
+                    <label>{{'Min_Fee_Amount' | translate}}</label>
+                    <input class="form-control" type="text" placeholder="{{'Min_Fee_Amount' | translate}}"
+                        formControlName="minFeeAmount" />
+                    <validation-message [control]="form.controls.minFeeAmount"></validation-message>
+                </div>
+                <div class="form-group">
+                    <label>{{'Max_Fee_Amount' | translate}}</label>
+                    <input class="form-control" type="text" placeholder="{{'Max_Fee_Amount' | translate}}"
+                        formControlName="maxFeeAmount" />
+                    <validation-message [control]="form.controls.maxFeeAmount"></validation-message>
+                </div>
+                <div class="form-group">
+                    <label>{{'Is_Discountable' | translate}}</label>  
+                    <div>
+                      <input class="form-control" type="number" placeholder="{{'Max_Fee_Amount' | translate}}"
+                             formControlName="isDiscountable" />
+                      <!--<mat-slide-toggle color="primary" formControlName="isDiscountable"></mat-slide-toggle>-->
+                    </div>
+                    <validation-message [control]="form.controls.isDiscountable"></validation-message>
+                </div>
+                <div class="form-group">
+                    <label>{{'Remarks' | translate}}</label>
+                    <textarea class="form-control" type="text" placeholder="{{'Remarks' | translate}}"
+                        formControlName="remarks"></textarea>
+                    <validation-message [control]="form.controls.remarks"></validation-message>
+                </div>
+            </div>
+            </div>          
+            <div class="col-md-4 col-lg-4 col-sm-4">
+                <div class="card" style="padding: 10px">
+                <div class="form-group">
+                    <label>{{'Max_Disc_Percent' | translate}}</label>
+                    <input class="form-control" type="text" placeholder="{{'Max_Disc_Percent' | translate}}"
+                        formControlName="maxDiscPer" />
+                    <validation-message [control]="form.controls.maxDiscPer"></validation-message>
+                </div>
+                <div class="form-group">
+                    <label>{{'Tax_Applicable' | translate}}</label>
+                    <div>                   
+                        <mat-slide-toggle color="primary" formControlName="taxApplicable"></mat-slide-toggle>                
+                    </div>
+                    <validation-message [control]="form.controls.taxApplicable"></validation-message>
+                </div>
+                <div class="form-group">
+                    <label>{{'Tax_Code' | translate}}</label>
+                    <input class="form-control" type="text" placeholder="{{'Tax_Code' | translate}}"
+                        formControlName="taxCode" />
+                    <validation-message [control]="form.controls.taxCode"></validation-message>
+                </div>
+                <div class="form-group">
+                    <label>{{'G/L_Income_Account' | translate}}</label>
+                    <input class="form-control" type="text" placeholder="{{'G/L_Income_Account' | translate}}"
+                        formControlName="feeGLAccount" />
+                    <validation-message [control]="form.controls.feeGLAccount"></validation-message>
+                </div>
+                <div class="form-group">
+                    <label>{{'G/LTax Collection A/C' | translate}}</label>
+                    <input class="form-control" type="text" placeholder="{{'G/LTax Collection A/C' | translate}}"
+                        formControlName="feeTaxAccount" />
+                    <validation-message [control]="form.controls.feeTaxAccount"></validation-message>
+                </div>
+            </div>
+            </div>          
+            <!-- <div class="col-md-6 col-lg-6 col-sm-6">
+                <div class="form-group">
+                    <label>{{'Language_Name' | translate}}</label>
+                    <input class="form-control" type="txt" placeholder="{{'Language_Name' | translate}}"
+                        formControlName="languageName" />
+                    <validation-message [control]="form.controls.languageName"></validation-message>
+                </div>
+            </div>
+            <div class="col-md-6 col-lg-6 col-sm-6">
+                <div class="form-group">
+                    <label>{{'Language_Name_in_Arabic' | translate}}</label>
+                    <input class="form-control" type="text" placeholder="{{'Language_Name_in_Arabic' | translate}}"
+                        formControlName="languageNameInArabic" />
+                    <validation-message [control]="form.controls.languageNameInArabic"></validation-message>
+                </div>
+            </div>
+            <div class="col-md-6 col-lg-6 col-sm-6">
+                <label>{{'Is_Active' | translate}}</label>  
+                <div class="form-group">                   
+                    <mat-slide-toggle color="primary" formControlName="isActive"></mat-slide-toggle>                
+                </div>
+            </div> -->
+           
+        </div>
+        <div class="row customrow mt-4">
+            <div class="col-lg-12 col-md-12 text-center">
+                <input type="button" class="btn btn-secondary" value="{{'Cancel' | translate}}" (click)="closeModel()" />
+                &nbsp;&nbsp;
+                <input type="submit" class="btn waves-effect waves-light btn-primary" value="{{'Save' | translate}}">
+            </div>
+        </div>
+    </div>
+</form>

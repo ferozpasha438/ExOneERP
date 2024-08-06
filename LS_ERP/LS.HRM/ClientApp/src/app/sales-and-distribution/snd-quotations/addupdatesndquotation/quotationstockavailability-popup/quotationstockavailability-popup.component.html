@@ -1,0 +1,107 @@
+<div class="row">
+
+  <div class="col-md-12 col-lg-12" style="text-align:center">
+    <h3> {{'Items_Stock_List' | translate}} <button type="button" class="close" aria-hidden="true" (click)="closeModel()"> ×</button></h3>
+  </div>
+  <div class="col-md-12 col-lg-12" style="text-align:center">
+    <table width="100%">
+      <tr>
+        
+        <td>
+
+          {{'Warehouse'|translate}}:{{warehouse?.whDesc}}({{warehouse?.whCode}})
+        </td>
+        
+
+      </tr>
+    </table>
+  </div>
+  <div class="col-md-12 col-lg-12" style="text-align:center">
+    <table class="table  table-bordered no-wrap">
+      <thead>
+        <tr>
+          <th>
+            {{'Item'|translate}}
+          </th>
+          <th>
+            {{'OnHand'|translate}}
+          </th>
+
+          <th>
+            {{'Commited'|translate}}
+          </th>
+
+          <th>
+            {{'Reserved'|translate}}
+          </th>
+          <th>
+            {{'Required'|translate}}
+          </th>
+          <th>
+            {{'Available'|translate}}
+          </th>
+          <th>
+          </th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let item of tableData;let i=index;">
+          <td>
+
+            {{ isArabic?item?.itemMaster?.itemDescriptionAr:item?.itemMaster?.itemDescription}} ({{item.itemCode}})
+          </td>
+          <td>
+            {{item?.stockDetails?.qtyOH}}
+          </td>
+          <td>
+            {{item?.stockDetails?.qtyOnSalesOrder}}
+          </td>
+          <td>
+            {{item?.stockDetails?.qtyReserved}}
+          </td>
+
+
+          <td>
+            {{item?.quantity}}
+
+          </td>
+          <td>
+            {{item?.availableQuantity}}
+          </td>
+          <td>
+            <ng-container>
+              <i class="fas fa-circle" id="{{getStatusColor(item)}}"> </i> &nbsp;
+                                                                                 <span>
+                                                                                   <i class="icon icon-question" (click)="checkItemStockAvailability(item)"> </i>
+                                                                                 </span>
+            </ng-container>
+          </td>
+        </tr>
+
+      </tbody>
+    </table>
+  </div>
+
+</div>
+
+
+<style>
+
+  #statusAvailable {
+    color: #4cff00
+  }
+
+  #statusPartialAvailable {
+    color: #ffd800
+  }
+
+
+
+  #statusNotAvailable {
+    color: #ff0000
+  }
+
+  #statusNegativeStock {
+    color: #000000
+  }
+</style>

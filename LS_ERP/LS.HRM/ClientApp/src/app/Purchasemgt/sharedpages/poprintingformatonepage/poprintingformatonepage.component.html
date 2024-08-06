@@ -1,0 +1,246 @@
+<spinner-loader [isLoading]="isLoading"></spinner-loader>
+
+<div id="Format3" class="p-1 shadow" style="text-align: @TextAlign" *ngIf="item && company">
+      <table style="width:100%; padding-bottom:5px;" border="1" cellpadding="0" cellspacing="0" width="100%" class="ur_tablestyle">
+    <tr style="text-align:@TextAlign">
+      <td>
+        <img src="{{company.logoURL}}" style="width:200px;height:150px;" class="float-right" />
+      </td>
+    </tr>
+    <tr *ngIf="data.from == 'grn'">
+      <td colspan="2" style="text-align:right">
+        {{'Goods_Receipt_Number' | translate}} : {{item.tranNumber}}
+      </td>
+    </tr>
+    <tr *ngIf="data.from == 'prt'">
+      <td colspan="2" style="text-align:right">
+        {{'Purchase_ReturnNumber' | translate}} : {{item.tranNumber}}
+      </td>
+    </tr>
+     <tr *ngIf="data.from == 'PO'">
+          <td colspan="2" style="text-align:right">
+            {{'Purchase_OrderNumber' | translate}} : {{item.purchaseOrderNO}}
+          </td>
+    </tr>
+     <tr *ngIf="data.from == 'PR'">
+          <td colspan="2" style="text-align:right">
+            {{'Purchase_RequestNumber' | translate}} : {{item.purchaseOrderNO}}
+          </td>
+    </tr>
+    <tr>
+      <td> <Strong> {{typeOfSource}} </Strong>      </td>
+      <td style="text-align:right">  <Strong> {{typeOfSource}} Date: </Strong> {{item.tranDate | date:'dd-MM-yyyy'}}       </td>
+    </tr>
+  </table>
+
+      <table style="width:100%; padding-bottom:5px;" border="1" cellpadding="0" cellspacing="0" width="100%" class="ur_tablestyle">
+    <tr style="border:thin; background-color:whitesmoke">
+      <td colspan="2" style="width:50%; text-align:center;"> Vendor Details  </td>
+      <td colspan="2" style="width:50%; text-align:center;"> Ship To Details  </td>
+    </tr>
+    <tr>
+      <td>
+        Vendor Number
+      </td>
+      <td> {{item.vendCode}} </td>
+      <td>
+        Name
+      </td>
+      <td> {{company.companyName}} </td>
+    </tr>
+    <tr>
+      <td>  Vendor Name   </td>
+      <td> {{item.vendName}} </td>
+      <td> Contact Person   </td>
+      <td> - </td>
+    </tr>
+    <tr>
+      <td> Phone   </td>
+      <td> {{item.vatNumber}} </td>
+      <td> Phone   </td>
+      <td> {{company.phone}} </td>
+    </tr>
+    <tr>
+      <td> Email   </td>
+      <td> {{item.whName}} </td>
+      <td> Email   </td>
+      <td> {{company.email}} </td>
+    </tr>
+    <tr>
+      <td> Address   </td>
+      <td> {{item.vendAddress}} </td>
+      <td> Address   </td>
+      <td> {{company.companyAddress}} </td>
+    </tr>
+  </table>
+      <table style="width:100%; padding-bottom:5px;" border="1" cellpadding="0" cellspacing="0" width="100%" class="ur_tablestyle">
+    <thead class="alert-dark ">
+      <tr><th colspan="7" class="text-center"><h4>  {{ (data.from == 'PO' ? 'Purchase_Order_LineDetails' : (data.from == 'PR' ? 'Purchase_Requisition_LineDetails' : (data.from == 'prt' ? 'Purchase_Return_LineDetails' : 'Purchase_Order_Receipt_LineDetails'))) | translate}}</h4></th></tr>
+      <tr>
+        <th style="width:10px;"> Line# </th>
+        <th> Item Code </th>
+        <th> Item Details </th>
+        <th style="width:150px"> Unit Of Measure</th>
+        <th style="width:50px; text-align:right "> Quantity </th>
+        <th style="width:115px; text-align:right"> Unit Price </th>
+        <th style="width:120px; text-align:right"> Total </th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let pitem of itemList;let i = index">
+        <td> {{i+1}}</td>
+        <td> {{pitem.tranItemCode}} </td>
+        <td> {{pitem.tranItemName}}, {{pitem.itemDescription}} </td>
+        <td style="width:150px"> {{pitem.tranItemUnitCode}} </td>
+        <td style="width:100px ; text-align:right ">  {{pitem.tranItemQty}}</td>
+        <td style="width:100px ; text-align:right ">  {{pitem.tranItemCost}}</td>
+        <td style="width:100px ; text-align:right ">  {{pitem.tranTotCost + pitem.discAmt}}</td>
+      </tr>
+      <tr>
+
+        <td style="text-align:left" colspan="6"><strong>For Office Use Only</strong></td>
+      </tr>
+      <tr>
+        <td colspan="2"><strong>Project:</strong></td>
+        <td class="align-right" style="text-align:right"><strong> </strong></td>
+        <td class="align-right" style="text-align:right"><strong> </strong></td>
+        <td class="align-right" style="text-align:right"><strong> Total Amount</strong></td>
+        <td class="align-right" style="text-align:right"><strong>{{item.tranTotalCost + item.tranDiscAmount }}</strong></td>
+      </tr>
+      <tr>
+        <td colspan="2"><strong>Department:</strong></td>
+        <td class="align-right" style="text-align:right"><strong> </strong></td>
+        <td class="align-right" style="text-align:right"><strong> </strong></td>
+        <td class="align-right" style="text-align:right"><strong>Other Cost</strong></td>
+        <td class="align-right" style="text-align:right"><strong>{{item.ohCharges}}</strong></td>
+      </tr>
+      <tr>
+        <td colspan="2"><strong>Branch:</strong></td>
+        <td class="align-right" style="text-align:right"><strong> </strong></td>
+        <td class="align-right" style="text-align:right"><strong> </strong></td>
+        <td class="align-right" style="text-align:right"><strong>Discount Amount</strong></td>
+        <td class="align-right" style="text-align:right"><strong>{{item.tranDiscAmount}}</strong></td>
+      </tr>
+      <tr>
+        <td colspan="2"><strong>City:</strong></td>
+        <td class="align-right" style="text-align:right"><strong> </strong></td>
+        <td class="align-right" style="text-align:right"><strong> </strong></td>
+        <td class="align-right" style="text-align:right"><strong>Net Total</strong></td>
+        <td class="align-right" style="text-align:right"><strong>{{item.tranTotalCost}}</strong></td>
+      </tr>
+      <tr>
+        <td colspan="2"><strong>Person:</strong></td>
+        <td class="align-right" style="text-align:right"><strong> </strong></td>
+        <td class="align-right" style="text-align:right"><strong> </strong></td>
+        <td class="align-right" style="text-align:right"><strong>VAT Amount</strong></td>
+        <td class="align-right" style="text-align:right"><strong>{{item.taxes}}</strong></td>
+      </tr>
+      <tr>
+        <td colspan="2"><strong></strong></td>
+        <td class="align-right" style="text-align:right"><strong> </strong></td>
+        <td class="align-right" style="text-align:right"><strong> </strong></td>
+        <td class="align-right" style="text-align:right"><strong>Grand Total</strong></td>
+        <td class="align-right" style="text-align:right"><strong>{{item.totalAmount + item.tranDiscAmount }}</strong></td>
+      </tr>
+      <tr>
+        <td style="text-align:left" colspan="6"><strong> </strong></td>
+      </tr>
+      <tr>
+        <td colspan="2"><strong>Head Of Administration:</strong></td>
+        <td class="align-right" style="text-align:right"><strong> </strong></td>
+        <td colspan="3"><strong>Comments</strong></td>
+
+      </tr>
+      <tr>
+        <td colspan="2">Name:Abduaziz Almalki</td>
+        <td> </td>
+        <td colspan="3" class="align-right" style="text-align:right"><strong> </strong></td>
+      </tr>
+      <tr>
+        <td colspan="2"><strong>Deputy General Manager:</strong></td>
+        <td class="align-right" style="text-align:right"><strong> </strong></td>
+        <td colspan="3"><strong>Comments</strong></td>
+
+      </tr>
+      <tr>
+        <td colspan="2">Mohammed Almansaky</td>
+        <td><strong> </strong></td>
+        <td colspan="3" class="align-right" style="text-align:right"><strong> </strong></td>
+
+      </tr>
+      <tr>
+        <td colspan="2"><strong>Operation Director:</strong></td>
+        <td class="align-right" style="text-align:right"><strong> </strong></td>
+        <td colspan="3"><strong>Comments</strong></td>
+
+      </tr>
+      <tr>
+        <td colspan="2">Atif Alharbi</td>
+        <td><strong>   </strong></td>
+        <td colspan="3"><strong> </strong></td>
+      </tr>
+      <tr>
+        <td colspan="2"><strong>Procurement Head:</strong></td>
+        <td class="align-right" style="text-align:right"><strong> </strong></td>
+        <td colspan="3"><strong>Comments</strong></td>
+
+      </tr>
+      <tr>
+        <td colspan="2">Name: Sahar Almalki</td>
+        <td><strong>   </strong></td>
+        <td colspan="3"><strong> </strong></td>
+
+      </tr>
+      <tr>
+        <td colspan="2"><strong>Finance Head</strong></td>
+        <td class="align-right" style="text-align:right"><strong> </strong></td>
+        <td colspan="3"><strong>Comments</strong></td>
+
+      </tr>
+      <tr>
+        <td colspan="2">Faisal Alhussain</td>
+        <td><strong>   </strong></td>
+        <td colspan="2" class="align-right" style="text-align:right"><strong> </strong></td>
+        <td colspan="3" style="text-align:right"><strong> </strong></td>
+      </tr>
+    </tbody>
+
+    <tfoot>
+    </tfoot>
+
+  </table>
+  <table style="width:100%; padding-bottom:5px;" border="1" cellpadding="0" cellspacing="0" width="100%" class="ur_tablestyle">
+    <tr>
+      <td> Doc No: {{item.docNumber}} </td>
+      <td>
+
+        <!--{{ (data.from == 'PO' ? 'Purchase_OrderNumber' : (data.from == 'PR' ? 'Purchase_RequisitionNumber' : 'Purchase_GRNNumber')) | translate}} : {{item.purchaseOrderNO}}-->
+        <span  *ngIf="data.from != 'prt'">{{ 'Purchase_OrderNumber' | translate}}  : {{item.purchaseOrderNO}}</span>
+      </td>
+      <td> <!-- && data.from != 'prt' Version: 1.1--> </td>
+    </tr>
+    <tr>
+      <td> Effective Date: <!--{{item.deliveryDate | date : 'dd-MM-yyyy'}}-->  </td>
+      <td>  </td>
+      <td>   </td>
+    </tr>
+  </table>
+  
+     <table style="width:100%; padding-bottom:5px;" border="1" cellpadding="0" cellspacing="0" width="100%" class="ur_tablestyle"
+            *ngIf="shipmentList">
+    <tr>
+      <th colspan="3" class="text-center">Shipment Details</th>
+    </tr>
+    <tr *ngFor="let item of shipmentList; let i=index;">
+      <td>
+        Shipment {{i + 1}}
+      </td>
+      <td class="text-center">
+        PO Quantity = {{item.tranItemQty}};  Received Quantity = {{item.receivingQty}};  Balance Quantity = {{item.balQty}}
+      </td>
+      <td>
+        Unit Price = {{item.tranItemCost}}; Total = {{item.tranTotCost}}
+      </td>
+  </table>
+
+</div>

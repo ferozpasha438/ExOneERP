@@ -1,0 +1,55 @@
+ 
+<div class="modal-header">
+  <h3 class="modal-title">  {{'Account_Type' | translate}} </h3>
+  <button type="button" class="close" aria-hidden="true" (click)="closeModel()"> ×</button>
+
+</div>
+<form [formGroup]="form" (ngSubmit)="submit()" novalidate class="mt-4">  
+  <div class="row">
+    <div class="col-md-12 col-lg-12">
+      <div class="form-group ">
+        <label class="mr-sm-2" for="inlineFormCustomSelect">{{'Type_of_Account' | translate}}</label>
+        <!--<select class="custom-select mr-sm-2" id="inlineFormCustomSelect" formControlName="finType">
+    <option value="">Choose...</option>
+    <option value="{{type.typeCode}}" *ngFor="let type of accountType">{{type.typeCode}}</option>-->
+        <!--<option value="1">Asset</option>
+  <option value="2">Liability</option>
+  <option value="3">Expense </option>
+  <option value="4">Income </option>-->
+        <!--</select>-->
+        <input type="text" class="form-control" placeholder="{{'Please_Enter' | translate}} {{'Type_of_Account' | translate}}"   formControlName="finType" [readonly]="true">
+        <validation-message [control]="form.controls.finType"></validation-message>
+      </div>
+    </div>
+    <div class="col-md-4 col-lg-6">
+
+      <div class="form-group">
+        <label for="exampleFormControlSelect1">{{'Category_Code' | translate}}</label>
+        <input type="text" class="form-control" placeholder="{{'Please_Enter' | translate}} {{'Category_Code' | translate}}"
+               formControlName="finCatCode">
+        <validation-message [control]="form.controls.finCatCode"></validation-message>
+      </div>
+
+    </div>
+    <div class="col-md-4 col-lg-6">
+
+      <div class="form-group">
+        <label for="exampleFormControlSelect1">{{'Category_Name' | translate}}</label>
+        <input type="text" class="form-control" placeholder="{{'Please_Enter' | translate}} {{'Category_Name' | translate}}"
+               formControlName="finCatName">
+        <validation-message [control]="form.controls.finCatName"></validation-message>
+      </div>
+
+    </div>
+  </div>
+  <div class="row mt-3">
+    <div class="col-md-12 col-lg-12 text-center">
+      <input type="button"
+             class="btn waves-effect waves-light btn-rounded   btn-secondary btn-midblock"
+             value="{{'Cancel' | translate}}" (click)="closeModel()" /> &nbsp;
+      <input type="submit"
+             class="btn waves-effect waves-light btn-rounded btn-primary btn-midblock"
+             value="{{'Save' | translate}}" />
+    </div>
+  </div>
+</form>

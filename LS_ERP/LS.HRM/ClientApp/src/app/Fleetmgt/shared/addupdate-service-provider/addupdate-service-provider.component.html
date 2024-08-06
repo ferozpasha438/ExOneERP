@@ -1,0 +1,84 @@
+<h3 class="modal-title">{{'Addupdate_Service_Code' | translate}}</h3>
+<button type="button" class="close" aria-hidden="true" (click)="closeModel()"> ×</button>
+<form [formGroup]="form" (ngSubmit)="submit()" novalidate class="mt-4">
+  <div class="outer ">
+    <div class="row rowm0 mt-3">
+      <div class="col-md-6 col-lg-6 col-sm-6">
+        <div class="form-group">
+          <label>{{'Provider_Code' | translate}}</label>
+          <input class="form-control" type="text" placeholder="{{'Service_Code' | translate}}"
+                 formControlName="serviceProviderCode" />
+          <validation-message [control]="form.controls.serviceProviderCode"></validation-message>
+        </div>
+      </div>
+
+      <div class="col-md-6 col-lg-6 col-sm-6">
+        <div class="form-group">
+          <label>{{'Location_City' | translate}}</label>
+          <select class="custom-select mr-sm-2" formControlName="locationCity">
+            <option value="">{{'Select' | translate}} {{'Location_City' | translate}} </option>
+            <ng-container *ngIf="cityList">
+              <option *ngFor="let item of cityList" value="{{item.value}}">{{ isArab ? item.textTwo : item.text  }}</option>
+            </ng-container>
+          </select>
+
+          <validation-message [control]="form.controls.locationCity"></validation-message>
+        </div>
+      </div>
+
+      <!--<div class="col-md-6 col-lg-6 col-sm-6">
+    <div class="form-group">
+      <label>{{'Service_Type' | translate}}</label>
+      <input class="form-control" type="text" placeholder="{{'Service_Type' | translate}}"
+             formControlName="serviceType" />
+      <validation-message [control]="form.controls.serviceType"></validation-message>
+    </div>
+  </div>-->
+
+      
+
+      <div class="col-md-6 col-lg-6 col-sm-6">
+        <div class="form-group">
+          <label>{{'Service_Provider_Name_En' | translate}}</label>
+          <input class="form-control" type="text" placeholder="{{'Service_Provider_Name_En' | translate}}"
+                 formControlName="serviceProviderName_En" />
+          <validation-message [control]="form.controls.serviceProviderName_En"></validation-message>
+        </div>
+      </div>
+
+      <div class="col-md-6 col-lg-6 col-sm-6">
+        <div class="form-group">
+          <label>{{'Service_Provider_Name_Ar' | translate}}</label>
+          <input class="form-control" type="text" placeholder="{{'Service_Provider_Name_Ar' | translate}}"
+                 formControlName="serviceProviderName_Ar" />
+          <validation-message [control]="form.controls.serviceProviderName_Ar"></validation-message>
+        </div>
+      </div>
+
+      <div class="col-md-6 col-lg-6 col-sm-6">
+        <div class="form-group">
+          <label>{{'Remarks' | translate}}</label>
+          <input class="form-control" type="text" placeholder="{{'Remarks' | translate}}"
+                 formControlName="remarks" />
+          <validation-message [control]="form.controls.remarks"></validation-message>
+        </div>
+      </div>
+
+
+      <div class="col-md-6 col-lg-6 col-sm-6">
+        <label>{{'Is_Active' | translate}}</label>
+        <div class="form-group">
+          <mat-slide-toggle color="primary" formControlName="isActive"></mat-slide-toggle>
+        </div>
+      </div>
+
+    </div>
+    <div class="row customrow mt-4">
+      <div class="col-lg-12 col-md-12 text-center">
+        <input type="button" class="btn btn-secondary" value="{{'Cancel' | translate}}" (click)="closeModel()" />
+        &nbsp;&nbsp;
+        <input type="submit" class="btn waves-effect waves-light btn-primary" value="{{'Save' | translate}}">
+      </div>
+    </div>
+  </div>
+</form>

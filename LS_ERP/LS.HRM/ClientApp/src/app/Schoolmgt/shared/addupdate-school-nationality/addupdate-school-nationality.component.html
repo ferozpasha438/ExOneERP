@@ -1,0 +1,46 @@
+<h3 class="modal-title">{{'School_Nationality' | translate}}</h3>
+<button type="button" class="close" aria-hidden="true" (click)="closeModel()"> ×</button>
+<form [formGroup]="form" (ngSubmit)="submit()" novalidate class="mt-4">
+    <div class="outer ">
+        <div class="row rowm0 mt-3">
+            <div class="col-md-6 col-lg-6 col-sm-6">
+                <div class="form-group">
+                    <label>{{'Nationality_Code' | translate}}</label>
+                    <input class="form-control" type="text" placeholder="{{'Nationality_Code' | translate}}"
+                        formControlName="natCode" />
+                    <validation-message [control]="form.controls.natCode"></validation-message>
+                </div>
+            </div>
+            <div class="col-md-6 col-lg-6 col-sm-6">
+                <div class="form-group">
+                    <label>{{'Nationality_Name' | translate}}</label>
+                    <input class="form-control" type="text" placeholder="{{'Nationality_Name' | translate}}"
+                        formControlName="natName" />
+                    <validation-message [control]="form.controls.natName"></validation-message>
+                </div>
+            </div>
+            <div class="col-md-6 col-lg-6 col-sm-6">
+                <div class="form-group">
+                    <label>{{'Nationality_Name_in_Arabic' | translate}}</label>
+                    <input class="form-control" type="text" placeholder="{{'Nationality_Name_in_Arabic' | translate}}"
+                        formControlName="natName2" />
+                    <validation-message [control]="form.controls.natName2"></validation-message>
+                </div>
+            </div>
+            <div class="col-md-6 col-lg-6 col-sm-6">
+                <label>{{'Is_Active' | translate}}</label>  
+                <div class="form-group">                   
+                    <mat-slide-toggle color="primary" formControlName="isActive"></mat-slide-toggle>                
+                </div>
+            </div>
+           
+        </div>
+        <div class="row customrow mt-4">
+            <div class="col-lg-12 col-md-12 text-center">
+                <input type="button" class="btn btn-secondary" value="{{'Cancel' | translate}}" (click)="closeModel()" />
+                &nbsp;&nbsp;
+                <input type="submit" class="btn waves-effect waves-light btn-primary" value="{{'Save' | translate}}">
+            </div>
+        </div>
+    </div>
+</form>

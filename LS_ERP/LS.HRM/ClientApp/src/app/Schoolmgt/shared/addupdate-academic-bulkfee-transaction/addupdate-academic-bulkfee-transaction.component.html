@@ -1,0 +1,410 @@
+<h3 class="modal-title">{{'Academic_BulkFee_Transaction' | translate}}</h3>
+<button type="button" class="close" aria-hidden="true" (click)="closeModel()"> ×</button>
+<form [formGroup]="form" (ngSubmit)="submit()" novalidate class="mt-4">
+  <div class="outer ">
+    <div class="row rowm0 mt-3">
+      <div class="col-md-6 col-lg-6 col-sm-6">
+        <div class="form-group">
+          <div class="form-group ">
+            <label>{{'Branch_Code' | translate}}</label>
+            <select class="custom-select mr-sm-2" formControlName="branchCode" (change)="loadStudentData(1)">
+              <option value="">{{'Select' | translate}} {{'Branch_Code' | translate}} </option>
+              <ng-container *ngIf="branchCodeList">
+                <option *ngFor="let item of branchCodeList" value="{{item.value}}">{{ isArab ? item.textTwo : item.text  }}</option>
+              </ng-container>
+            </select>
+            <validation-message [control]="form.controls.branchCode"></validation-message>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-6 col-lg-6 col-sm-6">
+        <div class="form-group">
+          <div class="form-group ">
+            <label>{{'Grade_Code' | translate}}</label>
+            <select class="custom-select mr-sm-2" formControlName="gradeCode" (change)="loadStudentData(2)">
+              <option value="">{{'Select' | translate}} {{'Grade_Code' | translate}} </option>
+              <ng-container *ngIf="gradeCodeList">
+                <option *ngFor="let item of gradeCodeList" value="{{item.gradeCode}}">{{ isArab ? item.gradeName2 : item.gradeName  }}</option>
+              </ng-container>
+            </select>
+            <validation-message [control]="form.controls.gradeCode"></validation-message>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-6 col-lg-6 col-sm-6">
+        <div class="form-group">
+          <div class="form-group ">
+            <label>{{'Section_Code' | translate}}</label>
+            <select class="custom-select mr-sm-2" formControlName="sectionCode" (change)="loadStudentData(3)">
+              <option value="">{{'Select' | translate}} {{'Section_Code' | translate}} </option>
+              <ng-container *ngIf="sectionList">
+                <option *ngFor="let item of sectionList" value="{{item.sectionCode}}">{{ isArab ? item.sectionName2 : item.sectionName  }}</option>
+              </ng-container>
+            </select>
+            <validation-message [control]="form.controls.sectionCode"></validation-message>
+          </div>
+        </div>
+      </div>
+
+
+      <div class="col-md-6 col-lg-6 col-sm-6">
+        <div class="form-group">
+          <div class="form-group ">
+            <label>{{'Admission_Number' | translate}}</label>
+            <select class="custom-select mr-sm-2" formControlName="admissionNumber" (change)="loadRelatedItems()">
+              <option value="">{{'Select' | translate}} {{'Admission_Number' | translate}} </option>
+              <ng-container *ngIf="studentList">
+                <option *ngFor="let item of studentList" value="{{item.stuAdmNum}}">{{ item.stuAdmNum }}({{isArab ? item.stuName2 : item.stuName}})</option>
+              </ng-container>
+            </select>
+            <validation-message [control]="form.controls.admissionNumber"></validation-message>
+          </div>
+        </div>
+      </div>
+      <!--<div class="col-md-6 col-lg-6 col-sm-6">
+        <label>{{'Admission_Date' | translate}}</label>
+        <div class="input-group ">
+          <input class="form-control datapickerinput" placeholder="{{'Admission_Date' | translate}}"
+                 formControlName="admissionDate" [matDatepicker]="picker3">
+          <div class="input-group-prepend datapickericon">
+            <mat-datepicker-toggle matSuffix [for]="picker3"></mat-datepicker-toggle>
+            <mat-datepicker #picker3></mat-datepicker><br /><br />
+          </div>
+        </div>
+      </div>-->
+      <div class="col-md-6 col-lg-6 col-sm-6">
+        <div class="form-group">
+          <label>{{'Admission_Date' | translate}}</label>
+          <input class="form-control" type="text" readonly placeholder="{{'Admission_Date' | translate}}"
+                 formControlName="admissionDate" />
+          <validation-message [control]="form.controls.admissionDate"></validation-message>
+        </div>
+      </div>
+      <div class="col-md-6 col-lg-6 col-sm-6">
+        <div class="form-group">
+          <label>{{'Name_of_Student' | translate}}</label>
+          <input class="form-control" type="text" readonly placeholder="{{'Name_of_Student' | translate}}"
+                 formControlName="nameOfStudent" />
+          <validation-message [control]="form.controls.nameOfStudent"></validation-message>
+        </div>
+      </div>
+      <div class="col-md-6 col-lg-6 col-sm-6">
+        <div class="form-group">
+          <label>{{'Name_of_Student_in_Arabic' | translate}}</label>
+          <input class="form-control" type="text" readonly
+                 placeholder="{{'Name_of_Student_in_Arabic' | translate}}" formControlName="nameOfStudentInArabic" />
+          <validation-message [control]="form.controls.nameOfStudentInArabic"></validation-message>
+        </div>
+      </div>
+      <!--<div class="col-md-6 col-lg-6 col-sm-6">
+        <div class="form-group">
+          <label>{{'Branch_Code' | translate}}</label>
+          <input class="form-control" type="text" readonly placeholder="{{'Branch_Code' | translate}}"
+                 formControlName="branchCode" />
+          <validation-message [control]="form.controls.branchCode"></validation-message>
+        </div>
+      </div>-->
+      <div class="col-md-6 col-lg-6 col-sm-6">
+        <div class="form-group">
+          <label>{{'Amount_Due' | translate}}</label>
+          <input class="form-control" type="text" readonly placeholder="{{'Amount_Due' | translate}}"
+                 formControlName="dueFeeAmount" />
+          <validation-message [control]="form.controls.dueFeeAmount"></validation-message>
+        </div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="row m-0">
+        <div class="col-md-12 mb-3" style="background: #919191">
+          <h3 style="margin: 0px;padding:5px;color: #fff;">{{'Fee_Details' | translate}}</h3>
+        </div>
+        <div class="row customrow mt-4" style="margin: 0px; border-bottom: 1px solid #ddd">
+          <div class="col-md-2 p-0">
+            <label>{{'Term_Code' | translate}}</label>
+          </div>
+          <div class="col-md-2">
+            <label>{{'Fee_Due_Date' | translate}}</label>
+          </div>
+          <div class="col-md-1">
+            <label>{{'Fee_Amount' | translate}}</label>
+          </div>
+          <div class="col-md-1">
+            <label>{{'Tax_Amount' | translate}}</label>
+          </div>
+          <div class="col-md-1">
+            <label>{{'Discount_Amount' | translate}}</label>
+          </div>
+          <div class="col-md-2">
+            <label>{{'Total_Amount' | translate}}</label>
+          </div>
+          <div class="col-md-2">
+            <label>{{'Paid_Amount' | translate}}</label>
+          </div>
+
+          <!--<div class="col-md-2">
+        <label>{{'Remarks' | translate}}</label>
+    </div>-->
+          <div class="col-md-1"><label>{{'Action' | translate}}</label></div>
+        </div>
+        <!--<div class="row customrow mt-4" style="margin: 0px; border-bottom: 1px solid #ddd" *ngFor="let item of feeHeaderList">
+          <div class="col-md-2 p-0">
+            <div class="form-group">
+              <input class="form-control" disabled="" type="text" placeholder="{{'Term' | translate}}" value="{{item.termCode}}" />
+            </div>
+          </div>
+          <div class="col-md-2">
+            <div class="form-group">
+              <input class="form-control" disabled type="text"
+                     placeholder="{{'Fee_Due_Date' | translate}}" value="{{item.feeDueDate}}" />
+            </div>
+          </div>
+          <div class="col-md-1">
+            <div class="form-group">
+              <input class="form-control" disabled type="text" placeholder="{{'Fee_Amount' | translate}}" value="{{item.totFeeAmount}}" />
+            </div>
+          </div>
+          <div class="col-md-1">
+            <div class="form-group">
+              <input class="form-control" disabled type="text" placeholder="{{'Tax_Amount' | translate}}" value="{{item.taxAmount}}" />
+            </div>
+          </div>
+          <div class="col-md-1">
+            <div class="form-group">
+              <input class="form-control" disabled type="text" placeholder="{{'Discount_Amount' | translate}}" value="{{item.discAmount}}" />
+            </div>
+          </div>
+          <div class="col-md-2">
+            <div class="form-group">
+              <input class="form-control" disabled type="text" placeholder="{{'Total_Amount' | translate}}" value="{{item.netFeeAmount}}" />
+            </div>
+          </div>
+          <div class="col-md-2">
+            <div class="form-group">
+              <input class="form-control" disabled type="text" placeholder="{{'Paid_Amount' | translate}}" value="{{item.paidAmount}}" />
+            </div>
+          </div>
+          <div class="col-md-2">
+            <div class="form-group ">
+              <select class="custom-select mr-sm-2">
+                <option value="">{{'Select' | translate}} {{'Pay_Type' | translate}} </option>
+                <option value="1">{{'Online' | translate}}</option>
+                <option value="2">{{'Offline' | translate}}</option>
+              </select>
+            </div>
+          </div>
+          <div class="col-md-2">
+            <div class="form-group">
+              <textarea class="form-control" type="text" placeholder="{{'Remarks' | translate}}"></textarea>
+            </div>
+          </div>
+          <div class="col-md-1 p-0">
+            <div class="form-group text-center">
+              <mat-radio-button (change)="getTotalAmount(item,$event.checked)" *ngIf="item.netFeeAmount>0"></mat-radio-button>
+            </div>
+          </div>
+          <div class="col-md-1 p-0">
+            <div class="form-group text-center">
+              <mat-checkbox (change)="getTotalAmount(item, $event.checked)" *ngIf="item.netFeeAmount > 0"></mat-checkbox>
+            </div>
+          </div>
+
+          <div class="col-md-1 p-0">
+            <div class="form-group text-center">
+              <mat-checkbox [disabled]="isCheckboxDisabled(i)"
+                            (change)="getTotalAmount(item, $event.checked, i)"
+                            *ngIf="item.netFeeAmount > 0">
+              </mat-checkbox>
+            </div>
+          </div>
+        </div>-->
+      <div class="row customrow mt-4" style="margin: 0px; border-bottom: 1px solid #ddd" *ngFor="let item of feeHeaderList; let i = index">
+        <div class="col-md-2 p-0">
+          <div class="form-group">
+            <input class="form-control" disabled type="text" placeholder="{{'Term' | translate}}" value="{{item.termCode}}" />
+          </div>
+        </div>
+        <div class="col-md-2">
+          <div class="form-group">
+            <input class="form-control" disabled type="text" placeholder="{{'Fee_Due_Date' | translate}}" value="{{item.feeDueDate}}" />
+          </div>
+        </div>
+        <div class="col-md-1">
+          <div class="form-group">
+            <input class="form-control" disabled type="text" placeholder="{{'Fee_Amount' | translate}}" value="{{item.totFeeAmount}}" />
+          </div>
+        </div>
+        <div class="col-md-1">
+          <div class="form-group">
+            <input class="form-control" disabled type="text" placeholder="{{'Tax_Amount' | translate}}" value="{{item.taxAmount}}" />
+          </div>
+        </div>
+        <div class="col-md-1">
+          <div class="form-group">
+            <input class="form-control" disabled type="text" placeholder="{{'Discount_Amount' | translate}}" value="{{item.discAmount}}" />
+          </div>
+        </div>
+        <div class="col-md-2">
+          <div class="form-group">
+            <input class="form-control" disabled type="text" placeholder="{{'Total_Amount' | translate}}" value="{{item.netFeeAmount}}" />
+          </div>
+        </div>
+        <div class="col-md-2">
+          <div class="form-group">
+            <input class="form-control" disabled type="text" placeholder="{{'Paid_Amount' | translate}}" value="{{item.paidAmount}}" />
+          </div>
+        </div>
+        <!--<div class="col-md-1 p-0">
+          <div class="form-group text-center">
+            <mat-checkbox [disabled]="isCheckboxDisabled(i,item.netFeeAmount)"
+                          (change)="getTotalAmount(item, $event.checked, i)"
+                          *ngIf="item.netFeeAmount > 0">
+            </mat-checkbox>
+          </div>
+        </div>-->
+        <div class="col-md-1 p-0">
+          <!--<div class="form-group text-center">
+    <mat-checkbox [disabled]="isCheckboxDisabled(i,isFirstIndex)"
+                  (change)="getTotalAmount(item, $event.checked, i)"
+                  [checked]="checkboxStates[i]"
+                  *ngIf="item.netFeeAmount > 0">
+    </mat-checkbox>-->
+          <div class="form-group text-center">
+            <mat-checkbox 
+                          (change)="getTotalAmount(item, $event.checked, i)"
+                          [checked]="checkboxStates[i]"
+                          *ngIf="!item.isPaid">
+            </mat-checkbox>
+          </div>
+        </div>
+      </div>
+
+        <div class="row customrow mt-4" style="margin: 0px; border-bottom: 1px solid #ddd">
+          <div class="col-md-1 p-0"> </div>
+          <div class="col-md-2"> </div>
+          <div class="col-md-2">
+            <div class="form-group">
+              <label class="bold">{{'Total' | translate}}</label>
+            </div>
+          </div>
+          <div class="col-md-2"> </div>
+          <div class="col-md-2">
+            <div class="form-group ">
+              <label>{{totalAmount}}</label>
+            </div>
+          </div>
+          <div class="col-md-2"></div>
+          <div class="col-md-1 p-0"></div>
+        </div>
+        <div class="row customrow mt-4" style="margin: 0px; border-bottom: 1px solid #ddd">
+          <div class="col-md-3"></div>
+          <div class="col-md-3">
+            <label>{{'Paid_Amount' | translate}}</label>
+          </div>
+          <div class="col-md-3">
+            <div class="form-group">
+              <input type="number" class="form-control" placeholder="{{'Paid_Amount' | translate}}"
+                     formControlName="paidAmount" (change)="changePaidAmount();" />
+              <validation-message [control]="form.controls.paidAmount"></validation-message>
+            </div>
+          </div>
+          <div class="col-md-3"></div>
+        </div>
+        <div class="row customrow mt-4" style="margin: 0px; border-bottom: 1px solid #ddd">
+          <div class="col-md-3"></div>
+          <div class="col-md-3">
+            <label>{{'Remaining_Amount' | translate}}</label>
+          </div>
+          <div class="col-md-3">
+            <div class="form-group">
+              <input type="number" class="form-control" placeholder="{{'Remaining_Amount' | translate}}"
+                     formControlName="remainingAmount" disabled />
+              <validation-message [control]="form.controls.remainingAmount"></validation-message>
+            </div>
+          </div>
+          <div class="col-md-3"></div>
+        </div>
+        <div class="row customrow mt-4" style="margin: 0px; border-bottom: 1px solid #ddd" *ngIf="isExactAmount">
+          <div class="col-md-3"></div>
+          <div class="col-md-3">
+            <label>{{'Discount_Percentage' | translate}}</label>
+          </div>
+          <div class="col-md-3">
+            <div class="form-group">
+              <input type="number" class="form-control" placeholder="{{'Discount_Percentage' | translate}}"
+                     formControlName="discountPercentage" (change)="changeDiscountPer();" />
+              <validation-message [control]="form.controls.discountPercentage"></validation-message>
+            </div>
+          </div>
+          <div class="col-md-3"></div>
+        </div>
+        <div class="row customrow mt-4" style="margin: 0px; border-bottom: 1px solid #ddd" *ngIf="isExactAmount">
+          <div class="col-md-3"></div>
+          <div class="col-md-3">
+            <label>{{'Discount' | translate}}</label>
+          </div>
+          <div class="col-md-3">
+            <div class="form-group">
+              <input type="number" class="form-control" placeholder="{{'Discount' | translate}}"
+                     formControlName="discount" (change)="changeDiscount();" />
+              <validation-message [control]="form.controls.discount"></validation-message>
+            </div>
+          </div>
+          <div class="col-md-3"></div>
+        </div>
+        <div class="row customrow mt-4" style="margin: 0px; border-bottom: 1px solid #ddd">
+          <div class="col-md-3"></div>
+          <div class="col-md-3">
+            <label>{{'Total_Amount_After_Discount' | translate}}</label>
+          </div>
+          <div class="col-md-3">
+            <div class="form-group">
+              <label>{{netAmount}}</label>
+            </div>
+          </div>
+          <div class="col-md-3"></div>
+        </div>
+        <div class="row customrow mt-4" style="margin: 0px; border-bottom: 1px solid #ddd">
+          <div class="col-md-3"></div>
+          <div class="col-md-3">
+            <label>{{'Pay_Type' | translate}}</label>
+          </div>
+          <div class="col-md-3">
+            <div class="form-group">
+              <select class="custom-select mr-sm-2" formControlName="payCode">
+                <option value="">{{'Select' | translate}} {{'Pay_Type' | translate}} </option>
+                <ng-container *ngIf="payTypes">
+                  <option *ngFor="let item of payTypes" value="{{item.payCode}}">{{ isArab?item.paName2:item.payName }}</option>
+                </ng-container>
+              </select>
+              <validation-message [control]="form.controls.payCode"></validation-message>
+            </div>
+          </div>
+          <div class="col-md-3"></div>
+        </div>
+        <div class="row customrow mt-4" style="margin: 0px; border-bottom: 1px solid #ddd">
+          <div class="col-md-3"></div>
+          <div class="col-md-3">
+            <label>{{'Remarks' | translate}}</label>
+          </div>
+          <div class="col-md-3">
+            <div class="form-group">
+              <textarea class="form-control" type="text" placeholder="{{'Remarks' | translate}}" formControlName="remarks"></textarea>
+            </div>
+          </div>
+          <div class="col-md-3"></div>
+        </div>
+
+      </div>
+    </div>
+
+    <div class="row customrow mt-4">
+      <div class="col-lg-12 col-md-12 text-center">
+        <input type="button" class="btn btn-secondary" value="{{'Cancel' | translate}}"
+               (click)="closeModel()" />
+        &nbsp;&nbsp;
+        <input type="submit" class="btn waves-effect waves-light btn-primary"
+               value="{{'Make_Payment' | translate}}">
+      </div>
+    </div>
+  </div>
+</form>

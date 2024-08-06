@@ -1,0 +1,277 @@
+<div class="page-breadcrumb">
+  <div class="row">
+    <div class="col-12 align-self-center">
+      <h3 class="page-title text-truncate text-dark font-weight-medium mb-1">
+        {{'Login_and_Security' | translate}}
+      </h3>
+      <div class="d-flex align-items-center">
+        <nav aria-label="breadcrumb">
+          <ol class="breadcrumb m-0 p-0">
+            <li class="breadcrumb-item text-muted"> {{'Administration' | translate}} </li>
+            <li class="breadcrumb-item text-muted ">{{'System' | translate}}</li>
+            <li class="breadcrumb-item   active" aria-current="page">Logins (010103)</li>
+
+          </ol>
+        </nav>
+      </div>
+    </div>
+
+  </div>
+</div>
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-md-12 col-lg-12">
+      <div class="card">
+        <div class="card-body">
+
+          <h4 class="card-title">System Login</h4>
+          <div class="cardtitle-divider"> </div>
+          <div class="row rowm0 rowp15 ">
+            <div class="col-md-12 col-lg-12">
+              <mat-tab-group>
+                <mat-tab label="{{'Create_User' | translate}}">
+                  <form [formGroup]="form" (ngSubmit)="submit()" novalidate class="mt-1">
+                    <div class="row rowm0 rowp15 pt-3">
+
+                      <div class="col-md-4 col-lg-4">
+                        <div class="form-group">
+                          <label class="mr-sm-2"> {{'Username' | translate}}</label>
+                          <input class="form-control" type="text"
+                                 placeholder="{{'UsernameRequired' | translate}}" (blur)="checkUserLoginId($event)" formControlName="loginId">
+                          <validation-message [control]="form.controls.loginId"></validation-message>
+
+                        </div>
+                      </div>
+
+                      <div class="col-md-4 col-lg-4">
+                        <div class="form-group">
+                          <label>{{'UserType' | translate}}</label>
+                          <select class="custom-select mr-sm-2" formControlName="userType">
+                            <option value="">{{'Choose_User_Type' | translate}}</option>
+                            <option value="Administrator">Administrator</option>
+                            <option value="Manager">Manager</option>
+                            <option value="Supervisor">Supervisor</option>
+                            <option value="Normal">Normal</option>
+                            <option value="Guest">Guest</option>
+                          </select>
+                          <validation-message [control]="form.controls.userType"></validation-message>
+                        </div>
+                      </div>
+
+                      <!--<div class="col-md-4 col-lg-4">
+
+    <div class="form-group">
+      <label>Company Logo</label>
+      <div data-type="image-add" class="col-4 pl-2 pr-2 pt-2" style="max-width: 130px;">
+        <div class="ratio-box text-center" data-type="image-ratio-box">
+          <img data-type="noimage" class="btn btn-light ratio-img img-fluid p-2 image border dashed rounded" src="../../../assets/images/photo-camera-gray.svg" style="cursor:pointer;">
+        </div>
+      </div>
+    </div>
+  </div>-->
+
+
+                      <div class="col-md-4 col-lg-4">
+
+                        <div class="form-group ">
+                          <label>{{'User_Login_Id' | translate}}</label>                          
+                          <input class="form-control" type="text" placeholder="{{'PleaseenterUserLoginID' | translate}}" (blur)="checkUserName($event)" formControlName="userName">
+                          <validation-message [control]="form.controls.userName"></validation-message>
+                        </div>
+
+                      </div>
+                      <div class="col-md-4 col-lg-4">
+
+                        <div class="form-group ">
+                          <label class="mr-sm-2">{{'User_Email' | translate}}</label>
+                          <input class="form-control" type="email" placeholder="{{'UseremailRequired' | translate}}" formControlName="userEmail">
+                          <validation-message [control]="form.controls.userEmail"></validation-message>
+                        </div>
+
+                      </div>
+                      <div class="col-md-4 col-lg-4">
+
+                        <div class="form-group ">
+                          <label class="mr-sm-2">{{'Password' | translate}}</label>
+                          <input class="form-control" type="password" placeholder="{{'PasswordRequired' | translate}}" formControlName="password">
+                          <validation-message [control]="form.controls.password"></validation-message>
+                        </div>
+
+                      </div>
+                      <div class="col-md-4 col-lg-4">
+                        <div class="form-group ">
+                          <label class="mr-sm-2">
+                            {{'Confirm_Password' | translate}}
+                          </label>
+                          <input class="form-control" type="Password" placeholder="{{'ConfirmPasswordRequired' | translate}}" formControlName="cpassword">
+                          <validation-message [control]="form.controls.cpassword"></validation-message>
+                        </div>
+                      </div>
+
+                      <div class="col-md-4 col-lg-4">
+                        <div class="form-group ">
+                          <label class="mr-sm-2">
+                            {{'Swipe_Card_ID_for_Login' | translate}}
+                            
+                          </label>
+                          <input class="form-control" type="text" placeholder="{{'Username' | translate}}Please enter Swipe Card ID for Login" formControlName="swpireCardId">
+                          <validation-message [control]="form.controls.swpireCardId"></validation-message>
+                        </div>
+
+                      </div>
+                      <div class="col-md-4 col-lg-4">
+                        <div class="form-group ">
+                          <label class="mr-sm-2">
+                            {{'Primary_Working_Branch' | translate}}
+                          </label>
+                          <select class="custom-select mr-sm-2" formControlName="primaryBranch">
+                            <option value="">{{'Choose_Branch' | translate}}</option>
+                            <option *ngFor="let user of branchList" value="{{user.value}}">{{user.textTwo}}</option>
+                          </select>
+                          <validation-message [control]="form.controls.primaryBranch"></validation-message>
+                        </div>
+
+                      </div>
+
+                      <div class="col-md-4 col-lg-4">
+                        <div class="form-group">
+                          <br />
+                          <button type="button" (click)="mapBranches()" class="btn waves-effect waves-light btn-rounded   btn-secondary btn-midblock">{{'Map Branches' | translate}}</button>
+                          <br />
+                          <select class="custom-select mr-sm-2" formControlName="branchCodes" multiple *ngIf="canMultipleShow" style="height:200px;">
+                            <option value="">{{'Choose_Branch' | translate}}</option>
+                            <option *ngFor="let user of branchList" value="{{user.value}}">{{user.textTwo}}</option>
+                          </select>
+                        </div>
+
+                      </div>
+
+                      <div class="col-md-4 col-lg-4">
+                        <div class="form-group">
+                          <label>{{'User_is_Active_for_Login' | translate}}</label>
+                          <br />
+                          &nbsp; &nbsp;  <mat-slide-toggle color="primary" formControlName="isActive"> </mat-slide-toggle>
+
+
+                        </div>
+
+                      </div>
+                    </div>
+
+                    <div class="row rowm0 rowp15 pb-2">
+                      <div class="col-md-12 col-lg-12 text-center">
+                        <input type="button" class="btn waves-effect waves-light btn-rounded   btn-secondary btn-midblock" value="CANCEL" (click)="cancel()"> &nbsp;
+                        <input type="submit" class="btn waves-effect waves-light btn-rounded btn-primary btn-midblock" value="SAVE">
+                      </div>
+                    </div>
+
+                  </form>
+
+                </mat-tab>
+                <mat-tab label="{{'Menu_Access' | translate}}">
+
+                  <!--<div class="row">
+                    <div class="col-12 align-self-center pb-2">
+                      <h3 class="page-title text-truncate text-dark font-weight-medium mb-1">
+                        {{'Login_and_Security' | translate}}
+                      </h3>
+                    </div>
+                  </div>-->
+
+                  <div class="row pt-3">
+                    <div class="col-md-6">
+                      <select (change)="loadPermission($event)" [(ngModel)]="PermissionUserId" class="form-control">
+                        <option value="0">{{'Select_User' | translate}}</option>
+                        <option *ngFor="let user of userList" value="{{user.value}}">{{user.text}}</option>
+                      </select>
+
+                    </div>
+                    <div class="col-md-2">
+                      <button class="btn btn-primary float-right" (click)="addPermission()">{{'Add_Permission' | translate}}</button>
+                    </div>
+                  </div>
+
+
+                  <div class="row">
+                    <div class="col-md-8 pt-3 menuOptionsList">
+                      <ngx-dropdown-treeview *ngIf="items"
+                                             [config]="config"
+                                             [items]="items"
+                                             (selectedChange)="values = $event"
+                                             (filterChange)="onFilterChange($event)">
+                      </ngx-dropdown-treeview>
+                    </div>
+                    
+                  </div>
+
+                </mat-tab>
+                <mat-tab label="Financial Control"> Content 2 </mat-tab>
+                <mat-tab label="Purchase Control"> Content 3 </mat-tab>
+                <mat-tab label="Inventory Control"> Content 4 </mat-tab>
+                <mat-tab label="Sales Control"> Content 5 </mat-tab>
+                <mat-tab label="HRM Control"> Content 6 </mat-tab>
+                <mat-tab label="Reserved"> Content 7 </mat-tab>
+              </mat-tab-group>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<div class="container-fluid">
+
+  <div class="row">
+    <div class="col-12 align-self-center pb-3">
+      <h3 class="page-title text-truncate text-dark font-weight-medium mb-1">
+        {{'System_User_List' | translate}}
+      </h3>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-md-12 col-lg-12">
+      <div class="row pb-3">
+        <div class="col-md-3">
+          <!--(keyup)="applyFilter($event)"-->
+          <input class="form-control" placeholder="{{'Search' | translate}}..." (input)="searchFilter($event.target.value)" />
+        </div>
+      </div>
+
+      <table class="table table-bordered no-wrap">
+        <thead>
+          <tr>
+            <th>{{'User_LoginId' | translate}}</th>
+            <th>{{'User_Name' | translate}}</th>
+            <th>{{'User_Email' | translate}}</th>
+            <th>{{'User_SwipeCard' | translate}}</th>
+            <th>
+              {{'Actions' | translate}}
+            </th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let item of authUserList">
+            <td>{{item.loginId}}</td>
+            <td>{{item.userName}}</td>
+            <td>{{item.userEmail}}</td>
+            <td>{{item.swpireCardId}}</td>
+            <td>
+
+              <a class="tableicons" (click)="edit(item)" matTooltip="{{'Edit_Item' | translate}}"><i class="icon-note"> </i></a>
+              <a class="tableicons" (click)="delete(item.id)" matTooltip="{{'Delete_Item' | translate}}"><i class="icon-trash"> </i></a>
+
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+
+
+

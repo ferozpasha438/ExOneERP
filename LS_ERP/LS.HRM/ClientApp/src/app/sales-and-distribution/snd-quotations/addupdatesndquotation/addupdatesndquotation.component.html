@@ -1,0 +1,406 @@
+<h3> {{'Create_New_Sales_Quotation' | translate}} <button type="button" class="close" aria-hidden="true" (click)="closeModel()"> ×</button></h3>
+<form [formGroup]="form" (ngSubmit)="submit()" novalidate class="mt-4">
+  <div class="row rowm0 ">
+
+    <div class="col-md-12 col-lg-12">
+      <div class="row mt-3">
+        <div class="col-md-12 col-lg-12">
+          <div class="p-3" style="border:1px solid #f4f4f4;">
+            <div class="row  mt-2">
+
+              <!--<div class="col-md-4 col-lg-4">
+                <label class="mr-sm-2">{{'Quotation_Type' | translate}}</label>
+                <div class="form-group ">
+                  <select class="custom-select mr-sm-2" formControlName="invoiceStatusId">
+                    <option value="1">{{'Quotation' | translate}}</option>
+                    <option value="2">{{'Credit' | translate}}</option>
+                  </select>
+                </div>
+              </div>-->
+
+              <div class="col-md-4 col-lg-4">
+
+                <div class="form-group ">
+                  <label class="mr-sm-2">{{'Customer' | translate}}</label>
+                  <label class="mr-sm-2 btn btn-primary" (click)="updateCustomer()">{{'Walk-In' | translate}}</label>
+                  <ng-select [items]="customerList"
+                             bindLabel="text"
+                             bindValue="value" formControlName="customerId" (change)="customerChange($event)">
+
+                  </ng-select>
+               
+
+                </div>
+
+              </div>
+             
+
+              <div class="col-md-4 col-lg-4">
+                <label class="mr-sm-2">{{'Quotation_Date' | translate}}</label>
+                <div class="form-group ">
+                  <div class="input-group mb-2">
+                    <input class="form-control datapickerinput" placeholder="{{'Select_a_Date' | translate}}" formControlName="quotationDate"
+                           [matDatepicker]="picker1">
+
+                    <div class="input-group-prepend datapickericon">
+                      <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
+                      <mat-datepicker #picker1></mat-datepicker>
+                    </div>
+
+                  </div>
+
+                </div>
+
+              </div>
+              <div class="col-md-4 col-lg-4">
+                <label class="mr-sm-2">{{'Delivery_Date' | translate}}</label>
+                <div class="form-group ">
+                  <div class="input-group mb-2">
+                    <input class="form-control datapickerinput" placeholder="{{'Select_a_Date' | translate}}" formControlName="quotationDueDate"
+                           [matDatepicker]="picker">
+
+                    <div class="input-group-prepend datapickericon">
+                      <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                      <mat-datepicker #picker></mat-datepicker>
+                    </div>
+
+                  </div>
+
+                </div>
+
+              </div>
+
+              <div class="col-md-4 col-lg-4">
+                <label class="mr-sm-2">{{'ServiceDate' | translate}}</label>
+                <div class="form-group ">
+                  <div class="input-group mb-2">
+                    <input class="form-control datapickerinput" placeholder="{{'Select_a_Date' | translate}}" formControlName="serviceDate1"
+                           [matDatepicker]="serviceDate1">
+
+                    <div class="input-group-prepend datapickericon">
+                      <mat-datepicker-toggle matSuffix [for]="serviceDate1"></mat-datepicker-toggle>
+                      <mat-datepicker #serviceDate1></mat-datepicker><br /><br />
+                    </div>
+
+                  </div>
+                  <validation-message [control]="form.controls.serviceDate1"></validation-message>
+
+                </div>
+
+              </div>
+
+              <div class="col-md-4 col-lg-4">
+
+                <div class="form-group ">
+                  <label class="mr-sm-2">{{'Organization' | translate}}</label>
+                  <select class="custom-select mr-sm-2" formControlName="companyId" (change)="loadWarehouses($event)">
+                    <option value="">{{'Select_Organization' | translate}}</option>
+                    <option *ngFor="let item of companyList" value="{{item.value}}">{{item.text}}</option>
+                  </select>
+                </div>
+              </div>
+
+
+              <div class="col-md-4 col-lg-4">
+
+                <div class="form-group ">
+                  <label class="mr-sm-2">{{'Warehouse' | translate}}</label>
+
+                  <ng-select [items]="warehouseList"
+                             bindLabel="lable"
+                             bindValue="value" formControlName="warehouseCode" (change)="loadBranch()"> </ng-select>
+
+                  <!--<select class="custom-select mr-sm-2" formControlName="branchCode">
+                    <option value="">{{'Select_Branch' | translate}}</option>
+                    <option *ngFor="let item of branchList" value="{{item.value}}">{{item.text}}</option>
+                  </select>-->
+
+                </div>
+
+              </div>
+              <div class="col-md-4 col-lg-4">
+
+                <div class="form-group ">
+                  <label class="mr-sm-2">{{'Quotation_Reference_Number' | translate}}</label>
+                  <input class="form-control" type="text" placeholder="{{'Please_Enter' | translate}} {{'Quotation_Reference_Number' | translate}}" formControlName="quotationRefNumber">
+                </div>
+
+              </div>
+
+              <div class="col-md-4 col-lg-4">
+                <div class="form-group ">
+                  <label class="mr-sm-2">
+                    {{'LPO_Contract' | translate}}
+                  </label>
+                  <input class="form-control" type="text" placeholder="{{'Please_Enter' | translate}} {{'LPO_Contract' | translate}}" formControlName="lpoContract">
+                </div>
+
+              </div>
+
+              <div class="col-md-4 col-lg-4">
+                <div class="form-group ">
+                  <label class="mr-sm-2">
+                    {{'Payment_Terms' | translate}}
+                  </label>
+                  <select class="custom-select mr-sm-2" formControlName="paymentTermId">
+                    <option value="">{{'Select_Payment_Terms' | translate}}</option>
+                    <option *ngFor="let item of paymentTermsList" value="{{item.value}}">{{item.text}}</option>
+
+                  </select>
+                </div>
+
+              </div>
+              <div class="col-md-4 col-lg-4">
+                <div class="form-group ">
+                  <label class="mr-sm-2">{{'TAX_Id_Number' | translate}}</label>
+                  <input class="form-control" type="text" placeholder="{{'TAX_Id_Number' | translate}}" readonly formControlName="taxIdNumber">
+                </div>
+
+              </div>
+              <div class="col-md-4 col-lg-4">
+                <div class="form-group ">
+                  <label class="mr-sm-2">{{'Footer_Discount' | translate}}</label>
+                  <input class="form-control" type="text" placeholder="{{'Footer_Discount' | translate}}" [(ngModel)]="footerDiscount" [ngModelOptions]="{standalone: true}" (keyup)="changeFooterDiscount()">
+
+                </div>
+              </div>
+              <div class="col-md-5 col-lg-5">
+                <div class="form-group ">
+                  <label class="mr-sm-2">{{'Quotation_Notes' | translate}}</label>
+                  <textarea class="form-control" placeholder="{{'Please_Select' | translate}} {{'Quotation_Notes' | translate}}" formControlName="quotationNotes"></textarea>
+                </div>
+
+              </div>
+              <div class="col-md-5 col-lg-5">
+                <div class="form-group ">
+                  <label class="mr-sm-2">{{'Remarks' | translate}}</label>
+                  <textarea class="form-control" placeholder="{{'Please_Select' | translate}} {{'Remarks' | translate}}" formControlName="remarks"></textarea>
+
+                </div>
+
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+  </div>
+
+  <div class="table-responsive">
+    <table id="zero_config" class="table  table-bordered no-wrap">
+      <thead>
+        <tr>
+          <th width="15%">{{'Item' | translate}}</th>
+          <th width="15%">{{'Description' | translate}}</th>
+          <th style="width:stretch">{{'Quantity' | translate}}</th>
+          <th>{{'Unit' | translate}}</th>
+          <th>{{'Price' | translate}}</th>
+          <th>{{'Discount' | translate}}</th>
+          <!--<th width="11%">{{'Discount_Amount' | translate}}</th>-->
+          <th width="8%">{{'VAT' | translate}}%</th>
+          <!--<th width="11%">{{'VAT_Amount' | translate}}</th>-->
+          <th>{{'Total' | translate}}</th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>
+            <div>
+              <ng-select *ngIf="!isBarcodeScannerOn" style="width:250px" [items]="itemList"
+                         bindLabel="text" (clear)="resetItem()" placeholder="select item"
+                         bindValue="value" (change)="loadItemdata($event)" [(ngModel)]="itemId" [ngModelOptions]="{standalone: true}">
+              </ng-select>
+              <input class="form-control" *ngIf="isBarcodeScannerOn" style="width:250px"  type="text" placeholder="scan barcode" (change)="loadItemdataByBarcode($event)" [(ngModel)]="itemBarcode" [ngModelOptions]="{standalone: true}" />
+            </div>
+
+            <div class="row">
+              <div class="btn-list" style="padding:10px 15px">
+                <span style="font-size:smaller;padding-right:10px">{{'Barcode_Scanner'|translate}}</span>
+
+                <mat-slide-toggle color="primary" [(ngModel)]="isBarcodeScannerOn" (change)="onChangeItemCodeInput()" [ngModelOptions]="{standalone: true}"> </mat-slide-toggle>
+              </div>
+            </div>
+
+
+          </td>
+
+          <td>
+            <textarea class="form-control" placeholder="{{'Description' | translate}}" [(ngModel)]="description" [ngModelOptions]="{standalone: true}"></textarea>
+          </td>
+          <td>
+          
+            <div class="row rowm0">
+
+              <div class="col-md-1 col-lg-10" style="text-align:center;padding-right:2px;">
+                <input class="form-control" type="text" placeholder="{{'Quantity' | translate}}" [(ngModel)]="quantity" [ngModelOptions]="{standalone: true}" (keyup)="calculate()">
+              </div>
+             
+              <div class="col-md-1 col-lg-1" *ngIf="itemId!='' && quantity>0" style="text-align:left;padding-left:2px;">
+                <a class="tableicons pcursor" (click)="CheckStockAvailability(null)" matTooltip="{{'Check_Stock_Availability' | translate}}"><i class="icon-question" style="color: #ff0000"> </i></a>
+              </div>
+            </div>
+              
+
+            
+           
+
+          </td>
+
+          <td>
+            <select class="custom-select mr-sm-2" [(ngModel)]="unitType" [ngModelOptions]="{standalone: true}" (change)="changeUnitType()">
+              <option value=''>{{'Unit' | translate}}</option>
+              <option *ngFor="let item of unitTypesList" value="{{item.value}}">{{item.text}}</option>
+            </select>
+          </td>
+          <td>
+            <input class="form-control" type="text" placeholder="{{'Price' | translate}}" [(ngModel)]="unitPrice" [ngModelOptions]="{standalone: true}" (keyup)="calculate()">
+          </td>
+          <td>
+            <input class="form-control" type="text" placeholder="{{'Discount' | translate}}" [(ngModel)]="discount" [ngModelOptions]="{standalone: true}" (keyup)="calculate()">
+          </td>
+          <!--<td>
+            <input class="form-control" type="text" placeholder="{{'Discount_Amount' | translate}}" [(ngModel)]="discountAmount" [ngModelOptions]="{standalone: true}" readonly>
+          </td>-->
+
+
+
+          <!--<td>
+            <select class="custom-select mr-sm-2" [(ngModel)]="vat" [ngModelOptions]="{standalone: true}" (change)="calculate()">
+              <option value="0">{{'VAT' | translate}}</option>
+              <option *ngFor="let item of vatList" value="{{item.value}}">{{item.text}}</option>
+            </select>
+          </td>-->
+
+            <td>
+            <input class="form-control" type="number" placeholder="{{'VAT' | translate}}" readonly [(ngModel)]="vat" [ngModelOptions]="{standalone: true}">
+          </td>
+
+
+          <!--<td>
+            <input class="form-control" type="text" placeholder="{{'VAT_Amount' | translate}}" readonly [(ngModel)]="vatAmount" [ngModelOptions]="{standalone: true}">
+          </td>-->
+          <td>
+            <input class="form-control" type="text" placeholder="{{'Total' | translate}}" readonly [(ngModel)]="itemInvAmount" [ngModelOptions]="{standalone: true}">
+          </td>
+          <td>
+            <button type="button" class="btn waves-effect waves-light   btn-primary  " (click)="addUpdateQuotation()">{{'Add' | translate}}</button>
+          </td>
+        </tr>
+      </tbody>
+
+      <thead>
+        <tr>
+          <th>{{'Item' | translate}}</th>
+          <th>{{'Description' | translate}}</th>
+          <th>{{'Quantity' | translate}}</th>
+          <th>{{'Unit' | translate}}</th>
+          <th>{{'Price' | translate}}</th>
+          <th>{{'Disc' | translate}}%</th>
+          <!--<th>{{'Dicount_Amount' | translate}}%</th>-->
+          <th>{{'VAT' | translate}}%</th>
+          <!--<th>{{'VAT_Amount' | translate}}</th>-->
+          <th>{{'Total' | translate}}</th>
+          <th class="text-center"> </th>
+
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let item of listOfQuotations; let index = i;">
+          <td>{{item.item}}</td>
+          <td>{{item.description}}</td>
+          <td>{{item.quantity}}</td>
+          <td>{{item.unitType}}</td>
+          <td>{{item.unitPrice | number:'1.2'}}</td>
+          <td>{{item.discount}}</td>
+          <!--<td>{{item.discountAmount}}</td>-->
+          <td>{{item.taxTariffPercentage}}</td>
+          <!--<td class="text-right">{{item.taxAmount}}</td>-->
+          <td class="text-right">{{item.itemInvAmount | number:'1.2'}}</td>
+          <td class="text-center">
+            <i class="icon-note cpointer" (click)="editQuotationItem(item)"> </i> &nbsp;
+            <i class="icon-trash cpointer " (click)="deleteQuotationItem(item)"> </i> &nbsp;
+
+            <i class="icon-question" (click)="CheckStockAvailability(item)"  matTooltip="{{'Check_Stock_Availability' | translate}}"> </i> &nbsp;
+          </td>
+        </tr>
+      </tbody>
+      <tfoot>
+        <tr class="tfoot">
+          <td colspan="6" rowspan="5"></td>
+
+          <td class="text-right bgcolor ">{{'Total_Amount' | translate}}</td>
+
+          <td class="text-right bgcolor">{{ grandTotal | number : '1.2'}}</td>
+          <td class="bgcolor"></td>
+        </tr>
+
+
+        <tr class="tfoot">
+          <td class="text-right bgcolor">{{'Line_Discount' | translate}}</td>
+          <td class="text-right bgcolor">{{ grandDiscountAmount | number : '1.2'}}</td>
+          <td class="bgcolor"></td>
+        </tr>
+        <tr class="tfoot">
+          <td class="text-right bgcolor">{{'Footer_Discount' | translate}}</td>
+          <td class="text-right bgcolor">{{ grandFooterDiscountAmount | number : '1.2'}}</td>
+          <td class="bgcolor"></td>
+        </tr>
+        <tr class="tfoot">
+          <td class="text-right bgcolor">{{'VAT_Amount' | translate}}</td>
+          <td class="text-right bgcolor">{{ grandVatTotal | number : '1.2'}}</td>
+          <td class="bgcolor"></td>
+        </tr>
+        <tr class="tfoot">
+          <td class="text-right bgcolor_bottom">{{'Quotation_Total' | translate}}</td>
+          <td class="text-right bgcolor_bottom">{{ grandQuotationTotal | number : '1.2'}}</td>
+          <td class="bgcolor_bottom"></td>
+        </tr>
+      </tfoot>
+    </table>
+
+  </div>
+
+
+
+
+  <div class="row">
+    <div class="col-lg-12 col-md-12 text-center">
+      <span>
+        <button type="button" class="btn btn-secondary" data-dismiss="modal" (click)="closeModel()">
+          {{'Cancel' | translate}}
+        </button>
+        &nbsp;&nbsp;
+      </span>
+
+      <span *ngIf="canSave && canCreate && !isRevising">
+        <!--  <input type="submit" class="btn waves-effect waves-light   btn-primary  " value="{{'Save' | translate}}">-->
+        <button type="button" class="btn waves-effect waves-light   btn-primary  " data-dismiss="modal" (click)="Save(0)">
+          {{'Save' | translate}}
+        </button>
+        &nbsp;&nbsp;
+      </span>
+      <span *ngIf="canSave && canSaveAndApprove && !isRevising && !isRevised">
+        <button type="button" class="btn waves-effect waves-light   btn-primary  " data-dismiss="modal" (click)="Save(1)">
+          {{'Save_And_Approve' | translate}}
+        </button>
+        &nbsp;&nbsp;
+      </span>
+      <span *ngIf="canSave && canSaveAndApprove && isRevising ">
+        <button type="button" class="btn waves-effect waves-light   btn-primary  " data-dismiss="modal" (click)="Save(2)">
+          {{'Revise' | translate}}
+        </button>
+        &nbsp;&nbsp;
+      </span>
+      <span *ngIf="canSave">
+
+        <a class="tableicons pcursor" (click)="checkQuotationStock()" matTooltip="{{'Check_Overall_Stock_Availability' | translate}}"><i class="icon-question"> </i></a> &nbsp;
+
+      </span>
+
+    </div>
+  </div>
+</form>

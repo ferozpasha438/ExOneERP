@@ -1,0 +1,64 @@
+<h3 class="modal-title">{{'CreateNewCustomerCategory' | translate}} </h3>
+<form [formGroup]="form" (ngSubmit)="submit()" novalidate class="mt-4">
+
+  <div class="row">
+    <div class="col-md-6 col-lg-6">
+    <div class="form-group">
+      <label>{{'autoGenCustCode' | translate}}</label>
+      <div class="form-group">
+        <mat-slide-toggle color="primary" formControlName="autoGenCustCode"></mat-slide-toggle>
+        <validation-message [control]="form.controls.autoGenCustCode"></validation-message>
+      </div>
+    </div>
+  </div>
+    <div class="col-md-6 col-lg-6">
+    <div class="form-group">
+      <label>{{'prefixCatCode' | translate}}</label>
+      <div class="form-group">
+        <mat-slide-toggle color="primary" formControlName="prefixCatCode"></mat-slide-toggle>
+        <validation-message [control]="form.controls.prefixCatCode"></validation-message>
+      </div>
+    </div>
+  </div>
+
+    <div class="col-md-6 col-lg-6">
+      <div class="form-group">
+        <label>{{'newCustIndicator' | translate}}</label>
+        <input class="form-control" type="text"
+               placeholder="{{'PleaseEnter' | translate}} {{'CategoryCode' | translate}}" formControlName="newCustIndicator"  maxlength="10">
+        <validation-message [control]="form.controls.newCustIndicator"></validation-message>
+      </div>
+    </div>
+
+    <div class="col-md-6 col-lg-6">
+      <div class="form-group">
+        <label>{{'custLength' | translate}}</label>
+        <input class="form-control" type="number"
+               placeholder="{{'PleaseEnter' | translate}} {{'CategoryName' | translate}}" formControlName="custLength">
+        <validation-message [control]="form.controls.custLength"></validation-message>
+      </div>
+    </div>   
+
+      <div class="col-md-6 col-lg-6">
+      <div class="form-group">
+        <label>{{'categoryLength' | translate}}</label>
+        <input class="form-control" type="number" 
+               placeholder="{{'PleaseEnter' | translate}} {{'CategoryName' | translate}}" formControlName="categoryLength">
+        <validation-message [control]="form.controls.categoryLength"></validation-message>
+      </div>
+    </div>   
+
+
+  </div>
+
+  <div class="row mt-3 " *ngIf="!hasSalesControl">
+    <div class="col-md-12 col-lg-12 text-center">
+      <input type="button"
+             class="btn waves-effect waves-light btn-rounded   btn-secondary btn-midblock"
+             value="{{'Cancel' | translate}}" /> &nbsp;
+      <input type="submit"
+             class="btn waves-effect waves-light btn-rounded btn-primary btn-midblock"
+             value="{{'Save' | translate}}" />
+    </div>
+  </div>
+</form>

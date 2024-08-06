@@ -1,0 +1,105 @@
+<div class="page-breadcrumb">
+  <div class="row">
+    <div class="col-12 align-self-center">
+      <h3 class="page-title text-truncate text-dark font-weight-medium mb-1">
+        {{'Product_Hierarchy' | translate}}
+      </h3>
+      <div class="d-flex align-items-center">
+        <nav aria-label="breadcrumb">
+          <ol class="breadcrumb m-0 p-0">
+            <li class="breadcrumb-item text-muted">{{'Administration' | translate}} </li>
+            <li class="breadcrumb-item text-muted ">{{'Inventory_Management' | translate}}</li>
+            <li class="breadcrumb-item   active" aria-current="page">{{'Product_Hierarchy' | translate}} (010307)</li>
+
+          </ol>
+        </nav>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-md-12 col-lg-12">
+      <div class="card">
+        <div class="card-body">
+          <div class="row pb-3">
+            <div class="col-md-12 col-lg-12">
+              <h4 class="card-title pt6">{{'Sub_Class' | translate}}</h4>
+            </div>
+            <div class="col-md-3">
+              <input class="form-control" placeholder="search..." [(ngModel)]="searchValue" />
+            </div>
+            <div class="col-md-4">
+              <button (click)="applyFilter(searchValue)" class="btn btn-primary">Search</button> &nbsp;
+              <a (click)="refresh()" class=""><i class="btn btn-primary icon-refresh"></i></a>
+            </div>
+            <div class="col-md-3 col-lg-3 text-right">
+              <a data-toggle="modal"
+                 data-target="#createnewclass" class="  btn waves-effect waves-light btn-rounded btn-outline-primary" (click)="create()" href="#"> <i class="icon-plus"> </i>{{'Add_Sub_class' | translate}}  </a>
+
+            </div>
+          </div>
+
+          <div class="cardtitle-divider"></div>
+          <div class="table-responsive">
+
+            <spinner-loader [isLoading]="isLoading"></spinner-loader>
+            <div class="mat-elevation-z8">
+              <ng-container>
+
+                <table mat-table [dataSource]="data" matSortDisableClear matSort (matSortChange)="onSortOrder($event)" class="table  table-bordered no-wrap">
+                  <ng-container matColumnDef="ItemSubClassCode">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                      {{'Sub_Class_Code' | translate}}
+                    </th>
+                    <td mat-cell *matCellDef="let row">{{ row.itemSubClassCode}}</td>
+                  </ng-container>
+                  <ng-container matColumnDef="ItemSubClassName">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                      {{'Sub_Class_Name' | translate}}
+                    </th>
+                    <td mat-cell *matCellDef="let row">{{ row.itemSubClassName }}</td>
+                  </ng-container>
+                  <ng-container matColumnDef="ItemSubClassDesce">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                      {{'Sub_class_desc' | translate}}
+                    </th>
+                    <td mat-cell *matCellDef="let row">{{ row.itemSubClassDesce }}</td>
+                  </ng-container>
+                  <ng-container matColumnDef="Actions" stickyEnd>
+                    <th mat-header-cell *matHeaderCellDef>{{'Actions' | translate}}</th>
+                    <td mat-cell *matCellDef="let row">
+
+                      <a class="tableicons" (click)="edit(row.id)"><i class="icon-note"> </i></a>
+                      <a class="tableicons" (click)="delete(row.id)"><i class="icon-trash"> </i></a>
+                    </td>
+                  </ng-container>
+
+                  <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
+                  <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+
+                </table>
+                <ng-container>
+                  <mat-paginator [length]="totalItemsCount"
+                                 [pageSize]="pageService.pageCount"
+                                 [pageSizeOptions]="pageService.selectItemsPerPage"
+                                 (page)="onPageSwitch($event)">
+                  </mat-paginator>
+
+                </ng-container>
+              </ng-container>
+            </div>
+          </div>
+
+        </div>
+
+
+
+      </div>
+    </div>
+
+  </div>
+
+</div>

@@ -1,0 +1,172 @@
+<div class="page-breadcrumb">
+  <div class="row">
+    <div class="col-12 align-self-center">
+      <h3 class="page-title text-truncate text-dark font-weight-medium mb-1">
+        {{'Services_Enquiry' | translate}}
+      </h3>
+      <div class="d-flex align-items-center">
+        <nav aria-label="breadcrumb">
+          <ol class="breadcrumb m-0 p-0">
+            <li class="breadcrumb-item text-muted"> {{'Operational_Management' | translate}} </li>
+            <li class="breadcrumb-item text-muted"> {{'Operations' | translate}} </li>
+            <li class="breadcrumb-item   active" aria-current="page">{{'Services_Enquiry' | translate}}</li>
+
+          </ol>
+        </nav>
+      </div>
+    </div>
+
+  </div>
+</div>
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-md-12 col-lg-12">
+      <div class="card">
+        <div class="card-body">
+          <div class="row">
+            <div class="col-md-12 col-lg-12">
+              <h4 class="card-title pt6">{{'Services_Enquiry_List' | translate}} </h4>
+            </div>
+            <div class="col-md-5 col-lg-5">
+              <input type="text"
+                     class="form-control"
+                     placeholder="{{'Search'|translate}}..."
+                     [(ngModel)]="searchValue" (keyup)="applyFilter(searchValue)" (keydown)="applyFilter(searchValue)" [ngModelOptions]="{standalone: true}" />
+            </div>
+            <div class="col-md-7 col-lg-7 text-right">
+              <a data-toggle="modal"
+                 data-target="#addEnquiries" class="btn waves-effect waves-light btn-rounded btn-outline-primary" (click)="create()" href="#"> <i class="icon-plus"> </i>{{'Add_New_Services_Enquiry' | translate}} </a>
+
+            </div>
+          </div>
+
+          <div class="cardtitle-divider"></div>
+          <div class="table-responsive">
+
+            <div class="mat-elevation-z8">
+              <ng-container>
+                <!--matSortActive="id"
+
+                matSortDisableClear matSortDirection="desc"-->
+                <table mat-table [dataSource]="data" matSortDisableClear matSort (matSortChange)="onSortOrder($event)" class="table  table-bordered no-wrap">
+                  <ng-container matColumnDef="enquiryNumber">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                      {{'Enquiry_Number' | translate}}
+                    </th>
+                    <td mat-cell *matCellDef="let row">{{ row.enquiryNumber }}</td>
+                  </ng-container>
+                  <ng-container matColumnDef="enquiryID">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                      {{'Enquiry_ID' | translate}}
+                    </th>
+                    <td mat-cell *matCellDef="let row">{{ row.enquiryID }}</td>
+                  </ng-container>
+
+                  <ng-container matColumnDef="siteCode">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                      {{'Site_Code' | translate}}
+                    </th>
+                    <td mat-cell *matCellDef="let row">{{ row.siteCode }}</td>
+                  </ng-container>
+
+                  <ng-container matColumnDef="serviceCode">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                      {{'Service_Code' | translate}}
+                    </th>
+                    <td mat-cell *matCellDef="let row">{{ row.serviceCode }}</td>
+                  </ng-container>
+
+                  <ng-container matColumnDef="unitCode">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                      {{'Unit_Code' | translate}}
+                    </th>
+                    <td mat-cell *matCellDef="let row">{{ row.unitCode }}</td>
+                  </ng-container>
+                  <ng-container matColumnDef="pricePerUnit">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                      {{'Price_Per_Unit' | translate}}
+                    </th>
+                    <td mat-cell *matCellDef="let row">{{ row.pricePerUnit }}</td>
+                  </ng-container>
+
+                  <ng-container matColumnDef="serviceQuantity">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                      {{'Service_Quantity' | translate}}
+                    </th>
+                    <td mat-cell *matCellDef="let row">{{ row.serviceQuantity }}</td>
+                  </ng-container>
+
+                  <ng-container matColumnDef="estimatedPrice">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                      {{'Estimated_Price' | translate}}
+                    </th>
+                    <td mat-cell *matCellDef="let row">{{ row.estimatedPrice }}</td>
+                  </ng-container>
+
+                  <ng-container matColumnDef="statusEnquiry">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                      {{'Status' | translate}}
+                    </th>
+                    <td mat-cell *matCellDef="let row">{{ row.statusEnquiry }}</td>
+                  </ng-container>
+
+
+
+
+
+
+                  <ng-container matColumnDef="Actions">
+                    <th mat-header-cell *matHeaderCellDef>{{'Actions' | translate}}</th>
+                    <td mat-cell *matCellDef="let row">
+                      <div class="nav-item dropdown">
+                        <a href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="icon-options-vertical"></i></a>
+
+                        <div class="dropdown-menu" aria-labelledby="navbarDropdown" x-placement="bottom-start">
+
+
+
+                          <!--<a (click)="cahngeEnquiryStatus(row.enquiryID,'Completed')" class="dropdown-item tableicons"><i class="icon-lock"> </i> {{'Completed' | translate}} </a>
+          <a *ngIf="row.statusEnquiry !== 'Cancelled'" class="dropdown-item tableicons" (click)="cahngeEnquiryStatus(row.enquiryID,'Cancelled')"><i class="icon-power"> </i> {{'Cancel_Enquiry' | translate}} </a>-->
+                          <!--<a *ngIf="row.statusEnquiry !== 'Cancelled'" class="dropdown-item tableicons" routerLink="PrintSurveyForm" [queryParams]="{enquiryNumber: row.enquiryNumber,enquiryID: row.enquiryID}"><i class=" icon-printer"> </i> {{'Print_Survey_Form' | translate}} </a>-->
+                          <a *ngIf="row.statusEnquiry == 'Assigned_Surveyor'" class="dropdown-item tableicons" routerLink="EditableSurveyForm" [queryParams]="{enquiryID: row.enquiryID}"><i class=" icon-pencil"> </i> {{'Fill_Survey_Form' | translate}} </a>
+                          <a *ngIf="row.statusEnquiry == 'Survey_In_Progress'" class="dropdown-item tableicons" routerLink="EditableSurveyForm" [queryParams]="{enquiryID: row.enquiryID}"><i class=" icon-pencil"> </i> {{'Edit_Survey_Form' | translate}} </a>
+                          <a *ngIf="row.statusEnquiry == 'Survey_Completed'" class="dropdown-item tableicons" routerLink="EditableSurveyForm" [queryParams]="{enquiryID: row.enquiryID}"><i class=" icon-eye"> </i> {{'View_Survey_Form' | translate}} </a>
+
+                        </div>
+                      </div>
+
+
+                    </td>
+                  </ng-container>
+
+
+
+
+                  <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
+                  <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+
+                </table>
+                <ng-container>
+                  <mat-paginator [length]="totalItemsCount"
+                                 [pageSize]="pageService.pageCount"
+                                 [pageSizeOptions]="pageService.selectItemsPerPage"
+                                 (page)="onPageSwitch($event)">
+                  </mat-paginator>
+
+                </ng-container>
+              </ng-container>
+
+            </div>
+
+          </div>
+
+        </div>
+
+
+
+      </div>
+    </div>
+
+  </div>
+
+</div>

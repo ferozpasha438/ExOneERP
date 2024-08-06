@@ -1,0 +1,53 @@
+
+<h3 class="modal-title">{{modalTitle | translate}}</h3>
+<button type="button" class="close" aria-hidden="true" (click)="closeModel()"> ×</button>
+<form [formGroup]="form" (ngSubmit)="submit()" novalidate class="mt-4">
+  <div class="row">
+
+    <div class="col-md-6 col-lg-6">
+      <div class="form-group">
+        <label>{{'Enquiry_ID' | translate}}</label>
+        <input class="form-control" type="text"
+               placeholder="{{'Please_Enter' | translate}} {{'Enquiry_ID' | translate}}" formControlName="enquiryID" readonly>
+        <validation-message [control]="form.controls.enquiryID"></validation-message>
+      </div>
+    </div>
+
+
+
+
+
+    <div class="col-md-6 col-lg-6">
+      <div class="form-group">
+        <label>{{'Surveyor_Code' | translate}}</label>
+        <select class="custom-select mr-sm-2" formControlName="surveyorCode">
+          <option value="">{{'Select' | translate}} {{'Surveyor_Code' | translate}} </option>
+          <option *ngFor="let srv of surveyorsList" value="{{srv.surveyorCode}}">{{srv.surveyorCode}}-{{srv?.userName}}</option>
+        </select>
+      </div>
+    </div>
+
+
+
+
+
+
+
+
+
+
+
+
+  </div>
+  <div class="row customrow">
+    <div class="col-lg-12 col-md-12 text-center">
+      <input type="button"
+             class="btn btn-secondary"
+             value="{{'Cancel' | translate}}" (click)="closeModel()" />
+
+      &nbsp;&nbsp;
+      <input type="submit" class="btn waves-effect waves-light   btn-primary  " value="{{'Save' | translate}}">
+
+    </div>
+  </div>
+</form>

@@ -1,0 +1,78 @@
+<h3 class="modal-title">{{'Notification_Approval' | translate}}</h3>
+<button type="button" class="close" aria-hidden="true" (click)="closeModel()"> ×</button>
+<form [formGroup]="form" (ngSubmit)="submit()" novalidate class="mt-4">
+    <div class="outer ">
+        <div class="row rowm0 mt-3">
+            <div class="col-md-6 col-lg-6 col-sm-6">
+                <div class="form-group">
+                    <label>{{'Notification_Criteria' | translate}}</label>
+                    <textarea class="form-control" type="text" placeholder="{{'Notification_Criteria' | translate}}"
+                        formControlName="notificationCriteria"></textarea>
+                    <validation-message [control]="form.controls.notificationCriteria"></validation-message>
+                </div>
+            </div>
+            <div class="col-md-6 col-lg-6 col-sm-6">
+                <div class="form-group">
+                    <label>{{'Notification_Message' | translate}}</label>
+                    <textarea class="form-control" type="text" placeholder="{{'Notification_Message' | translate}}"
+                        formControlName="notificationMessage"></textarea>
+                    <validation-message [control]="form.controls.notificationMessage"></validation-message>
+                </div>
+            </div>
+            <div class="col-md-6 col-lg-6 col-sm-6">
+                <div class="form-group">
+                    <label>{{'Drafted_By_User' | translate}}</label>
+                    <input class="form-control" type="txt" placeholder="{{'Drafted_By_User' | translate}}"
+                        formControlName="draftedBUser" />
+                    <validation-message [control]="form.controls.draftedBUser"></validation-message>
+                </div>
+            </div>
+
+            <div class="col-md-6 col-lg-6 col-sm-6">
+                <div class="form-group">
+                    <label>{{'Drafted_Date' | translate}}</label>
+                    <input class="form-control" type="text" placeholder="{{'Drafted_Date' | translate}}"
+                        formControlName="draftedDate" />
+                    <validation-message [control]="form.controls.draftedDate"></validation-message>
+                </div>
+            </div>
+            <div class="col-md-6 col-lg-6 col-sm-6">
+                <label>{{'Is_approved' | translate}}</label>  
+                <div class="form-group">                   
+                    <mat-slide-toggle color="primary" formControlName="isapproved"></mat-slide-toggle>                
+                </div>
+            </div>
+            <div class="col-md-6 col-lg-6 col-sm-6">
+                <div class="form-group">
+                    <label>{{'Approval_Remarks' | translate}}</label>
+                    <textarea class="form-control" type="text" placeholder="{{'Approval_Remarks' | translate}}"
+                        formControlName="approvalRemarks"></textarea>
+                    <validation-message [control]="form.controls.approvalRemarks"></validation-message>
+                </div>
+            </div>
+            <div class="col-md-6 col-lg-6 col-sm-6">
+                <div class="form-group">
+                    <label>{{'Approve_Date' | translate}}</label>
+                    <input class="form-control" type="text" placeholder="{{'Approve_Date' | translate}}"
+                        formControlName="approveDate" />
+                    <validation-message [control]="form.controls.approveDate"></validation-message>
+                </div>
+            </div>
+            <div class="col-md-6 col-lg-6 col-sm-6">
+                <div class="form-group">
+                    <label>{{'Approved_By' | translate}}</label>
+                    <input class="form-control" type="text" placeholder="{{'Approved_By' | translate}}"
+                        formControlName="approvedBy" />
+                    <validation-message [control]="form.controls.approvedBy"></validation-message>
+                </div>
+            </div>
+        </div>
+        <div class="row customrow mt-4">
+            <div class="col-lg-12 col-md-12 text-center">
+                <input type="button" class="btn btn-secondary" value="{{'Cancel' | translate}}" (click)="closeModel()" />
+                &nbsp;&nbsp;
+                <input type="submit" class="btn waves-effect waves-light btn-primary" value="{{'Save' | translate}}">
+            </div>
+        </div>
+    </div>
+</form>

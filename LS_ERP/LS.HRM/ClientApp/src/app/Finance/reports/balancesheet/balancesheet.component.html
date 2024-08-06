@@ -1,0 +1,158 @@
+  <div class="page-breadcrumb">
+    <div class="row">
+      <div class="col-12 align-self-center">
+        <h3 class="page-title text-truncate text-dark font-weight-medium mb-1">
+          {{'Balancesheet' | translate}}
+        </h3>
+      </div>
+    </div>
+  </div>
+
+<div class="modal-body">
+
+
+  <div class="outer">
+
+
+    <div class="outer  ">
+      <div class="row">
+        <div class="col-md-6 col-lg-6">
+          <div class="form-group">
+            <label>{{'From_Date' | translate}}</label>
+            <div class="form-group ">
+              <div class="input-group mb-2">
+                <input class="form-control datapickerinput" placeholder="{{'Select_a_Date' | translate}}" [(ngModel)]="dateFrom"
+                       [matDatepicker]="picker2">
+
+                <div class="input-group-prepend datapickericon">
+                  <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
+                  <mat-datepicker #picker2></mat-datepicker><br /><br />
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+        <div class="col-md-6 col-lg-6">
+          <div class="form-group">
+            <label>{{'To_Date' | translate}}</label>
+            <div class="form-group ">
+              <div class="input-group mb-2">
+                <input class="form-control datapickerinput" placeholder="{{'Select_a_Date' | translate}}" [(ngModel)]="dateTo"
+                       [matDatepicker]="picker1">
+
+                <div class="input-group-prepend datapickericon">
+                  <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
+                  <mat-datepicker #picker1></mat-datepicker><br /><br />
+                </div>
+
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-md-6 col-lg-6">
+          <div class="form-group">
+            <br />
+            <button type="button" class="btn btn-primary" (click)="search()">Search</button>
+          </div>
+        </div>
+
+
+      </div>
+    </div>
+
+    <spinner-loader [isLoading]="isLoading"></spinner-loader>
+
+    <div class="table-responsive" *ngIf="company">
+
+
+      <button type="button" class="btn waves-effect waves-light btn-rounded btn-primary btn-midblock" data-toggle="modal" (click)="openPrint()">
+        {{'Print' | translate}}
+      </button>
+      <br />
+      <br />
+
+      <div class="outer" id="printcontainer">
+
+        <table style="width:100%; padding-bottom:5px;" cellpadding="0" cellspacing="0" width="100%" class="ur_tablestyle">
+          <tr>
+            <td> {{company.companyName}}</td>
+          </tr>
+          <tr>
+            <td style="text-align:center;">
+              <img src="{{company.logoURL}}" style="width:200px;height:150px;" />
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <div class="font-weight-medium">
+                <br />
+                {{company.branchName}}
+                <br />
+                {{company.companyAddress}}
+                <br />
+                {{'Tel_Phone' | translate }} :  {{company.phone}}
+                <br />
+              </div>
+
+            </td>
+          </tr>
+          <tr>
+            <td style="text-align:center;">
+              <p>
+                The Statement of " The Balance Sheet " for {{dateFrom | date:'dd/MM/yyyy'}} to {{dateTo | date:'dd/MM/yyyy'}}
+              </p>
+
+            </td>
+          </tr>
+        </table>
+
+        <!--<table id="zero_config" class="table  table-bordered no-wrap" *ngIf="profitLossList && profitLossList.length > 0">-->
+          <table style="width:100%; padding-bottom:5px;" border="1" cellpadding="0" cellspacing="0" width="100%" class="table  table-bordered no-wrap ur_tablestyle" *ngIf="profitLossList && profitLossList.length > 0">
+            <thead>
+              <tr>
+                <th>{{'FinAcCode' | translate}}</th>
+                <th>{{'FinAcName' | translate}}</th>
+                <th>{{'Dr_Amount' | translate}}</th>
+                <th>{{'Cr_Amount' | translate}}</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let item of profitLossList">
+                <td>{{item.acCode}}</td>
+                <td>{{item.finAcName}}</td>
+                <td class="text-right">{{item.drAmount_Bal | decimalpipe}}</td>
+                <td class="text-right">{{item.crAmount_Bal | decimalpipe}}</td>
+              </tr>
+
+            <tfoot>
+              <tr class="tfoot">
+                <td colspan="2" class="text-right ">{{'Total_Amount' | translate}}</td>
+                <td class="text-right" colspan="1">{{totalDrAmount | decimalpipe}}</td>
+                <td class="text-right" colspan="1">{{totalCrAmount | decimalpipe}}</td>
+              </tr>
+              <tr class="tfoot" *ngIf="totalProfitLossAmount > 0">
+                <td colspan="2" class="text-right ">{{'Profit' | translate}}</td>
+                <td class="text-right"></td>
+                <td class="text-right">{{totalProfitLossAmount | decimalpipe}}</td>
+              </tr>
+              <tr class="tfoot" *ngIf="totalProfitLossAmount <= 0">
+                <td colspan="2" class="text-right ">{{'Loss' | translate}}</td>
+                <td class="text-right">{{totalProfitLossAmount*(-1) | decimalpipe}}</td>
+                <td class="text-right"></td>
+              </tr>
+
+              <tr class="tfoot">
+                <td colspan="2" class="text-right ">{{'Total_Amount' | translate}}</td>
+                <td class="text-right">{{totalDrAmount | decimalpipe}}</td>
+                <td class="text-right">
+                  {{(totalCrAmount + totalProfitLossAmount) | decimalpipe}}
+                </td>
+              </tr>
+            </tfoot>
+          </table>
+      </div>
+    </div>
+   </div>
+</div>

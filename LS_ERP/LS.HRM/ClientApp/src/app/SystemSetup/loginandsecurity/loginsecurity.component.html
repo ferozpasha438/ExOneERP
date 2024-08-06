@@ -1,0 +1,90 @@
+
+
+
+<div class="row">
+  <div class="col-md-4">
+    <select (change)="loadPermission($event)" [(ngModel)]="PermissionUserId" class="form-control">
+      <option value="0">{{'Select_User' | translate}}</option>
+      <option *ngFor="let user of userList" value="{{user.value}}">{{user.text}}</option>
+    </select>
+  </div>
+  <div class="col-md-4">
+    <button class="btn btn-primary" (click)="addPermission()">{{'Add_Permission' | translate}}</button>
+  </div>
+</div>
+<br />
+{{values}}
+<ngx-dropdown-treeview *ngIf="items"
+                       [config]="config"
+                       [items]="items"
+                       (selectedChange)="values = $event"
+                       (filterChange)="onFilterChange($event)">
+</ngx-dropdown-treeview>
+
+<div class="row pt-5">
+  <div class="col-md-12">
+    <!--{items | json}-->
+    <!--<ngx-treeview [config]="config"
+                  [items]="items"
+                  (selectedChange)="onSelectedChange($event)"
+                  (filterChange)="onFilterChange($event)">
+    </ngx-treeview>-->
+    <!--<ngx-treeview  [items]="items" (filterChange)="onFilterChange($event)"
+                  (selectedChange)="values = $event">
+    </ngx-treeview>-->
+    <!--<ngx-dropdown-treeview [items]="items" [buttonClass]="buttonClass"
+                           (selectedChange)="values = $event" [disabled]="!dropdownEnabled"
+                           (filterChange)="onFilterChange($event)">
+    </ngx-dropdown-treeview>-->
+    <!--<leo-dropdown-treeview [config]="config"
+        [config]="config"
+        [ngxDisabledOnSelector]="'button.dropdown-toggle'"
+
+                           [items]="items | leoTreeview:'textField'"
+                           (selectedChange)="onSelectedChange($event)">
+    </leo-dropdown-treeview>-->
+
+  </div>
+</div>
+
+
+<div class="row pt-5">
+  <div class="col-md-12">
+
+    <mat-tree [dataSource]="dataSource" [treeControl]="treeControl">
+      <mat-tree-node *matTreeNodeDef="let node" matTreeNodeToggle matTreeNodePadding>
+        <button mat-icon-button disabled></button>
+        <mat-checkbox class="checklist-leaf-node" *ngIf="node.level !== 0"
+                      [checked]="checklistSelection.isSelected(node)"
+                      (change)="todoLeafItemSelectionToggle(node)">{{node.item}}</mat-checkbox>
+      </mat-tree-node>
+
+      <!--<mat-tree-node *matTreeNodeDef="let node; when: hasNoContent" matTreeNodePadding>
+        <button mat-icon-button disabled></button>
+        <mat-form-field appearance="fill">
+          <mat-label>New item...</mat-label>
+          <input matInput #itemValue placeholder="Ex. Lettuce">
+        </mat-form-field>
+        <button mat-button (click)="saveNode(node, itemValue.value)">Save</button>
+      </mat-tree-node>-->
+      <!--<p *matTreeNodeDef="let node">This is the Node for testing {{node.level}}</p>-->
+      <!--<ng-container *ngIf="node.level===2;else noChildNode">-->
+      <mat-tree-node *matTreeNodeDef="let node; when: hasChild" matTreeNodePadding>
+        <button mat-icon-button matTreeNodeToggle
+                [attr.aria-label]="'Toggle ' + node.item">
+          <mat-icon class="mat-icon-rtl-mirror">
+            {{treeControl.isExpanded(node) ? 'expand_more' : 'chevron_right'}}
+          </mat-icon>
+        </button>
+        <mat-checkbox [checked]="descendantsAllSelected(node)"
+                      [indeterminate]="descendantsPartiallySelected(node)"
+                      (change)="todoItemSelectionToggle(node)">{{node.item}}</mat-checkbox>
+        <!--<button mat-icon-button (click)="addNewItem(node)"><mat-icon>add</mat-icon></button>-->
+      </mat-tree-node>
+      <!--</ng-container>-->
+      <ng-container #noChildNode>
+        <p>Disabled Link</p>
+      </ng-container>
+    </mat-tree>
+  </div>
+</div>

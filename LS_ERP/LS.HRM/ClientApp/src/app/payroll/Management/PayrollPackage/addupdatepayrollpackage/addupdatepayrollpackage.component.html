@@ -1,0 +1,330 @@
+<div class="modal-header">
+  <h3 class="modal-title">{{modalTitle}}</h3>
+  <button type="button" class="close" aria-hidden="true" (click)="closeModel()"> ×</button>
+</div>
+<form [formGroup]="form" (ngSubmit)="submit()" novalidate class="mt-4">
+  <div class="row">
+    <div class="col-md-4 col-lg-4">
+      <div class="form-group">
+        <label for="packageCode">{{'PackageCode' | translate}}</label>
+        <input class="form-control input-mandatory" type="text"
+          placeholder="{{'Please_Enter' | translate}} {{'PackageCode' | translate}} " formControlName="packageCode">
+        <validation-message [control]="form.controls.packageCode"></validation-message>
+      </div>
+    </div>
+    <div class="col-md-4 col-lg-4">
+      <div class="form-group">
+        <label for="packageNameEn">{{'PackageNameEn' | translate}}</label>
+        <input class="form-control input-mandatory" type="text"
+          placeholder="{{'Please_Enter' | translate}} {{'PackageNameEn' | translate}} " formControlName="packageNameEn">
+        <validation-message [control]="form.controls.packageNameEn"></validation-message>
+      </div>
+    </div>
+    <div class="col-md-4 col-lg-4">
+      <div class="form-group">
+        <label for="packageNameAr">{{'PackageNameAr' | translate}}</label>
+        <input class="form-control" id="packageNameAr" type="text"
+          placeholder="{{'Please_Enter' | translate}} {{'PackageNameAr' | translate}}" formControlName="packageNameAr">
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-4 col-lg-4">
+      <label for="gradeCode" class="mr-sm-2">{{'Grade' | translate}}</label>
+      <select class="custom-select mr-sm-2" formControlName="gradeCode">
+        <option value="">{{'Grade' | translate}}</option>
+        <option *ngFor="let grade of grades" value="{{grade.value}}">{{grade.text}}</option>
+      </select>
+    </div>
+    <div class="col-md-4 col-lg-4">
+      <label for="positionCode" class="mr-sm-2">{{'Position' | translate}}</label>
+      <select class="custom-select mr-sm-2" formControlName="positionCode">
+        <option value="">{{'Position' | translate}}</option>
+        <option *ngFor="let position of positions" value="{{position.value}}">{{position.text}}</option>
+      </select>
+    </div>
+    <div class="col-md-4 col-lg-4">
+      <div class="form-group">
+        <label for="isActive">{{'Is_Active' | translate}}</label>
+        <br />
+        <mat-slide-toggle color="primary" formControlName="isActive"></mat-slide-toggle>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-4 col-lg-4">
+      <div class="form-group">
+        <label>{{'BasicSalary' | translate}}</label>
+        <input class="form-control input-mandatory" type="number" step="0.01" min="0"
+          placeholder="{{'Please_Enter' | translate}} {{'BasicSalary' | translate}} "
+          (blur)="AddBasicPayrollComponent('BASIC', $event)" formControlName="basicSalary">
+        <validation-message [control]="form.controls.basicSalary"></validation-message>
+      </div>
+    </div>
+  </div>
+  <hr>
+  <div class="modal-header">
+    <h3 class="modal-title">{{"ManagePayrollPackageComponents" | translate}}</h3>
+  </div>
+  <br>
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-md-12 col-lg-12">
+        <div class="card">
+          <div class="card-body">
+            <div class="row">
+              <div class="col-md-6 col-lg-6">
+                <div class="row pb-3">
+                  <div class="col-md-12 col-lg-12">
+                    <h3 class="card-title pt6 text-center">{{'Earnings' | translate}} </h3>
+                    <hr>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-md-10 col-lg-10">
+                    <label class="mr-sm-2">{{'PayrollComponent' | translate}}</label>
+                    <ng-select formControlName="ePayrollComponentCode" [items]="ePayrollComponents"
+                      bindLabel="payrollComponentName" bindValue="payrollComponentCode"
+                      placeholder="{{'payrollComponent' | translate}}" (change)="OnPayrollComponentChange('e')">
+                    </ng-select>
+                  </div>
+                </div>
+                <div class="row">
+                  <div *ngIf="form.controls['eIsFormula'].value" class="col-md-10 col-lg-10">
+                    <div class="form-group">
+                      <label for="eFormulaQueryString">{{'FormulaQueryString' |
+                        translate}}</label>
+                      <input class="form-control" type="text" placeholder="{{'Please_Enter' | translate}} {{'FormulaQueryString' | translate}}"
+                        formControlName="eFormulaQueryString">
+                    </div>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-md-10 col-lg-10">
+                    <div class="form-group">
+                      <label for="ePayValue">{{'PayValue' | translate}}</label>
+                      <input class="form-control" formControlName="ePayValue" type="number" step="0.01" min="0"
+                        placeholder="{{'Please_Enter' | translate}} {{'PayValue' | translate}}">
+                    </div>
+                  </div>
+                  <div class="col-md-2 col-lg-2 mt-5">
+                    <a class="tableicons" (click)="AddPayrollComponent('e')" matTooltip="{{'AddPayrollComponent'|translate}}"><i
+                        class="fa fa-plus-square"> </i></a> &nbsp;
+                    <a class="tableicons" (click)="ResetAll('e')" matTooltip="{{'Cancel' | translate}}"><i
+                        class="fa fa-times-circle">
+                      </i></a>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-md-12 col-lg-12">
+                    <div class="table table-responsive" style="width: 100%;">
+                      <table class="form-group" style="width: 100%;">
+                        <tr>
+                          <th style="font-size: 1rem; font-weight: bold;">
+                            {{ "Actions" | translate }}
+                          </th>
+                          <th style="font-size: 1rem; font-weight: bold;">
+                            {{'Earnings' | translate}}
+                          </th>
+                          <th style="font-size: 1rem; font-weight: bold;">
+                            {{ "Amount" | translate }}
+                          </th>
+                        </tr>
+                        <tbody>
+                          <tr *ngFor="let item of packageComponents;let i=index;">
+                            <ng-container *ngIf="(item.payrollComponentType === 1)">
+                              <td>
+                                <a class="tableicons" (click)="RemovePayrollComponent(i)"
+                                  matTooltip="{{'DeletePayrollComponent' | translate}}"><i class="icon-trash"> </i></a>
+                              </td>
+                              <td>{{item.payrollComponentName}}
+                              </td>
+                              <td class="text-right">{{item.payValue|decimalpipe}}</td>
+                            </ng-container>
+                          </tr>
+                        </tbody>
+                      </table>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-6 col-lg-6">
+                <div class="row pb-3">
+                  <div class="col-md-12 col-lg-12">
+                    <h3 class="card-title pt6 text-center">{{'Deductions' | translate}} </h3>
+                    <hr>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-md-10 col-lg-10">
+                    <label class="mr-sm-2">{{'PayrollComponent' | translate}}</label>
+                    <ng-select formControlName="dPayrollComponentCode" [items]="dPayrollComponents"
+                      bindLabel="payrollComponentName" bindValue="payrollComponentCode"
+                      placeholder="{{'payrollComponent' | translate}}" (change)="OnPayrollComponentChange('d')">
+                    </ng-select>
+                  </div>
+                </div>
+                <div class="row">
+                  <div *ngIf="form.controls['dIsFormula'].value" class="col-md-10 col-lg-10">
+                    <div class="form-group">
+                      <label for="dFormulaQueryString">{{'FormulaQueryString' |
+                        translate}}</label>
+                      <input class="form-control" type="text" placeholder="{{'Please_Enter' | translate}} {{'FormulaQueryString' | translate}}"
+                        formControlName="dFormulaQueryString">
+                    </div>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-md-10 col-lg-10">
+                    <div class="form-group">
+                      <label for="dPayValue">{{'PayValue' | translate}}</label>
+                      <input class="form-control" formControlName="dPayValue" type="number" step="0.01" min="0"
+                        placeholder="{{'Please_Enter' | translate}} {{'PayValue' | translate}}">
+                    </div>
+                  </div>
+                  <div class="col-md-2 col-lg-2 mt-4">
+                    <a class="tableicons" (click)="AddPayrollComponent('d')" matTooltip="{{'AddPayrollComponent'|translate}}"><i
+                        class="fa fa-plus-square">
+                      </i></a> &nbsp;
+                    <a class="tableicons" (click)="ResetAll('d')" matTooltip="{{'Cancel' | translate}}"><i
+                        class="fa fa-times-circle">
+                      </i></a>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-md-12 col-lg-12">
+                    <div class="table table-responsive" style="width: 100%;">
+                      <table class="form-group" style="width: 100%;">
+                        <tr>
+                          <th>
+                            {{ "Actions" | translate }}
+                          </th>
+                          <th>
+                            {{'Deductions' | translate}}
+                          </th>
+                          <th>
+                            {{ "Amount" | translate }}
+                          </th>
+                        </tr>
+                        <tbody>
+                          <tr *ngFor="let item of packageComponents;let i=index;">
+                            <ng-container *ngIf="(item.payrollComponentType === 2)">
+                              <td>
+                                <a class="tableicons" (click)="RemovePayrollComponent(i)"
+                                  matTooltip="{{'DeletePayrollComponent' | translate}}"><i class="icon-trash">
+                                  </i></a>
+                              </td>
+                              <td>{{item.payrollComponentName}}
+                              </td>
+                              <td class="text-right">{{item.payValue|decimalpipe}}</td>
+                            </ng-container>
+                          </tr>
+                        </tbody>
+                      </table>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-6 col-lg-6">
+                <div class="row" style="margin: 0%;">
+                  <div class="col-md-6"></div>
+                  <div class="col-md-3 summary">
+                    <b>{{'GrossSalary'| translate}}:</b>
+                  </div>
+                  <div class="col-md-3 summary text-right">
+                    <div style="margin-right:1%">
+                      {{grossSalary|decimalpipe}}
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-6 col-lg-6">
+                <div class="row" style="margin: 0%;">
+                  <div class="col-md-5"></div>
+                  <div class="col-md-4 summary text-right">
+                    <b>{{'TotalDeductions'| translate}}:</b>
+                  </div>
+                  <div class="col-md-3 summary text-right">
+                    <div style="margin-right:1%">
+                      {{totalDeductions|decimalpipe}}
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="row netPay">
+              <div class="col-md-6"></div>
+              <div class="col-md-6">
+                <div class="row">
+                  <div class="col-md-9 text-right">
+                    <b>{{'NetPay'| translate}}:</b>
+                  </div>
+                  <div class="col-md-3 text-right">
+                    <div style="margin-right:-10%">
+                      {{netPay|decimalpipe}}
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="row mt-3 ">
+    <div class="col-md-12 col-lg-12 text-center">
+      <input type="button" class="btn waves-effect waves-light btn-rounded   btn-secondary btn-midblock"
+        value="{{'Cancel' | translate}}" (click)="closeModel()" /> &nbsp;
+      <input type="submit" class="btn waves-effect waves-light btn-rounded btn-primary btn-midblock"
+        value="{{'Save' | translate}}" />
+    </div>
+  </div>
+</form>
+
+
+<style>
+  table {
+    border-collapse: collapse;
+    width: 100%;
+  }
+
+  td,
+  th {
+    border: 1px solid #a5a5a5;
+    text-align: center;
+    padding: 10px;
+    font-size: 17px !important;
+  }
+
+  th {
+    color: black;
+  }
+
+  .select {
+    word-wrap: normal;
+    width: 32px;
+    height: 32px;
+  }
+
+  .mt-4 {
+    margin-top: 1.9rem !important;
+  }
+
+  .summary {
+    transform: translateY(-23px);
+    margin: 0%;
+    background-color: #e8eef3 !important;
+    padding: 1%;
+  }
+
+  .netPay {
+    transform: translateY(-12px);
+    margin: 0%;
+    background-color: #e8eef3 !important;
+    padding: 0.5%;
+  }
+</style>

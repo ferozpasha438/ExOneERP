@@ -1,0 +1,236 @@
+<div class="page-breadcrumb">
+  <div class="row">
+    <div class="col-12 align-self-center">
+      <h3 class="page-title text-truncate text-dark font-weight-medium mb-1">
+        {{'Project_Management_Requests' | translate}}
+      </h3>
+      <div class="d-flex align-items-center">
+        <nav aria-label="breadcrumb">
+          <ol class="breadcrumb m-0 p-0">
+            <li class="breadcrumb-item text-muted"> {{'Operational_Management' | translate}} </li>
+            <li class="breadcrumb-item text-muted"> {{'Operations' | translate}} </li>
+            <li class="breadcrumb-item   active" aria-current="page">{{'Requests' | translate}}</li>
+
+          </ol>
+        </nav>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-md-12 col-lg-12">
+      <div class="card">
+        <div class="card-body">
+          <div class="row">
+
+
+
+            <div class="col-md-2">
+              <label class="mr-sm-2">{{'RequestType' | translate}}</label>
+              <select class="custom-select mr-sm-2" (change)="loadApprovals()" [(ngModel)]="listType" [ngModelOptions]="{standalone: true}">
+                <option value="">{{'Select' | translate}}</option>
+                <option value="addResource">{{'AddResource'|translate}}</option>
+                <option value="removeResource">{{'RemoveResource'|translate}}</option>
+                <option value="replaceResource">{{'ReplaceResource'|translate}}</option>
+                <option value="swapEmployees">{{'SwapEmployees'|translate}}</option>
+                <option value="transferResource">{{'TransferResource'|translate}}</option>
+                <option value="transferWithReplacement">{{'TransferWithReplacement'|translate}}</option>
+                <option value="projectVariations">{{'ProjectVariations'|translate}}</option>
+              </select>
+
+            </div>
+            <div class="col-md-2">
+              <label class="mr-sm-2">{{'Approval_Status' | translate}}</label>
+              <select class="custom-select mr-sm-2" (change)="loadApprovals()" [(ngModel)]="approvedStatus" [ngModelOptions]="{standalone: true}">
+                <option value="">{{'Select' | translate}}</option>
+                <option value="approved">Approved</option>
+                <option value="unapproved">UnApproved</option>
+              </select>
+
+            </div>
+
+            <div class="col-md-3">
+              <label class="mr-sm-2"></label>
+              <input class="form-control" placeholder="{{'Search' | translate}}..." [(ngModel)]="searchValue" />
+            </div>
+
+
+            <div class="col-md-2">
+              <button (click)="applyFilter(searchValue,listType)" class="btn btn-primary">{{'Search' | translate}}</button> &nbsp;
+              <a (click)="refresh()"><i class="btn btn-primary icon-refresh"></i></a> &nbsp;
+            </div>
+            <div class="col-md-1">
+              <spinner-loader [isLoading]="isLoading"></spinner-loader>
+            </div>
+            <div class="col-md-2 text-right" *ngIf="listType!=''&& listType!='projectVariations'">
+              <a data-toggle="modal" data-target="#addsurveyors" class="btn waves-effect waves-light btn-rounded btn-outline-primary" (click)="createNew()" href="#"> <i class="icon-plus"> </i>{{'New_Request' | translate}} </a>
+            </div>
+          </div>
+
+          <div class="cardtitle-divider"></div>
+          <div class="table-responsive">
+
+            <div class="mat-elevation-z8">
+              <ng-container>
+                <!--matSortActive="id"
+
+        matSortDisableClear matSortDirection="desc"-->
+                <table mat-table [dataSource]="data" matSortDisableClear matSort (matSortChange)="onSortOrder($event)" class="table  table-bordered no-wrap">
+                  <ng-container matColumnDef="customerCode">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                      {{'Customer_Code' | translate}}
+                    </th>
+                    <td mat-cell *matCellDef="let row">{{ row.customerCode }}</td>
+                  </ng-container>
+
+                  <ng-container matColumnDef="siteCode">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                      {{'Site_Code' | translate}}
+                    </th>
+                    <td mat-cell *matCellDef="let row">{{ row.siteCode }}</td>
+                  </ng-container>
+
+                  <ng-container matColumnDef="projectCode">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                      {{'Project_Code' | translate}}
+                    </th>
+                    <td mat-cell *matCellDef="let row">{{ row.projectCode }}</td>
+                  </ng-container>
+                  <ng-container matColumnDef="requestType">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                      {{'Request_Type' | translate}}
+                    </th>
+                    <td mat-cell *matCellDef="let row">{{ row.requestType }}{{(row.requestType=='ProjectVariations')?'/'+row.requestSubType:''}}</td>
+                  </ng-container>
+
+                  <ng-container matColumnDef="requestNumber">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                      {{'Request_Number' | translate}}
+                    </th>
+                    <td mat-cell *matCellDef="let row">{{ row.requestNumber }}</td>
+                  </ng-container>
+                  <ng-container matColumnDef="requestedBy">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                      {{'Requested_By' | translate}}
+                    </th>
+                    <td mat-cell *matCellDef="let row">{{ row.requestedBy }}</td>
+                  </ng-container>
+                  <ng-container matColumnDef="requestedDate">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                      {{'Requested_Date' | translate}}
+                    </th>
+                    <td mat-cell *matCellDef="let row">{{ row.requestedDate | date:'dd/MM/yyyy' }}</td>
+                  </ng-container>
+                  <ng-container matColumnDef="effectiveDate">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                      {{'Effective_Date' | translate}}
+                    </th>
+                    <td mat-cell *matCellDef="let row">{{ row.effectiveDate | date:'dd/MM/yyyy' }}</td>
+                  </ng-container>
+
+
+
+
+
+                  <ng-container matColumnDef="isApproved">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                      {{'Is_Approved' | translate}}
+                    </th>
+                    <td mat-cell *matCellDef="let row">
+                      <span class="badge badge-pill badge-success" *ngIf="row.isApproved; else inActive"> {{'Yes' | translate}}</span>
+                      <ng-template #inActive>
+                        <span class="badge badge-pill badge-light"> {{'No' | translate}}</span>
+                      </ng-template>
+                    </td>
+                  </ng-container>
+
+
+
+
+                  <ng-container matColumnDef="Actions" stickyEnd>
+                    <th mat-header-cell *matHeaderCellDef>{{'Actions' | translate}}</th>
+
+                    <td mat-cell *matCellDef="let row" class="clickaction clickicons">
+                      <span *ngIf="row.requestType!='AddResource'">
+                        <span *ngIf="!row?.isApproved && (row.canEditReq|| row.isAdmin)" (click)="edit(row)" [matTooltip]="translateToolTip('Edit_Request')"><i class=" fas fa-edit"></i>&nbsp;</span>
+                        <span *ngIf=" !row?.isApproved && (row.canEditReq|| row.isAdmin)" (click)="delete(row)" [matTooltip]="translateToolTip('Delete_Request')"><i class="far fa-trash-alt"></i>&nbsp;</span>
+                        <span *ngIf="!row?.isApproved && (!row?.isFileUploadRequired || row.fileUrl )&& ( row.canApproveReq|| row.isAdmin)" (click)="approveRequest(row)" [matTooltip]="translateToolTip('Approve_Request')"><i class="icon-like"></i>&nbsp;</span>
+
+                        <span (click)="viewRequest(row)" [matTooltip]="translateToolTip('View_Request')"><i class=" fas fa-eye"></i>&nbsp;</span>
+
+                      </span>
+
+                      <span *ngIf="row.requestType=='AddResource'">
+
+                        <span *ngIf="!row.isApproved">
+                          <span *ngIf="row.canEditReq || row.isAdmin" (click)="edit(row)" [matTooltip]="translateToolTip('Edit_Request')"><i class=" fas fa-edit"></i>&nbsp;</span>
+                          <span *ngIf="row.canEditReq || row.isAdmin" (click)="delete(row)" [matTooltip]="translateToolTip('Delete_Request')"><i class="far fa-trash-alt"></i>&nbsp;</span>
+                          <span *ngIf="(!row?.isFileUploadRequired || row.fileUrl )&& ( row.canApproveReq|| row.isAdmin) && !row.isMerged" (click)="approveRequest(row)" [matTooltip]="translateToolTip('Approve_Request')"><i class="icon-like"></i>&nbsp;</span>
+
+                        </span>
+                        <span *ngIf="row.isApproved  && !row.isMerged">
+
+                          <span *ngIf="row.canEditReq || row.isAdmin" (click)="mapEmpToRes(row)" [matTooltip]="translateToolTip('Mapp_Employee_To_Resource')"><i class=" fas fa-users"></i>&nbsp;</span>
+                          <span *ngIf="(row.canEditReq || row.isAdmin) && row.isMappedResources" (click)="mergeRequest(row.requestNumber)" [matTooltip]="translateToolTip('Merge_Resources')"><i class=" fas fa-redo"></i>&nbsp;</span>
+
+                        </span>
+                        <span *ngIf="!row.isMappedResources" (click)="viewRequest(row)" [matTooltip]="translateToolTip('View_Request')"><i class=" fas fa-eye"></i>&nbsp;</span>
+                        <span *ngIf="row.isMappedResources" (click)="viewMappings(row.requestNumber)" [matTooltip]="translateToolTip('View_Resource_Mapping')"><i class=" fas fa-eye"></i>&nbsp;</span>
+
+
+
+
+                      </span>
+
+                      <!--<span *ngIf="row?.isFileUploadRequired && (!row.fileUrl || !row.isApproved) && (row.canApproveReq || row.isAdmin)" (click)="viewAddendumForm(row)" [matTooltip]="translateToolTip('Generate_Addendum')"><i class="far fa-arrow-alt-circle-down"></i>&nbsp;</span>
+                      <span *ngIf="row?.isFileUploadRequired && (!row.fileUrl || !row.isApproved) && (row.canApproveReq || row.isAdmin)" (click)="uploadAdendum(row)" [matTooltip]="translateToolTip('Upload_File')"><i class=" fas fa-upload"></i>&nbsp;</span>-->
+
+                      <span *ngIf="row?.isFileUploadRequired  && (row.canApproveReq || row.isAdmin)" (click)="viewAddendumForm(row)" [matTooltip]="translateToolTip('Generate_Addendum')"><i class="far fa-arrow-alt-circle-down"></i>&nbsp;</span>
+                      <span *ngIf="row?.isFileUploadRequired  && (row.canApproveReq || row.isAdmin)" (click)="uploadAdendum(row)" [matTooltip]="translateToolTip('Upload_File')"><i class=" fas fa-upload"></i>&nbsp;</span>
+
+
+                      <span *ngIf="row?.isFileUploadRequired &&  row.fileUrl " (click)="viewAddendum(row)" [matTooltip]="translateToolTip('View_File')"><i class="fas fa-download"></i>&nbsp;</span>
+
+</ng-container>
+
+
+              
+
+
+
+
+
+
+
+
+
+
+                  <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
+                  <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+
+                </table>
+
+              </ng-container>
+
+            </div>
+
+          </div>
+          <ng-container>
+            <mat-paginator [length]="totalItemsCount"
+                           [pageSize]="pageService.pageCount"
+                           [pageSizeOptions]="pageService.selectItemsPerPage"
+                           (page)="onPageSwitch($event)">
+            </mat-paginator>
+
+          </ng-container>
+        </div>
+
+
+
+      </div>
+    </div>
+
+  </div>
+
+</div>

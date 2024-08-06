@@ -1,0 +1,41 @@
+<h3 class="modal-title">{{modalTitle | translate}} ({{serviceCode}})</h3>
+<button type="button" class="close" aria-hidden="true" (click)="closeModel()"> ×</button>
+<form [formGroup]="form" (ngSubmit)="submit()" novalidate class="mt-4">
+
+
+
+
+
+
+
+
+  <div class="row">
+    <div class="col-md-12 col-lg-12">
+
+      <label class="mr-sm-2">{{'Remarks' | translate}}</label>
+      <textarea class="form-control" placeholder="{{'Please_Select' | translate}} {{'Remarks' | translate}}" formControlName="appRemarks">
+      <validation-message [control]="form.controls.appRemarks"></validation-message>
+</textarea>
+    </div>
+  </div>
+  <div class="col-md-12 col-lg-12 text-center">
+    <!--<h5>{{'Do_You_Want_To_Approve?'|translate}}</h5>-->
+
+
+
+
+    <input type="button"
+           class="btn waves-effect waves-light btn-rounded btn-primary btn-midblock"
+           value="{{'Approve' | translate}}" (click)="postApproval('True')" /> &nbsp;
+    <input type="button"
+           class="btn waves-effect waves-light btn-rounded   btn-primary btn-midblock"
+           value="{{'Not_Approve' | translate}}" (click)="postApproval('False')" /> &nbsp;
+    <input type="button"
+           class="btn waves-effect waves-light btn-rounded   btn-secondary btn-midblock"
+           value="{{'Cancel' | translate}}" (click)="closeModel()" /> &nbsp;
+  </div>
+
+
+
+
+</form>

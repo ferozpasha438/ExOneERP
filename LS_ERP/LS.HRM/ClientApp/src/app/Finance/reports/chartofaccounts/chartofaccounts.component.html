@@ -1,0 +1,400 @@
+<style>
+  label.expansion {
+    font-size: 20px;
+    font-weight: bold;
+    color: #000000;
+  }
+
+  input.toggle_checkbox {
+    width: 0px;
+    height: 0px;
+  }
+</style>
+<div class="page-breadcrumb">
+  <div class="row">
+    <div class="col-12 align-self-center">
+      <h3 class="page-title text-truncate text-dark font-weight-medium mb-1">
+        {{'View_Journal_Voucher' | translate}}
+      </h3>
+      <div class="d-flex align-items-center">
+        <nav aria-label="breadcrumb">
+          <ol class="breadcrumb m-0 p-0">
+            <li class="breadcrumb-item text-muted">{{'Financial_Transaction' | translate}}</li>
+            <li class="breadcrumb-item text-muted ">{{'General_Ledger' | translate}}</li>
+            <li class="breadcrumb-item   active" aria-current="page">{{'View_Journal_Voucher' | translate}}</li>
+
+          </ol>
+        </nav>
+      </div>
+    </div>
+
+  </div>
+</div>
+<!-- ============================================================== -->
+<!-- End Bread crumb and right sidebar toggle -->
+<!-- ============================================================== -->
+<!-- ============================================================== -->
+<!-- Container fluid  -->
+<!-- ============================================================== -->
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-md-12 col-lg-12">
+      <div class="card">
+        <div class="card-body">
+
+          <div class="row">
+            <div class="col-md-4 col-lg-4 borderright" style="max-height: 600px; overflow-y: auto;">
+              <h4 class="page-title text-truncate text-dark font-weight-medium mb-4">
+                {{'Category_View_and_Branch_View' | translate}}
+              </h4>
+
+              <button (click)="changeCategoryView()" class="btn btn-primary p-1">{{'Change_View' | translate}}</button>
+              <br />
+              <br />
+              <input [(ngModel)]="accountSearch" (input)="accountSearchChage()" class="form-control p-3" placeholder=" {{'Search' | translate}}" />
+              <br />
+
+              <spinner-loader [isLoading]="isLoading1"></spinner-loader>
+              <ng-container *ngIf="!isCategory">
+                <ul id="tree2" *ngFor="let cg of listOfCategories" class="treeupper">
+                  <li>
+                    <p class="bfinAcCode" data-content="{{cg.name}}"><input type="checkbox" (change)="categoryCheck($event, cg.name)" id="{{cg.name+'_expan'}}" class="toggle_checkbox" /> &nbsp;&nbsp; <label for="{{cg.name+'_expan'}}" class="expansion {{cg.name+'_expan'}}">⇩</label> &nbsp;&nbsp;<b class="text-info cu-pointer"> {{cg.name}} </b></p>
+                      <ng-container *ngIf="cg.list && cg.list.length > 0">
+                        <ul *ngFor="let scg of cg.list" class="{{'treesub ' + cg.name}}">
+                          <li>
+                            <p class="bfinAcCode" data-content="{{scg.finCatCode}}"><input type="checkbox" (change)="subCategoryCheck($event, scg.finCatCode)" id="{{scg.finCatCode+'_expan'}}" class="toggle_checkbox" />&nbsp;&nbsp; <label for="{{scg.finCatCode+'_expan'}}" class="expansion {{scg.finCatCode+'_expan'}}">⇩</label>&nbsp;&nbsp;<b class="text-info cu-pointer"> {{scg.finCatName}} </b></p>
+                            <ng-container *ngIf="scg.list && scg.list.length > 0">
+                              <ul *ngFor="let acCode of scg.list" class="{{'treesubsub ' + scg.finCatCode}}">
+                                <li>
+                                  <p class="bfinAcCode" data-content="{{acCode.finSubCatCode}}"><input type="checkbox" (change)="itemCategoryCheck($event, acCode.finSubCatCode)" id="{{acCode.finSubCatCode+'_expan'}}" class="toggle_checkbox" />&nbsp;&nbsp;<label for="{{acCode.finSubCatCode+'_expan'}}" class="expansion {{acCode.finSubCatCode+'_expan'}}">⇩</label>&nbsp;&nbsp;<b class="text-info cu-pointer"> {{acCode.finSubCatName}} </b></p>
+                                  <ng-container *ngIf="acCode.list && acCode.list.length > 0">
+                                    <ul *ngFor="let code of acCode.list" class="{{'treesubsubsub ' + acCode.finSubCatCode}}">
+                                      <li>
+                                        <span class="text-info cu-pointer bfinAcCode" data-content="{{code.finAcCode + ' ' + code.finAcName}}" (click)="loadLedger(code.finAcCode, '', code.finAcName)">({{code.finAcCode}}) {{code.finAcName}}</span>
+                                      </li>
+                                    </ul>
+                                  </ng-container>
+                                </li>
+                              </ul>
+                            </ng-container>
+                          </li>
+                        </ul>
+                      </ng-container>
+                  </li>
+                </ul>
+              </ng-container>
+
+
+              <ng-container *ngIf=" isCategory && listOfBranchLedgers.length > 0">
+                <ul *ngFor="let branch of listOfBranchLedgers" class="treesubsubsub">
+                  <li>
+                    <p class="bfinAcCode" data-content="{{branch.branchName}}"><input type="checkbox" (change)="categoryCheck($event, branch.branchName)" />&nbsp;&nbsp;<b class="text-info cu-pointer"><span class="expansion {{branch.branchName+'_expan'}}">-</span> {{branch.branchName}} </b></p>
+                      <ng-container *ngIf="branch.list && branch.list.length > 0">
+                        <ul *ngFor="let code of branch.list" class="{{'treesubsubsub ' + branch.branchName}}">
+                          <li>
+                            <b class="text-info cu-pointer bfinAcCode" data-content="{{code.textTwo}}" (click)="loadLedger(code.text, code.value, code.finAcName)">{{code.textTwo}} <!--{{code.finAcName}}--></b>
+                          </li>
+                        </ul>
+                      </ng-container>
+                  </li>
+                </ul>
+              </ng-container>
+
+            </div>
+            <div class="col-md-8 col-lg-8">
+
+              <div class="row" *ngIf="hasAccountCode">
+
+                <div class="col-md-5 col-lg-5">
+                  <div class="form-group">
+                    <label>{{'Service' | translate}}</label>
+                    <!--<input class="form-control" [(ngModel)]="Seg1">-->
+
+                    <ng-select [items]="segmentSetupList"
+                               bindLabel="text" (change)="selectSeg1($event)" (clear)="resetSeg1()"
+                               bindValue="value" [(ngModel)]="Seg1">  </ng-select>
+
+
+
+                  </div>
+                </div>
+
+                <div class="col-md-5 col-lg-5">
+                  <div class="form-group">
+                    <label>{{'Branch' | translate}}</label>
+                    <!--<input class="form-control"  [(ngModel)]="Seg2">-->
+                    <ng-select [items]="segmentTwoSetupList"
+                               bindLabel="text" (change)="selectSeg2($event)" (clear)="resetSeg2()"
+                               bindValue="value" [(ngModel)]="Seg2">  </ng-select>
+                  </div>
+                </div>
+
+                <div class="col-md-5 col-lg-5">
+                  <div class="form-group">
+                    <label>{{'Batch' | translate}}</label>
+                    <!--<input class="form-control"  [(ngModel)]="Batch">-->
+                    <ng-select [items]="batchSetupList"
+                               bindLabel="text" (change)="selectBatch($event)" (clear)="resetBatch()"
+                               bindValue="value" [(ngModel)]="Batch">  </ng-select>
+                  </div>
+                </div>
+
+                <div class="col-md-5 col-lg-5">
+                  <div class="form-group">
+                    <label>{{'CostAllocation' | translate}}</label>
+                    <!--<input class="form-control"  [(ngModel)]="CostAllocation">-->
+
+                    <ng-select [items]="costAllocationList"
+                               bindLabel="text" (clear)="resetCostAllocation()"
+                               bindValue="value" [(ngModel)]="CostAllocation" (change)="loadSegCodedata($event)">  </ng-select>
+                  </div>
+                </div>
+                <div class="col-md-5 col-lg-5">
+                  <div class="form-group">
+                    <label>{{'CostSegCode' | translate}}</label>
+                    <ng-select [items]="costSegCodeList"
+                               bindLabel="textAr" (change)="selectCostSegCode($event)" (clear)="resetCostSegCode()"
+                               bindValue="textTwo" [(ngModel)]="CostSegCode">  </ng-select>
+                  </div>
+                </div>
+
+
+                <div class="col-md-4 col-lg-4">
+                  <div class="form-group">
+                    <label>{{'Date' | translate}}</label>
+                    <div class="form-group ">
+                      <div class="input-group mb-2">
+                        <input class="form-control datapickerinput" placeholder="{{'Select_a_Date' | translate}}" [(ngModel)]="dateFrom"
+                               [matDatepicker]="picker2">
+
+                        <div class="input-group-prepend datapickericon">
+                          <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
+                          <mat-datepicker #picker2></mat-datepicker><br /><br />
+                        </div>
+                      </div>
+                    </div>
+
+                  </div>
+                </div>
+                <div class="col-md-4 col-lg-4">
+                  <div class="form-group">
+                    <label>{{'Date' | translate}}</label>
+                    <div class="form-group ">
+                      <div class="input-group mb-2">
+                        <input class="form-control datapickerinput" placeholder="{{'Select_a_Date' | translate}}" [(ngModel)]="dateTo"
+                               [matDatepicker]="picker1">
+
+                        <div class="input-group-prepend datapickericon">
+                          <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
+                          <mat-datepicker #picker1></mat-datepicker><br /><br />
+                        </div>
+
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="col-md-4 col-lg-4">
+                  <div class="form-group">
+                    <br />
+                    <button type="button" class="btn btn-primary" (click)="search()">{{'Search' | translate}}</button> &nbsp;
+                    <a (click)="refresh()" class=""><i class="btn btn-primary icon-refresh"></i></a> &nbsp;
+                    <button (click)="printInvoice()" class="btn btn-primary"> {{'Print' | translate}}</button> &nbsp;
+                  </div>
+                </div>
+
+
+              </div>
+
+
+              <spinner-loader [isLoading]="isLoading"></spinner-loader>
+              <div class="table-responsive" id="printcontainer" *ngIf="listOfLedger">
+
+              <!--<h4 class="page-title text-truncate text-dark font-weight-medium mb-4">
+                {{'Cash_in_SAFE_AL_BARAkAH_NAHDA' | translate}}
+
+              </h4>-->
+
+
+
+                <!--<table id="zero_config" class="table  table-bordered no-wrap">-->
+
+                <table style="width:100%; padding-bottom:5px;" cellpadding="0" cellspacing="0" width="100%" class="ur_tablestyle" *ngIf="company">
+
+                  <tr>
+                    <td>
+                      <div class="font-weight-medium">
+                        {{company.companyName}}
+                        <br />
+                        {{company.branchName}}
+                        <br />
+                        {{company.companyAddress}}
+                        <br />
+                        {{'Tel_Phone' | translate }} :  {{company.phone}}
+                        <br />
+                      </div>
+
+                    </td>
+                  </tr>
+                  <tr>
+        <td style="text-align:center;">
+          <img src="{{company.logoURL}}" style="width:200px;height:150px;" />
+        </td>
+      </tr>
+                </table>
+
+                <table style="width:100%" border="0" cellpadding="0" cellspacing="0" width="100%">
+                  <!--<tr>
+        <td style="text-align: left;width:60%">
+          <h4 style="font-size: 1rem !important;color: #0c2f54; font-family: 'Poppins', sans-serif;font-weight: 500;line-height: 1.2;margin:0;padding-top:4px">
+            {{listOfLedger.companyName}}
+          </h4>
+          <h4 style="font-size: 1rem !important;color: #0c2f54; font-family: 'Poppins', sans-serif;font-weight: 500;line-height: 1.2;margin:0;padding-top:4px">
+            {{listOfLedger.address}}
+          </h4>
+
+        </td>
+        <td style=" text-align: right;vertical-align: middle;">
+          <img id="logo" style="width:120px" src="{{listOfLedger.logo}}" title="invoice" alt="invoice" />
+        </td>
+      </tr>-->
+
+                  <tr>
+                    <td colspan="2" style="text-align:center;">
+                      <h5>
+                        STATEMENT OF ACCOUNT - {{finAcNameHeader}}
+                      </h5>
+                    </td>
+                  </tr>
+
+                  <tr>
+                    <td>
+                      <table style="width:100%" border="0" cellpadding="0" cellspacing="0" width="100%">
+                        <tr *ngIf="Seg1Name">
+                          <td style="text-align: left;width:60%">
+                            <h4 style="font-size: 1rem !important;color: #0c2f54; font-family: 'Poppins', sans-serif;font-weight: 500;line-height: 1.2;margin:0;padding-top:4px">
+                              {{'Service' | translate}} : {{Seg1Name}}
+                            </h4>
+                          </td>
+                        </tr>
+                        <tr *ngIf="Seg2Name">
+                          <td style="text-align: left;width:60%">
+                            <h4 style="font-size: 1rem !important;color: #0c2f54; font-family: 'Poppins', sans-serif;font-weight: 500;line-height: 1.2;margin:0;padding-top:4px">
+                              {{'Branch' | translate}} : {{Seg2Name}}
+                            </h4>
+                          </td>
+                        </tr>
+                        <tr *ngIf="BatchName">
+                          <td style="text-align: left;width:60%">
+                            <h4 style="font-size: 1rem !important;color: #0c2f54; font-family: 'Poppins', sans-serif;font-weight: 500;line-height: 1.2;margin:0;padding-top:4px">
+                              {{'Batch' | translate}} : {{BatchName}}
+                            </h4>
+                          </td>
+                        </tr>
+                        <tr *ngIf="CostAllocationName">
+                          <td style="text-align: left;width:60%">
+                            <h4 style="font-size: 1rem !important;color: #0c2f54; font-family: 'Poppins', sans-serif;font-weight: 500;line-height: 1.2;margin:0;padding-top:4px">
+                              {{'CostAllocation' | translate}} : {{CostAllocationName}}
+                            </h4>
+                          </td>
+                        </tr>
+                        <tr *ngIf="CostSegCodeName">
+                          <td style="text-align: left;width:60%">
+                            <h4 style="font-size: 1rem !important;color: #0c2f54; font-family: 'Poppins', sans-serif;font-weight: 500;line-height: 1.2;margin:0;padding-top:4px">
+                              {{'CostSegCode' | translate}} : {{CostSegCodeName}}
+                            </h4>
+                          </td>
+                        </tr>
+                      </table>
+                    </td>
+                    <td>
+                      <table style="width:100%" border="0" cellpadding="0" cellspacing="0" width="100%">
+                        <tr *ngIf="dateFrom">
+                          <td style="text-align: left;width:60%">
+                            <h4 style="font-size: 1rem !important;color: #0c2f54; font-family: 'Poppins', sans-serif;font-weight: 500;line-height: 1.2;margin:0;padding-top:4px">
+                              {{'dateFrom' | translate}} : {{dateFrom | date:'dd-MM-yyyy'}}
+                            </h4>
+                          </td>
+                        </tr>
+                        <tr *ngIf="dateTo">
+                          <td style="text-align: left;width:60%">
+                            <h4 style="font-size: 1rem !important;color: #0c2f54; font-family: 'Poppins', sans-serif;font-weight: 500;line-height: 1.2;margin:0;padding-top:4px">
+                              {{'dateTo' | translate}} : {{dateTo | date:'dd-MM-yyyy'}}
+                            </h4>
+                          </td>
+                        </tr>
+                      </table>
+                    </td>
+                  </tr>
+
+
+
+                </table>
+                <br />
+                <br />
+                <table id="zero_config" style="width:100%" border="1" cellpadding="0" cellspacing="0" width="100%" class="table  table-bordered no-wrap">
+                  <thead>
+                    <tr>
+                      <!--<th>{{'Jvnum' | translate}}</th>-->
+                      <th>{{'Trans_Date' | translate}}</th>
+                      <th>{{'Type' | translate}}</th>
+                      <th>{{'Post_Date' | translate}}</th>
+                      <!--<th>{{'Ac_Code' | translate}}</th>-->
+                      <th>{{'Remarks' | translate}}</th>
+                      <th>{{'Dr_Amount' | translate}}</th>
+                      <th>{{'Cr_Amount' | translate}}</th>
+                      <th>{{'Balance' | translate}}</th>
+                      <!--<th>{{'Narration' | translate}}</th>-->
+
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr *ngFor="let item of listOfLedger.list">
+                      <!--<td>{{item.jvnum}}</td>-->
+                      <!--<td> {{item.isOpening ? '< ' : ' '}} {{item.transDate  | date:'MM-dd-yyyy'}}</td>-->
+                      <td>
+                        <span *ngIf="!item.isOpening">
+                          {{item.transDate  | date:'MM-dd-yyyy'}}
+                        </span>
+                      </td>
+                      <td>{{item.source}}</td>
+                      <td>{{item.postDate | date:'MM-dd-yyyy'}}</td>
+                      <!--<td>{{item.finAcCode}}</td>-->
+                    <td class="text-right">
+
+                      <span *ngIf="!item.isOpening">
+                        {{item.remarks}}
+                      </span>
+                      <span *ngIf="item.isOpening">
+                        {{'Opening_Balance'  | translate}}:
+                      </span>
+                    </td>
+                      <td>{{item.drAmount | decimalpipe}}</td>
+                      <td>{{item.crAmount | decimalpipe}}</td>
+                      <td>{{item.balance | decimalpipe}}</td>
+                      <!--<td>{{item.narration}}</td>-->
+                    </tr>
+                    <tr>
+                      <td colspan="4" class="text-right">
+                        <span>{{'Balance' | translate}} : </span>
+                      </td>
+                      <td>{{totalDrAmount}}</td>
+                      <td>{{totalCrAmount}}</td>
+                      <td>{{totalBalance}}</td>
+                      <!--<td colspan="2"></td>-->
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+
+
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+  </div>
+
+</div>

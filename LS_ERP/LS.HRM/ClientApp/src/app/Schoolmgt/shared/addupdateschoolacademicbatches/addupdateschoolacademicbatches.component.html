@@ -1,0 +1,53 @@
+<h3 class="modal-title">{{'School_Academic_Management' | translate}}</h3>
+<button type="button" class="close" aria-hidden="true" (click)="closeModel()"> ×</button>
+<form [formGroup]="form" (ngSubmit)="submit()" novalidate class="mt-4">
+    <div class="outer ">
+        <div class="row rowm0 ">
+            <div class="col-md-12 col-lg-12">
+                <div class="form-group">
+                    <label>{{'Academic_Year' | translate}}</label>
+                    <input class="form-control" type="number" placeholder="{{'Academic_Year' | translate}}"
+                        formControlName="academicYear" />
+                    <validation-message [control]="form.controls.academicYear"></validation-message>
+                </div>
+            </div>
+            <div class="col-md-6 col-lg-6">
+                <div class="form-group">
+                    <label>{{'Starting_Date' | translate}}</label>
+                    <div class="form-group ">
+                        <div class="input-group ">
+                            <input class="form-control datapickerinput" placeholder="{{'Starting_Date' | translate}}"
+                                formControlName="academicStartDate" [matDatepicker]="picker1">
+                            <div class="input-group-prepend datapickericon">
+                                <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
+                                <mat-datepicker #picker1></mat-datepicker><br /><br />
+                            </div>
+                        </div>
+                        <validation-message [control]="form.controls.academicStartDate"></validation-message>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6 col-lg-6">
+                <label>{{'Ending_Date' | translate}}</label>
+                <div class="form-group ">
+                    <div class="input-group mb-2">
+                        <input class="form-control datapickerinput" placeholder="{{'Ending_Date' | translate}}"
+                            formControlName="academicEndDate" [matDatepicker]="picker2">
+                        <div class="input-group-prepend datapickericon">
+                            <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
+                            <mat-datepicker #picker2></mat-datepicker><br /><br />
+                        </div>
+                    </div>
+                    <validation-message [control]="form.controls.academicEndDate"></validation-message>
+                </div>
+            </div>
+        </div>
+        <div class="row customrow mt-4">
+            <div class="col-lg-12 col-md-12 text-center">
+                <input type="button" class="btn btn-secondary" value="{{'Cancel' | translate}}" (click)="closeModel()" />
+                &nbsp;&nbsp;
+                <input type="submit" class="btn waves-effect waves-light   btn-primary" value="{{'Save' | translate}}">
+            </div>
+        </div>
+    </div>
+</form>

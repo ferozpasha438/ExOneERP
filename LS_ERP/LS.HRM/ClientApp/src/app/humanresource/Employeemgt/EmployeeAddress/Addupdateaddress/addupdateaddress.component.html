@@ -1,0 +1,116 @@
+<br />
+<button type="button" class="close" aria-hidden="true" (click)="closeModel()"> ×</button>
+<br />
+<h2>{{'AddressInfo' | translate}}</h2>
+<hr />
+<div class="col-md-12 col-lg-12">
+  <form [formGroup]="form" (ngSubmit)="submit()" novalidate class="mt-4">
+    <div class="row">
+      <div class="col-md-6 col-lg-6">
+        <div class="form-group">
+          <label for="employeenumber">{{'EmployeeNumber' | translate}}</label>
+          <input class="form-control" id="employeenumber" type="text"
+            placeholder="{{'Please_Enter' | translate}} {{'EmployeeNumber' | translate}}" readonly="readonly"
+            formControlName="employeenumber">
+        </div>
+      </div>
+      <div class="col-md-6 col-lg-6">
+        <label for="cityCode" class="mr-sm-2">{{'City' | translate}}</label>
+        <select class="custom-select input-mandatory mr-sm-2" formControlName="cityCode">
+          <option value="">{{'City' | translate}}</option>
+          <option *ngFor="let city of cities" value="{{city.value}}">{{city.text}}</option>
+        </select>
+        <validation-message [control]="form.controls.cityCode"></validation-message>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-6 col-lg-6">
+        <label for="addressTypeCode" class="mr-sm-2">{{'AddressType' | translate}}</label>
+        <select class="custom-select input-mandatory mr-sm-2" formControlName="addressTypeCode">
+          <option value="">{{'Address Type' | translate}}</option>
+          <option *ngFor="let addressType of addressTypes" value="{{addressType.value}}">{{addressType.text}}</option>
+        </select>
+        <validation-message [control]="form.controls.addressTypeCode"></validation-message>
+      </div>
+      <div class="col-md-6 col-lg-6">
+        <div class="form-group">
+          <label for="postCode">{{'PostCode' | translate}}</label>
+          <input class="form-control" type="text" formControlName="postCode"
+            placeholder="{{'Please_Enter' | translate}} {{'Post Code' | translate}}">
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-6 col-lg-6">
+        <div class="form-group">
+          <label for="countryCode" class="mr-sm-2">{{'Nationality' | translate}}</label>
+          <select class="custom-select input-mandatory mr-sm-2" #countryCode formControlName="countryCode"
+            (change)="loadStates(countryCode.value)">
+            <option value="">{{'Country' | translate}}</option>
+            <option *ngFor="let country of countries" value="{{country.value}}">{{country.text}}</option>
+          </select>
+          <validation-message [control]="form.controls.countryCode"></validation-message>
+        </div>
+      </div>
+      <div class="col-md-6 col-lg-6">
+        <div class="form-group">
+          <label for="buildingNumber">{{'BuildingNumber' | translate}}</label>
+          <input class="form-control" type="text" formControlName="buildingNumber"
+            placeholder="{{'Please_Enter' | translate}} {{'BuildingNumber' | translate}}">
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-6 col-lg-6">
+        <div class="form-group">
+          <label for="zoneCode" class="mr-sm-2">{{'Region' | translate}}</label>
+          <select class="custom-select input-mandatory mr-sm-2" formControlName="zoneCode">
+            <option value="">{{'Region' | translate}}</option>
+            <option *ngFor="let zone of zones" value="{{zone.value}}">{{zone.text}}</option>
+          </select>
+          <validation-message [control]="form.controls.zoneCode"></validation-message>
+        </div>
+      </div>
+      <div class="col-md-6 col-lg-6">
+        <div class="form-group">
+          <label for="additionalNumber">{{'AdditionalNumber' | translate}}</label>
+          <input class="form-control" formControlName="additionalNumber" type="text"
+            placeholder="{{'Please_Enter' | translate}} {{'AdditionalNumber' | translate}}">
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-6 col-lg-6">
+        <label for="stateCode" class="mr-sm-2">{{'State' | translate}}</label>
+        <select class="custom-select input-mandatory mr-sm-2" #stateCode formControlName="stateCode"
+          (change)="loadCities(stateCode.value)">
+          <option value="">{{'State' | translate}}</option>
+          <option *ngFor="let state of states" value="{{state.value}}">{{state.text}}</option>
+        </select>
+        <validation-message [control]="form.controls.stateCode"></validation-message>
+      </div>
+      <div class="col-md-6 col-lg-6">
+        <div class="form-group">
+          <label for="unitNumber">{{'UnitNumber' | translate}}</label>
+          <input class="form-control" formControlName="unitNumber" type="text"
+            placeholder="{{'Please_Enter' | translate}} {{'UnitNumber' | translate}}">
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-6 col-lg-6">
+        <label for="isActive" class="mr-sm-2">{{'Is_Active' | translate}}</label>
+        <br />
+        <mat-slide-toggle color="primary" formControlName="isActive"></mat-slide-toggle>
+      </div>
+    </div>
+    <div class="row mt-3">
+      <div class="col-md-12 col-lg-12 text-center">
+        <input type="button" class="btn waves-effect waves-light btn-rounded   btn-secondary btn-midblock"
+          value="{{'Cancel' | translate}}" (click)="closeModel()" /> &nbsp;
+        <input type="submit" class="btn waves-effect waves-light btn-rounded btn-primary btn-midblock"
+          value="{{'Save' | translate}}" />
+      </div>
+    </div>
+  </form>
+</div>

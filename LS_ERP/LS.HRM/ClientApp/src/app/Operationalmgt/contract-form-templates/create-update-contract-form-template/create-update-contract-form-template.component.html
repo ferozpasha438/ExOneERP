@@ -1,0 +1,344 @@
+<h3 class="modal-title">{{modalTitle | translate}}</h3>
+<button type="button" class="close" aria-hidden="true" (click)="closeModel()"> ×</button>
+<form [formGroup]="form" (ngSubmit)="saveContractFormTemplate()" #myform="ngForm">
+
+
+  <div class="scroll-sidebar">
+    <div class="outer">
+      <div class="col-md-12 col-lg-12" style="text-align:right;padding-block:10px">
+        <div>
+          <input type="button"
+                 class="btn waves-effect waves-light btn-rounded   btn-primary"
+                 value="{{'Create_New_Clause' | translate}}" (click)="createNewClause()" />
+        </div>
+      </div>
+        <div class="col-md-12 col-lg-12">
+          <table style="width: initial; padding: 10px" border="1" cellpadding="0" cellspacing="0">
+            <tr>
+              <th style="width:6%;padding:10px">
+                {{'Title_Of_Service' | translate}}
+              </th>
+
+              <td style="width:45%;padding:10px;vertical-align:top">
+                <span *ngIf="editHeadItemNumber!=1">
+                  {{contractTemplateData?.templateHead?.titleOfServiceEng}}
+                </span>
+                <span *ngIf="editHeadItemNumber==1">
+                  <input type="text" class="form-control" [(ngModel)]="contractTemplateData.templateHead.titleOfServiceEng" placeholder="{{'Please_Enter' | translate}} {{'Title_Of_Service' | translate}}" [ngModelOptions]="{standalone: true}" style="height:max-content">
+                </span>
+
+              </td>
+              <td style="width:45%;padding:10px;vertical-align:top">
+                <span *ngIf="editHeadItemNumber!=1">
+                  {{contractTemplateData?.templateHead?.titleOfServiceArb}}
+                </span>
+                <span *ngIf="editHeadItemNumber==1">
+                  <input type="text" class="form-control" [(ngModel)]="contractTemplateData.templateHead.titleOfServiceArb" placeholder="{{'Please_Enter' | translate}} {{'Title_Of_Service' | translate}}" [ngModelOptions]="{standalone: true}" style="height:max-content">
+                </span>
+
+              </td>
+
+
+              <td style="width:4%;padding:10px">
+                <span (click)="editHeadItem(1)" [matTooltip]="translateToolTip('Edit')"><i class="fas fa-edit"></i>&nbsp;</span>
+              </td>
+
+            </tr>
+            <tr>
+              <th style="width:6%;padding:10px">
+
+                {{'Company_Details' | translate}}
+              </th>
+              <td style="width:45%;padding:10px;vertical-align:top">
+                <span *ngIf="editHeadItemNumber!=2">
+                  {{contractTemplateData?.templateHead?.companyDetailsEng}}
+                </span>
+                <span *ngIf="editHeadItemNumber==2">
+                  <textarea class="form-control" [(ngModel)]="contractTemplateData.templateHead.companyDetailsEng" placeholder="{{'Please_Enter' | translate}} {{'Compnay_Details' | translate}}" [ngModelOptions]="{standalone: true}" style="height:max-content;max-height:stretch"></textarea>
+                </span>
+              </td>
+              <td style="width:45%;padding:10px;vertical-align:top">
+                <span *ngIf="editHeadItemNumber!=2">
+                  {{contractTemplateData?.templateHead?.companyDetailsArb}}
+                </span>
+                <span *ngIf="editHeadItemNumber==2">
+                  <textarea class="form-control" [(ngModel)]="contractTemplateData.templateHead.companyDetailsArb" placeholder="{{'Please_Enter' | translate}} {{'Compnay_Details' | translate}}" [ngModelOptions]="{standalone: true}" style="height:max-content"></textarea>
+                </span>
+              </td>
+              <td style="width:4%;padding:10px">
+                <span (click)="editHeadItem(2)" [matTooltip]="translateToolTip('Edit')"><i class="fas fa-edit"></i>&nbsp;</span>
+
+              </td>
+
+            </tr>
+            <tr>
+              <th style="width:6%;padding:10px">
+                {{'Customer_Details' | translate}}
+              </th>
+              <td style="width:45%;padding:10px;vertical-align:top">
+                <span *ngIf="editHeadItemNumber!=3">
+                  {{contractTemplateData?.templateHead?.customerDetailsEng}}
+                </span>
+                <span *ngIf="editHeadItemNumber==3">
+                  <textarea class="form-control" [(ngModel)]="contractTemplateData.templateHead.customerDetailsEng" placeholder="{{'Please_Enter' | translate}} {{'Customer_Details' | translate}}" [ngModelOptions]="{standalone: true}" style="height:max-content"></textarea>
+
+                </span>
+              </td>
+              <td style="width:45%;padding:10px;vertical-align:top">
+                <span *ngIf="editHeadItemNumber!=3">
+                  {{contractTemplateData?.templateHead?.customerDetailsArb}}
+                </span>
+                <span *ngIf="editHeadItemNumber==3">
+                  <textarea class="form-control" [(ngModel)]="contractTemplateData.templateHead.customerDetailsArb" placeholder="{{'Please_Enter' | translate}} {{'Customer_Details' | translate}}" [ngModelOptions]="{standalone: true}" style="height:max-content"></textarea>
+
+                </span>
+              </td>
+              <td style="width:4%;padding:10px">
+                <span (click)="editHeadItem(3)" [matTooltip]="translateToolTip('Edit')"><i class="fas fa-edit"></i>&nbsp;</span>
+              </td>
+
+            </tr>
+            <tr>
+
+              <th style="width:6%;padding:10px">
+                {{'Preamble' | translate}}
+              </th>
+
+              <td style="width:45%;padding:10px;vertical-align:top">
+                <span *ngIf="editHeadItemNumber!=4">
+                  {{contractTemplateData?.templateHead?.preambleEng}}
+                </span>
+                <span *ngIf="editHeadItemNumber==4">
+                  <textarea class="form-control" [(ngModel)]="contractTemplateData.templateHead.preambleEng" placeholder="{{'Please_Enter' | translate}} {{'Preamble' | translate}}" [ngModelOptions]="{standalone: true}" style="height:max-content"></textarea>
+
+                </span>
+              </td>
+              <td style="width:45%;padding:10px;vertical-align:top">
+                <span *ngIf="editHeadItemNumber!=4">
+                  {{contractTemplateData?.templateHead?.preambleArb}}
+                </span>
+                <span *ngIf="editHeadItemNumber==4">
+                  <textarea class="form-control" [(ngModel)]="contractTemplateData.templateHead.preambleArb" placeholder="{{'Please_Enter' | translate}} {{'Preamble' | translate}}" [ngModelOptions]="{standalone: true}" style="height:max-content"></textarea>
+
+                </span>
+              </td>
+              <td style="width:4%;padding:10px">
+                <span (click)="editHeadItem(4)" [matTooltip]="translateToolTip('Edit')"><i class="fas fa-edit"></i>&nbsp;</span>
+              </td>
+
+            </tr>
+            <tr>
+              <th style="width:6%;padding:10px">
+                {{'First_Party' | translate}}
+              </th>
+              <td style="width:45%;padding:10px;vertical-align:top">
+                <span *ngIf="editHeadItemNumber!=5">
+                  {{contractTemplateData?.templateHead?.firstPartyEng}}
+                </span>
+                <span *ngIf="editHeadItemNumber==5">
+                  <textarea class="form-control" [(ngModel)]="contractTemplateData.templateHead.firstPartyEng" placeholder="{{'Please_Enter' | translate}} {{'First_Party' | translate}}" [ngModelOptions]="{standalone: true}" style="height:max-content"></textarea>
+                </span>
+              </td>
+              <td style="width:45%;padding:10px;vertical-align:top">
+                <span *ngIf="editHeadItemNumber!=5">
+                  {{contractTemplateData?.templateHead?.firstPartyArb}}
+                </span>
+                <span *ngIf="editHeadItemNumber==5">
+                  <textarea class="form-control" [(ngModel)]="contractTemplateData.templateHead.firstPartyArb" placeholder="{{'Please_Enter' | translate}} {{'First_Party' | translate}}" [ngModelOptions]="{standalone: true}" style="height:max-content"></textarea>
+                </span>
+              </td>
+              <td style="width:4%;padding:10px">
+                <span (click)="editHeadItem(5)" [matTooltip]="translateToolTip('Edit')"><i class="fas fa-edit"></i>&nbsp;</span>
+              </td>
+
+            </tr>
+            <tr>
+              <th style="width:6%;padding:10px">
+                {{'Second_Party' | translate}}
+              </th>
+              <td style="width:45%;padding:10px;vertical-align:top">
+                <span *ngIf="editHeadItemNumber!=6">
+                  {{contractTemplateData?.templateHead?.secondPartyEng}}
+                </span>
+                <span *ngIf="editHeadItemNumber==6">
+                  <textarea class="form-control" [(ngModel)]="contractTemplateData.templateHead.secondPartyEng" placeholder="{{'Please_Enter' | translate}} {{'Second_Party' | translate}}" [ngModelOptions]="{standalone: true}" style="height:max-content"></textarea>
+
+                </span>
+              </td>
+              <td style="width:45%;padding:10px;vertical-align:top">
+                <span *ngIf="editHeadItemNumber!=6">
+                  {{contractTemplateData?.templateHead?.secondPartyArb}}
+                </span>
+                <span *ngIf="editHeadItemNumber==6">
+                  <textarea class="form-control" [(ngModel)]="contractTemplateData.templateHead.secondPartyArb" placeholder="{{'Please_Enter' | translate}} {{'Second_Party' | translate}}" [ngModelOptions]="{standalone: true}" style="height:max-content"></textarea>
+
+                </span>
+              </td>
+              <td style="width:4%;padding:10px">
+                <span (click)="editHeadItem(6)" [matTooltip]="translateToolTip('Edit')"><i class="fas fa-edit"></i>&nbsp;</span>
+              </td>
+
+            </tr>
+
+
+          </table>
+        </div>
+      </div>
+
+
+      <div style="text-align:center;padding:10px">
+        <br />
+        <b>{{'Contract_Clauses'|translate}}</b>
+        <br />
+      </div>
+
+
+
+      <div class="outer" *ngIf="contractTemplateData?.clauses?.length>0">
+        <div class="col-md-12 col-lg-12">
+          <table style="padding: 10px" border="1" cellpadding="0" cellspacing="0">
+            <tr>
+              <th style="width: 10%; padding: 10px">
+                {{'Title' | translate}}
+              </th>
+              <th style="width: 20%; padding: 10px">
+                {{'Sub_Title' | translate}}
+              </th>
+              <th style="padding: 10px">
+                {{'Description' | translate}}
+              </th>
+
+              <th style="padding: 10px; width:auto">
+                {{'Action'|translate}}
+              </th>
+            </tr>
+            <ng-container *ngFor="let clause of contractTemplateData?.clauses;let i=index" style="background-color:#ffd800">
+
+              <tr id={{getRowBackGroud(i)}}>
+                <td style="width: 10%; text-align: left; padding: 10px;vertical-align: top">
+                  <span *ngIf="clausesTitleSelectionList?.length>0 && editClauseIndex==i" style="height:auto;width:initial">
+                    <ng-select [items]="clausesTitleSelectionList" id="clauseSelection"
+                               bindLabel="clauseTitleEng"
+                               bindValue="id" [(ngModel)]="editingClauseId" (change)="afterSelectClause()" [ngModelOptions]="{standalone: true}">  </ng-select>
+                  </span>
+
+                  <span *ngIf="editClauseIndex!=i">
+                    {{clause?.clauseTitleEng}}
+                  </span>
+
+
+
+                </td>
+                <td style="width: 20%; text-align: left; padding: 10px;vertical-align: top">
+                  <span *ngIf="clausesSubTitleSelectionList?.length>0 && editClauseIndex==i">
+                    <ng-select [items]="clausesSubTitleSelectionList" style="height:auto"
+                               bindLabel="clauseSubTitleEng"
+                               bindValue="id" [(ngModel)]="editingClauseId" (change)="afterSelectClause()" [ngModelOptions]="{standalone: true}">  </ng-select>
+                  </span>
+                  <span *ngIf="editClauseIndex!=i">
+                    {{clause?.clauseSubTitleEng}}
+                  </span>
+
+
+                </td>
+                <td style="text-align: justify; padding: 10px; white-space: pre-wrap; vertical-align: top">
+                  <span *ngIf="clausesDescriptionSelectionList?.length>0 && editClauseIndex==i">
+                    <ng-select [items]="clausesDescriptionSelectionList" style="height:auto"
+                               bindLabel="clauseDescriptionEng"
+                               bindValue="id" [(ngModel)]="editingClauseId" (change)="afterSelectClause()" [ngModelOptions]="{standalone: true}">  </ng-select>
+                  </span>
+                  <span *ngIf="editClauseIndex!=i">
+                    {{clause?.clauseDescriptionEng}}
+                  </span>
+
+                </td>
+                <td rowspan="2" style="padding: 10px;vertical-align: central; width:7%">
+
+                  <span *ngIf="editClauseIndex==-1" (click)="editClause(i)" [matTooltip]="translateToolTip('Edit')"><i class="fas fa-edit"></i>&nbsp;</span>
+                  <!--<span *ngIf="editClauseIndex==i" (click)="editClause(i)" [matTooltip]="translateToolTip('Update')"><i class="fas fa-save"></i>&nbsp;</span>-->
+                  <span *ngIf="i>0 && editClauseIndex==-1&& editClauseIndex==-1" (click)="moveUpClause(i)" [matTooltip]="translateToolTip('Move_Up')"><i class="fas fa-arrow-up"></i>&nbsp;</span>
+                  <span *ngIf="i < contractTemplateData?.clauses?.length-1 && editClauseIndex==-1" (click)="moveDownClause(i)" [matTooltip]="translateToolTip('Move_Down')"><i class="fas fa-arrow-down"></i>&nbsp;</span>
+                  <span *ngIf="editClauseIndex==-1" (click)="insertNewClause(i)" [matTooltip]="translateToolTip('Insert_New')"><i class="fas fa-plus-circle"></i>&nbsp;</span>
+                  <span *ngIf="editClauseIndex==-1||editClauseIndex==i" (click)="removeClause(i)" [matTooltip]="translateToolTip('Remove')"><i class="fas fa-minus-circle"></i>&nbsp;</span>
+                  <span *ngIf="editClauseIndex==i" (click)="cancel()" [matTooltip]="translateToolTip('Cancel')"><i class="fas fa fa-stop-circle"></i>&nbsp;</span>
+
+                </td>
+              </tr>
+
+              <tr id={{getRowBackGroud(i)}}>
+                <td style="width: 10%; text-align: left; padding: 10px;vertical-align: top">
+
+
+                  <span *ngIf="editClauseIndex!=i">
+                    {{clause?.clauseTitleArb}}
+                  </span>
+
+
+
+                </td>
+                <td style="width: 20%; text-align: left; padding: 10px;vertical-align: top">
+
+                  <span *ngIf="editClauseIndex!=i">
+                    {{clause?.clauseSubTitleArb}}
+                  </span>
+
+
+                </td>
+                <td style="text-align: justify; padding: 10px; white-space: pre-wrap; vertical-align: top">
+
+                  <span *ngIf="editClauseIndex!=i">
+                    {{clause?.clauseDescriptionArb}}
+                  </span>
+
+                </td>
+
+              </tr>
+
+
+            </ng-container>
+
+          </table>
+
+        </div>
+      </div>
+      <div class="row mt-1" style="text-align:center">
+
+        <div class="col-md-3 col-lg-3"><input type="checkbox" [(ngModel)]="contractTemplateData.templateHead.isForProject" [ngModelOptions]="{standalone: true}" />{{'Is_For_Project_Contract'|translate}}  </div>
+        <div class="col-md-3 col-lg-3"><input type="checkbox" [(ngModel)]="contractTemplateData.templateHead.isForAddingSite" [ngModelOptions]="{standalone: true}" />{{'Is_For_Adding_Site_As_Addendum'|translate}} </div>
+        <div class="col-md-3 col-lg-3"><input type="checkbox" [(ngModel)]="contractTemplateData.templateHead.isForAddingResources" [ngModelOptions]="{standalone: true}" />{{'Is_For_Adding_Resources'|translate}}</div>
+        <div class="col-md-3 col-lg-3"><input type="checkbox" [(ngModel)]="contractTemplateData.templateHead.isForRemovingResources" [ngModelOptions]="{standalone: true}" />{{'Is_For_Removing_Resources'|translate}}</div>
+
+      </div>
+
+      <div class="row mt-3 ">
+        <div class="col-md-12 col-lg-12 text-center">
+          <input type="button"
+                 class="btn waves-effect waves-light btn-rounded   btn-secondary btn-midblock"
+                 value="{{'Cancel' | translate}}" (click)="closeModel()" /> &nbsp;
+          <input type="submit"
+                 class="btn waves-effect waves-light btn-rounded btn-primary btn-midblock"
+                 value="{{'Save' | translate}}" />
+        </div>
+      </div>
+    </div>
+
+
+</form>
+
+
+
+<style>
+  #newRow {
+    background-color: palegreen;
+   
+  }
+  #whiteBg {
+    background-color: white;
+    
+  }
+  #editRow {
+    background-color: #fbc591;
+   
+  }
+
+</style>

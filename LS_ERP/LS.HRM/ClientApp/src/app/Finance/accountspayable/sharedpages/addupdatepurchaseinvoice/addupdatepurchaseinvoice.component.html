@@ -1,0 +1,368 @@
+<h3> {{'Create_New_Purchase_Invoice' | translate}} <button type="button" class="close" aria-hidden="true" (click)="closeModel()"> ×</button></h3>
+<form [formGroup]="form" (ngSubmit)="submit()" novalidate class="mt-4">
+  <div class="row rowm0 ">
+
+    <div class="col-md-12 col-lg-12">
+      <div class="row mt-3">
+        <div class="col-md-12 col-lg-12">
+          <div class="p-3" style="border:1px solid #f4f4f4;">
+            <div class="row  mt-2">
+
+              <div class="col-md-4 col-lg-4">
+                <label class="mr-sm-2">{{'Invoice_Type' | translate}}</label>
+                <div class="form-group ">
+                  <select class="custom-select mr-sm-2" formControlName="invoiceStatusId">
+                    <option value="1">{{'Invoice' | translate}}</option>
+                    <option value="2">{{'Credit' | translate}}</option>
+                  </select>
+                </div>
+              </div>
+
+              <div class="col-md-4 col-lg-4">
+
+                <div class="form-group ">
+                  <label class="mr-sm-2">{{'Vendor' | translate}}</label>
+
+                  <ng-select [items]="customerList"
+                             bindLabel="text"
+                             bindValue="value" formControlName="customerId" (change)="customerChange($event)">
+
+                  </ng-select>
+                  <validation-message [control]="form.controls.customerId"></validation-message>
+                  <!--[(ngModel)]="selectedCar" [ngModelOptions]="{standalone: true}"-->
+                  <!--<select class="custom-select mr-sm-2" formControlName="">
+        <option value="">{{'Customer' | translate}}</option>
+        <option *ngFor="let item of customerList" value="{{item.value}}">{{item.text}}</option>
+      </select>-->
+
+                </div>
+
+              </div>
+              <!--<div class="col-md-4 col-lg-4">
+
+    <div class="form-group ">
+      <label class="mr-sm-2">{{'Invoice_Number' | translate}}</label>
+      <input class="form-control" type="text" placeholder="  {{'Invoice_Number' | translate}}" readonly formControlName="">
+    </div>
+  </div>-->
+
+              <div class="col-md-4 col-lg-4">
+                <label class="mr-sm-2">{{'Invoice_Date' | translate}}</label>
+                <div class="form-group ">
+                  <div class="input-group mb-2">
+                    <input class="form-control datapickerinput" placeholder="{{'Select_a_Date' | translate}}" formControlName="invoiceDate"
+                           [matDatepicker]="picker1">
+
+                    <div class="input-group-prepend datapickericon">
+                      <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
+                      <mat-datepicker #picker1></mat-datepicker><br /><br />
+                    </div>
+
+                  </div>
+                  <validation-message [control]="form.controls.invoiceDate"></validation-message>
+
+                </div>
+
+              </div>
+              <div class="col-md-4 col-lg-4">
+                <label class="mr-sm-2">{{'Delivery_Date' | translate}}</label>
+                <div class="form-group ">
+                  <div class="input-group mb-2">
+                    <input class="form-control datapickerinput" placeholder="{{'Select_a_Date' | translate}}" formControlName="invoiceDueDate"
+                           [matDatepicker]="picker">
+
+                    <div class="input-group-prepend datapickericon">
+                      <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                      <mat-datepicker #picker></mat-datepicker><br /><br />
+                    </div>
+
+                  </div>
+                  <validation-message [control]="form.controls.invoiceDueDate"></validation-message>
+
+                </div>
+
+              </div>
+
+              <div class="col-md-4 col-lg-4">
+                <label class="mr-sm-2">{{'ServiceDate' | translate}}</label>
+                <div class="form-group ">
+                  <div class="input-group mb-2">
+                    <input class="form-control datapickerinput" placeholder="{{'Select_a_Date' | translate}}" formControlName="serviceDate1"
+                           [matDatepicker]="serviceDate1">
+
+                    <div class="input-group-prepend datapickericon">
+                      <mat-datepicker-toggle matSuffix [for]="serviceDate1"></mat-datepicker-toggle>
+                      <mat-datepicker #serviceDate1></mat-datepicker><br /><br />
+                    </div>
+
+                  </div>
+                  <validation-message [control]="form.controls.serviceDate1"></validation-message>
+
+                </div>
+
+              </div>
+
+              <div class="col-md-4 col-lg-4">
+
+                <div class="form-group ">
+                  <label class="mr-sm-2">{{'Organization' | translate}}</label>
+                  <select class="custom-select mr-sm-2" formControlName="companyId" (change)="loadBranchs($event)">
+                    <option value="">{{'Select_Organization' | translate}}</option>
+                    <option *ngFor="let item of companyList" value="{{item.value}}">{{item.text}}</option>
+                  </select>
+                  <validation-message [control]="form.controls.companyId"></validation-message>
+                </div>
+              </div>
+
+
+              <div class="col-md-4 col-lg-4">
+
+                <div class="form-group ">
+                  <label class="mr-sm-2">{{'Branch' | translate}}</label>
+
+                  <ng-select [items]="branchList"
+                             bindLabel="text"
+                             bindValue="value" formControlName="branchCode"> </ng-select>
+
+                    <!--<select class="custom-select mr-sm-2" formControlName="branchCode">
+                      <option value="">{{'Select_Branch' | translate}}</option>
+                      <option *ngFor="let item of branchList" value="{{item.value}}">{{item.text}}</option>
+                    </select>-->
+                    <validation-message [control]="form.controls.branchCode"></validation-message>
+                </div>
+
+              </div>
+              <div class="col-md-4 col-lg-4">
+
+                <div class="form-group ">
+                  <label class="mr-sm-2">{{'Invoice_Reference_Number' | translate}}</label>
+                  <input class="form-control" type="text" placeholder="{{'Please_Enter' | translate}} {{'Invoice_Reference_Number' | translate}}" formControlName="invoiceRefNumber">
+                  <validation-message [control]="form.controls.invoiceRefNumber"></validation-message>
+                </div>
+
+              </div>
+
+              <div class="col-md-4 col-lg-4">
+                <div class="form-group ">
+                  <label class="mr-sm-2">
+                    {{'LPO_Contract' | translate}}
+                  </label>
+                  <input class="form-control" type="text" placeholder="{{'Please_Enter' | translate}} {{'LPO_Contract' | translate}}" formControlName="lpoContract">
+                  <validation-message [control]="form.controls.lpoContract"></validation-message>
+                </div>
+
+              </div>
+
+              <div class="col-md-4 col-lg-4">
+                <div class="form-group ">
+                  <label class="mr-sm-2">
+                    {{'Payment_Terms' | translate}}
+                  </label>
+                  <select class="custom-select mr-sm-2" formControlName="paymentTermId">
+                    <option value="">{{'Select_Payment_Terms' | translate}}</option>
+                    <option *ngFor="let item of paymentTermsList" value="{{item.value}}">{{item.text}}</option>
+
+                  </select>
+                  <validation-message [control]="form.controls.paymentTermId"></validation-message>
+                </div>
+
+              </div>
+              <div class="col-md-4 col-lg-4">
+                <div class="form-group ">
+                  <label class="mr-sm-2">{{'TAX_Id_Number' | translate}}</label>
+                  <input class="form-control" type="text" placeholder="{{'TAX_Id_Number' | translate}}" formControlName="taxIdNumber" [readonly]="true">
+                  <validation-message [control]="form.controls.taxIdNumber"></validation-message>
+                </div>
+
+              </div>
+
+              <!--<div class="col-md-4 col-lg-4">
+                <div class="form-group ">
+                  <label class="mr-sm-2">{{'Seg1' | translate}}</label>
+                  <ng-select [items]="segmentSetupList"
+                             bindLabel="text" formControlName="seg1"
+                             bindValue="value">  </ng-select>
+
+                </div>
+
+              </div>
+              <div class="col-md-4 col-lg-4">
+                <div class="form-group ">
+                  <label class="mr-sm-2" (click)="showCanShowRemarks()">{{'Seg2' | translate}}</label>
+                  <ng-select [items]="segmentTwoSetupList"
+                             bindLabel="text"
+                             bindValue="value" formControlName="seg2">  </ng-select>
+
+                </div>
+              </div>-->
+
+              <div class="col-md-4 col-lg-4">
+                <div class="form-group ">
+                  <label class="mr-sm-2 text-info cpointer" (click)="showCanShowNotes()">{{'Invoice_Notes' | translate}}</label>
+                  <textarea class="form-control" *ngIf="canShowNotes" placeholder="{{'Please_Select' | translate}} {{'Invoice_Notes' | translate}}" formControlName="invoiceNotes"></textarea>
+                </div>
+
+              </div>
+              <div class="col-md-4 col-lg-4">
+                <div class="form-group ">
+                  <label class="mr-sm-2 text-info cpointer" (click)="showCanShowRemarks()">{{'Remarks' | translate}}</label>
+                  <textarea class="form-control" *ngIf="canShowRemarks" placeholder="{{'Please_Select' | translate}} {{'Remarks' | translate}}" formControlName="remarks"></textarea>
+
+                </div>
+
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+  </div>
+
+  <div class="table-responsive">
+    <table id="zero_config" class="table  table-bordered no-wrap">
+      <thead>
+        <tr>
+          <th width="18%">{{'Item' | translate}}</th>
+          <th width="18%">{{'Description' | translate}}</th>
+          <th width="8%">{{'Quantity' | translate}}</th>
+          <th>{{'Unit' | translate}}</th>
+          <th>{{'Price' | translate}}</th>
+          <th>{{'Discount' | translate}}</th>
+          <th width="8%">{{'VAT' | translate}}%</th>
+          <th width="11%">{{'VAT_Amount' | translate}}</th>
+          <th>{{'Total' | translate}}</th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>
+            <ng-select [items]="productList"
+                       bindLabel="text" (clear)="resetProduct()"
+                       bindValue="value" (change)="loadProductdata($event)" [(ngModel)]="productId" [ngModelOptions]="{standalone: true}">
+            </ng-select>
+
+            <!--<select class="custom-select mr-sm-2">
+      <option value="">{{'Item' | translate}}</option>
+      <option *ngFor="let item of paymentTermsList" value="{{item.value}}">{{item.text}}</option>
+    </select>-->
+
+          </td>
+
+          <td>
+            <textarea class="form-control" placeholder="{{'Description' | translate}}" [(ngModel)]="description" [ngModelOptions]="{standalone: true}"></textarea>
+          </td>
+          <td>
+            <input class="form-control" type="text" placeholder="{{'Quantity' | translate}}" [(ngModel)]="quantity" [ngModelOptions]="{standalone: true}" (keyup)="calculate()">
+          </td>
+          <td>
+            <input class="form-control" type="text" placeholder="{{'Unit' | translate}}" readonly [(ngModel)]="unitType" [ngModelOptions]="{standalone: true}">
+          </td>
+          <td>
+            <input class="form-control" type="text" placeholder="{{'Price' | translate}}" [(ngModel)]="price" [ngModelOptions]="{standalone: true}" (keyup)="calculate()">
+          </td>
+          <td>
+            <input class="form-control" type="text" placeholder="{{'Discount' | translate}}" [(ngModel)]="discount" [ngModelOptions]="{standalone: true}" (keyup)="calculate()">
+          </td>
+          <td>
+            <select class="custom-select mr-sm-2" [(ngModel)]="vat" [ngModelOptions]="{standalone: true}" (change)="calculate()">
+              <option value="0">{{'VAT' | translate}}</option>
+              <option *ngFor="let item of vatList" value="{{item.value}}">{{item.text}}</option>
+            </select>
+            <!--<input class="form-control" type="text" placeholder="{{'VAT' | translate}}" [(ngModel)]="vat" [ngModelOptions]="{standalone: true}" (keyup)="calculate()">-->
+          </td>
+          <td>
+            <input class="form-control" type="text" placeholder="{{'VAT_Amount' | translate}}" readonly [(ngModel)]="vatAmount" [ngModelOptions]="{standalone: true}">
+          </td>
+          <td>
+            <input class="form-control" type="text" placeholder="{{'Total' | translate}}" readonly [(ngModel)]="total" [ngModelOptions]="{standalone: true}">
+          </td>
+          <td>
+            <button type="button" class="btn waves-effect waves-light   btn-primary  " (click)="addInvoice()"><i class="icon-plus"></i></button>
+          </td>
+        </tr>
+      </tbody>
+
+      <thead>
+        <tr>
+          <th>{{'Item' | translate}}</th>
+          <th>{{'Description' | translate}}</th>
+          <th>{{'Quantity' | translate}}</th>
+          <th>{{'Unit' | translate}}</th>
+          <th>{{'Price' | translate}}</th>
+          <th>{{'Discount' | translate}}</th>
+          <th>{{'VAT' | translate}}%</th>
+          <th>{{'VAT_Amount' | translate}}</th>
+          <th>{{'Total' | translate}}</th>
+          <th class="text-center"> </th>
+
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let item of listOfInvoices; let index = i;">
+          <td>{{item.product}}</td>
+          <td>{{item.description}}</td>
+          <td>{{item.quantity}}</td>
+          <td>{{item.unitType}}</td>
+          <td>{{item.unitPrice}}</td>
+          <td>{{item.discount}}</td>
+          <td>{{item.taxTariffPercentage}}</td>
+          <td class="text-right">{{item.taxAmount}}</td>
+          <td class="text-right">{{item.totalAmount | decimalpipe}}</td>
+          <td class="text-center">
+            <i class="icon-note cpointer" (click)="editInvoiceItem(item)"> </i> &nbsp;
+            <i class="icon-trash cpointer " (click)="deleteInvoiceItem(item)"> </i> &nbsp;
+          </td>
+        </tr>
+
+      <tfoot>
+        <tr class="tfoot">
+          <td colspan="6" rowspan="5"></td>
+
+          <td class="text-right bgcolor ">{{'Total_Amount' | translate}}</td>
+
+          <td class="text-right bgcolor">{{grandInvoiceTotalStr | decimalpipe}}</td>
+          <td class="bgcolor"></td>
+        </tr>
+        <!--<tr class="tfoot">
+
+          <td class="text-right bgcolor ">{{'Disc_Amount' | translate}}</td>
+          <td class="text-right bgcolor">$200</td>
+          <td class="bgcolor"></td>
+        </tr>
+        <tr class="tfoot">
+          <td class="text-right bgcolor">{{'Net_Total' | translate}}</td>
+          <td class="text-right bgcolor">$1000</td>
+          <td class="bgcolor"></td>
+        </tr>-->
+        <tr class="tfoot">
+          <td class="text-right bgcolor">{{'VAT_Amount' | translate}}</td>
+          <td class="text-right bgcolor">{{grandVatTotalStr | decimalpipe}}</td>
+          <td class="bgcolor"></td>
+        </tr>
+        <tr class="tfoot">
+          <td class="text-right bgcolor_bottom">{{'Invoice_Total' | translate}}</td>
+          <td class="text-right bgcolor_bottom">{{grandTotalStr | decimalpipe}}</td>
+          <td class="bgcolor_bottom"></td>
+        </tr>
+      </tfoot>
+    </table>
+
+  </div>
+
+
+
+
+  <div class="row">
+    <div class="col-lg-12 col-md-12 text-center">
+      <button type="button" class="btn btn-secondary" data-dismiss="modal" (click)="closeModel()">
+        {{'Cancel' | translate}}
+      </button>
+      &nbsp;&nbsp;
+      <input type="submit" class="btn waves-effect waves-light   btn-primary  " value="{{'Save' | translate}}">
+    </div>
+  </div>
+</form>

@@ -1,0 +1,11 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<!--
+https://go.microsoft.com/fwlink/?LinkID=208121. 
+-->
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <_PublishTargetUrl>C:\Users\Logic Systems\Desktop\SChool\API</_PublishTargetUrl>
+    <History>True|2024-06-06T09:21:00.0104581Z;True|2023-09-20T16:00:08.4305476+05:30;True|2023-09-10T15:18:49.6821922+05:30;True|2023-09-04T17:38:20.1469276+05:30;True|2023-08-21T16:44:31.5843376+05:30;True|2023-06-15T14:47:28.1533095+05:30;True|2023-01-22T14:54:26.7102801+05:30;True|2022-02-14T18:59:54.9790447+05:30;True|2022-01-24T15:56:41.5134049+05:30;</History>
+    <LastFailureDetails />
+  </PropertyGroup>
+</Project>

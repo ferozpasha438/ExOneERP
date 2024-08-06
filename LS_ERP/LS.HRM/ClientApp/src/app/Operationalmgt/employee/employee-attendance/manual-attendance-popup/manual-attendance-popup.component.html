@@ -1,0 +1,247 @@
+<h3 class="modal-title">{{modalTitle | translate}}</h3>
+<button type="button" class="close" aria-hidden="true" (click)="closeModel()"> ×</button>
+<form [formGroup]="form" (ngSubmit)="submit()" novalidate class="mt-4">
+  <!--{{inputData?.date}}
+  <br/>
+  {{inputData?.employeeNumber}}
+  <br />
+  {{inputData?.shift}}-->
+  <div class="col-md-12 col-lg-12">
+    <table style="width:100%">
+      <tr>
+        <td style="padding-right:5px;width:auto">
+          {{'Employee'| translate}}
+
+
+        </td>
+        <td>
+          <span *ngIf="inputData.isDefaultEmployee">
+            {{employee?.employeeNumber}}
+
+          </span>
+          <span *ngIf="!inputData.isDefaultEmployee">
+            {{altEmployee?.employeeNumber}}
+
+          </span>
+
+
+        </td>
+        <td *ngIf="!editEmp">
+
+          <span>
+
+            <auto-loader [isLoading]="isDataLoading"></auto-loader>
+            <input type="text" class="form-control"
+                   placeholder="{{'Enter' | translate}} {{'Employee' | translate}}"
+                   [formControl]="empCodeControl"
+                   matInput
+                   [matAutocomplete]="auto_emp">
+            <mat-autocomplete #auto_emp="matAutocomplete" (optionSelected)="autoSelectionEmployeeNumber($event)">
+              <mat-option *ngFor="let option of filteredEmployeeNumbers | async"
+                          [value]="option">
+                {{option.text}}-{{option.textTwo}}
+              </mat-option>
+            </mat-autocomplete>
+
+          </span>
+          <span>
+            <input [(ngModel)]="canShowAllEmployees" type="checkbox" [ngModelOptions]="{standalone: true}" (change)="changeEmployeeFilter()"/>
+            {{'Show_All_Employees'|translate}}
+          </span>
+
+
+
+
+
+        </td>
+        <td>
+
+          <span *ngIf="editEmp && inputData.id==0" class="clickaction clickicons" [matTooltip]="translateToolTip('edit_employee')"  (click)="editEmployee()">
+            <i class="fas fa-pencil-alt"></i>
+          </span>
+          <span *ngIf="!editEmp" class="clickaction clickicons" (click)="editEmployee()">
+            <i class="far fa-times-circle"></i>
+          </span>
+        </td>
+
+      </tr>
+      <tr>
+        <td></td>
+        <td style="padding-right:5px">
+          <span *ngIf="inputData?.isDefaultEmployee">
+            {{employee?.employeeName}}
+
+          </span>
+          <span *ngIf="!inputData.isDefaultEmployee">
+            {{altEmployee?.employeeName}}
+
+          </span>
+
+
+        </td>
+
+      </tr>
+      <tr>
+        <td style="padding-right:5px">{{'Attendance'| translate}} {{'Date' |translate}}</td>
+        <td>{{inputData?.attnDate.toString().substring(0,10)}}</td>
+
+      </tr>
+      <tr>
+        <td>
+          {{'Shift'|translate}}
+        </td>
+        <td *ngIf="!inputData?.isDefShiftOff">
+          {{shift?.shiftCode}}
+       
+        
+        </td>
+        <td *ngIf="inputData?.isDefShiftOff && inputData?.id==0 && inputData.isPrimarySite" style="width:80%">
+
+          <select class="custom-select mr-sm-2" [(ngModel)]="altShift.shiftCode" (change)="onSelectShift($event)" [ngModelOptions]="{standalone: true}">
+            <option value=''>{{'Select' | translate}} {{'Shift_Code' | translate}} </option>
+            <option *ngFor="let sc of listOfShiftCodes" value="{{sc.shiftCode}}">{{sc.shiftCode}}</option>
+          </select>
+       
+         
+        </td>
+        <td>
+          <span *ngIf="inputData?.id==0 && (!inputData?.isOnLeave && !inputData?.isWithDrawn)" class="clickaction clickicons" [matTooltip]="translateToolTip('Change_Shift')" (click)="updateShift()">
+            <i class="fas fa-pencil-alt"></i>
+          </span>
+        </td>
+        
+  
+
+ 
+
+        <td *ngIf="inputData?.isDefShiftOff && inputData?.id>0">
+          {{inputData.altShiftCode}}
+
+        </td>
+
+      </tr>
+    
+
+
+
+      <tr>
+        <td style="padding-right:5px">{{'IN_Time'| translate}}</td>
+     
+        <td>
+                  <input type="time" [(ngModel)]="shift.inTime" id="inTimeNew"  [ngModelOptions]="{standalone: true}" />
+        </td>
+      </tr>
+      <tr>
+        <td style="padding-right:5px">{{'OUT_Time'| translate}}</td>
+    
+        <td>
+                  <input type="time" [(ngModel)]="shift.outTime" id="outTimeNew" [ngModelOptions]="{standalone: true}" />
+        </td>
+      </tr>
+
+
+
+
+    </table>
+  </div>
+        
+       
+  <table *ngIf="inputData.isPrimarySite && !inputData?.isPosted" style="width:100%" >
+    <tr>
+      <td align="center" style="padding-bottom:10px">
+        <span *ngIf="inputData.id==0 && ((!inputData?.isOnLeave && !inputData?.isWithDrawn && !inputData?.isTransfered && !inputData?.isResigned && !inputData?.isTerminated)|| (!inputData.isDefShiftOff && !inputData.isDefaultEmployee) )|| (employee?.employeeNumber != altEmployee?.employeeNumber)">
+          <button type="button" class="btn waves-effect waves-light btn-success" (click)="enterAttendance()"><i>P-</i>{{'Present'|translate}}</button>
+          &nbsp;
+        </span>
+        <span *ngIf="(inputData.id>0 ||(inputData.id==0 && !inputData.isDefShiftOff)&& !inputData.isPosted) && (!inputData?.isOnLeave && !inputData?.isWithDrawn&& !inputData?.isTransfered &&!inputData?.isTerminated && !inputData?.isResigned)&& (!inputData?.isDefShiftOff)">
+          <button type="button" class="btn waves-effect btn-danger" (click)="enterAbsent()"><i>A-</i>{{'Absent'|translate}}</button>&nbsp;
+        </span>
+        <span>
+          <button type="button" class="btn btn-dark" (click)="closeModel()">
+            <i class="icon-close"></i>
+            {{'Cancel'| translate}}
+          </button>
+          &nbsp;
+        </span>
+
+
+      </td>
+
+    </tr>
+    <tr >
+      <td align="center" style="padding-bottom:10px" *ngIf="!inputData.isDefShiftOff">
+
+        <span *ngIf="!inputData.isWithDrawn && !inputData.isTransfered &&!inputData.isResigned &&!inputData.isTerminated && !inputData.isOnLeave ">
+          <button type="button" class="btn waves-effect waves-light btn-warning" (click)="enterEmployeeLeave('AL')">AL</button>&nbsp;
+          <button type="button" class="btn waves-effect btn-warning" (click)="enterEmployeeLeave('EL')">EL</button>&nbsp;
+          <button type="button" class="btn btn-warning" (click)="enterEmployeeLeave('SL')">SL</button>&nbsp;
+          <button type="button" class="btn btn-warning" (click)="enterEmployeeLeave('UL')">UL</button>&nbsp;
+          <button type="button" class="btn btn-warning" (click)="enterEmployeeLeave('STL')">STL</button>&nbsp;
+        </span>
+
+
+        <span *ngIf="inputData.isOnLeave">
+        <button type="button" class="btn btn-warning" (click)="cancelEmployeeLeave(inputData.leavesData.id)"><i>CL-</i>{{'Cancel_Leave'|translate}}</button>&nbsp;
+        </span>
+        <span *ngIf="inputData.isWithDrawn">
+          <button type="button" class="btn btn-warning" (click)="cancelEmployeeLeave(inputData.leavesData.id)"><i>CW-</i>{{'Cancel_Withdrawal'|translate}}</button>&nbsp;
+        </span>
+         <span *ngIf="inputData?.isTransfered">
+          <button type="button" class="btn btn-warning" (click)="cancelEmployeeTRX(inputData?.transORresignData?.id)">{{'Cancel_Transfer'|translate}}</button>&nbsp;
+        </span>
+         <span *ngIf="inputData?.isResigned">
+          <button type="button" class="btn btn-warning" (click)="cancelEmployeeTRX(inputData?.transORresignData?.id)">{{'Cancel_Resign'|translate}}</button>&nbsp;
+        </span>
+         <span *ngIf="inputData?.isTerminated">
+          <button type="button" class="btn btn-warning" (click)="cancelEmployeeTRX(inputData?.transORresignData?.id)">{{'Cancel_Termination'|translate}}</button>&nbsp;
+        </span>
+
+      </td>
+
+    </tr>
+    <tr *ngIf="!inputData.isWithDrawn && !inputData.isTransfered &&!inputData.isResigned&&!inputData.isTerminated && !inputData.isOnLeave">
+
+      <td align="center" style="padding-bottom:10px">
+        <span *ngIf="!inputData.isDefShiftOff">
+          <button type="button" class="btn waves-effect waves-light btn-dark" (click)="enterEmployeeLeave('W')"><i>W-</i>{{'Withdraw'|translate}}</button>&nbsp;
+        </span>
+        <span>
+          <button type="button" class="btn waves-effect waves-light btn-info" (click)="enterEmployeeTransResign('TR')"><i>TR-</i>{{'Transfer'|translate}}</button>&nbsp;
+        </span>
+        <span>
+          <button type="button" class="btn waves-effect waves-light btn-info" (click)="enterEmployeeTransResign('R')"><i>R-</i>{{'Resigned'|translate}}</button>&nbsp;
+        </span>
+        <span>
+          <button type="button" class="btn waves-effect waves-light btn-info" (click)="enterEmployeeTransResign('X')"><i>X-</i>{{'Terminated'|translate}}</button>&nbsp;
+        </span>
+      </td>
+
+    </tr>
+    <tr *ngIf="(inputData.isTransfered || inputData.isResigned || inputData.isTerminated) && inputData.isDefaultEmployee">
+
+      <td align="center" style="padding-bottom:10px;color:red">
+    
+          {{inputData?.transORresignData?.remarks}}
+      
+       
+      </td>
+
+    </tr>
+    <tr>
+      <td>
+        AL = Anuual Leave   العطلة السنوية      SL = Sick Leave   إجازة مرضية
+        EL = Emergrncy Leave   إجازة خاصة/طارئة   UL= Unpaid Leave    إجازة غير مدفوعة     W = Withdraw انسحاب
+      </td>
+    </tr>
+    <tr>
+      <td>
+        TR = Transferred نقل    R = Resigned مستقيل   X = Terminated إنهاء خدمات الموظف/إنهاء فترة تجربة/فصل
+      </td>
+    </tr>
+
+  </table>
+
+  
+
+ 
+</form>

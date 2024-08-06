@@ -1,0 +1,128 @@
+<div class="page-breadcrumb">
+  <div class="row">
+    <div class="col-12 align-self-center">
+      <h3 class="page-title text-truncate text-dark font-weight-medium mb-1">
+        {{'PurchaseTerms' | translate}}
+      </h3>
+      <div class="d-flex align-items-center">
+        <nav aria-label="breadcrumb">
+          <ol class="breadcrumb m-0 p-0">
+            <li class="breadcrumb-item text-muted">  {{'Administration' | translate}} </li>
+            <li class="breadcrumb-item text-muted ">{{'Purchase_Management' | translate}}</li>
+            <li class="breadcrumb-item   active" aria-current="page"> {{'PurchaseTerms' | translate}} (010404)</li>
+
+          </ol>
+        </nav>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-md-12 col-lg-12">
+      <div class="card">
+        <div class="card-body">
+          <div class="row pb-3">
+            <div class="col-md-7 col-lg-12">
+              <h4 class="card-title pt6"> {{'PurchaseTermsList' | translate}}</h4>
+            </div>
+            <div class="col-md-3">
+              <!--(keyup)="applyFilter($event)"-->
+              <input class="form-control" placeholder="search..." [(ngModel)]="searchValue" />
+            </div>
+            <div class="col-md-4">
+              <button (click)="applyFilter(searchValue)" class="btn btn-primary">Search</button> &nbsp;
+              <a (click)="refresh()" class=""><i class="btn btn-primary icon-refresh"></i></a>
+            </div>
+            <div class="col-md-3 col-lg-3 text-right">
+              <a data-toggle="modal"
+                 data-target="#createnewunits" class="  btn waves-effect waves-light btn-rounded btn-outline-primary" (click)="create()" href="#"> <i class="icon-plus"> </i> {{'AddNewPurchaseTerms' | translate}}</a>
+
+            </div>
+          </div>
+
+          <div class="cardtitle-divider"></div>
+          <div class="table-responsive">
+            <div class="example-table-container mat-elevation-z8 pt-3">
+
+              <table mat-table [dataSource]="data" matSort matSortActive="Id"
+                     matSortDisableClear matSortDirection="desc" (matSortChange)="onSortOrder($event)" class="table  table-bordered no-wrap">
+                <ng-container matColumnDef="TermCode">
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                    {{'TermsCode' | translate}}
+                  </th>
+                  <td mat-cell *matCellDef="let row">{{ row.poTermsCode }}</td>
+                </ng-container>
+
+                <ng-container matColumnDef="TermName">
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                    {{'TermName' | translate}}
+                  </th>
+                  <td mat-cell *matCellDef="let row">{{ row.poTermsName }}</td>
+                </ng-container>
+
+                <ng-container matColumnDef="DescriptionName">
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                    {{'DescriptionName' | translate}}
+                  </th>
+                  <td mat-cell *matCellDef="let row">{{ row.poTermsDesc }}</td>
+                </ng-container>
+
+                <ng-container matColumnDef="DueDays">
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                    {{'DueDays' | translate}}
+                  </th>
+                  <td mat-cell *matCellDef="let row">{{ row.poTermsDueDays}}</td>
+                </ng-container>
+                <!--<ng-container matColumnDef="IsActive">
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                    {{'IsActive' | translate}}
+                  </th>
+                  <td mat-cell *matCellDef="let row" class="text-center">
+                    <span class="badge badge-pill badge-danger">{{'Inactive_lbl' | translate}}</span>
+                  </td>
+                </ng-container>-->
+
+                <ng-container matColumnDef="Actions" stickyEnd>
+                  <th mat-header-cell *matHeaderCellDef> </th>
+                  <td mat-cell *matCellDef="let row" class="text-center">
+
+                    <a class="tableicons" (click)="edit(row.id)"><i class="icon-note"> </i></a> &nbsp;
+                    <a class="tableicons" (click)="delete(row.id)"><i class="icon-trash"> </i></a>
+
+                  </td>
+                </ng-container>
+
+                <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
+                <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+
+              </table>
+
+              <ng-container>
+                <mat-paginator [length]="totalItemsCount" *ngIf="totalItemsCount > 0"
+                               [pageSize]="pageService.pageCount"
+                               [pageSizeOptions]="pageService.selectItemsPerPage"
+                               (page)="onPageSwitch($event)">
+                </mat-paginator>
+              </ng-container>
+            </div>
+
+
+
+
+          </div>
+
+        </div>
+
+
+
+      </div>
+    </div>
+
+  </div>
+
+</div>
+
+

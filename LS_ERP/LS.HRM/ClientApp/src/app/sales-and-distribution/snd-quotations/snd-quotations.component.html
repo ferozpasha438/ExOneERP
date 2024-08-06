@@ -1,0 +1,300 @@
+<div class="page-breadcrumb">
+  <div class="row">
+    <div class="col-12 align-self-center">
+      <h3 class="page-title text-truncate text-dark font-weight-medium mb-1">
+        {{'Sales_Quotation' | translate}}
+      </h3>
+      <div class="d-flex align-items-center">
+        <nav aria-label="breadcrumb">
+          <ol class="breadcrumb m-0 p-0">
+            <li class="breadcrumb-item text-muted">{{'Sales_And_Distribution' | translate}} </li>
+            <li class="breadcrumb-item   active" aria-current="page">{{'Sales_Quotation' | translate}} </li>
+
+          </ol>
+        </nav>
+      </div>
+    </div>
+
+  </div>
+</div>
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-md-12 col-lg-12">
+
+      <div class="card">
+        <div class="card-body">
+
+          <div class="row pb-3">
+            <div class="col-md-12 col-lg-12">
+              <!--<h4 class="card-title pt6">{{'Sales_Quotation_List' | translate}} </h4>-->
+            </div>
+            <div class="col-md-3">
+              <!--(keyup)="applyFilter($event)"-->
+              <input class="form-control" placeholder="{{'Search' | translate}}..." [(ngModel)]="searchValue" />
+            </div>
+            <div class="col-md-3">
+              <ng-select style="width:250px" [items]="itemList"
+                         bindLabel="text"
+                         bindValue="textTwo" [(ngModel)]="itemCode" [ngModelOptions]="{standalone: true}">
+              </ng-select>
+            </div>
+
+            <div class="col-md-4 arabicright">
+              <button (click)="applyFilter(searchValue,itemCode)" class="btn btn-primary">{{'Search' | translate}}</button> &nbsp;
+              <a (click)="refresh()" class=""><i class="btn btn-primary icon-refresh"></i></a> &nbsp;
+              <button (click)="printQuotation()" class="btn btn-primary">{{'Print' | translate}}</button> &nbsp;
+            </div>
+          </div>
+
+          <div class="row pb-3">
+            <div class="col-md-3">
+              <label class="mr-sm-2">{{'Sales_Quotation_List' | translate}}</label>
+              <select class="custom-select mr-sm-2" (change)="loadApprovals($event)" id="approvalList">
+                <option value="">{{'Quotations_List' | translate}}</option>
+                <option value="approved">Approved</option>
+                <option value="unapproved">UnApproved</option>
+                <option value="original">Original</option>
+                <option value="finalquot">Final Quotations</option>
+                <option value="cancelled">Cancelled</option>
+
+              </select>
+
+            </div>
+            <!--<div class="col-md-3">
+        <label class="mr-sm-2">{{'Quotation_Type' | translate}}</label>
+        <select class="custom-select mr-sm-2" (change)="loadQuotations($event)">
+          <option value="1">{{'Quotation' | translate}}</option>
+          <option value="2">{{'Credit' | translate}}</option>
+        </select>
+
+      </div>-->
+          </div>
+
+          <div class="row rowm0 ">
+            <div class="col-md-4 col-lg-4">
+              <h4 class="card-title pt6">{{'Sales_Quotation_List' | translate}}</h4>
+            </div>
+            <div class="col-md-4 col-lg-4 text-center">
+              <spinner-loader [isLoading]="isLoading"></spinner-loader>
+            </div>
+            <div class="col-md-4 col-lg-4 text-right">
+              <div class="nav-item dropdown">
+                <a data-toggle="modal"
+                   data-target="#scrollable-modal" class="  btn waves-effect waves-light btn-rounded btn-outline-primary" (click)="create()" href="#"> <i class="icon-plus"> </i>{{'Add_New_Sales_Quotation' |translate}}  </a>
+              </div>
+            </div>
+
+          </div>
+          <div class="cardtitle-divider"></div>
+
+          <div class="example-table-container table-responsive pt-3">
+
+
+
+            <ng-container>
+
+              <table mat-table [dataSource]="data" matSort matSortActive="Id"
+                     matSortDisableClear matSortDirection="desc" (matSortChange)="onSortOrder($event)" class="table  table-bordered no-wrap">
+                <ng-container matColumnDef="quotationNumber">
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                    {{'Sales_QuotationNumber' | translate}}
+                  </th>
+                  <td mat-cell *matCellDef="let row">{{ row.quotationNumber }}</td>
+                </ng-container>
+                <ng-container matColumnDef="revisedNumber">
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                    {{'Revised_Number' | translate}}
+                  </th>
+                  <td mat-cell *matCellDef="let row">{{ row.revisedNumber }}</td>
+                </ng-container>
+
+                <ng-container matColumnDef="quotationDate">
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                    {{'Sales_Quotation_Date' | translate}}
+                  </th>
+                  <td mat-cell *matCellDef="let row">{{ row.quotationDate | date:'dd/MM/yyyy' }}</td>
+                </ng-container>
+                <ng-container matColumnDef="companyName">
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                    {{'Organization' | translate}}
+                  </th>
+                  <td mat-cell *matCellDef="let row">{{ row.companyName }}</td>
+                </ng-container>
+                <ng-container matColumnDef="quotationRefNumber">
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                    {{'Quotation_Reference_Number' | translate}}
+                  </th>
+                  <td mat-cell *matCellDef="let row">{{ row.quotationRefNumber}}</td>
+                </ng-container>
+                <ng-container matColumnDef="warehouseName">
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                    {{'Store' | translate}}
+                  </th>
+                  <td mat-cell *matCellDef="let row">{{ row.warehouseName}}</td>
+                </ng-container>
+                <ng-container matColumnDef="customerName">
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                    {{'Customer' | translate}}
+                  </th>
+                  <td mat-cell *matCellDef="let row">{{ row.customerName}}</td>
+                </ng-container>
+                <ng-container matColumnDef="totalAmount">
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                    {{'Sales_Quotation_Amount' | translate}} (SAR)
+                  </th>
+                  <td mat-cell *matCellDef="let row">{{ row.totalAmount| number:'1.2'}}</td>
+                </ng-container>
+                <ng-container matColumnDef="lpoContract">
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                    {{'LPO_Contract' | translate}}
+                  </th>
+                  <td mat-cell *matCellDef="let row">{{ row.lpoContract}}</td>
+                </ng-container>
+                <ng-container matColumnDef="paymentTermId">
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                    {{'Payment_Terms' | translate}}
+                  </th>
+                  <td mat-cell *matCellDef="let row">{{ row.paymentTermId}}</td>
+                </ng-container>
+                <ng-container matColumnDef="taxIdNumber">
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                    {{'Tax_Id_Number' | translate}}
+                  </th>
+                  <td mat-cell *matCellDef="let row">{{ row.taxIdNumber}}</td>
+                </ng-container>
+                <ng-container matColumnDef="quotationDueDate">
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                    {{'Delivery_Date' | translate}}
+                  </th>
+                  <td mat-cell *matCellDef="let row">{{ row.quotationDueDate  | date:'dd/MM/yyyy'}}</td>
+                </ng-container>
+                <ng-container matColumnDef="Actions" stickyEnd>
+                  <th mat-header-cell *matHeaderCellDef>{{'Actions' | translate}}</th>
+                  <td mat-cell *matCellDef="let row">
+
+
+                    <div>
+                      <ng-container>
+                        <i class="fas fa-circle" id="{{getStatusColor(row)}}"> </i> &nbsp;
+                      </ng-container>
+                      <ng-container>
+                        <a class="tableicons pcursor" (click)="view(row)" matTooltip="{{'View_Details' | translate}}"><i class="icon-list"></i></a> &nbsp;
+                        <span *ngIf="!row.isConvertedToOrder && !row.isConvertedToDeliveryNote && row.isFinalRevision">
+                          <a class="tableicons pcursor" (click)="checkStock(row)" matTooltip="{{'Check_Stock_Availability' | translate}}"><i class="icon-question"> </i></a> &nbsp;
+                        </span>
+                      </ng-container>
+
+                      <ng-container *ngIf="row.hasAuthority && row.isFinalRevision">
+
+                        <span *ngIf="row.authority.canEditSndQuotation && (!row.isApproved ||row.revisedNumber>0 ) && !row.isConvertedSndQuotationToDeliveryNote &&!row.isConvertedSndQuotationToInvoice  && !row.isConvertedToOrder &&  !row.isVoid">
+                          <a class="tableicons pcursor" (click)="edit(row)" matTooltip="{{'Edit' | translate}}"><i class="icon-note"> </i></a> &nbsp;
+
+                        </span>
+                        <span *ngIf="row.authority.canReviseSndQuotation && !row.isConvertedSndQuotationToDeliveryNote  && !row.isConvertedToOrder && row.isApproved && !row.isConvertedSndQuotationToInvoice && !row.isVoid">
+                          <a class="tableicons pcursor" (click)="revise(row)" matTooltip="{{'Revise' | translate}}"><i class="icon-action-redo"> </i></a> &nbsp;
+                        </span>
+
+                        <span *ngIf="row.authority.canApproveSndQuotation && !row.isApproved && !row.isVoid">
+                          <a class="tableicons pcursor" (click)="approve(row)" matTooltip="{{'Approve' | translate}}"><i class="icon-arrow-up-circle"> </i></a> &nbsp;
+                        </span>
+
+                        <span *ngIf="row.authority.canConvertSndQuotationToDeliveryNote && row.isApproved && row.isApproved && !row.isConvertedSndQuotationToOrder && !row.isConvertedSndQuotationToDeliveryNote && !row.isConvertedSndQuotationToInvoice && !row.isVoid">
+                          <a class="tableicons pcursor" (click)="convertQuotationToInvoice(row)" matTooltip="{{'Convert_To_Invoice' | translate}}"><i class="icon-action-redo"> </i></a> &nbsp;
+                        </span>
+                        <span *ngIf="row.authority.canConvertSndQuotationToDeliveryNote && row.isApproved && row.isApproved && !row.isConvertedSndQuotationToOrder && !row.isConvertedSndQuotationToDeliveryNote && !row.isConvertedSndQuotationToInvoice && !row.isVoid">
+                          <a class="tableicons pcursor" (click)="convertQuotationToDeliveryNote(row)" matTooltip="{{'Convert_To_Delivery_Note' | translate}}"><i class="icon-action-redo"> </i></a> &nbsp;
+                        </span>
+                        <span *ngIf="row.authority.canConvertSndQuotationToOrder  && row.isApproved && !row.isConvertedSndQuotationToOrder && !row.isConvertedSndQuotationToDeliveryNote && !row.isConvertedSndQuotationToInvoice &&  !row.isVoid">
+                          <a class="tableicons pcursor" (click)="convertToOrder(row)" matTooltip="{{'Convert_To_Order' | translate}}"><i class="icon-action-redo"> </i></a> &nbsp;
+                        </span>
+
+                        <span *ngIf="row.authority.canConvertSndQuotationToInvoice && row.isApproved && row.isConvertedSndQuotationToDeliveryNote && !row.isConvertedSndQuotationToOrder && !row.isConvertedSndQuotationToDeliveryNote && !row.isConvertedSndQuotationToInvoice && !row.isVoid">
+                          <a class="tableicons pcursor" (click)="convertToInvoice(row)" matTooltip="{{'Convert_To_Invoice' | translate}}"><i class="icon-action-redo"> </i></a> &nbsp;
+                        </span>
+
+
+
+                        <span *ngIf="row.authority.canVoidSndQuotation && !row.isVoid && !row.isConvertedSndQuotationToDeliveryNote && !row.isConvertedSndQuotationToOrder && !row.isConvertedSndQuotationToInvoice">
+                          <a class="tableicons pcursor" (click)="cancelQuotation(row)" matTooltip="{{'Cancel_Quotation' | translate}}"><i class="icon-action-undo"> </i></a> &nbsp;
+
+                        </span>
+                      </ng-container>
+
+
+                    </div>
+
+
+                  </td>
+                </ng-container>
+
+                <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
+                <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+
+              </table>
+
+            </ng-container>
+            <!--<ng-template #noData>
+        <no-apidata></no-apidata>
+      </ng-template>-->
+          </div>
+          <ng-container>
+            <mat-paginator [length]="totalItemsCount"
+                           [pageSize]="pageService.pageCount"
+                           [pageSizeOptions]="pageService.selectItemsPerPage"
+                           (page)="onPageSwitch($event)">
+            </mat-paginator>
+
+          </ng-container>
+
+        </div>
+        <div class="card-body">
+          <ng-container>
+            &nbsp;&nbsp;{{'Open'|translate}}:&nbsp;<i class="fas fa-circle" id="statusOpen"> </i> &nbsp;&nbsp; |&nbsp;&nbsp;
+            {{'Approved'|translate}}:&nbsp; <i class="fas fa-circle" id="statusApproved"> </i>&nbsp;&nbsp;|&nbsp;&nbsp;
+            {{'Converted_To_DeliveryNote'|translate}}:&nbsp; <i class="fas fa-circle" id="statusConvertedToDeliveryNote"> </i> &nbsp;&nbsp;|&nbsp;&nbsp;
+            {{'Converted_To_Invoice'|translate}}:&nbsp; <i class="fas fa-circle" id="statusConvertedToInvoice"> </i> &nbsp;&nbsp;|&nbsp;&nbsp;
+            {{'Converted_To_Order'|translate}}:&nbsp; <i class="fas fa-circle" id="statusConvertedToOrder"> </i>&nbsp;&nbsp;|&nbsp;&nbsp;
+            {{'Void'|translate}}:&nbsp;<i class="fas fa-circle" id="statusVoid"> </i> &nbsp;&nbsp; |&nbsp;&nbsp;
+          </ng-container>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<!--
+<!-- Long Content Scroll Modal -->
+<style>
+
+  #statusOpen {
+    color: #ff6a00
+  }
+
+  #statusApproved {
+    color: #4cff00
+  }
+
+   #statusClosed {   
+    color: #ff00dc
+  }
+
+  #statusConvertedToInvoice {      
+    color: #0026ff
+  }
+
+   #statusConvertedToDeliveryNote {      
+    color: #f900f4
+  }
+   
+   #statusConvertedToOrder {      
+    color: #fdb144
+  }
+
+  
+
+  #statusVoid {
+    color: #000000
+  }
+
+
+
+</style>

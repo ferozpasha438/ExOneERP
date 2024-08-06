@@ -1,0 +1,44 @@
+{
+  "name": "ng-multiselect-dropdown",
+  "version": "1.0.0",
+  "private": false,
+  "description": "Angular Multi-Select Dropdown",
+  "author": "Nilesh Patel",
+  "license": "MIT",
+  "keywords": [
+    "angular4",
+    "angular8",
+    "angular multiselect dropdown",
+    "angular4 multiselect dropdown",
+    "angular8 multiselect dropdown",
+    "ng multiselect dropdown",
+    "ng4 multiselect dropdown",
+    "ng8 multiselect dropdown"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/nileshpatel17/ng-multiselect-dropdown.git"
+  },
+  "bugs": {
+    "url": "https://github.com/nileshpatel17/ng-multiselect-dropdown/issues"
+  },
+  "homepage": "https://github.com/nileshpatel17/ng-multiselect-dropdown#readme",
+  "peerDependencies": {},
+  "dependencies": {
+    "tslib": "^2.0.0"
+  },
+  "module": "fesm2022/ng-multiselect-dropdown.mjs",
+  "typings": "index.d.ts",
+  "exports": {
+    "./package.json": {
+      "default": "./package.json"
+    },
+    ".": {
+      "types": "./index.d.ts",
+      "esm2022": "./esm2022/ng-multiselect-dropdown.mjs",
+      "esm": "./esm2022/ng-multiselect-dropdown.mjs",
+      "default": "./fesm2022/ng-multiselect-dropdown.mjs"
+    }
+  },
+  "sideEffects": false
+}

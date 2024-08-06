@@ -1,0 +1,11 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<!--
+https://go.microsoft.com/fwlink/?LinkID=208121. 
+-->
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <_PublishTargetUrl>D:\Deployment\Publish_OPR</_PublishTargetUrl>
+    <History>True|2023-10-28T16:44:02.4689910Z;True|2023-03-29T15:49:06.2505135+05:30;True|2023-02-07T21:34:56.3632203+05:30;True|2023-02-07T20:05:58.0227548+05:30;True|2023-02-07T20:00:19.8020191+05:30;True|2023-02-07T19:46:52.7969965+05:30;True|2023-02-06T19:19:00.1459576+05:30;True|2022-04-19T14:18:45.5284564+05:30;True|2022-04-19T13:20:04.0726734+05:30;True|2022-04-13T14:09:01.6407788+05:30;True|2022-01-24T15:58:22.3860975+05:30;</History>
+    <LastFailureDetails />
+  </PropertyGroup>
+</Project>

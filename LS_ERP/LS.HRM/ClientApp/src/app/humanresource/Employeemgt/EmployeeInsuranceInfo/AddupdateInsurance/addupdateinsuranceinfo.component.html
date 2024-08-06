@@ -1,0 +1,144 @@
+<br />
+<button type="button" class="close" aria-hidden="true" (click)="closeModel()"> ×</button>
+<h2>{{'InsuranceInfo' | translate}}</h2>
+<hr />
+<div class="col-md-12 col-lg-12">
+  <form [formGroup]="form" (ngSubmit)="submit()" novalidate class="mt-4">
+    <div class="row">
+      <div class="col-md-6 col-lg-6">
+        <div class="form-group">
+          <label for="employeenumber">{{'EmployeeNumber' | translate}}</label>
+          <input class="form-control" id="employeenumber" type="text"
+            placeholder="{{'Please_Enter' | translate}} {{'EmployeeNumber' | translate}}" readonly="readonly"
+            formControlName="employeenumber">
+        </div>
+      </div>
+      <div class="col-md-6 col-lg-6">
+        <div class="form-group">
+          <label for="policyHolder">{{'PolicyHolder' | translate}}</label>
+          <input class="form-control input-mandatory" type="text"
+            placeholder="{{'Please_Enter' | translate}} {{'PolicyHolder' | translate}}" formControlName="policyHolder">
+          <validation-message [control]="form.controls.policyHolder"></validation-message>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-6 col-lg-6">
+        <label for="insuranceTypeCode" class="mr-sm-2">{{'InsuranceType' | translate}}</label>
+        <select class="custom-select input-mandatory mr-sm-2" formControlName="insuranceTypeCode">
+          <option value="">{{'InsuranceType' | translate}}</option>
+          <option *ngFor="let insuranceType of insuranceTypes" value="{{insuranceType.value}}">{{insuranceType.text}}
+          </option>
+        </select>
+        <validation-message [control]="form.controls.insuranceTypeCode"></validation-message>
+      </div>
+      <div class="col-md-6 col-lg-6">
+        <div class="form-group ">
+          <label for="policyStartDate" class="mr-sm-2">
+            {{'PolicyStartDate' | translate}}
+          </label>
+          <div class="input-group ">
+            <input class="form-control input-mandatory"
+              placeholder=" {{'Please_Enter' | translate}} {{'PolicyStartDate' | translate}}"
+              formControlName="policyStartDate" [matDatepicker]="policyStartDatepicker">
+            <div class="input-group-prepend datapickericon">
+              <mat-datepicker-toggle matSuffix [for]="policyStartDatepicker"></mat-datepicker-toggle>
+              <mat-datepicker #policyStartDatepicker></mat-datepicker>
+            </div>
+            <validation-message [control]="form.controls.policyStartDate"></validation-message>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-6 col-lg-6">
+        <label for="insuranceProviderCode" class="mr-sm-2">{{'InsuranceProvider' | translate}}</label>
+        <select class="custom-select input-mandatory mr-sm-2" formControlName="insuranceProviderCode">
+          <option value="">{{'Insurance Provider' | translate}}</option>
+          <option *ngFor="let insuranceProvider of insuranceProviders" value="{{insuranceProvider.value}}">{{insuranceProvider.text}}
+          </option>
+        </select>
+        <validation-message [control]="form.controls.insuranceProviderCode"></validation-message>
+      </div>
+      <div class="col-md-6 col-lg-6">
+        <div class="form-group ">
+          <label for="policyExpiryDate" class="mr-sm-2">
+            {{'PolicyExpiryDate' | translate}}
+          </label>
+          <div class="input-group">
+            <input class="form-control input-mandatory"
+              placeholder=" {{'Please_Enter' | translate}} {{'PolicyExpiryDate' | translate}}"
+              formControlName="policyExpiryDate" [matDatepicker]="policyExpiryDatepicker">
+            <div class="input-group-prepend datapickericon">
+              <mat-datepicker-toggle matSuffix [for]="policyExpiryDatepicker"></mat-datepicker-toggle>
+              <mat-datepicker #policyExpiryDatepicker></mat-datepicker>
+            </div>
+            <validation-message [control]="form.controls.policyExpiryDate"></validation-message>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-6 col-lg-6">
+        <label for="insuranceClassCode" class="mr-sm-2">{{'InsuranceClass' | translate}}</label>
+        <select class="custom-select input-mandatory mr-sm-2" formControlName="insuranceClassCode">
+          <option value="">{{'Insurance Class' | translate}}</option>
+          <option *ngFor="let insuranceClass of insuranceClasses" value="{{insuranceClass.value}}">
+            {{insuranceClass.text}}</option>
+        </select>
+        <validation-message [control]="form.controls.insuranceClassCode"></validation-message>
+      </div>
+      <div class="col-md-6 col-lg-6">
+        <div class="form-group">
+          <label for="premiumPerYear">{{'PremiumPerYear' | translate}}</label>
+          <input class="form-control input-mandatory" id="premiumPerYear" type="text"
+            placeholder="{{'Please_Enter' | translate}} {{'PremiumPerYear' | translate}}"
+            formControlName="premiumPerYear">
+          <validation-message [control]="form.controls.premiumPerYear"></validation-message>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-6 col-lg-6">
+        <div class="form-group">
+          <label for="policyName">{{'PolicyName' | translate}}</label>
+          <input class="form-control input-mandatory" type="text" formControlName="policyName"
+            placeholder="{{'Please_Enter' | translate}} {{'Policy Name' | translate}}">
+          <validation-message [control]="form.controls.policyName"></validation-message>
+        </div>
+      </div>
+      <div class="col-md-6 col-lg-6">
+        <div class="form-group ">
+          <label for="remarks" class="mr-sm-2">
+            {{'Remarks' | translate}}
+          </label>
+          <textarea class="form-control" placeholder=" {{'Please_Enter' | translate}}  {{'Remarks' | translate}}"
+            formControlName="remarks"></textarea>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-6 col-lg-6">
+        <div class="form-group">
+          <label for="policyNumber">{{'PolicyNumber' | translate}}</label>
+          <input class="form-control input-mandatory" type="text" formControlName="policyNumber"
+            placeholder="{{'Please_Enter' | translate}} {{'Policy Number' | translate}}">
+          <validation-message [control]="form.controls.policyNumber"></validation-message>
+        </div>
+      </div>
+      <div class="col-md-6 col-lg-6">
+        <label for="isActive" class="mr-sm-2">{{'Is_Active' | translate}}</label>
+        <br />
+        <mat-slide-toggle color="primary" formControlName="isActive"></mat-slide-toggle>
+      </div>
+    </div>
+    <div class="row mt-3 ">
+      <div class="col-md-12 col-lg-12 text-center">
+        <input type="button" class="btn waves-effect waves-light btn-rounded   btn-secondary btn-midblock"
+          value="{{'Cancel' | translate}}" (click)="closeModel()" /> &nbsp;
+        <input type="submit" class="btn waves-effect waves-light btn-rounded btn-primary btn-midblock"
+          value="{{'Save' | translate}}" />
+      </div>
+    </div>
+  </form>
+</div>

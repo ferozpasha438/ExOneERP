@@ -1,0 +1,116 @@
+<h3 class="modal-title">{{modalTitle | translate}}</h3>
+<button type="button" class="close" aria-hidden="true" (click)="closeModel()"> ×</button>
+<br/>
+<form [formGroup]="form" (ngSubmit)="submit()" #myform="ngForm">
+  <div class="outer ">
+    <div class="row">
+      <table id="zero_config" class="table  table-bordered no-wrap">
+
+        <tr>
+
+          <!--<th>
+            {{'S.No' | translate}}
+          </th>-->
+ <th>
+            {{'Qty' | translate}}
+          </th>
+          <th colspan="2" style="text-align:center">
+            {{'Position' | translate}}
+          </th>
+          <th>
+            {{'Unit_Rate' | translate}}
+          </th>
+          <th>
+            {{'Total' | translate}}
+          </th>
+          <th>
+            {{'Action' | translate}}
+          </th>
+        </tr>
+        <tr *ngFor="let propCost of inputData.proposalCosting; let i=index;">
+          <ng-container *ngIf="editRowNumber!=i">
+
+            <!--<td>
+              {{i+1}}
+            </td>-->
+            <td>
+              {{propCost.qty}}
+            </td>
+            <td>
+              {{propCost.itemEng}}
+            </td>
+            <td>
+              {{propCost.itemArab}}
+            </td>
+            <td style="text-align:right">
+              {{propCost.price}}
+            </td>
+            <td style="text-align:right">
+              {{propCost.total}}
+            </td>
+            <td>
+              <span *ngIf="editRowNumber==-1" (click)="edit(i)" [matTooltip]="translateToolTip('Edit')"><i class=" fas fa-edit"></i>&nbsp;</span>
+              <span *ngIf="editRowNumber==-1" (click)="delete(i)" [matTooltip]="translateToolTip('Delete')"><i class="far fa-trash-alt"></i>&nbsp;</span>
+              <span *ngIf="i==inputData.proposalCosting.length-1 && editRowNumber==-1" (click)="add_new()" [matTooltip]="translateToolTip('Add_New')"><i class="fas fa-plus"></i>&nbsp;</span>
+
+            </td>
+          </ng-container>
+          <ng-container *ngIf="editRowNumber==i">
+
+            <!--<td>
+              {{i+1}}
+            </td>-->
+            <td>
+              <input type="number" class="form-control" [(ngModel)]="editRowItem.qty" [ngModelOptions]="{standalone: true}" (keyup)="updateTotal()">
+
+            </td>
+            <td>
+              <input type="text" class="form-control" [(ngModel)]="editRowItem.itemEng" [ngModelOptions]="{standalone: true}">
+            </td>
+            <td>
+              <input type="text" class="form-control" [(ngModel)]="editRowItem.itemArab" [ngModelOptions]="{standalone: true}">
+            </td>
+            <td style="text-align:right">
+              <input type="number" class="form-control" [(ngModel)]="editRowItem.price" [ngModelOptions]="{standalone: true}" (keyup)="updateTotal()">
+            </td>
+            <td style="text-align:right">
+              {{editRowItem.total}}
+            </td>
+            <td>
+
+              <span (click)="save(i)" [matTooltip]="translateToolTip('Save')"><i class=" fas fa-save"></i>&nbsp;</span>
+              <span (click)="delete(i)" [matTooltip]="translateToolTip('Delete')"><i class="far fa-trash-alt"></i>&nbsp;</span>
+              <span  (click)="cancelEdit()" [matTooltip]="translateToolTip('Cancel')"><i class="fas fa-window-close"></i>&nbsp;</span>
+
+            </td>
+          </ng-container>
+        </tr>
+        <tr>
+          <td colspan="4" style="text-align:right">
+            {{'Total'|translate}}
+          </td>
+          <td style="text-align:right">
+            {{total}}
+          </td>
+        </tr>
+      </table>
+
+
+
+
+
+
+
+    </div>
+  </div>
+  <div class="row mt-3 ">
+    <div class="col-md-12 col-lg-12 text-center">
+      <input type="button"
+             class="btn waves-effect waves-light btn-rounded   btn-secondary btn-midblock"
+             value="{{'Cancel' | translate}}" (click)="closeModel()" /> &nbsp;
+      <input type="submit" *ngIf="editRowNumber==-1"
+             class="btn waves-effect waves-light btn-rounded btn-primary btn-midblock"
+             value="{{'Save' | translate}}" />
+    </div>
+  </div>
+</form>

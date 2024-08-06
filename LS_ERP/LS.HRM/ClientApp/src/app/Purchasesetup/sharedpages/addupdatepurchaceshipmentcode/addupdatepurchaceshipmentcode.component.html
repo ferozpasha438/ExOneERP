@@ -1,0 +1,80 @@
+<h3> {{'Create_New_Shipment_Code_title' | translate}}<button type="button" class="close" aria-hidden="true" (click)="closeModel()"> ×</button></h3>
+<form [formGroup]="form" (ngSubmit)="submit()" novalidate class="mt-4">
+  <div class="row">
+    <div class="col-md-6 col-lg-6">
+      <div class="form-group">
+        <label> {{'ShipmentCode' | translate}}</label>
+        <input class="form-control" type="text"
+               placeholder="{{'PleaseEnter' | translate}} {{'ShipmentCode' | translate}}" formControlName="shipmentCode" [readonly]="isReadOnly" (change)="onTextchange($event.target.value)">
+      </div>
+    </div>
+    <div class="col-md-6 col-lg-6">
+      <div class="form-group">
+        <label> {{'ShipmentName' | translate}}</label>
+        <input class="form-control" type="text"
+               placeholder="{{'PleaseEnter' | translate}} {{'ShipmentName' | translate}}" formControlName="shipmentName">
+      </div>
+    </div>
+    <div class="col-md-12 col-lg-12">
+      <div class="form-group">
+        <label> {{'DescriptionName' | translate}}</label>
+        <input class="form-control" type="text"
+               placeholder="{{'PleaseEnter' | translate}} {{'DescriptionName' | translate}}" formControlName="shipmentDesc">
+      </div>
+    </div>
+    <div class="col-md-6 col-lg-6">
+      <div class="form-group">
+        <label> {{'TypeName' | translate}}</label>
+        <!--<select class="custom-select mr-sm-2" formcontrolname="shipmentType">
+          <option value="">Choose Type</option>
+          <option value="1">Sea</option>
+          <option value="2">Route</option>
+          <option value="3">Air</option>
+          <option value="4">Courier</option>
+        </select>-->
+        <select class="custom-select mr-sm-2" id="shipmentType" formControlName="shipmentType">
+          <option value="">Choose Type</option>
+          <ng-container *ngIf="TypeList">
+            <option *ngFor="let ccl of TypeList" value="{{ccl.value}}">{{ccl.text}}</option>
+          </ng-container>
+          <!--<ng-container>
+            <option value="">{{Choose Type| translate}}</option>
+            <option value="1">{{Sea| translate}}</option>
+            <option value="2">{{Route| translate}}</option>
+            <option value="3">{{Air| translate}}</option>
+            <option value="4">{{Courier| translate}}</option>-->
+
+            <!--<option value="{{ccl.value}}">{{ccl.text}}</option>
+
+    <option value="">Choose Type</option>
+    <option value="1">Sea</option>
+    <option value="2">Route</option>
+    <option value="3">Air</option>
+    <option value="4">Courier</option>-->
+          <!--</ng-container>-->
+        </select>
+      </div>
+    </div>
+    <!--<div class="col-md-6 col-lg-6">
+      <div class="form-group">
+        <label>{{'IsActive' | translate}}</label>
+        <div class="form-group">
+
+          <mat-slide-toggle color="primary"></mat-slide-toggle>
+
+
+        </div>
+      </div>
+    </div>-->
+  </div>
+  <div class="row mt-3 ">
+    <div class="col-md-12 col-lg-12 text-center">
+      <input type="button"
+             class="btn waves-effect waves-light btn-rounded   btn-secondary btn-midblock"
+             value="{{'Cancel' | translate}}" (click)="closeModel()"/> &nbsp;
+      <input type="submit"
+             class="btn waves-effect waves-light btn-rounded btn-primary btn-midblock"
+             value="{{'Save' | translate}}" />
+    </div>
+  </div>
+</form>

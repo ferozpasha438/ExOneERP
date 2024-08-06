@@ -1,0 +1,63 @@
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-md-12 col-lg-12">
+      <div class="card">
+        <div class="card-body">
+          <div class="col-md-12 col-lg-12 text-right">
+            <a data-toggle="modal" data-target="#createnewbranch" class="btn waves-effect waves-light btn-rounded btn-outline-primary"
+               (click)="create()" href="#"> <i class="icon-plus"> </i>{{'Add_New_Tax' | translate}}  </a>
+
+          </div>
+
+          <div class="row">
+            <div class="col-12 align-self-center pb-3">
+              <h3 class="page-title text-truncate text-dark font-weight-medium mb-1">
+                {{'System_Tax_List' | translate}}
+              </h3>
+
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col-md-12 col-lg-12">
+              <spinner-loader [isLoading]="isLoading"></spinner-loader>
+
+              <table class="table table-bordered no-wrap">
+                <thead>
+                  <tr>
+                    <th>{{'Tax_Code' | translate}}</th>
+                    <th>{{'Tax_Name' | translate}}</th>
+                    <th>{{'Inter_State_Tax_Code' | translate}}</th>
+                    <th>{{'User_SwipeCard' | translate}}</th>
+                    <th>{{'Tax_Percentage' | translate}}</th>
+                    <th>{{'Input_Account_Code' | translate}}</th>
+                    <th>{{'Output_Account_Code' | translate}}</th>
+                    <th>
+                      {{'Actions' | translate}}
+                    </th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let item of taxList">
+                    <td>{{item.taxCode}}</td>
+                    <td>{{item.taxName}}</td>
+                    <td>{{item.isInterState}}</td>
+                    <td>{{item.taxComponent01}}</td>
+                    <td>{{item.taxper01}}</td>
+                    <td>{{item.inputAcCode01}}</td>
+                    <td>{{item.outputAcCode01}}</td>
+                    <td>
+                      <a class="tableicons" (click)="edit(item.id)" matTooltip="{{'Edit_Item' | translate}}"><i class="icon-note"> </i></a>
+                      <!--<a class="tableicons" (click)="delete(item.id)"><i class="icon-trash"> </i></a>-->
+
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,179 @@
+<br />
+<app-employeebasicinfo [employeeBasicInfo]="employeeBasicInfo"></app-employeebasicinfo>
+<br />
+<div class="modal-header">
+    <h3 class="modal-title">{{"ImportLeavesFromTemplate" | translate}}</h3>
+</div>
+<form [formGroup]="form" (ngSubmit)="submit()" novalidate class="mt-4">
+    <div class="row">
+        <div class="col-md-3 col-lg-3">
+            <label for="id" class="mr-sm-2">{{'LeaveTemplate' | translate}}</label>
+            <select class="custom-select input-mandatory mr-sm-2" formControlName="leaveTemplateCode">
+                <option value="">{{'LeaveTemplate' | translate}}</option>
+                <option *ngFor="let leaveTemplate of leaveTemplates" value="{{leaveTemplate.value}}">
+                    {{leaveTemplate.text}}</option>
+            </select>
+            <validation-message [control]="form.controls.leaveTemplateCode"></validation-message>
+        </div>
+        <div class="col-md-4 arabicright" style="margin-top:33px;color: white; ">
+            <a class="btn btn-primary" (click)="ImportDetailsFromLeaveTemplate()"><i
+                    class="fas fa-download">&nbsp;{{'Import'|translate}}</i></a>
+        </div>
+    </div>
+    <br />
+    <div class="modal-header">
+        <h3 class="modal-title">{{"ManageEmployeeLeaves" | translate}}</h3>
+    </div>
+    <br>
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-12 col-lg-12">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-md-12 col-lg-12">
+                                <div class="table table-responsive" style="width: 100%;">
+                                    <table class="form-group" style="width: 100%;">
+                                        <tr>
+                                            <th style="font-size: 1rem; font-weight: bold;">
+                                                {{ "SNo" | translate }}
+                                            </th>
+                                            <th style="font-size: 1rem; font-weight: bold;">
+                                                {{'EmployeeName' | translate}}
+                                            </th>
+                                            <!-- <th style="font-size: 1rem; font-weight: bold;">
+                                                {{'TemplateName' | translate}}
+                                            </th> -->
+                                            <th style="font-size: 1rem; font-weight: bold;">
+                                                {{ "LeaveTypeName" | translate }}
+                                            </th>
+                                            <th style="font-size: 1rem; font-weight: bold;">
+                                                {{ "TransactionDate" | translate }}
+                                            </th>
+                                            <th style="font-size: 1rem; font-weight: bold;">
+                                                {{ "AssignedLeaves" | translate }}
+                                            </th>
+                                            <th style="font-size: 1rem; font-weight: bold;">
+                                                {{ "AvailedLeaves" | translate }}
+                                            </th>
+                                            <th style="font-size: 1rem; font-weight: bold;">
+                                                {{ "Remarks" | translate }}
+                                            </th>
+                                            <th style="font-size: 1rem; font-weight: bold;">
+                                                {{ "Actions" | translate }}
+                                            </th>
+                                        </tr>
+                                        <tbody>
+                                            <tr *ngFor="let item of employeeLeaves;let i=index;">
+                                                <td>{{i+1}}</td>
+                                                <td>{{item.employeeName}}</td>
+                                                <!-- <td>{{item.templateName}}</td> -->
+                                                <td>{{item.leaveTypeName}}</td>
+                                                <td>{{item.tranDate| date: 'dd/MM/yyyy'}}</td>
+                                                <td *ngIf="(!item.isUpdate)">{{item.assigned |decimalpipe}}</td>
+                                                <td *ngIf="(item.isUpdate)">
+                                                    <input class="form-control" type="number" min="0" max="30"
+                                                        step="0.01" id="assigned-{{i}}"
+                                                        value="{{item.assigned |decimalpipe}}">
+                                                </td>
+                                                <td>{{item.availed |decimalpipe}}</td>
+                                                <td *ngIf="(!item.isUpdate)">{{item.remarks}}</td>
+                                                <td *ngIf="(item.isUpdate)">
+                                                    <textarea class="form-control" type="number" id="remarks-{{i}}"
+                                                        value="{{item.remarks}}"></textarea>
+                                                </td>
+                                                <td>
+                                                    <ng-container *ngIf="(!item.isUpdate)">
+                                                        <!--Disable or apply isDisabled class to anchor tag when type of leave is ProRata and when the Leaves are already configure-->
+                                                        <a class="tableicons"
+                                                            [ngClass]="{'isDisabled':item.type===2 || item.id!==0}"
+                                                            (click)="EditemployeeLeaves(i)"
+                                                            matTooltip="{{'EditEmployeeLeave' | translate}}"><i
+                                                                class="icon-note"> </i></a> &nbsp;
+                                                        <a class="tableicons"
+                                                            [ngClass]="{'isDisabled':item.type===2|| item.id!==0}"
+                                                            (click)="DeleteEmployeeLeave(i)"
+                                                            matTooltip="{{'DeleteEmployeeLeave' | translate}}"><i
+                                                                class="icon-trash"> </i></a>
+                                                    </ng-container>
+                                                    <ng-container *ngIf="(item.isUpdate)">
+                                                        <a class="tableicons" (click)="UpdateEmployeeLeave(i)"
+                                                            matTooltip="{{'UpdateEmployeeLeave' | translate}}"><i
+                                                                class="fa fa-save"> </i></a> &nbsp;
+                                                        <a class="tableicons" (click)="Cancel(i)"
+                                                            matTooltip="{{'Cancel' | translate}}"><i
+                                                                class="fa fa-window-close"> </i></a>
+                                                    </ng-container>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row mt-3 ">
+        <div class="col-md-12 col-lg-12 text-center">
+            <input type="button" class="btn waves-effect waves-light btn-rounded   btn-secondary btn-midblock"
+                value="{{'Cancel' | translate}}" (click)="closeModel()" /> &nbsp;
+            <input type="submit" class="btn waves-effect waves-light btn-rounded btn-primary btn-midblock"
+                value="{{'Save' | translate}}" />
+        </div>
+    </div>
+</form>
+<br>
+<br>
+<style>
+    table {
+        border-collapse: collapse;
+        width: 100%;
+    }
+
+    td,
+    th {
+        border: 1px solid #a5a5a5;
+        text-align: center;
+        padding: 10px;
+        font-size: 17px !important;
+    }
+
+    th {
+        color: black;
+    }
+
+    .select {
+        word-wrap: normal;
+        width: 32px;
+        height: 32px;
+    }
+
+    .mt-4 {
+        margin-top: 1.9rem !important;
+    }
+
+    .summary {
+        transform: translateY(-23px);
+        margin: 0%;
+        background-color: #e8eef3 !important;
+        padding: 1%;
+    }
+
+    .netPay {
+        transform: translateY(-12px);
+        margin: 0%;
+        background-color: #e8eef3 !important;
+        padding: 0.5%;
+    }
+
+    .isDisabled {
+        color: currentColor;
+        cursor: not-allowed;
+        pointer-events: none;
+        opacity: 0.5;
+        text-decoration: none;
+    }
+</style>

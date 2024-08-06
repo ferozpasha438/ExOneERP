@@ -1,0 +1,75 @@
+<h3 class="modal-title">{{modalTitle | translate}}</h3>
+<button type="button" class="close" aria-hidden="true" (click)="closeModel()"> ×</button>
+<form [formGroup]="form" (ngSubmit)="submit()" novalidate class="mt-auto">
+  <div class="modal-body">
+    <div class="outer ">
+      <div class="col-md-12 col-lg-12">
+        <div class="row">
+
+          <div class="col-md-5 col-lg-5">
+
+
+
+
+
+            <div class="form-group ">
+              <div class="input-group mb-2">
+                <label class="mr-sm-2">{{'To_Date' | translate}}</label>&nbsp;
+                <input class="form-control datapickerinput" [matDatepicker]="picker1" [min]="minPostDate" [max]="maxPostDate" placeholder="{{'Select' | translate}} {{'To_Date'}}" formControlName="date" (click)="openDatePicker(picker1)">
+                <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
+                <mat-datepicker #picker1 data-date-format="yyyy/mm/dd"></mat-datepicker>
+              </div>
+
+              <validation-message [control]="form.controls.date"></validation-message>
+
+            </div>
+
+
+
+
+
+          </div>
+          <div class="col-md-5 col-lg-5">
+            <div class="form-group ">
+
+              <div class="input-group mb-2">
+
+
+                <input type="button"
+                       class="btn waves-effect waves-light btn-rounded   btn-primary btn-midblock"
+                       value="{{'Post' | translate}}" (click)="postAttendance()" /> &nbsp;
+                <input type="button"
+                       class="btn waves-effect waves-light btn-rounded   btn-primary btn-midblock"
+                       value="{{'Cancel' | translate}}" (click)="closeModel()" /> &nbsp;
+
+              </div>
+
+
+            </div>
+
+
+          </div>
+          <div class="col-md-2 col-lg-2 text-center">
+            <spinner-loader [isLoading]="isLoading"></spinner-loader>
+          </div>
+
+        </div>
+      </div>
+      </div>
+    </div>
+
+
+
+
+
+</form>
+
+
+
+
+
+
+
+
+
+

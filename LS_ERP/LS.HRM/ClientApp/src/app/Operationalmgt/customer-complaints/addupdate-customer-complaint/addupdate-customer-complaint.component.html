@@ -1,0 +1,424 @@
+<form [formGroup]="form" (ngSubmit)="submit()" novalidate class="mt-4" #myform="ngForm" *ngIf="action!='view'">
+  <h3> {{modalTitle}} <button type="button" class="close" aria-hidden="true" (click)="closeModel()"> ×</button></h3>
+  <div class="modal-body">
+    <div class="outer ">
+      <div class="row rowm0 ">
+
+        <div class="col-md-12 col-lg-12">
+
+          <div class="row mt-3">
+            <div class="col-md-12 col-lg-12">
+              <div class="p-3" style="border:1px solid #f4f4f4;">
+                <div class="row  mt-2" id="inputEntry">
+
+                  <div class="col-md-4 col-lg-4">
+                    <label class="mr-sm-2">{{'Customer_Code' | translate}}</label>
+                    <div class="form-group ">
+                      <div class="input-group mb-2">
+                        <auto-loader [isLoading]="isDataLoading"></auto-loader>
+                        <input type="text" class="form-control"
+                               placeholder="{{'Please_Enter' | translate}} {{'Customer_Code' | translate}}"
+                               [formControl]="custCodeControl"
+                               matInput
+                               [matAutocomplete]="auto1">
+                        <mat-autocomplete #auto1="matAutocomplete" (optionSelected)="onSelectionCustomerCode($event,1)">
+                          <mat-option *ngFor="let option of filteredCustCodes | async"
+                                      [value]="option.value" style="font-size:smaller">
+                            {{ isArabic?option.textTwo:option.text}}-{{option.value}}
+                          </mat-option>
+                        </mat-autocomplete>
+
+                      </div>
+
+                      <span *ngIf="!(form.get('customerCode')?.hasError('required') && myform?.submitted)" style="color:red">
+                        <validation-message [control]="form.controls.customerCode"></validation-message>
+                      </span>
+                      <span *ngIf="form.get('customerCode')?.hasError('required')&& myform?.submitted" style="color:red">{{'Required'|translate}}</span>
+                    </div>
+
+                  </div>
+
+
+                  <div class="col-md-4 col-lg-4">
+                    <label class="mr-sm-2">{{'Project' | translate}}</label>
+                    <div class="form-group">
+                      <div class="input-group mb-2">
+
+                        <select class="custom-select mr-sm-2" formControlName="projectCode" (change)="onSelectionProjectCode()">
+                          <option value=''>{{'Select' | translate}} {{'Project' | translate}} </option>
+                          <option *ngFor="let pr of projectsList" value="{{pr.value}}">{{pr.value}}</option>
+                        </select>
+                      </div>
+
+                      <span *ngIf="!(form.get('projectCode')?.hasError('required') && myform?.submitted)" style="color:red">
+                        <validation-message [control]="form.controls.projectCode"></validation-message>
+                      </span>
+                      <span *ngIf="form.get('projectCode')?.hasError('required')&& myform?.submitted" style="color:red">{{'Required'|translate}}</span>
+                    </div>
+
+                  </div>
+                  <div class="col-md-4 col-lg-4">
+                    <label class="mr-sm-2">{{'Site' | translate}}</label>
+                    <div class="form-group ">
+                      <div class="input-group mb-2">
+
+                        <select class="custom-select mr-sm-2" formControlName="siteCode" (change)="onSelectionSiteCode()">
+                          <option value=''>{{'Select' | translate}} {{'Site' | translate}} </option>
+                          <option *ngFor="let s of siteCodeList" value="{{s.siteCode}}">{{ isArabic?s.siteArbName:s.siteName}}</option>
+                        </select>
+                      </div>
+
+                      <span *ngIf="!(form.get('siteCode')?.hasError('required') && myform?.submitted)" style="color:red">
+                        <validation-message [control]="form.controls.siteCode"></validation-message>
+                      </span>
+                      <span *ngIf="form.get('siteCode')?.hasError('required')&& myform?.submitted" style="color:red">{{'Required'|translate}}</span>
+
+                    </div>
+
+                  </div>
+
+                  <div class="col-md-3 col-lg-3">
+                    <div class="form-group">
+                      <label>{{'Reason_Code' | translate}}</label>
+                      <ng-select [items]="reasonCodeSelectionList"
+                                 bindLabel="text"
+                                 bindValue="value" formControlName="reasonCode">
+                      </ng-select>
+                      <validation-message [control]="form.controls.reasonCode"></validation-message>
+                    </div>
+                  </div>
+
+
+
+                  <div class="col-md-3 col-lg-3">
+                    <div class="form-group">
+                      <label>{{'Complaint_By' | translate}}</label>
+                      <input type="text" class="form-control" placeholder="{{'Please_Enter' | translate}} {{'Complaint_By' | translate}}" formControlName="complaintBy" />
+
+                      <validation-message [control]="form.controls.complaintBy"></validation-message>
+                    </div>
+                  </div>
+
+
+
+
+
+
+
+
+                  <div class="col-md-3 col-lg-3">
+                    <div class="form-group">
+                      <label>{{'Complaint_Date' | translate}}</label>
+                      <input matInput type="datetime-local" class="form-control datapickerinput" placeholder="{{'Complaint_Date' | translate}}"
+                             formControlName="complaintDate">
+                      <validation-message [control]="form.controls.complaintDate"></validation-message>
+                    </div>
+                  </div>
+
+
+                  <div class="col-md-3 col-lg-3">
+                    <div class="form-group">
+                      <label>{{'Booked_By' | translate}}</label>
+
+                      <ng-select [items]="userSelectionList"
+                                 bindLabel="text"
+                                 bindValue="value" formControlName="bookedBy">
+
+                      </ng-select>
+                      <validation-message [control]="form.controls.bookedBy"></validation-message>
+                    </div>
+                  </div>
+
+
+                  <div class="col-md-6 col-lg-6">
+                    <div class="form-group">
+                      <label>{{'Complaint_Description' | translate}}</label>
+                      <textarea class="form-control" type="text"
+                                placeholder="{{'Please_Enter' | translate}} {{'Complaint_Description' | translate}}" formControlName="complaintDescription">
+</textarea>
+                      <validation-message [control]="form.controls.complaintDescription"></validation-message>
+                    </div>
+                  </div>
+
+
+                  <div class="col-md-2 col-lg-2" *ngIf="(action=='new'|| action =='edit')">
+                    <div class="form-group">
+                      <label>{{'Proof' | translate}}</label>
+                      <div>
+                        <input accept="image/*" type="file" (change)="onFileChanged($event,1)" style="width: 100%;" />
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-md-4 col-lg-4" *ngIf="(proofForComplaintUrl && (action=='new'|| action=='edit' || id==0))">
+                    <img src="{{proofForComplaintUrl}}" width="250" height="200">
+                  </div>
+
+
+                  <div class="col-md-3 col-lg-3" *ngIf="action=='closing'">
+                    <div class="form-group">
+                      <label>{{'Closing_Date' | translate}}</label>
+                      <input matInput type="datetime-local" value="curDate" class="form-control datapickerinput" placeholder="{{'Closing_Date' | translate}}"
+                             formControlName="closingDate">
+                      <validation-message [control]="form.controls.closingDate"></validation-message>
+                    </div>
+                  </div>
+
+
+
+
+
+                  <div class="col-md-7 col-lg-7" *ngIf="action=='closing'">
+                    <div class="form-group">
+                      <label>{{'Closing_Description' | translate}}</label>
+                      <textarea class="form-control" type="text"
+                                placeholder="{{'Please_Enter' | translate}} {{'Closing_Description' | translate}}" formControlName="actionDescription">
+</textarea>
+                      <validation-message [control]="form.controls.actionDescription"></validation-message>
+                    </div>
+                  </div>
+
+                  <div class="col-md-2 col-lg-2" *ngIf="action=='closing'">
+                    <div class="form-group">
+                      <label>{{'Proof' | translate}}</label>
+                      <div>
+                        <input accept="image/*,.pdf" type="file" (change)="onFileChanged($event,2)" style="width: 100%;" />
+                      </div>
+                    </div>
+                  </div>
+                  <!--<div class="col-md-4 col-lg-4" *ngIf="proofForActionUrl && action=='closing'">
+                    <img src="{{proofForActionUrl}}" width="250" height="200">
+                  </div>-->
+
+
+
+
+
+
+                </div>
+
+              </div>
+            </div>
+
+
+
+
+          </div>
+
+        </div>
+        <div class="col-md-12 col-lg-12">
+
+          <div class="row mt-3 ">
+            <div class="col-md-12 col-lg-12 text-center">
+              <input type="button"
+                     class="btn waves-effect waves-light btn-rounded   btn-secondary btn-midblock"
+                     value="{{'Cancel' | translate}}" (click)="closeModel()" /> &nbsp;
+
+              <input type="submit" *ngIf="action=='new'||action=='edit'"
+                     class="btn waves-effect waves-light btn-rounded btn-primary btn-midblock"
+                     value="{{'Save' | translate}}" />
+              <input type="submit" *ngIf="action=='startAction'"
+                     class="btn waves-effect waves-light btn-rounded btn-primary btn-midblock"
+                     value="{{'Confirm' | translate}}" />
+              <input type="submit" *ngIf="action=='closing'"
+                     class="btn waves-effect waves-light btn-rounded btn-primary btn-midblock"
+                     value="{{'Close_Complaint' | translate}}" />
+
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+    </div>
+
+
+  </div>
+
+</form>
+<ng-container *ngIf="action=='view'">
+
+  <div>
+    <button (click)="print()">{{'Print'|translate}}</button> &nbsp;
+
+    <button type="button" class="" aria-hidden="true" (click)="closeModel()"> Close</button>
+  </div>
+
+  <br />
+  <br />
+  <br />
+
+  <div class="container-fluid invoice-container print-container" style=" width:850px; padding-top:5px; height:100%" id="printableArea">
+    <div style="page-break-after: always;  height: 100vh">
+      <ng-container id="tableData">
+        <table style="width:100%" border="0" cellpadding="0" cellspacing="0">
+          <tr>
+            <td style="width:35%">
+              <h5 style="text-align:left">
+                <strong>
+
+                  {{CompanyData?.companyName}}
+                </strong>
+              </h5>
+            </td>
+            <td style="text-align:center">
+              <img class="float-center" src="{{CompanyData?.logoURL}}" style="width:200px;height:150px" />
+            </td>
+            <td style="width:35%">
+              <h5 style="text-align:right">
+                <strong>
+
+                  {{CompanyData?.companyNameAr}}
+                </strong>
+              </h5>
+            </td>
+          </tr>
+
+
+        </table>
+        <table style="width:100%" border="1" cellpadding="5" cellspacing="0">
+          <tr style="text-align:center">
+            <td  rowspan="2" style=" border: 1px solid #878787; padding: 5px; font-size: 0.675rem !important; color: #000000; font-family: 'Poppins', sans-serif; font-weight: 600;">
+              {{'Ref.No'|translate}}:{{resultData.id}}
+            </td>
+
+            <td  rowspan="2" style=" border: 1px solid #878787; padding: 5px; font-size: 0.675rem !important; color: #000000; font-family: 'Poppins', sans-serif; font-weight: 600;">
+              {{'Reason_Code'|translate}}:     {{(isArabic?resultData.reasonCodeNameAr:resultData?.reasonCodeNameEng)}}
+            </td>
+
+            <td  style=" border: 1px solid #878787; padding: 5px; font-size: 0.675rem !important; color: #000000; font-family: 'Poppins', sans-serif; font-weight: 600;">
+              {{'Complaint_Date'|translate}}:   {{resultData?.complaintDate|date:'dd/MM/YYYY'}}
+            </td>
+         
+
+            <td  rowspan="2" style=" border: 1px solid #878787; padding: 5px; font-size: 0.675rem !important; color: #000000; font-family: 'Poppins', sans-serif; font-weight: 600;">
+              {{'Complaint_By'|translate}}:  {{resultData?.complaintBy}}
+            </td>
+          </tr>
+          <tr style="text-align:center">
+            <td style=" border: 1px solid #878787; padding: 5px; font-size: 0.675rem !important; color: #000000; font-family: 'Poppins', sans-serif; font-weight: 600;">
+              {{'Complaint_Closed_Date'|translate}}:   {{resultData?.closingDate|date:'dd/MM/YYYY'}}
+            </td>
+          </tr>
+        </table>
+        <table style="width: 100%;" border="1" cellpadding="5" cellspacing="0">
+          <tr style="text-align:center">
+            <td width="15%" style=" border: 1px solid #878787; padding: 5px; text-align: center; font-size: 0.675rem !important; color: #000000; font-family: 'Poppins', sans-serif; font-weight: 600;word-wrap:break-word">{{'Customer_Name'|translate}}</td>
+            <td width="35%" style=" border: 1px solid #878787; padding: 5px; text-align: center; font-size: 0.675rem !important; color: #000000; font-family: 'Poppins', sans-serif; font-weight: 400;">
+              {{resultData.projectNameEng}}
+              <br />
+              {{resultData.projectNameAr}}
+            </td>
+            <td width="15%" style=" border: 1px solid #878787; padding: 5px; text-align: center; font-size: 0.675rem !important; color: #000000; font-family: 'Poppins', sans-serif; font-weight: 600;word-wrap:break-word">{{'Site_Name'|translate}}</td>
+            <td width="35%" style="white-space: pre-wrap; border: 1px solid #878787; padding: 5px; text-align: center; font-size: 0.675rem !important; color: #000000; font-family: 'Poppins', sans-serif; font-weight: 400;">
+              {{resultData.siteNameEng}}
+              <br />
+              {{resultData.siteNameAr}}
+            </td>
+
+          </tr>
+          <tr style="text-align:center">
+
+            <td width="15%" style=" border: 1px solid #878787; padding: 5px; text-align: center; font-size: 0.675rem !important; color: #000000; font-family: 'Poppins', sans-serif; font-weight: 600;word-wrap:break-word">{{'Customer_Address'|translate}}</td>
+            <td width="35%" style=" border: 1px solid #878787; padding: 5px; text-align: center; font-size: 0.675rem !important; color: #000000; font-family: 'Poppins', sans-serif; font-weight: 400; white-space: pre-wrap;">{{resultData.customerAddress}}</td>
+            <td width="15%" style=" border: 1px solid #878787; padding: 5px; text-align: center; font-size: 0.675rem !important; color: #000000; font-family: 'Poppins', sans-serif; font-weight: 600;word-wrap:break-word">{{'Site_Address'|translate}}</td>
+            <td width="35%" style=" border: 1px solid #878787; padding: 5px; text-align: center; font-size: 0.675rem !important; color: #000000; font-family: 'Poppins', sans-serif; font-weight: 400; white-space: pre-wrap;">{{resultData.siteAddress}}</td>
+
+
+
+          </tr>
+          <tr style="text-align:center">
+            <td style=" border: 1px solid #878787; padding: 5px; text-align: center; font-size: 0.675rem !important; color: #000000; font-family: 'Poppins', sans-serif; font-weight: 600;">{{'Complaint_Booked_By'|translate}}</td>
+            <td style=" border: 1px solid #878787; padding: 5px; text-align: center; font-size: 0.675rem !important; color: #000000; font-family: 'Poppins', sans-serif; font-weight: 400;">{{resultData?.nameBookedBy}}</td>
+            <td style=" border: 1px solid #878787; padding: 5px; text-align: center; font-size: 0.675rem !important; color: #000000; font-family: 'Poppins', sans-serif; font-weight: 600;">{{'Evidence_Attached?'|translate}}</td>
+            <td style=" border: 1px solid #878787; padding: 5px; text-align: center; font-size: 0.675rem !important; color: #000000; font-family: 'Poppins', sans-serif; font-weight: 400;">{{(resultData?.proofForComplaint==null?'no':'yes')}}</td>
+
+          </tr>
+
+
+          <tr>
+
+            <td style=" border: 1px solid #878787; padding: 5px; text-align: center; font-size: 0.675rem !important; color: #000000; font-family: 'Poppins', sans-serif; font-weight: 600;">{{'Complaint_Closed_By'|translate}}</td>
+            <td style=" border: 1px solid #878787; padding: 5px; text-align: center; font-size: 0.675rem !important; color: #000000; font-family: 'Poppins', sans-serif; font-weight: 400;">{{resultData?.nameClosedBy}}</td>
+            <td style=" border: 1px solid #878787; padding: 5px; text-align: center; font-size: 0.675rem !important; color: #000000; font-family: 'Poppins', sans-serif; font-weight: 600;">{{'Closing_Complaint_Document_Attached?'|translate}}</td>
+            <td style=" border: 1px solid #878787; padding: 5px; text-align: center; font-size: 0.675rem !important; color: #000000; font-family: 'Poppins', sans-serif; font-weight: 400;">{{(resultData?.isClosed?resultData?.proofForAction==null?'no':'yes':'')}}</td>
+
+
+          </tr>
+
+
+          
+
+        </table>
+        <table style="width: 100%;" border="1" cellpadding="5" cellspacing="0">
+          <tr>
+            <th colspan="4" style=" border:none; padding: 5px; text-align: left; font-size: 0.675rem !important; color: #000000; font-family: 'Poppins', sans-serif; font-weight: 600;">
+              {{'Complaint_Opening_Remarks'|translate}}
+            </th>
+          </tr>
+          <tr>
+            <td colspan="4" style=" border: none; padding: 5px; text-align: justify;white-space: pre-wrap; font-size: 0.675rem !important; color: #000000; font-family: 'Poppins' , sans-serif; font-weight: 400;">
+              {{resultData?.complaintDescription}}
+            </td>
+
+          </tr>
+
+        <tr>
+            <th colspan="4" style=" border:none; padding: 5px; text-align: left; font-size: 0.675rem !important; color: #000000; font-family: 'Poppins', sans-serif; font-weight: 600;">
+              {{'Closing_Remarks'|translate}}
+            </th>
+          </tr>
+          <tr>
+            <td colspan="4" style=" border: none; padding: 5px; text-align: justify;white-space: pre-wrap; font-size: 0.675rem !important; color: #000000; font-family: 'Poppins' , sans-serif; font-weight: 400;">
+              {{resultData?.actionDescription}}
+            </td>
+
+          </tr>
+      
+          
+          
+          
+        </table>
+
+
+      </ng-container>
+
+
+      <ng-container id="footer">
+        <table style="width: 100%;" border="1" cellpadding="5" cellspacing="0">
+
+
+
+
+          <tr style="background:#808080">
+            <td colspan="6"><br /></td>
+          </tr>
+          <tr style="text-align:center;word-wrap:break-word">
+            <td width="20%"><br /></td>
+            <td style=" border: 1px solid #878787; padding: 5px; text-align: center; font-size: 0.675rem !important; color: #000000; font-family: 'Poppins', sans-serif; font-weight: 600;">{{'Operations_Supervisor'|translate}}</td>
+            <td width="20%"><br /></td>
+            <td style=" border: 1px solid #878787; padding: 5px; text-align: center; font-size: 0.675rem !important; color: #000000; font-family: 'Poppins', sans-serif; font-weight: 600;">{{'Operations_Manager'|translate}}</td>
+            <td width="20%"><br /></td>
+            <td style=" border: 1px solid #878787; padding: 5px; text-align: center; font-size: 0.675rem !important; color: #000000; font-family: 'Poppins', sans-serif; font-weight: 600;">{{'Regional_Manager'|translate}}</td>
+          </tr>
+          <tr style="text-align:center;word-wrap:break-word;vertical-align:top">
+            <td rowspan="2" style=" border: 1px solid #878787; padding: 5px; text-align: center; font-size: 0.675rem !important; color: #000000; font-family: 'Poppins', sans-serif; font-weight: 600;"><br /><br /><br /></td>
+            <td rowspan="2" style=" border: 1px solid #878787; padding: 5px; text-align: center; font-size: 0.675rem !important; color: #000000; font-family: 'Poppins', sans-serif; font-weight: 600;">{{'Signature'|translate}}</td>
+            <td rowspan="2"><br /></td>
+            <td rowspan="2" style=" border: 1px solid #878787; padding: 5px; text-align: center; font-size: 0.675rem !important; color: #000000; font-family: 'Poppins', sans-serif; font-weight: 600;">{{'Signature'|translate}}</td>
+            <td rowspan="2"><br /></td>
+            <td rowspan="2" style=" border: 1px solid #878787; padding: 5px; text-align: center; font-size: 0.675rem !important; color: #000000; font-family: 'Poppins', sans-serif; font-weight: 600;">{{'Signature'|translate}}</td>
+          </tr>
+          <tr>
+          </tr>
+
+
+        </table>
+      </ng-container>
+
+    </div>
+
+  </div>
+</ng-container>
+
+
+

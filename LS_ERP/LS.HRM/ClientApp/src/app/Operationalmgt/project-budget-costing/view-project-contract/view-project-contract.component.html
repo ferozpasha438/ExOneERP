@@ -1,0 +1,463 @@
+
+<div style="position:fixed;">
+  <button (click)="printInvoice()">Print</button> &nbsp;
+  <button type="button" class="" aria-hidden="true" (click)="closeModel()"> Close</button>
+</div>
+<br />
+<br />
+<br />
+<div class="container-fluid invoice-container print-container" style="width:850px; padding-top:5px;" id="printcontainer">
+  <div style="padding-bottom:5px">
+    <table style="width:100%" border="0" cellpadding="0" cellspacing="0" width="100%">
+      <tr>
+        <td style="text-align: left;width:60%">
+          <h4 style="font-size: 1rem !important;color: #0c2f54; font-family: 'Poppins', sans-serif;font-weight: 500;
+        line-height: 1.2;margin:0;padding-top:4px">
+            International Ideal Development Gen. Cont. Est.
+          </h4>
+          <h4 style="font-size: 1.2rem !important;color: #0c2f54; font-family: 'Poppins', sans-serif;font-weight: 500;
+        line-height: 1.2;margin:0;padding-top:4px">
+            .المؤسسة العالمية للتنمية المثالية للمقاولات العامة
+            ,
+          </h4>
+          <h4 style="font-size: 1rem !important;color: #0c2f54; font-family: 'Poppins', sans-serif;font-weight: 500;
+        line-height: 1.2;margin:0;padding-top:4px">
+            Al Khobar
+          </h4>
+          <h4 style="font-size: 1rem !important;color: #0c2f54; font-family: 'Poppins', sans-serif;font-weight: 500;
+        line-height: 1.2;margin:0;padding-top:4px">
+            Saudi Arabia
+          </h4>
+
+        </td>
+        <td style=" text-align: right;vertical-align: middle;">
+          <img id="logo" style="width:120px" src="assets/images/LOGOPRINT.png" title="Project_Estimation" alt="Terms_And_Conditions" />
+        </td>
+
+
+      </tr>
+      <tr>
+        <td colspan="3" style="text-align: center; font-size: 0.875rem !important; color: #000000; font-family: 'Poppins', sans-serif; font-weight: 600;">{{'Terms_And_Conditions'|translate}}</td>
+      </tr>
+    </table>
+    </div>
+
+    <div style="padding-bottom:5px">
+      <table style="width: 100%; text-align: left;" border="0" cellpadding="0" cellspacing="0" width="100%">
+        <tr>
+          <th style=" width:20%;border:2px solid #878787;padding:5px;font-size:0.875rem !important;color: #000000; font-family: 'Poppins', sans-serif;font-weight:600;">
+            {{'Customer_Code' | translate}}
+          </th>
+          <td style="width:30%;border:2px solid #878787;padding:5px;font-size:0.775rem !important;color: #000000; font-family: 'Poppins', sans-serif;font-weight: 500;">
+            #{{project?.customerCode}}
+          </td>
+
+          <th style="width:20%;border:2px solid #878787;padding:5px;font-size:0.875rem !important;color: #000000; font-family: 'Poppins', sans-serif;font-weight: 600;">
+            {{'Customer_Name' | translate}}
+          </th>
+          <td style=" border:2px solid #878787;padding:5px;font-size:0.775rem !important;color: #000000; font-family: 'Poppins', sans-serif;font-weight: 500;">
+            {{ !isArab?customerData?.custName:customerData?.custArbName}}
+          </td>
+
+        </tr>
+        <tr>
+          <th style=" border:2px solid #878787;padding:5px;font-size:0.875rem !important;color: #000000; font-family: 'Poppins', sans-serif;font-weight:500;">
+            {{'Address' | translate}}
+          </th>
+          <td colspan="3" style="border:2px solid #878787;padding:5px;font-size:0.775rem !important;color: #000000; font-family: 'Poppins', sans-serif;font-weight: 600;">
+            #{{customerData?.custAddress1}}
+          </td>
+
+
+
+        </tr>
+        <tr>
+          <th style=" border:2px solid #878787;padding:5px;font-size:0.875rem !important;color: #000000; font-family: 'Poppins', sans-serif;font-weight:600;">
+            {{'City' | translate}}
+          </th>
+          <th style=" border:2px solid #878787;padding:5px;font-size:0.775rem !important;color: #000000; font-family: 'Poppins', sans-serif;font-weight: 500;">
+            {{ !isArab?city?.cityName:city?.cityNameAr}}
+          </th>
+
+          <th style=" border:2px solid #878787;padding:5px;font-size:0.875rem !important;color: #000000; font-family: 'Poppins', sans-serif;font-weight: 600;">
+            {{'Phone' | translate}}
+          </th>
+          <th style="border:2px solid #878787;padding:5px;font-size:0.775rem !important;color: #000000; font-family: 'Poppins', sans-serif;font-weight: 500;">
+            {{customerData?.custPhone1}}
+          </th>
+
+        </tr>
+
+      </table>
+    </div>
+    <div style="padding-bottom:5px">
+      <table style="width: 100%; text-align: left;" border="0" cellpadding="0" cellspacing="0" width="100%">
+        <tr>
+          <th style=" width:20%;border:2px solid #878787;padding:5px;font-size:0.875rem !important;color: #000000; font-family: 'Poppins', sans-serif;font-weight:600;">
+            {{'Project_Code' | translate}}
+          </th>
+          <td style="width:30%;border:2px solid #878787;padding:5px;font-size:0.775rem !important;color: #000000; font-family: 'Poppins', sans-serif;font-weight: 500;">
+            {{projectData?.projectCode}}
+          </td>
+
+          <th style="width:20%;border:2px solid #878787;padding:5px;font-size:0.875rem !important;color: #000000; font-family: 'Poppins', sans-serif;font-weight: 600;">
+            {{'Est_Starting_Date' | translate}}
+          </th>
+          <td style=" border:2px solid #878787;padding:5px;font-size:0.775rem !important;color: #000000; font-family: 'Poppins', sans-serif;font-weight: 500;">
+            {{projectData?.startDate.substring(0,10)}}
+          </td>
+
+        </tr>
+        <tr>
+          <th style=" width:20%;border:2px solid #878787;padding:5px;font-size:0.875rem !important;color: #000000; font-family: 'Poppins', sans-serif;font-weight:600;">
+            {{'Project_Details' | translate}}
+          </th>
+          <td style="width:20%;border:2px solid #878787;padding:5px;font-size:0.775rem !important;color: #000000; font-family: 'Poppins', sans-serif;font-weight: 500;">
+            {{ !isArab?projectData?.projectNameEng:projectData.projectNameArb}}
+          </td>
+
+          <th style="width:20%;border:2px solid #878787;padding:5px;font-size:0.875rem !important;color: #000000; font-family: 'Poppins', sans-serif;font-weight: 600;">
+            {{'Est_Closing_Date' | translate}}
+          </th>
+          <td style=" border:2px solid #878787;padding:5px;font-size:0.775rem !important;color: #000000; font-family: 'Poppins', sans-serif;font-weight: 500;">
+            {{projectData?.endDate.substring(0,10)}}
+          </td>
+
+        </tr>
+
+      </table>
+    </div>
+
+
+    <div style="padding-bottom:5px">
+      <table style="width: 100%; text-align: left;" border="0" cellpadding="0" cellspacing="0" width="100%">
+        <thead>
+          <tr>
+            <th style="width:5%;border:2px solid #878787;padding:5px;font-size:0.875rem !important;color: #000000; font-family: 'Poppins', sans-serif;font-weight:600;">
+              {{'S.No'|translate}}
+            </th>
+            <th style="border:2px solid #878787;padding:5px;font-size:0.875rem !important;color: #000000; font-family: 'Poppins', sans-serif;font-weight:600;">
+              {{'Liability_and_Insurances'|translate}}
+            </th>
+
+
+          </tr>
+        </thead>
+        <ng-container *ngIf="liabilityInsuranceTerms.length!=0">
+          <ng-container *ngFor="let t of liabilityInsuranceTerms;let j = index;">
+            <tr *ngIf="t.isLiabilityAndInsurance">
+              <td style="border:2px solid #878787;padding:5px;font-size:0.775rem !important;color: #000000; font-family: 'Poppins', sans-serif;font-weight:500;">
+                {{this.j+1}}
+              </td>
+              <td style="border:2px solid #878787;padding:5px;font-size:0.775rem !important;color: #000000; font-family: 'Poppins', sans-serif;font-weight:500;">{{t.contractTerm}}</td>
+
+            </tr>
+
+
+          </ng-container>
+        </ng-container>
+
+
+      </table>
+
+    </div>
+
+    <div style="padding-bottom:5px">
+      <table style="width: 100%; text-align: left;" border="0" cellpadding="0" cellspacing="0" width="100%">
+        <thead>
+          <tr>
+            <th style=" width:5%;border:2px solid #878787;padding:5px;font-size:0.875rem !important;color: #000000; font-family: 'Poppins', sans-serif;font-weight:600;">
+              {{'S.No'|translate}}
+            </th>
+            <th style="border:2px solid #878787;padding:5px;font-size:0.875rem !important;color: #000000; font-family: 'Poppins', sans-serif;font-weight:600;">
+              {{'Termination_Clause'|translate}}
+            </th>
+
+
+          </tr>
+        </thead>
+        <ng-container *ngIf="terminationClauseTerms.length!=0">
+          <ng-container *ngFor="let t of terminationClauseTerms;let j = index;">
+            <tr *ngIf="t.isTerminationClause">
+              <td style="border:2px solid #878787;padding:5px;font-size:0.775rem !important;color: #000000; font-family: 'Poppins', sans-serif;font-weight:500;">
+                {{this.j+1}}
+              </td>
+              <td style="border:2px solid #878787;padding:5px;font-size:0.775rem !important;color: #000000; font-family: 'Poppins', sans-serif;font-weight:500;">{{t.contractTerm}}</td>
+
+            </tr>
+
+
+          </ng-container>
+        </ng-container>
+
+
+      </table>
+
+    </div>
+
+
+    <div style="padding-bottom:5px">
+      <table style="width: 100%; text-align: left;" border="0" cellpadding="0" cellspacing="0" width="100%">
+        <thead>
+          <tr>
+            <th style=" width:5%;border:2px solid #878787;padding:5px;font-size:0.875rem !important;color: #000000; font-family: 'Poppins', sans-serif;font-weight:600;">
+              {{'S.N' | translate}}
+            </th>
+            <th style=" width:20%;border:2px solid #878787;padding:5px;font-size:0.875rem !important;color: #000000; font-family: 'Poppins', sans-serif;font-weight:600;">
+              {{'Payment_Date' | translate}}
+            </th>
+            <th style=" border:2px solid #878787;padding:5px;font-size:0.875rem !important;color: #000000; font-family: 'Poppins', sans-serif;font-weight:600;">
+              {{'Perticular' | translate}}
+            </th>
+
+
+            <th style="width: 20%; border: 2px solid #878787; padding: 5px; font-size: 0.875rem !important; color: #000000; font-family: 'Poppins', sans-serif; font-weight: 600;">
+              {{'Amount'|translate}}
+            </th>
+          </tr>
+        </thead>
+        <ng-container>
+          <tr *ngFor="let row of paymentTermsList; let i = index;">
+            <td style="border:2px solid #878787;padding:5px;font-size:0.775rem !important;color: #000000; font-family: 'Poppins', sans-serif;font-weight:500;">
+              {{i+1}}
+            </td>
+            <td style="border:2px solid #878787;padding:5px;font-size:0.775rem !important;color: #000000; font-family: 'Poppins', sans-serif;font-weight:500;">
+              {{dateFormat(row.instDate)}}
+            </td>
+            <td style="text-align:left;border:2px solid #878787;padding:5px;font-size:0.775rem !important;color: #000000; font-family: 'Poppins', sans-serif;font-weight:500;">
+              {{row.particular}}
+            </td>
+
+
+            <td style="text-align:left;border:2px solid #878787;padding:5px;font-size:0.775rem !important;color: #000000; font-family: 'Poppins', sans-serif;font-weight:500;">
+              {{row.amount}}
+
+            </td>
+          </tr>
+
+        </ng-container>
+
+      </table>
+
+    </div>
+
+  </div>
+
+
+
+
+
+  <!--<form [formGroup]="form" (ngSubmit)="submit()" novalidate class="mt-4" style="margin-top:0!important">
+  <div class="modal-body" style="padding:0">
+    <h3 class="modal-title">{{modalTitle | translate}}</h3>
+    <button type="button" class="close" style="position:absolute;right:0;top:-8px;font-size:40px;font-weight:normal" aria-hidden="true" (click)="closeModel()"> ×</button>
+    <div class="outer ">
+
+
+      <div class="row mt-3">
+        <div class="col-md-12 col-lg-12">
+          <div class="p-3" style="border:1px solid #f4f4f4;">
+            <div class="row  mt-2">
+
+              <div class="col-md-3 col-lg-3">
+                <div class="form-group">
+                  <label>{{'Customer_Code' | translate}}</label>
+                  <input class="form-control" type="text"
+                         formControlName="customerCode" readonly>
+                </div>
+              </div>
+
+              <div class="col-md-3 col-lg-3">
+                <div class="form-group">
+                  <label>{{'Project_Code' | translate}}</label>
+                  <input class="form-control" type="text"
+                         formControlName="projectCode" readonly>
+                </div>
+              </div>
+              <div class="col-md-2 col-lg-2">
+                <div class="form-group">
+                  <label>{{'Project_Start_Date' | translate}}</label>
+                  <input class="form-control" type="text"
+                         formControlName="startDate" readonly>
+                </div>
+              </div>
+              <div class="col-md-2 col-lg-2">
+                <div class="form-group">
+                  <label>{{'Project_End_Date' | translate}}</label>
+                  <input class="form-control" type="text"
+                         formControlName="endDate" readonly>
+                </div>
+              </div>
+              <div class="col-md-2 col-lg-2">
+                <div class="form-group">
+
+
+                  <label>{{'Branch_Code' | translate}}</label>
+                  <input class="form-control" type="text"
+                         formControlName="branchCode" readonly>
+                </div>
+
+              </div>
+
+            </div>
+
+
+
+
+
+          </div>
+        </div>
+
+      </div>
+
+
+      <div class="row mt-3">
+
+        <div class="col-md-6 col-lg-6">
+
+          <div class="row">-->
+  <!--<div class="col-md-10 col-lg-11">
+    <textarea placeholder="{{'Enter'|translate}} {{'Contract_Term'|translate}}" class="form-control" formControlName="contractTerm"></textarea>
+  </div>
+  <div class="col-md-2 col-lg-1">
+    <a style="font-size: 24px; margin-left: -18px;position:relative;margin-top:18px;display:block"> <i class="icon-plus"> </i>  </a>
+  </div>-->
+  <!--<div class="col-md-12 col-lg-12 mt-2">-->
+  <!--<table class="table  table-bordered">
+        <thead>
+          <tr>
+            <th>
+              {{'S.No'|translate}}
+            </th>
+            <th>
+              {{'Liability_and_Insurances'|translate}}
+            </th>
+
+
+          </tr>
+        </thead>
+        <ng-container *ngIf="liabilityInsuranceTerms.length!=0">
+          <ng-container *ngFor="let t of liabilityInsuranceTerms;let j = index;">
+            <tr *ngIf="t.isLiabilityAndInsurance">
+              <td style="width:5%">
+                {{this.j+1}}
+              </td>
+              <td style="width: 85%;">{{t.contractTerm}}</td>
+
+            </tr>
+
+
+          </ng-container>
+        </ng-container>
+
+
+      </table>
+      <div>
+
+      </div>
+    </div>
+
+  </div>
+
+  <div class="col-md-6 col-lg-6">
+
+    <div class="row">-->
+  <!--<div class="col-md-10 col-lg-11">
+    <textarea placeholder="{{'Enter'|translate}} {{'Contract_Term'|translate}}" class="form-control" formControlName="contractTerm"></textarea>
+  </div>
+  <div class="col-md-2 col-lg-1">
+    <a style="font-size: 24px; margin-left: -18px;position:relative;margin-top:18px;display:block"> <i class="icon-plus"> </i>  </a>
+  </div>-->
+  <!--<div class="col-md-12 col-lg-12 mt-2">-->
+  <!--<table class="table  table-bordered">
+            <thead>
+              <tr>
+                <th>
+                  {{'S.No'|translate}}
+                </th>
+                <th>
+                  {{'Termination_Clause'|translate}}
+                </th>
+
+
+              </tr>
+            </thead>
+            <ng-container *ngIf="terminationClauseTerms.length!=0">
+              <ng-container *ngFor="let t of terminationClauseTerms;let j = index;">
+                <tr *ngIf="t.isTerminationClause">
+                  <td style="width:5%">
+                    {{this.j+1}}
+                  </td>
+                  <td style="width: 85%;">{{t.contractTerm}}</td>
+
+                </tr>
+
+
+              </ng-container>
+            </ng-container>
+
+
+          </table>
+          <div>
+
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+
+    <div class="row mt-3">
+
+      <div class="col-md-7 col-lg-7" style="padding-right:0">
+
+        <table id="zero_config1" class="table  table-bordered">
+          <thead>
+            <tr>
+              <th>
+                {{'S.N' | translate}}
+              </th>
+              <th>
+                {{'Payment_Date' | translate}}
+              </th>
+              <th>
+                {{'Perticular' | translate}}
+              </th>
+
+
+              <th>
+                {{'Amount'|translate}}
+              </th>
+            </tr>
+          </thead>
+          <ng-container>
+            <tr *ngFor="let row of paymentTermsList; let i = index;">
+              <td>
+                {{i+1}}
+              </td>
+              <td>
+                {{dateFormat(row.instDate)}}
+              </td>
+              <td style="text-align:center">
+                {{row.particular}}
+              </td>
+
+
+              <td style="text-align:right">
+                {{row.amount}}
+
+              </td>
+            </tr>
+
+          </ng-container>
+
+        </table>
+      </div>
+
+
+    </div>
+  </div>-->
+  <!--</div>-->
+  <!--</div>
+
+  </form>-->

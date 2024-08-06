@@ -1,0 +1,146 @@
+<h3 class="modal-title">{{'Notification' | translate}}</h3>
+<button type="button" class="close" aria-hidden="true" (click)="closeModel()"> ×</button>
+<form [formGroup]="form" (ngSubmit)="submit()" novalidate class="mt-4">
+    <div class="outer">
+      <div class="row rowm0 mt-3">
+        <div class="col-md-6 col-lg-6 col-sm-6">
+          <div class="form-group ">
+            <label>{{'Branch_Code' | translate}}</label>
+            <select class="custom-select mr-sm-2" formControlName="branchCode">
+              <option value="">{{'Select' | translate}} {{'Branch_Code' | translate}} </option>
+              <ng-container *ngIf="branchCodeList">
+                <option *ngFor="let item of branchCodeList" value="{{item.value}}">{{ isArab ? item.textTwo : item.text  }}</option>
+              </ng-container>
+            </select>
+            <validation-message [control]="form.controls.branchCode"></validation-message>
+          </div>
+        </div>
+        <div class="col-md-6 col-lg-6 col-sm-6">
+          <div class="form-group ">
+            <label>{{'Grade_Code' | translate}}</label>
+            <select class="custom-select mr-sm-2" formControlName="gradeCode" (change)="loadRelatedItems();">
+              <option value="">{{'Select' | translate}} {{'Grade_Code' | translate}} </option>
+              <ng-container *ngIf="gradeCodeList">
+                <option *ngFor="let item of gradeCodeList" value="{{item.gradeCode}}">{{ isArab ? item.gradeName2 : item.gradeName  }}</option>
+              </ng-container>
+            </select>
+            <validation-message [control]="form.controls.gradeCode"></validation-message>
+          </div>
+        </div>
+        <div class="col-md-6 col-lg-6 col-sm-6">
+          <div class="form-group ">
+            <label>{{'Section_Code' | translate}}</label>
+            <select class="custom-select mr-sm-2" formControlName="sectionCode">
+              <option value="">{{'Select' | translate}} {{'Section_Code' | translate}} </option>
+              <ng-container *ngIf="sectionList">
+                <option *ngFor="let item of sectionList" value="{{item.sectionCode}}">{{ isArab ? item.sectionName2 : item.sectionName  }}</option>
+              </ng-container>
+            </select>
+            <validation-message [control]="form.controls.sectionCode"></validation-message>
+          </div>
+        </div>
+        <div class="col-md-6 col-lg-6 col-sm-6">
+          <div class="form-group ">
+            <label>{{'Nationality_Code' | translate}}</label>
+            <select class="custom-select mr-sm-2" formControlName="nationalityCode">
+              <option value="">{{'Select' | translate}} {{'Nationality_Code' | translate}} </option>
+              <ng-container *ngIf="nationalityList">
+                <option *ngFor="let item of nationalityList" value="{{item.natCode}}">{{ isArab ? item.natName2 : item.natName  }}</option>
+              </ng-container>
+            </select>
+            <validation-message [control]="form.controls.nationalityCode"></validation-message>
+          </div>
+        </div>
+
+        <div class="col-md-6 col-lg-6 col-sm-6">
+          <div class="form-group">
+            <label>{{'PT_Group' | translate}}</label>
+            <select class="custom-select mr-sm-2" formControlName="ptGroupCode">
+              <option value="">{{'Select' | translate}} {{'PT_Group' | translate}} </option>
+              <ng-container *ngIf="schoolPETCategoryList">
+                <option *ngFor="let item of schoolPETCategoryList" value="{{item.petCode}}">{{ isArab ? item.petName2 : item.petName  }}</option>
+              </ng-container>
+            </select>
+            <validation-message [control]="form.controls.ptGroupCode"></validation-message>
+          </div>
+        </div>
+        <div class="col-md-6 col-lg-6 col-sm-6">
+          <div class="form-group ">
+            <label>{{'Gender_Code' | translate}}</label>
+            <select class="custom-select mr-sm-2" formControlName="genderCode">
+              <option value="">{{'Select' | translate}} {{'Gender_Code' | translate}} </option>
+              <ng-container *ngIf="genderList">
+                <option *ngFor="let item of genderList" value="{{item.genderCode}}">{{ isArab ? item.genderName2 : item.genderName  }}</option>
+              </ng-container>
+            </select>
+            <validation-message [control]="form.controls.genderCode"></validation-message>
+          </div>
+        </div>
+        <!--<div class="col-md-6 col-lg-6 col-sm-6">
+          <div class="form-group ">
+              <label>{{'Academic_Year' | translate}}</label>
+              <select class="custom-select mr-sm-2" formControlName="academicYear">
+                <option value="">{{'Select' | translate}} {{'Academic_Year' | translate}} </option>
+                <option>{{'Academic_Year' | translate}} </option>
+              </select>
+              <validation-message [control]="form.controls.academicYear"></validation-message>
+            </div>
+      </div>-->
+        <div class="col-md-6 col-lg-6 col-sm-6">
+          <div class="form-group ">
+            <label>{{'For_Pick_an_Drop_Zone' | translate}}</label>
+            <select class="custom-select mr-sm-2" formControlName="pickUpAndDropZone">
+              <option value="">{{'Select' | translate}} {{'Pick_n_Drop_Zone' | translate}} </option>
+              <option value="1">{{'Zone_one' | translate}}</option>
+              <option value="2">{{'Zone_two' | translate}}</option>
+              <option value="3">{{'Zone_three' | translate}}</option>
+              <option value="4">{{'Zone_four' | translate}}</option>
+            </select>
+            <validation-message [control]="form.controls.pickUpAndDropZone"></validation-message>
+          </div>
+        </div>
+        <div class="col-md-6 col-lg-6 col-sm-6">
+          <div class="form-group">
+            <label>{{'Notification_Title' | translate}}</label>
+            <input class="form-control" type="text" placeholder="{{'Notification_Title' | translate}}"
+                   formControlName="notificationTitle" />
+            <validation-message [control]="form.controls.notificationTitle"></validation-message>
+          </div>
+        </div>
+        <div class="col-md-6 col-lg-6 col-sm-6">
+          <div class="form-group">
+            <label>{{'Notification_Title_Ar' | translate}}</label>
+            <input class="form-control" type="text" placeholder="{{'Notification_Title_Ar' | translate}}"
+                   formControlName="notificationTitle_Ar" />
+            <validation-message [control]="form.controls.notificationTitle_Ar"></validation-message>
+          </div>
+        </div>
+        <div class="col-md-6 col-lg-6 col-sm-6">
+          <div class="form-group">
+            <label>{{'Notification_Message' | translate}}</label>
+            <textarea class="form-control" type="text" placeholder="{{'Notification_Message' | translate}}"
+                      formControlName="notificationMessage"></textarea>
+            <validation-message [control]="form.controls.notificationMessage"></validation-message>
+          </div>
+        </div>
+        <div class="col-md-6 col-lg-6 col-sm-6">
+          <div class="form-group">
+            <label>{{'Notification_Message_Ar' | translate}}</label>
+            <textarea class="form-control" type="text" placeholder="{{'Notification_Message_Ar' | translate}}"
+                      formControlName="notificationMessage_Ar"></textarea>
+            <validation-message [control]="form.controls.notificationMessage_Ar"></validation-message>
+          </div>
+        </div>
+
+      </div>
+        <div class="row customrow mt-4">
+          <div class="col-lg-12 col-md-12 text-center">
+            <input type="button" class="btn btn-secondary" value="{{'Cancel' | translate}}" (click)="closeModel()" />
+            &nbsp;&nbsp;
+            <input type="submit" class="btn waves-effect waves-light btn-primary" value="{{'Save' | translate}}" *ngIf="isShowSave">
+            &nbsp;&nbsp;
+            <input type="button" (click)="approveEvent()" class="btn waves-effect waves-light btn-primary" value="{{'Approve' | translate}}" *ngIf="isApprovalLogin">
+          </div>
+        </div>
+    </div>
+</form>

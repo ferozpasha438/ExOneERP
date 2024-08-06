@@ -1,0 +1,130 @@
+<div class="modal-header">
+  <h3 class="modal-title">  {{'Account_Codes' | translate}} </h3>
+  <button type="button" class="close" aria-hidden="true" (click)="closeModel()"> ×</button>
+
+</div>
+<form [formGroup]="form" (ngSubmit)="submit()" novalidate class="mt-4">
+  <div class="row">
+    <div class="col-md-6 col-lg-6">
+      <div class="form-group">
+        <label> {{'Account_Codes' | translate}}</label>
+        <input type="text" formControlName="finSubCatCode" hidden />
+        <input class="form-control" type="text"
+               placeholder="XXXXX " formControlName="finAcCode"
+               [readonly]="fInSysGenAcCode" maxlength="5" (blur)="checkAccountCode($event)">
+        <!--{{'Please_Enter' | translate}} {{'Account_Codes' | translate}}-->
+        <!--<validation-message [control]="form.controls.finAcCode"></validation-message>-->
+        <label class="text-danger ng-star-inserted" *ngIf="!isAccountLengthOk">{{'AccountCode_Length' | translate}}</label>
+      </div>
+    </div>
+    <div class="col-md-6 col-lg-6">
+      <div class="form-group">
+        <label> {{'Account_Names' | translate}}</label>
+        <input class="form-control" type="text"
+               placeholder="{{'Please_Enter' | translate}} {{'Account_Names' | translate}}" formControlName="finAcName">
+        <validation-message [control]="form.controls.finAcName"></validation-message>
+      </div>
+    </div>
+
+    <div class="col-md-12 col-lg-12">
+      <div class="form-group">
+        <label> {{'Detail_Description' | translate}} </label>
+        <textarea class="form-control" formControlName="finAcDesc"></textarea>
+        <validation-message [control]="form.controls.finAcDesc"></validation-message>
+      </div>
+    </div>
+
+
+    <div class="col-md-6 col-lg-6">
+
+      <div class="form-group">
+        <label> {{'Alias' | translate}}</label>
+        <input class="form-control" type="text"
+               placeholder="{{'Please_Enter' | translate}} {{'Alias' | translate}}" formControlName="finAcAlias">
+        <validation-message [control]="form.controls.finAcAlias"></validation-message>
+      </div>
+
+    </div>
+    <div class="col-md-6 col-lg-6">
+      <div class="form-group">
+        <label for="IsActive"> {{'Use_in_Payment_Mode' | translate}}</label>
+        <div>
+          <!--<mat-checkbox color="primary" formControlName="finIsPayCode"></mat-checkbox>-->
+          <mat-slide-toggle color="primary" formControlName="finIsPayCode"> </mat-slide-toggle>
+        </div>
+
+
+      </div>
+    </div>
+    <div class="col-md-6 col-lg-6">
+      <div class="form-group">
+        <label class="mr-sm-2"> {{'Define_the_Payment_mode' | translate}}</label>
+        <select class="custom-select mr-sm-2" formControlName="finPayCodetype">
+          <option value="">{{'Choose_Payment_mode' | translate}}</option>
+          <option value="Cash">{{'Cash' | translate}}</option>
+          <option value="Bank">{{'Bank' | translate}}</option>
+          <option value="NA">{{'NA' | translate}}</option>
+        </select>
+        <!--<validation-message [control]="form.controls.finPayCodetype"></validation-message>-->
+      </div>
+
+    </div>
+
+    <div class="col-md-6 col-lg-6">
+      <div class="form-group">
+        <label for="IsActive">{{'Control_Account_for_Integration' | translate}} </label>
+        <div>
+          <!--<mat-checkbox color="primary" formControlName="finIsIntegrationAC"></mat-checkbox>-->
+          <mat-slide-toggle color="primary" formControlName="finIsIntegrationAC"> </mat-slide-toggle>
+        </div>
+
+
+      </div>
+    </div>
+
+    <div class="col-md-3 col-lg-3">
+      <div class="form-group">
+        <label>{{'Use_In_Revenue_Expense_Analysis' | translate}} </label>
+        <div>
+          <mat-slide-toggle color="primary" formControlName="finIsRevenue" (change)="revenueChecked($event)"> </mat-slide-toggle>
+        </div>
+
+      </div>
+    </div>
+
+    <div class="col-md-4 col-lg-4" *ngIf="isRevenueChecked">
+      <div class="form-group">
+        <label class="mr-sm-2"> {{'Select_The_Group_Of_Analysis' | translate}}</label>
+        <select class="custom-select mr-sm-2" formControlName="finIsRevenuetype">
+          <option value="">{{'Select_Revenue' | translate}}</option>
+          <option value="rv">{{'Revenue' | translate}}</option>
+          <option value="so">{{'Salaries_Operations' | translate}}</option>
+          <option value="de">{{'Depreciation' | translate}}</option>
+          <option value="ae">{{'Administrative_Expense' | translate}}</option>
+          <option value="ot">{{'Others' | translate}}</option>
+        </select>
+      </div>
+
+    </div>
+    <div class="col-md-3 col-lg-3">
+      <div class="form-group">
+        <label>{{'IsActive' | translate}} </label>
+        <div>
+          <mat-slide-toggle color="primary" formControlName="status"> </mat-slide-toggle>
+        </div>
+
+      </div>
+    </div>
+  </div>
+  <div class="row mt-3 ">
+    <div class="col-md-12 col-lg-12 text-center">
+      <input type="button"
+             class="btn waves-effect waves-light btn-rounded   btn-secondary btn-midblock"
+             value="{{'Cancel' | translate}}" (click)="closeModel()" /> &nbsp;
+      <input type="submit"
+             class="btn waves-effect waves-light btn-rounded btn-primary btn-midblock"
+             value="{{'Save' | translate}}" />
+    </div>
+  </div>
+</form>
+

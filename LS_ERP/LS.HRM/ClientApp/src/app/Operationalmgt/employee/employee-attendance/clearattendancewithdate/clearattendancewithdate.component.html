@@ -1,0 +1,90 @@
+<h3 class="modal-title">{{modalTitle | translate}}</h3>
+<button type="button" class="close" aria-hidden="true" (click)="closeModel()"> ×</button>
+<form [formGroup]="form" (ngSubmit)="submit()" novalidate class="mt-auto">
+  <div class="modal-body">
+    <div class="outer ">
+
+      <div class="row">
+
+        <div class="col-md-3 col-lg-3">
+
+
+
+
+
+          <div class="form-group ">
+            <div class="input-group mb-2">
+              <input class="form-control datapickerinput" [matDatepicker]="picker1" [min]="minDate" [max]="maxDate" placeholder="{{'Select' | translate}} {{'From_Date'}}" formControlName="date" (click)="openDatePicker(picker1)">
+              <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
+              <mat-datepicker #picker1 data-date-format="yyyy/mm/dd"></mat-datepicker>
+            </div>
+
+
+            <validation-message [control]="form.controls.date"></validation-message>
+
+          </div>
+
+
+
+
+
+        </div>
+
+
+        <div class="col-md-6 col-lg-6">
+          <div class="col-md-12 col-lg-12">
+
+            <input type="radio" name="clearAttnFor" [value]="'selectedDay'" [(ngModel)]="clearAttnFor" [ngModelOptions]="{standalone: true}" />&nbsp; For Only Selected Day&nbsp;
+          </div>
+
+          <div class="col-md-12 col-lg-12">
+            <input type="radio" name="clearAttnFor" [value]="'tillDate'" [(ngModel)]="clearAttnFor" [ngModelOptions]="{standalone: true}" />&nbsp;Clear The Attendance Till End Of Pay Roll Date
+
+
+          </div>
+        </div>
+
+          <div class="col-md-3 col-lg-3">
+            <div class="form-group">
+
+              <div class="input-group mb-2">
+
+
+                <input type="button"
+                       class="btn waves-effect waves-light btn-rounded   btn-primary btn-midblock"
+                       value="{{'Clear' | translate}}" (click)="claerAttendance()" /> &nbsp;
+                <input type="button"
+                       class="btn waves-effect waves-light btn-rounded   btn-primary btn-midblock"
+                       value="{{'Cancel' | translate}}" (click)="closeModel()" /> &nbsp;
+
+              </div>
+
+
+            </div>
+
+
+          </div>
+          <div class="col-md-1 col-lg-1 text-center">
+            <spinner-loader [isLoading]="isLoading"></spinner-loader>
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+
+
+
+
+
+</form>
+
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,90 @@
+<h3 class="modal-title">{{'Addupdate_Fleet_Brand' | translate}}</h3>
+<button type="button" class="close" aria-hidden="true" (click)="closeModel()"> ×</button>
+<form [formGroup]="form" (ngSubmit)="submit()" novalidate class="mt-4">
+  <div class="outer ">
+    <div class="row rowm0 mt-3">
+      <div class="col-md-6 col-lg-6 col-sm-6">
+        <div class="form-group">
+          <label>{{'Brand' | translate}}</label>
+          <input class="form-control" type="text" placeholder="{{'Brand' | translate}}"
+                 formControlName="brand" />
+          <validation-message [control]="form.controls.brand"></validation-message>
+        </div>
+      </div>
+      <div class="col-md-6 col-lg-6 col-sm-6">
+        <div class="form-group">
+          <label>{{'Vehicle_Company' | translate}}</label>
+          <select class="custom-select mr-sm-2" formControlName="vehicleCompany">
+            <option value="">{{'Select' | translate}} {{'Vehicle_Company' | translate}} </option>
+            <ng-container *ngIf="vehicleCompanyList">
+              <option *ngFor="let item of vehicleCompanyList" value="{{item.vehicleCompany}}">{{ isArab ? item.vehicleCompany_Ar : item.vehicleCompany  }}</option>
+            </ng-container>
+          </select>
+
+          <validation-message [control]="form.controls.vehicleCompany"></validation-message>
+        </div>
+      </div>
+      <div class="col-md-6 col-lg-6 col-sm-6">
+        <div class="form-group">
+          <label>{{'Vehicle_Type' | translate}}</label>
+          <select class="custom-select mr-sm-2" formControlName="vehicleType">
+            <option value="">{{'Select' | translate}} {{'Vehicle_Type' | translate}} </option>
+            <ng-container *ngIf="vehicleTypeList">
+              <option *ngFor="let item of vehicleTypeList" value="{{item.vehicleType}}">{{ isArab ? item.vehicleType_Ar : item.vehicleType  }}</option>
+            </ng-container>
+          </select>
+
+          <validation-message [control]="form.controls.vehicleType"></validation-message>
+        </div>
+      </div>
+      <!--<div class="col-md-6 col-lg-6 col-sm-6">
+        <div class="form-group">
+          <label>{{'VehicleCompany_In_Arabic' | translate}}</label>
+          <input class="form-control" type="text" placeholder="{{'Vehicle_Company_Ar' | translate}}"
+                 formControlName="vehicleCompany_Ar" />
+          <validation-message [control]="form.controls.vehicleCompany_Ar"></validation-message>
+        </div>
+      </div>-->
+      <!--<div class="col-md-6 col-lg-6 col-sm-6">
+    <div class="form-group">
+      <label>{{'Reason_Name_in_Arabic' | translate}}</label>
+      <input class="form-control" type="text" placeholder="{{'Reason_Name_in_Arabic' | translate}}"
+             formControlName="reasonName2" />
+      <validation-message [control]="form.controls.reasonName2"></validation-message>
+    </div>
+  </div>-->
+  <!--<div class="col-md-6 col-lg-6 col-sm-6">
+    <div class="form-group ">
+      <label>{{'Reason_Type' | translate}}</label>
+      <select class="custom-select mr-sm-2" formControlName="reasonType">
+        <option value="">{{'Select' | translate}} {{'Reason_Type' | translate}} </option>
+        <option value="Positive">{{'Positive' | translate}}</option>
+        <option value="Negative">{{'Negative' | translate}}</option>
+      </select>
+      <validation-message [control]="form.controls.reasonType"></validation-message>
+    </div>
+  </div>-->
+      <div class="col-md-6 col-lg-6 col-sm-6">
+        <label>{{'Is_Active' | translate}}</label>
+        <div class="form-group">
+          <mat-slide-toggle color="primary" formControlName="isActive"></mat-slide-toggle>
+        </div>
+      </div>
+      <div class="col-md-6 col-lg-6 col-sm-6">
+        <div class="form-group">
+          <!--<label>{{'Remarks' | translate}}</label>
+      <textarea class="form-control" type="text" placeholder="{{'Remarks' | translate}}"
+                formControlName="remarks"></textarea>
+      <validation-message [control]="form.controls.remarks"></validation-message>-->
+        </div>
+      </div>
+    </div>
+    <div class="row customrow mt-4">
+      <div class="col-lg-12 col-md-12 text-center">
+        <input type="button" class="btn btn-secondary" value="{{'Cancel' | translate}}" (click)="closeModel()" />
+        &nbsp;&nbsp;
+        <input type="submit" class="btn waves-effect waves-light btn-primary" value="{{'Save' | translate}}">
+      </div>
+    </div>
+  </div>
+</form>

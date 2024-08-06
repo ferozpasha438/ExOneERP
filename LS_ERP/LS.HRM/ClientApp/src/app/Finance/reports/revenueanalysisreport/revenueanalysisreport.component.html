@@ -1,0 +1,184 @@
+<div class="modal-body">
+  <div class="outer  ">
+    <div class="row">
+      <div class="col-md-4 col-lg-4">
+        <div class="form-group">
+          <label>{{'Branch_Code' | translate}}</label>
+          <auto-loader [isLoading]="isBranchLoading"></auto-loader>
+          <input type="text" class="form-control"
+                 placeholder="{{'Please_Enter' | translate}} {{'Branch_Code' | translate}}"
+                 [formControl]="branchCodeControl"
+                 matInput
+                 [matAutocomplete]="auto">
+          <mat-autocomplete #auto="matAutocomplete">
+            <mat-option *ngFor="let option of filteredOptions | async"
+                        [value]="option.value">
+              <!--[value]="option.text + '-' + option.value"> (optionSelected)="selectedOption($event)" (blur)="branchcodeBlur($event)" -->
+              {{option.value}}
+            </mat-option>
+          </mat-autocomplete>
+        </div>
+      </div>
+      <div class="col-md-4 col-lg-4">
+
+        <div class="form-group ">
+          <label class="mr-sm-2">{{'Customer' | translate}}</label>
+
+          <ng-select [items]="customerList"
+                     bindLabel="text"
+                     bindValue="textTwo" [(ngModel)]="customerId">
+          </ng-select>
+        </div>
+
+      </div>
+      <div class="col-md-4 col-lg-4">
+        <div class="form-group">
+          <label>{{'From_Date' | translate}}</label>
+          <div class="form-group ">
+            <div class="input-group mb-2">
+              <input class="form-control datapickerinput" placeholder="{{'Select_a_Date' | translate}}" [(ngModel)]="dateFrom"
+                     [matDatepicker]="picker2">
+
+              <div class="input-group-prepend datapickericon">
+                <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
+                <mat-datepicker #picker2></mat-datepicker><br /><br />
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+      <div class="col-md-4 col-lg-4">
+        <div class="form-group">
+          <label>{{'To_Date' | translate}}</label>
+          <div class="form-group ">
+            <div class="input-group mb-2">
+              <input class="form-control datapickerinput" placeholder="{{'Select_a_Date' | translate}}" [(ngModel)]="dateTo"
+                     [matDatepicker]="picker1">
+
+              <div class="input-group-prepend datapickericon">
+                <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
+                <mat-datepicker #picker1></mat-datepicker><br /><br />
+              </div>
+
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-md-4 col-lg-4">
+        <div class="form-group">
+          <br />
+          <button type="button" class="btn btn-primary" (click)="search()">Search</button>
+        </div>
+      </div>
+
+
+    </div>
+  </div>
+
+  <spinner-loader [isLoading]="isLoading"></spinner-loader>
+
+
+  <div class="p-1" id="Format1" *ngIf="company">
+
+    <button type="button" class="btn waves-effect waves-light btn-rounded btn-primary btn-midblock" data-toggle="modal" (click)="openPrint()">
+      {{'Print' | translate}}
+    </button>
+    <br />
+    <br />
+
+    <div class="outer" id="printcontainer">
+
+      <table style="width:100%; padding-bottom:5px;" cellpadding="0" cellspacing="0" width="100%" class="ur_tablestyle">
+        <tr>
+          <td> {{company.companyName}}</td>
+        </tr>
+        <tr>
+          <td style="text-align:center;">
+            <img src="{{company.logoURL}}" style="width:200px;height:150px;" />
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <div class="font-weight-medium">
+              <br />
+              {{company.branchName}}
+              <br />
+              {{company.companyAddress}}
+              <br />
+              {{'Tel_Phone' | translate }} :  {{company.phone}}
+              <br />
+            </div>
+
+          </td>
+        </tr>
+      </table>
+
+      <table id="zero_config" style="width:100%" border="1" cellpadding="0" cellspacing="0" width="100%" class="table  table-bordered no-wrap">
+        <thead>
+          <tr>
+            <td style="width: 33%; "> Date Range: {{dateFrom  | date : 'dd-MM-yyyy'}} to {{dateTo | date : 'dd-MM-yyyy'}} </td>
+            <td style="width: 34%; text-align:center"> Customer RevenueAnalysis Report </td>
+            <td style="width: 33%; text-align:right"> Branch: {{company.branchName}} </td>
+          </tr>
+          <tr>
+            <td style="white-space: nowrap "> <strong> Customer/Company Name: For All Customers </strong> </td>
+
+          </tr>
+        </thead>
+      </table>
+
+      <table id="zero_config" style="width:100%" border="1" cellpadding="0" cellspacing="0" width="100%" class="table  table-bordered no-wrap">
+        <thead class="alert-dark ">
+          <tr>
+            <th style=" "> Customer </th>
+            <th style="text-align:right"> Revenues </th>
+            <th style="text-align:right"> Salaries Ops </th>
+            <th style="text-align:right"> Depreciation </th>
+            <th style="text-align:right"> Others </th>
+            <th style="text-align:right"> Expense Total </th>
+            <th style="text-align:right"> Gross Profit </th>
+            <th style="text-align:right"> Admin Expense </th>
+            <th style="text-align:right"> Net Profit </th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let item of List">
+            <th style=" ">  {{item.name}}  </th>
+            <td style="text-align:right"> {{item.rv}} </td>
+            <td style="text-align:right"> {{item.so}} </td>
+            <td style="text-align:right"> {{item.de}} </td>
+            <td style="text-align:right"> {{item.ot}} </td>
+            <td style="text-align:right"> {{item.expTotal}} </td>
+            <td style="text-align:right"> {{item.grossTotal}} </td>
+            <td style="text-align:right"> {{item.ae}} </td>
+            <td style="text-align:right"> {{item.netTotal}} </td>
+          </tr>
+          <tr>
+            <th style=" "> Total for the Analysis  </th>
+            <td style="text-align:right"> {{summary.rv}} </td>
+            <td style="text-align:right"> {{summary.so}}</td>
+            <td style="text-align:right"> {{summary.de}}</td>
+            <td style="text-align:right"> {{summary.ot}}</td>
+            <td style="text-align:right"> {{summary.expTotal}}</td>
+            <td style="text-align:right"> {{summary.grossTotal}} </td>
+            <td style="text-align:right"> {{summary.ae}} </td>
+            <td style="text-align:right"> {{summary.netTotal}} </td>
+          </tr>
+        </tbody>
+        <!--<tfoot>
+          <tr>
+            <td colspan="7">
+              Printed on  @DateTime.Now.Date.ToString("dd/MMM/yyyy")
+            </td>
+          </tr>
+        </tfoot>-->
+      </table>
+    </div>
+  </div>
+
+
+
+
+</div>

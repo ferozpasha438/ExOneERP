@@ -1,0 +1,134 @@
+<h3 class="modal-title">{{'Parameters_for_Exams_in_terms_of_Marks' | translate}}</h3>
+<button type="button" class="close" aria-hidden="true" (click)="closeModel()"> ×</button>
+<form [formGroup]="form" (ngSubmit)="submit()" novalidate class="mt-4">
+  <div class="outer ">
+    <div class="row rowm0 mt-3">
+      <div class="col-md-6 col-lg-6 col-sm-6">
+        <div class="form-group">
+          <label>{{'Class_Grade' | translate}}</label>
+          <input class="form-control" type="text" readonly placeholder="{{'Class_Grade' | translate}}"
+                 formControlName="gradeCode" />
+          <validation-message [control]="form.controls.gradeCode"></validation-message>
+        </div>
+      </div>
+      <div class="col-md-6 col-lg-6 col-sm-6">
+        <div class="form-group">
+          <label>{{'Academic_Year' | translate}}</label>
+          <input class="form-control" type="text" readonly placeholder="{{'Academic_Year' | translate}}"
+                 formControlName="academicYear" />
+          <validation-message [control]="form.controls.academicYear"></validation-message>
+        </div>
+      </div>
+
+      <div class="col-md-6 col-lg-6 col-sm-6">
+        <label>{{'Grading_System_Required' | translate}}</label>
+        <div class="form-group">
+          <mat-slide-toggle color="primary" formControlName="isGradeRequired"></mat-slide-toggle>
+        </div>
+      </div>
+      <div class="col-md-6 col-lg-6 col-sm-6">
+        <div class="form-group">
+          <label>{{'Number_Of_Grades' | translate}}</label>
+          <input class="form-control" type="text" placeholder="{{'Number_Of_Grades' | translate}}"
+                 formControlName="noOfGrades" />
+          <validation-message [control]="form.controls.noOfGrades"></validation-message>
+        </div>
+      </div>
+    </div>
+    <div class="card-body" *ngIf="isShown">
+      <table class="table table-striped table-bordered">
+        <thead>
+          <tr>
+            <th>{{'Subject_Code' | translate}}</th>
+            <th>{{'Maximum_Marks' | translate}}</th>
+            <th>{{'Qualifying_Marks' | translate}}</th>
+            <th>{{'Configure_Grade' | translate}}</th>
+          </tr>
+        </thead>
+        <tbody>
+          <ng-container formArrayName="tableRows" *ngFor="let group of getFormControls.controls; let i = index">
+            <tr [formGroupName]="i">
+              <td>
+                <div class="input-group ">
+                  <input class="form-control" type="text" placeholder="{{'Subject_Code' | translate}}"
+                         formControlName="subCodes" readonly />
+                </div>
+              </td>
+              <td>
+                <div class="input-group ">
+                  <input class="form-control" type="text" placeholder="{{'Maximum_Marks' | translate}}"
+                         formControlName="maximumMarks" />
+                </div>
+              </td>
+              <td>
+                <div class="input-group ">
+                  <input class="form-control" type="text" placeholder="{{'Qualifying_Marks' | translate}}"
+                         formControlName="qualifyingMarks"  />
+                </div>
+              </td>
+              <td>
+                <div class="input-group ">
+                  <a (click)="toggleShowsec(i)"><i class="icon-plus"> </i>&nbsp; {{'Add_Grade' | translate}}</a>
+                </div>
+              </td>
+            </tr>
+          </ng-container>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="row customrow mt-4">
+      <div class="col-lg-12 col-md-12 text-center">
+        <input type="button" class="btn btn-secondary" value="{{'Cancel' | translate}}"
+               (click)="closeModel()" />
+        &nbsp;&nbsp;
+        <input type="submit" class="btn waves-effect waves-light btn-primary" value="{{'Save' | translate}}">
+      </div>
+    </div>
+  </div>
+</form>
+
+<form [formGroup]="form2" (ngSubmit)="addGrades()" novalidate class="mt-4">
+  <div class=" mt-4 pd-1" *ngIf="isSecShown">
+    <div class="customrow mt-4" style="margin: 0px; border-bottom: 1px solid #ddd">
+      <div class="row">
+        <div class="col-md-12 mb-3 text-center" style="background: #919191">
+          <h3 style="margin: 0px;padding:5px;color: #fff;">{{subjectName}} {{'Subject' | translate}}</h3>
+        </div>
+        <div class="col-md-12 mb-3 text-center">
+          <div>
+            <table class="table table-striped table-bordered">
+              <thead>
+                <tr>
+                  <th>{{'Max_Marks' | translate}}</th>
+                  <th>{{'Min_Marks' | translate}}</th>
+                  <th>{{'Grade_Of_Exam' | translate}}</th>
+                </tr>
+              </thead>
+              <tbody>
+                <ng-container formArrayName="configTempTableRows" *ngFor="let group2 of getTempTableFormControls.controls; let j = index">
+                  <tr [formGroupName]="j">
+                    <td>
+                      <input class="form-control" type="text" placeholder="{{'Max_Marks' | translate}}" formControlName="maximumMarks" />
+                    </td>
+                    <td>
+                      <input class="form-control" type="text" placeholder="{{'Min_Marks' | translate}}" formControlName="minimumMarks" />
+                    </td>
+                    <td>
+                      <input class="form-control" type="text" placeholder="{{'Grade_Of_Exam' | translate}}" formControlName="qualifiyingGrade"/>
+                    </td>
+                  </tr>
+                </ng-container>
+                <tr>
+                  <td colspan="3" align="center">
+                    <input type="submit" class="btn waves-effect waves-light btn-primary" value="{{'Save' | translate}}">
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</form>

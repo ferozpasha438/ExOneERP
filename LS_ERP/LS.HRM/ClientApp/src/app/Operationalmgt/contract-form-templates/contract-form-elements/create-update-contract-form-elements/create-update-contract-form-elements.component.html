@@ -1,0 +1,100 @@
+<h3 class="modal-title">{{modalTitle | translate}}</h3>
+<button type="button" class="close" aria-hidden="true" (click)="closeModel()"> ×</button>
+<form [formGroup]="form" (ngSubmit)="submit()" #myform="ngForm">
+
+
+  <div class="scroll-sidebar">
+    <div class="outer">
+      <div class="col-md-12 col-lg-12">
+        <table style="width: 100%; padding: 10px" border="0" cellpadding="0" cellspacing="0">
+          <tr>
+            <th style="width:10%;padding:10px">
+              {{'Title' | translate}}
+            </th>
+
+            <td style="width:45%;padding:10px;vertical-align:top">
+          
+              <span>
+                <input type="text" class="form-control" [(ngModel)]="elementData.clauseTitleEng" placeholder="{{'Please_Enter' | translate}} {{'Title' | translate}}" [ngModelOptions]="{standalone: true}" style="height:max-content">
+              </span>
+
+            </td>
+            <td style="width:45%;padding:10px;vertical-align:top">
+          
+              <span>
+                <input type="text" class="form-control" [(ngModel)]="elementData.clauseTitleArb" placeholder="{{'Please_Enter' | translate}} {{'Title' | translate}}" [ngModelOptions]="{standalone: true}" style="height:max-content">
+              </span>
+
+            </td>
+           
+          </tr> <tr>
+            <th style="width:10%;padding:10px">
+              {{'Sub_Title' | translate}}
+            </th>
+
+            <td style="width:45%;padding:10px;vertical-align:top">
+          
+              <span>
+                <input type="text" class="form-control" [(ngModel)]="elementData.clauseSubTitleEng" placeholder="{{'Please_Enter' | translate}} {{'Sub Title' | translate}}" [ngModelOptions]="{standalone: true}" style="height:max-content">
+              </span>
+
+            </td>
+            <td style="width:45%;padding:10px;vertical-align:top">
+          
+              <span>
+                <input type="text" class="form-control" [(ngModel)]="elementData.clauseSubTitleArb" placeholder="{{'Please_Enter' | translate}} {{'Sub_Title' | translate}}" [ngModelOptions]="{standalone: true}" style="height:max-content">
+              </span>
+
+            </td>
+           
+          </tr>
+          <tr>
+            <th style="width:10%;padding:10px">
+              {{'Description' | translate}}
+            </th>
+
+            <td style="width:45%;padding:10px;vertical-align:top">
+          
+              <span>
+                <textarea class="form-control" [(ngModel)]="elementData.clauseDescriptionEng" placeholder="{{'Please_Enter' | translate}} {{'Title' | translate}}" [ngModelOptions]="{standalone: true}" style="height:max-content">
+             </textarea> </span>
+
+            </td>
+            <td style="width:45%;padding:10px;vertical-align:top">
+              <span>
+                <textarea class="form-control" [(ngModel)]="elementData.clauseDescriptionArb" placeholder="{{'Please_Enter' | translate}} {{'Title' | translate}}" [ngModelOptions]="{standalone: true}" style="height:max-content">
+             </textarea>
+              </span>
+
+            </td>
+           
+          </tr>
+       
+
+
+        </table>
+      </div>
+    </div>
+
+
+    
+
+
+
+    
+
+  </div>
+
+  <div class="row mt-3 ">
+    <div class="col-md-12 col-lg-12 text-center">
+      <input type="button"
+             class="btn waves-effect waves-light btn-rounded   btn-secondary btn-midblock"
+             value="{{'Cancel' | translate}}" (click)="closeModel()" /> &nbsp;
+      <input *ngIf="modalBtnTitle!='View'" type="submit"
+             class="btn waves-effect waves-light btn-rounded btn-primary btn-midblock"
+             value="{{'Save' | translate}}" />
+    </div>
+  </div>
+
+
+</form>

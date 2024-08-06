@@ -1,0 +1,271 @@
+<button type="button" class="close" aria-hidden="true" (click)="closeModel()"> ×</button>
+<br />
+<h2>{{'DependentsInfo' | translate}}</h2>
+<hr />
+<div class="col-md-12 col-lg-12">
+  <form [formGroup]="form" (ngSubmit)="submit()" novalidate class="mt-4">
+    <div class="row">
+      <div class="col-md-6 col-lg-6">
+        <div class="form-group">
+          <label for="employeenumber">{{'EmployeeNumber' | translate}}</label>
+          <input class="form-control" id="employeenumber" type="text" placeholder="{{'Please_Enter' | translate}} {{'EmployeeNumber' | translate}}" 
+          readonly="readonly" formControlName="employeenumber">
+        </div>
+      </div>
+      <div class="col-md-6 col-lg-6">
+        <div class="form-group ">
+          <label for="passportExpiryDate" class="mr-sm-2">
+            {{'PassportExpiryDate' | translate}}
+          </label>
+          <div class="input-group ">
+            <input class="form-control" placeholder=" {{'Please_Enter' | translate}} {{'PassportExpiryDate' | translate}}" formControlName="passportExpiryDate"
+                   [matDatepicker]="passportExpiryDatepicker">
+            <div class="input-group-prepend datapickericon">
+              <mat-datepicker-toggle matSuffix [for]="passportExpiryDatepicker"></mat-datepicker-toggle>
+              <mat-datepicker #passportExpiryDatepicker></mat-datepicker>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-6 col-lg-6">
+        <label class="mr-sm-2">{{'DependentType' | translate}}</label>
+        <select class="custom-select input-mandatory mr-sm-2" formControlName="dependentTypeCode">
+          <option value="">{{'DependentType' | translate}}</option>
+          <option *ngFor="let dependentType of dependentTypes" value="{{dependentType.value}}">{{dependentType.text}}</option>
+        </select>
+        <validation-message [control]="form.controls.dependentTypeCode"></validation-message>
+      </div>
+      <div class="col-md-6 col-lg-6">
+        <label class="mr-sm-2">{{'IsEligibleForExit/ReEntry?' | translate}}</label>
+        <br />
+        <mat-slide-toggle color="primary" formControlName="isEligibleForExitReEntry"></mat-slide-toggle>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-6 col-lg-6">
+        <label class="mr-sm-2">{{'Gender' | translate}}</label>
+        <select class="custom-select input-mandatory mr-sm-2" formControlName="genderCode">
+          <option value="">{{'Gender' | translate}}</option>
+          <option *ngFor="let gender of genders" value="{{gender.value}}">{{gender.text}}</option>
+        </select>
+        <validation-message [control]="form.controls.genderCode"></validation-message>
+      </div>
+      <div class="col-md-6 col-lg-6">
+        <label class="mr-sm-2">{{'IsEligibleForAirTicket?' | translate}}</label>
+        <br />
+        <mat-slide-toggle color="primary" formControlName="isEligibleForAirTicket"></mat-slide-toggle>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-6 col-lg-6">
+        <div class="form-group">
+          <label for="nameInIdEn">{{'NameInIDEn' | translate}}</label>
+          <input class="form-control input-mandatory" id="nameInIdEn" type="text"
+                 placeholder="{{'Please_Enter' | translate}} {{'NameInIDEn' | translate}}" formControlName="nameInIdEn">
+          <validation-message [control]="form.controls.nameInIdEn"></validation-message>
+        </div>
+      </div>
+      <div class="col-md-6 col-lg-6">
+        <label class="mr-sm-2">{{'UseEmployeeAddress?' | translate}}</label>
+        <br />
+        <mat-slide-toggle color="primary" formControlName="useEmployeeAddress"></mat-slide-toggle>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-6 col-lg-6">
+        <div class="form-group">
+          <label for="nameInIdAr">{{'NameInIDAr' | translate}}</label>
+          <input class="form-control input-mandatory" type="text" placeholder="{{'Please_Enter' | translate}} {{'NameInIDAr' | translate}}" 
+          formControlName="nameInIdAr">
+          <validation-message [control]="form.controls.nameInIdAr"></validation-message>
+        </div>
+      </div>
+      <div class="col-md-6 col-lg-6">
+        <label for="addressTypeCode" class="mr-sm-2">{{'AddressType' | translate}}</label>
+        <select class="custom-select input-mandatory mr-sm-2" formControlName="addressTypeCode">
+          <option value="">{{'AddressType' | translate}}</option>
+          <option *ngFor="let addressType of addressTypes" value="{{addressType.value}}">{{addressType.text}}</option>
+        </select>
+        <validation-message [control]="form.controls.addressTypeCode"></validation-message>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-6 col-lg-6">
+        <div class="form-group">
+          <label for="idNumber">{{'IDNumber' | translate}}</label>
+          <input class="form-control" type="text" placeholder="{{'Please_Enter' | translate}} {{'IDNumber' | translate}}" formControlName="idNumber">
+        </div>
+      </div>
+      <div class="col-md-6 col-lg-6">
+        <div class="form-group ">
+          <label for="address" class="mr-sm-2">
+            {{'Address' | translate}}
+          </label>
+          <textarea class="form-control" placeholder=" {{'Please_Enter' | translate}}  {{'Address' | translate}}" formControlName="address"></textarea>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-6 col-lg-6">
+        <div class="form-group ">
+          <label for="idExpiryDate" class="mr-sm-2">
+            {{'IdExpiryDate' | translate}}
+          </label>
+          <div class="input-group ">
+            <input class="form-control" placeholder=" {{'Please_Enter' | translate}} {{'IdExpiryDate' | translate}}" formControlName="idExpiryDate"
+                   [matDatepicker]="idExpiryDatepicker">
+            <div class="input-group-prepend datapickericon">
+              <mat-datepicker-toggle matSuffix [for]="idExpiryDatepicker"></mat-datepicker-toggle>
+              <mat-datepicker #idExpiryDatepicker></mat-datepicker>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-6 col-lg-6">
+        <label for="isEligibleForSchooling" class="mr-sm-2">{{'IsEligibleForSchooling?' | translate}}</label>
+        <br />
+        <mat-slide-toggle color="primary" formControlName="isEligibleForSchooling"></mat-slide-toggle>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-6 col-lg-6">
+        <div class="form-group ">
+          <label for="dateOfBirth" class="mr-sm-2">
+            {{'DateOfBirth' | translate}}
+          </label>
+          <div class="input-group ">
+            <input class="form-control input-mandatory" placeholder=" {{'Please_Enter' | translate}} {{'DateOfBirth' | translate}}" formControlName="dateOfBirth"
+                   [matDatepicker]="dateOfBirthpicker">
+            <div class="input-group-prepend datapickericon">
+              <mat-datepicker-toggle matSuffix [for]="dateOfBirthpicker"></mat-datepicker-toggle>
+              <mat-datepicker #dateOfBirthpicker></mat-datepicker>
+              <validation-message [control]="form.controls.dateOfBirth"></validation-message>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-6 col-lg-6">
+        <label for="isEligibleForInsurance" class="mr-sm-2">{{'IsEligibleForInsurance?' | translate}}</label>
+        <br />
+        <mat-slide-toggle color="primary" formControlName="isEligibleForInsurance"></mat-slide-toggle>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-6 col-lg-6">
+        <div class="form-group">
+          <label for="phoneNumber">{{'PhoneNumber' | translate}}</label>
+          <input class="form-control input-mandatory" id="phoneNumber" type="text" placeholder="{{'Please_Enter' | translate}} {{'PhoneNumber' | translate}}" 
+          formControlName="phoneNumber">
+          <validation-message [control]="form.controls.phoneNumber"></validation-message>
+        </div>
+      </div>
+      <div class="col-md-6 col-lg-6">
+        <label for="insuranceClassCode" class="mr-sm-2">{{'InsuranceClass' | translate}}</label>
+        <select class="custom-select mr-sm-2" formControlName="insuranceClassCode">
+          <option value="">{{'Insurance Class' | translate}}</option>
+          <option *ngFor="let insuranceClass of insuranceClasses" value="{{insuranceClass.value}}">{{insuranceClass.text}}</option>
+        </select>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-6 col-lg-6">
+        <label for="isEmergencyNumber" class="mr-sm-2">{{'IsEmergencyNumber?' | translate}}</label>
+        <br />
+        <mat-slide-toggle color="primary" formControlName="isEmergencyNumber"></mat-slide-toggle>
+      </div>
+      <div class="col-md-6 col-lg-6">
+        <label for="isActive" class="mr-sm-2">{{'Is_Active' | translate}}</label>
+        <br />
+        <mat-slide-toggle color="primary" formControlName="isActive"></mat-slide-toggle>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-6 col-lg-6">
+        <div class="form-group">
+          <label for="email">{{'E-mail' | translate}}</label>
+          <input class="form-control" type="text"
+                 placeholder="{{'Please_Enter' | translate}} {{'E-mail' | translate}}" formControlName="email">
+        </div>
+      </div>
+    </div>
+    <div class="row mt-3 ">
+      <div class="col-md-12 col-lg-12 text-center">
+        <input type="button"
+               class="btn waves-effect waves-light btn-rounded   btn-secondary btn-midblock"
+               value="{{'Cancel' | translate}}" (click)="closeModel()" /> &nbsp;
+        <input type="submit"
+               class="btn waves-effect waves-light btn-rounded btn-primary btn-midblock"
+               value="{{'Save' | translate}}" />
+      </div>
+    </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  </form>
+</div>

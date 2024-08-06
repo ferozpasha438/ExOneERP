@@ -1,0 +1,206 @@
+<div class="modal-header">
+  <h3 class="modal-title">{{modalTitle | translate}}</h3>
+  <button type="button" class="close" aria-hidden="true" (click)="closeModel()"> ×</button>
+  </div>
+  <form [formGroup]="form" (ngSubmit)="submit()" novalidate class="mt-4">
+
+    <div class="row">
+
+
+      <!--<div class="col-md-6 col-lg-6">
+        <div class="form-group">
+          <label>{{'payrollGroupID' | translate}}</label>
+          <input class="form-control" type="number"
+                 placeholder="{{'Please_Enter' | translate}} {{'payrollGroupID' | translate}}" formControlName="payrollGroupID" readonly={{readonly}}>
+          <validation-message [control]="form.controls.payrollGroupID"></validation-message>
+        </div>
+      </div>-->
+      <div class="col-md-6 col-lg-6">
+        <div class="form-group">
+          <label>{{'payrollGroupName_EN' | translate}}</label>
+          <input class="form-control" type="text"
+                 placeholder="{{'Please_Enter' | translate}} {{'payrollGroupName_EN' | translate}}" formControlName="payrollGroupName_EN">
+          <validation-message [control]="form.controls.payrollGroupName_EN"></validation-message>
+        </div>
+      </div>
+      <div class="col-md-6 col-lg-6">
+        <div class="form-group">
+          <label>{{'payrollGroupName_AR' | translate}}</label>
+          <input class="form-control" type="text"
+                 placeholder="{{'Please_Enter' | translate}} {{'payrollGroupName_AR' | translate}}" formControlName="payrollGroupName_AR">
+          <validation-message [control]="form.controls.payrollGroupName_AR"></validation-message>
+        </div>
+      </div>
+      <div class="col-md-6 col-lg-6">
+        <div class="form-group">
+          <label>{{'Company_Code' | translate}}</label>
+          <input class="form-control" type="number"
+                 placeholder="{{'Please_Enter' | translate}} {{'companyID' | translate}}" formControlName="companyID">
+          <validation-message [control]="form.controls.companyID"></validation-message>
+        </div>
+      </div>
+      <div class="col-md-6 col-lg-6">
+        <div class="form-group">
+          <label>{{'Site_Code' | translate}}</label>
+          <input class="form-control" type="number"
+                 placeholder="{{'Please_Enter' | translate}} {{'siteID' | translate}}" formControlName="siteID">
+          <validation-message [control]="form.controls.siteID"></validation-message>
+        </div>
+      </div>
+      <div class="col-md-6 col-lg-6">
+        <div class="form-group">
+          <label>{{'Project_Code' | translate}}</label>
+          <input class="form-control" type="number"
+                 placeholder="{{'Please_Enter' | translate}} {{'projectId' | translate}}" formControlName="projectId">
+          <validation-message [control]="form.controls.projectId"></validation-message>
+        </div>
+      </div>
+      <div class="col-md-6 col-lg-6">
+        <div class="form-group">
+          <label>{{'businessUnitID' | translate}}</label>
+          <input class="form-control" type="number"
+                 placeholder="{{'Please_Enter' | translate}} {{'businessUnitID' | translate}}" formControlName="businessUnitID">
+          <validation-message [control]="form.controls.businessUnitID"></validation-message>
+        </div>
+      </div>
+      <div class="col-md-6 col-lg-6">
+        <div class="form-group">
+          <label>{{'divisionID' | translate}}</label>
+          <input class="form-control" type="number"
+                 placeholder="{{'Please_Enter' | translate}} {{'divisionID' | translate}}" formControlName="divisionID">
+          <validation-message [control]="form.controls.divisionID"></validation-message>
+        </div>
+      </div>
+
+      <div class="col-md-6 col-lg-6">
+        <div class="form-group">
+          <label>{{'branchID' | translate}}</label>
+          <input class="form-control" type="number"
+                 placeholder="{{'Please_Enter' | translate}} {{'branchID' | translate}}" formControlName="branchID">
+          <validation-message [control]="form.controls.branchID"></validation-message>
+        </div>
+      </div>
+      <div class="col-md-6 col-lg-6">
+        <div class="form-group">
+          <label>{{'Country_Code' | translate}}</label>
+          <input class="form-control" type="number"
+                 placeholder="{{'Please_Enter' | translate}} {{'countryID' | translate}}" formControlName="countryID">
+          <validation-message [control]="form.controls.countryID"></validation-message>
+        </div>
+      </div>
+      <div class="col-md-6 col-lg-6">
+        <div class="form-group">
+          <label>{{'startPayRollDate' | translate}}</label>
+          <input class="form-control datapickerinput" placeholder=" {{'Please_Enter' | translate}} {{'startPayRollDate' | translate}}" formControlName="startPayRollDate"
+                 [matDatepicker]="picker1">
+
+          <!--<input class="form-control" type="date"
+             placeholder="{{'Please_Enter' | translate}} {{'startPayRollDate' | translate}}" formControlName="startPayRollDate">-->
+          <validation-message [control]="form.controls.startPayRollDate"></validation-message>
+          <div class="input-group-prepend datapickericon">
+            <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
+            <mat-datepicker #picker1></mat-datepicker>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-6 col-lg-6">
+        <div class="form-group">
+          <label>{{'currentPayRollMonth' | translate}}</label>
+          <input class="form-control" type="number" min="1" max="12"
+                 placeholder="{{'Please_Enter' | translate}} {{'currentPayRollMonth' | translate}}" formControlName="currentPayRollMonth">
+
+
+          <validation-message [control]="form.controls.currentPayRollMonth"></validation-message>
+
+        </div>
+      </div>
+      <div class="col-md-6 col-lg-6">
+        <div class="form-group">
+          <label>{{'endPayRollDate' | translate}}</label>
+
+          <input class="form-control datapickerinput" placeholder=" {{'Please_Enter' | translate}} {{'endPayRollDate' | translate}}" formControlName="endPayRollDate"
+                 [matDatepicker]="picker2">
+          <!--<input class="form-control" type="date"
+          placeholder="{{'Please_Enter' | translate}} {{'endPayRollDate' | translate}}" formControlName="endPayRollDate">-->
+          <validation-message [control]="form.controls.endPayRollDate"></validation-message>
+          <div class="input-group-prepend datapickericon">
+            <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
+            <mat-datepicker #picker2></mat-datepicker>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-6 col-lg-6">
+        <div class="form-group">
+          <label>{{'currentPayRollYear' | translate}}</label>
+          <input class="form-control" type="number"
+                 placeholder="{{'Please_Enter' | translate}} {{'currentPayRollYear' | translate}}" formControlName="currentPayRollYear">
+          <validation-message [control]="form.controls.currentPayRollYear"></validation-message>
+        </div>
+      </div>
+      <div class="col-md-6 col-lg-6">
+        <div class="form-group">
+          <label>{{'remarks' | translate}}</label>
+          <input class="form-control" type="text"
+                 placeholder="{{'Please_Enter' | translate}} {{'Remarks' | translate}}" formControlName="remarks">
+          <validation-message [control]="form.controls.remarks"></validation-message>
+        </div>
+      </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+      <div class="col-md-6 col-lg-6">
+        <div class="form-group">
+          <label>{{'isForAllEmployee' | translate}}</label>
+          <br />
+          <mat-slide-toggle color="primary" formControlName="isForAllEmployee"></mat-slide-toggle>
+        </div>
+      </div>
+
+      <div class="col-md-6 col-lg-6">
+        <div class="form-group">
+          <label>{{'isForFutureEmployee' | translate}}</label>
+          <br />
+          <mat-slide-toggle color="primary" formControlName="isForFutureEmployee"></mat-slide-toggle>
+        </div>
+      </div>
+
+
+      <!--<div class="col-md-6 col-lg-6">
+        <div class="form-group">
+          <label>{{'Is_Active' | translate}}</label>
+          <br />
+          <mat-slide-toggle color="primary" formControlName="isActive"></mat-slide-toggle>
+        </div>
+      </div>-->
+    </div>
+    <div class="row mt-3 ">
+      <div class="col-md-12 col-lg-12 text-center">
+        <input type="button"
+               class="btn waves-effect waves-light btn-rounded   btn-secondary btn-midblock"
+               value="{{'Cancel' | translate}}" (click)="closeModel()" /> &nbsp;
+        <input type="submit"
+               class="btn waves-effect waves-light btn-rounded btn-primary btn-midblock"
+               value="{{'Save' | translate}}" />
+      </div>
+    </div>
+  </form>

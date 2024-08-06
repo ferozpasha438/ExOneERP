@@ -1,0 +1,138 @@
+<br />
+<app-employeebasicinfo></app-employeebasicinfo>
+<br />
+<div class="row">
+  <div class="col-md-6 col-lg-6">
+    <div class="form-group">
+      <label for="primarycontactNumber">{{'PrimaryContactNumber' | translate}}</label>
+      <input class="form-control" id="primarycontactNumber" type="text"
+             placeholder="{{'Please_Enter' | translate}} {{'Primary Contact Number' | translate}}" formControlName="primarycontactNumber">
+    </div>
+  </div>
+  <div class="col-md-6 col-lg-6">
+    <div class="form-group">
+      <label for="emailID">{{'EmailAddress' | translate}}</label>
+      <input class="form-control" id="emailID" type="text"
+             placeholder="{{'Please_Enter' | translate}} {{'EmailAddress' | translate}}" formControlName="emailID">
+    </div>
+  </div>
+</div>
+<div class="row">
+  <div class="col-md-6 col-lg-6">
+    <div class="form-group">
+      <label for="secondarycontactNumber">{{'SecondaryContactNumber' | translate}}</label>
+      <input class="form-control" id="secondarycontactNumber" type="text"
+             placeholder="{{'Please_Enter' | translate}} {{'SecondaryContactNumber' | translate}}" formControlName="secondarycontactNumber">
+    </div>
+  </div>
+<div class="row mt-3 ">
+  <div class="col-md-12 col-lg-12 ">
+    <input type="submit"
+           class="btn waves-effect waves-light btn-rounded btn-primary btn-midblock"
+           value="{{'Save' | translate}}" /> &nbsp;
+    <input type="button"
+           class="btn waves-effect waves-light btn-rounded   btn-secondary btn-midblock"
+           value="{{'Cancel' | translate}}" (click)="closeModel()" />
+  </div>
+</div>
+</div>
+<h2>{{'ContactInfo' | translate}}</h2>
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-md-12 col-lg-12">
+      <div class="card">
+        <div class="card-body">
+          <div class="row">
+            <div class="col-md-7 col-lg-9">
+              <h4 class="card-title pt6">{{"EmployeeManagement"|translate}}</h4>
+            </div>
+            <div class="col-md-3 col-lg-3 text-right">
+              <a data-toggle="modal"
+                 data-target="#scrollable-modal" class="  btn waves-effect waves-light btn-rounded btn-outline-primary" (click)="create()" href="#"> <i class="icon-plus"> </i>{{"AddEmployeeContact" | translate}}</a>
+            </div>
+          </div>
+          <div class="cardtitle-divider"></div>
+          <div class="table-responsive">
+
+            <table mat-table [dataSource]="data" matSort matSortActive="Id"
+                   matSortDisableClear matSortDirection="desc" class="table  table-bordered no-wrap">
+              <ng-container matColumnDef="sno">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                  {{"S.No"|translate}}
+                </th>
+                <td mat-cell *matCellDef="let row">{{ row.sno }}</td>
+              </ng-container>
+
+              <ng-container matColumnDef="contactpersonName">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                  {{"ContactPersonName"|translate}}
+                </th>
+                <td mat-cell *matCellDef="let row">{{ row.contactpersonName }}</td>
+              </ng-container>
+              <ng-container matColumnDef="contactNumber">
+                <th mat-header-cell 9 *matHeaderCellDef mat-sort-header>
+                  {{"ContactNumber"|translate}}
+                </th>
+                <td mat-cell *matCellDef="let row">{{ row.contactNumber }}</td>
+              </ng-container>
+
+              <ng-container matColumnDef="contactAddress">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                  {{"ContactAddress"|translate}}
+                </th>
+                <td mat-cell *matCellDef="let row">{{ row.contactAddress }}</td>
+              </ng-container>
+              <ng-container matColumnDef="relation">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                  {{"Relation"|translate}}
+                </th>
+                <td mat-cell *matCellDef="let row">{{ row.relation }}</td>
+              </ng-container>
+              <ng-container matColumnDef="isFamily">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                  {{"IsFamily?"|translate}}
+                </th>
+                <td mat-cell *matCellDef="let row">{{ row.isFamily }}</td>
+              </ng-container>
+              <ng-container matColumnDef="isEmergency">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                  {{"IsEmergency?"|translate}}
+                </th>
+                <td mat-cell *matCellDef="let row">{{ row.isEmergency }}</td>
+              </ng-container>
+
+              <ng-container matColumnDef="isActive">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                  {{"Is_Active"|translate}}
+                </th>
+                <td mat-cell *matCellDef="let row">{{ row.isActive }}</td>
+              </ng-container>
+              <ng-container matColumnDef="Actions" stickyEnd>
+                <th mat-header-cell *matHeaderCellDef>Actions </th>
+                <td mat-cell *matCellDef="let row" class="text-center">
+                  <a class="tableicons" data-toggle="modal"
+                     data-target="#scrollable-modal"><i class="icon-note"> </i></a> &nbsp;
+                  <a class="tableicons"><i class="icon-trash"> </i></a>
+                </td>
+              </ng-container>
+
+              <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
+              <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+
+            </table>
+            <ng-container>
+              <mat-paginator [length]="totalItemsCount"
+                             [pageSize]="pageService.pageCount"
+                             [pageSizeOptions]="pageService.selectItemsPerPage">
+              </mat-paginator>
+
+            </ng-container>
+
+
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

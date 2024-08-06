@@ -1,0 +1,45 @@
+UserName: narender@logicsystems-me.com
+Password: Karthik18$
+https://bitbucket.org/logicsystems/einvoice/src/Main/
+
+
+ng xi18n --output-path src/locale  
+https://stackblitz.com/github/ngx-translate/example?file=src%2Fapp%2Fapp.module.ts
+https://github.com/ngx-translate/core
+https://github.com/PhraseApp-Blog/phrase-angular-9-i18n-tutorial
+
+https://www.c-sharpcorner.com/article/timesheet-project-process-using-mvc-5/
+https://github.com/jasontaylordev/CleanArchitecture
+http://www.omarelabd.net/generating-c-classes-from-excel/
+https://github.com/OmarElabd/ExcelToClasses
+https://stackoverflow.com/questions/22284636/design-of-multi-tenant-authentication
+https://docs.microsoft.com/en-us/microsoft-365/education/deploy/design-multi-tenant-architecture
+https://github.com/jbogard/MediatR/wiki
+https://erikej.github.io/efcore/2020/08/03/ef-core-call-stored-procedures-out-parameters.html
+https://code-maze.com/angular-material-table/
+
+https://www.tutorialguruji.com/javascript/use-fetch-to-load-paginated-data-recursively/
+https://www.freakyjolly.com/angular-ngx-datatable-tutorial/
+https://fullstackhub.io/asp-net-core-with-angular-application-architecture-part-8/
+https://stackblitz.com/angular/xonrlymoxvv?file=main.ts
+https://dotnetdetail.net/how-to-implement-server-side-filtration-in-angular-asp-net-core-app/
+https://dzone.com/articles/using-the-angular-material-paginator-with-aspnet-c
+https://offering.solutions/blog/articles/2017/11/21/using-the-angular-material-paginator-with-asp.net-core-and-angular/
+https://samueljblackwell.blogspot.com/2019/01/angular-material-table-with-angular-7.html
+https://blog.minhazav.dev/QR-and-barcode-scanner-using-html-and-javascript/
+https://itnext.io/creating-a-real-time-qr-code-scanner-with-vanilla-javascript-part-1-2-creating-the-scanner-a8934ee8f614
+https://github.com/fletcherrippon/JavaScriptQRCodeReader/blob/main/main.js
+https://blog.angular-university.io/angular-material-data-table/
+https://github.com/InfoDevkota/Server-Side-Pagination-Mat-Paginator/blob/master/src/app/app.component.ts
+https://fireship.io/lessons/infinite-virtual-scroll-angular-cdk/#:~:text=%20Angular%20CDK%20Virtual%20Scroll%20Basics%20%201,of%20API%20methods%20that%20can%20be...%20More%20
+https://www.freecodespot.com/blog/angular-with-dotnet-core-web-api/
+https://www.yogihosting.com/globalization-localization-resource-files-aspnet-core/
+https://medium.com/ngx/3-ways-to-implement-conditional-validation-of-reactive-forms-c59ed6fc3325#:~:text=%203%20ways%20to%20implement%20conditional%20validation%20of,of%20the...%206%20Other%20links.%20%20More%20
+https://medium.com/swlh/scanning-barcode-or-qr-code-in-an-angular-app-with-zxing-9d3c8dfd5b96
+
+
+Select * From   (Select ROW_NUMBER() Over (  
+    Order by CompanyName ) AS 'RowNum', *  
+         from   [CompanyDetails]  
+        )t  where t.RowNum Between ((@PageNo-1)*@PageSize +1) AND (@PageNo*@pageSize) 
+

@@ -1,0 +1,24 @@
+
+<div style="position:relative;" class="row">
+  <div class="col-md-12">
+    <button (click)="printInvoice()">Print</button> &nbsp;
+    <button type="button" class="" aria-hidden="true" (click)="closeModel()"> Close</button>
+    <button type="button" class="close" aria-hidden="true" (click)="closeModel()"> ×</button>
+    <br />
+    <br />
+    <h5> <strong> Select Format </strong> </h5>
+    <select class="custom-select mr-sm-2" (change)="loadComponents($event)">
+      <option value="">{{'Select' | translate}} {{'Format' | translate}} </option>
+      <option selected value="1">Format 1</option>
+      <option value="2">Format 2</option>
+      <option value="3">Format 3</option>
+      <!--<option value="4">Format 4</option>-->
+    </select>
+  </div>
+</div>
+<br />
+
+
+<div id="printcontainer" class="p-1 shadow">
+  <ng-template loadingComponent></ng-template>
+</div>

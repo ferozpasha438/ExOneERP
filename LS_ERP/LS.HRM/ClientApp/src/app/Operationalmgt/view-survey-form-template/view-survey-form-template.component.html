@@ -1,0 +1,143 @@
+
+
+<div style="position:fixed;">
+  <button (click)="printSurveyForm()">Print</button> &nbsp;
+  <button type="button" class="" aria-hidden="true" (click)="closeModel()"> Close</button>
+</div>
+<br />
+<br />
+<br />
+
+
+
+
+
+
+
+
+
+
+<div class="container-fluid invoice-container print-container" style="width:850px; padding-top:5px;" id="printcontainer">
+  <h4 style="font-size: 1rem !important;color: #0c2f54; font-family: 'Poppins', sans-serif;font-weight: 500;
+        line-height: 1.2;margin:0;padding-top:4px">
+    {{'Survey_Form' | translate}}:
+  </h4>
+  <h4 style="font-size: 1.2rem !important;color: #0c2f54; font-family: 'Poppins', sans-serif;font-weight: 500;
+        line-height: 1.2;margin:0;padding-top:4px">
+    {{surveyFormHeader?.surveyFormNameArb}}({{surveyFormHeader?.surveyFormNameEng}})
+  </h4>
+  <table style="width:100%" border="0" cellpadding="0" cellspacing="0">
+    <tr>
+      <th style=" width:20%;border:1px solid #878787;padding:5px;font-size:0.875rem !important;color: #000000; font-family: 'Poppins', sans-serif;font-weight:600;">{{'Enquiry_ID'| translate}}</th>
+      <td style=" width:30%; border:1px solid #878787;padding:5px;font-size:0.775rem !important;color: #000000; font-family: 'Poppins', sans-serif;font-weight: 400;"></td>
+      <th style=" width:20%;border:1px solid #878787;padding:5px;font-size:0.875rem !important;color: #000000; font-family: 'Poppins', sans-serif;font-weight:600;">{{'Enquiry_Number' | translate}}</th>
+      <td style=" width:30%; border:1px solid #878787;padding:5px;font-size:0.775rem !important;color: #000000; font-family: 'Poppins', sans-serif;font-weight: 400;"></td>
+
+    </tr>
+    <tr>
+
+
+      <th style=" width:20%;border:1px solid #878787;padding:5px;font-size:0.875rem !important;color: #000000; font-family: 'Poppins', sans-serif;font-weight:600;">{{'Service_Code' | translate}}</th>
+      <td style=" width:30%; border:1px solid #878787;padding:5px;font-size:0.775rem !important;color: #000000; font-family: 'Poppins', sans-serif;font-weight: 400;"></td>
+
+      <th style=" width:20%;border:1px solid #878787;padding:5px;font-size:0.875rem !important;color: #000000; font-family: 'Poppins', sans-serif;font-weight:600;">{{'Customer'| translate}}</th>
+      <td style=" width:30%; border:1px solid #878787;padding:5px;font-size:0.775rem !important;color: #000000; font-family: 'Poppins', sans-serif;font-weight: 400;"></td>
+    </tr>
+    <tr>
+      <th rowspan="2" style=" width:20%;border:1px solid #878787;padding:5px;font-size:0.875rem !important;color: #000000; font-family: 'Poppins', sans-serif;font-weight:600;">{{'Service_Name' | translate}}</th>
+      <td style=" width:30%; border:1px solid #878787;padding:5px;font-size:0.775rem !important;color: #000000; font-family: 'Poppins', sans-serif;font-weight: 400;"></td>
+      <th style=" width:20%;border:1px solid #878787;padding:5px;font-size:0.875rem !important;color: #000000; font-family: 'Poppins', sans-serif;font-weight:600;">{{'Name' | translate}}</th>
+      <td style=" width:30%; border:1px solid #878787;padding:5px;font-size:0.775rem !important;color: #000000; font-family: 'Poppins', sans-serif;font-weight: 400;"></td>
+
+    </tr>
+
+    <tr>
+
+      <td style=" width:30%; border:1px solid #878787;padding:5px;font-size:0.775rem !important;color: #000000; font-family: 'Poppins', sans-serif;font-weight: 400;"></td>
+      <th style=" width:20%;border:1px solid #878787;padding:5px;font-size:0.875rem !important;color: #000000; font-family: 'Poppins', sans-serif;font-weight:600;">{{'Mobile' | translate}}</th>
+      <td style=" width:30%; border:1px solid #878787;padding:5px;font-size:0.775rem !important;color: #000000; font-family: 'Poppins', sans-serif;font-weight: 400;"></td>
+    </tr>
+    <tr>
+
+      <th rowspan="2" style=" width:20%;border:1px solid #878787;padding:5px;font-size:0.875rem !important;color: #000000; font-family: 'Poppins', sans-serif;font-weight:600;">{{'Site_Name' | translate}}</th>
+      <td style=" width:30%; border:1px solid #878787;padding:5px;font-size:0.775rem !important;color: #000000; font-family: 'Poppins', sans-serif;font-weight: 400;"></td>
+      <th style=" width:20%;border:1px solid #878787;padding:5px;font-size:0.875rem !important;color: #000000; font-family: 'Poppins', sans-serif;font-weight:600;">{{'Address' | translate}}</th>
+      <td style=" width:30%; border:1px solid #878787;padding:5px;font-size:0.775rem !important;color: #000000; font-family: 'Poppins', sans-serif;font-weight: 400;"></td>
+
+
+    </tr>
+    <tr>
+
+
+
+      <td style=" width:30%; border:1px solid #878787;padding:5px;font-size:0.775rem !important;color: #000000; font-family: 'Poppins', sans-serif;font-weight: 400;"></td>
+
+      <th style=" width:20%;border:1px solid #878787;padding:5px;font-size:0.875rem !important;color: #000000; font-family: 'Poppins', sans-serif;font-weight:600;">{{'City' | translate}}</th>
+      <td style=" width:30%; border:1px solid #878787;padding:5px;font-size:0.775rem !important;color: #000000; font-family: 'Poppins', sans-serif;font-weight: 400;"></td>
+    </tr>
+
+    <tr>
+      <th style=" width:20%;border:1px solid #878787;padding:5px;font-size:0.875rem !important;color: #000000; font-family: 'Poppins', sans-serif;font-weight:600;">{{'Geo_Location'| translate}}</th>
+      <td colspan="3" style="border:1px solid #878787;padding:5px;font-size:0.775rem !important;color: #000000; font-family: 'Poppins' , sans-serif;font-weight: 400;"></td>
+
+    </tr>
+
+
+  </table>
+
+
+
+  <div style="padding-bottom:5px;padding-top:5px">
+
+    <table style="width:100%" border="0" cellpadding="0" cellspacing="0">
+      <tr>
+        <th style="width: 3%; border: 1px solid #878787; padding: 5px; font-size: 0.875rem !important; color: #000000; font-family: 'Poppins', sans-serif; font-weight: 600;">
+          {{'S.No' | translate}}
+        </th>
+        <th style="width:70%; border:1px solid #878787;padding:5px;font-size:0.875rem !important;color: #000000; font-family: 'Poppins' , sans-serif;font-weight:600;">
+          {{'Form_Attribute' | translate}}
+        </th>
+        <th style=" border:1px solid #878787;padding:5px;font-size:0.875rem !important;color: #000000; font-family: 'Poppins' , sans-serif;font-weight:600;">
+
+        </th>
+      </tr>
+      <tr *ngFor="let row of surveyFormElements;let i = index;">
+        <td style="  border:1px solid #878787;padding:5px;font-size:0.775rem !important;color: #000000; font-family: 'Poppins', sans-serif;font-weight: 400;">{{i + 1}}</td>
+        <td style=" border:1px solid #878787;padding:5px;font-size:0.775rem !important;color: #000000; font-family: 'Poppins', sans-serif;font-weight: 400;">{{ row.elementEngName }}<br>{{ row.elementArbName }}</td>
+
+        <td *ngIf="row.elementType=='Absolute'" style="border:1px solid #878787;padding:5px;">______________</td>
+        <td *ngIf="row.elementType=='Boolean'" style=" border:1px solid #878787;padding:5px;font-size:0.775rem !important;color: #000000; font-family: 'Poppins', sans-serif;font-weight: 400;">
+          <div class="radio">
+
+            <input id="rdoption-1" name="rdoption" type="radio" value="1">&nbsp;&nbsp;
+            <label for="rdoption-1" class="radio-label">Yes</label>
+          </div>
+          <div class="radio">
+            <input id="rdoption-2" name="rdoption" type="radio" value="0">&nbsp;&nbsp;
+            <label for="rdoption-2" class="radio-label">No</label>
+          </div>
+        </td>
+        <td *ngIf="row.elementType=='List'" style="border:1px solid #878787;padding:5px;">
+          <div class="radio" *ngFor="let listdata of row.listValueString.split(',');let i = index;">
+            <input id="listdata-{{i}}" name="listdata" type="radio" value="{{listdata}}">&nbsp;&nbsp;
+            <label for="listdata-{{i}}" class="radio-label">{{listdata}}</label>
+          </div>
+
+        </td>
+        <td *ngIf="row.elementType=='Scale'" style="border:1px solid #878787;padding:5px;"></td>
+        <td *ngIf="row.elementType=='Percentage'" style="border:1px solid #878787;padding:5px;"></td>
+
+      </tr>
+
+
+
+    </table>
+ 
+
+
+  </div>
+</div>
+
+
+
+

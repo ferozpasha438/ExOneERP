@@ -1,0 +1,253 @@
+
+
+<div class="page-breadcrumb">
+  <div class="row">
+    <div class="col-12 align-self-center">
+      <h3 class="page-title text-truncate text-dark font-weight-medium mb-1">
+        {{'Attedance_Status_Report' | translate}}
+      </h3>
+    </div>
+  </div>
+</div>
+
+<div class="modal-body">
+
+
+  <div class="outer  ">
+    <div class="row">
+      <div class="col-md-3 col-lg-3">
+        <div class="form-group">
+          <label>{{'Branch_Code' | translate}}</label>
+          <ng-select [items]="citySelectionList"
+                     bindLabel="lable"
+                     bindValue="value" [(ngModel)]="cityCode" (change)="clearProjectsData()">  </ng-select>
+        </div>
+      </div>
+      <div class="col-md-6 col-lg-6">
+        <div class="form-group">
+          <label>{{'Customer_Code' | translate}}</label>
+          <ng-select [items]="customerSelectionList"
+                     bindLabel="lable"
+                     bindValue="value" [(ngModel)]="customerCode" (change)="clearProjectsData()">  </ng-select>
+
+        </div>
+      </div>
+
+      <div class="col-md-3 col-lg-3">
+        <div class="form-group">
+          <label>{{'Status_Code' | translate}}</label>
+          <ng-select [items]="statusSelectionList"
+                     bindLabel="text"
+                     bindValue="value" [(ngModel)]="statusCode" (change)="clearProjectsData()">  </ng-select>
+        </div>
+      </div>
+      <div class="col-md-3 col-lg-3">
+        <div class="form-group">
+          <label>{{'Date' | translate}}</label>
+          <div class="form-group ">
+            <div class="input-group mb-2">
+              <input class="form-control datapickerinput" placeholder=" {{'Please_Enter' | translate}} {{'Date' | translate}}" [(ngModel)]="date"
+                     [matDatepicker]="picker1" (click)="openDatePicker(picker1)">
+
+              <div class="input-group-prepend datapickericon">
+                <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
+                <mat-datepicker #picker1></mat-datepicker>
+              </div>
+
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+
+      <div class="col-md-6 col-lg-6">
+        <div class="form-group">
+          <br />
+          <button type="button" class="btn btn-primary" (click)="search()">Search</button>
+          &nbsp;
+          <button type="button" class="btn btn-primary" (click)="setForm()">
+                <i class="icon-refresh"></i>
+          </button>
+          &nbsp;
+          <button class="btn btn-primary" *ngIf="result?.columns" [useExistingCss]="true" printTitle=" {{'Attedance_Status_Report' | translate}}"
+                  printSectionId="printcontainer"
+                  ngxPrint data-toggle="modal">
+
+            {{'Print' | translate}}
+          </button>
+          
+
+        </div>
+      </div>
+
+
+    </div>
+  </div>
+
+  <spinner-loader [isLoading]="isLoading"></spinner-loader>
+
+  <div class="table-responsive" *ngIf="result?.columns">
+    <div id="printcontainer">
+      <table  style="padding-bottom:5px; background-color:white" cellpadding="10" cellspacing="5" width="100%">
+        <tr>
+          <td style="width:35%">
+            <h5 style="text-align:left">
+              <strong>
+                {{company.companyName}}
+              </strong>
+            </h5>
+          </td>
+          <td style="text-align:center">
+            <img class="float-center" src="{{company.logoURL}}" style="width:200px;height:150px" />
+          </td>
+          <td style="width:35%">
+            <h5 style="text-align:right">
+              <strong>
+                {{company.companyNameAr}}
+              </strong>
+            </h5>
+          </td>
+        </tr>
+
+
+        <tr>
+          <td>
+            <div class="font-weight-medium">
+              {{company.branchName}}
+              <br />
+              {{company.companyAddress}}
+              <br />
+              {{'Tel_Phone' | translate }} :  {{company.phone}}
+              <br />
+            </div>
+
+          </td>
+        </tr>
+        <tr width="100%">
+          <td colspan="3" style="text-align:center;" width="100%">
+
+            The Statement of  Attedance_Status_Report  for Date Range: {{fromDate | date:'dd/MM/yyyy'}} to {{toDate | date:'dd/MM/yyyy'}}
+            &nbsp; {{'Customer_Code'|translate}}: {{customerCode != null && customerCode !=''? customerCode:'all'}}
+            &nbsp;{{'Branch_Code'|translate}}: {{cityCode != null && cityCode !=''? cityCode:'all'}}
+            &nbsp;{{'Status_Code'|translate}}: {{statusCode != null && statusCode !=''? statusCode:'all'}}
+
+
+          </td>
+        </tr>
+
+      </table> 
+      <div  *ngIf="result?.columns?.length!=0">
+        <table id="attndTable">
+
+
+
+
+          <tr>
+            <th colspan="5">
+
+            </th>
+            <ng-container>
+              <th [attr.colspan]="result?.daysInMonth1">{{result?.month1Text}}-{{result?.year1Text}}</th>
+
+            </ng-container>
+            <ng-container *ngIf="!result?.isSingleMonth">
+              <th [attr.colspan]="result?.daysInMonth2">{{result?.month2Text}}-{{result?.year2Text}}</th>
+
+            </ng-container>
+          </tr>
+          <tr>
+
+            <th>
+              {{'S.No' | translate}}
+            </th>
+            <th>
+              {{'Branch_Code' | translate}}
+            </th>
+            <th>
+              {{'Customer_Code' | translate}}
+            </th>
+            <th>
+              {{'Project_Code' | translate}}
+            </th>
+            <th>
+              {{'Site_Code' | translate}}
+            </th>
+
+
+
+            <th *ngFor="let dt of result?.columns; let c = index;">
+              {{dt.day}}
+
+            </th>
+          </tr>
+          <tr *ngFor="let row of result?.rows; let r = index;">
+            <td>
+              {{(r+1)}}
+            </td>
+            <td>
+              {{row.branchCode}}
+            </td>
+            <td>
+              {{row.customerCode}}
+            </td>
+            <td>
+              {{row.projectCode}}
+            </td>
+            <td>
+              {{row.siteCode}}
+            </td>
+            <td *ngFor="let cell of row.attendanceStatusMatrix; let cl=index;" id="{{getBgColor(cell)}}">
+              <span [matTooltip]="getToolTip(r,cl)">
+                {{getStatusFlag(cell)}}
+               </span>
+            </td>
+
+          </tr>
+        </table>
+
+
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+<style>
+
+
+  #attndTable table {
+   padding :10px 10px 10px 10px;
+  }
+  #attndTable td, th {
+
+    border: solid;
+    border-width: 1px;
+    border-color: black;
+    padding: 5px 5px 5px 5px;
+    text-align: center;
+    background-color: white;
+  }
+
+  #bgOrange {
+    color: #ffd800;
+  }
+
+  #bgGreen {
+    color: #4cff00;
+  }
+
+  #bgRed {
+    color: red;
+  }
+
+  @media print {
+    * {
+      color: black;
+      background: white;
+    }
+
+    
+  }
+</style>

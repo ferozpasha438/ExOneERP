@@ -1,0 +1,239 @@
+<button type="button" class="close" aria-hidden="true" (click)="closeModel()"> ×</button>
+<form [formGroup]="form" (ngSubmit)="submit()" novalidate class="mt-4">
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-md-12 col-lg-12">
+        <div class="card">
+          <div class="card-body">
+            <div class="row">
+              <div class="col-md-7 col-lg-9">
+                <h4 class="card-title pt6">{{'Resource_Costing'| translate}} </h4>
+              </div>
+             
+            </div>
+
+            <div class="cardtitle-divider"></div>
+            <div>
+              <div class="col-md-12 col-lg-12">
+                <div class="p-3" style="border:1px solid #f4f4f4;">
+                  <div class="row  mt-2">
+
+                    <div class="col-md-3 col-lg-3">
+                      <label class="mr-sm-2">{{'Customer_Code' | translate}}</label>
+                      <div class="form-group ">
+                        <div class="input-group mb-2">
+
+
+                          <input class="form-control" type="text"
+                                 placeholder="{{'Please_Enter' | translate}} {{'Customer_Code' | translate}}" formControlName="customerCode" readonly>
+
+                        </div>
+
+                        <validation-message [control]="form.controls.customerCode"></validation-message>
+
+                      </div>
+
+                    </div>
+
+                    <div class="col-md-3 col-lg-3">
+                      <label class="mr-sm-2">{{'Project_Code' | translate}}</label>
+                      <div class="form-group ">
+                        <div class="input-group mb-2">
+
+
+                          <input class="form-control" type="text"
+                                 placeholder="{{'Please_Enter' | translate}} {{'Project_Code' | translate}}" formControlName="projectCode" readonly>
+
+                        </div>
+
+                        <validation-message [control]="form.controls.projectCode"></validation-message>
+
+                      </div>
+
+                    </div>
+
+                    <div class="col-md-3 col-lg-3">
+                      <div class="form-group ">
+                        <label class="mr-sm-2">{{'Site_Code' | translate}}</label>
+                        <select class="custom-select mr-sm-2" formControlName="siteCode" (change)="onSelectSiteCode($event)">
+                          <option value="">{{'Select' | translate}} {{'Site_Code' | translate}} </option>
+                          <option *ngFor="let site of siteCodeSelectList" value="{{site.siteCode}}">{{ !isArab?site.siteName:site.siteArbName}}</option>
+                        </select>
+                        <validation-message [control]="form.controls.siteCode"></validation-message>
+                      </div>
+                    </div>
+                  </div>
+
+                </div>
+              </div>
+              <div class="row">
+
+
+
+
+                <div class="col-md-6 col-lg-6" style="padding-right:0">
+
+                  <div class="paddingtop15">
+                    <div class="row">
+                      <div class="col-md-6 col-lg-6">
+                       
+
+                      </div>
+                      <div class="col-md-5 col-lg-4">
+
+
+                      </div>
+                      <div class="col-md-2 col-lg-1">
+
+
+
+                      </div>
+
+                    </div>
+
+                  </div>
+
+
+
+                  <table *ngIf="projectBudgetCosting!=null" class="table  table-bordered table-borderedcustom no-wrap" id="table">
+                    <thead>
+                      <tr>
+                        <th>
+                          {{'Resource'|translate}}
+                        </th>
+                        <th>{{'Cost_Per_Unit'|translate}}</th>
+                        <th>{{'Count'|translate}}</th>
+                        <th>{{'Amount'|translate}}</th>
+                        <th></th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr class="selected" *ngFor="let rc of projectBudgetCosting.resourceCostingsList;let i = index;">
+                        <td>{{ !isArab?rc.nameInEnglish:rc.nameInArabic}}</td>
+                        <!--<td>{{ !isArab?getSkillSet(rc.skillsetCode)?.nameInEnglish:getSkillSet(rc.skillsetCode)?.nameInArabic}}</td>-->
+                        <td *ngIf="this.rc.costPerUnit!=0">{{rc.costPerUnit+rc.margin}}</td>
+                        <td *ngIf="this.rc.costPerUnit==0">-</td>
+
+                        <td *ngIf="this.rc.quantity!=0">{{rc.quantity}}</td>
+                        <td *ngIf="this.rc.quantity==0">-</td>
+
+                        <td *ngIf="this.rc.quantity!=0" style="text-align: right;">{{rc.quantity*(rc.costPerUnit+rc.margin)}}</td>
+                        <td *ngIf="this.rc.quantity==0" style="text-align: right;">-</td>
+                        <td>
+                          <span *ngIf="activeResourceIndex==-1" style="font-size:smaller" >
+                            <button type="button" class="btn waves-effect waves-light btn-outline-primary" (click)="getResourceSubCostingList(rc,i)">{{'Edit'|translate}}</button>
+                          </span>
+                          <span *ngIf="activeResourceIndex==i && projectBudgetCosting.resourceCostingsList[activeResourceIndex]?.costPerUnit+projectBudgetCosting.resourceCostingsList[activeResourceIndex]?.margin==0" style="font-size:smaller">
+                            <button type="button" class="btn waves-effect waves-light btn-outline-primary" (click)="cancelEditCosting()">{{'Cancel'|translate}}</button>
+                          </span>
+                        </td>
+
+                      </tr>
+                      <tr>
+                        <th colspan="3" style="text-align:right">
+                          {{'Total'|translate}}
+                        </th>
+                        <th style="text-align:right">
+                          {{grandTotal}}
+                        </th>
+
+                      </tr>
+
+                  </table>
+                </div>
+                <div class="col-md-6 col-lg-6" *ngIf="projectBudgetCosting!=null">
+                  <div class="paddingtop15">
+                    <div class="row">
+                      <div class="col-md-6 col-lg-6">
+                        <select class="custom-select mr-sm-2" formControlName="subCostCostHead" (change)="selectCostHead($event)">
+                          <option value="">{{'Select' | translate}} {{'Costing_Head' | translate}} </option>
+                          <option *ngFor="let ch of resourceExpenceHeadSelectList" value="{{ch.costHead}}">{{ isArab?ch?.costNameInArabic:ch?.costNameInEnglish}}</option>
+                        </select>
+                      </div>
+                      <div class="col-md-5 col-lg-4">
+                        <input type="number" placeholder="{{'Enter'|translate}} {{'Amount'|translate}}" class="form-control" formControlName="subCostAmount"/>
+                      </div>
+                      <div class="col-md-2 col-lg-1">
+                        <a style="font-size:30px"(click)="addUpdateSubCostings()"> <i class="icon-plus"> </i>  </a>
+                      </div>
+                    </div>
+                  </div>
+
+                  <table class="table tablecolor  table-bordered no-wrap" *ngIf="activeResourceIndex!=-1">
+                    <tbody>
+                      <tr>
+                        <th width="60%">
+                          {{'Costing_Head'|translate}}
+                        </th>
+                        <th width="30%">{{'Amount'|translate}}</th>
+                        <th></th>
+                      </tr>
+                      <tr *ngFor="let rsc of resourceSubCostingList;let j = index;">
+                        <td style="width: 60%;">{{ !isArab?getCostHead(rsc.costHead)?.costNameInEnglish:getCostHead(rsc.costHead)?.costNameInArabic}}</td>
+
+                        <td style="width: 30%;text-align:right">{{rsc.amount}}</td>
+                        <td style="width: 10%;text-align:right" (click)="removeSubCostings(this.j)"><a class="tableicons"><i class="icon-trash"> </i></a></td>
+
+                      </tr>
+                      <tr>
+                        <th>{{'Sub_Total'|translate}}</th>
+                        <th style="text-align:right">
+                          {{projectBudgetCosting.resourceCostingsList[activeResourceIndex]?.costPerUnit}}
+                        </th>
+                        <th>
+                        </th>
+                      </tr>
+                      <tr>
+                        <td style="text-align:right">{{'Margin'|translate}}</td>
+                        <!--<td style="text-align:right">
+                          {{projectBudgetCosting.resourceCostingsList[activeResourceIndex]?.margin}}
+                        </td>-->
+                      <td>
+                        <input type="number" style="text-align:right"
+                               class="form-control"
+                               placeholder="{{'Margin'|translate}}"
+                               [(ngModel)]="projectBudgetCosting.resourceCostingsList[activeResourceIndex].margin" [ngModelOptions]="{standalone: true}" (keyup)="changeMargin()"/>
+                        
+                      </td>
+                        <td>
+                         
+
+                        </td>
+                      </tr>
+                      <tr>
+                        <th>{{'Cost_Per_Unit'|translate}}</th>
+                        <th style="text-align:right">
+                          {{projectBudgetCosting.resourceCostingsList[activeResourceIndex]?.costPerUnit+projectBudgetCosting.resourceCostingsList[activeResourceIndex]?.margin}}
+                        </th>
+                        <th>
+                          <span *ngIf="projectBudgetCosting.resourceCostingsList[activeResourceIndex]?.costPerUnit+projectBudgetCosting.resourceCostingsList[activeResourceIndex]?.margin>0">
+                            <button type="button" class="btn waves-effect waves-light btn-outline-primary" (click)="SubCostingOK()">{{'OK'|translate}}</button>
+
+                          </span>
+                        </th>
+                      </tr>
+
+</table>
+                </div>
+
+              </div>
+
+            </div>
+            <div class="row ">
+              <div class="col-md-12 col-lg-12 text-center">
+                <input type="button" class="btn waves-effect waves-light btn-rounded   btn-secondary btn-midblock" (click)="closeModel()" value="CLOSE"> &nbsp;
+                <input *ngIf="canSave && grandTotal> 0 && activeResourceIndex==-1" type="submit" class="btn waves-effect waves-light btn-rounded btn-primary btn-midblock" value="SAVE">
+                <input *ngIf="grandTotal== 0" type="button" class="btn waves-effect waves-light btn-rounded btn-primary btn-midblock" (click)="skippEstimationType()" value="SKIP">
+              </div>
+            </div>
+          </div>
+
+
+
+        </div>
+      </div>
+
+    </div>
+
+  </div>
+</form>

@@ -1,0 +1,214 @@
+<h3 class="modal-title">{{'Lesson_Plan' | translate}}</h3>
+<button type="button" class="close" aria-hidden="true" (click)="closeModel()"> ×</button>
+<form [formGroup]="form" (ngSubmit)="submit()" novalidate class="mt-4">
+  <div class="outer">
+    <div class="row rowm0 mt-3">
+      <div class="col-md-6 col-lg-6 col-sm-6" *ngIf="isShowLessonPlanCode">
+        <div class="form-group">
+          <label>{{'Lesson_Plan_Code' | translate}}</label>
+          <input class="form-control" type="text" readonly placeholder="{{'Teacher_Code' | translate}}"
+                 formControlName="lessonPlanCode" />
+          <validation-message [control]="form.controls.lessonPlanCode"></validation-message>
+        </div>
+      </div>
+      <div class="col-md-6 col-lg-6 col-sm-6">
+        <div class="form-group">
+          <label>{{'Branch_Code' | translate}}</label>
+          <select class="custom-select mr-sm-2" formControlName="branchCode" (change)="loadTeachers()">
+            <option value="">{{'Select' | translate}} {{'Branch_Code' | translate}} </option>
+            <ng-container *ngIf="branchCodeList">
+              <option *ngFor="let item of branchCodeList" value="{{item.value}}">{{ isArab ? item.textTwo : item.text  }}</option>
+            </ng-container>
+          </select>
+          <validation-message [control]="form.controls.branchCode"></validation-message>
+        </div>
+      </div>
+      <div class="col-md-6 col-lg-6 col-sm-6">
+        <label>{{'Teacher_Code' | translate}}</label>
+        <div class="form-group">
+          <!--<input type="text" class="form-control" formControlName="teacherCode"
+             placeholder="Pick one" aria-label="Number" matInput
+          [formControl]="myControl" [matAutocomplete]="auto">
+      <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete">
+        <mat-option *ngFor="let option of teacherList | async" [value]="option.teacherCode">
+          {{option.teacherName2}}
+        </mat-option>
+      </mat-autocomplete>-->
+          <select class="custom-select mr-sm-2" formControlName="teacherCode" (change)="loadGrades()">
+            <option value="">{{'Select' | translate}} {{'Teacher_Code' | translate}} </option>
+            <ng-container *ngIf="teacherList">
+              <option *ngFor="let item of teacherList" value="{{item.teacherCode}}">{{ isArab ? item.teacherName2 : item.teacherName1  }}</option>
+            </ng-container>
+          </select>
+          <validation-message [control]="form.controls.teacherCode"></validation-message>
+        </div>
+      </div>
+      <div class="col-md-6 col-lg-6 col-sm-6">
+        <div class="form-group">
+          <label>{{'Teacher_Name' | translate}}</label>
+          <input class="form-control" type="text" disabled placeholder="{{'Teacher_Name' | translate}}" value="{{teacherName}}" />
+          
+        </div>
+      </div>
+      <div class="col-md-6 col-lg-6 col-sm-6">
+        <div class="form-group">
+          <label>{{'Class_Grade_Code' | translate}}</label>
+          <select class="custom-select mr-sm-2" formControlName="gradeCode" (click)="loadSectionSubjects()">
+            <option value="">{{'Select' | translate}} {{'Class_Grade_Code' | translate}} </option>
+            <ng-container *ngIf="gradeCodeList">
+              <option *ngFor="let item of gradeCodeList" value="{{item.gradeCode}}">{{ isArab ? item.gradeName2 : item.gradeName  }}</option>
+            </ng-container>
+          </select>
+          <validation-message [control]="form.controls.gradeCode"></validation-message>
+        </div>
+      </div>
+      <div class="col-md-6 col-lg-6 col-sm-6">
+        <div class="form-group">
+          <label>{{'Section_Code' | translate}}</label>
+          <select class="custom-select mr-sm-2" formControlName="sectionCode" (click)="loadSectionSubjects()">
+            <option value="">{{'Select' | translate}} {{'Section_Code' | translate}} </option>
+            <ng-container *ngIf="sectionList">
+              <option *ngFor="let item of sectionList" value="{{item.sectionCode}}">{{ isArab ? item.sectionName2 : item.sectionName  }}</option>
+            </ng-container>
+          </select>
+          <validation-message [control]="form.controls.sectionCode"></validation-message>
+        </div>
+      </div>
+      <div class="col-md-6 col-lg-6 col-sm-6">
+        <div class="form-group ">
+          <label>{{'Subject_Code' | translate}}</label>
+          <select class="custom-select mr-sm-2" formControlName="subCodes">
+            <option value="">{{'Select' | translate}} {{'Subject_Code' | translate}} </option>
+            <ng-container *ngIf="subCodesList">
+              <option *ngFor="let item of subCodesList" value="{{item.subCodes}}">{{ isArab ? item.subName2 : item.subName  }}</option>
+            </ng-container>
+          </select>
+          <validation-message [control]="form.controls.subCodes"></validation-message>
+        </div>
+      </div>
+      <div class="col-md-6 col-lg-6 col-sm-6">
+        <div class="form-group">
+          <label>{{'Estimated_Start_Date' | translate}}</label>
+          <div class="input-group ">
+            <input class="form-control datapickerinput" placeholder="{{'Estimated_Start_Date' | translate}}"
+                   formControlName="estStartDate" [matDatepicker]="picker1" (dateChange)="calcDays($event)">
+            <div class="input-group-prepend datapickericon">
+              <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
+              <mat-datepicker #picker1></mat-datepicker><br /><br />
+            </div>
+          </div>
+          <validation-message [control]="form.controls.estStartDate"></validation-message>
+        </div>
+      </div>
+      <div class="col-md-6 col-lg-6 col-sm-6">
+        <div class="form-group">
+          <label>{{'Estimated_End_Date' | translate}}</label>
+          <div class="input-group ">
+            <input class="form-control datapickerinput" placeholder="{{'Estimated_End_Date' | translate}}"
+                   formControlName="estEndDate" [matDatepicker]="picker2" (dateChange)="calcDays($event)">
+            <div class="input-group-prepend datapickericon">
+              <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
+              <mat-datepicker #picker2></mat-datepicker><br /><br />
+            </div>
+          </div>
+          <validation-message [control]="form.controls.estEndDate"></validation-message>
+        </div>
+      </div>
+      <div class="col-md-6 col-lg-6 col-sm-6">
+        <div class="form-group">
+          <label>{{'Number_of_Days' | translate}}</label>
+          <input class="form-control" type="text" readonly placeholder="{{'Number_of_Days' | translate}}"
+                 formControlName="numOfDays" />
+          <validation-message [control]="form.controls.numOfDays"></validation-message>
+        </div>
+      </div>
+      <div class="col-md-6 col-lg-6 col-sm-6">
+        <div class="form-group">
+          <label>{{'Number_of_Lessons' | translate}}</label>
+          <input class="form-control" type="text" placeholder="{{'Number_of_Lessons' | translate}}"
+                 formControlName="numOfLessons" />
+          <validation-message [control]="form.controls.numOfLessons"></validation-message>
+        </div>
+      </div>
+      <!--<div class="col-lg-12 col-md-12">
+    <input (click)="toggleShow()" type="button" class="btn btn-secondary"
+           value="{{'Proceed' | translate}}" />
+  </div>-->
+    </div>
+    <div class="table-responsive" *ngIf="isShown">
+      <table class="table  table-bordered no-wrap">
+        <thead>
+          <tr>
+            <th>{{'Chapter' | translate}}</th>
+            <th>{{'Lesson_Name' | translate}}</th>
+            <th>{{'Lesson_Name_Arabic' | translate}}</th>
+            <th>{{'Topic_Name' | translate}}</th>
+            <th>{{'Topic_Name_Arabic' | translate}}</th>
+            <th>{{'Num_Of_Classes' | translate}}</th>
+            <th>{{'Topic_Date' | translate}}</th>
+            <th>{{'Start_Time' | translate}}</th>
+            <th>{{'End_Time' | translate}}</th>
+            <th><i (click)="addRow()" class="icon-plus"> </i></th>
+          </tr>
+        </thead>
+        <tbody formArrayName="tableRows">
+            <tr *ngFor="let group of  form.controls.tableRows.controls; let i = index" [formGroupName]="i">
+              <td>
+                <input class="form-control" type="text" placeholder="{{'Chapter' | translate}}"
+                       formControlName="chapter" />
+              </td>
+              <td>
+                <input class="form-control" type="text" placeholder="{{'Lesson_Name' | translate}}"
+                       formControlName="lessonName" />
+              </td>
+              <td>
+                <input class="form-control" type="text" placeholder="{{'Lesson_Name_Arabic' | translate}}"
+                       formControlName="lessonName2" />
+              </td>
+              <td>
+                <input class="form-control" type="text" placeholder="{{'Topic_Name' | translate}}"
+                       formControlName="topics" />
+              </td>
+              <td>
+                <input class="form-control" type="text" placeholder="{{'Topic_Name_Arabic' | translate}}"
+                       formControlName="topics2" />
+              </td>
+              <td>
+                <input class="form-control" type="text" placeholder="{{'Num_Of_Classes' | translate}}"
+                       formControlName="numOfSessions" />
+              </td>
+              <td>
+                <div class="form-group" style="margin-top: 50%;">
+                  <input matInput class="form-control datapickerinput" placeholder="{{'Date' | translate}}"
+                         formControlName="topicDate" [matDatepicker]="picker" style="display:inline;width:85%;">
+                  <div class="input-group-prepend datapickericon" style="display:inline !important;width:14%;float:right;">
+                    <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                    <mat-datepicker #picker></mat-datepicker><br /><br />
+                  </div>
+                </div>
+              </td>
+              <td>
+                <input class="form-control" type="time" matInput min="09:00" max="18:00" placeholder="{{'Start_time' | translate}}"
+                       formControlName="startTime" />
+              </td>
+              <td>
+                <input class="form-control" type="time" matInput min="09:00" max="18:00" placeholder="{{'End_time' | translate}}"
+                       formControlName="endTime" />
+              </td>
+              <td>
+                <i (click)="deleteRow(i)" class="icon-close"></i>
+              </td>
+            </tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="row customrow mt-4">
+      <div class="col-lg-12 col-md-12 text-center">
+        <input type="button" class="btn btn-secondary" value="{{'Cancel' | translate}}"
+               (click)="closeModel()" />
+        &nbsp;&nbsp;
+        <input type="submit" class="btn waves-effect waves-light btn-primary" *ngIf="buttonstatus" value="{{'Save' | translate}}">
+      </div>
+    </div>
+  </div>
+</form>

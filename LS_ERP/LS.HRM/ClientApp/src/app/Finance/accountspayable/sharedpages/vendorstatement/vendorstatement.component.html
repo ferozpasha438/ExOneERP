@@ -1,0 +1,177 @@
+<div>
+  <button (click)="printInvoice()">Print</button> &nbsp;
+  <!--<button (click)="saveAsPDF()">Save As PDF</button>--> &nbsp;
+  <button type="button" class="" aria-hidden="true" (click)="closeModel()"> Close</button><br />
+  <button type="button" class="close" aria-hidden="true" (click)="closeModel()"> ×</button>
+</div>
+<br />
+<br />
+<br />
+
+<style>
+  @media print {
+    div.print-container {
+      padding-top: 50px !important;
+      border: 1px solid red;
+    }
+  }
+
+  .ur_tablestyle th, .ur_tablestyle td {
+    padding: 7px;
+  }
+</style>
+
+
+<spinner-loader [isLoading]="isLoading"></spinner-loader>
+<div id="printcontainer">
+
+
+  <div class="modal-content">
+    <div class="modal-header">
+
+      <h2 class="modal-title" id="scrollableModalTitle">  {{'Vendor_Statement_Report' | translate}}</h2>
+    </div>
+    <div class="modal-body">
+
+      <div class="outer  ">
+        <div class="row">
+          <div class="col-md-8 col-lg-8">
+            <div class=" font-weight-medium">
+              {{custInfo.companyName}}<br />
+              {{custInfo.companyAddress}}
+
+            </div>
+          </div>
+          <div class="col-md-4 col-lg-4 text-right">
+            <img src="{{custInfo.logoURL}}" style="width:200px;height:100px;" />
+          </div>
+
+        </div>
+
+
+        <div class="table-responsive">
+
+          <table class="table  table-bordered no-wrap">
+
+            <thead>
+              <tr>
+                <td colspan="6" class="text-center font-weight-medium">
+                  {{'Vendor_Statement_of_Account' | translate}}. كشف حساب العميل
+                </td>
+              </tr>
+              <tr>
+                <td colspan="3" class="text-left font-weight-medium">
+                  <h2>{{custInfo.customerName}}</h2>
+                  {{custInfo.custCode}}<br />
+                  {{custInfo.custAddress1}}<br />
+                  {{custInfo.custAddress2}}
+                </td>
+                <td colspan="3" class="text-left font-weight-medium">
+                  <table style="width:100%;" class="bordernone">
+                    <tr>
+                      <td>
+                        {{'Statement_Date' | translate}}:
+                        <br />
+                        تاريخ كشف الحساب
+                      </td>
+                      <td>{{today}}</td>
+                    </tr>
+                    <!--<tr>
+                      <td>
+                        {{'Statement_Number' | translate}}:
+                        <br />رقم البيان
+                      </td>
+                      <td>20214501</td>
+                    </tr>-->
+                  </table>
+
+                </td>
+
+              </tr>
+              <tr>
+                <td colspan="3" class="text-left font-weight-medium">
+                  {{'Statement_period_from' | translate}} Jan-1-2022 to May-18-2022
+                </td>
+                <td colspan="3" class="text-left font-weight-medium">
+                  <span> {{'Open_Balance' | translate}}حساب مفتوح </span>
+                  $50.50
+                </td>
+
+              </tr>
+
+              <tr>
+                <th rowspan="2" style="vertical-align: middle;width:10%">{{'Date' | translate}}<div class="text-right"> تاريخ </div></th>
+                <th rowspan="2" style="vertical-align: middle;width:15%">
+                  {{'Trantype' | translate}}<div class="text-right">
+                    رقم التحويلة
+                  </div>
+                </th>
+                <th rowspan="2" style="vertical-align: middle;">
+                  {{'Description' | translate}}<div class="text-right"> وصف</div>
+                </th>
+                <th class="text-center font-weight-medium" colspan="3">
+                  {{'Amount_in_SAR' | translate}} - المبلغ بالريال السعودي
+                </th>
+              </tr>
+              <tr>
+                <th class="15per" style="width:10%">
+                  {{'Cr_Amount' | translate}}<div class="text-right">المبلغ كر</div>
+                </th>
+                <th class="15per" style="width:10%">{{'Dr_Amount' | translate}}<div class="text-right"> مبلغ الدكتور</div>     </th>
+                <th class="15per" style="width:10%">
+                  {{'Balance' | translate}}<div class="text-right"> الرصيد</div>
+                </th>
+
+
+              </tr>
+              <tr>
+              </tr>
+
+            </thead>
+            <tbody>
+
+
+
+              <tr *ngFor="let item of list">
+                <td>{{item.tranDate | date:'dd-MM-yyyy'}}</td>
+                <td>{{item.trantype}}</td>
+                <td>{{item.remarks1}}</td>
+                <td>{{item.drAmount}}</td>
+                <td>{{item.crAmount}}</td>
+                <td>{{item.tranNumber}}</td>
+
+              </tr>
+
+
+              <tr class="tfoot">
+
+                <td colspan="3" class="text-right ">{{'Closing_Balance_Amount' | translate}}</td>
+
+                <td>{{totalDrAmount}}</td>
+                <td>{{totalCrAmount}}</td>
+                <td>{{totalBalance}}</td>
+
+              </tr>
+
+          </table>
+
+          <table class="preparedbytable   table  table-bordered no-wrap">
+            <tr>
+              <td>
+                <label> {{'Prepared_by' | translate}}:</label>
+
+              </td>
+              <td>
+                <label>{{'Received_by' | translate}}:</label>
+              </td>
+
+            </tr>
+          </table>
+        </div>
+      </div>
+
+
+    </div>
+  </div><!-- /.modal-content -->
+
+</div>

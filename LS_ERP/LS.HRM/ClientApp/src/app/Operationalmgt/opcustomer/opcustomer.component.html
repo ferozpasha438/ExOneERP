@@ -1,0 +1,295 @@
+<div class="page-breadcrumb">
+  <div class="row">
+    <div class="col-12 align-self-center">
+      <h3 class="page-title text-truncate text-dark font-weight-medium mb-1">
+        {{'Customers' | translate}}
+      </h3>
+      <div class="d-flex align-items-center">
+        <nav aria-label="breadcrumb">
+          <ol class="breadcrumb m-0 p-0">
+            <!--<li class="breadcrumb-item text-muted"> {{'Operational_Management' | translate}} </li>-->
+            <li class="breadcrumb-item text-muted"> {{'Operations' | translate}} </li>
+            <li class="breadcrumb-item   active" aria-current="page">{{'Customers_List' | translate}}</li>
+          </ol>
+        </nav>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-md-12 col-lg-12">
+      <div class="card">
+        <div class="card-body">
+          <div class="row">
+
+
+            <div class="col-md-12 col-lg-12 text-right" align="right">
+              <a data-toggle="modal" data-target="#addnewcustomer" class="  btn waves-effect waves-light btn-rounded btn-outline-primary" (click)="createCust()" href="#"> <i class="icon-plus"> </i>{{'Add_New_Customer' | translate}} </a>
+              &nbsp;&nbsp;
+              <a data-toggle="modal" data-target="#addnewcustomersite" class="  btn waves-effect waves-light btn-rounded btn-outline-primary" (click)="createSite()" href="#"> <i class="icon-plus"> </i>{{'Add_New_Customer_Site' | translate}} </a>
+
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-4 col-lg-4">
+              <div class="form-group">
+                <label>{{'Branch_Code' | translate}}</label>
+                <ng-select [items]="citySelectionList"
+                           bindLabel="lable"
+                           bindValue="value" [(ngModel)]="filter.branchCode" (change)="applyFilter('')">  </ng-select>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-4 col-lg-4">
+              <input type="text"
+                     class="form-control"
+                     placeholder="{{'Search'|translate}}..."
+                     [(ngModel)]="searchValue" (keyup)="applyFilter(searchValue)" (keydown)="applyFilter(searchValue)" [ngModelOptions]="{standalone: true}" />
+            </div>
+            <div class="col-md-4 col-lg-4">
+              <span class="badge badge-pill badge-light" *ngIf="!filter.isActive && filter?.isActive!=null; else Active"> {{'InActive' | translate}}</span>
+              <ng-template #Active >
+                <span class="badge badge-pill badge-success" *ngIf="filter?.isActive; else All"> {{'Active' | translate}}</span>
+              </ng-template>
+ <ng-template #All>
+                <span class="badge badge-pill badge-warning"> {{'All' | translate}}</span>
+              </ng-template>
+              &nbsp;&nbsp;&nbsp;&nbsp;
+              <mat-slide-toggle color="primary" [(ngModel)]="filter.isActive" (change)="CustomerActiveChecked($event)"> </mat-slide-toggle> &nbsp;&nbsp;&nbsp;&nbsp;
+            </div>
+
+            <div class="col-md-4 col-lg-4" style="align-content:flex-start">
+              <button class="btn btn-primary" (click)="generateReport()" *ngIf="reportData.length==0">
+                Generate Report
+
+              </button>
+              <span *ngIf="reportData.length>0">
+                <button class="btn btn-primary" [useExistingCss]="true" printTitle="Customer Sites Report"
+                        printSectionId="printcontainer"
+                        ngxPrint>
+                  print
+                </button>
+                &nbsp;
+                <button class="btn btn-primary" (click)="exportexcel()">ExportExcel</button>
+
+              </span>
+              <span>
+                &nbsp;
+                <button class="btn btn-primary icon-refresh" (click)="refresh()"></button>
+              </span>
+            </div>
+
+            <div class="col-md-1 col-lg-1 text-center">
+              <spinner-loader [isLoading]="isLoading"></spinner-loader>
+            </div>
+          </div>
+
+
+
+
+
+          <div class="cardtitle-divider"></div>
+          <div class="table-responsive">
+
+
+
+            <div class="mat-elevation-z8">
+              <!--<ng-container *ngIf="data;else noData">-->
+
+              <table mat-table [dataSource]="data" matSortDisableClear matSort (matSortChange)="onSortOrder($event)" class="table  table-bordered no-wrap">
+                <ng-container matColumnDef="custCode">
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                    {{'Customer_Code' | translate}}
+                  </th>
+                  <td mat-cell *matCellDef="let row"> <div class="circle-color" [ngClass]="row.isActive ? '' : 'circle-color-red'"> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; {{ row.custCode }}</div></td>
+                </ng-container>
+
+                <ng-container matColumnDef="custName">
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                    {{'Name' | translate}}
+                  </th>
+                  <td mat-cell *matCellDef="let row">{{ isArabic?row.custArbName: row.custName }}</td>
+                </ng-container>
+
+                <ng-container matColumnDef="custCatCode">
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                    {{'Category' | translate}}
+                  </th>
+                  <td mat-cell *matCellDef="let row">{{ row.custCatCode }}</td>
+                </ng-container>
+
+                <ng-container matColumnDef="custCityCode1">
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                    {{'City' | translate}}
+                  </th>
+                  <td mat-cell *matCellDef="let row">{{ row.custCityCode1}}</td>
+                </ng-container>
+                <ng-container matColumnDef="custMobile1">
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                    {{'Mobile' | translate}}
+                  </th>
+                  <td mat-cell *matCellDef="let row">{{ row.custMobile1}}</td>
+                </ng-container>
+                <ng-container matColumnDef="custPhone1">
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                    {{'Phone' | translate}}
+                  </th>
+                  <td mat-cell *matCellDef="let row">{{ row.custPhone1}}</td>
+                </ng-container>
+                <ng-container matColumnDef="custSalesRep">
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                    {{'Contact_Person' | translate}}
+                  </th>
+                  <td mat-cell *matCellDef="let row">{{ row.custSalesRep}}</td>
+                </ng-container>
+
+                <ng-container matColumnDef="numberOfSites">
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                    {{'No_Of_Sites' | translate}}
+                  </th>
+                  <td mat-cell *matCellDef="let row">{{ row.numberOfSites}}</td>
+                </ng-container>
+
+
+
+                <ng-container matColumnDef="Actions" stickyEnd>
+                  <th mat-header-cell *matHeaderCellDef>{{'Actions' | translate}}</th>
+                  <td mat-cell *matCellDef="let row">
+
+
+
+
+                    <a class="tableicons" (click)="edit(row.id)" matTooltip="{{'Edit_Customer' | translate}}"><i class="icon-note"> </i> </a>
+                    <!--<a class="dropdown-item tableicons" data-target="#viewSites" routerLink = "viewSites" [queryParams] = "{customerCode:row.custCode}"><i class="icon-eye"> </i> {{'View_Customer_Sites' | translate}} </a>-->
+                    <a class="tableicons" (click)="viewCustomerSites(row.custCode,row.id)" matTooltip=" {{'View_Customer_Sites' | translate}}"><i class="icon-eye"> </i> </a>
+                    <a class="tableicons" data-target="#addsitetocustomer" (click)="addsitetocustomer(row.id)" matTooltip="{{'Add_New_Site' | translate}}"><i class="icon-plus"> </i> </a>
+                    <a class="tableicons pcursor" data-toggle="modal"
+                       data-target="#scrollable-modal" (click)="uploadFile(row.custCode)" matTooltip="{{'Document_Upload' | translate}}"><i class="icon-cloud-upload"> </i></a> &nbsp;
+
+                    <!--<a class="dropdown-item tableicons" data-target="#deletecustomer" (click)="delete(row.id)"><i class="icon-trash"> </i> {{'Remove' | translate}} </a>-->
+
+
+
+
+                  </td>
+                </ng-container>
+                <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
+                <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+
+              </table>
+
+
+
+            </div>
+
+
+          </div>
+
+          <ng-container>
+            <mat-paginator [length]="totalItemsCount"
+                           [pageSize]="pageService.pageCount"
+                           [pageSizeOptions]="pageService.selectItemsPerPage"
+                           (page)="onPageSwitch($event)">
+            </mat-paginator>
+          </ng-container>
+
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<div id="printcontainer" *ngIf="reportData.length>0" hidden>
+  <div width="100%">
+    <table id="attndTable">
+      <tr>
+        <td colspan="2">{{'Report_On_Customers'|translate}}</td>
+      </tr>
+      <tr>
+        <td>{{'Branch_Code'|translate}}:{{(filter?.branchCode==null||filter.branchCode==''?'All':filter.branchCode)}}</td>
+        <td colspan="2">{{'Search_Key'|translate}}:{{searchValue}}</td>
+
+      </tr>
+      
+    </table>
+    <br />
+  </div>
+  <table id="attndTable" width="100%">
+    <tr>
+      <th>
+        {{'Customer_Code' | translate}}
+      </th>
+
+      <th>
+        {{'Name' | translate}}
+      </th>
+
+      <th>
+        {{'Category' | translate}}
+      </th>
+
+      <th>
+        {{'City' | translate}}
+      </th>
+
+      <th>
+        {{'Mobile' | translate}}
+      </th>
+
+      <th>
+        {{'Phone' | translate}}
+      </th>
+
+      <th>
+        {{'Contact_Person' | translate}}
+      </th>
+      <th>
+        {{'No_Of_Sites' | translate}}
+      </th>
+    </tr>
+    <tr *ngFor="let row of reportData;let i=index;">
+      <td>{{ row.custCode }}</td>
+
+      <td>{{ isArabic?row.custArbName: row.custName }}</td>
+      <td>{{ row.custCatCode }}</td>
+
+      <td>{{ row.custCityCode1}}</td>
+      <td>{{ row.custMobile1}}</td>
+      <td>{{ row.custPhone1}}</td>
+      <td>{{ row.custSalesRep}}</td>
+      <td>{{ row.numberOfSites}}</td>
+    </tr>
+  </table>
+
+
+</div>
+
+
+<style>
+  #attndTable td, th {
+    border: solid;
+    border-width: 1px;
+    padding: 5px 5px 5px 5px;
+    text-align: center;
+  }
+
+  #attndTable table {
+    width: 100%;
+  }
+
+  #printcontainer div {
+    width: 100%;
+    padding: 10px 10px 10px 10px;
+  }
+</style>
+
+
+
+
+

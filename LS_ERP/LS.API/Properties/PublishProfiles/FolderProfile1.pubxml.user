@@ -1,0 +1,11 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<!--
+https://go.microsoft.com/fwlink/?LinkID=208121. 
+-->
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <_PublishTargetUrl>D:\Publish_LS.API</_PublishTargetUrl>
+    <History>True|2023-03-20T09:22:41.2042585Z;True|2023-02-20T18:40:36.6911861+05:30;True|2023-02-20T16:34:31.6183836+05:30;True|2023-02-06T11:51:58.6821306+05:30;True|2023-01-30T13:46:33.1718908+05:30;True|2023-01-25T14:28:34.9713091+05:30;True|2022-03-31T15:07:14.5042156+05:30;</History>
+    <LastFailureDetails />
+  </PropertyGroup>
+</Project>

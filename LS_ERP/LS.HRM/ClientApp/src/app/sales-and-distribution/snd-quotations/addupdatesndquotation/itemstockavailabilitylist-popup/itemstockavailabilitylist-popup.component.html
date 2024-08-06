@@ -1,0 +1,107 @@
+<div class="row">
+
+  <div class="col-md-12 col-lg-12" style="text-align:center">
+    <h3> {{'Items_Stock_List' | translate}} <button type="button" class="close" aria-hidden="true" (click)="closeModel()"> ×</button></h3>
+  </div>
+  <div class="col-md-12 col-lg-12" style="text-align:center">
+    <table width="100%">
+      <tr>
+        <td width="30%">
+        
+          {{'Item'|translate}}:{{item?.itemDescription}}({{itemCode}})
+        </td>
+        <td width="45%">
+        
+          {{'Warehouse'|translate}}:{{warehouse?.whDesc}}({{warehouseCode}})
+        </td>
+        <td>
+
+          {{'Qty_Required'|translate}}:{{quantity}}x{{ium?.itemConvFactor}}={{(quantity*ium?.itemConvFactor)}}
+        </td>
+
+      </tr>
+    </table>
+  </div>
+  <div class="col-md-12 col-lg-12" style="text-align:center">
+    <table class="table  table-bordered no-wrap">
+      <thead>
+        <tr>
+          <th>
+            {{'Warehouse'|translate}}
+          </th>
+          <th>
+            {{'OnHand'|translate}}
+          </th>
+          <th>
+            {{'Commited'|translate}}
+          </th>
+
+          <th>
+            {{'Reserved'|translate}}
+          </th>
+          <th>
+            {{'Available'|translate}}
+          </th>
+          <th>
+          </th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let item of tableData;let i=index;">
+          <td>
+
+            {{item.invWarehouses.whName}}({{item.whCode}}),
+            <br/>
+            {{item.invWarehouses.whCity}},{{item.invWarehouses.whState}},
+          </td>
+          <td>
+            {{item?.qtyOH}}
+          </td>
+          <td>
+            {{item?.qtyOnSalesOrder}}
+          </td>
+          <td>
+            {{item?.qtyReserved}}
+          </td>
+          <td>
+            {{(item?.qtyOH - item?.qtyOnSalesOrder  - item?.qtyReserved)}}
+           
+          </td>
+          <td>
+            <ng-container>
+              <i class="fas fa-circle" id="{{getStatusColor(item)}}"> </i> &nbsp;
+            </ng-container>
+          </td>
+        </tr>
+        <tr>
+          <td style="text-align:center" *ngIf="tableData?.length==0" colspan="6">
+            {{'No_Stock_Found'|translate}}
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+</div>
+
+  
+<style>
+
+  #statusAvailable {
+    color: #4cff00
+  }
+
+  #statusPartialAvailable {
+    color: #ffd800
+  }
+
+
+
+  #statusNotAvailable {
+    color: #ff0000
+  }
+
+  #statusNegativeStock {
+    color: #000000
+  }
+</style>

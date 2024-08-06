@@ -1,0 +1,209 @@
+<div class="page-breadcrumb">
+  <div class="row">
+    <div class="col-12 align-self-center">
+      <h3 class="page-title text-truncate text-dark font-weight-medium mb-1">
+        {{'Purchase_Invoice' | translate}}
+      </h3>
+      <div class="d-flex align-items-center">
+        <nav aria-label="breadcrumb">
+          <ol class="breadcrumb m-0 p-0">
+            <li class="breadcrumb-item text-muted">{{'Finance' | translate}} </li>
+            <li class="breadcrumb-item text-muted ">{{'Account_Payable' | translate}}</li>
+            <li class="breadcrumb-item   active" aria-current="page">{{'Purchase_Invoice' | translate}} </li>
+
+          </ol>
+        </nav>
+      </div>
+    </div>
+
+  </div>
+</div>
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-md-12 col-lg-12">
+
+      <div class="card">
+        <div class="card-body">
+
+          <div class="row pb-3">
+            <div class="col-md-12 col-lg-12">
+              <!--<h4 class="card-title pt6">{{'Sales_Invoice_List' | translate}} </h4>-->
+            </div>
+            <div class="col-md-3">
+              <!--(keyup)="applyFilter($event)"-->
+              <input class="form-control" placeholder="{{'Search' | translate}}..." [(ngModel)]="searchValue" />
+            </div>
+            <div class="col-md-3">
+              <ng-select [items]="productList"
+                         bindLabel="text"
+                         bindValue="value" [(ngModel)]="productId" [ngModelOptions]="{standalone: true}">
+              </ng-select>
+            </div>
+            <div class="col-md-4 arabicright">
+              <button (click)="applyFilter(searchValue,productId)" class="btn btn-primary">{{'Search' | translate}}</button> &nbsp;
+              <a (click)="refresh()" class="" matTooltip="{{'Refresh' | translate}}"><i class="btn btn-primary icon-refresh"></i></a>&nbsp;
+              <button (click)="printInvoice()" class="btn btn-primary">{{'Print' | translate}}</button> &nbsp;
+            </div>
+          </div>
+
+
+          <div class="row pb-3">
+            <div class="col-md-3">
+              <label class="mr-sm-2">{{'Sales_Invoice_List' | translate}}</label>
+              <select class="custom-select mr-sm-2" (change)="loadApprovals($event)" id="approvalList">
+                <option value="">{{'Sales_Invoice_List' | translate}}</option>
+                <option value="approval">Approval</option>
+                <option value="unapproval">UnApproval</option>
+                <option value="settled">Settled</option>
+                <option value="unsettled">UnSettled</option>
+
+              </select>
+
+            </div>
+            <div class="col-md-3">
+              <label class="mr-sm-2">{{'Invoice_Type' | translate}}</label>
+              <select class="custom-select mr-sm-2" (change)="loadInvoices($event)">
+                <option value="1">{{'Invoice' | translate}}</option>
+                <option value="2">{{'Credit' | translate}}</option>
+              </select>
+
+            </div>
+          </div>
+
+
+
+          <div class="row">
+            <div class="col-md-7 col-lg-9">
+              <h4 class="card-title pt6">{{'Purchase_Invoice_List' | translate}}</h4>
+            </div>
+            <div class="col-md-3 col-lg-3 text-right">
+              <div class="nav-item dropdown">
+                <a data-toggle="modal"
+                   data-target="#scrollable-modal" class="  btn waves-effect waves-light btn-rounded btn-outline-primary" (click)="create()" href="#"> <i class="icon-plus"> </i>{{'Add_New_Purchase_Invoice' |translate}}  </a>
+                <!--<button (click)="uploadFile()" class="btn btn-primary">Upload File</button>-->
+              </div>
+            </div>
+
+          </div>
+          <div class="cardtitle-divider"></div>
+
+          <div class="example-table-container table-responsive pt-3">
+            <spinner-loader [isLoading]="isLoading"></spinner-loader>
+            <ng-container>
+
+              <table mat-table [dataSource]="data" matSort matSortActive="Id"
+                     matSortDisableClear matSortDirection="desc" (matSortChange)="onSortOrder($event)" class="table  table-bordered no-wrap">
+                <ng-container matColumnDef="creditNumber">
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                    {{'Invoice_Number' | translate}}
+                  </th>
+                  <td mat-cell *matCellDef="let row">{{ row.creditNumber }}</td>
+                </ng-container>
+
+                <ng-container matColumnDef="invoiceDate">
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                    {{'Invoice_Date' | translate}}
+                  </th>
+                  <td mat-cell *matCellDef="let row">{{ row.invoiceDate | date:'dd/MM/yyyy' }}</td>
+                </ng-container>
+                <ng-container matColumnDef="companyName">
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                    {{'Organization' | translate}}
+                  </th>
+                  <td mat-cell *matCellDef="let row">{{ row.companyName }}</td>
+                </ng-container>
+                <ng-container matColumnDef="invoiceRefNumber">
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                    {{'Invoice_Reference_Number' | translate}}
+                  </th>
+                  <td mat-cell *matCellDef="let row">{{ row.invoiceRefNumber}}</td>
+                </ng-container>
+                <ng-container matColumnDef="branchName">
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                    {{'Branch' | translate}}
+                  </th>
+                  <td mat-cell *matCellDef="let row">{{ row.branchName}}</td>
+                </ng-container>
+                <ng-container matColumnDef="customerName">
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                    {{'Vendor_Name' | translate}}
+                  </th>
+                  <td mat-cell *matCellDef="let row">{{ row.customerName}}</td>
+                </ng-container>
+                <ng-container matColumnDef="code">
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                    {{'Vendor_Code' | translate}}
+                  </th>
+                  <td mat-cell *matCellDef="let row">{{ row.code}}</td>
+                </ng-container>
+                <ng-container matColumnDef="totalAmount">
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                    {{'Total_Amount' | translate}} (SAR)
+                  </th>
+                  <td mat-cell *matCellDef="let row">{{ row.totalAmount | leadingZeros}}</td>
+                </ng-container>
+                <ng-container matColumnDef="lpoContract">
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                    {{'LPO_Contract' | translate}}
+                  </th>
+                  <td mat-cell *matCellDef="let row">{{ row.lpoContract}}</td>
+                </ng-container>
+                <ng-container matColumnDef="paymentTerms">
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                    {{'Payment_Terms' | translate}}
+                  </th>
+                  <td mat-cell *matCellDef="let row">{{ row.paymentTermId}}</td>
+                </ng-container>
+                <ng-container matColumnDef="taxIdNumber">
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                    {{'Tax_Id_Number' | translate}}
+                  </th>
+                  <td mat-cell *matCellDef="let row">{{ row.taxIdNumber}}</td>
+                </ng-container>
+                <ng-container matColumnDef="invoiceDueDate">
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                    {{'Delivery_Date' | translate}}
+                  </th>
+                  <td mat-cell *matCellDef="let row">{{ row.invoiceDueDate  | date:'dd/MM/yyyy'}}</td>
+                </ng-container>
+                <ng-container matColumnDef="Actions" stickyEnd>
+                  <th mat-header-cell *matHeaderCellDef>{{'Actions' | translate}}</th>
+                  <td mat-cell *matCellDef="let row">
+
+                    <a class="tableicons pcursor" (click)="view(row.id)" matTooltip="{{'View_Details' | translate}}"><i class="icon-list"> </i></a> &nbsp;
+                    <a class="tableicons pcursor" *ngIf="!row.isApproved && !row.isSettled" (click)="edit(row.id)" id="{{'edit_' + row.id}}" matTooltip="{{'Edit_Item' | translate}}"><i class="icon-note"> </i></a> &nbsp;
+                    <!--<a class="tableicons pcursor" (click)="delete(row.id)"><i class="icon-trash"> </i></a> &nbsp; && !row.isSettled-->
+                    <ng-container *ngIf="row.hasAuthority">
+                      <a class="tableicons pcursor" *ngIf="!row.approvedUser && !row.isSettled" (click)="approve(row.id, row.invoiceStatus)" matTooltip="{{'Approve_Item' | translate}}"><i class="icon-arrow-up-circle"> </i></a> &nbsp;
+                      <a class="tableicons pcursor" *ngIf="row.canSettle && !row.isSettled" (click)="settlePayment(row)" matTooltip="{{'Posting_Item' | translate}}"><i class="icon-action-undo"> </i></a> &nbsp;
+                    </ng-container>
+
+                  </td>
+                </ng-container>
+
+                <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
+                <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+
+              </table>
+              <ng-container>
+                <mat-paginator [length]="totalItemsCount"
+                               [pageSize]="pageService.pageCount"
+                               [pageSizeOptions]="pageService.selectItemsPerPage"
+                               (page)="onPageSwitch($event)">
+                </mat-paginator>
+
+              </ng-container>
+            </ng-container>
+            <!--<ng-template #noData>
+      <no-apidata></no-apidata>
+    </ng-template>-->
+          </div>
+
+
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<!--
+<!-- Long Content Scroll Modal -->

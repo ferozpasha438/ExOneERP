@@ -1,0 +1,192 @@
+<h3 class="modal-title">{{modalTitle | translate}}</h3>
+<button type="button" class="close" aria-hidden="true" (click)="closeModel()"> ×</button>
+
+<div class="page-breadcrumb">
+  <div class="row">
+    <div class="col-12 align-self-center">
+      <h3 class="page-title text-truncate text-dark font-weight-medium mb-1">
+        {{'Services_Enquiry' | translate}}
+      </h3>
+      <div class="d-flex align-items-center">
+        <nav aria-label="breadcrumb">
+          <ol class="breadcrumb m-0 p-0">
+            <li class="breadcrumb-item text-muted"> {{'Operational_Management' | translate}} </li>
+            <li class="breadcrumb-item text-muted"> {{'Operations' | translate}} </li>
+            <li class="breadcrumb-item   text-muted">{{'Services_Enquiry' | translate}}</li>
+             <li class="breadcrumb-item   active" aria-current="page">{{enquiryNumber}}</li>
+
+          </ol>
+        </nav>
+      </div>
+    </div>
+
+  </div>
+</div>
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-md-12 col-lg-12">
+      <div class="card">
+        <div class="card-body">
+          <div class="row">
+            <div class="col-md-12 col-lg-12">
+              <h4 class="card-title pt6">{{'Services_Enquiry_List' | translate}} </h4>
+            </div>
+            <!--<div class="col-md-5 col-lg-5">
+              <input type="text"
+                     class="form-control"
+                     placeholder="{{'Search'|translate}}..."
+                     [(ngModel)]="searchValue" (keyup)="applyFilter(searchValue)" (keydown)="applyFilter(searchValue)" [ngModelOptions]="{standalone: true}" />
+            </div>-->
+            <!--<div class="col-md-6 col-lg-6 text-right">
+    <a data-toggle="modal"
+       data-target="#addEnquiries" class="btn waves-effect waves-light btn-rounded btn-outline-primary" (click)="create()" href="#"> <i class="icon-plus"> </i>{{'Add_New_Services_Enquiry' | translate}} </a>
+
+  </div>-->
+          </div>
+
+          <div class="cardtitle-divider"></div>
+          <div class="table-responsive">
+
+
+            <ng-container>
+
+              <table mat-table [dataSource]="data" matSortDisableClear matSort (matSortChange)="onSortOrder($event)" class="table  table-bordered no-wrap">
+                <!--<ng-container matColumnDef="enquiryID">
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                    {{'Enquiry_ID' | translate}}
+                  </th>
+                  <td mat-cell *matCellDef="let row">{{ row.enquiryID }}</td>
+                </ng-container>-->
+
+                <!--<ng-container matColumnDef="siteCode">
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                    {{'Site_Code' | translate}}
+                  </th>
+                  <td mat-cell *matCellDef="let row">{{ row.siteCode }}</td>
+                </ng-container>-->
+  <ng-container matColumnDef="site">
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                    {{'Site' | translate}}
+                  </th>
+                  <td mat-cell *matCellDef="let row">{{ !isArab?row.siteNameEn:row.siteNameAr }}</td>
+                </ng-container>
+
+                <!--<ng-container matColumnDef="serviceCode">
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                    {{'Service_Code' | translate}}
+                  </th>
+                  <td mat-cell *matCellDef="let row">{{ row.serviceCode }}</td>
+                </ng-container>-->
+                <ng-container matColumnDef="service">
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                    {{'Service' | translate}}
+                  </th>
+                  <td mat-cell *matCellDef="let row">{{ !isArab?row.serviceNameEn:row.serviceNameAr }}</td>
+                </ng-container>
+
+                <ng-container matColumnDef="unitCode">
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                    {{'Unit_Code' | translate}}
+                  </th>
+                  <td mat-cell *matCellDef="let row">{{ row.unitCode }}</td>
+                </ng-container>
+                <ng-container matColumnDef="pricePerUnit">
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                    {{'Price_Per_Unit' | translate}}
+                  </th>
+                  <td mat-cell *matCellDef="let row">{{ row.pricePerUnit }}</td>
+                </ng-container>
+
+                <ng-container matColumnDef="serviceQuantity">
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                    {{'Service_Quantity' | translate}}
+                  </th>
+                  <td mat-cell *matCellDef="let row">{{ row.serviceQuantity }}</td>
+                </ng-container>
+                <ng-container matColumnDef="unitQuantity">
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                    {{'Unit_Quantity' | translate}}
+                  </th>
+                  <td mat-cell *matCellDef="let row">{{ row.unitQuantity }}</td>
+                </ng-container>
+
+                <ng-container matColumnDef="estimatedPrice">
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                    {{'Estimated_Price' | translate}}
+                  </th>
+                  <td mat-cell *matCellDef="let row">{{ row.estimatedPrice }}</td>
+                </ng-container>
+                <!--<ng-container matColumnDef="statusEnquiry">
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                    {{'Status' | translate}}
+                  </th>
+                  <td mat-cell *matCellDef="let row">{{ row.statusEnquiry }}</td>
+                </ng-container>-->
+
+
+
+
+
+
+
+
+
+
+
+                <ng-container matColumnDef="Actions">
+                  <th mat-header-cell *matHeaderCellDef>{{'Actions' | translate}}</th>
+                  <td mat-cell *matCellDef="let row" class="clickaction">
+
+                    <!--<i *ngIf="row.statusEnquiry == 'Survey_Completed'" (click)="cahngeEnquiryStatus(row.enquiryID,'Approved')" class="icon-like"> </i>&nbsp;-->
+                    <!--<span><i *ngIf="row.statusEnquiry == 'Open'" (click)="addSuveyorToEnquiry(row.enquiryID)" class=" icon-user"> </i>&nbsp;</span>-->
+                    <!--<a *ngIf="row.statusEnquiry !== 'Cancelled'" class="dropdown-item tableicons" (click)="cahngeEnquiryStatus(row.enquiryID,'Cancelled')"><i class="icon-power"> </i> {{'Cancel_Survey' | translate}} </a>-->
+                    <!--<span *ngIf="row.statusEnquiry != 'Cancelled'" (click)="delete(row.enquiryID)"><i  class="icon-trash"> </i>&nbsp;</span>-->
+                    <!--<span *ngIf="row.statusEnquiry == 'Survey_Completed'" (click)="approvalAuth(row)"><i class="icon-like"> </i>&nbsp;</span>
+                    <span *ngIf="row.statusEnquiry == 'Assigned_Surveyor'" routerLink="EditableSurveyForm" [queryParams]="{enquiryID: row.enquiryID}"><i class="fas fa-edit"> </i>&nbsp;</span>
+                    <span *ngIf="row.statusEnquiry == 'Survey_In_Progress'" routerLink="EditableSurveyForm" [queryParams]="{enquiryID: row.enquiryID}"><i class="fas fa-edit"> </i> &nbsp;</span>
+                    <span *ngIf="row.statusEnquiry == 'Survey_Completed'" routerLink="EditableSurveyForm" [queryParams]="{enquiryID: row.enquiryID}"><i class=" icon-eye"> </i>&nbsp;</span>-->
+                    <!--<span *ngIf="row.statusEnquiry == 'Approved'"  routerLink="EditableSurveyForm" [queryParams]="{enquiryID: row.enquiryID}"><i class=" icon-printer" > </i>&nbsp;</span>-->
+
+
+
+                    <span *ngIf="!row.isAssignedSurveyor && (row.authorities.canAddSurveyorToEnquiry || row.isAdmin) && row.isEnqApproved" (click)="addSuveyorToEnquiry(row.enquiryID)" [matTooltip]="translate.instant('Assign_Surveyor')"><i class=" icon-user"> </i>&nbsp;</span>
+
+
+
+                    <span *ngIf="row.isSurveyCompleted" (click)="printSurveyForm(row.enquiryID)" [matTooltip]="translate.instant('Print_Survey_Form')"><i class=" icon-printer"> </i>&nbsp;</span>
+                    <span *ngIf="row.isAssignedSurveyor && !row.isSurveyCompleted &&  (row.canEditSurveyForm || row.isAdmin)" (click)="editableSurveyForm(row.enquiryID)" [matTooltip]="translate.instant('Edit_Survey')"><i class="fas fa-edit"> </i>&nbsp;</span>
+                    <span *ngIf="row.isSurveyCompleted && !row.isSurveyApproved && (!row.approvedUser && row.authorities.canApproveSurvey || row.isAdmin)" (click)="approveSurvey(row)" [matTooltip]="translate.instant('Approve_Survey')"><i class="icon-like"> </i>&nbsp;</span>
+
+                  </td>
+                </ng-container>
+
+
+
+
+                <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
+                <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+
+              </table>
+
+            </ng-container>
+
+
+          </div>
+          <ng-container>
+            <mat-paginator [length]="totalItemsCount"
+                           [pageSize]="pageService.pageCount"
+                           [pageSizeOptions]="pageService.selectItemsPerPage"
+                           (page)="onPageSwitch($event)">
+            </mat-paginator>
+
+          </ng-container>
+        </div>
+
+
+
+      </div>
+    </div>
+
+  </div>
+
+</div>

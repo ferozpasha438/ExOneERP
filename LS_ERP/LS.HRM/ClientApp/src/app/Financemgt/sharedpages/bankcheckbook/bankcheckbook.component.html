@@ -1,0 +1,50 @@
+<h3> {{'Check_Book_for_Banks' | translate}}<button type="button" class="close" aria-hidden="true" (click)="closeModel()"> ×</button></h3>
+<form [formGroup]="form" (ngSubmit)="submit()" novalidate class="mt-4">
+  <div class="row">
+    <!--<div class="col-md-6 col-lg-6">
+      <div class="form-group">
+        <label for="BranchCode">Name of the Pay-code / Details </label>
+        <input class="form-control" id="BranchCode" type="text"
+               placeholder="Please enter Paycode Details" formControlName="finPayCode">
+
+      </div>
+    </div>-->
+    <div class="col-md-6 col-lg-6">
+      <div class="form-group">
+        <label for="CityName">{{'Starting_Check_Number' | translate}}</label>
+        <input class="form-control" id="CityName" type="number"
+               placeholder="Please enter check Number" formControlName="stChkNum" [readonly]="isCheckValue">
+        <validation-message [control]="form.controls.stChkNum"></validation-message>
+      </div>
+    </div>
+    <div class="col-md-6 col-lg-6">
+      <div class="form-group">
+        <label for="CityName">{{'Number_of_Leaves' | translate}}</label>
+        <input class="form-control" id="CityName" type="number"
+               placeholder="Please enter check Number" formControlName="endChkNum" [readonly]="isCheckValue">
+        <validation-message [control]="form.controls.endChkNum"></validation-message>
+      </div>
+    </div>
+    <div class="col-md-6 col-lg-6">
+      <div class="form-group">
+        <label for="BranchCode">{{'Check_Leaves_Prefix' | translate}} </label>
+        <input class="form-control" id="BranchCode" type="text"
+               placeholder="Please enter Check Leaves Prefix" formControlName="checkLeavePrefix" [readonly]="isCheckValue" maxlength="10">
+        <validation-message [control]="form.controls.checkLeavePrefix"></validation-message>
+      </div>
+    </div>
+
+
+
+  </div>
+  <div class="row mt-3 ">
+    <div class="col-md-12 col-lg-12 text-center">
+      <input type="button"
+             class="btn waves-effect waves-light btn-rounded   btn-secondary btn-midblock"
+             value="{{'Cancel' | translate}}" (click)="closeModel()" /> &nbsp;
+      <input type="submit"
+             class="btn waves-effect waves-light btn-rounded btn-primary btn-midblock"
+             value="{{'Save' | translate}}" />
+    </div>
+  </div>
+</form>

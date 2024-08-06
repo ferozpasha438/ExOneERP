@@ -1,0 +1,318 @@
+<style>
+  .first-cell {
+    width: 72px;
+  }
+
+  .second-cell {
+    width: 95px;
+  }
+</style>
+<div class="modal-header">
+  <h3 class="modal-title">{{modalTitle}}</h3>
+  <button type="button" class="close" aria-hidden="true" (click)="closeModel()"> ×</button>
+
+</div>
+<form [formGroup]="form" (ngSubmit)="submit()" novalidate class="mt-4">
+  <div class="row">
+    <!--<div class="col-md-1 col-lg-1">
+    <auto-loader [isLoading]="isBranchLoading"></auto-loader>
+  </div>-->
+    <div class="col-md-6 col-lg-6">
+      <div class="form-group">
+        <label>{{'Branch_Code' | translate}}</label>
+        <input type="text" class="form-control"
+               placeholder="{{'Please_Enter' | translate}} {{'Branch_Code' | translate}}"
+               [formControl]="branchCodeControl"
+               matInput
+               [matAutocomplete]="auto">
+        <mat-autocomplete #auto="matAutocomplete" (optionSelected)="selectedOption($event)">
+          <mat-option *ngFor="let option of filteredOptions | async"
+                      [value]="option.value">
+            {{option.value}}-{{option.text}}
+          </mat-option>
+        </mat-autocomplete>
+      </div>
+    </div>
+    <div class="col-md-6 col-lg-6">
+      <div class="form-group">
+        <label>{{'Branch_Name' | translate}}</label>
+        <input class="form-control" type="text"
+               placeholder="{{'Please_Enter' | translate}} {{'Branch_Name' | translate}}" formControlName="branchName" [readonly]="true">
+        <validation-message [control]="form.controls.branchName"></validation-message>
+      </div>
+    </div>
+    <div class="col-md-6 col-lg-6">
+      <div class="form-group">
+        <label>{{'Branch_Name_Ar' | translate}}</label>
+        <input class="form-control" type="text"
+               placeholder="{{'Please_Enter' | translate}} {{'Branch_Name_Ar' | translate}}" formControlName="branchNameAr">
+        <validation-message [control]="form.controls.branchNameAr"></validation-message>
+      </div>
+    </div>
+    <div class="col-md-6 col-lg-6">
+      <div class="form-group">
+        <label>{{'StartAcademicDate' | translate}}</label>
+        <div class="input-group ">
+          <input class="form-control datapickerinput" placeholder="{{'StartAcademicDate' | translate}}"
+                 formControlName="startAcademicDate" [matDatepicker]="picker1">
+          <div class="input-group-prepend datapickericon">
+            <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
+            <mat-datepicker #picker1></mat-datepicker><br /><br />
+          </div>
+        </div>
+        <validation-message [control]="form.controls.startAcademicDate"></validation-message>
+      </div>
+    </div>
+    <div class="col-md-6 col-lg-6">
+      <div class="form-group">
+        <label>{{'EndAcademicDate' | translate}}</label>
+        <div class="input-group ">
+          <input class="form-control datapickerinput" placeholder="{{'EndAcademicDate' | translate}}"
+                 formControlName="endAcademicDate" [matDatepicker]="picker2">
+          <div class="input-group-prepend datapickericon">
+            <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
+            <mat-datepicker #picker2></mat-datepicker><br /><br />
+          </div>
+        </div>
+        <validation-message [control]="form.controls.endAcademicDate"></validation-message>
+      </div>
+    </div>
+
+
+    <div class="col-md-6 col-lg-6">
+      <div class="form-group">
+        <label>{{'Branch_Prefix' | translate}}</label>
+        <input class="form-control" type="text"
+               placeholder="{{'Please_Enter' | translate}} {{'Branch_Prefix' | translate}}" formControlName="branchPrefix">
+        <validation-message [control]="form.controls.branchPrefix"></validation-message>
+      </div>
+    </div>
+    <div class="col-md-6 col-lg-6">
+      <div class="form-group">
+        <label>{{'Branch_Office_Address' | translate}}</label>
+        <input class="form-control" type="text"
+               placeholder="{{'Please_Enter' | translate}} {{'Branch_Office_Address' | translate}}" formControlName="address">
+        <validation-message [control]="form.controls.address"></validation-message>
+      </div>
+    </div>
+
+    <div class="col-md-6 col-lg-6">
+      <div class="form-group">
+        <label>{{'City' | translate}}</label>
+        <input class="form-control" type="text"
+               placeholder="{{'Please_Enter' | translate}} {{'City' | translate}}" formControlName="city">
+        <validation-message [control]="form.controls.city"></validation-message>
+      </div>
+    </div>
+    <div class="col-md-6 col-lg-6">
+      <div class="form-group">
+        <label>{{'Mobile' | translate}}</label>
+        <input class="form-control" type="text"
+               placeholder="{{'Please_Enter' | translate}} {{'Mobile' | translate}}" formControlName="mobile">
+        <validation-message [control]="form.controls.mobile"></validation-message>
+      </div>
+    </div>
+    <div class="col-md-6 col-lg-6">
+      <div class="form-group">
+        <label>{{'Phone' | translate}}</label>
+        <input class="form-control" type="text"
+               placeholder="{{'Please_Enter' | translate}} {{'Phone' | translate}}" formControlName="phone">
+        <validation-message [control]="form.controls.phone"></validation-message>
+      </div>
+    </div>
+    <div class="col-md-6 col-lg-6">
+      <div class="form-group">
+        <label>{{'Email' | translate}}</label>
+        <input class="form-control" type="text"
+               placeholder="{{'Please_Enter' | translate}} {{'Email' | translate}}" formControlName="email">
+        <validation-message [control]="form.controls.email"></validation-message>
+      </div>
+    </div>
+    <div class="col-md-6 col-lg-6">
+      <div class="form-group">
+        <label>{{'WeekOff1' | translate}}</label>
+        <select class="custom-select mr-sm-2" formControlName="weekOff1">
+          <option value=''>{{'WeekOff1' | translate}}</option>
+          <option value="Sun">{{'SunDay' | translate}}</option>
+          <option value="Mon">{{'MonDay' | translate}}</option>
+          <option value="Tue">{{'Tuesday' | translate}}</option>
+          <option value="Wed">{{'Wednesday' | translate}}</option>
+          <option value="Thu">{{'Thursday' | translate}}</option>
+          <option value="Fri">{{'Friday' | translate}}</option>
+          <option value="Sat">{{'Saturday' | translate}}</option>
+        </select>
+        <validation-message [control]="form.controls.weekOff1"></validation-message>
+      </div>
+    </div>
+    <div class="col-md-6 col-lg-6">
+      <div class="form-group">
+        <label>{{'WeekOff2' | translate}}</label>
+        <select class="custom-select mr-sm-2" formControlName="weekOff2">
+          <option value=''>{{'WeekOff2' | translate}}</option>
+          <option value="Sun">{{'SunDay' | translate}}</option>
+          <option value="Mon">{{'MonDay' | translate}}</option>
+          <option value="Tue">{{'Tuesday' | translate}}</option>
+          <option value="Wed">{{'Wednesday' | translate}}</option>
+          <option value="Thu">{{'Thursday' | translate}}</option>
+          <option value="Fri">{{'Friday' | translate}}</option>
+          <option value="Sat">{{'Saturday' | translate}}</option>
+        </select>
+        <validation-message [control]="form.controls.weekOff2"></validation-message>
+      </div>
+    </div>
+    <div class="col-md-6 col-lg-6">
+      <div class="form-group">
+        <label>{{'Start_Week_Day' | translate}}</label>
+        <select class="custom-select mr-sm-2" formControlName="startWeekDay">
+          <option value=''>{{'Start_Week_Day' | translate}}</option>
+          <option value="Sun">{{'SunDay' | translate}}</option>
+          <option value="Mon">{{'MonDay' | translate}}</option>
+          <option value="Tue">{{'Tuesday' | translate}}</option>
+          <option value="Wed">{{'Wednesday' | translate}}</option>
+          <option value="Thu">{{'Thursday' | translate}}</option>
+          <option value="Fri">{{'Friday' | translate}}</option>
+          <option value="Sat">{{'Saturday' | translate}}</option>
+        </select>
+        <validation-message [control]="form.controls.startWeekDay"></validation-message>
+      </div>
+    </div>
+    <div class="col-md-6 col-lg-6">
+      <div class="form-group">
+        <label>{{'GeoLatitude' | translate}}</label>
+        <input class="form-control" type="text"
+               placeholder="{{'Please_Enter' | translate}} {{'GeoLatitude' | translate}}" formControlName="geoLat">
+        <validation-message [control]="form.controls.geoLat"></validation-message>
+      </div>
+    </div>
+
+    <div class="col-md-6 col-lg-6">
+      <div class="form-group">
+        <label>{{'GeoLongitude' | translate}}</label>
+        <input class="form-control" type="text"
+               placeholder="{{'Please_Enter' | translate}} {{'GeoLongitude' | translate}}" formControlName="geoLong">
+        <validation-message [control]="form.controls.geoLong"></validation-message>
+      </div>
+    </div>
+
+    <div class="col-md-6 col-lg-6">
+      <div class="form-group">
+        <label>{{'CurrencyCode' | translate}}</label>
+        <input class="form-control" type="text"
+               placeholder="{{'Please_Enter' | translate}} {{'CurrencyCode' | translate}}" formControlName="currencyCode">
+        <validation-message [control]="form.controls.currencyCode"></validation-message>
+      </div>
+    </div>
+
+    <div class="col-md-6 col-lg-6">
+      <div class="form-group">
+        <label>{{'PrivacyPolicyUrl' | translate}}</label>
+        <input class="form-control" type="text"
+               placeholder="{{'Please_Enter' | translate}} {{'PrivacyPolicyUrl' | translate}}" formControlName="privacyPolicyUrl">
+        <validation-message [control]="form.controls.privacyPolicyUrl"></validation-message>
+      </div>
+    </div>
+
+    <div class="col-md-6 col-lg-6">
+      <div class="form-group">
+        <label>{{'Website' | translate}}</label>
+        <input class="form-control" type="text"
+               placeholder="{{'Please_Enter' | translate}} {{'Website' | translate}}" formControlName="website">
+        <validation-message [control]="form.controls.website"></validation-message>
+      </div>
+    </div>
+    <div class="col-md-6 col-lg-6">
+      <div class="form-group">
+        <label>{{'Branch_Notification_Moderator' | translate}}</label>
+        <select class="custom-select mr-sm-2" formControlName="branchNotification_Moderator">
+          <option value="">{{'Select' | translate}} {{'Branch_Notification_Moderator' | translate}} </option>
+          <ng-container *ngIf="moderatorList">
+            <option *ngFor="let item of moderatorList" value="{{item.loginId}}">{{ item.userName }}</option>
+          </ng-container>
+        </select>
+        <validation-message [control]="form.controls.branchNotification_Moderator"></validation-message>
+      </div>
+    </div>
+    <!--<div class="col-md-6 col-lg-6">
+      <div class="form-group">
+        <label>{{'Default_InTime' | translate}}</label>
+        <div class="input-group 24hr-example">
+          <input class="form-control" placeholder="{{'Default_InTime' | translate}}" aria-label="24hr format" formControlName="default_InTime" [ngxTimepicker]="timepicker1" [format]="24" readonly>
+          <ngx-material-timepicker #timepicker1></ngx-material-timepicker>
+        </div>
+        <validation-message [control]="form.controls.default_InTime"></validation-message>
+      </div>
+    </div>
+    <div class="col-md-6 col-lg-6">
+      <div class="form-group">
+        <label>{{'Default_OutTime' | translate}}</label>
+        <div class="input-group 24hr-example">
+          <input class="form-control" placeholder="{{'Default_OutTime' | translate}}" aria-label="24hr format" formControlName="default_OutTime" [ngxTimepicker]="timepicker2" [format]="24" readonly>
+          <ngx-material-timepicker #timepicker2></ngx-material-timepicker>
+        </div>
+        <validation-message [control]="form.controls.default_OutTime"></validation-message>
+      </div>
+    </div>-->
+    <div class="col-md-12 col-lg-12">
+      <h4>{{'Approval_Authorities' | translate}}</h4>
+      <div class="table-responsive">
+        <table class="table  table-bordered no-wrap">
+          <thead>
+            <tr>
+              <th>{{'User_Name' | translate}}</th>
+              <th>{{'Level' | translate}}</th>
+              <th>{{'Approve_Leave' | translate}} </th>
+              <th>{{'Approve_Disciplinary_Action' | translate}} </th>
+              <th>{{'Approve_Notification' | translate}} </th>
+              <th>{{'Approve_Event' | translate}} </th>
+
+              <th class="text-center"><i class="fas fa-plus-circle" (click)="addItem()"> </i> </th>
+
+            </tr>
+          </thead>
+          <tbody formArrayName="schoolBranchesAuthorityList" *ngFor="let t of schoolBranchesAuthorityList.controls; let i = index">
+            <tr [formGroupName]="i">
+              <td>
+                <select class="custom-select mr-sm-2" formControlName="teacherCode" style="width: 200px;">
+                  <option value=''>{{'Select_User' | translate}}</option>
+                  <option *ngFor="let user of userList" value="{{user?.teacherCode}}">{{user?.teacherName1}}</option>
+                </select>
+              </td>
+              <td>
+                <select class="custom-select mr-sm-2" formControlName="level" style="width: 180px;">
+                  <option value="0">{{'Select_Level' | translate}}</option>
+                  <option value="1">{{'Level_one' | translate}}</option>
+                  <option value="2">{{'Level_two' | translate}}</option>
+                  <option value="3">{{'Level_three' | translate}}</option>
+                </select>
+              </td>
+              <!--<td><input type="checkbox" formControlName="appAuthJV" /></td>
+            <td><input type="checkbox" formControlName="appAuthBV" /></td>
+            <td><input type="checkbox" formControlName="appAuthCV" /></td>
+            <td><input type="checkbox" formControlName="appAuthAP" /></td>
+            <td><input type="checkbox" formControlName="appAuthAR" /></td>-->
+              <td class="first-cell"><mat-slide-toggle color="primary" formControlName="isApproveLeave"> </mat-slide-toggle></td>
+              <td class="first-cell"><mat-slide-toggle color="primary" formControlName="isApproveDisciPlinaryAction"> </mat-slide-toggle></td>
+              <td class="first-cell"><mat-slide-toggle color="primary" formControlName="isApproveNotification"> </mat-slide-toggle></td>
+              <td class="first-cell"><mat-slide-toggle color="primary" formControlName="isApproveEvent"> </mat-slide-toggle></td>
+
+              <td class="text-center"> <i class="icon-trash" (click)="removeItem(i)" *ngIf="i !== 0"> </i></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+
+
+      <div class="row mt-3 ">
+        <div class="col-md-12 col-lg-12 text-center">
+          <input type="button"
+                 class="btn waves-effect waves-light btn-rounded   btn-secondary btn-midblock"
+                 value="{{'Cancel' | translate}}" (click)="closeModel()" /> &nbsp;
+          <input type="submit"
+                 class="btn waves-effect waves-light btn-rounded btn-primary btn-midblock"
+                 value="{{'Save' | translate}}" formControlName="" />
+        </div>
+      </div>
+    </div>
+  </div>
+</form>

@@ -1,0 +1,61 @@
+<h3 class="modal-title">{{'School_Leaves_Type' | translate}}</h3>
+<button type="button" class="close" aria-hidden="true" (click)="closeModel()"> ×</button>
+<form [formGroup]="form" (ngSubmit)="submit()" novalidate class="mt-4">
+    <div class="outer ">
+        <div class="row rowm0 mt-3">
+            <div class="col-md-6 col-lg-6 col-sm-6">
+                <div class="form-group">
+                    <label>{{'Leave_Code' | translate}}</label>
+                    <input class="form-control" type="text" placeholder="{{'Leave_Code' | translate}}"
+                        formControlName="leaveCode" />
+                    <validation-message [control]="form.controls.leaveCode"></validation-message>
+                </div>
+            </div>
+            <div class="col-md-6 col-lg-6 col-sm-6">
+                <div class="form-group">
+                    <label>{{'Leave_Name' | translate}}</label>
+                    <input class="form-control" type="text" placeholder="{{'Leave_Name' | translate}}"
+                        formControlName="leaveName" />
+                    <validation-message [control]="form.controls.leaveName"></validation-message>
+                </div>
+            </div>
+            <div class="col-md-6 col-lg-6 col-sm-6">
+                <div class="form-group">
+                    <label>{{'Leave_Name_in_Arabic' | translate}}</label>
+                    <input class="form-control" type="text" placeholder="{{'Leave_Name_in_Arabic' | translate}}"
+                        formControlName="leaveName2" />
+                    <validation-message [control]="form.controls.leaveName2"></validation-message>
+                </div>
+            </div>     
+            <div class="col-md-6 col-lg-6 col-sm-6">
+                <div class="form-group">
+                    <label>{{'Max_Leave_Per_Request' | translate}}</label>
+                    <input class="form-control" type="text" placeholder="{{'Max_Leave_Per_Request' | translate}}"
+                        formControlName="maxLeavePerReq" />
+                    <validation-message [control]="form.controls.maxLeavePerReq"></validation-message>
+                </div>
+            </div>     
+            <div class="col-md-6 col-lg-6 col-sm-6">
+                <label>{{'Is_Active' | translate}}</label>  
+                <div class="form-group">                   
+                    <mat-slide-toggle color="primary" formControlName="isActive"></mat-slide-toggle>                
+                </div>
+            </div>
+            <div class="col-md-6 col-lg-6 col-sm-6">
+                <div class="form-group">
+                    <label>{{'Remarks' | translate}}</label>
+                    <textarea class="form-control" type="text" placeholder="{{'Remarks' | translate}}"
+                        formControlName="remarks"></textarea>
+                    <validation-message [control]="form.controls.remarks"></validation-message>
+                </div>
+            </div>  
+        </div>
+        <div class="row customrow mt-4">
+            <div class="col-lg-12 col-md-12 text-center">
+                <input type="button" class="btn btn-secondary" value="{{'Cancel' | translate}}" (click)="closeModel()" />
+                &nbsp;&nbsp;
+                <input type="submit" class="btn waves-effect waves-light btn-primary" value="{{'Save' | translate}}">
+            </div>
+        </div>
+    </div>
+</form>

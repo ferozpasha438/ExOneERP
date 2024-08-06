@@ -1,0 +1,772 @@
+SET IDENTITY_INSERT [dbo].[tblFinSysAccountType] ON 
+GO
+INSERT [dbo].[tblFinSysAccountType] ([TypeCode], [TypeBal], [Id]) VALUES (N'Asset', N'1 ', 1)
+GO
+INSERT [dbo].[tblFinSysAccountType] ([TypeCode], [TypeBal], [Id]) VALUES (N'Liability', N'2 ', 2)
+GO
+INSERT [dbo].[tblFinSysAccountType] ([TypeCode], [TypeBal], [Id]) VALUES (N'Expense', N'3 ', 3)
+GO
+INSERT [dbo].[tblFinSysAccountType] ([TypeCode], [TypeBal], [Id]) VALUES (N'Income', N'4 ', 4)
+GO
+
+SET IDENTITY_INSERT [dbo].[tblFinSysAccountType] OFF
+GO
+
+
+
+SET IDENTITY_INSERT [dbo].[tblErpSysZoneSetting] ON 
+GO
+INSERT [dbo].[tblErpSysZoneSetting] ([Id], [Code], [Name], [NameAR], [IsActive]) VALUES (1, N'westzone', N'Saudi West', N'الغرب السعودي', 1)
+GO
+INSERT [dbo].[tblErpSysZoneSetting] ([Id], [Code], [Name], [NameAR], [IsActive]) VALUES (2, N'Eastzone', N'Saudi East', N'الشرق السعودي', 1)
+GO
+INSERT [dbo].[tblErpSysZoneSetting] ([Id], [Code], [Name], [NameAR], [IsActive]) VALUES (3, N'Southzone', N'Saudi South', N'الجنوب السعودي', 1)
+GO
+INSERT [dbo].[tblErpSysZoneSetting] ([Id], [Code], [Name], [NameAR], [IsActive]) VALUES (4, N'Northzone', N'Saudi North', N'الشمال السعودي', 1)
+GO
+SET IDENTITY_INSERT [dbo].[tblErpSysZoneSetting] OFF
+GO
+SET IDENTITY_INSERT [dbo].[tblErpSysCompany] ON 
+GO
+INSERT [dbo].[tblErpSysCompany] ([Id], [CompanyName], [CompanyAddress], [Phone], [Email], [VATNumber], [DateFormat], [GeoLocLatitude], [GeoLocLongitude], [LogoURL], [PriceDecimal], [QuantityDecimal], [City], [State], [Country], [Mobile], [Website], [LogoImagePath]) VALUES (1, N'Al Saher', N'Olaya, Riyadh, Saudi Arabia', N'1234567890', N'admin@logic.com', N'310909990567888', N'mm/dd/yyyy', N'5454', N'4354', N'http://www.logicsystems-me.com/images/main_logo.jpg', N'3', N'3', N'Jeddah', N'Jeddah', N'Saudi', N'1234567890', N'http://www.logicsystems-me.com', N'alsaher')
+GO
+SET IDENTITY_INSERT [dbo].[tblErpSysCompany] OFF
+GO
+SET IDENTITY_INSERT [dbo].[tblErpSysCountryCode] ON 
+GO
+INSERT [dbo].[tblErpSysCountryCode] ([CountryCode], [CountryName], [Id], [IsActive]) VALUES (N'SA', N'SAUDI', 1, 1)
+GO
+SET IDENTITY_INSERT [dbo].[tblErpSysCountryCode] OFF
+GO
+SET IDENTITY_INSERT [dbo].[tblErpSysStateCode] ON 
+GO
+INSERT [dbo].[tblErpSysStateCode] ([StateCode], [StateName], [CountryCode], [Id], [IsActive]) VALUES (N'10010', N'المنطقة الغربية', N'SA', 1, 1)
+GO
+INSERT [dbo].[tblErpSysStateCode] ([StateCode], [StateName], [CountryCode], [Id], [IsActive]) VALUES (N'10020', N'المنطقة الجنوبية', N'SA', 2, 1)
+GO
+INSERT [dbo].[tblErpSysStateCode] ([StateCode], [StateName], [CountryCode], [Id], [IsActive]) VALUES (N'10030', N'المنطقة الوسطى', N'SA', 3, 1)
+GO
+INSERT [dbo].[tblErpSysStateCode] ([StateCode], [StateName], [CountryCode], [Id], [IsActive]) VALUES (N'10040', N'المنطقة الشرقية ', N'SA', 4, 1)
+GO
+SET IDENTITY_INSERT [dbo].[tblErpSysStateCode] OFF
+GO
+SET IDENTITY_INSERT [dbo].[tblErpSysCityCode] ON 
+GO
+INSERT [dbo].[tblErpSysCityCode] ([CityCode], [StateCode], [CityName], [Id], [IsActive]) VALUES (N'100102', N'10010', N'جدة', 1, 1)
+GO
+INSERT [dbo].[tblErpSysCityCode] ([CityCode], [StateCode], [CityName], [Id], [IsActive]) VALUES (N'100103', N'10010', N'مكة', 2, 1)
+GO
+INSERT [dbo].[tblErpSysCityCode] ([CityCode], [StateCode], [CityName], [Id], [IsActive]) VALUES (N'100104', N'10010', N'الطائف', 3, 1)
+GO
+INSERT [dbo].[tblErpSysCityCode] ([CityCode], [StateCode], [CityName], [Id], [IsActive]) VALUES (N'100105', N'10010', N'المدينة المنورة', 4, 1)
+GO
+INSERT [dbo].[tblErpSysCityCode] ([CityCode], [StateCode], [CityName], [Id], [IsActive]) VALUES (N'100106', N'10010', N'العلا', 5, 1)
+GO
+INSERT [dbo].[tblErpSysCityCode] ([CityCode], [StateCode], [CityName], [Id], [IsActive]) VALUES (N'100107', N'10010', N'رابغ', 6, 1)
+GO
+INSERT [dbo].[tblErpSysCityCode] ([CityCode], [StateCode], [CityName], [Id], [IsActive]) VALUES (N'100108', N'10010', N'الباحة', 7, 1)
+GO
+INSERT [dbo].[tblErpSysCityCode] ([CityCode], [StateCode], [CityName], [Id], [IsActive]) VALUES (N'100109', N'10010', N'تبوك', 8, 1)
+GO
+INSERT [dbo].[tblErpSysCityCode] ([CityCode], [StateCode], [CityName], [Id], [IsActive]) VALUES (N'100201', N'10020', N'خميس مشيط', 9, 1)
+GO
+INSERT [dbo].[tblErpSysCityCode] ([CityCode], [StateCode], [CityName], [Id], [IsActive]) VALUES (N'100202', N'10020', N'جازان', 10, 1)
+GO
+INSERT [dbo].[tblErpSysCityCode] ([CityCode], [StateCode], [CityName], [Id], [IsActive]) VALUES (N'100203', N'10020', N'شروروة', 11, 1)
+GO
+INSERT [dbo].[tblErpSysCityCode] ([CityCode], [StateCode], [CityName], [Id], [IsActive]) VALUES (N'100204', N'10020', N'يدمة', 12, 1)
+GO
+INSERT [dbo].[tblErpSysCityCode] ([CityCode], [StateCode], [CityName], [Id], [IsActive]) VALUES (N'100205', N'10020', N'سبت العلايا', 13, 1)
+GO
+INSERT [dbo].[tblErpSysCityCode] ([CityCode], [StateCode], [CityName], [Id], [IsActive]) VALUES (N'100206', N'10020', N'نجران', 14, 1)
+GO
+INSERT [dbo].[tblErpSysCityCode] ([CityCode], [StateCode], [CityName], [Id], [IsActive]) VALUES (N'100301', N'10030', N'الرياض', 15, 1)
+GO
+INSERT [dbo].[tblErpSysCityCode] ([CityCode], [StateCode], [CityName], [Id], [IsActive]) VALUES (N'100302', N'10030', N'حائل', 16, 1)
+GO
+INSERT [dbo].[tblErpSysCityCode] ([CityCode], [StateCode], [CityName], [Id], [IsActive]) VALUES (N'100303', N'10030', N'القصيم', 17, 1)
+GO
+INSERT [dbo].[tblErpSysCityCode] ([CityCode], [StateCode], [CityName], [Id], [IsActive]) VALUES (N'100401', N'10040', N'الدمام', 18, 1)
+GO
+INSERT [dbo].[tblErpSysCityCode] ([CityCode], [StateCode], [CityName], [Id], [IsActive]) VALUES (N'100402', N'10040', N'الخبر', 19, 1)
+GO
+INSERT [dbo].[tblErpSysCityCode] ([CityCode], [StateCode], [CityName], [Id], [IsActive]) VALUES (N'100403', N'10040', N'الاحساء', 20, 1)
+GO
+INSERT [dbo].[tblErpSysCityCode] ([CityCode], [StateCode], [CityName], [Id], [IsActive]) VALUES (N'100404', N'10040', N'الجبيل', 21, 1)
+GO
+INSERT [dbo].[tblErpSysCityCode] ([CityCode], [StateCode], [CityName], [Id], [IsActive]) VALUES (N'100405', N'10040', N'حفر الباطن', 22, 1)
+GO
+SET IDENTITY_INSERT [dbo].[tblErpSysCityCode] OFF
+GO
+SET IDENTITY_INSERT [dbo].[tblErpSysCompanyBranches] ON 
+GO
+INSERT [dbo].[tblErpSysCompanyBranches] ([BranchCode], [CompanyId], [BranchName], [BranchAddress], [Phone], [Mobile], [City], [State], [AuthorityName], [GeoLocLatitude], [GeoLocLongitude], [Remarks], [Id], [IsActive], [ZoneId]) VALUES (N'MAINBRANCH', 1, N'Main Branch', N'Riyadh, Saudi', N'1234567890', N'1234567890', N'100102', N'Jeddah', N'Admin', N'8877', N'887', N'provices IT solutions', 2, 1, 1)
+GO
+SET IDENTITY_INSERT [dbo].[tblErpSysCompanyBranches] OFF
+GO
+
+SET IDENTITY_INSERT [dbo].[tblFinDefAccountBranches] ON 
+GO
+INSERT [dbo].[tblFinDefAccountBranches] ([Id], [FinBranchCode], [FinBranchPrefix], [FinBranchName], [FinBranchDesc], [FinBranchAddress], [FinBranchType], [FinBranchIsActive], [CreatedOn], [ModifiedOn]) VALUES (3, N'MAINBRANCH', N'', N'Main Branch', N'', N'Riyadh, Saudi', N'1', 1, NULL, NULL)
+GO
+SET IDENTITY_INSERT [dbo].[tblFinDefAccountBranches] OFF
+GO
+
+
+SET IDENTITY_INSERT [dbo].[tblErpSysLogin] ON 
+GO
+INSERT [dbo].[tblErpSysLogin] ([Id], [LoginId], [Password], [UserName], [UserType], [UserEmail], [SwpireCardId], [PrimaryBranch], [ImagePath], [ModifiedOn], [ModifiedBy], [IsActive], [IsLoginAllow], [SiteCode], [IsSigned]) VALUES (1, N'Admin', N'YWRtaW5AMTIz', N'Admin', N'Administrator', N'admin@logic.com', NULL, N'MAINBRANCH', N'', CAST(N'2022-06-14T12:24:09.1500000' AS DateTime2), N'2', 1, 1, N'Z00001-675', 0)
+GO
+SET IDENTITY_INSERT [dbo].[tblErpSysLogin] OFF
+GO
+
+
+SET IDENTITY_INSERT [dbo].[tblPopDefVendorCategory] ON 
+GO
+INSERT [dbo].[tblPopDefVendorCategory] ([VenCatCode], [VenCatName], [VenCatDesc], [Id], [CreatedOn], [ModifiedOn], [IsActive]) VALUES (N'venCATCODE1', N'Stationery', N'Abdul Rahman Mohd. Bashkil', 1, CAST(N'2022-02-23' AS Date), CAST(N'2022-02-23' AS Date), 1)
+GO
+INSERT [dbo].[tblPopDefVendorCategory] ([VenCatCode], [VenCatName], [VenCatDesc], [Id], [CreatedOn], [ModifiedOn], [IsActive]) VALUES (N'venCATCODE10', N'Maintenance', N'supply Tech-ABDULLAH', 8, CAST(N'2022-02-23' AS Date), CAST(N'2022-02-23' AS Date), 1)
+GO
+INSERT [dbo].[tblPopDefVendorCategory] ([VenCatCode], [VenCatName], [VenCatDesc], [Id], [CreatedOn], [ModifiedOn], [IsActive]) VALUES (N'venCATCODE11', N'Mobiles', N'Extra', 9, CAST(N'2022-02-23' AS Date), CAST(N'2022-02-23' AS Date), 1)
+GO
+INSERT [dbo].[tblPopDefVendorCategory] ([VenCatCode], [VenCatName], [VenCatDesc], [Id], [CreatedOn], [ModifiedOn], [IsActive]) VALUES (N'venCATCODE12', N'office furniture', N'Emad s Al harbi trading est', 10, CAST(N'2022-02-23' AS Date), CAST(N'2022-02-23' AS Date), 1)
+GO
+INSERT [dbo].[tblPopDefVendorCategory] ([VenCatCode], [VenCatName], [VenCatDesc], [Id], [CreatedOn], [ModifiedOn], [IsActive]) VALUES (N'venCATCODE13', N'other services', N'saeed ZAFIR al-ghamdi center', 11, CAST(N'2022-02-23' AS Date), CAST(N'2022-02-23' AS Date), 1)
+GO
+INSERT [dbo].[tblPopDefVendorCategory] ([VenCatCode], [VenCatName], [VenCatDesc], [Id], [CreatedOn], [ModifiedOn], [IsActive]) VALUES (N'venCATCODE3', N'Stationery', N'AFAQ HULOOL', 2, CAST(N'2022-02-23' AS Date), CAST(N'2022-02-23' AS Date), 1)
+GO
+INSERT [dbo].[tblPopDefVendorCategory] ([VenCatCode], [VenCatName], [VenCatDesc], [Id], [CreatedOn], [ModifiedOn], [IsActive]) VALUES (N'venCATCODE5', N' computer', N'markaz Iqra computer&technology', 3, CAST(N'2022-02-23' AS Date), CAST(N'2022-02-23' AS Date), 1)
+GO
+INSERT [dbo].[tblPopDefVendorCategory] ([VenCatCode], [VenCatName], [VenCatDesc], [Id], [CreatedOn], [ModifiedOn], [IsActive]) VALUES (N'venCATCODE6', N' computer', N'AFAQ HULOOL', 4, CAST(N'2022-02-23' AS Date), CAST(N'2022-02-23' AS Date), 1)
+GO
+INSERT [dbo].[tblPopDefVendorCategory] ([VenCatCode], [VenCatName], [VenCatDesc], [Id], [CreatedOn], [ModifiedOn], [IsActive]) VALUES (N'venCATCODE7', N' computer', N'Qser al-hasibat', 5, CAST(N'2022-02-23' AS Date), CAST(N'2022-02-23' AS Date), 1)
+GO
+INSERT [dbo].[tblPopDefVendorCategory] ([VenCatCode], [VenCatName], [VenCatDesc], [Id], [CreatedOn], [ModifiedOn], [IsActive]) VALUES (N'venCATCODE8', N' computer', N'Al-shoula whit trading', 6, CAST(N'2022-02-23' AS Date), CAST(N'2022-02-23' AS Date), 1)
+GO
+INSERT [dbo].[tblPopDefVendorCategory] ([VenCatCode], [VenCatName], [VenCatDesc], [Id], [CreatedOn], [ModifiedOn], [IsActive]) VALUES (N'venCATCODE9', N'Printing', N'JeddahMaydan  Printing Press', 7, CAST(N'2022-02-23' AS Date), CAST(N'2022-02-23' AS Date), 1)
+GO
+SET IDENTITY_INSERT [dbo].[tblPopDefVendorCategory] OFF
+GO
+SET IDENTITY_INSERT [dbo].[tblPopDefVendorPOTermsCode] ON 
+GO
+INSERT [dbo].[tblPopDefVendorPOTermsCode] ([POTermsCode], [POTermsName], [POTermsDesc], [POTermsDueDays], [POTermDiscDays], [Id], [CreatedOn], [ModifiedOn], [IsActive]) VALUES (N'CODE', N'name', N'desc', 10, 20, 11, CAST(N'2022-06-04' AS Date), NULL, 1)
+GO
+INSERT [dbo].[tblPopDefVendorPOTermsCode] ([POTermsCode], [POTermsName], [POTermsDesc], [POTermsDueDays], [POTermDiscDays], [Id], [CreatedOn], [ModifiedOn], [IsActive]) VALUES (N'NET30', N'Net 30 Days', N'Net 30 Days', 30, 0, 12, NULL, NULL, 1)
+GO
+INSERT [dbo].[tblPopDefVendorPOTermsCode] ([POTermsCode], [POTermsName], [POTermsDesc], [POTermsDueDays], [POTermDiscDays], [Id], [CreatedOn], [ModifiedOn], [IsActive]) VALUES (N'NET45', N'Net 45 Days', N'Net 45 Days', 45, 0, 13, NULL, NULL, 1)
+GO
+INSERT [dbo].[tblPopDefVendorPOTermsCode] ([POTermsCode], [POTermsName], [POTermsDesc], [POTermsDueDays], [POTermDiscDays], [Id], [CreatedOn], [ModifiedOn], [IsActive]) VALUES (N'NET60', N'Net 60 Days', N'Net 60 Days', 60, 0, 14, NULL, NULL, 1)
+GO
+INSERT [dbo].[tblPopDefVendorPOTermsCode] ([POTermsCode], [POTermsName], [POTermsDesc], [POTermsDueDays], [POTermDiscDays], [Id], [CreatedOn], [ModifiedOn], [IsActive]) VALUES (N'PoTERMS1', N'Poname', N'desc', 5, 5, 15, NULL, NULL, 1)
+GO
+INSERT [dbo].[tblPopDefVendorPOTermsCode] ([POTermsCode], [POTermsName], [POTermsDesc], [POTermsDueDays], [POTermDiscDays], [Id], [CreatedOn], [ModifiedOn], [IsActive]) VALUES (N'VS55555', N'Long Term', N'For Long Term', 25, 26, 16, CAST(N'2022-06-04' AS Date), NULL, 1)
+GO
+INSERT [dbo].[tblPopDefVendorPOTermsCode] ([POTermsCode], [POTermsName], [POTermsDesc], [POTermsDueDays], [POTermDiscDays], [Id], [CreatedOn], [ModifiedOn], [IsActive]) VALUES (N'VSC', N'Very short term', N'Very short term', 7, 0, 17, NULL, NULL, 1)
+GO
+SET IDENTITY_INSERT [dbo].[tblPopDefVendorPOTermsCode] OFF
+GO
+
+
+
+
+
+SET IDENTITY_INSERT [dbo].[tblPopDefVendorShipment] ON 
+GO
+INSERT [dbo].[tblPopDefVendorShipment] ([ShipmentCode], [ShipmentName], [ShipmentDesc], [ShipmentType], [Id], [CreatedOn], [ModifiedOn], [IsActive]) VALUES (N'SH000', N'sh name', N'-', N'Courier', 3, CAST(N'2022-02-22' AS Date), CAST(N'2022-02-22' AS Date), 1)
+GO
+INSERT [dbo].[tblPopDefVendorShipment] ([ShipmentCode], [ShipmentName], [ShipmentDesc], [ShipmentType], [Id], [CreatedOn], [ModifiedOn], [IsActive]) VALUES (N'SH001', N'sh name2', N'-', N'Airfreight', 4, CAST(N'2022-02-22' AS Date), CAST(N'2022-02-22' AS Date), 1)
+GO
+INSERT [dbo].[tblPopDefVendorShipment] ([ShipmentCode], [ShipmentName], [ShipmentDesc], [ShipmentType], [Id], [CreatedOn], [ModifiedOn], [IsActive]) VALUES (N'SH002', N'sh name3', N'-', N'Seafreight', 5, CAST(N'2022-02-22' AS Date), CAST(N'2022-02-22' AS Date), 1)
+GO
+SET IDENTITY_INSERT [dbo].[tblPopDefVendorShipment] OFF
+GO
+
+
+
+SET IDENTITY_INSERT [dbo].[tblTranDefTax] ON 
+GO
+INSERT [dbo].[tblTranDefTax] ([Id], [CompanyId], [NameEN], [NameAR], [Symbol], [TaxTariffPercentage], [IsDefault], [CreatedOn], [CreatedBy], [UpdatedOn], [UpdatedBy]) VALUES (1, 1, N'VAT (15%)', N'15% ضريبة القيمة المضافة', N'VAT', CAST(15.000 AS Decimal(18, 3)), 1, CAST(N'2021-06-16T02:58:35.713' AS DateTime), 18, NULL, NULL)
+GO
+SET IDENTITY_INSERT [dbo].[tblTranDefTax] OFF
+GO
+
+
+
+
+
+
+
+
+
+
+
+SET IDENTITY_INSERT [dbo].[tblErpSysMenuOption] ON 
+GO
+INSERT [dbo].[tblErpSysMenuOption] ([MenuCode], [Level1], [Level2], [Level3], [MenuNameEng], [MenuNameArb], [IsForm], [Path], [ModuleName], [Id]) VALUES (N'A000', 0, -1, -1, N'ADMINISTRATION MANAGEMENT', N'الإدارة العامة', 0, N'', N'ADM', 19)
+GO
+INSERT [dbo].[tblErpSysMenuOption] ([MenuCode], [Level1], [Level2], [Level3], [MenuNameEng], [MenuNameArb], [IsForm], [Path], [ModuleName], [Id]) VALUES (N'AA00', 0, 0, -1, N'System Setup', N'إعدادت النظام', 0, N'', N'ADM', 20)
+GO
+INSERT [dbo].[tblErpSysMenuOption] ([MenuCode], [Level1], [Level2], [Level3], [MenuNameEng], [MenuNameArb], [IsForm], [Path], [ModuleName], [Id]) VALUES (N'AA01', 0, 0, 0, N'Company Setup', N'إعدادات الشركة', 1, N'system/companysetup', N'ADM', 21)
+GO
+INSERT [dbo].[tblErpSysMenuOption] ([MenuCode], [Level1], [Level2], [Level3], [MenuNameEng], [MenuNameArb], [IsForm], [Path], [ModuleName], [Id]) VALUES (N'AA02', 0, 0, 1, N'Branches', N'الفروع', 1, N'system/branchlist', N'ADM', 22)
+GO
+INSERT [dbo].[tblErpSysMenuOption] ([MenuCode], [Level1], [Level2], [Level3], [MenuNameEng], [MenuNameArb], [IsForm], [Path], [ModuleName], [Id]) VALUES (N'AA03', 0, 0, 2, N'Login and Security', N'الأمن و تسجيل الدخول ', 1, N'system/usersecurity', N'ADM', 23)
+GO
+INSERT [dbo].[tblErpSysMenuOption] ([MenuCode], [Level1], [Level2], [Level3], [MenuNameEng], [MenuNameArb], [IsForm], [Path], [ModuleName], [Id]) VALUES (N'AA04', 0, 0, 3, N'Currency', N'العملة', 1, N'system/currency', N'ADM', 24)
+GO
+INSERT [dbo].[tblErpSysMenuOption] ([MenuCode], [Level1], [Level2], [Level3], [MenuNameEng], [MenuNameArb], [IsForm], [Path], [ModuleName], [Id]) VALUES (N'AA05', 0, 0, 4, N'Cities', N'المدن', 1, N'system/cities', N'ADM', 25)
+GO
+INSERT [dbo].[tblErpSysMenuOption] ([MenuCode], [Level1], [Level2], [Level3], [MenuNameEng], [MenuNameArb], [IsForm], [Path], [ModuleName], [Id]) VALUES (N'AA06', 0, 0, 5, N'Sequence Generator', N'مولد  التسلسل', 1, N'system/sequencegenerator', N'ADM', 26)
+GO
+INSERT [dbo].[tblErpSysMenuOption] ([MenuCode], [Level1], [Level2], [Level3], [MenuNameEng], [MenuNameArb], [IsForm], [Path], [ModuleName], [Id]) VALUES (N'AB00', 0, 1, -1, N'Purchase Setup', N'إعدادت المشتريات', 0, N'', N'ADM', 63)
+GO
+INSERT [dbo].[tblErpSysMenuOption] ([MenuCode], [Level1], [Level2], [Level3], [MenuNameEng], [MenuNameArb], [IsForm], [Path], [ModuleName], [Id]) VALUES (N'AB01', 0, 1, 0, N'Purchase control', N'التحكم بالمشتريات', 1, N'purchase/purchasecontrol', N'ADM', 64)
+GO
+INSERT [dbo].[tblErpSysMenuOption] ([MenuCode], [Level1], [Level2], [Level3], [MenuNameEng], [MenuNameArb], [IsForm], [Path], [ModuleName], [Id]) VALUES (N'AB02', 0, 1, 1, N'Purchase Shipment Codes', N'أكواد شحنات المشتريات', 1, N'purchase/purchaseshipmentcodes', N'ADM', 65)
+GO
+INSERT [dbo].[tblErpSysMenuOption] ([MenuCode], [Level1], [Level2], [Level3], [MenuNameEng], [MenuNameArb], [IsForm], [Path], [ModuleName], [Id]) VALUES (N'AB03', 0, 1, 2, N'Purchase Terms', N'شروط  الشراء', 1, N'purchase/purchaseterms', N'ADM', 66)
+GO
+INSERT [dbo].[tblErpSysMenuOption] ([MenuCode], [Level1], [Level2], [Level3], [MenuNameEng], [MenuNameArb], [IsForm], [Path], [ModuleName], [Id]) VALUES (N'AB04', 0, 1, 3, N'Purchase Vendor Category', N'فئة مورد المشتريات', 1, N'purchase/purchasevendorcategory', N'ADM', 67)
+GO
+INSERT [dbo].[tblErpSysMenuOption] ([MenuCode], [Level1], [Level2], [Level3], [MenuNameEng], [MenuNameArb], [IsForm], [Path], [ModuleName], [Id]) VALUES (N'AC00', 0, 2, -1, N'Inventory Setup', N'إعدادات المخزون', 0, N'', N'ADM', 68)
+GO
+INSERT [dbo].[tblErpSysMenuOption] ([MenuCode], [Level1], [Level2], [Level3], [MenuNameEng], [MenuNameArb], [IsForm], [Path], [ModuleName], [Id]) VALUES (N'AC01', 0, 2, 0, N'Warehouse', N'المستودعات', 1, N'inventory/warehouse', N'ADM', 69)
+GO
+INSERT [dbo].[tblErpSysMenuOption] ([MenuCode], [Level1], [Level2], [Level3], [MenuNameEng], [MenuNameArb], [IsForm], [Path], [ModuleName], [Id]) VALUES (N'AC02', 0, 2, 1, N'Configuration', N'التخصيصات', 1, N'inventory/invtconfiguration', N'ADM', 70)
+GO
+INSERT [dbo].[tblErpSysMenuOption] ([MenuCode], [Level1], [Level2], [Level3], [MenuNameEng], [MenuNameArb], [IsForm], [Path], [ModuleName], [Id]) VALUES (N'AC03', 0, 2, 2, N'Unit of Measure', N'وحدة القياس', 1, N'inventory/invtunitofmeasure', N'ADM', 71)
+GO
+INSERT [dbo].[tblErpSysMenuOption] ([MenuCode], [Level1], [Level2], [Level3], [MenuNameEng], [MenuNameArb], [IsForm], [Path], [ModuleName], [Id]) VALUES (N'AC04', 0, 2, 3, N'Product Hierarchy', N'التسلسل الهرمي للمنتجات', 1, N'inventory/producthierarchy', N'ADM', 72)
+GO
+INSERT [dbo].[tblErpSysMenuOption] ([MenuCode], [Level1], [Level2], [Level3], [MenuNameEng], [MenuNameArb], [IsForm], [Path], [ModuleName], [Id]) VALUES (N'AC05', 0, 2, 4, N'Category', N'الفئة ', 1, N'inventory/category', N'ADM', 1172)
+GO
+INSERT [dbo].[tblErpSysMenuOption] ([MenuCode], [Level1], [Level2], [Level3], [MenuNameEng], [MenuNameArb], [IsForm], [Path], [ModuleName], [Id]) VALUES (N'AC06', 0, 2, 5, N'Sub Category', N'الفئة الفرعية', 1, N'inventory/subcategory', N'ADM', 1173)
+GO
+INSERT [dbo].[tblErpSysMenuOption] ([MenuCode], [Level1], [Level2], [Level3], [MenuNameEng], [MenuNameArb], [IsForm], [Path], [ModuleName], [Id]) VALUES (N'AC07', 0, 2, 6, N'Class', N'النوع', 1, N'inventory/class', N'ADM', 1174)
+GO
+INSERT [dbo].[tblErpSysMenuOption] ([MenuCode], [Level1], [Level2], [Level3], [MenuNameEng], [MenuNameArb], [IsForm], [Path], [ModuleName], [Id]) VALUES (N'AC08', 0, 2, 7, N'Sub Class', N'النوع الفرعي', 1, N'inventory/subclass', N'ADM', 1175)
+GO
+INSERT [dbo].[tblErpSysMenuOption] ([MenuCode], [Level1], [Level2], [Level3], [MenuNameEng], [MenuNameArb], [IsForm], [Path], [ModuleName], [Id]) VALUES (N'AD00', 0, 3, -1, N'Sales Setup', N'إعدادت المبيعات', 0, N'', N'ADM', 73)
+GO
+INSERT [dbo].[tblErpSysMenuOption] ([MenuCode], [Level1], [Level2], [Level3], [MenuNameEng], [MenuNameArb], [IsForm], [Path], [ModuleName], [Id]) VALUES (N'AD01', 0, 3, 0, N'Customer Category', N'فئة العملاء', 1, N'sales/customercategory', N'ADM', 74)
+GO
+INSERT [dbo].[tblErpSysMenuOption] ([MenuCode], [Level1], [Level2], [Level3], [MenuNameEng], [MenuNameArb], [IsForm], [Path], [ModuleName], [Id]) VALUES (N'AD02', 0, 3, 1, N'Customer Rating', N'تقيم العملاء', 1, N'sales/customerrating', N'ADM', 75)
+GO
+INSERT [dbo].[tblErpSysMenuOption] ([MenuCode], [Level1], [Level2], [Level3], [MenuNameEng], [MenuNameArb], [IsForm], [Path], [ModuleName], [Id]) VALUES (N'AD03', 0, 3, 2, N'Sales Control', N'التحكم بالمبيعات', 1, N'sales/salescontrol', N'ADM', 76)
+GO
+INSERT [dbo].[tblErpSysMenuOption] ([MenuCode], [Level1], [Level2], [Level3], [MenuNameEng], [MenuNameArb], [IsForm], [Path], [ModuleName], [Id]) VALUES (N'AD04', 0, 3, 3, N'Sales Terms', N'شروط المبيعات', 1, N'sales/salesterms', N'ADM', 77)
+GO
+INSERT [dbo].[tblErpSysMenuOption] ([MenuCode], [Level1], [Level2], [Level3], [MenuNameEng], [MenuNameArb], [IsForm], [Path], [ModuleName], [Id]) VALUES (N'AD05', 0, 3, 4, N'Sales Shipment Codes', N'أكواد شحنات المبيعات', 1, N'sales/salesshipmentcodes', N'ADM', 78)
+GO
+INSERT [dbo].[tblErpSysMenuOption] ([MenuCode], [Level1], [Level2], [Level3], [MenuNameEng], [MenuNameArb], [IsForm], [Path], [ModuleName], [Id]) VALUES (N'AE00', 0, 4, -1, N'Finance Setup', N'إعدادت نظام الماليه', 0, N'', N'ADM', 117)
+GO
+INSERT [dbo].[tblErpSysMenuOption] ([MenuCode], [Level1], [Level2], [Level3], [MenuNameEng], [MenuNameArb], [IsForm], [Path], [ModuleName], [Id]) VALUES (N'AE01', 0, 4, 0, N'Financial Setup', N'الإعدادت المحاسبية', 1, N'finance/financialsetup', N'ADM', 118)
+GO
+INSERT [dbo].[tblErpSysMenuOption] ([MenuCode], [Level1], [Level2], [Level3], [MenuNameEng], [MenuNameArb], [IsForm], [Path], [ModuleName], [Id]) VALUES (N'AE02', 0, 4, 1, N'Accounts Category', N'فئة الحسابات', 1, N'finance/accountscategory', N'ADM', 119)
+GO
+INSERT [dbo].[tblErpSysMenuOption] ([MenuCode], [Level1], [Level2], [Level3], [MenuNameEng], [MenuNameArb], [IsForm], [Path], [ModuleName], [Id]) VALUES (N'AE03', 0, 4, 2, N'Accounts Branches', N'حسابات الفروع', 1, N'finance/accountsbranches', N'ADM', 120)
+GO
+INSERT [dbo].[tblErpSysMenuOption] ([MenuCode], [Level1], [Level2], [Level3], [MenuNameEng], [MenuNameArb], [IsForm], [Path], [ModuleName], [Id]) VALUES (N'AE04', 0, 4, 3, N'Accounts Branch Mapping', N'ربط الحسابات بالفروع', 1, N'finance/accountsbranchmapping', N'ADM', 121)
+GO
+INSERT [dbo].[tblErpSysMenuOption] ([MenuCode], [Level1], [Level2], [Level3], [MenuNameEng], [MenuNameArb], [IsForm], [Path], [ModuleName], [Id]) VALUES (N'AE05', 0, 4, 4, N'Payment Codes', N'شروط الدفع', 1, N'finance/paymentcodes', N'ADM', 122)
+GO
+INSERT [dbo].[tblErpSysMenuOption] ([MenuCode], [Level1], [Level2], [Level3], [MenuNameEng], [MenuNameArb], [IsForm], [Path], [ModuleName], [Id]) VALUES (N'AE06', 0, 4, 5, N'Taxes', N'الضرائب', 1, N'finance/taxes', N'ADM', 123)
+GO
+INSERT [dbo].[tblErpSysMenuOption] ([MenuCode], [Level1], [Level2], [Level3], [MenuNameEng], [MenuNameArb], [IsForm], [Path], [ModuleName], [Id]) VALUES (N'C000', 2, -1, -1, N'Finance', N' نظام المالية', 0, N'', N'FIN', 35)
+GO
+INSERT [dbo].[tblErpSysMenuOption] ([MenuCode], [Level1], [Level2], [Level3], [MenuNameEng], [MenuNameArb], [IsForm], [Path], [ModuleName], [Id]) VALUES (N'CA00', 2, 1, -1, N'General Ledger', N'دفتر الأستاذ', 0, N'', N'FIN', 129)
+GO
+INSERT [dbo].[tblErpSysMenuOption] ([MenuCode], [Level1], [Level2], [Level3], [MenuNameEng], [MenuNameArb], [IsForm], [Path], [ModuleName], [Id]) VALUES (N'CA01', 2, 1, 0, N'Cash Voucher', N'سند نقدي', 1, N'fin/cashvoucher', N'FIN', 125)
+GO
+INSERT [dbo].[tblErpSysMenuOption] ([MenuCode], [Level1], [Level2], [Level3], [MenuNameEng], [MenuNameArb], [IsForm], [Path], [ModuleName], [Id]) VALUES (N'CA02', 2, 1, 1, N'Bank Voucher', N'سند بنكي', 1, N'fin/bankvoucher', N'FIN', 126)
+GO
+INSERT [dbo].[tblErpSysMenuOption] ([MenuCode], [Level1], [Level2], [Level3], [MenuNameEng], [MenuNameArb], [IsForm], [Path], [ModuleName], [Id]) VALUES (N'CA03', 2, 1, 2, N'Journal Voucher', N'قيد يومية', 1, N'fin/journalvoucher', N'FIN', 127)
+GO
+INSERT [dbo].[tblErpSysMenuOption] ([MenuCode], [Level1], [Level2], [Level3], [MenuNameEng], [MenuNameArb], [IsForm], [Path], [ModuleName], [Id]) VALUES (N'CA04', 2, 1, 3, N'ledger summary', N'ملخص الأستاذ', 1, N'fin/ledgeraccounts', N'FIN', 128)
+GO
+INSERT [dbo].[tblErpSysMenuOption] ([MenuCode], [Level1], [Level2], [Level3], [MenuNameEng], [MenuNameArb], [IsForm], [Path], [ModuleName], [Id]) VALUES (N'CE00', 2, 4, -1, N'Accounts Receivable', N'الحسابات المدينة', 0, N'', N'FIN', 40)
+GO
+INSERT [dbo].[tblErpSysMenuOption] ([MenuCode], [Level1], [Level2], [Level3], [MenuNameEng], [MenuNameArb], [IsForm], [Path], [ModuleName], [Id]) VALUES (N'CE01', 2, 4, 0, N'Customer', N'العميل', 1, N'fin/arcustomer', N'FIN', 41)
+GO
+INSERT [dbo].[tblErpSysMenuOption] ([MenuCode], [Level1], [Level2], [Level3], [MenuNameEng], [MenuNameArb], [IsForm], [Path], [ModuleName], [Id]) VALUES (N'CE02', 2, 4, 1, N'Sales Invoice', N'فواتير مبيعات', 1, N'fin/arsalesinvoice', N'FIN', 42)
+GO
+INSERT [dbo].[tblErpSysMenuOption] ([MenuCode], [Level1], [Level2], [Level3], [MenuNameEng], [MenuNameArb], [IsForm], [Path], [ModuleName], [Id]) VALUES (N'CE03', 2, 4, 2, N'Adjustment', N'التسوية', 1, N'fin/aradjustment', N'FIN', 43)
+GO
+INSERT [dbo].[tblErpSysMenuOption] ([MenuCode], [Level1], [Level2], [Level3], [MenuNameEng], [MenuNameArb], [IsForm], [Path], [ModuleName], [Id]) VALUES (N'CE04', 2, 4, 3, N'Payment', N'الدفعات', 1, N'fin/arpayment', N'FIN', 44)
+GO
+INSERT [dbo].[tblErpSysMenuOption] ([MenuCode], [Level1], [Level2], [Level3], [MenuNameEng], [MenuNameArb], [IsForm], [Path], [ModuleName], [Id]) VALUES (N'CE05', 2, 4, 4, N'Balance Summary', N'ملخص الارصدة', 1, N'fin/arcustbalancesummary', N'FIN', 45)
+GO
+INSERT [dbo].[tblErpSysMenuOption] ([MenuCode], [Level1], [Level2], [Level3], [MenuNameEng], [MenuNameArb], [IsForm], [Path], [ModuleName], [Id]) VALUES (N'CE06', 2, 4, 5, N'Payments Summary', N'ملخص الدفعات', 1, N'fin/arcustpaymentsummary', N'FIN', 1187)
+GO
+INSERT [dbo].[tblErpSysMenuOption] ([MenuCode], [Level1], [Level2], [Level3], [MenuNameEng], [MenuNameArb], [IsForm], [Path], [ModuleName], [Id]) VALUES (N'CE07', 2, 4, 6, N'Vouchers Summary', N'ملخص القيود', 1, N'fin/arcustvouchersummary', N'FIN', 1188)
+GO
+INSERT [dbo].[tblErpSysMenuOption] ([MenuCode], [Level1], [Level2], [Level3], [MenuNameEng], [MenuNameArb], [IsForm], [Path], [ModuleName], [Id]) VALUES (N'CE08', 2, 4, 7, N'Unit Type', N'نوع الوحدة', 1, N'fin/unittype', N'FIN', 1208)
+GO
+INSERT [dbo].[tblErpSysMenuOption] ([MenuCode], [Level1], [Level2], [Level3], [MenuNameEng], [MenuNameArb], [IsForm], [Path], [ModuleName], [Id]) VALUES (N'CE09', 2, 4, 8, N'Product Type', N'نوع المنتج', 1, N'fin/producttype', N'FIN', 1209)
+GO
+INSERT [dbo].[tblErpSysMenuOption] ([MenuCode], [Level1], [Level2], [Level3], [MenuNameEng], [MenuNameArb], [IsForm], [Path], [ModuleName], [Id]) VALUES (N'CE10', 2, 4, 9, N'Product List', N'قائمة المنتجات', 1, N'fin/products', N'FIN', 1210)
+GO
+INSERT [dbo].[tblErpSysMenuOption] ([MenuCode], [Level1], [Level2], [Level3], [MenuNameEng], [MenuNameArb], [IsForm], [Path], [ModuleName], [Id]) VALUES (N'CE11', 2, 4, 10, N'Invoice Summary', N'ملخص الفواتير', 1, N'fin/arcustinvoicesummary', N'FIN', 1211)
+GO
+INSERT [dbo].[tblErpSysMenuOption] ([MenuCode], [Level1], [Level2], [Level3], [MenuNameEng], [MenuNameArb], [IsForm], [Path], [ModuleName], [Id]) VALUES (N'CE12', 2, 4, 11, N'Payment Voucherhist', N'قائمة سندات الصرف', 1, N'fin/arcustpaymentvoucherhist', N'FIN', 1212)
+GO
+INSERT [dbo].[tblErpSysMenuOption] ([MenuCode], [Level1], [Level2], [Level3], [MenuNameEng], [MenuNameArb], [IsForm], [Path], [ModuleName], [Id]) VALUES (N'CE13', 2, 4, 12, N'Aging Analysis', N'نظام', 1, N'fin/araginganalysis', N'FIN', 1218)
+GO
+INSERT [dbo].[tblErpSysMenuOption] ([MenuCode], [Level1], [Level2], [Level3], [MenuNameEng], [MenuNameArb], [IsForm], [Path], [ModuleName], [Id]) VALUES (N'CF00', 2, 5, -1, N'Accounts Payable', N'الحسابات الدائنة', 0, N'', N'FIN', 46)
+GO
+INSERT [dbo].[tblErpSysMenuOption] ([MenuCode], [Level1], [Level2], [Level3], [MenuNameEng], [MenuNameArb], [IsForm], [Path], [ModuleName], [Id]) VALUES (N'CF01', 2, 5, 0, N'Vendor', N'المورد', 1, N'fin/apvendor', N'FIN', 47)
+GO
+INSERT [dbo].[tblErpSysMenuOption] ([MenuCode], [Level1], [Level2], [Level3], [MenuNameEng], [MenuNameArb], [IsForm], [Path], [ModuleName], [Id]) VALUES (N'CF02', 2, 5, 1, N'Purchase Invoice', N'فواتير شراء', 1, N'fin/appurchaseinvoice', N'FIN', 48)
+GO
+INSERT [dbo].[tblErpSysMenuOption] ([MenuCode], [Level1], [Level2], [Level3], [MenuNameEng], [MenuNameArb], [IsForm], [Path], [ModuleName], [Id]) VALUES (N'CF03', 2, 5, 2, N'Adjustment', N'تسوية', 1, N'fin/apadjustment', N'FIN', 49)
+GO
+INSERT [dbo].[tblErpSysMenuOption] ([MenuCode], [Level1], [Level2], [Level3], [MenuNameEng], [MenuNameArb], [IsForm], [Path], [ModuleName], [Id]) VALUES (N'CF04', 2, 5, 3, N'Payment', N'الدفعات', 1, N'fin/appayment', N'FIN', 50)
+GO
+INSERT [dbo].[tblErpSysMenuOption] ([MenuCode], [Level1], [Level2], [Level3], [MenuNameEng], [MenuNameArb], [IsForm], [Path], [ModuleName], [Id]) VALUES (N'CF05', 2, 5, 4, N'Balance Summary', N'ملخص الارصدة', 1, N'fin/apvendbalancesummary', N'FIN', 51)
+GO
+INSERT [dbo].[tblErpSysMenuOption] ([MenuCode], [Level1], [Level2], [Level3], [MenuNameEng], [MenuNameArb], [IsForm], [Path], [ModuleName], [Id]) VALUES (N'CF06', 2, 5, 5, N'Payments Summary', N'ملخص الدفعات', 1, N'fin/apvendpaymentsummary', N'FIN', 1189)
+GO
+INSERT [dbo].[tblErpSysMenuOption] ([MenuCode], [Level1], [Level2], [Level3], [MenuNameEng], [MenuNameArb], [IsForm], [Path], [ModuleName], [Id]) VALUES (N'CF07', 2, 5, 6, N'Vouchers Summary', N'ملخص السندات', 1, N'fin/apvendvouchersummary', N'FIN', 1190)
+GO
+INSERT [dbo].[tblErpSysMenuOption] ([MenuCode], [Level1], [Level2], [Level3], [MenuNameEng], [MenuNameArb], [IsForm], [Path], [ModuleName], [Id]) VALUES (N'CF08', 2, 5, 7, N'Invoice Summary', N'ملخص الفواتير', 1, N'fin/apvendinvoicesummary', N'FIN', 1215)
+GO
+INSERT [dbo].[tblErpSysMenuOption] ([MenuCode], [Level1], [Level2], [Level3], [MenuNameEng], [MenuNameArb], [IsForm], [Path], [ModuleName], [Id]) VALUES (N'CF09', 2, 5, 8, N'Payment Voucherhist', N'قائمة سندات الصرف', 1, N'fin/apvendpaymentvoucherhist', N'FIN', 1216)
+GO
+INSERT [dbo].[tblErpSysMenuOption] ([MenuCode], [Level1], [Level2], [Level3], [MenuNameEng], [MenuNameArb], [IsForm], [Path], [ModuleName], [Id]) VALUES (N'CF10', 2, 5, 9, N'Aging Analysis', N'نظام', 1, N'fin/apaginganalysis', N'FIN', 1219)
+GO
+INSERT [dbo].[tblErpSysMenuOption] ([MenuCode], [Level1], [Level2], [Level3], [MenuNameEng], [MenuNameArb], [IsForm], [Path], [ModuleName], [Id]) VALUES (N'CG00', 2, 6, -1, N'Finacial Utilities', N'الأدوات المالية', 0, N'', N'FIN', 52)
+GO
+INSERT [dbo].[tblErpSysMenuOption] ([MenuCode], [Level1], [Level2], [Level3], [MenuNameEng], [MenuNameArb], [IsForm], [Path], [ModuleName], [Id]) VALUES (N'CG01', 2, 6, 0, N'Check Book Register', N'سجل دفتر الشيكات', 1, N'fin/checkbookregister', N'FIN', 53)
+GO
+INSERT [dbo].[tblErpSysMenuOption] ([MenuCode], [Level1], [Level2], [Level3], [MenuNameEng], [MenuNameArb], [IsForm], [Path], [ModuleName], [Id]) VALUES (N'CG02', 2, 6, 1, N'Bank Reconciliation', N'التسوية المصرفية', 1, N'fin/bankreconciliation', N'FIN', 54)
+GO
+INSERT [dbo].[tblErpSysMenuOption] ([MenuCode], [Level1], [Level2], [Level3], [MenuNameEng], [MenuNameArb], [IsForm], [Path], [ModuleName], [Id]) VALUES (N'CG03', 2, 6, 2, N'PDC Management', N'إدارة الشيكات آجلة الدفع', 1, N'fin/pdcmanagement', N'FIN', 55)
+GO
+INSERT [dbo].[tblErpSysMenuOption] ([MenuCode], [Level1], [Level2], [Level3], [MenuNameEng], [MenuNameArb], [IsForm], [Path], [ModuleName], [Id]) VALUES (N'CH00', 2, 7, -1, N'Reports', N'التقارير', 0, N'', N'FIN', 56)
+GO
+INSERT [dbo].[tblErpSysMenuOption] ([MenuCode], [Level1], [Level2], [Level3], [MenuNameEng], [MenuNameArb], [IsForm], [Path], [ModuleName], [Id]) VALUES (N'CH01', 2, 7, 0, N'Ledger Reporting', N'تقرير دفتر الأستاذ', 1, N'fin/lederanalysis', N'FIN', 57)
+GO
+INSERT [dbo].[tblErpSysMenuOption] ([MenuCode], [Level1], [Level2], [Level3], [MenuNameEng], [MenuNameArb], [IsForm], [Path], [ModuleName], [Id]) VALUES (N'CH02', 2, 7, 1, N'Voucher Reporting', N'تقارير القسائم', 1, N'fin/voucherreporting', N'FIN', 58)
+GO
+INSERT [dbo].[tblErpSysMenuOption] ([MenuCode], [Level1], [Level2], [Level3], [MenuNameEng], [MenuNameArb], [IsForm], [Path], [ModuleName], [Id]) VALUES (N'CH03', 2, 7, 2, N'Ledger Analysis', N'تحليل دفتر الاستاذ', 1, N'fin/chartofaccounts', N'FIN', 59)
+GO
+INSERT [dbo].[tblErpSysMenuOption] ([MenuCode], [Level1], [Level2], [Level3], [MenuNameEng], [MenuNameArb], [IsForm], [Path], [ModuleName], [Id]) VALUES (N'CH04', 2, 7, 3, N'Trial Balance', N'ميزان المراجعة', 1, N'fin/trialbalance', N'FIN', 60)
+GO
+INSERT [dbo].[tblErpSysMenuOption] ([MenuCode], [Level1], [Level2], [Level3], [MenuNameEng], [MenuNameArb], [IsForm], [Path], [ModuleName], [Id]) VALUES (N'CH05', 2, 7, 4, N'Profit and Loss Account', N'الأرباح و الخسائر', 1, N'fin/profitandlossaccount', N'FIN', 61)
+GO
+INSERT [dbo].[tblErpSysMenuOption] ([MenuCode], [Level1], [Level2], [Level3], [MenuNameEng], [MenuNameArb], [IsForm], [Path], [ModuleName], [Id]) VALUES (N'CH06', 2, 7, 5, N'Balance Sheet', N'الميزانية العامة', 1, N'fin/balancesheet', N'FIN', 62)
+GO
+INSERT [dbo].[tblErpSysMenuOption] ([MenuCode], [Level1], [Level2], [Level3], [MenuNameEng], [MenuNameArb], [IsForm], [Path], [ModuleName], [Id]) VALUES (N'D000', 3, -1, -1, N'Inventory Management', N'إدارة المخزون', 0, N'', N'INVT', 79)
+GO
+INSERT [dbo].[tblErpSysMenuOption] ([MenuCode], [Level1], [Level2], [Level3], [MenuNameEng], [MenuNameArb], [IsForm], [Path], [ModuleName], [Id]) VALUES (N'DA00', 3, 0, -1, N'Item Master', N'قائمة الاصناف الرئيسية', 1, N'invt/inventorymanagementlist', N'INVT', 80)
+GO
+INSERT [dbo].[tblErpSysMenuOption] ([MenuCode], [Level1], [Level2], [Level3], [MenuNameEng], [MenuNameArb], [IsForm], [Path], [ModuleName], [Id]) VALUES (N'DB00', 3, 1, -1, N'Item Inventory', N'مخزون الصنف', 1, N'invt/iteminventory', N'INVT', 81)
+GO
+INSERT [dbo].[tblErpSysMenuOption] ([MenuCode], [Level1], [Level2], [Level3], [MenuNameEng], [MenuNameArb], [IsForm], [Path], [ModuleName], [Id]) VALUES (N'DC00', 3, 2, -1, N'Item Prices', N'سعر الصنف', 1, N'invt/itemprices', N'INVT', 82)
+GO
+INSERT [dbo].[tblErpSysMenuOption] ([MenuCode], [Level1], [Level2], [Level3], [MenuNameEng], [MenuNameArb], [IsForm], [Path], [ModuleName], [Id]) VALUES (N'DD00', 3, 3, -1, N'Inventory Transactions', N'عمليات المخزون', 0, N'', N'INVT', 83)
+GO
+INSERT [dbo].[tblErpSysMenuOption] ([MenuCode], [Level1], [Level2], [Level3], [MenuNameEng], [MenuNameArb], [IsForm], [Path], [ModuleName], [Id]) VALUES (N'DD01', 3, 3, 0, N'Adjustment History', N'تاريخ التعديلات', 0, N'invt/adjustments', N'INVT', 1183)
+GO
+INSERT [dbo].[tblErpSysMenuOption] ([MenuCode], [Level1], [Level2], [Level3], [MenuNameEng], [MenuNameArb], [IsForm], [Path], [ModuleName], [Id]) VALUES (N'DD02', 3, 3, 1, N'Issues History', N'تاريخ الإصدارات', 1, N'invt/Issues', N'INVT', 1184)
+GO
+INSERT [dbo].[tblErpSysMenuOption] ([MenuCode], [Level1], [Level2], [Level3], [MenuNameEng], [MenuNameArb], [IsForm], [Path], [ModuleName], [Id]) VALUES (N'DD03', 3, 3, 2, N'Receipt History', N'تاريخ المستردات', 1, N'invt/Receipts', N'INVT', 1185)
+GO
+INSERT [dbo].[tblErpSysMenuOption] ([MenuCode], [Level1], [Level2], [Level3], [MenuNameEng], [MenuNameArb], [IsForm], [Path], [ModuleName], [Id]) VALUES (N'DD04', 3, 3, 3, N'Transfer', N'التحويل', 1, N'invt/Transfer', N'INVT', 1186)
+GO
+INSERT [dbo].[tblErpSysMenuOption] ([MenuCode], [Level1], [Level2], [Level3], [MenuNameEng], [MenuNameArb], [IsForm], [Path], [ModuleName], [Id]) VALUES (N'DE00', 3, 4, -1, N'Inventory Reports', N'تقارير المخزون', 0, N'', N'INVT', 84)
+GO
+INSERT [dbo].[tblErpSysMenuOption] ([MenuCode], [Level1], [Level2], [Level3], [MenuNameEng], [MenuNameArb], [IsForm], [Path], [ModuleName], [Id]) VALUES (N'DE01', 3, 4, 0, N'Product List based on parameters', N'قائمة المنتجات بناءً على متغيرات', 1, N'invt/invtproductparams', N'INVT', 85)
+GO
+INSERT [dbo].[tblErpSysMenuOption] ([MenuCode], [Level1], [Level2], [Level3], [MenuNameEng], [MenuNameArb], [IsForm], [Path], [ModuleName], [Id]) VALUES (N'DE02', 3, 4, 1, N'Stock Status based on parameters', N'حالة المخزون بناءً على متغيرات', 1, N'invt/invtstockparams', N'INVT', 86)
+GO
+INSERT [dbo].[tblErpSysMenuOption] ([MenuCode], [Level1], [Level2], [Level3], [MenuNameEng], [MenuNameArb], [IsForm], [Path], [ModuleName], [Id]) VALUES (N'DE03', 3, 4, 2, N'Item Ledger (In and Out)', N'دفتر الأستاذ للاصناف (الداخل و الخارج)', 1, N'invt/itemledger', N'INVT', 87)
+GO
+INSERT [dbo].[tblErpSysMenuOption] ([MenuCode], [Level1], [Level2], [Level3], [MenuNameEng], [MenuNameArb], [IsForm], [Path], [ModuleName], [Id]) VALUES (N'DE04', 3, 4, 3, N'Inventory History', N'تاريخ المخزون', 1, N'invt/inventoryhistory', N'INVT', 88)
+GO
+INSERT [dbo].[tblErpSysMenuOption] ([MenuCode], [Level1], [Level2], [Level3], [MenuNameEng], [MenuNameArb], [IsForm], [Path], [ModuleName], [Id]) VALUES (N'DE05', 3, 4, 4, N'Adjustment History', N'تاريخ التسوية', 1, N'invt/adjustments', N'INVT', 89)
+GO
+INSERT [dbo].[tblErpSysMenuOption] ([MenuCode], [Level1], [Level2], [Level3], [MenuNameEng], [MenuNameArb], [IsForm], [Path], [ModuleName], [Id]) VALUES (N'DE06', 3, 4, 5, N'Issues History', N'تاريخ الإصدارات', 1, N'invt/Issues', N'INVT', 90)
+GO
+INSERT [dbo].[tblErpSysMenuOption] ([MenuCode], [Level1], [Level2], [Level3], [MenuNameEng], [MenuNameArb], [IsForm], [Path], [ModuleName], [Id]) VALUES (N'DE07', 3, 4, 6, N'Receipt History', N'تاريخ المستردات', 1, N'invt/Receipts', N'INVT', 91)
+GO
+INSERT [dbo].[tblErpSysMenuOption] ([MenuCode], [Level1], [Level2], [Level3], [MenuNameEng], [MenuNameArb], [IsForm], [Path], [ModuleName], [Id]) VALUES (N'DE08', 3, 4, 7, N'Transfer', N'التحويل', 1, N'invt/Transfer', N'INVT', 92)
+GO
+INSERT [dbo].[tblErpSysMenuOption] ([MenuCode], [Level1], [Level2], [Level3], [MenuNameEng], [MenuNameArb], [IsForm], [Path], [ModuleName], [Id]) VALUES (N'E000', 4, -1, -1, N'Purchase Management', N'إدارة المشتريات', 0, N'', N'PURC', 93)
+GO
+INSERT [dbo].[tblErpSysMenuOption] ([MenuCode], [Level1], [Level2], [Level3], [MenuNameEng], [MenuNameArb], [IsForm], [Path], [ModuleName], [Id]) VALUES (N'EA00', 4, 0, -1, N'Vendor', N'المورد', 1, N'purc/vendor', N'PURC', 94)
+GO
+INSERT [dbo].[tblErpSysMenuOption] ([MenuCode], [Level1], [Level2], [Level3], [MenuNameEng], [MenuNameArb], [IsForm], [Path], [ModuleName], [Id]) VALUES (N'EB00', 4, 1, -1, N'Purchase Request', N'طلب مشتريات', 1, N'purc/purchaserequest', N'PURC', 95)
+GO
+INSERT [dbo].[tblErpSysMenuOption] ([MenuCode], [Level1], [Level2], [Level3], [MenuNameEng], [MenuNameArb], [IsForm], [Path], [ModuleName], [Id]) VALUES (N'EC00', 4, 2, -1, N'Purchase Order', N'أمر شراء', 1, N'purc/purchaseorder', N'PURC', 96)
+GO
+INSERT [dbo].[tblErpSysMenuOption] ([MenuCode], [Level1], [Level2], [Level3], [MenuNameEng], [MenuNameArb], [IsForm], [Path], [ModuleName], [Id]) VALUES (N'ED00', 4, 3, -1, N'Purchase Return', N'إسترجاع  شراء', 1, N'purc/purchasereturn', N'PURC', 97)
+GO
+INSERT [dbo].[tblErpSysMenuOption] ([MenuCode], [Level1], [Level2], [Level3], [MenuNameEng], [MenuNameArb], [IsForm], [Path], [ModuleName], [Id]) VALUES (N'EE00', 4, 4, -1, N'Goods Receipt and Return', N'البضائع المستلمة و المسترجعة', 1, N'purc/goodsreceiptreturn', N'PURC', 98)
+GO
+INSERT [dbo].[tblErpSysMenuOption] ([MenuCode], [Level1], [Level2], [Level3], [MenuNameEng], [MenuNameArb], [IsForm], [Path], [ModuleName], [Id]) VALUES (N'EF00', 4, 5, -1, N'Purchase Reports', N'تقارير المشتريات', 0, N'', N'PURC', 99)
+GO
+INSERT [dbo].[tblErpSysMenuOption] ([MenuCode], [Level1], [Level2], [Level3], [MenuNameEng], [MenuNameArb], [IsForm], [Path], [ModuleName], [Id]) VALUES (N'EF01', 4, 5, 0, N'Vendor List', N'قائمة الموردين', 1, N'purc/vendorlist', N'PURC', 100)
+GO
+INSERT [dbo].[tblErpSysMenuOption] ([MenuCode], [Level1], [Level2], [Level3], [MenuNameEng], [MenuNameArb], [IsForm], [Path], [ModuleName], [Id]) VALUES (N'EF02', 4, 5, 1, N'Purchase Request List', N'قائمة طلبات الشراء', 1, N'purc/purchaserequests', N'PURC', 101)
+GO
+INSERT [dbo].[tblErpSysMenuOption] ([MenuCode], [Level1], [Level2], [Level3], [MenuNameEng], [MenuNameArb], [IsForm], [Path], [ModuleName], [Id]) VALUES (N'EF03', 4, 5, 2, N'Purchase Order List', N'قائمة أوامر الشراء', 1, N'purc/purchaseorders', N'PURC', 102)
+GO
+INSERT [dbo].[tblErpSysMenuOption] ([MenuCode], [Level1], [Level2], [Level3], [MenuNameEng], [MenuNameArb], [IsForm], [Path], [ModuleName], [Id]) VALUES (N'EF04', 4, 5, 3, N'Purchase Return List', N'قائمة المشتريات المسترجعة', 1, N'purc/purchasereturn', N'PURC', 103)
+GO
+INSERT [dbo].[tblErpSysMenuOption] ([MenuCode], [Level1], [Level2], [Level3], [MenuNameEng], [MenuNameArb], [IsForm], [Path], [ModuleName], [Id]) VALUES (N'EF05', 4, 5, 4, N'Item Purchase History', N'تاريخ شراء الأصناف', 1, N'purc/itempurchasehistory', N'PURC', 104)
+GO
+INSERT [dbo].[tblErpSysMenuOption] ([MenuCode], [Level1], [Level2], [Level3], [MenuNameEng], [MenuNameArb], [IsForm], [Path], [ModuleName], [Id]) VALUES (N'EF06', 4, 5, 5, N'Purchase Summary', N'ملخص المشتريات', 1, N'purc/purchasesummary', N'PURC', 105)
+GO
+INSERT [dbo].[tblErpSysMenuOption] ([MenuCode], [Level1], [Level2], [Level3], [MenuNameEng], [MenuNameArb], [IsForm], [Path], [ModuleName], [Id]) VALUES (N'EG00', 4, 6, -1, N'Purchase Invoice', N'نظام', 1, N'purc/Purchaseinvoice', N'PURC', 1217)
+GO
+INSERT [dbo].[tblErpSysMenuOption] ([MenuCode], [Level1], [Level2], [Level3], [MenuNameEng], [MenuNameArb], [IsForm], [Path], [ModuleName], [Id]) VALUES (N'F000', 5, -1, -1, N'Sales and Distribution', N'المبيعات و التوزيع', 0, N'', N'SALE', 106)
+GO
+INSERT [dbo].[tblErpSysMenuOption] ([MenuCode], [Level1], [Level2], [Level3], [MenuNameEng], [MenuNameArb], [IsForm], [Path], [ModuleName], [Id]) VALUES (N'FA00', 5, 0, -1, N'Customer', N'العميل', 1, N'sales/customer', N'SALE', 107)
+GO
+INSERT [dbo].[tblErpSysMenuOption] ([MenuCode], [Level1], [Level2], [Level3], [MenuNameEng], [MenuNameArb], [IsForm], [Path], [ModuleName], [Id]) VALUES (N'FB00', 5, 1, -1, N'Quotation', N'عرض سعر', 1, N'sales/quotation', N'SALE', 108)
+GO
+INSERT [dbo].[tblErpSysMenuOption] ([MenuCode], [Level1], [Level2], [Level3], [MenuNameEng], [MenuNameArb], [IsForm], [Path], [ModuleName], [Id]) VALUES (N'FC00', 5, 2, -1, N'Invoice', N'فاتورة', 1, N'sales/invoice', N'SALE', 109)
+GO
+INSERT [dbo].[tblErpSysMenuOption] ([MenuCode], [Level1], [Level2], [Level3], [MenuNameEng], [MenuNameArb], [IsForm], [Path], [ModuleName], [Id]) VALUES (N'FD00', 5, 3, -1, N'Delivery Note', N'اشعار توصيل', 1, N'sales/deliverynote', N'SALE', 110)
+GO
+INSERT [dbo].[tblErpSysMenuOption] ([MenuCode], [Level1], [Level2], [Level3], [MenuNameEng], [MenuNameArb], [IsForm], [Path], [ModuleName], [Id]) VALUES (N'FE00', 5, 4, -1, N'Sales Reports', N'تقارير المبيعات', 0, N'', N'SALE', 111)
+GO
+INSERT [dbo].[tblErpSysMenuOption] ([MenuCode], [Level1], [Level2], [Level3], [MenuNameEng], [MenuNameArb], [IsForm], [Path], [ModuleName], [Id]) VALUES (N'FE01', 5, 4, 0, N'Customer List', N'قائمة العملاء', 1, N'sales/customerlist', N'SALE', 112)
+GO
+INSERT [dbo].[tblErpSysMenuOption] ([MenuCode], [Level1], [Level2], [Level3], [MenuNameEng], [MenuNameArb], [IsForm], [Path], [ModuleName], [Id]) VALUES (N'FE02', 5, 4, 1, N'Quotation List', N'قائمة  عروض الأسعار', 1, N'sales/quotationlist', N'SALE', 113)
+GO
+INSERT [dbo].[tblErpSysMenuOption] ([MenuCode], [Level1], [Level2], [Level3], [MenuNameEng], [MenuNameArb], [IsForm], [Path], [ModuleName], [Id]) VALUES (N'FE03', 5, 4, 2, N'Invoice List', N'قائمة الفواتير', 1, N'sales/invoicelist', N'SALE', 114)
+GO
+INSERT [dbo].[tblErpSysMenuOption] ([MenuCode], [Level1], [Level2], [Level3], [MenuNameEng], [MenuNameArb], [IsForm], [Path], [ModuleName], [Id]) VALUES (N'FE04', 5, 4, 3, N'Item Sales History', N'تاريخ مبيعات الأصناف', 1, N'sales/itemsaleshistory', N'SALE', 115)
+GO
+INSERT [dbo].[tblErpSysMenuOption] ([MenuCode], [Level1], [Level2], [Level3], [MenuNameEng], [MenuNameArb], [IsForm], [Path], [ModuleName], [Id]) VALUES (N'FE05', 5, 4, 4, N'Sales Summary', N'ملخص المبيعات', 1, N'sales/salessummary', N'SALE', 116)
+GO
+INSERT [dbo].[tblErpSysMenuOption] ([MenuCode], [Level1], [Level2], [Level3], [MenuNameEng], [MenuNameArb], [IsForm], [Path], [ModuleName], [Id]) VALUES (N'G000', 6, -1, -1, N'Operation and Management', N'إدارة التشغيل', 0, N'', N'OPERT', 1191)
+GO
+INSERT [dbo].[tblErpSysMenuOption] ([MenuCode], [Level1], [Level2], [Level3], [MenuNameEng], [MenuNameArb], [IsForm], [Path], [ModuleName], [Id]) VALUES (N'GA00', 6, 0, -1, N'ADMINISTRATION MANAGEMENT', N'الإدارة العامة', 1, N'operation/authorities', N'OPERT', 1192)
+GO
+INSERT [dbo].[tblErpSysMenuOption] ([MenuCode], [Level1], [Level2], [Level3], [MenuNameEng], [MenuNameArb], [IsForm], [Path], [ModuleName], [Id]) VALUES (N'GB00', 6, 1, -1, N'Customer', N'العميل', 1, N'operation/opCustomer', N'OPERT', 1193)
+GO
+INSERT [dbo].[tblErpSysMenuOption] ([MenuCode], [Level1], [Level2], [Level3], [MenuNameEng], [MenuNameArb], [IsForm], [Path], [ModuleName], [Id]) VALUES (N'GC00', 6, 2, -1, N'CustomerSites', N'مواقع العميل', 1, N'operation/customerSites', N'OPERT', 1194)
+GO
+INSERT [dbo].[tblErpSysMenuOption] ([MenuCode], [Level1], [Level2], [Level3], [MenuNameEng], [MenuNameArb], [IsForm], [Path], [ModuleName], [Id]) VALUES (N'GD00', 6, 3, -1, N'SurveyFormElements', N'عناصر نموذج المسح الميداني', 1, N'operation/surveyFormElements', N'OPERT', 1195)
+GO
+INSERT [dbo].[tblErpSysMenuOption] ([MenuCode], [Level1], [Level2], [Level3], [MenuNameEng], [MenuNameArb], [IsForm], [Path], [ModuleName], [Id]) VALUES (N'GE00', 6, 4, -1, N'SurveyForm', N'نموذج المسح الميداني', 1, N'operation/surveyForm', N'OPERT', 1196)
+GO
+INSERT [dbo].[tblErpSysMenuOption] ([MenuCode], [Level1], [Level2], [Level3], [MenuNameEng], [MenuNameArb], [IsForm], [Path], [ModuleName], [Id]) VALUES (N'GF00', 6, 5, -1, N'ServiceCodes', N'الخدمات المقدمة', 1, N'operation/serviceCode', N'OPERT', 1197)
+GO
+INSERT [dbo].[tblErpSysMenuOption] ([MenuCode], [Level1], [Level2], [Level3], [MenuNameEng], [MenuNameArb], [IsForm], [Path], [ModuleName], [Id]) VALUES (N'GG00', 6, 6, -1, N'UnitCodeForServices', N'وحدات الخدمات المقدمة', 1, N'operation/unitCodeForServices', N'OPERT', 1198)
+GO
+INSERT [dbo].[tblErpSysMenuOption] ([MenuCode], [Level1], [Level2], [Level3], [MenuNameEng], [MenuNameArb], [IsForm], [Path], [ModuleName], [Id]) VALUES (N'GH00', 6, 7, -1, N'ServiceUnitMappings', N'ربط الوحدات بالخدمات', 1, N'operation/serviceUnitMappings', N'OPERT', 1199)
+GO
+INSERT [dbo].[tblErpSysMenuOption] ([MenuCode], [Level1], [Level2], [Level3], [MenuNameEng], [MenuNameArb], [IsForm], [Path], [ModuleName], [Id]) VALUES (N'GI00', 6, 8, -1, N'ServiceEnquiryForms', N'نموذج طلب خدمة', 1, N'operation/serviceEnquiryForms', N'OPERT', 1200)
+GO
+INSERT [dbo].[tblErpSysMenuOption] ([MenuCode], [Level1], [Level2], [Level3], [MenuNameEng], [MenuNameArb], [IsForm], [Path], [ModuleName], [Id]) VALUES (N'GJ00', 6, 9, -1, N'Surveyor', N'مسؤول المسح', 1, N'operation/surveyor', N'OPERT', 1201)
+GO
+INSERT [dbo].[tblErpSysMenuOption] ([MenuCode], [Level1], [Level2], [Level3], [MenuNameEng], [MenuNameArb], [IsForm], [Path], [ModuleName], [Id]) VALUES (N'GK00', 6, 10, -1, N'Skillsets', N'مسميات وظيفية ', 1, N'operation/skillset', N'OPERT', 1202)
+GO
+INSERT [dbo].[tblErpSysMenuOption] ([MenuCode], [Level1], [Level2], [Level3], [MenuNameEng], [MenuNameArb], [IsForm], [Path], [ModuleName], [Id]) VALUES (N'GL00', 6, 11, -1, N'Budget Setup', N'إعداد الميزانية', 0, N'', N'OPERT', 1203)
+GO
+INSERT [dbo].[tblErpSysMenuOption] ([MenuCode], [Level1], [Level2], [Level3], [MenuNameEng], [MenuNameArb], [IsForm], [Path], [ModuleName], [Id]) VALUES (N'GL01', 6, 11, 0, N'Logistics And Vehicle', N'النقل و المركبات', 1, N'operation/logisticsandvehicle', N'OPERT', 1204)
+GO
+INSERT [dbo].[tblErpSysMenuOption] ([MenuCode], [Level1], [Level2], [Level3], [MenuNameEng], [MenuNameArb], [IsForm], [Path], [ModuleName], [Id]) VALUES (N'GL02', 6, 11, 1, N'Material Equipments', N'المواد و المعدات', 1, N'operation/materialequipment', N'OPERT', 1205)
+GO
+INSERT [dbo].[tblErpSysMenuOption] ([MenuCode], [Level1], [Level2], [Level3], [MenuNameEng], [MenuNameArb], [IsForm], [Path], [ModuleName], [Id]) VALUES (N'GL03', 6, 11, 2, N'Operation Expense Heads', N'عناصر تكلفة التشغيل', 1, N'operation/operationexpensehead', N'OPERT', 1206)
+GO
+INSERT [dbo].[tblErpSysMenuOption] ([MenuCode], [Level1], [Level2], [Level3], [MenuNameEng], [MenuNameArb], [IsForm], [Path], [ModuleName], [Id]) VALUES (N'GM00', 6, 12, -1, N'Projects', N'المشاريع', 1, N'operation/projectBudgetCosting', N'OPERT', 1207)
+GO
+INSERT [dbo].[tblErpSysMenuOption] ([MenuCode], [Level1], [Level2], [Level3], [MenuNameEng], [MenuNameArb], [IsForm], [Path], [ModuleName], [Id]) VALUES (N'H000', 7, -1, -1, N'Fleet Management', N'إدارة سرب المركبات', 0, N'', N'FLEET', 1159)
+GO
+INSERT [dbo].[tblErpSysMenuOption] ([MenuCode], [Level1], [Level2], [Level3], [MenuNameEng], [MenuNameArb], [IsForm], [Path], [ModuleName], [Id]) VALUES (N'HA00', 7, 0, -1, N'Vehicle Company', N'شركة المركبة', 1, N'fleet/vhcompany', N'FLEET', 1160)
+GO
+INSERT [dbo].[tblErpSysMenuOption] ([MenuCode], [Level1], [Level2], [Level3], [MenuNameEng], [MenuNameArb], [IsForm], [Path], [ModuleName], [Id]) VALUES (N'HB00', 7, 1, -1, N'Type', N'النوع', 1, N'fleet/vhctype', N'FLEET', 1161)
+GO
+INSERT [dbo].[tblErpSysMenuOption] ([MenuCode], [Level1], [Level2], [Level3], [MenuNameEng], [MenuNameArb], [IsForm], [Path], [ModuleName], [Id]) VALUES (N'HC00', 7, 2, -1, N'Brand', N'العلامة التجارية', 1, N'fleet/vhcbrand', N'FLEET', 1162)
+GO
+INSERT [dbo].[tblErpSysMenuOption] ([MenuCode], [Level1], [Level2], [Level3], [MenuNameEng], [MenuNameArb], [IsForm], [Path], [ModuleName], [Id]) VALUES (N'HD00', 7, 3, -1, N'Drivers', N'السائقين', 1, N'fleet/vhcdrivers', N'FLEET', 1163)
+GO
+INSERT [dbo].[tblErpSysMenuOption] ([MenuCode], [Level1], [Level2], [Level3], [MenuNameEng], [MenuNameArb], [IsForm], [Path], [ModuleName], [Id]) VALUES (N'HE00', 7, 4, -1, N'Routes', N'الطرق', 1, N'fleet/vhcroutes', N'FLEET', 1164)
+GO
+INSERT [dbo].[tblErpSysMenuOption] ([MenuCode], [Level1], [Level2], [Level3], [MenuNameEng], [MenuNameArb], [IsForm], [Path], [ModuleName], [Id]) VALUES (N'HF00', 7, 5, -1, N'Route Map', N'خريطة الطرق', 1, N'fleet/vhcroutemap', N'FLEET', 1165)
+GO
+INSERT [dbo].[tblErpSysMenuOption] ([MenuCode], [Level1], [Level2], [Level3], [MenuNameEng], [MenuNameArb], [IsForm], [Path], [ModuleName], [Id]) VALUES (N'HG00', 7, 6, -1, N'Vehicle Master', N'قائمة المركبات الرئيسية', 1, N'fleet/vhcmaster', N'FLEET', 1166)
+GO
+INSERT [dbo].[tblErpSysMenuOption] ([MenuCode], [Level1], [Level2], [Level3], [MenuNameEng], [MenuNameArb], [IsForm], [Path], [ModuleName], [Id]) VALUES (N'HH00', 7, 7, -1, N'Vehicle Fuel Entry', N'مدخلات وقود المركبات', 1, N'fleet/vhcfuelentry', N'FLEET', 1167)
+GO
+INSERT [dbo].[tblErpSysMenuOption] ([MenuCode], [Level1], [Level2], [Level3], [MenuNameEng], [MenuNameArb], [IsForm], [Path], [ModuleName], [Id]) VALUES (N'HI00', 7, 8, -1, N'Vehicle Maintenance Schedules', N'صيانة المركبات الدورية', 1, N'fleet/vhcmaintenanceschedules', N'FLEET', 1168)
+GO
+INSERT [dbo].[tblErpSysMenuOption] ([MenuCode], [Level1], [Level2], [Level3], [MenuNameEng], [MenuNameArb], [IsForm], [Path], [ModuleName], [Id]) VALUES (N'HJ00', 7, 9, -1, N'Vehicle Maintenance Sheet', N'جدول صيانة المركبات', 1, N'fleet/vhcmaintenancesheet', N'FLEET', 1169)
+GO
+INSERT [dbo].[tblErpSysMenuOption] ([MenuCode], [Level1], [Level2], [Level3], [MenuNameEng], [MenuNameArb], [IsForm], [Path], [ModuleName], [Id]) VALUES (N'HK00', 7, 10, -1, N'Vehicle Renewal Reminders', N'تذكيرات تجديدات المركبات', 1, N'fleet/vhcrenewalreminders', N'FLEET', 1170)
+GO
+INSERT [dbo].[tblErpSysMenuOption] ([MenuCode], [Level1], [Level2], [Level3], [MenuNameEng], [MenuNameArb], [IsForm], [Path], [ModuleName], [Id]) VALUES (N'HL00', 7, 11, -1, N'Ownership Maintenance Cost of  Vehicle', N'تكلفة صيانة السيارات المملوكة', 1, N'fleet/vhcownershipcost', N'FLEET', 1171)
+GO
+SET IDENTITY_INSERT [dbo].[tblErpSysMenuOption] OFF
+GO
+SET IDENTITY_INSERT [dbo].[tblErpSysMenuLoginId] ON 
+GO
+INSERT [dbo].[tblErpSysMenuLoginId] ([Id], [MenuCode], [LoginId], [IsAllowed], [CreatedOn], [CreatedBy], [ModifiedOn], [ModifiedBy]) VALUES (1, N'AA01', 1, 1, CAST(N'2022-06-14' AS Date), NULL, NULL, NULL)
+GO
+INSERT [dbo].[tblErpSysMenuLoginId] ([Id], [MenuCode], [LoginId], [IsAllowed], [CreatedOn], [CreatedBy], [ModifiedOn], [ModifiedBy]) VALUES (2, N'FB00', 1, 1, CAST(N'2022-06-14' AS Date), NULL, NULL, NULL)
+GO
+INSERT [dbo].[tblErpSysMenuLoginId] ([Id], [MenuCode], [LoginId], [IsAllowed], [CreatedOn], [CreatedBy], [ModifiedOn], [ModifiedBy]) VALUES (3, N'FA00', 1, 1, CAST(N'2022-06-14' AS Date), NULL, NULL, NULL)
+GO
+INSERT [dbo].[tblErpSysMenuLoginId] ([Id], [MenuCode], [LoginId], [IsAllowed], [CreatedOn], [CreatedBy], [ModifiedOn], [ModifiedBy]) VALUES (4, N'EG00', 1, 1, CAST(N'2022-06-14' AS Date), NULL, NULL, NULL)
+GO
+INSERT [dbo].[tblErpSysMenuLoginId] ([Id], [MenuCode], [LoginId], [IsAllowed], [CreatedOn], [CreatedBy], [ModifiedOn], [ModifiedBy]) VALUES (5, N'EF06', 1, 1, CAST(N'2022-06-14' AS Date), NULL, NULL, NULL)
+GO
+INSERT [dbo].[tblErpSysMenuLoginId] ([Id], [MenuCode], [LoginId], [IsAllowed], [CreatedOn], [CreatedBy], [ModifiedOn], [ModifiedBy]) VALUES (6, N'EF05', 1, 1, CAST(N'2022-06-14' AS Date), NULL, NULL, NULL)
+GO
+INSERT [dbo].[tblErpSysMenuLoginId] ([Id], [MenuCode], [LoginId], [IsAllowed], [CreatedOn], [CreatedBy], [ModifiedOn], [ModifiedBy]) VALUES (7, N'EF04', 1, 1, CAST(N'2022-06-14' AS Date), NULL, NULL, NULL)
+GO
+INSERT [dbo].[tblErpSysMenuLoginId] ([Id], [MenuCode], [LoginId], [IsAllowed], [CreatedOn], [CreatedBy], [ModifiedOn], [ModifiedBy]) VALUES (8, N'EF03', 1, 1, CAST(N'2022-06-14' AS Date), NULL, NULL, NULL)
+GO
+INSERT [dbo].[tblErpSysMenuLoginId] ([Id], [MenuCode], [LoginId], [IsAllowed], [CreatedOn], [CreatedBy], [ModifiedOn], [ModifiedBy]) VALUES (9, N'EF02', 1, 1, CAST(N'2022-06-14' AS Date), NULL, NULL, NULL)
+GO
+INSERT [dbo].[tblErpSysMenuLoginId] ([Id], [MenuCode], [LoginId], [IsAllowed], [CreatedOn], [CreatedBy], [ModifiedOn], [ModifiedBy]) VALUES (10, N'EF01', 1, 1, CAST(N'2022-06-14' AS Date), NULL, NULL, NULL)
+GO
+INSERT [dbo].[tblErpSysMenuLoginId] ([Id], [MenuCode], [LoginId], [IsAllowed], [CreatedOn], [CreatedBy], [ModifiedOn], [ModifiedBy]) VALUES (11, N'EE00', 1, 1, CAST(N'2022-06-14' AS Date), NULL, NULL, NULL)
+GO
+INSERT [dbo].[tblErpSysMenuLoginId] ([Id], [MenuCode], [LoginId], [IsAllowed], [CreatedOn], [CreatedBy], [ModifiedOn], [ModifiedBy]) VALUES (12, N'ED00', 1, 1, CAST(N'2022-06-14' AS Date), NULL, NULL, NULL)
+GO
+INSERT [dbo].[tblErpSysMenuLoginId] ([Id], [MenuCode], [LoginId], [IsAllowed], [CreatedOn], [CreatedBy], [ModifiedOn], [ModifiedBy]) VALUES (13, N'EC00', 1, 1, CAST(N'2022-06-14' AS Date), NULL, NULL, NULL)
+GO
+INSERT [dbo].[tblErpSysMenuLoginId] ([Id], [MenuCode], [LoginId], [IsAllowed], [CreatedOn], [CreatedBy], [ModifiedOn], [ModifiedBy]) VALUES (14, N'EB00', 1, 1, CAST(N'2022-06-14' AS Date), NULL, NULL, NULL)
+GO
+INSERT [dbo].[tblErpSysMenuLoginId] ([Id], [MenuCode], [LoginId], [IsAllowed], [CreatedOn], [CreatedBy], [ModifiedOn], [ModifiedBy]) VALUES (15, N'FC00', 1, 1, CAST(N'2022-06-14' AS Date), NULL, NULL, NULL)
+GO
+INSERT [dbo].[tblErpSysMenuLoginId] ([Id], [MenuCode], [LoginId], [IsAllowed], [CreatedOn], [CreatedBy], [ModifiedOn], [ModifiedBy]) VALUES (16, N'EA00', 1, 1, CAST(N'2022-06-14' AS Date), NULL, NULL, NULL)
+GO
+INSERT [dbo].[tblErpSysMenuLoginId] ([Id], [MenuCode], [LoginId], [IsAllowed], [CreatedOn], [CreatedBy], [ModifiedOn], [ModifiedBy]) VALUES (17, N'DE07', 1, 1, CAST(N'2022-06-14' AS Date), NULL, NULL, NULL)
+GO
+INSERT [dbo].[tblErpSysMenuLoginId] ([Id], [MenuCode], [LoginId], [IsAllowed], [CreatedOn], [CreatedBy], [ModifiedOn], [ModifiedBy]) VALUES (18, N'DE06', 1, 1, CAST(N'2022-06-14' AS Date), NULL, NULL, NULL)
+GO
+INSERT [dbo].[tblErpSysMenuLoginId] ([Id], [MenuCode], [LoginId], [IsAllowed], [CreatedOn], [CreatedBy], [ModifiedOn], [ModifiedBy]) VALUES (19, N'DE05', 1, 1, CAST(N'2022-06-14' AS Date), NULL, NULL, NULL)
+GO
+INSERT [dbo].[tblErpSysMenuLoginId] ([Id], [MenuCode], [LoginId], [IsAllowed], [CreatedOn], [CreatedBy], [ModifiedOn], [ModifiedBy]) VALUES (20, N'DE04', 1, 1, CAST(N'2022-06-14' AS Date), NULL, NULL, NULL)
+GO
+INSERT [dbo].[tblErpSysMenuLoginId] ([Id], [MenuCode], [LoginId], [IsAllowed], [CreatedOn], [CreatedBy], [ModifiedOn], [ModifiedBy]) VALUES (21, N'DE03', 1, 1, CAST(N'2022-06-14' AS Date), NULL, NULL, NULL)
+GO
+INSERT [dbo].[tblErpSysMenuLoginId] ([Id], [MenuCode], [LoginId], [IsAllowed], [CreatedOn], [CreatedBy], [ModifiedOn], [ModifiedBy]) VALUES (22, N'DE02', 1, 1, CAST(N'2022-06-14' AS Date), NULL, NULL, NULL)
+GO
+INSERT [dbo].[tblErpSysMenuLoginId] ([Id], [MenuCode], [LoginId], [IsAllowed], [CreatedOn], [CreatedBy], [ModifiedOn], [ModifiedBy]) VALUES (23, N'DE01', 1, 1, CAST(N'2022-06-14' AS Date), NULL, NULL, NULL)
+GO
+INSERT [dbo].[tblErpSysMenuLoginId] ([Id], [MenuCode], [LoginId], [IsAllowed], [CreatedOn], [CreatedBy], [ModifiedOn], [ModifiedBy]) VALUES (24, N'DD04', 1, 1, CAST(N'2022-06-14' AS Date), NULL, NULL, NULL)
+GO
+INSERT [dbo].[tblErpSysMenuLoginId] ([Id], [MenuCode], [LoginId], [IsAllowed], [CreatedOn], [CreatedBy], [ModifiedOn], [ModifiedBy]) VALUES (25, N'DD03', 1, 1, CAST(N'2022-06-14' AS Date), NULL, NULL, NULL)
+GO
+INSERT [dbo].[tblErpSysMenuLoginId] ([Id], [MenuCode], [LoginId], [IsAllowed], [CreatedOn], [CreatedBy], [ModifiedOn], [ModifiedBy]) VALUES (26, N'DD02', 1, 1, CAST(N'2022-06-14' AS Date), NULL, NULL, NULL)
+GO
+INSERT [dbo].[tblErpSysMenuLoginId] ([Id], [MenuCode], [LoginId], [IsAllowed], [CreatedOn], [CreatedBy], [ModifiedOn], [ModifiedBy]) VALUES (27, N'DD01', 1, 1, CAST(N'2022-06-14' AS Date), NULL, NULL, NULL)
+GO
+INSERT [dbo].[tblErpSysMenuLoginId] ([Id], [MenuCode], [LoginId], [IsAllowed], [CreatedOn], [CreatedBy], [ModifiedOn], [ModifiedBy]) VALUES (28, N'DC00', 1, 1, CAST(N'2022-06-14' AS Date), NULL, NULL, NULL)
+GO
+INSERT [dbo].[tblErpSysMenuLoginId] ([Id], [MenuCode], [LoginId], [IsAllowed], [CreatedOn], [CreatedBy], [ModifiedOn], [ModifiedBy]) VALUES (29, N'DB00', 1, 1, CAST(N'2022-06-14' AS Date), NULL, NULL, NULL)
+GO
+INSERT [dbo].[tblErpSysMenuLoginId] ([Id], [MenuCode], [LoginId], [IsAllowed], [CreatedOn], [CreatedBy], [ModifiedOn], [ModifiedBy]) VALUES (30, N'DE08', 1, 1, CAST(N'2022-06-14' AS Date), NULL, NULL, NULL)
+GO
+INSERT [dbo].[tblErpSysMenuLoginId] ([Id], [MenuCode], [LoginId], [IsAllowed], [CreatedOn], [CreatedBy], [ModifiedOn], [ModifiedBy]) VALUES (31, N'DA00', 1, 1, CAST(N'2022-06-14' AS Date), NULL, NULL, NULL)
+GO
+INSERT [dbo].[tblErpSysMenuLoginId] ([Id], [MenuCode], [LoginId], [IsAllowed], [CreatedOn], [CreatedBy], [ModifiedOn], [ModifiedBy]) VALUES (32, N'FD00', 1, 1, CAST(N'2022-06-14' AS Date), NULL, NULL, NULL)
+GO
+INSERT [dbo].[tblErpSysMenuLoginId] ([Id], [MenuCode], [LoginId], [IsAllowed], [CreatedOn], [CreatedBy], [ModifiedOn], [ModifiedBy]) VALUES (33, N'FE02', 1, 1, CAST(N'2022-06-14' AS Date), NULL, NULL, NULL)
+GO
+INSERT [dbo].[tblErpSysMenuLoginId] ([Id], [MenuCode], [LoginId], [IsAllowed], [CreatedOn], [CreatedBy], [ModifiedOn], [ModifiedBy]) VALUES (34, N'HJ00', 1, 1, CAST(N'2022-06-14' AS Date), NULL, NULL, NULL)
+GO
+INSERT [dbo].[tblErpSysMenuLoginId] ([Id], [MenuCode], [LoginId], [IsAllowed], [CreatedOn], [CreatedBy], [ModifiedOn], [ModifiedBy]) VALUES (35, N'HI00', 1, 1, CAST(N'2022-06-14' AS Date), NULL, NULL, NULL)
+GO
+INSERT [dbo].[tblErpSysMenuLoginId] ([Id], [MenuCode], [LoginId], [IsAllowed], [CreatedOn], [CreatedBy], [ModifiedOn], [ModifiedBy]) VALUES (36, N'HH00', 1, 1, CAST(N'2022-06-14' AS Date), NULL, NULL, NULL)
+GO
+INSERT [dbo].[tblErpSysMenuLoginId] ([Id], [MenuCode], [LoginId], [IsAllowed], [CreatedOn], [CreatedBy], [ModifiedOn], [ModifiedBy]) VALUES (37, N'HG00', 1, 1, CAST(N'2022-06-14' AS Date), NULL, NULL, NULL)
+GO
+INSERT [dbo].[tblErpSysMenuLoginId] ([Id], [MenuCode], [LoginId], [IsAllowed], [CreatedOn], [CreatedBy], [ModifiedOn], [ModifiedBy]) VALUES (38, N'HF00', 1, 1, CAST(N'2022-06-14' AS Date), NULL, NULL, NULL)
+GO
+INSERT [dbo].[tblErpSysMenuLoginId] ([Id], [MenuCode], [LoginId], [IsAllowed], [CreatedOn], [CreatedBy], [ModifiedOn], [ModifiedBy]) VALUES (39, N'HE00', 1, 1, CAST(N'2022-06-14' AS Date), NULL, NULL, NULL)
+GO
+INSERT [dbo].[tblErpSysMenuLoginId] ([Id], [MenuCode], [LoginId], [IsAllowed], [CreatedOn], [CreatedBy], [ModifiedOn], [ModifiedBy]) VALUES (40, N'HD00', 1, 1, CAST(N'2022-06-14' AS Date), NULL, NULL, NULL)
+GO
+INSERT [dbo].[tblErpSysMenuLoginId] ([Id], [MenuCode], [LoginId], [IsAllowed], [CreatedOn], [CreatedBy], [ModifiedOn], [ModifiedBy]) VALUES (41, N'HC00', 1, 1, CAST(N'2022-06-14' AS Date), NULL, NULL, NULL)
+GO
+INSERT [dbo].[tblErpSysMenuLoginId] ([Id], [MenuCode], [LoginId], [IsAllowed], [CreatedOn], [CreatedBy], [ModifiedOn], [ModifiedBy]) VALUES (42, N'HB00', 1, 1, CAST(N'2022-06-14' AS Date), NULL, NULL, NULL)
+GO
+INSERT [dbo].[tblErpSysMenuLoginId] ([Id], [MenuCode], [LoginId], [IsAllowed], [CreatedOn], [CreatedBy], [ModifiedOn], [ModifiedBy]) VALUES (43, N'HA00', 1, 1, CAST(N'2022-06-14' AS Date), NULL, NULL, NULL)
+GO
+INSERT [dbo].[tblErpSysMenuLoginId] ([Id], [MenuCode], [LoginId], [IsAllowed], [CreatedOn], [CreatedBy], [ModifiedOn], [ModifiedBy]) VALUES (44, N'GM00', 1, 1, CAST(N'2022-06-14' AS Date), NULL, NULL, NULL)
+GO
+INSERT [dbo].[tblErpSysMenuLoginId] ([Id], [MenuCode], [LoginId], [IsAllowed], [CreatedOn], [CreatedBy], [ModifiedOn], [ModifiedBy]) VALUES (45, N'GL03', 1, 1, CAST(N'2022-06-14' AS Date), NULL, NULL, NULL)
+GO
+INSERT [dbo].[tblErpSysMenuLoginId] ([Id], [MenuCode], [LoginId], [IsAllowed], [CreatedOn], [CreatedBy], [ModifiedOn], [ModifiedBy]) VALUES (46, N'GL02', 1, 1, CAST(N'2022-06-14' AS Date), NULL, NULL, NULL)
+GO
+INSERT [dbo].[tblErpSysMenuLoginId] ([Id], [MenuCode], [LoginId], [IsAllowed], [CreatedOn], [CreatedBy], [ModifiedOn], [ModifiedBy]) VALUES (47, N'FE01', 1, 1, CAST(N'2022-06-14' AS Date), NULL, NULL, NULL)
+GO
+INSERT [dbo].[tblErpSysMenuLoginId] ([Id], [MenuCode], [LoginId], [IsAllowed], [CreatedOn], [CreatedBy], [ModifiedOn], [ModifiedBy]) VALUES (48, N'GL01', 1, 1, CAST(N'2022-06-14' AS Date), NULL, NULL, NULL)
+GO
+INSERT [dbo].[tblErpSysMenuLoginId] ([Id], [MenuCode], [LoginId], [IsAllowed], [CreatedOn], [CreatedBy], [ModifiedOn], [ModifiedBy]) VALUES (49, N'GJ00', 1, 1, CAST(N'2022-06-14' AS Date), NULL, NULL, NULL)
+GO
+INSERT [dbo].[tblErpSysMenuLoginId] ([Id], [MenuCode], [LoginId], [IsAllowed], [CreatedOn], [CreatedBy], [ModifiedOn], [ModifiedBy]) VALUES (50, N'GI00', 1, 1, CAST(N'2022-06-14' AS Date), NULL, NULL, NULL)
+GO
+INSERT [dbo].[tblErpSysMenuLoginId] ([Id], [MenuCode], [LoginId], [IsAllowed], [CreatedOn], [CreatedBy], [ModifiedOn], [ModifiedBy]) VALUES (51, N'GH00', 1, 1, CAST(N'2022-06-14' AS Date), NULL, NULL, NULL)
+GO
+INSERT [dbo].[tblErpSysMenuLoginId] ([Id], [MenuCode], [LoginId], [IsAllowed], [CreatedOn], [CreatedBy], [ModifiedOn], [ModifiedBy]) VALUES (52, N'GG00', 1, 1, CAST(N'2022-06-14' AS Date), NULL, NULL, NULL)
+GO
+INSERT [dbo].[tblErpSysMenuLoginId] ([Id], [MenuCode], [LoginId], [IsAllowed], [CreatedOn], [CreatedBy], [ModifiedOn], [ModifiedBy]) VALUES (53, N'GF00', 1, 1, CAST(N'2022-06-14' AS Date), NULL, NULL, NULL)
+GO
+INSERT [dbo].[tblErpSysMenuLoginId] ([Id], [MenuCode], [LoginId], [IsAllowed], [CreatedOn], [CreatedBy], [ModifiedOn], [ModifiedBy]) VALUES (54, N'GE00', 1, 1, CAST(N'2022-06-14' AS Date), NULL, NULL, NULL)
+GO
+INSERT [dbo].[tblErpSysMenuLoginId] ([Id], [MenuCode], [LoginId], [IsAllowed], [CreatedOn], [CreatedBy], [ModifiedOn], [ModifiedBy]) VALUES (55, N'GD00', 1, 1, CAST(N'2022-06-14' AS Date), NULL, NULL, NULL)
+GO
+INSERT [dbo].[tblErpSysMenuLoginId] ([Id], [MenuCode], [LoginId], [IsAllowed], [CreatedOn], [CreatedBy], [ModifiedOn], [ModifiedBy]) VALUES (56, N'GC00', 1, 1, CAST(N'2022-06-14' AS Date), NULL, NULL, NULL)
+GO
+INSERT [dbo].[tblErpSysMenuLoginId] ([Id], [MenuCode], [LoginId], [IsAllowed], [CreatedOn], [CreatedBy], [ModifiedOn], [ModifiedBy]) VALUES (57, N'GB00', 1, 1, CAST(N'2022-06-14' AS Date), NULL, NULL, NULL)
+GO
+INSERT [dbo].[tblErpSysMenuLoginId] ([Id], [MenuCode], [LoginId], [IsAllowed], [CreatedOn], [CreatedBy], [ModifiedOn], [ModifiedBy]) VALUES (58, N'GA00', 1, 1, CAST(N'2022-06-14' AS Date), NULL, NULL, NULL)
+GO
+INSERT [dbo].[tblErpSysMenuLoginId] ([Id], [MenuCode], [LoginId], [IsAllowed], [CreatedOn], [CreatedBy], [ModifiedOn], [ModifiedBy]) VALUES (59, N'FE05', 1, 1, CAST(N'2022-06-14' AS Date), NULL, NULL, NULL)
+GO
+INSERT [dbo].[tblErpSysMenuLoginId] ([Id], [MenuCode], [LoginId], [IsAllowed], [CreatedOn], [CreatedBy], [ModifiedOn], [ModifiedBy]) VALUES (60, N'FE04', 1, 1, CAST(N'2022-06-14' AS Date), NULL, NULL, NULL)
+GO
+INSERT [dbo].[tblErpSysMenuLoginId] ([Id], [MenuCode], [LoginId], [IsAllowed], [CreatedOn], [CreatedBy], [ModifiedOn], [ModifiedBy]) VALUES (61, N'FE03', 1, 1, CAST(N'2022-06-14' AS Date), NULL, NULL, NULL)
+GO
+INSERT [dbo].[tblErpSysMenuLoginId] ([Id], [MenuCode], [LoginId], [IsAllowed], [CreatedOn], [CreatedBy], [ModifiedOn], [ModifiedBy]) VALUES (62, N'GK00', 1, 1, CAST(N'2022-06-14' AS Date), NULL, NULL, NULL)
+GO
+INSERT [dbo].[tblErpSysMenuLoginId] ([Id], [MenuCode], [LoginId], [IsAllowed], [CreatedOn], [CreatedBy], [ModifiedOn], [ModifiedBy]) VALUES (63, N'CH06', 1, 1, CAST(N'2022-06-14' AS Date), NULL, NULL, NULL)
+GO
+INSERT [dbo].[tblErpSysMenuLoginId] ([Id], [MenuCode], [LoginId], [IsAllowed], [CreatedOn], [CreatedBy], [ModifiedOn], [ModifiedBy]) VALUES (64, N'CH05', 1, 1, CAST(N'2022-06-14' AS Date), NULL, NULL, NULL)
+GO
+INSERT [dbo].[tblErpSysMenuLoginId] ([Id], [MenuCode], [LoginId], [IsAllowed], [CreatedOn], [CreatedBy], [ModifiedOn], [ModifiedBy]) VALUES (65, N'CH04', 1, 1, CAST(N'2022-06-14' AS Date), NULL, NULL, NULL)
+GO
+INSERT [dbo].[tblErpSysMenuLoginId] ([Id], [MenuCode], [LoginId], [IsAllowed], [CreatedOn], [CreatedBy], [ModifiedOn], [ModifiedBy]) VALUES (66, N'AE06', 1, 1, CAST(N'2022-06-14' AS Date), NULL, NULL, NULL)
+GO
+INSERT [dbo].[tblErpSysMenuLoginId] ([Id], [MenuCode], [LoginId], [IsAllowed], [CreatedOn], [CreatedBy], [ModifiedOn], [ModifiedBy]) VALUES (67, N'AE05', 1, 1, CAST(N'2022-06-14' AS Date), NULL, NULL, NULL)
+GO
+INSERT [dbo].[tblErpSysMenuLoginId] ([Id], [MenuCode], [LoginId], [IsAllowed], [CreatedOn], [CreatedBy], [ModifiedOn], [ModifiedBy]) VALUES (68, N'AE04', 1, 1, CAST(N'2022-06-14' AS Date), NULL, NULL, NULL)
+GO
+INSERT [dbo].[tblErpSysMenuLoginId] ([Id], [MenuCode], [LoginId], [IsAllowed], [CreatedOn], [CreatedBy], [ModifiedOn], [ModifiedBy]) VALUES (69, N'AE03', 1, 1, CAST(N'2022-06-14' AS Date), NULL, NULL, NULL)
+GO
+INSERT [dbo].[tblErpSysMenuLoginId] ([Id], [MenuCode], [LoginId], [IsAllowed], [CreatedOn], [CreatedBy], [ModifiedOn], [ModifiedBy]) VALUES (70, N'AE02', 1, 1, CAST(N'2022-06-14' AS Date), NULL, NULL, NULL)
+GO
+INSERT [dbo].[tblErpSysMenuLoginId] ([Id], [MenuCode], [LoginId], [IsAllowed], [CreatedOn], [CreatedBy], [ModifiedOn], [ModifiedBy]) VALUES (71, N'AE01', 1, 1, CAST(N'2022-06-14' AS Date), NULL, NULL, NULL)
+GO
+INSERT [dbo].[tblErpSysMenuLoginId] ([Id], [MenuCode], [LoginId], [IsAllowed], [CreatedOn], [CreatedBy], [ModifiedOn], [ModifiedBy]) VALUES (72, N'AD05', 1, 1, CAST(N'2022-06-14' AS Date), NULL, NULL, NULL)
+GO
+INSERT [dbo].[tblErpSysMenuLoginId] ([Id], [MenuCode], [LoginId], [IsAllowed], [CreatedOn], [CreatedBy], [ModifiedOn], [ModifiedBy]) VALUES (73, N'AD04', 1, 1, CAST(N'2022-06-14' AS Date), NULL, NULL, NULL)
+GO
+INSERT [dbo].[tblErpSysMenuLoginId] ([Id], [MenuCode], [LoginId], [IsAllowed], [CreatedOn], [CreatedBy], [ModifiedOn], [ModifiedBy]) VALUES (74, N'AD03', 1, 1, CAST(N'2022-06-14' AS Date), NULL, NULL, NULL)
+GO
+INSERT [dbo].[tblErpSysMenuLoginId] ([Id], [MenuCode], [LoginId], [IsAllowed], [CreatedOn], [CreatedBy], [ModifiedOn], [ModifiedBy]) VALUES (75, N'AD02', 1, 1, CAST(N'2022-06-14' AS Date), NULL, NULL, NULL)
+GO
+INSERT [dbo].[tblErpSysMenuLoginId] ([Id], [MenuCode], [LoginId], [IsAllowed], [CreatedOn], [CreatedBy], [ModifiedOn], [ModifiedBy]) VALUES (76, N'AD01', 1, 1, CAST(N'2022-06-14' AS Date), NULL, NULL, NULL)
+GO
+INSERT [dbo].[tblErpSysMenuLoginId] ([Id], [MenuCode], [LoginId], [IsAllowed], [CreatedOn], [CreatedBy], [ModifiedOn], [ModifiedBy]) VALUES (77, N'AC08', 1, 1, CAST(N'2022-06-14' AS Date), NULL, NULL, NULL)
+GO
+INSERT [dbo].[tblErpSysMenuLoginId] ([Id], [MenuCode], [LoginId], [IsAllowed], [CreatedOn], [CreatedBy], [ModifiedOn], [ModifiedBy]) VALUES (78, N'AC07', 1, 1, CAST(N'2022-06-14' AS Date), NULL, NULL, NULL)
+GO
+INSERT [dbo].[tblErpSysMenuLoginId] ([Id], [MenuCode], [LoginId], [IsAllowed], [CreatedOn], [CreatedBy], [ModifiedOn], [ModifiedBy]) VALUES (79, N'CA01', 1, 1, CAST(N'2022-06-14' AS Date), NULL, NULL, NULL)
+GO
+INSERT [dbo].[tblErpSysMenuLoginId] ([Id], [MenuCode], [LoginId], [IsAllowed], [CreatedOn], [CreatedBy], [ModifiedOn], [ModifiedBy]) VALUES (80, N'AC06', 1, 1, CAST(N'2022-06-14' AS Date), NULL, NULL, NULL)
+GO
+INSERT [dbo].[tblErpSysMenuLoginId] ([Id], [MenuCode], [LoginId], [IsAllowed], [CreatedOn], [CreatedBy], [ModifiedOn], [ModifiedBy]) VALUES (81, N'AC04', 1, 1, CAST(N'2022-06-14' AS Date), NULL, NULL, NULL)
+GO
+INSERT [dbo].[tblErpSysMenuLoginId] ([Id], [MenuCode], [LoginId], [IsAllowed], [CreatedOn], [CreatedBy], [ModifiedOn], [ModifiedBy]) VALUES (82, N'AC03', 1, 1, CAST(N'2022-06-14' AS Date), NULL, NULL, NULL)
+GO
+INSERT [dbo].[tblErpSysMenuLoginId] ([Id], [MenuCode], [LoginId], [IsAllowed], [CreatedOn], [CreatedBy], [ModifiedOn], [ModifiedBy]) VALUES (83, N'AC02', 1, 1, CAST(N'2022-06-14' AS Date), NULL, NULL, NULL)
+GO
+INSERT [dbo].[tblErpSysMenuLoginId] ([Id], [MenuCode], [LoginId], [IsAllowed], [CreatedOn], [CreatedBy], [ModifiedOn], [ModifiedBy]) VALUES (84, N'AC01', 1, 1, CAST(N'2022-06-14' AS Date), NULL, NULL, NULL)
+GO
+INSERT [dbo].[tblErpSysMenuLoginId] ([Id], [MenuCode], [LoginId], [IsAllowed], [CreatedOn], [CreatedBy], [ModifiedOn], [ModifiedBy]) VALUES (85, N'AB04', 1, 1, CAST(N'2022-06-14' AS Date), NULL, NULL, NULL)
+GO
+INSERT [dbo].[tblErpSysMenuLoginId] ([Id], [MenuCode], [LoginId], [IsAllowed], [CreatedOn], [CreatedBy], [ModifiedOn], [ModifiedBy]) VALUES (86, N'AB03', 1, 1, CAST(N'2022-06-14' AS Date), NULL, NULL, NULL)
+GO
+INSERT [dbo].[tblErpSysMenuLoginId] ([Id], [MenuCode], [LoginId], [IsAllowed], [CreatedOn], [CreatedBy], [ModifiedOn], [ModifiedBy]) VALUES (87, N'AB02', 1, 1, CAST(N'2022-06-14' AS Date), NULL, NULL, NULL)
+GO
+INSERT [dbo].[tblErpSysMenuLoginId] ([Id], [MenuCode], [LoginId], [IsAllowed], [CreatedOn], [CreatedBy], [ModifiedOn], [ModifiedBy]) VALUES (88, N'AB01', 1, 1, CAST(N'2022-06-14' AS Date), NULL, NULL, NULL)
+GO
+INSERT [dbo].[tblErpSysMenuLoginId] ([Id], [MenuCode], [LoginId], [IsAllowed], [CreatedOn], [CreatedBy], [ModifiedOn], [ModifiedBy]) VALUES (89, N'AA06', 1, 1, CAST(N'2022-06-14' AS Date), NULL, NULL, NULL)
+GO
+INSERT [dbo].[tblErpSysMenuLoginId] ([Id], [MenuCode], [LoginId], [IsAllowed], [CreatedOn], [CreatedBy], [ModifiedOn], [ModifiedBy]) VALUES (90, N'AA05', 1, 1, CAST(N'2022-06-14' AS Date), NULL, NULL, NULL)
+GO
+INSERT [dbo].[tblErpSysMenuLoginId] ([Id], [MenuCode], [LoginId], [IsAllowed], [CreatedOn], [CreatedBy], [ModifiedOn], [ModifiedBy]) VALUES (91, N'AA04', 1, 1, CAST(N'2022-06-14' AS Date), NULL, NULL, NULL)
+GO
+INSERT [dbo].[tblErpSysMenuLoginId] ([Id], [MenuCode], [LoginId], [IsAllowed], [CreatedOn], [CreatedBy], [ModifiedOn], [ModifiedBy]) VALUES (92, N'AA03', 1, 1, CAST(N'2022-06-14' AS Date), NULL, NULL, NULL)
+GO
+INSERT [dbo].[tblErpSysMenuLoginId] ([Id], [MenuCode], [LoginId], [IsAllowed], [CreatedOn], [CreatedBy], [ModifiedOn], [ModifiedBy]) VALUES (93, N'AA02', 1, 1, CAST(N'2022-06-14' AS Date), NULL, NULL, NULL)
+GO
+INSERT [dbo].[tblErpSysMenuLoginId] ([Id], [MenuCode], [LoginId], [IsAllowed], [CreatedOn], [CreatedBy], [ModifiedOn], [ModifiedBy]) VALUES (94, N'AC05', 1, 1, CAST(N'2022-06-14' AS Date), NULL, NULL, NULL)
+GO
+INSERT [dbo].[tblErpSysMenuLoginId] ([Id], [MenuCode], [LoginId], [IsAllowed], [CreatedOn], [CreatedBy], [ModifiedOn], [ModifiedBy]) VALUES (95, N'CA02', 1, 1, CAST(N'2022-06-14' AS Date), NULL, NULL, NULL)
+GO
+INSERT [dbo].[tblErpSysMenuLoginId] ([Id], [MenuCode], [LoginId], [IsAllowed], [CreatedOn], [CreatedBy], [ModifiedOn], [ModifiedBy]) VALUES (96, N'CA03', 1, 1, CAST(N'2022-06-14' AS Date), NULL, NULL, NULL)
+GO
+INSERT [dbo].[tblErpSysMenuLoginId] ([Id], [MenuCode], [LoginId], [IsAllowed], [CreatedOn], [CreatedBy], [ModifiedOn], [ModifiedBy]) VALUES (97, N'CA04', 1, 1, CAST(N'2022-06-14' AS Date), NULL, NULL, NULL)
+GO
+INSERT [dbo].[tblErpSysMenuLoginId] ([Id], [MenuCode], [LoginId], [IsAllowed], [CreatedOn], [CreatedBy], [ModifiedOn], [ModifiedBy]) VALUES (98, N'CH03', 1, 1, CAST(N'2022-06-14' AS Date), NULL, NULL, NULL)
+GO
+INSERT [dbo].[tblErpSysMenuLoginId] ([Id], [MenuCode], [LoginId], [IsAllowed], [CreatedOn], [CreatedBy], [ModifiedOn], [ModifiedBy]) VALUES (99, N'CH02', 1, 1, CAST(N'2022-06-14' AS Date), NULL, NULL, NULL)
+GO
+INSERT [dbo].[tblErpSysMenuLoginId] ([Id], [MenuCode], [LoginId], [IsAllowed], [CreatedOn], [CreatedBy], [ModifiedOn], [ModifiedBy]) VALUES (100, N'CH01', 1, 1, CAST(N'2022-06-14' AS Date), NULL, NULL, NULL)
+GO
+INSERT [dbo].[tblErpSysMenuLoginId] ([Id], [MenuCode], [LoginId], [IsAllowed], [CreatedOn], [CreatedBy], [ModifiedOn], [ModifiedBy]) VALUES (101, N'CG03', 1, 1, CAST(N'2022-06-14' AS Date), NULL, NULL, NULL)
+GO
+INSERT [dbo].[tblErpSysMenuLoginId] ([Id], [MenuCode], [LoginId], [IsAllowed], [CreatedOn], [CreatedBy], [ModifiedOn], [ModifiedBy]) VALUES (102, N'CG02', 1, 1, CAST(N'2022-06-14' AS Date), NULL, NULL, NULL)
+GO
+INSERT [dbo].[tblErpSysMenuLoginId] ([Id], [MenuCode], [LoginId], [IsAllowed], [CreatedOn], [CreatedBy], [ModifiedOn], [ModifiedBy]) VALUES (103, N'CG01', 1, 1, CAST(N'2022-06-14' AS Date), NULL, NULL, NULL)
+GO
+INSERT [dbo].[tblErpSysMenuLoginId] ([Id], [MenuCode], [LoginId], [IsAllowed], [CreatedOn], [CreatedBy], [ModifiedOn], [ModifiedBy]) VALUES (104, N'CF10', 1, 1, CAST(N'2022-06-14' AS Date), NULL, NULL, NULL)
+GO
+INSERT [dbo].[tblErpSysMenuLoginId] ([Id], [MenuCode], [LoginId], [IsAllowed], [CreatedOn], [CreatedBy], [ModifiedOn], [ModifiedBy]) VALUES (105, N'CF09', 1, 1, CAST(N'2022-06-14' AS Date), NULL, NULL, NULL)
+GO
+INSERT [dbo].[tblErpSysMenuLoginId] ([Id], [MenuCode], [LoginId], [IsAllowed], [CreatedOn], [CreatedBy], [ModifiedOn], [ModifiedBy]) VALUES (106, N'CF08', 1, 1, CAST(N'2022-06-14' AS Date), NULL, NULL, NULL)
+GO
+INSERT [dbo].[tblErpSysMenuLoginId] ([Id], [MenuCode], [LoginId], [IsAllowed], [CreatedOn], [CreatedBy], [ModifiedOn], [ModifiedBy]) VALUES (107, N'CF07', 1, 1, CAST(N'2022-06-14' AS Date), NULL, NULL, NULL)
+GO
+INSERT [dbo].[tblErpSysMenuLoginId] ([Id], [MenuCode], [LoginId], [IsAllowed], [CreatedOn], [CreatedBy], [ModifiedOn], [ModifiedBy]) VALUES (108, N'CF06', 1, 1, CAST(N'2022-06-14' AS Date), NULL, NULL, NULL)
+GO
+INSERT [dbo].[tblErpSysMenuLoginId] ([Id], [MenuCode], [LoginId], [IsAllowed], [CreatedOn], [CreatedBy], [ModifiedOn], [ModifiedBy]) VALUES (109, N'CF05', 1, 1, CAST(N'2022-06-14' AS Date), NULL, NULL, NULL)
+GO
+INSERT [dbo].[tblErpSysMenuLoginId] ([Id], [MenuCode], [LoginId], [IsAllowed], [CreatedOn], [CreatedBy], [ModifiedOn], [ModifiedBy]) VALUES (110, N'CF04', 1, 1, CAST(N'2022-06-14' AS Date), NULL, NULL, NULL)
+GO
+INSERT [dbo].[tblErpSysMenuLoginId] ([Id], [MenuCode], [LoginId], [IsAllowed], [CreatedOn], [CreatedBy], [ModifiedOn], [ModifiedBy]) VALUES (111, N'CF03', 1, 1, CAST(N'2022-06-14' AS Date), NULL, NULL, NULL)
+GO
+INSERT [dbo].[tblErpSysMenuLoginId] ([Id], [MenuCode], [LoginId], [IsAllowed], [CreatedOn], [CreatedBy], [ModifiedOn], [ModifiedBy]) VALUES (112, N'CF02', 1, 1, CAST(N'2022-06-14' AS Date), NULL, NULL, NULL)
+GO
+INSERT [dbo].[tblErpSysMenuLoginId] ([Id], [MenuCode], [LoginId], [IsAllowed], [CreatedOn], [CreatedBy], [ModifiedOn], [ModifiedBy]) VALUES (113, N'CF01', 1, 1, CAST(N'2022-06-14' AS Date), NULL, NULL, NULL)
+GO
+INSERT [dbo].[tblErpSysMenuLoginId] ([Id], [MenuCode], [LoginId], [IsAllowed], [CreatedOn], [CreatedBy], [ModifiedOn], [ModifiedBy]) VALUES (114, N'CE13', 1, 1, CAST(N'2022-06-14' AS Date), NULL, NULL, NULL)
+GO
+INSERT [dbo].[tblErpSysMenuLoginId] ([Id], [MenuCode], [LoginId], [IsAllowed], [CreatedOn], [CreatedBy], [ModifiedOn], [ModifiedBy]) VALUES (115, N'CE12', 1, 1, CAST(N'2022-06-14' AS Date), NULL, NULL, NULL)
+GO
+INSERT [dbo].[tblErpSysMenuLoginId] ([Id], [MenuCode], [LoginId], [IsAllowed], [CreatedOn], [CreatedBy], [ModifiedOn], [ModifiedBy]) VALUES (116, N'CE11', 1, 1, CAST(N'2022-06-14' AS Date), NULL, NULL, NULL)
+GO
+INSERT [dbo].[tblErpSysMenuLoginId] ([Id], [MenuCode], [LoginId], [IsAllowed], [CreatedOn], [CreatedBy], [ModifiedOn], [ModifiedBy]) VALUES (117, N'CE10', 1, 1, CAST(N'2022-06-14' AS Date), NULL, NULL, NULL)
+GO
+INSERT [dbo].[tblErpSysMenuLoginId] ([Id], [MenuCode], [LoginId], [IsAllowed], [CreatedOn], [CreatedBy], [ModifiedOn], [ModifiedBy]) VALUES (118, N'CE09', 1, 1, CAST(N'2022-06-14' AS Date), NULL, NULL, NULL)
+GO
+INSERT [dbo].[tblErpSysMenuLoginId] ([Id], [MenuCode], [LoginId], [IsAllowed], [CreatedOn], [CreatedBy], [ModifiedOn], [ModifiedBy]) VALUES (119, N'CE08', 1, 1, CAST(N'2022-06-14' AS Date), NULL, NULL, NULL)
+GO
+INSERT [dbo].[tblErpSysMenuLoginId] ([Id], [MenuCode], [LoginId], [IsAllowed], [CreatedOn], [CreatedBy], [ModifiedOn], [ModifiedBy]) VALUES (120, N'CE07', 1, 1, CAST(N'2022-06-14' AS Date), NULL, NULL, NULL)
+GO
+INSERT [dbo].[tblErpSysMenuLoginId] ([Id], [MenuCode], [LoginId], [IsAllowed], [CreatedOn], [CreatedBy], [ModifiedOn], [ModifiedBy]) VALUES (121, N'CE06', 1, 1, CAST(N'2022-06-14' AS Date), NULL, NULL, NULL)
+GO
+INSERT [dbo].[tblErpSysMenuLoginId] ([Id], [MenuCode], [LoginId], [IsAllowed], [CreatedOn], [CreatedBy], [ModifiedOn], [ModifiedBy]) VALUES (122, N'CE05', 1, 1, CAST(N'2022-06-14' AS Date), NULL, NULL, NULL)
+GO
+INSERT [dbo].[tblErpSysMenuLoginId] ([Id], [MenuCode], [LoginId], [IsAllowed], [CreatedOn], [CreatedBy], [ModifiedOn], [ModifiedBy]) VALUES (123, N'CE04', 1, 1, CAST(N'2022-06-14' AS Date), NULL, NULL, NULL)
+GO
+INSERT [dbo].[tblErpSysMenuLoginId] ([Id], [MenuCode], [LoginId], [IsAllowed], [CreatedOn], [CreatedBy], [ModifiedOn], [ModifiedBy]) VALUES (124, N'CE03', 1, 1, CAST(N'2022-06-14' AS Date), NULL, NULL, NULL)
+GO
+INSERT [dbo].[tblErpSysMenuLoginId] ([Id], [MenuCode], [LoginId], [IsAllowed], [CreatedOn], [CreatedBy], [ModifiedOn], [ModifiedBy]) VALUES (125, N'CE02', 1, 1, CAST(N'2022-06-14' AS Date), NULL, NULL, NULL)
+GO
+INSERT [dbo].[tblErpSysMenuLoginId] ([Id], [MenuCode], [LoginId], [IsAllowed], [CreatedOn], [CreatedBy], [ModifiedOn], [ModifiedBy]) VALUES (126, N'CE01', 1, 1, CAST(N'2022-06-14' AS Date), NULL, NULL, NULL)
+GO
+INSERT [dbo].[tblErpSysMenuLoginId] ([Id], [MenuCode], [LoginId], [IsAllowed], [CreatedOn], [CreatedBy], [ModifiedOn], [ModifiedBy]) VALUES (127, N'HK00', 1, 1, CAST(N'2022-06-14' AS Date), NULL, NULL, NULL)
+GO
+INSERT [dbo].[tblErpSysMenuLoginId] ([Id], [MenuCode], [LoginId], [IsAllowed], [CreatedOn], [CreatedBy], [ModifiedOn], [ModifiedBy]) VALUES (128, N'HL00', 1, 1, CAST(N'2022-06-14' AS Date), NULL, NULL, NULL)
+GO
+SET IDENTITY_INSERT [dbo].[tblErpSysMenuLoginId] OFF
+GO
+
+
+
+
+
+

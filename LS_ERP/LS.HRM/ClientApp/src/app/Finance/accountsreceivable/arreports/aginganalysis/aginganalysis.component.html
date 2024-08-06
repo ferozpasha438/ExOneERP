@@ -1,0 +1,137 @@
+<div class="container-fluid">
+
+  <div class="row">
+    <div class="col-md-4 col-lg-4">
+      <div class="form-group">
+        <label>{{'Customer_Code' | translate}}</label>
+
+        <auto-loader [isLoading]="isCodeLoading"></auto-loader>
+        <input type="text" class="form-control"
+               placeholder="{{'Please_Enter' | translate}} {{'Customer_Code' | translate}}"
+               [formControl]="codeControl"
+               matInput
+               [matAutocomplete]="auto1">
+        <mat-autocomplete #auto1="matAutocomplete">
+          <mat-option *ngFor="let option of filteredOptions | async"
+                      [value]="option.value">
+            <!--[value]="option.text + '-' + option.value"> (optionSelected)="selectedOption($event)" -->
+            ({{option.value}}) {{option.textTwo}}
+          </mat-option>
+        </mat-autocomplete>
+
+        <!--<input class="form-control" type="text" placeholder="{{'Please_Enter' | translate}} {{'Customer_Code' | translate}}" [(ngModel)]="vendCode">-->
+      </div>
+    </div>
+
+
+    <div class="col-md-4 col-lg-4">
+      <div class="form-group">
+        <label>{{'From_Date' | translate}}</label>
+        <div class="form-group ">
+          <div class="input-group mb-2">
+            <input class="form-control datapickerinput" placeholder="{{'Select_a_Date' | translate}}" [(ngModel)]="dateFrom"
+                   [matDatepicker]="picker1">
+
+            <div class="input-group-prepend datapickericon">
+              <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
+              <mat-datepicker #picker1></mat-datepicker><br /><br />
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-4 col-lg-4">
+      <div class="form-group">
+        <label>{{'To_Date' | translate}}</label>
+        <div class="form-group ">
+          <div class="input-group mb-2">
+            <input class="form-control datapickerinput" placeholder="{{'Select_a_Date' | translate}}" [(ngModel)]="dateTo"
+                   [matDatepicker]="picker2">
+
+            <div class="input-group-prepend datapickericon">
+              <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
+              <mat-datepicker #picker2></mat-datepicker><br /><br />
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="row mb-4 ">
+      <div class="col-md-12 col-lg-12 text-center">
+        <br />
+        <!--<input type="submit" class="btn waves-effect waves-light btn-rounded   btn-secondary btn-midblock" value=" {{'Clear' | translate}}"> &nbsp;-->
+        &nbsp;&nbsp;&nbsp; <button type="button" class="btn waves-effect waves-light btn-rounded btn-primary btn-midblock" data-toggle="modal" (click)="search()">
+          {{'Search' | translate}}
+        </button> &nbsp;&nbsp;&nbsp;
+        <button type="button" class="btn waves-effect waves-light btn-rounded btn-primary btn-midblock" data-toggle="modal" (click)="openPrint()">
+          {{'Print' | translate}}
+        </button>
+        <br />
+      </div>
+    </div>
+
+
+  </div>
+
+
+  <div class="table-responsive">
+
+
+    <div class="outer" id="printcontainer">
+      <div class="text-center font-weight-medium">
+        {{companyName}}  <img src="{{logoURL}}" style="width:200px;height:150px;float:right;" *ngIf="companyName" />
+        <br />
+        {{branchName}}
+        <br />
+        {{companyAddress}}
+      </div>
+
+      <spinner-loader [isLoading]="isLoading"></spinner-loader>
+      <table style="width: 1350px; padding-bottom: 5px;" border="1" cellpadding="0" cellspacing="0" width="100%" class="ur_tablestyle" *ngIf="vendorList && vendorList.length > 0">
+        <thead>
+          <tr>
+            <th class="w10per" style="padding:10px; text-align:center;">{{'Customer_Code' | translate}}</th>
+            <th style="text-align: center;width:25%;">{{'Customer_Name' | translate}}</th>
+            <th class="w10per" style="text-align:center;width:200px;">{{'<= 30' | translate}} </th>
+            <th class="w10per" style="text-align:center;width:200px;">{{'31-60' | translate}} </th>
+            <th class="w10per" style="text-align:center;width:200px;">{{'61-90' | translate}} </th>
+            <th class="w10per" style="text-align:center;width:200px;">{{'91-120' | translate}} </th>
+            <th class="w10per" style="text-align:center;width:200px;">{{'121-150' | translate}} </th>
+            <th class="w10per" style="text-align:center;width:200px;">{{'151-365' | translate}} </th>
+            <th class="w10per" style="text-align:center;width:200px;">{{'> 365' | translate}} </th>
+            <th class="w10per" style="text-align:center;width:200px;">{{'Balance' | translate}}</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let item of vendorList">
+            <td style="padding:8px; text-align:center;">{{item.vendCode}}</td>
+            <td>{{item.vendName}}</td>
+            <td class="text-right">{{item.gpr1 | decimalpipe}}</td>
+            <td class="text-right">{{item.gpr2 | decimalpipe}}</td>
+            <td class="text-right">{{item.gpr3 | decimalpipe}}</td>
+            <td class="text-right">{{item.gpr4 | decimalpipe}}</td>
+            <td class="text-right">{{item.gpr5 | decimalpipe}}</td>
+            <td class="text-right">{{item.gpr6 | decimalpipe}}</td>
+            <td class="text-right">{{item.gpr7 | decimalpipe}}</td>
+            <td class="text-right">{{item.balance | decimalpipe}}</td>
+
+          </tr>
+          <tr>
+            <td class="text-right" colspan="8">  إجمالي الارصدة  Total Amount &nbsp;&nbsp;</td>
+            <td class="text-right">{{totalBalance | decimalpipe}}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <div class="example-table-container table-responsive pt-3">
+    <mat-paginator [length]="totalItemsCount"
+                   [pageSize]="pageService.pageCount"
+                   [pageSizeOptions]="pageService.selectItemsPerPage"
+                   (page)="onPageSwitch($event)">
+    </mat-paginator>
+  </div>
+
+</div>

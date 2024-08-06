@@ -1,0 +1,9 @@
+<div mat-dialog-content class="text-danger">
+  <!--<h4>Are you sure to delete ?</h4>-->
+  <h4>{{modalTitle !== '' ? modalTitle : "Are you sure ?"}}</h4>
+</div>
+<div mat-dialog-actions>
+  <!--cdkFocusInitial</-->
+  <button class="btn btn-primary"  [mat-dialog-close]="true" >Yes</button> &nbsp;
+  <button class="btn btn-danger"  (click)="onNoClick()" >No</button>
+</div>

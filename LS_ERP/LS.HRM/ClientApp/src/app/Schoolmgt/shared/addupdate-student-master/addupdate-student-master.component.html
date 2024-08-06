@@ -1,0 +1,645 @@
+<h3 class="modal-title">{{'Student_Details' | translate}}</h3>
+<button type="button" class="close" aria-hidden="true" (click)="closeModel()"> ×</button>
+<form [formGroup]="form" (ngSubmit)="submit()" novalidate class="mt-4" enctype="multipart/form-data">
+  <div class="outer ">
+    <div class="row" *ngIf="isShowStudentProfile">
+      <div class="col-md-2">
+        <div class="form-group">
+          <div data-type="image-add" class="col-4 pl-2 pr-2 pt-2" style="max-width: 130px;">
+            <div class="ratio-box text-center" data-type="image-ratio-box">
+              <img data-type="noimage"
+                   class="btn btn-light ratio-img img-fluid p-2 image border dashed rounded"
+                   src="{{studentProfileImageUrl}}" style="cursor:pointer;">
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-12">
+        <label>{{'Name' | translate}} : &nbsp;<span>{{studentName}}</span></label>,&nbsp;
+        <label>{{'Admission_Date' | translate}} : &nbsp;<span>{{joiningDate}}</span></label>&nbsp;
+      </div>
+    </div>
+    <div class="row rowm0 mt-3">
+      <div class="col-md-6 col-lg-6 col-sm-6" *ngIf="isShowStuAdmNum">
+        <div class="form-group">
+          <label>{{'Admission_Number' | translate}}</label>
+          <input class="form-control" type="text" placeholder="{{'Admission_Number' | translate}}"
+                 formControlName="stuAdmNum" readonly />
+        </div>
+      </div>
+      <div class="col-md-6 col-lg-6 col-sm-6">
+        <div class="form-group">
+          <label>{{'Admission_Date' | translate}}</label>
+          <div class="input-group ">
+            <input class="form-control datapickerinput" placeholder="{{'Admission_Date' | translate}}"
+                   formControlName="stuAdmDate" [matDatepicker]="picker3">
+            <div class="input-group-prepend datapickericon">
+              <mat-datepicker-toggle matSuffix [for]="picker3"></mat-datepicker-toggle>
+              <mat-datepicker #picker3></mat-datepicker><br /><br />
+            </div>
+          </div>
+          <validation-message [control]="form.controls.stuAdmDate"></validation-message>
+        </div>
+      </div>
+      <div class="col-md-6 col-lg-6 col-sm-6">
+        <div class="form-group">
+          <label>{{'Student_Name' | translate}}</label>
+          <input class="form-control" type="text" placeholder="{{'Student_Name' | translate}}"
+                 formControlName="stuName" />
+          <validation-message [control]="form.controls.stuName"></validation-message>
+        </div>
+      </div>
+      <div class="col-md-6 col-lg-6 col-sm-6">
+        <div class="form-group">
+          <label>{{'Student_Name_In_Arabic' | translate}}</label>
+          <input class="form-control" type="text" placeholder="{{'Student_Name_In_Arabic' | translate}}"
+                 formControlName="stuName2" />
+          <validation-message [control]="form.controls.stuName2"></validation-message>
+        </div>
+      </div>
+      <div class="col-md-6 col-lg-6 col-sm-6">
+        <div class="form-group">
+          <label>{{'Alias' | translate}}</label>
+          <input class="form-control" type="text" placeholder="{{'Alias' | translate}}"
+                 formControlName="alias" />
+          <validation-message [control]="form.controls.alias"></validation-message>
+        </div>
+      </div>
+      <div class="col-md-6 col-lg-6 col-sm-6">
+        <div class="form-group ">
+          <label>{{'Gender_Code' | translate}}</label>
+          <select class="custom-select mr-sm-2" formControlName="genderCode">
+            <option value="">{{'Select' | translate}} {{'Gender_Code' | translate}} </option>
+            <ng-container *ngIf="genderList">
+              <option *ngFor="let item of genderList" value="{{item.genderCode}}">{{ isArab ? item.genderName2 : item.genderName  }}</option>
+            </ng-container>
+          </select>
+          <validation-message [control]="form.controls.genderCode"></validation-message>
+        </div>
+      </div>
+      <div class="col-md-6 col-lg-6 col-sm-6">
+        <div class="form-group">
+          <label>{{'Date_of_Birth' | translate}}</label>
+          <div class="input-group ">
+            <input class="form-control datapickerinput" placeholder="{{'Date_of_Birth' | translate}}"
+                   formControlName="dateofBirth" [matDatepicker]="picker1" (dateChange)="calcAge($event)">
+            <div class="input-group-prepend datapickericon">
+              <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
+              <mat-datepicker #picker1></mat-datepicker><br /><br />
+            </div>
+          </div>
+          <validation-message [control]="form.controls.dateofBirth"></validation-message>
+        </div>
+      </div>
+      <div class="col-md-6 col-lg-6 col-sm-6">
+        <div class="form-group">
+          <label>{{'Age' | translate}}</label>
+          <input class="form-control" type="text" placeholder="{{'Age' | translate}}" formControlName="age" readonly />
+          <validation-message [control]="form.controls.age"></validation-message>
+        </div>
+      </div>
+      <div class="col-md-6 col-lg-6 col-sm-6">
+        <div class="form-group">
+          <label>{{'Physical_Training_Category' | translate}}</label>
+          <select class="custom-select mr-sm-2" formControlName="ptGroupCode">
+            <option value="">{{'Select' | translate}} {{'Physical_Training_Category' | translate}} </option>
+            <ng-container *ngIf="schoolPETCategoryList">
+              <option *ngFor="let item of schoolPETCategoryList" value="{{item.petCode}}">{{ isArab ? item.petName2 : item.petName  }}</option>
+            </ng-container>
+          </select>
+          <validation-message [control]="form.controls.ptGroupCode"></validation-message>
+        </div>
+      </div>
+      <div class="col-md-6 col-lg-6 col-sm-6">
+        <div class="form-group ">
+          <label>{{'Branch' | translate}}</label>
+          <select class="custom-select mr-sm-2" formControlName="branchCode" (change)="loadRelatedItems()">
+            <option value="">{{'Select' | translate}} {{'Branch' | translate}} </option>
+            <ng-container *ngIf="branchCodeList">
+              <option *ngFor="let item of branchCodeList" value="{{item.value}}">{{ isArab ? item.textTwo : item.text  }}</option>
+            </ng-container>
+          </select>
+          <validation-message [control]="form.controls.branchCode"></validation-message>
+        </div>
+      </div>
+      <div class="col-md-6 col-lg-6 col-sm-6">
+        <div class="form-group ">
+          <label>{{'Grade' | translate}}</label>
+          <select class="custom-select mr-sm-2" formControlName="gradeCode" (change)="loadRelatedItems()">
+            <option value="">{{'Select' | translate}} {{'Grade' | translate}} </option>
+            <ng-container *ngIf="gradeCodeList">
+              <option *ngFor="let item of gradeCodeList" value="{{item.gradeCode}}">{{ isArab ? item.gradeName2 : item.gradeName  }}</option>
+            </ng-container>
+          </select>
+          <validation-message [control]="form.controls.gradeCode"></validation-message>
+        </div>
+      </div>
+      <div class="col-md-6 col-lg-6 col-sm-6">
+        <div class="form-group ">
+          <label>{{'Section_in_Grade' | translate}}</label>
+          <!--<ng-select [items]="sectionList"
+      bindLabel="{{ isArab ? SectionCode : SectionCode  }}"
+      bindValue="SectionCode" [(ngModel)]="gradeSectionCode">  </ng-select>-->
+          <select class="custom-select mr-sm-2" formControlName="gradeSectionCode">
+            <option value="">{{'Select' | translate}} {{'Section_in_Grade' | translate}} </option>
+            <ng-container *ngIf="sectionList">
+              <option *ngFor="let item of sectionList" value="{{item.sectionCode}}">{{ isArab ? item.sectionName2 : item.sectionName  }}</option>
+            </ng-container>
+          </select>
+          <validation-message [control]="form.controls.gradeSectionCode"></validation-message>
+        </div>
+      </div>
+      <div class="col-md-6 col-lg-6 col-sm-6">
+        <div class="form-group">
+          <label>{{'Medium_on_Language' | translate}}</label>
+          <select class="custom-select mr-sm-2" formControlName="langCode">
+            <option value="">{{'Select' | translate}} {{'Medium_on_Language' | translate}} </option>
+            <ng-container *ngIf="languageList">
+              <option *ngFor="let item of languageList" value="{{item.langCode}}">{{ isArab ? item.langName2 : item.langName  }}</option>
+            </ng-container>
+          </select>
+          <validation-message [control]="form.controls.langCode"></validation-message>
+        </div>
+      </div>
+      <div class="col-md-6 col-lg-6 col-sm-6">
+        <div class="form-group ">
+          <label>{{'Nationality' | translate}}</label>
+          <select class="custom-select mr-sm-2" formControlName="natCode">
+            <option value="">{{'Select' | translate}} {{'Nationality' | translate}} </option>
+            <ng-container *ngIf="nationalityList">
+              <option *ngFor="let item of nationalityList" value="{{item.natCode}}">{{ isArab ? item.natName2 : item.natName  }}</option>
+            </ng-container>
+          </select>
+          <validation-message [control]="form.controls.natCode"></validation-message>
+        </div>
+      </div>
+      <div class="col-md-6 col-lg-6 col-sm-6">
+        <div class="form-group ">
+          <label>{{'Religion' | translate}}</label>
+          <select class="custom-select mr-sm-2" formControlName="religionCode">
+            <option value="">{{'Select' | translate}} {{'Religion' | translate}} </option>
+            <ng-container *ngIf="religionList">
+              <option *ngFor="let item of religionList" value="{{item.regCode}}">{{ isArab ? item.regName2 : item.regName  }}</option>
+            </ng-container>
+          </select>
+          <validation-message [control]="form.controls.religionCode"></validation-message>
+        </div>
+      </div>
+      <div class="col-md-6 col-lg-6 col-sm-6">
+        <div class="form-group ">
+          <label>{{'Mother_Tongue' | translate}}</label>
+          <select class="custom-select mr-sm-2" formControlName="motherToungue">
+            <option value="">{{'Select' | translate}} {{'Mother_Tongue' | translate}} </option>
+            <ng-container *ngIf="languageList">
+              <option *ngFor="let item of languageList" value="{{item.langCode}}">{{ isArab ? item.langName2 : item.langName  }}</option>
+            </ng-container>
+          </select>
+          <validation-message [control]="form.controls.motherToungue"></validation-message>
+        </div>
+      </div>
+      <div class="col-md-6 col-lg-6 col-sm-6">
+        <div class="form-group">
+          <label>{{'Student_Identity_Number' | translate}}</label>
+          <input class="form-control" type="text" placeholder="{{'Student_Identity_Number' | translate}}"
+                 formControlName="stuIDNumber" />
+          <validation-message [control]="form.controls.stuIDNumber"></validation-message>
+        </div>
+      </div>
+      <div class="col-md-6 col-lg-6 col-sm-6">
+        <div class="form-group">
+          <label>{{'Parent_Identity_Number' | translate}}</label>
+          <input class="form-control" type="text" placeholder="{{'Parent_Identity_Number' | translate}}"
+                 formControlName="idNumber" />
+          <validation-message [control]="form.controls.idNumber"></validation-message>
+        </div>
+      </div>
+
+      <div class="col-md-6 col-lg-6 col-sm-6">
+        <div class="form-group">
+          <label>{{'Mobile_Number' | translate}}</label>
+          <input class="form-control" type="text" placeholder="{{'Mobile_Number' | translate}}"
+                 formControlName="registeredPhone" />
+          <validation-message [control]="form.controls.registeredPhone"></validation-message>
+        </div>
+      </div>
+      <div class="col-md-6 col-lg-6 col-sm-6">
+        <div class="form-group">
+          <label>{{'Registered_email' | translate}}</label>
+          <input class="form-control" type="text" placeholder="{{'Registered_email' | translate}}"
+                 formControlName="registeredEmail" />
+          <validation-message [control]="form.controls.registeredEmail"></validation-message>
+        </div>
+      </div>
+      <div class="col-md-6 col-lg-6 col-sm-6">
+        <div class="form-group">
+          <label>{{'Status' | translate}}</label>
+          <mat-slide-toggle color="primary" formControlName="isActive"></mat-slide-toggle>
+        </div>
+      </div>
+      <div class="col-md-6 col-lg-6 col-sm-6">
+        <div class="row">
+          <div class="col-md-6">
+            <div class="form-group">
+              <label>{{'Student_Image' | translate}}</label>
+              <div>
+                <input accept="image/*" type="file" (change)="onFileChanged($event,3)" style="width: 100%;" />
+              </div>
+            </div>
+          </div>
+          <div class="col-md-6" *ngIf="studentImageUrl">
+            <img src="{{studentImageUrl}}" width="250" height="200">
+          </div>
+        </div>
+      </div>
+
+    </div>
+    <div class="card">
+      <div class="row m-0">
+        <div class="col-md-12 mb-3" style="background: #919191">
+          <h3 style="margin: 0px;padding:5px;color: #fff;">{{'Fee_Details' | translate}}</h3>
+        </div>
+        <div class="col-md-6 col-lg-6 col-sm-6">
+          <div class="form-group ">
+            <label>{{'Fee_Structure_Code' | translate}}</label>
+            <select class="custom-select mr-sm-2" formControlName="feeStructCode" (change)="loadFeeDetails()">
+              <option value="">{{'Select' | translate}} {{'Fee_Structure_Code' | translate}} </option>
+              <ng-container *ngIf="feeStructureList">
+                <option *ngFor="let item of feeStructureList" value="{{item.feeStructCode}}">{{ isArab ? item.feeStructName2 : item.feeStructName  }}</option>
+              </ng-container>
+            </select>
+            <validation-message [control]="form.controls.feeStructCode"></validation-message>
+          </div>
+        </div>
+        <div class="col-md-6 col-lg-6 col-sm-6">
+          <div class="form-group">
+            <label>{{'Total_Fee_Amount' | translate}}</label>
+            <input class="form-control" type="text" placeholder="{{'Total_Fee_Amount' | translate}}"
+                   formControlName="totFeeAmount" readonly />
+            <validation-message [control]="form.controls.totFeeAmount"></validation-message>
+          </div>
+        </div>
+        <div class="col-md-6 col-lg-6 col-sm-6">
+          <div class="form-group">
+            <label>{{'Paid_Fees' | translate}}</label>
+            <input class="form-control" type="text" placeholder="{{'Paid_Fees' | translate}}"
+                   formControlName="paidFees" readonly />
+            <validation-message [control]="form.controls.paidFees"></validation-message>
+          </div>
+        </div>
+        <div class="col-md-6 col-lg-6 col-sm-6">
+          <div class="form-group">
+            <label>{{'Un_Paid_Fees' | translate}}</label>
+            <input class="form-control" type="text" placeholder="{{'Un_Paid_Fees' | translate}}"
+                   formControlName="netFeeAmount" readonly />
+            <validation-message [control]="form.controls.netFeeAmount"></validation-message>
+          </div>
+        </div>
+        <div class="col-md-6 col-lg-6 col-sm-6">
+          <label>{{'Tax_Applicable' | translate}}</label>
+          <div class="form-group">
+            <mat-slide-toggle color="primary" formControlName="isTaxApplicable"></mat-slide-toggle>
+          </div>
+        </div>
+        <div class="col-md-6 col-lg-6 col-sm-6">
+          <label>{{'Required_Transportation' | translate}}</label>
+          <div class="form-group">
+            <mat-slide-toggle color="primary" formControlName="transportationRequired" (change)="changeTransportValue($event.checked);"></mat-slide-toggle>
+          </div>
+        </div>
+        <div class="col-md-6 col-lg-6 col-sm-6" *ngIf="isShowTransportControls">
+          <div class="form-group ">
+            <label>{{'Pick_n_Drop_Zone' | translate}}</label>
+            <select class="custom-select mr-sm-2" formControlName="pickNDropZone">
+              <option value="">{{'Select' | translate}} {{'Pick_n_Drop_Zone' | translate}} </option>
+              <option value="1">{{'Zone_one' | translate}}</option>
+              <option value="2">{{'Zone_two' | translate}}</option>
+              <option value="3">{{'Zone_three' | translate}}</option>
+              <option value="4">{{'Zone_four' | translate}}</option>
+            </select>
+            <validation-message [control]="form.controls.pickNDropZone"></validation-message>
+          </div>
+        </div>
+        <div class="col-md-6 col-lg-6 col-sm-6" *ngIf="isShowTransportControls">
+          <div class="form-group">
+            <label>{{'Transportation_Fee' | translate}}</label>
+            <input class="form-control" type="text" placeholder="{{'Transportation_Fee' | translate}}"
+                   formControlName="transportationFee" />
+            <validation-message [control]="form.controls.transportationFee"></validation-message>
+          </div>
+        </div>
+        <div class="col-md-6 col-lg-6 col-sm-6" *ngIf="isShowTransportControls">
+          <div class="form-group">
+            <label>{{'Vehicle_Number' | translate}}</label>
+            <input class="form-control" type="text" placeholder="{{'Vehicle_Number' | translate}}"
+                   formControlName="vehicleTransport" />
+            <validation-message [control]="form.controls.vehicleTransport"></validation-message>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="row m-0">
+        <div class="col-md-12 mb-3" style="background: #919191">
+          <h3 style="margin: 0px;padding:5px;color: #fff;">
+            {{
+'Present_Residential_Address_Details' |
+                        translate
+            }}
+          </h3>
+        </div>
+        <div class="col-md-6 col-lg-6 col-sm-6">
+          <div class="form-group">
+            <label>{{'Building_Name' | translate}}</label>
+            <input class="form-control" type="text" placeholder="{{'Building_Name' | translate}}"
+                   formControlName="buildingName" />
+            <validation-message [control]="form.controls.buildingName"></validation-message>
+          </div>
+          <div class="form-group">
+            <label>{{'Street' | translate}}</label>
+            <input class="form-control" type="text" placeholder="{{'Street' | translate}}"
+                   formControlName="pAddress1" />
+            <validation-message [control]="form.controls.pAddress1"></validation-message>
+          </div>
+          <div class="form-group">
+            <label>{{'District' | translate}}</label>
+            <input class="form-control" type="text" placeholder="{{'District' | translate}}"
+                   formControlName="zipCode" />
+            <validation-message [control]="form.controls.zipCode"></validation-message>
+          </div>
+          <div class="form-group ">
+            <label>{{'City' | translate}}</label>
+            <select class="custom-select mr-sm-2" formControlName="city">
+              <option value="">{{'Select' | translate}} {{'City' | translate}} </option>
+              <ng-container *ngIf="cityList">
+                <option *ngFor="let item of cityList" value="{{item.value}}">{{ isArab ? item.textTwo : item.text  }}</option>
+              </ng-container>
+            </select>
+            <validation-message [control]="form.controls.city"></validation-message>
+          </div>
+        </div>
+        <div class="col-md-6 col-lg-6 col-sm-6">
+          <div class="form-group">
+            <label>{{'Phone' | translate}}</label>
+            <input class="form-control" type="text" placeholder="{{'Phone' | translate}}"
+                   formControlName="phone" />
+            <validation-message [control]="form.controls.phone"></validation-message>
+          </div>
+          <div class="form-group">
+            <label>{{'Mobile' | translate}}</label>
+            <input class="form-control" type="text" placeholder="{{'Mobile' | translate}}"
+                   formControlName="mobile" />
+            <validation-message [control]="form.controls.mobile"></validation-message>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="row m-0">
+        <div class="col-md-12 mb-3" style="background: #919191">
+          <h3 style="margin: 0px;padding:5px;color: #fff;">{{'Parents_Details' | translate}}</h3>
+        </div>
+        <div class="col-md-6 col-lg-6 col-sm-6">
+          <div class="form-group">
+            <label>{{'Father_Name' | translate}}</label>
+            <input class="form-control" type="text" placeholder="{{'Father_Name' | translate}}"
+                   formControlName="fatherName" />
+            <validation-message [control]="form.controls.fatherName"></validation-message>
+          </div>
+          <div class="form-group">
+            <label>{{'Father_Mobile' | translate}}</label>
+            <input class="form-control" type="text" placeholder="{{'Father_Mobile' | translate}}"
+                   formControlName="fatherMobile" />
+            <validation-message [control]="form.controls.fatherMobile"></validation-message>
+          </div>
+          <div class="form-group">
+            <label>{{'Father_Email' | translate}}</label>
+            <input class="form-control" type="text" placeholder="{{'Father_Email' | translate}}"
+                   formControlName="fatherEmail" />
+            <validation-message [control]="form.controls.fatherEmail"></validation-message>
+          </div>
+          <div class="form-group">
+            <label>{{'Father_Occupation' | translate}}</label>
+            <input class="form-control" type="text" placeholder="{{'Father_Occupation' | translate}}"
+                   formControlName="fatherOccupation" />
+            <validation-message [control]="form.controls.fatherOccupation"></validation-message>
+          </div>
+
+          <div class="form-group">
+            <label>{{'Designation' | translate}}</label>
+            <input class="form-control" type="text" placeholder="{{'Designation' | translate}}"
+                   formControlName="fatherDesignation" />
+            <validation-message [control]="form.controls.fatherDesignation"></validation-message>
+          </div>
+
+          <div class="row">
+            <div class="col-md-6">
+              <div class="form-group">
+                <label>{{'Signature_Image' | translate}}</label>
+                <div>
+                  <input accept="image/*" type="file" (change)="onFileChanged($event,1)" style="width: 100%;" />
+                </div>
+              </div>
+            </div>
+            <div class="col-md-6" *ngIf="fatherSignatureUrl">
+              <img src="{{fatherSignatureUrl}}" width="250" height="200">
+            </div>
+          </div>
+
+        </div>
+        <div class="col-md-6 col-lg-6 col-sm-6">
+          <div class="form-group">
+            <label>{{'Mother_Name' | translate}}</label>
+            <input class="form-control" type="text" placeholder="{{'Mother_Name' | translate}}"
+                   formControlName="motherName" />
+            <validation-message [control]="form.controls.motherName"></validation-message>
+          </div>
+          <div class="form-group">
+            <label>{{'Mother_Mobile' | translate}}</label>
+            <input class="form-control" type="text" placeholder="{{'Mother_Mobile' | translate}}"
+                   formControlName="motherMobile" />
+            <validation-message [control]="form.controls.motherMobile"></validation-message>
+          </div>
+          <div class="form-group">
+            <label>{{'Mother_Email' | translate}}</label>
+            <input class="form-control" type="text" placeholder="{{'Mother_Email' | translate}}"
+                   formControlName="motherEmail" />
+            <validation-message [control]="form.controls.motherEmail"></validation-message>
+          </div>
+          <div class="form-group">
+            <label>{{'Mother_Occupation' | translate}}</label>
+            <input class="form-control" type="text" placeholder="{{'Mother_Occupation' | translate}}"
+                   formControlName="motherOccupation" />
+            <validation-message [control]="form.controls.motherOccupation"></validation-message>
+          </div>
+          <div class="form-group">
+            <label>{{'Designation' | translate}}</label>
+            <input class="form-control" type="text" placeholder="{{'Designation' | translate}}"
+                   formControlName="motherDesignation" />
+            <validation-message [control]="form.controls.motherDesignation"></validation-message>
+          </div>
+          <div class="row">
+            <div class="col-md-6">
+              <div class="form-group">
+                <label>{{'Signature' | translate}}</label>
+                <div>
+                  <input accept="image/*" type="file" (change)="onFileChanged($event,2)" style="width: 100%;" />
+                </div>
+              </div>
+            </div>
+            <div class="col-md-6" *ngIf="motherSignatureUrl">
+              <img src="{{motherSignatureUrl}}" width="250" height="200">
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+    <div class="card">
+      <div class="row m-0">
+        <div class="col-md-12 mb-3" style="background: #919191">
+          <h3 style="margin: 0px;padding:5px;color: #fff;">
+            {{'Student_Miscellaneous_Information' | translate}}
+          </h3>
+        </div>
+        <div class="col-md-6 col-lg-6 col-sm-6">
+          <div class="form-group ">
+            <label>{{'Blood_Group' | translate}}</label>
+            <select class="custom-select mr-sm-2" formControlName="bloodGroup">
+              <option value="">{{'Select' | translate}} {{'Blood_Group' | translate}} </option>
+              <option value="A+">{{'A_Positive' | translate}}</option>
+              <option value="A-">{{'A_Negative' | translate}}</option>
+              <option value="B+">{{'B_Positive' | translate}}</option>
+              <option value="B-">{{'B_Negative' | translate}}</option>
+              <option value="O+">{{'O_Positive' | translate}}</option>
+              <option value="O-">{{'O_Negative' | translate}}</option>
+              <option value="AB+">{{'AB_Positive' | translate}}</option>
+              <option value="AB-">{{'AB_Negative' | translate}}</option>
+            </select>
+            <validation-message [control]="form.controls.bloodGroup"></validation-message>
+          </div>
+        </div>
+        <div class="col-md-6 col-lg-6 col-sm-6">
+          <div class="form-group">
+            <label>{{'Height' | translate}}</label>
+            <input class="form-control" type="text" placeholder="{{'Height' | translate}}"
+                   formControlName="height" />
+            <validation-message [control]="form.controls.height"></validation-message>
+          </div>
+        </div>
+        <!--<div class="col-md-6 col-lg-6 col-sm-6">
+          <label>{{'Student_Miscellaneous_Information' | translate}}</label>
+          <div class="form-group">
+              <mat-slide-toggle color="primary" formControlName="stuMiscellaneousInfo"></mat-slide-toggle>
+          </div>
+      </div>-->
+        <div class="col-md-6 col-lg-6 col-sm-6">
+          <div class="form-group">
+            <label>{{'Weight' | translate}}</label>
+            <input class="form-control" type="text" placeholder="{{'Weight' | translate}}"
+                   formControlName="weight" />
+            <validation-message [control]="form.controls.weight"></validation-message>
+          </div>
+        </div>
+        <div class="col-md-6 col-lg-6 col-sm-6">
+          <label>{{'Special_Assistance_Required' | translate}}</label>
+          <div class="form-group">
+            <mat-slide-toggle color="primary" formControlName="specialAssistance" (change)="checkSpecialAssistance($event.checked)"></mat-slide-toggle>
+          </div>
+        </div>
+        <div class="col-md-6 col-lg-6 col-sm-6" *ngIf="isShowSpecialAssistNotes">
+          <div class="form-group">
+            <label>{{'Special_Assistance_Notes' | translate}}</label>
+            <textarea class="form-control" type="text" placeholder="{{'Special_Assistance_Notes' | translate}}"
+                      formControlName="specialAssistanceNotes"></textarea>
+            <validation-message [control]="form.controls.specialAssistanceNotes"></validation-message>
+          </div>
+        </div>
+        <div class="col-md-6 col-lg-6 col-sm-6">
+          <label>{{'Mention_Physical_Challenge' | translate}}</label>
+          <div class="form-group">
+            <mat-slide-toggle color="primary" formControlName="physicalDisability" (change)="checkPhysicalDisability($event.checked)"></mat-slide-toggle>
+          </div>
+        </div>
+        <div class="col-md-6 col-lg-6 col-sm-6" *ngIf="isShowPhysicalDisabilityNotes">
+          <div class="form-group">
+            <label>{{'Mention_Physical_Challenge_Notes' | translate}}</label>
+            <textarea class="form-control" type="text" placeholder="{{'Mention_Physical_Challenge_Notes' | translate}}"
+                      formControlName="physicalDisabilityNotes"></textarea>
+            <validation-message [control]="form.controls.physicalDisabilityNotes"></validation-message>
+          </div>
+        </div>
+        <!--<div class="col-md-6 col-lg-6 col-sm-6">
+          <div class="form-group">
+              <label>{{'Mentioned_Assistance_Required' | translate}}</label>
+              <input class="form-control" type="text"
+                  placeholder="{{'Mentioned_Assistance_Required' | translate}}"
+                  formControlName="stuAssistanceRequired" />
+              <validation-message [control]="form.controls.stuAssistanceRequired"></validation-message>
+          </div>
+      </div>-->
+        <div class="col-md-6 col-lg-6 col-sm-6">
+          <label>{{'Scale_Rating_in_Academics' | translate}}</label>
+          <div class="form-group ">
+            <mat-slider thumbLabel min="0" max="10" step="1" tickInterval="1"
+                        style="width: 100%" formControlName="academicsScale"></mat-slider>
+          </div>
+          <validation-message [control]="form.controls.academicsScale"></validation-message>
+        </div>
+        <div class="col-md-6 col-lg-6 col-sm-6">
+          <label>{{'Attentive_in_the_Class' | translate}}</label>
+          <div class="form-group ">
+            <mat-slider thumbLabel min="0" max="10" step="1" tickInterval="1" style="width: 100%"
+                        formControlName="attentivenessScale"></mat-slider>
+          </div>
+          <validation-message [control]="form.controls.attentivenessScale"></validation-message>
+        </div>
+        <div class="col-md-6 col-lg-6 col-sm-6">
+          <label>{{'Home_Work_submission' | translate}}</label>
+          <div class="form-group ">
+            <mat-slider thumbLabel min="0" max="10" step="1" tickInterval="1" style="width: 100%"
+                        formControlName="homeWorkScale"></mat-slider>
+          </div>
+          <validation-message [control]="form.controls.homeWorkScale"></validation-message>
+        </div>
+        <div class="col-md-6 col-lg-6 col-sm-6">
+          <label>{{'Project_Works' | translate}}</label>
+          <div class="form-group ">
+            <mat-slider thumbLabel min="0" max="10" step="1" tickInterval="1" style="width: 100%"
+                        formControlName="projectWorkScale"></mat-slider>
+          </div>
+          <validation-message [control]="form.controls.projectWorkScale"></validation-message>
+        </div>
+        <div class="col-md-6 col-lg-6 col-sm-6">
+          <label>{{'Sports_and_Extra_curricular' | translate}}</label>
+          <div class="form-group ">
+            <mat-slider thumbLabel min="0" max="10" step="1" tickInterval="1" style="width: 100%"
+                        formControlName="sportsPhysicalScale"></mat-slider>
+          </div>
+          <validation-message [control]="form.controls.sportsPhysicalScale"></validation-message>
+        </div>
+        <div class="col-md-6 col-lg-6 col-sm-6">
+          <label>{{'Discipline_and_Attitude' | translate}}</label>
+          <div class="form-group ">
+            <mat-slider thumbLabel min="0" max="10" step="1" tickInterval="1" style="width: 100%"
+                        formControlName="diciplineAttitude"></mat-slider>
+          </div>
+          <validation-message [control]="form.controls.diciplineAttitude"></validation-message>
+        </div>
+      </div>
+
+    </div>
+
+
+    <div class="row customrow mt-4">
+      <div class="col-lg-12 col-md-12 text-center">
+        <input type="button" class="btn btn-secondary" value="{{'Cancel' | translate}}"
+               (click)="closeModel()" />
+        &nbsp;&nbsp;
+        <input type="submit" class="btn waves-effect waves-light btn-primary" value="{{'Save' | translate}}">
+      </div>
+    </div>
+
+
+  </div>
+    
+</form>

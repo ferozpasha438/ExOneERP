@@ -1,0 +1,177 @@
+
+
+<h6 class="modal-title">
+  {{'Bulk_Posting' | translate}}
+  <button type="button" class="close" aria-hidden="true" (click)="closeModel()"> ×</button>
+</h6>
+
+<div class="model">
+  <form [formGroup]="form" (ngSubmit)="submit()" novalidate class="mt-4">
+
+    <div class="row">
+      <div class="col-md-6 col-lg-6">
+        <label class="mr-sm-2">{{'Customer_Name' | translate}}</label>
+        <ng-select [items]="customerList"
+                   bindLabel="text"
+                   bindValue="value" formControlName="customerId" (clear)="resetCustomerInfo()" (change)="customerChange($event)"> </ng-select>
+      </div>
+      <div class="col-md-6 col-lg-6">
+        <label class="mr-sm-2">{{'Site' | translate}}</label>
+        <ng-select [items]="customerSiteList"
+                   bindLabel="text"
+                   bindValue="value" formControlName="siteCode">
+
+        </ng-select>
+      </div>
+
+      <div class="col-md-6 col-lg-6">
+        <label class="mr-sm-2">{{'Branch' | translate}}</label>
+        <ng-select [items]="branchList"
+                   bindLabel="text"
+                   bindValue="value" formControlName="branchCode">
+
+        </ng-select>
+      </div>
+
+      <div class="col-md-3 col-lg-3">
+        <div class="form-group">
+          <label>{{'From_Date' | translate}}</label>
+          <div class="form-group ">
+            <div class="input-group mb-2">
+              <input class="form-control datapickerinput" placeholder="{{'Select_a_Date' | translate}}" formControlName="fromDate"
+                     [matDatepicker]="picker1">
+
+              <div class="input-group-prepend datapickericon">
+                <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
+                <mat-datepicker #picker1></mat-datepicker><br /><br />
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-md-3 col-lg-3">
+        <div class="form-group">
+          <label>{{'To_Date' | translate}}</label>
+          <div class="form-group ">
+            <div class="input-group mb-2">
+              <input class="form-control datapickerinput" placeholder="{{'Select_a_Date' | translate}}" formControlName="toDate"
+                     [matDatepicker]="picker2">
+
+              <div class="input-group-prepend datapickericon">
+                <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
+                <mat-datepicker #picker2></mat-datepicker><br /><br />
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <div class="row mt-0 ">
+      <section class=" col-md-4 col-lg-4 " >
+        <!--<mat-checkbox color="primary" class="example-margin" formControlName="isAllSelected">Select All</mat-checkbox>-->
+        <mat-slide-toggle color="primary" [checked]="isMainChecked" (change)="checkAll($event)">Select All </mat-slide-toggle>
+      </section>
+
+      <div class="col-md-8 col-lg-8 ">
+        <input type="button"
+               class="btn waves-effect waves-light btn-rounded   btn-secondary btn-midblock"
+               value="{{'Search' | translate}}" (click)="search()" />&nbsp;&nbsp;
+        <input type="submit"
+               class="btn waves-effect waves-light btn-rounded btn-primary btn-midblock"
+               value="{{'Post' | translate}}" [disabled]="isDisabled" />&nbsp;
+        <input type="button"
+               class="btn waves-effect waves-light btn-rounded   btn-secondary btn-midblock"
+               value="{{'Cancel' | translate}}" (click)="closeModel()" />
+      </div>
+    </div>
+    <div class="row mt-0">
+      <div class="col-md-12 col-lg-12 text-center">
+        <spinner-loader [isLoading]="isLoading"></spinner-loader>
+        </div>
+      </div>
+
+      <ng-container *ngIf="invoiceList && invoiceList.length > 0">
+        <div style="height:400px;overflow-x:scroll;">
+          <table class="table  table-bordered no-wrap">
+            <thead>
+              <tr>
+                <th>
+                  <!--<mat-slide-toggle color="primary" [checked]="isMainChecked" (change)="checkAll($event)"> </mat-slide-toggle>-->
+                  <!--<input type="checkbox" (change)="checkAll($event)">-->
+                </th>
+                <th>{{'InvoiceNumber' | translate}}</th>
+                <th>{{'Amount' | translate}}</th>
+                <th>{{'Sales_Invoice_Date' | translate}}</th>
+                <th>{{'Customer' | translate}}</th>
+
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let code of invoiceList">
+                <td>
+                  <label class="switch">
+                    <!--<input type="checkbox" name="checkItem" class="checkItem" (change)="selectMapping($event, code.finAcCode)">-->
+                    <mat-slide-toggle color="primary" [checked]="isChecked" (change)="selectMapping($event, code.value)"> </mat-slide-toggle>
+                    <span class="slider round"></span>
+                  </label>
+                </td>
+                <td>{{code.text}}</td>
+                <td>{{code.decValue | leadingZeros}}</td>
+                <td>{{code.textAr | date:'dd/MM/yyyy'}}</td>
+                <td>{{code.textTwo}}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </ng-container>
+
+      <div class="row mt-1">
+        <div class="col-md-6 col-lg-6">
+          <div class="form-group">
+            <mat-slide-toggle color="primary" formControlName="hasTranDate" (change)="tramDateChecked($event)"></mat-slide-toggle>&nbsp;
+            <label>{{'UseTransactionDateAsPostingDate' | translate}}</label>
+          </div>
+        </div>
+
+        <div class="col-md-6 col-lg-6">
+          <div class="form-group">
+            <mat-slide-toggle color="primary" formControlName="isCreditSettled" (change)="creditSettledChecked($event)"></mat-slide-toggle>&nbsp;
+            <label>{{'SettleAllInvoicesInCredit' | translate}}</label>
+          </div>
+        </div>
+
+      </div>
+
+
+      <div class="row">
+        <div class="col-md-6 col-lg-6" *ngIf="IstramDateChecked">
+          <div class="form-group ">
+            <label class="mr-sm-2">
+              {{'Select Posting Date' | translate}}
+            </label>
+            <div class="input-group ">
+              <input class="form-control"
+                     placeholder=" {{'Please_Enter' | translate}} {{'Select Posting Date' | translate}}" formControlName="tranDate"
+                     [matDatepicker]="picker">
+              <div class="input-group-prepend datapickericon">
+                <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                <mat-datepicker #picker></mat-datepicker>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-6 col-lg-6" *ngIf="isCreditSettled">
+          <label class="mr-sm-2">{{'Select Pay Code' | translate}}</label>
+          <select class="custom-select mr-sm-2" formControlName="payCode">
+            <option value="">{{'Select_Payment' | translate}}</option>
+            <option *ngFor="let item of payCodeList" value="{{item.text}}">{{item.text}}</option>
+          </select>
+        </div>
+
+      </div>
+
+</form>
+</div>

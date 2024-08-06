@@ -1,0 +1,226 @@
+<div class="modal-header">
+  <h3 class="page-title text-truncate text-dark font-weight-medium mb-1">
+    {{'Payment_Codes' | translate}}
+  </h3>
+  <button type="button" class="close" aria-hidden="true" (click)="closeModel()"> ×</button>
+
+</div>
+
+<div class="page-breadcrumb">
+  <div class="row">
+    <div class="col-12 align-self-center">
+    
+      <div class="d-flex align-items-center">
+
+        <nav aria-label="breadcrumb">
+          <ol class="breadcrumb m-0 p-0">
+            <li class="breadcrumb-item text-muted"> {{'Financial_Management' | translate}} </li>
+            <li class="breadcrumb-item text-muted ">{{'Finance' | translate}}</li>
+            <li class="breadcrumb-item   active" aria-current="page">{{'Payment_Codes' | translate}} (010201)</li>
+
+          </ol>
+        </nav>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<div class="container-fluid">
+  <form [formGroup]="form" (ngSubmit)="submit()" novalidate class="mt-4">
+    <div class="row">
+      <div class="col-md-12 col-lg-12">
+        <div class="card">
+          <div class="card-body">
+
+            <div class="row">
+              <div class="col-md-7 col-lg-9">
+                <h4 class="card-title pt6">{{'Payment_Codes' | translate}}</h4>
+              </div>
+
+            </div>
+
+            <div class="cardtitle-divider"></div>
+            <div class="row">
+              <div class="col-md-4 col-lg-6">
+                <div class="form-group">
+                  <label for="exampleFormControlSelect1">{{'Branch_Code' | translate}} &nbsp; <span class="text-danger">{{branchCodeError}}</span></label>
+                  <auto-loader [isLoading]="isBranchLoading"></auto-loader>
+                  <input type="text" class="form-control"
+                         placeholder="{{'Please_Type' | translate}} {{'Branch_Code' | translate}} "
+                         [formControl]="branchCodeControl"
+                         matInput
+                         [matAutocomplete]="auto1">
+                  <mat-autocomplete #auto1="matAutocomplete" (optionSelected)="selectedOption($event)">
+                    <mat-option *ngFor="let option of filteredOptions | async"
+                                [value]="option.value">
+                      <!--[value]="option.text + '-' + option.value"> (optionSelected)="selectedOption($event)" (blur)="branchcodeBlur($event)" -->
+                      {{option.value}}
+                    </mat-option>
+                  </mat-autocomplete>
+                </div>
+              </div>
+              <div class="col-md-4 col-lg-6">
+
+                <div class="form-group">
+                  <label for="exampleFormControlSelect1">{{'Paycode_Type' | translate}}</label>
+                  <select class="custom-select mr-sm-2" id="inlineFormCustomSelect" formControlName="finPayType" (change)="payCodeSelect($event)">
+                    <option value="">{{'Choose' | translate}}</option>
+                    <option *ngFor="let item of payCodeTypeList" value="{{item.value}}">{{item.text}}</option>
+                    <!--<option value="1">{{'Bank' | translate}}</option>
+                    <option value="2">{{'Cash' | translate}}</option>
+                    <option value="3">{{'Online' | translate}}</option>
+                    <option value="4">{{'DD' | translate}}</option>
+                    <option value="5">{{'Others' | translate}}</option>-->
+
+                  </select>
+                  <validation-message [control]="form.controls.finPayType"></validation-message>
+                </div>
+
+              </div>
+              <div class="col-md-4 col-lg-6">
+                <div class="form-group">
+                  <label for="exampleFormControlSelect1">{{'Name_of_the_Paycode_Details' | translate}} </label>
+                  <input type="text" class="form-control" placeholder="{{'Please_Enter' | translate}} {{'Name_of_the_Paycode_Details' | translate}} " formControlName="finPayCode" [readonly]="id > 0" maxlength="20">
+                  <validation-message [control]="form.controls.finPayCode"></validation-message>
+                </div>
+              </div>
+              <div class="col-md-4 col-lg-6">
+                <div class="form-group">
+                  <label for="exampleFormControlSelect1">{{'Name_of_the_Pay_Name' | translate}}  </label>
+                  <input type="text" class="form-control" placeholder="{{'Please_Enter' | translate}} {{'Name_of_the_Pay_Name' | translate}}" formControlName="finPayName">
+                  <validation-message [control]="form.controls.finPayName"></validation-message>
+                </div>
+              </div>
+
+              <div class="col-md-4 col-lg-6">
+
+                <div class="form-group">
+                  <label for="exampleFormControlSelect1">{{'Default_Integration_Account' | translate}} </label>
+                  <auto-loader [isLoading]="isIACLoading"></auto-loader>
+                  <input type="text" class="form-control"
+                         placeholder="{{'Please_Enter' | translate}} {{'Default_Integration_Account' | translate}} "
+                         [formControl]="iACControl"
+                         matInput
+                         [matAutocomplete]="auto2">
+                  <mat-autocomplete #auto2="matAutocomplete">
+                    <mat-option *ngFor="let option of filteredIACOptions | async"
+                                [value]="option.value">
+                      <!--[value]="option.text + '-' + option.value"> (optionSelected)="selectedOption($event)" -->
+                      {{option.value}}
+                    </mat-option>
+                  </mat-autocomplete>
+
+                  <!--<select class="custom-select mr-sm-2" id="inlineFormCustomSelect" formControlName="">
+                    <option value="">Autocomplete List...</option>
+
+                  </select>-->
+                </div>
+
+              </div>
+              <div class="col-md-4 col-lg-6">
+
+                <div class="form-group">
+                  <label for="exampleFormControlSelect1">{{'Default_PDC_Clearing_Account' | translate}}</label>
+                  <auto-loader [isLoading]="isPDCLoading"></auto-loader>
+                  <input type="text" class="form-control"
+                         placeholder="{{'Please_Enter' | translate}} {{'Default_PDC_Clearing_Account' | translate}}   "
+                         [formControl]="pDCControl"
+                         matInput
+                         [matAutocomplete]="auto3">
+                  <mat-autocomplete #auto3="matAutocomplete">
+                    <mat-option *ngFor="let option of filteredPDCOptions | async"
+                                [value]="option.value">
+                      <!--[value]="option.text + '-' + option.value"> (optionSelected)="selectedOption($event)" -->
+                      {{option.value}}
+                    </mat-option>
+                  </mat-autocomplete>
+
+                  <!--<select class="custom-select mr-sm-2" id="inlineFormCustomSelect" formControlName="">
+                    <option value="">Autocomplete List...</option>
+
+                  </select>-->
+                </div>
+
+              </div>
+              <div class="col-md-4 col-lg-6">
+
+                <div class="form-group">
+                  <label for="exampleFormControlSelect1">{{'Is_this_Paycode_Active' | translate}}</label>
+                  <div>
+                    <label class="switch">
+                      <!--<input type="checkbox" formControlName="isActive">-->
+                      <mat-slide-toggle color="primary" formControlName="isActive"> </mat-slide-toggle>
+                      <span class="slider round"></span>
+                    </label>
+                  </div>
+                </div>
+
+              </div>
+              <div class="col-md-4 col-lg-6">
+
+                <div class="form-group">
+                  <label for="exampleFormControlSelect1">{{'Can_other_branches_uses_this_Paycode' | translate}}</label>
+                  <div>
+                    <label class="switch">
+                      <!--<input type="checkbox" formControlName="useByOtherBranches">-->
+                      <mat-slide-toggle color="primary" formControlName="useByOtherBranches"> </mat-slide-toggle>                      
+                      <span class="slider round"></span>
+                    </label>
+                  </div>
+                </div>
+
+              </div>
+
+              <!--<div class="col-md-4 col-lg-4">
+
+                <div class="form-group">
+                  <label for="exampleFormControlSelect1">{{'Use_System_Generated_Cheque_Book' | translate}}</label>
+                  <div>
+                    <label class="switch">
+                      <input type="checkbox" formControlName="systemGenCheckBook">
+                      <span class="slider round"></span>
+                    </label>
+                  </div>
+                </div>
+
+              </div>-->
+
+
+              <div class="col-md-4 col-lg-2" *ngIf="canShowCheckBookAdded">
+
+                <div class="form-group">
+                  <label for="exampleFormControlSelect1">&nbsp;</label>
+                  <div>
+                    <button type="button" data-toggle="modal"
+                            data-target="#checkbook" (click)="create()"
+                            class="btn waves-effect waves-light btn-rounded btn-primary btn-midblock">
+                      {{'Checkbook' | translate}}
+                    </button>
+                  </div>
+                </div>
+
+              </div>
+            </div>
+
+            <div class="row mt-3 ">
+              <div class="col-md-12 col-lg-12 text-center">
+                <input type="button"
+                       class="btn waves-effect waves-light btn-rounded   btn-secondary btn-midblock"
+                       value="{{'Cancel' | translate}}" (click)="closeModel()" /> &nbsp;
+                <input type="submit"
+                       class="btn waves-effect waves-light btn-rounded btn-primary btn-midblock"
+                       value="{{'Save' | translate}}" />
+              </div>
+            </div>
+
+          </div>
+
+
+
+        </div>
+      </div>
+
+    </div>
+  </form>
+</div>

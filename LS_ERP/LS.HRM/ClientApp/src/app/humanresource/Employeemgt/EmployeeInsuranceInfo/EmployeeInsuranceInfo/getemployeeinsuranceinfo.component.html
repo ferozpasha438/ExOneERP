@@ -1,0 +1,110 @@
+<br />
+<app-employeebasicinfo [employeeBasicInfo]="employeeBasicInfo"></app-employeebasicinfo>
+<h2 class="arabicright">{{'InsuranceInfo' | translate}}</h2>
+<hr />
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-md-12 col-lg-12">
+      <div class="card">
+        <div class="card-body">
+          <div class="row">
+            <div class="col-md-12 col-lg-12">
+              <h4 class="card-title pt6"> {{'EmployeeInsuranceList' | translate}}</h4>
+            </div>
+            <div class="col-md-3">
+              <input class="form-control" placeholder="{{'Search' | translate}}..." [(ngModel)]="searchValue" />
+            </div>
+            <div class="col-md-4 arabicright">
+              <button (click)="applyFilter(searchValue)" class="btn btn-primary">{{'Search' | translate}}</button>
+              &nbsp;
+              <a (click)="refresh()" class=""><i class="btn btn-primary icon-refresh"></i></a>
+            </div>
+            <div class="col-md-5 col-lg-5 text-right">
+              <a data-toggle="modal" data-target="#scrollable-modal"
+                class="  btn waves-effect waves-light btn-rounded btn-outline-primary" (click)="create()" href="#"> <i
+                  class="icon-plus"> </i>{{'AddEmployeeInsurance' | translate}}</a>
+            </div>
+          </div>
+          <div class="cardtitle-divider"></div>
+          <div class="table-responsive">
+            <table mat-table [dataSource]="data" matSort matSortActive="Id"
+                   matSortDisableClear matSortDirection="desc" class="table  table-bordered no-wrap">
+
+              <ng-container matColumnDef="sno">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                  {{"SNo" | translate}}
+                </th>
+                <td mat-cell *matCellDef="let row; let i = index;">{{ i+1 }}</td>
+              </ng-container>
+
+              <ng-container matColumnDef="policyName">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                  {{"PolicyName" | translate}}
+                </th>
+                <td mat-cell *matCellDef="let row">{{ row.policyName }}</td>
+              </ng-container>
+
+              <ng-container matColumnDef="policyNumber">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                  {{"PolicyNumber" | translate}}
+                </th>
+                <td mat-cell *matCellDef="let row">{{ row.policyNumber }}</td>
+              </ng-container>
+
+              <ng-container matColumnDef="policyHolder">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                  {{"PolicyHolder" | translate}}
+                </th>
+                <td mat-cell *matCellDef="let row">{{ row.policyHolder }}</td>
+              </ng-container>
+
+              <ng-container matColumnDef="insuranceTypeName">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                  {{"InsuranceType" | translate}}
+                </th>
+                <td mat-cell *matCellDef="let row">{{ row.insuranceTypeName }}</td>
+              </ng-container>
+
+              <ng-container matColumnDef="insuranceProviderName">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                  {{"InsuranceProvider" | translate}}
+                </th>
+                <td mat-cell *matCellDef="let row">{{ row.insuranceProviderName }}</td>
+              </ng-container>
+
+              <ng-container matColumnDef="insuranceClassName">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                  {{"InsuranceClass" | translate}}
+                </th>
+                <td mat-cell *matCellDef="let row">{{ row.insuranceClassName }}</td>
+              </ng-container>
+
+              <!-- <ng-container matColumnDef="policyExpiryDate">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                  Policy Expiry Date
+                </th>
+                <td mat-cell *matCellDef="let row">{{ row.policyExpiryDate | date: 'dd/MM/yyyy' }}</td>
+              </ng-container> -->
+
+              <ng-container matColumnDef="Actions" stickyEnd>
+                <th mat-header-cell *matHeaderCellDef>Actions </th>
+                <td mat-cell *matCellDef="let row" class="text-center">
+                  <a class="tableicons" data-toggle="modal" data-target="#scrollable-modal" (click)="edit(row.id)" matTooltip="{{'Edit' | translate}}"><i class="icon-note"> </i></a> &nbsp;
+                  <a class="tableicons" (click)="delete(row.id)" matTooltip="{{'Delete' | translate}}"><i class="icon-trash"> </i></a>
+                </td>
+              </ng-container>
+              <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
+              <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+            </table>
+            <ng-container>
+              <mat-paginator [length]="totalItemsCount"
+                             [pageSize]="pageService.pageCount"
+                             [pageSizeOptions]="pageService.selectItemsPerPage">
+              </mat-paginator>
+            </ng-container>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

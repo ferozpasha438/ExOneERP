@@ -1,0 +1,152 @@
+<h3 class="modal-title">{{modalTitle | translate}}</h3>
+<button type="button" class="close" aria-hidden="true" (click)="closeModel()"> ×</button>
+<form [formGroup]="form" (ngSubmit)="submit()" novalidate class="mt-4">
+  <div class="page-breadcrumb">
+    <div class="row">
+      <div class="col-12 align-self-center">
+    
+        <div class="d-flex align-items-center">
+          <nav aria-label="breadcrumb">
+            <ol class="breadcrumb m-0 p-0">
+              <li class="breadcrumb-item text-muted"> {{'Operational_Management' | translate}} </li>
+              <li class="breadcrumb-item text-muted"> {{'Operations' | translate}} </li>
+              <li class="breadcrumb-item   active" aria-current="page">{{'Operations_Authorities' | translate}}</li>
+
+            </ol>
+          </nav>
+        </div>
+      </div>
+
+    </div>
+  </div>
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-md-12 col-lg-12">
+        <div class="card">
+         
+            <div class="row">
+          
+            </div>
+
+            <div class="cardtitle-divider"></div>
+            
+
+
+           
+
+                <table class="table  table-bordered no-wrap">
+                  <tr>
+
+                    <td>
+                      <select class="custom-select mr-sm-2" formControlName="branchCode" (change)="getAuthority()">
+                        <option value="">{{'Select' | translate}} {{'Branch' | translate}} </option>
+                        <option *ngFor="let brnch of branchCodeList" value="{{brnch.value}}">{{brnch.value}}-{{brnch.text}}-{{brnch.textTwo}}</option>
+                      </select>
+                      <validation-message [control]="form.controls.branchCode"></validation-message>
+                    </td>
+                    <td>
+                      <select class="custom-select mr-sm-2" formControlName="appAuth" (change)="getAuthority()">
+                        <option value="">{{'Select_User' | translate}}</option>
+                        <option *ngFor="let user of userList" value="{{user.value}}">{{user.value}}-{{user.text}}</option>
+                      </select>
+                      <validation-message [control]="form.controls.appAuth"></validation-message>
+
+                    </td>
+                    <!--<td>
+                      <select class="custom-select mr-sm-2" formControlName="appLevel">
+                        <option value="">{{'Select_Level' | translate}}</option>
+                        <option value="1">Level 1</option>
+                        <option value="2">Level 2</option>
+                        <option value="3">Level 3</option>
+                      </select>
+                    </td>-->
+                   
+
+                  </tr>
+                </table>
+                <table>
+                  <tr>
+
+                    <td><input type="checkbox" formControlName="canApproveEnquiry" /></td>
+                    <td>{{'Approve_Enquiry' | translate}}</td>
+                  
+
+                    <td><input type="checkbox" formControlName="canApproveSurvey" /></td>
+                    <td>{{'Approve_Survey'| translate}}</td>
+                  </tr>
+                  <tr>
+
+                    <td><input type="checkbox" formControlName="canApproveEstimation" /></td>
+                    <td>{{'Approve_Estimation'| translate}}</td>
+
+                    <td><input type="checkbox" formControlName="canApproveProposal" /></td>
+                    <td>{{'Approve_Proposal'| translate}}</td>
+                  </tr>
+                  <!--<td><input type="checkbox" formControlName="canModifyEmpAttendance" /></td>-->
+                  <tr>
+
+                    <td><input type="checkbox" formControlName="canApproveContract" /></td>
+                    <td>{{'Approve_Contract'| translate}}</td>
+
+                    <td><input type="checkbox" formControlName="canModifyEstimation" /></td>
+                    <td>{{'Modify_Estimation'| translate}}</td>
+                  </tr>
+                  <tr>
+
+                    <td><input type="checkbox" formControlName="canConvertEnqToProject" /></td>
+                    <td>{{'Convert_Enquiry_To_Project'| translate}}</td>
+
+                    <td><input type="checkbox" formControlName="canConvertEstimationToProposal" /></td>
+                    <td>{{'Convert_Estimation_To_Proposal'| translate}}</td>
+                  </tr>
+                  <tr>
+
+                    <td><input type="checkbox" formControlName="canConvertProposalToContract" /></td>
+                    <td>{{'Convert_Proposal_To_Contract'| translate}}</td>
+
+                    <td><input type="checkbox" formControlName="canCreateRoaster" /></td>
+                    <td>{{'Creat_Roaster'| translate}}</td>
+                  </tr>
+                  <tr>
+
+                    <td><input type="checkbox" formControlName="canEditRoaster" /></td>
+                    <td>{{'Edit_Roaster'| translate}}</td>
+
+                    <td><input type="checkbox" formControlName="isFinalAuthority" /></td>
+                    <td>{{'Is_FinalAuthority'| translate}}</td>
+                  </tr>
+                  <tr>
+
+                    <td><input type="checkbox" formControlName="canEditEnquiry" /></td>
+                    <td>{{'Create_Edit_Enquiry'| translate}}</td>
+                    <td><input type="checkbox" formControlName="canAddSurveyorToEnquiry" /></td>
+                    <td>{{'Add_Surveyor_To_Enquiry'| translate}}</td>
+
+                    
+                  </tr>
+  <tr>
+
+                    <td><input type="checkbox" formControlName="canApprovePvReq" /></td>
+                    <td>{{'Approve_Project_Variation'| translate}}</td>
+                    
+                    
+                  </tr>
+                </table>
+            
+
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="row mt-3 ">
+    <div class="col-md-12 col-lg-12 text-center">
+      <input type="button"
+             class="btn waves-effect waves-light btn-rounded   btn-secondary btn-midblock"
+             value="{{'Cancel' | translate}}" (click)="closeModel()" /> &nbsp;
+      <input type="submit"
+             class="btn waves-effect waves-light btn-rounded btn-primary btn-midblock"
+             value="{{'Save' | translate}}" />
+    </div>
+  </div>
+</form>
+

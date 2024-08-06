@@ -1,0 +1,96 @@
+<div class="page-breadcrumb">
+  <div class="row">
+    <div class="col-12 align-self-center">
+      <h3 class="page-title text-truncate text-dark font-weight-medium mb-1">
+        {{'EmployeeManagement' | translate}}
+      </h3>
+      <div class="d-flex align-items-center">
+        <nav aria-label="breadcrumb">
+          <ol class="breadcrumb m-0 p-0">
+            <li class="breadcrumb-item text-muted">{{'HRManagement' | translate}} </li>
+            <li class="breadcrumb-item   active" aria-current="page">{{'EmployeeManagement' | translate}} </li>
+          </ol>
+        </nav>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="modal-body">
+  <div class="row">
+    <div class="col-md-12 col-lg-12">
+      <div class="card">
+        <div class="card-body">
+          <div class="row">
+            <div class="col-md-12 col-lg-12">
+              <h4 class="card-title pt6"> {{'EmployeeList' | translate}}</h4>
+            </div>
+            <div class="col-md-3">
+              <input class="form-control" placeholder="{{'Search' | translate}}..." [(ngModel)]="searchValue" />
+            </div>
+            <div class="col-md-4 arabicright">
+              <button (click)="applyFilter(searchValue)" class="btn btn-primary">{{'Search' | translate}}</button>
+              &nbsp;
+              <a (click)="refresh()" class=""><i class="btn btn-primary icon-refresh"></i></a>
+            </div>
+            <div class="col-md-5 col-lg-5 text-right">
+              <a data-toggle="modal" data-target="#scrollable-modal"
+                class="  btn waves-effect waves-light btn-rounded btn-outline-primary" (click)="create()" href="#"> <i
+                  class="icon-plus"> </i>{{'AddEmployee' | translate}}</a>
+            </div>
+          </div>
+          <div class="cardtitle-divider"></div>
+          <div class="table-responsive">
+            <table mat-table [dataSource]="data" matSort matSortActive="Id" matSortDisableClear matSortDirection="desc"
+              class="table  table-bordered no-wrap">
+              <ng-container matColumnDef="employeeNumber">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                  {{'EmployeeNumber' | translate}}
+                </th>
+                <td mat-cell *matCellDef="let row">{{ row.employeeNumber }}</td>
+              </ng-container>
+              <ng-container matColumnDef="primaryNumber">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                  {{'IDNumber' | translate}}
+                </th>
+                <td mat-cell *matCellDef="let row">{{ row.primaryNumber }}</td>
+              </ng-container>
+              <ng-container matColumnDef="employeeName">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                  {{'EmployeeName' | translate}}
+                </th>
+                <td mat-cell *matCellDef="let row">{{ row.employeeName }}</td>
+              </ng-container>
+              <ng-container matColumnDef="countryName">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                  {{'Nationality' | translate}}
+                </th>
+                <td mat-cell *matCellDef="let row">{{ row.countryName }}</td>
+              </ng-container>
+              <ng-container matColumnDef="isActiveStatus">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                  {{'Is_Active' | translate}}
+                </th>
+                <td mat-cell *matCellDef="let row">{{ row.isActiveStatus }}</td>
+              </ng-container>
+              <ng-container matColumnDef="Actions" stickyEnd>
+                <th mat-header-cell *matHeaderCellDef>Actions </th>
+                <td mat-cell *matCellDef="let row" class="text-center">
+                  <a class="tableicons" (click)="edit(row.employeeNumber)" matTooltip="{{'Edit_Employee' | translate}}">
+                    <i class="icon-note"> </i>
+                  </a> &nbsp;
+                </td>
+              </ng-container>
+              <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
+              <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+            </table>
+            <ng-container>
+              <mat-paginator [length]="totalItemsCount" [pageSize]="pageService.pageCount"
+                [pageSizeOptions]="pageService.selectItemsPerPage">
+              </mat-paginator>
+            </ng-container>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

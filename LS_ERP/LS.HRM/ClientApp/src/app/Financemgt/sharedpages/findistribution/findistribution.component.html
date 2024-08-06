@@ -1,0 +1,363 @@
+<!--<div class="modal-header">
+  <h3 class="modal-title">List</h3>
+  <button type="button" class="close" aria-hidden="true" (click)="closeModel()"> ×</button>
+</div>-->
+<!--<select class="custom-select mr-sm-2" formControlName="">
+  <option value="">{{'Select_Organization' | translate}}</option>
+  <option *ngFor="let item of list1" value="{{item.value}}">{{item.value}} {{item.text}}</option>
+</select>-->
+
+
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-md-12 col-lg-12">
+      <form [formGroup]="form" (ngSubmit)="submit()" novalidate class="mt-4">
+        <div class="card">
+          <div class="card-body">
+
+            <div class="row">
+              <div class="col-md-12 col-lg-12">
+                <h4 class="card-title pt6">{{'Account_Set' | translate}} <button type="button" class="close" aria-hidden="true" (click)="closeModel()"> ×</button></h4>
+              </div>
+
+            </div>
+
+            <div class="cardtitle-divider"></div>
+           
+              <div class="row">
+
+              <div class="col-md-6 col-lg-6">
+                <div class="form-group">
+                  <div class="form-group">
+                    <label for="exampleFormControlSelect1">{{'Branch_Code' | translate}}</label>
+
+                    <input class="form-control" type="text"
+                           placeholder="{{'PleaseEnter' | translate}} {{'Account_Group_Code' | translate}}" formControlName="finBranchCode" readonly="readonly">
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-6 col-lg-6">
+                <div class="form-group">
+                  <label>{{'Name' | translate}}</label>
+                  <input class="form-control" type="text"
+                         placeholder="{{'PleaseEnter' | translate}} {{'Name' | translate}}" formControlName="finBranchName">
+                </div>
+              </div>
+
+                <div class="col-md-6 col-lg-6">
+                  <div class="form-group">
+                    <label>{{'Inventory_Account' | translate}}</label>
+                    <select class="custom-select mr-sm-2" formControlName="inventoryAccount">
+                      <option value="">{{'Choose' | translate}} {{'Inventory_Account' | translate}}</option>
+                      <option *ngFor="let item of list1" value="{{item.value}}">{{item.value}} {{item.text}}</option>
+
+                    </select>
+                  </div>
+                </div>
+                <div class="col-md-6 col-lg-6">
+                  <div class="form-group">
+                    <label>{{'Inventory_Cash_Purchase' | translate}}</label>
+                    <select class="custom-select mr-sm-2" formControlName="cashPurchase">
+                      <option value="">{{'Choose' | translate}} {{'Cash_Purchase' | translate}}</option>
+                      <option *ngFor="let item of list2" value="{{item.value}}">{{item.value}} {{item.text}}</option>
+
+                    </select>
+                  </div>
+                </div>
+                <div class="col-md-6 col-lg-6">
+                  <div class="form-group">
+                    <label>{{'Cost_of_Sales_Account' | translate}}</label>
+                    <select class="custom-select mr-sm-2" formControlName="costofSalesAccount">
+                      <option value="">{{'Choose' | translate}} {{'Cost_of_Sales_Account' | translate}}</option>
+                      <option *ngFor="let item of list3" value="{{item.value}}">{{item.value}} {{item.text}}</option>
+
+                    </select>
+                  </div>
+                </div>
+                <div class="col-md-6 col-lg-6">
+                  <div class="form-group">
+                    <label>{{'Inventory_Adjustment' | translate}}</label>
+                    <select class="custom-select mr-sm-2" formControlName="inventoryAdjustment">
+                      <option value="">{{'Choose' | translate}} {{'Inventory_Adjustment' | translate}}</option>
+                      <option *ngFor="let item of list4" value="{{item.value}}">{{item.value}} {{item.text}}</option>
+
+                    </select>
+                  </div>
+                </div>
+                <div class="col-md-6 col-lg-6">
+                  <div class="form-group">
+                    <label>{{'Default_Sales_Account' | translate}}</label>
+                    <select class="custom-select mr-sm-2" formControlName="defaultSalesAccount">
+                      <option value="">{{'Choose' | translate}} {{'Default_Sales_Account' | translate}}</option>
+                      <option *ngFor="let item of list5" value="{{item.value}}">{{item.value}} {{item.text}}</option>
+
+                    </select>
+                  </div>
+                </div>
+                <div class="col-md-6 col-lg-6">
+                  <div class="form-group">
+                    <label>{{'Default_Sales_Return' | translate}}</label>
+                    <select class="custom-select mr-sm-2" formControlName="defaultSalesReturn">
+                      <option value="">{{'Choose' | translate}} {{'Default_Sales_Return' | translate}}</option>
+                      <option *ngFor="let item of list6" value="{{item.value}}">{{item.value}} {{item.text}}</option>
+
+
+                    </select>
+                  </div>
+                </div>
+                <div class="col-md-6 col-lg-6">
+                  <div class="form-group">
+                    <label>{{'Inventory_Transfer' | translate}}</label>
+                    <select class="custom-select mr-sm-2" formControlName="inventoryTransfer">
+                      <option value="">{{'Choose' | translate}} {{'Inventory_Transfer' | translate}}</option>
+                      <option *ngFor="let item of list7" value="{{item.value}}">{{item.value}} {{item.text}}</option>
+
+
+                    </select>
+                  </div>
+                </div>
+                <div class="col-md-6 col-lg-6">
+                  <div class="form-group">
+                    <label>{{'Default_Payable' | translate}}</label>
+                    <select class="custom-select mr-sm-2" formControlName="defaultPayable">
+                      <option value="">{{'Choose' | translate}} {{'Default_Payable' | translate}}</option>
+                      <option *ngFor="let item of list8" value="{{item.value}}">{{item.value}} {{item.text}}</option>
+
+
+                    </select>
+                  </div>
+                </div>
+                <div class="col-md-6 col-lg-6">
+                  <div class="form-group">
+                    <label>{{'Cost_Correction' | translate}}</label>
+                    <select class="custom-select mr-sm-2" formControlName="costCorrection">
+                      <option value="">{{'Choose' | translate}} {{'Cost_Correction' | translate}}</option>
+                      <option *ngFor="let item of list9" value="{{item.value}}">{{item.value}} {{item.text}}</option>
+
+
+                    </select>
+                  </div>
+                </div>
+                <div class="col-md-6 col-lg-6">
+                  <div class="form-group">
+                    <label>{{'WIP_Usage_Consumption' | translate}}</label>
+                    <select class="custom-select mr-sm-2" formControlName="wipUsageConsumption">
+                      <option value="">{{'Choose' | translate}} {{'WIP_Usage_Consumption' | translate}}</option>
+                      <option *ngFor="let item of list10" value="{{item.value}}">{{item.value}} {{item.text}}</option>
+
+
+                    </select>
+                  </div>
+                </div>
+                <div class="col-md-6 col-lg-6">
+                  <div class="form-group">
+                    <label>{{'Reserved' | translate}}</label>
+                    <select class="custom-select mr-sm-2" formControlName="reserved">
+                      <option value="">{{'Choose' | translate}} {{'Reserved' | translate}}</option>
+                      <option *ngFor="let item of list11" value="{{item.value}}">{{item.value}} {{item.text}}</option>
+
+
+                    </select>
+                  </div>
+                </div>
+              </div>
+              <div class="row mt-3 ">
+                <div class="col-md-12 col-lg-12 text-center">
+
+                  <input type="submit"
+                         class="btn waves-effect waves-light btn-rounded btn-primary btn-midblock"
+                         value="{{'Save' | translate}}" />
+                </div>
+              </div>
+
+            </div>
+
+
+
+          </div>
+
+      </form>
+    </div>
+  </div>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+<!--<div class="container-fluid">
+  <div class="row">
+    <div class="col-md-12 col-lg-12">
+      <div class="card">
+        <div class="card-body">
+
+          <div class="row">
+            <div class="col-md-7 col-lg-9">
+              <h4 class="card-title pt6">{{'Account_Set' | translate}} <button type="button" class="close" aria-hidden="true" (click)="closeModel()"> ×</button></h4>
+            </div>
+
+          </div>
+
+          <div class="cardtitle-divider"></div>
+          <div class="row">
+            <div class="col-md-6 col-lg-6">
+              <div class="form-group">
+                <label>{{'Account_Group_Code' | translate}} </label>
+                <input class="form-control" type="text"
+                       placeholder="{{'PleaseEnter' | translate}} {{'Account_Group_Code' | translate}}" formControlName="">
+              </div>
+            </div>
+            <div class="col-md-6 col-lg-6">
+              <div class="form-group">
+                <label>{{'Name' | translate}}</label>
+                <input class="form-control" type="text"
+                       placeholder="{{'PleaseEnter' | translate}} {{'Name' | translate}}" formControlName="">
+              </div>
+            </div>
+          </div>
+          <div class="table-responsive">
+
+          </div>
+          <div class="row">
+            <div class="col-md-6 col-lg-6">
+              <div class="form-group">
+                <label>{{'Inventory_Account' | translate}}</label>
+                <select class="custom-select mr-sm-2" formControlName="">
+                  <option value="">{{'Choose' | translate}} {{'Inventory_Account' | translate}}</option>
+                  <option *ngFor="let item of list1" value="{{item.value}}">{{item.value}} {{item.text}}</option>
+
+                </select>
+              </div>
+            </div>
+            <div class="col-md-6 col-lg-6">
+              <div class="form-group">
+                <label>{{'Inventory_Cash_Purchase' | translate}}</label>
+                <select class="custom-select mr-sm-2"  formControlName="" formControlName="">
+                  <option value="">{{'Choose' | translate}} {{'Cash_Purchase' | translate}}</option>
+                  <option *ngFor="let item of list2" value="{{item.value}}">{{item.value}} {{item.text}}</option>
+
+                </select>
+              </div>
+            </div>
+            <div class="col-md-6 col-lg-6">
+              <div class="form-group">
+                <label>{{'Cost_of_Sales_Account' | translate}}</label>
+                <select class="custom-select mr-sm-2" formControlName="">
+                  <option value="">{{'Choose' | translate}} {{'Cost_of_Sales_Account' | translate}}</option>
+                  <option *ngFor="let item of list3" value="{{item.value}}">{{item.value}} {{item.text}}</option>
+
+                </select>
+              </div>
+            </div>
+            <div class="col-md-6 col-lg-6">
+              <div class="form-group">
+                <label>{{'Inventory_Adjustment' | translate}}</label>
+                <select class="custom-select mr-sm-2" formControlName="">
+                  <option value="">{{'Choose' | translate}} {{'Inventory_Adjustment' | translate}}</option>
+                  <option *ngFor="let item of list4" value="{{item.value}}">{{item.value}} {{item.text}}</option>
+
+                </select>
+              </div>
+            </div>
+            <div class="col-md-6 col-lg-6">
+              <div class="form-group">
+                <label>{{'Default_Sales_Account' | translate}}</label>
+                <select class="custom-select mr-sm-2" formControlName="">
+                  <option value="">{{'Choose' | translate}} {{'Default_Sales_Account' | translate}}</option>
+                  <option *ngFor="let item of list5" value="{{item.value}}">{{item.value}} {{item.text}}</option>
+
+                </select>
+              </div>
+            </div>
+            <div class="col-md-6 col-lg-6">
+              <div class="form-group">
+                <label>{{'Default_Sales_Return' | translate}}</label>
+                <select class="custom-select mr-sm-2" formControlName="">
+                  <option value="">{{'Choose' | translate}} {{'Default_Sales_Return' | translate}}</option>
+                  <option *ngFor="let item of list6" value="{{item.value}}">{{item.value}} {{item.text}}</option>
+
+
+                </select>
+              </div>
+            </div>
+            <div class="col-md-6 col-lg-6">
+              <div class="form-group">
+                <label>{{'Inventory_Transfer' | translate}}</label>
+                <select class="custom-select mr-sm-2" formControlName="">
+                  <option value="">{{'Choose' | translate}} {{'Inventory_Transfer' | translate}}</option>
+                  <option *ngFor="let item of list7" value="{{item.value}}">{{item.value}} {{item.text}}</option>
+
+
+                </select>
+              </div>
+            </div>
+            <div class="col-md-6 col-lg-6">
+              <div class="form-group">
+                <label>{{'Default_Payable' | translate}}</label>
+                <select class="custom-select mr-sm-2" formControlName="">
+                  <option value="">{{'Choose' | translate}} {{'Default_Payable' | translate}}</option>
+                  <option *ngFor="let item of list8" value="{{item.value}}">{{item.value}} {{item.text}}</option>
+
+
+                </select>
+              </div>
+            </div>
+            <div class="col-md-6 col-lg-6">
+              <div class="form-group">
+                <label>{{'Cost_Correction' | translate}}</label>
+                <select class="custom-select mr-sm-2" formControlName="">
+                  <option value="">{{'Choose' | translate}} {{'Cost_Correction' | translate}}</option>
+                  <option *ngFor="let item of list9" value="{{item.value}}">{{item.value}} {{item.text}}</option>
+
+
+                </select>
+              </div>
+            </div>
+            <div class="col-md-6 col-lg-6">
+              <div class="form-group">
+                <label>{{'WIP_Usage_Consumption' | translate}}</label>
+                <select class="custom-select mr-sm-2"  formControlName="" formControlName="">
+                  <option value="">{{'Choose' | translate}} {{'WIP_Usage_Consumption' | translate}}</option>
+                  <option *ngFor="let item of list10" value="{{item.value}}">{{item.value}} {{item.text}}</option>
+
+
+                </select>
+              </div>
+            </div>
+            <div class="col-md-6 col-lg-6">
+              <div class="form-group">
+                <label>{{'Reserved' | translate}}</label>
+                <select class="custom-select mr-sm-2"  formControlName="" formControlName="">
+                  <option value="">{{'Choose' | translate}} {{'Reserved' | translate}}</option>
+                  <option *ngFor="let item of list11" value="{{item.value}}">{{item.value}} {{item.text}}</option>
+
+
+                </select>
+              </div>
+            </div>
+          </div>
+          <div class="row mt-3 ">
+            <div class="col-md-12 col-lg-12 text-center">
+
+              <input type="submit"
+                     class="btn waves-effect waves-light btn-rounded btn-primary btn-midblock"
+                     value="{{'Save' | translate}}" />
+            </div>
+          </div>
+
+        </div>
+
+
+
+      </div>
+    </div>
+
+  </div>
+
+</div>-->

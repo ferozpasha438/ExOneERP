@@ -1,0 +1,23 @@
+
+<link href="/assets/style_new.css" rel="stylesheet" />
+
+<div>
+  <button (click)="printInvoice()">Print</button> &nbsp;
+  <button (click)="saveAsPDF()">Save As PDF</button> &nbsp;
+  <button type="button" class="" aria-hidden="true" (click)="closeModel()"> Close</button><br />
+  <button type="button" class="close" aria-hidden="true" (click)="closeModel()"> ×</button>
+</div>
+<br />
+
+<spinner-loader [isLoading]="isLoading"></spinner-loader>
+
+<!--<ng-container *ngIf="!isArabic; else ArabTemplate">
+  <app-purchaseinvoiceview [res]="result" [isSavePDF]="isSavePDF"></app-purchaseinvoiceview>
+</ng-container>
+<ng-template #ArabTemplate>
+  <app-purchaseinvoiceviewar [res]="result" [isSavePDF]="isSavePDF"></app-purchaseinvoiceviewar>
+</ng-template>-->
+
+
+
+<app-purchaseinvoiceview [res]="result" [isSavePDF]="isSavePDF"></app-purchaseinvoiceview>

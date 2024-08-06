@@ -1,0 +1,419 @@
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-12 align-self-center">
+      <h3 class="page-title text-truncate text-dark font-weight-medium mb-1">
+        {{'Sales_Statement' | translate}}
+      </h3>
+      <div class="d-flex align-items-center">
+        <nav aria-label="breadcrumb">
+          <ol class="breadcrumb m-0 p-0">
+            <li class="breadcrumb-item text-muted"> {{'Administration' | translate}} </li>
+            <li class="breadcrumb-item text-muted ">{{'Sales_Management' | translate}}</li>
+            <li class="breadcrumb-item   active" aria-current="page">{{'Sales_Statement' | translate}}</li>
+
+          </ol>
+        </nav>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- ============================================================== -->
+  <!-- End Bread crumb and right sidebar toggle -->
+  <!-- ============================================================== -->
+  <!-- ============================================================== -->
+  <!-- Container fluid  -->
+  <!-- ============================================================== -->
+
+  <div class="row">
+    <div class="col-md-12 col-lg-12">
+      <div class="card">
+        <div class="card-body">
+          <div class="row">
+            <div class="col-md-7 col-lg-9">
+              <h4 class="card-title pt6">{{'Sales_Statement' | translate}} </h4>
+            </div>
+          </div>
+          <div class="cardtitle-divider"></div>
+          <div class="row">
+
+
+
+
+
+
+
+
+            <div class="col-md-4 col-lg-4">
+              <div class="form-group">
+                <label>{{'Choose' | translate}}</label>
+                <select class="custom-select mr-sm-2" [(ngModel)]="type">
+                  <!--<option value="">{{'Choose' | translate}} {{'Price_Decimal' | translate}}</option>-->
+                  <option value="All">All</option>
+                  <option value="Approved">{{'Approved' | translate}}</option>
+                  <option value="NotApproved">{{'NotApproved' | translate}}</option>
+
+                  <option value="Settled">{{'Settled' | translate}}</option>
+                  <option value="NotSettled">{{'NotSettled' | translate}}</option>
+                  <option value="Posted">{{'Posted' | translate}}</option>
+                </select>
+              </div>
+            </div>
+
+
+            <div class="col-md-4 col-lg-4">
+              <div class="form-group">
+                <label>{{'Customer_Code' | translate}}</label>
+
+                <auto-loader [isLoading]="isCodeLoading"></auto-loader>
+                <input type="text" class="form-control"
+                       placeholder="{{'Please_Enter' | translate}} {{'Customer_Code' | translate}}"
+                       [formControl]="codeControl"
+                       matInput
+                       [matAutocomplete]="auto1" >
+                <mat-autocomplete #auto1="matAutocomplete" (optionSelected)="clearReport()">
+                  <mat-option *ngFor="let option of filteredOptions | async"
+                              [value]="option.value">
+                    ({{option.value}}) {{option.textTwo}}
+                  </mat-option>
+                </mat-autocomplete>
+
+              </div>
+            </div>
+
+            <div class="col-md-4 col-lg-4">
+              <div class="form-group">
+                <label>{{'Warehouse_Code' | translate}}</label>
+                <ng-select [items]="whSelectionList"
+                           bindLabel="lable"
+                           bindValue="value" [(ngModel)]="whCode" (change)="clearReport()" (clear)="clearWhCode()">  </ng-select>
+
+              </div>
+            </div>
+
+
+            <div class="col-md-4 col-lg-4">
+              <div class="form-group">
+                <label>{{'From_Date' | translate}}</label>
+                <div class="form-group ">
+                  <div class="input-group mb-2">
+                    <input class="form-control datapickerinput" placeholder="{{'Select_a_Date' | translate}}" [(ngModel)]="dateFrom"
+                           [matDatepicker]="picker1" (dateChange)="clearReport()">
+
+                    <div class="input-group-prepend datapickericon">
+                      <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
+                      <mat-datepicker #picker1></mat-datepicker><br /><br />
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-4 col-lg-4">
+              <div class="form-group">
+                <label>{{'To_Date' | translate}}</label>
+                <div class="form-group ">
+                  <div class="input-group mb-2">
+                    <input class="form-control datapickerinput" placeholder="{{'Select_a_Date' | translate}}" [(ngModel)]="dateTo"
+                           [matDatepicker]="picker2" (dateChange)="clearReport()">
+
+                    <div class="input-group-prepend datapickericon">
+                      <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
+                      <mat-datepicker #picker2></mat-datepicker><br /><br />
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+
+            <div class="col-md-2 col-lg-2">
+              <div class="form-group pt" style="padding-top:35px;padding-left:20px">
+                <mat-slide-toggle color="primary" [(ngModel)]="isSummary" (change)="clearReport()"> </mat-slide-toggle>
+                {{'IsSummary' | translate}}
+              </div>
+            </div>
+            <div class="col-md-2 col-lg-2">
+              <div class="form-group pt" style="padding-top:35px;padding-left:20px">
+                <mat-slide-toggle color="primary" [(ngModel)]="showMargin"> </mat-slide-toggle>
+                {{'Show_Margin' | translate}}
+              </div>
+            </div>
+            <div class="col-md-1 col-lg-1" style="padding-top:35px;">
+              <button type="button" class="btn waves-effect waves-light btn-rounded btn-primary btn-midblock" data-toggle="modal" (click)="search()">
+                {{'Search' | translate}}
+              </button>
+            </div>
+            <div *ngIf="isLoading" class="col-md-1 col-lg-1 text-center" style="padding-top:35px; ">
+              <spinner-loader [isLoading]="isLoading"></spinner-loader>
+             <!-- <progress id="progress-bar" max="{{(totalItemsCount/pageSize)}}" value={{pageNumber}} style="width:100%"></progress>-->
+
+            </div>
+          </div>
+          
+
+
+        </div>
+
+
+
+      </div>
+    </div>
+
+  </div>
+
+  <div class="modal-content" *ngIf="summaryList.length > 0 || detailList.length > 0">
+    <div class="modal-body">
+      <button type="button" class="btn waves-effect waves-light btn-rounded btn-primary btn-midblock" data-toggle="modal" (click)="openPrint()">
+        {{'Print' | translate}}
+      </button>
+      <br />
+      <div class="outer" id="printcontainer">
+        <div class="text-center font-weight-medium">
+          {{companyName}}  <img src="{{logoURL}}" style="width:200px;height:150px;float:right;" *ngIf="companyName" />
+          <br />
+          {{branchName}}
+          <br />
+          {{companyAddress}}
+        </div>
+
+        <br />
+        <div class="text-center font-weight-medium" *ngIf="dateFrom && dateTo">
+          <p>
+            The Statement of " Invoice Summary" for {{dateFrom | date:'dd/MM/yyyy'}} to {{dateTo | date:'dd/MM/yyyy'}}
+          </p>
+          <span class="backspace" *ngIf="whCode">
+            Warehouse :{{whCode}}
+          </span>
+          <span class="backspace" *ngIf="codeControl.value">
+              ,Customer Code :{{codeControl.value}}
+            </span>
+        </div>
+       
+
+        <div class="table-responsive">
+          
+          <ng-container *ngIf="isSummary && summaryList.length > 0; else detailedList">
+
+            <table style="width:100%;" border="1" cellpadding="5" cellspacing="0" class="ur_tablestyle">
+              <tbody>
+                <tr>
+                  <th>{{'Invoice_Date' | translate}}:</th>
+                  <th>{{'Invoice_Number' | translate}}</th>
+                  <th>{{'Customer_Code' | translate}}</th>
+                  <th>{{'Customer_Name' | translate}}</th>
+                  <th>{{'WHCode' | translate}}</th>
+                  <th>{{'Warehouse_Name' | translate}}</th>
+                  <th>{{'Amount' | translate}} </th>
+                  <th>{{'Discount_Amount' | translate}} </th>
+                  <th>{{'Net_Amount' | translate}} </th>
+                  <th>{{'Tax_Amount' | translate}} </th>
+                  <th>{{'Sales_Amount' | translate}} </th>
+                  <ng-container *ngIf="showMargin">
+                    <th>{{'Cost' | translate}} </th>
+                    <th>{{'Gross_Margin' | translate}} </th>
+                    <th>{{'GM%' | translate}} </th>
+                    </ng-container>
+                </tr>
+                <tr *ngFor="let item of summaryList">
+                  <td style="white-space: nowrap">{{item.invoiceDate | date:'dd-MM-yyyy'}}</td>
+                  <td>{{item.invoiceNumber}}</td>
+                  <td>{{item.customerCode}}</td>
+                  <td width="20%">{{item.customerName}}</td>
+                  <td>{{item.warehouseCode}}</td>
+                  <td>{{item.warehouseName}}</td>
+                  <td class="text-sm-arabic-left">{{item.subTotal | decimalpipe}}</td>
+                  <td class="text-right">{{(item.discountAmount+item.footerDiscount) | decimalpipe}}</td>
+                  <td class="text-right">{{item.amountBeforeTax | decimalpipe}}</td>
+                  <td class="text-right">{{item.taxAmount | decimalpipe}}</td>
+                  <td class="text-right">{{item.totalAmount | decimalpipe}}</td>
+                  <ng-container *ngIf="showMargin">
+                    <td class="text-right">{{item.totalCost | decimalpipe}}</td>
+                    <td class="text-right">{{item.grossMargin | decimalpipe}}</td>
+                    <td class="text-right">{{item.grossMarginPer | number:'1.0-1'}}%</td>
+                    </ng-container>
+                </tr>
+
+                <tr>
+                </tr>
+
+              </tbody>
+                          <tbody>
+                            <tr>
+                              <td colspan="6" class="text-right" style="padding:10px;">{{'Total'|translate}}</td>
+                              <td class="text-right" style="padding:10px;width:9%;">{{totAmount | decimalpipe}}</td>
+                              <td class="text-right" style="padding:10px;width:9%;">{{totDiscount | decimalpipe}}</td>
+                              <td class="text-right" style="padding:10px;width:9%;">{{totNetAmountBT | decimalpipe}}</td>
+                              <td class="text-right" style="padding:10px;width:9%;">{{totTaxAmount | decimalpipe}}</td>
+                              <td class="text-right" style="padding:10px;width:9%;">{{totSalesAmount | decimalpipe}}</td>
+                              <ng-container *ngIf="showMargin">
+                                <td class="text-right" style="padding:10px;width:9%;">{{totCost | decimalpipe}}</td>
+                                <td class="text-right" style="padding:10px;width:9%;">{{totGrossMargin | decimalpipe}}</td>
+                                <td class="text-right" style="padding:10px;width:9%;">{{totGrossMarginPer | number:'1.0-1'}}%</td>
+                                </ng-container>
+                            </tr>
+              </tbody>
+
+            </table>
+          </ng-container>
+          <ng-template #detailedList style="border:none">
+            <ng-container *ngFor="let item of detailList" style="border:none">
+              <table class="none-border" cellpadding="5">
+                <tr>
+                  <th>{{'Invoice_Date' | translate}}:</th>
+                  <td style="white-space: nowrap">{{item?.invoiceSummary?.invoiceDate | date:'dd-MM-yyyy'}}</td>
+
+                  <th>{{'Invoice_Number' | translate}}:</th>
+                  <td>{{item?.invoiceSummary?.invoiceNumber}}</td>
+                </tr>
+                <tr>
+
+                  <th>{{'Customer_Code' | translate}}:</th>
+                  <td>{{item?.invoiceSummary?.customerCode}}</td>
+
+                  <th>{{'Customer_Name' | translate}}:</th>
+                  <td>{{item?.invoiceSummary?.customerName}}</td>
+
+                </tr>
+                <tr>
+
+                  <th>{{'WHCode' | translate}}:</th>
+                  <td>{{item?.invoiceSummary?.warehouseCode}}</td>
+
+                  <th>{{'Warehouse_Name' | translate}}:</th>
+                  <td>{{item?.invoiceSummary?.warehouseName}}</td>
+
+                </tr>
+             
+              </table>
+              <table style="width:100%;" border="1" cellpadding="0" cellspacing="0" class="ur_tablestyle">
+                <tbody>
+                   
+
+                  <tr>
+                    <th colspan="2" class="w10per" style="padding:10px;">{{'ItemCode' | translate}}</th>
+                    <th colspan="2" class="w10per" style="padding:10px;">{{'ItemName' | translate}}</th>
+                    <th class="w10per">{{'Quantity' | translate}} </th>
+                    <th class="w10per">{{'UnitType' | translate}} </th>
+                    <th class="w10per">{{'Amount' | translate}} </th>
+                    <th class="w10per">{{'Discount_Amount' | translate}} </th>
+                    <th class="w10per">{{'Net_Amount' | translate}} </th>
+                    <th class="w10per">{{'Tax_Amount' | translate}} </th>
+                    <th class="w10per">{{'Sales_Amount' | translate}} </th>
+                    <ng-container *ngIf="showMargin">
+                      <th class="w10per">{{'Cost' | translate}} </th>
+                      <th class="w10per">{{'Gross_Margin' | translate}} </th>
+                      <th class="w10per">{{'GM%' | translate}} </th>
+                      </ng-container>
+                  </tr>
+                  <tr *ngFor="let i of item.invoiceLineItems">
+                    <td colspan="2">
+                      {{i.itemCode}}
+                    </td>
+                    <td colspan="2">
+                      {{i.itemName}}
+                    </td>
+                    <td class="text-center">
+                      {{i.quantity}}
+                    </td>
+                    <td class="text-center">
+                      {{i.unitType}}
+                    </td>
+                    <td class="text-right">
+                      {{i.subTotal | decimalpipe}}
+                    </td>
+                    <td class="text-right">
+                      {{i.discountAmount | decimalpipe}}
+                    </td>
+                    <td class="text-right">
+                      {{i.amountBeforeTax | decimalpipe}}
+                    </td>
+                    <td class="text-right">
+                      {{i.taxAmount | decimalpipe}}
+                    </td>
+                    <td class="text-right">
+                      {{i.totalAmount | decimalpipe}}
+                    </td>
+                    <ng-container *ngIf="showMargin">
+                      <td class="text-right">
+                        {{i.netCost | decimalpipe}}
+                      </td>
+                      <td class="text-right">
+                        {{i.grossMargin | decimalpipe}}
+                      </td>
+                      <td class="text-center">
+                        {{i.grossMarginPer | number:'1.0-1'}}%
+                      </td>
+                      </ng-container>
+                  </tr>
+                  <tr>
+                    <th colspan="6">{{'Total'|translate}}</th>
+                    <th class="text-right">{{item?.invoiceSummary?.subTotal | decimalpipe}}</th>
+                    <th class="text-right">{{(item?.invoiceSummary?.discountAmount+item?.invoiceSummary.footerDiscount) | decimalpipe}}</th>
+                    <th class="text-right">{{item?.invoiceSummary?.amountBeforeTax | decimalpipe}}</th>
+                    <th class="text-right">{{item?.invoiceSummary?.taxAmount | decimalpipe}}</th>
+                    <th class="text-right">{{item?.invoiceSummary?.totalAmount | decimalpipe}}</th>
+                    <ng-container *ngIf="showMargin">
+                      <th class="text-right">{{item?.invoiceSummary?.totalCost | decimalpipe}}</th>
+                      <th class="text-right">{{item?.invoiceSummary?.grossMargin | decimalpipe}}</th>
+                      <th class="text-right">{{item?.invoiceSummary?.grossMarginPer | number:'1.0-1'}}%</th>
+                      </ng-container>
+                  </tr>
+                </tbody>
+              </table>
+              
+
+
+
+              <br />
+
+              
+
+
+            </ng-container>
+            <table style="width:100%;" border="1" cellpadding="0" cellspacing="0"  class="ur_tablestyle">
+              <tbody>
+                <tr>
+                  <th colspan="6" rowspan="2" class="arabicright">{{'Total' | translate}}</th>
+                  <th class="w10per">{{'Amount' | translate}} </th>
+                  <th class="w10per">{{'Discount_Amount' | translate}} </th>
+                  <th class="w10per">{{'Net_Amount' | translate}} </th>
+                  <th class="w10per">{{'Tax_Amount' | translate}} </th>
+                  <th class="w10per">{{'Sales_Amount' | translate}} </th>
+                  <ng-container *ngIf="showMargin">
+                    <th class="w10per">{{'Cost' | translate}} </th>
+                    <th class="w10per">{{'Gross_Margin' | translate}} </th>
+                    <th class="w10per">{{'GM%' | translate}} </th>
+                  </ng-container>
+                </tr>
+                <tr>
+                  <td class="text-right" style="padding:10px;width:9%;">{{totAmount | decimalpipe}}</td>
+                  <td class="text-right" style="padding:10px;width:9%;">{{totDiscount | decimalpipe}}</td>
+                  <td class="text-right" style="padding:10px;width:9%;">{{totNetAmountBT | decimalpipe}}</td>
+                  <td class="text-right" style="padding:10px;width:9%;">{{totTaxAmount | decimalpipe}}</td>
+                  <td class="text-right" style="padding:10px;width:9%;">{{totSalesAmount | decimalpipe}}</td>
+                  <ng-container *ngIf="showMargin">
+                    <td class="text-right" style="padding:10px;width:9%;">{{totCost | decimalpipe}}</td>
+                    <td class="text-right" style="padding:10px;width:9%;">{{totGrossMargin | decimalpipe}}</td>
+                    <td class="text-right" style="padding:10px;width:9%;">{{totGrossMarginPer | number:'1.0-1'}}%</td>
+                    </ng-container>
+                </tr>
+              </tbody>
+            </table>
+           
+
+          </ng-template>
+          
+        </div>
+
+
+      </div>
+
+
+    </div>
+
+
+  </div>
+
+  <!--<h3 *ngIf="vendorList && vendorList.length === 0">{{'No_Records' | translate}}</h3>-->
+
+</div>

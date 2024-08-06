@@ -1,0 +1,200 @@
+
+<div class="modal-body" *ngIf="project.projectCode!='-NA-'">
+  <!--<h3 class="modal-title">{{modalTitle| translate}}</h3>-->
+  <button type="button" class="close" aria-hidden="true" (click)="closeModel()"> ×</button>
+</div>
+<div class="page-breadcrumb">
+  <div class="row">
+    <div class="col-12 align-self-center">
+      <h3 class="page-title text-truncate text-dark font-weight-medium mb-1">
+        {{'Customer_Visit_Forms' | translate}}
+      </h3>
+      <div class="d-flex align-items-center">
+        <nav aria-label="breadcrumb">
+          <ol class="breadcrumb m-0 p-0">
+            <li class="breadcrumb-item text-muted"> {{'Operational_Management' | translate}} </li>
+            <li class="breadcrumb-item text-muted"> {{'Operations' | translate}} </li>
+            <li class="breadcrumb-item   active" aria-current="page">{{'Customer_Visit_Forms' | translate}}</li>
+
+          </ol>
+        </nav>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-md-12 col-lg-12">
+      <div class="card">
+        <div class="card-body">
+          <div class="row">
+
+
+
+            <div class="col-md-2">
+              <label class="mr-sm-2">{{'RequestType' | translate}}</label>
+           
+              <ng-select [items]="reasonCodeSelectionList"
+                         bindLabel="text"
+                         bindValue="value" [(ngModel)]="listType" [ngModelOptions]="{standalone: true}">
+
+              </ng-select>
+            </div>
+            <div class="col-md-2">
+              <label class="mr-sm-2">{{'Approval_Status' | translate}}</label>
+              <select class="custom-select mr-sm-2" (change)="loadApprovals()" [(ngModel)]="approvedStatus" [ngModelOptions]="{standalone: true}">
+                <option value="">{{'Select' | translate}}</option>
+                <option value="open">Open</option>
+                <option value="closed">Closed</option>
+                <option value="inProgress">Inprogress</option>
+              </select>
+
+            </div>
+
+            <div class="col-md-3">
+              <label class="mr-sm-2"></label>
+              <input class="form-control" placeholder="{{'Search' | translate}}..." [(ngModel)]="searchValue" />
+            </div>
+
+
+            <div class="col-md-2">
+              <button (click)="applyFilter(searchValue,listType)" class="btn btn-primary">{{'Search' | translate}}</button> &nbsp;
+              <a (click)="refresh()"><i class="btn btn-primary icon-refresh"></i></a> &nbsp;
+            </div>
+            <div class="col-md-1">
+              <spinner-loader [isLoading]="isLoading"></spinner-loader>
+            </div>
+            <div class="col-md-2 text-right">
+              <a data-toggle="modal" data-target="#addsurveyors" class="btn waves-effect waves-light btn-rounded btn-outline-primary" (click)="createUpdate(0,'new')" href="#"> <i class="icon-plus"> </i>{{'New_Request' | translate}} </a>
+            </div>
+          </div>
+
+
+        </div>
+
+        <div class="cardtitle-divider"></div>
+        <div class="table-responsive">
+
+          <div class="mat-elevation-z8">
+            <ng-container>
+              
+              <table mat-table [dataSource]="data" matSortDisableClear matSort (matSortChange)="onSortOrder($event)" class="table  table-bordered no-wrap">
+                <ng-container matColumnDef="id">
+                   <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                    {{'Ref.No' | translate}}
+                  </th>
+                  <td mat-cell *matCellDef="let row">{{ row.id}}</td>
+                </ng-container>
+                <ng-container matColumnDef="scheduleDateTime">
+                   <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                    {{'Schedule_Date' | translate}}
+                  </th>
+                  <td mat-cell *matCellDef="let row">{{ row.scheduleDateTime |date:'dd/MM/YYYY' }}</td>
+                </ng-container>
+                  <ng-container matColumnDef="customerCode">
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                    {{'Customer_Code' | translate}}
+                  </th>
+                  <td mat-cell *matCellDef="let row">{{ row.customerCode }}</td>
+                </ng-container>
+
+                <ng-container matColumnDef="siteCode">
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                    {{'Site_Code' | translate}}
+                  </th>
+                  <td mat-cell *matCellDef="let row">{{ row.siteCode }}</td>
+                </ng-container>
+
+                <ng-container matColumnDef="projectCode">
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                    {{'Project_Code' | translate}}
+                  </th>
+                  <td mat-cell *matCellDef="let row">{{ row.projectCode }}</td>
+                </ng-container>
+                <ng-container matColumnDef="reasonCode">
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                    {{'Reason_Code' | translate}}
+                  </th>
+                  <td mat-cell *matCellDef="let row">{{ row.reasonCode }}</td>
+                </ng-container>
+
+                   
+
+                   <ng-container  matColumnDef="reasonCodeNameEng">
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                    {{'Reason_Code' | translate}}
+                  </th>
+                  <td mat-cell *matCellDef="let row">{{ row.reasonCodeNameEng }}</td>
+                </ng-container>
+
+                   <ng-container  matColumnDef="reasonCodeNameAr">
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                    {{'Reason_Code' | translate}}
+                  </th>
+                  <td mat-cell  *matCellDef="let row">{{ row.reasonCodeNameAr }}</td>
+                </ng-container>
+                 <ng-container matColumnDef="nameSupervisorId">
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                    {{'Supervisor' | translate}}
+                  </th>
+                  <td mat-cell *matCellDef="let row">{{ row.nameSupervisorId }}</td>
+                </ng-container>
+                 <ng-container matColumnDef="status">
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                    {{'Status' | translate}}
+                  </th>
+                  <td mat-cell *matCellDef="let row">{{ row.status }}</td>
+                </ng-container>
+
+
+                <ng-container matColumnDef="Actions" stickyEnd>
+                  <th mat-header-cell *matHeaderCellDef>{{'Actions' | translate}}</th>
+
+                  <td mat-cell *matCellDef="let row" class="clickaction clickicons">
+                 
+                      <span *ngIf="row?.isOpen && row.canEdit" (click)="createUpdate(row.id,'edit')" [matTooltip]="translateToolTip('Edit')"><i class=" fas fa-edit"></i>&nbsp;</span>
+                      <span *ngIf="row?.isOpen && row.isCRM" (click)="confirmVisit(row)" [matTooltip]="translateToolTip('Confirm')"><i class="fas fa-check"></i>&nbsp;</span>
+                      <span *ngIf="row?.isInprogress && row.isCRM" (click)="createUpdate(row.id,'visit')" [matTooltip]="translateToolTip('Fillup_Form')"><i class=" fas fa-pencil-alt"></i>&nbsp;</span>
+                      <span (click)="createUpdate(row.id,'view')" [matTooltip]="translateToolTip('View')"><i class=" fas fa-eye"></i>&nbsp;</span>
+                     
+                   
+
+                    
+                  
+
+                  </td>
+
+
+
+
+             
+                </ng-container>
+
+                <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
+                <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+
+              </table>
+
+            </ng-container>
+
+          </div>
+
+        </div>
+
+      </div>
+
+
+
+    </div>
+  </div>
+
+
+  <ng-container>
+    <mat-paginator [length]="totalItemsCount"
+                   [pageSize]="pageService.pageCount"
+                   [pageSizeOptions]="pageService.selectItemsPerPage"
+                   (page)="onPageSwitch($event)">
+    </mat-paginator>
+
+  </ng-container>
+</div>

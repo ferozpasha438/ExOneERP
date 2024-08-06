@@ -1,0 +1,94 @@
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-md-12 col-lg-12">
+            <div class="card">
+                <div class="card-body">
+                    <div class="row pb-3">
+                        <div class="col-md-12 col-lg-12">
+                            <h4 class="card-title pt6">{{'ManageHoliday' | translate}} </h4>
+                        </div>
+                        <div class="col-md-3">
+                            <input class="form-control" placeholder="{{'Search' | translate}}..."
+                                [(ngModel)]="searchValue" />
+                        </div>
+                        <div class="col-md-4 arabicright">
+                            <button (click)="applyFilter(searchValue)" class="btn btn-primary">{{'Search' |
+                                translate}}</button> &nbsp;
+                            <a (click)="refresh()" class=""><i class="btn btn-primary icon-refresh"></i></a>
+                        </div>
+                        <div class="col-md-5 col-lg-5 text-right">
+                            <a data-toggle="modal" data-target="#createnewbranch"
+                                class="btn waves-effect waves-light btn-rounded btn-outline-primary" (click)="create()"
+                                href="#"> <i class="icon-plus"> </i>{{'AddHoliday' | translate}} </a>
+                        </div>
+                    </div>
+                    <div class="cardtitle-divider"></div>
+                    <div class="table-responsive">
+                        <spinner-loader [isLoading]="isLoading"></spinner-loader>
+                        <div class="mat-elevation-z8">
+                            <ng-container>
+                                <table mat-table [dataSource]="data" matSortDisableClear matSort
+                                    class="table  table-bordered no-wrap">
+                                    <ng-container matColumnDef="sno">
+                                        <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                                            {{'SNo' | translate}}
+                                        </th>
+                                        <td mat-cell *matCellDef="let row; let i = index;">{{ i+1 }}</td>
+                                    </ng-container>
+                                    <ng-container matColumnDef="holidayCode">
+                                        <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                                            {{'HolidayCode' | translate}}
+                                        </th>
+                                        <td mat-cell *matCellDef="let row">{{ row.holidayCode }}</td>
+                                    </ng-container>
+                                    <ng-container matColumnDef="holidayNameEn">
+                                        <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                                            {{'HolidayNameEn' | translate}}
+                                        </th>
+                                        <td mat-cell *matCellDef="let row">{{ row.holidayNameEn }}</td>
+                                    </ng-container>
+                                    <ng-container matColumnDef="holidayNameAr">
+                                        <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                                            {{'HolidayNameAr' | translate}}
+                                        </th>
+                                        <td mat-cell *matCellDef="let row">{{ row.holidayNameAr }}</td>
+                                    </ng-container>
+                                    <ng-container matColumnDef="date">
+                                        <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                                            {{'Date' | translate}}
+                                        </th>
+                                        <td mat-cell *matCellDef="let row">{{ row.date | date :'dd/MM/yyyy' }}</td>
+                                    </ng-container>
+                                    <ng-container matColumnDef="isActive">
+                                        <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                                            {{'Is_Active' | translate}}
+                                        </th>
+                                        <td mat-cell *matCellDef="let row">{{ row.isActive }}</td>
+                                    </ng-container>
+                                    <ng-container matColumnDef="Actions" stickyEnd>
+                                        <th mat-header-cell *matHeaderCellDef>{{'Actions' | translate}}</th>
+                                        <td mat-cell *matCellDef="let row">
+                                            <a class="tableicons" (click)="edit(row.id)"
+                                                matTooltip="{{'Edit_Item' | translate}}"><i class="icon-note"> </i></a>
+                                            &nbsp;
+                                            <a class="tableicons" (click)="delete(row.id)"
+                                                matTooltip="{{'Delete_Item' | translate}}"><i class="icon-trash">
+                                                </i></a>
+                                        </td>
+                                    </ng-container>
+                                    <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
+                                    <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+                                </table>
+                                <ng-container>
+                                    <mat-paginator [length]="totalItemsCount" [pageSize]="pageService.pageCount"
+                                        [pageSizeOptions]="pageService.selectItemsPerPage">
+                                    </mat-paginator>
+                                </ng-container>
+                            </ng-container>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

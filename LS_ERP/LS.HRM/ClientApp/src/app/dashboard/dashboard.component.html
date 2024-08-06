@@ -1,0 +1,12 @@
+<div id="main-wrapper" data-theme="light" data-layout="vertical" data-navbarbg="skin6" data-sidebartype="full"
+     data-sidebar-position="fixed" data-header-position="fixed" data-boxed-layout="full" dir="{{isArab ? 'rtl' : 'ltr'}}">
+  <app-nav-menu></app-nav-menu>
+  <app-left-menu></app-left-menu>
+
+  <div class="page-wrapper">
+    <div class="container-fluid">
+      <router-outlet dir="{{isArab ? 'rtl' : 'ltr'}}"></router-outlet>
+    </div>
+  </div>
+</div>
+

@@ -1,0 +1,87 @@
+﻿using CIN.Application;
+using CIN.Application.Common;
+using CIN.Application.SchoolMgtDtos;
+using CIN.Application.SchoolMgtQuery;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Options;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+
+
+namespace LS.API.SM.Controllers.StudentMgmt
+{
+    public class StudentFeeDetailsController:BaseController
+    {
+        private IConfiguration _Config;
+
+        public StudentFeeDetailsController(IOptions<AppSettingsJson> appSettings, IConfiguration config) : base(appSettings)
+        {
+            _Config = config;
+        }
+
+
+        [HttpGet]
+        public async Task<IActionResult> Get()
+        {
+            var obj = await Mediator.Send(new GetStudentFeeDetailsList() { User = UserInfo() });
+            return obj is not null ? Ok(obj) : NotFound(new ApiMessageDto { Message = ApiMessageInfo.NotFound });
+        }
+
+
+        [HttpGet("id")]
+        public async Task<IActionResult> Get([FromRoute] int id)
+        {
+            var obj = await Mediator.Send(new GetStudentFeeDetailsById() { Id = id, User = UserInfo() });
+            return obj is not null ? Ok(obj) : NotFound(new ApiMessageDto { Message = ApiMessageInfo.NotFound });
+        }
+
+        [HttpPost]
+        public async Task<ActionResult> Create([FromBody] TblDefStudentFeeDetailsDto dTO)
+        {
+            var id = await Mediator.Send(new CreateUpdateStudentFeeDetails() { Input = dTO, User = UserInfo() });
+            if (id > 0)
+                return Created($"get/{id}", dTO);
+            else if (id == -1)
+            {
+                return BadRequest(new ApiMessageDto { Message = ApiMessageInfo.Duplicate(nameof(dTO.Id)) });
+            }
+            return BadRequest(new ApiMessageDto { Message = ApiMessageInfo.Failed });
+        }
+
+
+        [HttpDelete("id")]
+        public async Task<ActionResult> Delete([FromRoute] int id)
+        {
+            var studentFeeHeaderId = await Mediator.Send(new DeleteStudentFeeDetails() { Id = id, User = UserInfo() });
+            if (studentFeeHeaderId > 0)
+                return NoContent();
+            return BadRequest(new ApiMessageDto { Message = ApiMessageInfo.Failed });
+        }
+
+        [HttpPost("UpdateStudentFeeDetails")]
+        public async Task<ActionResult> UpdateStudentFeeDetails([FromBody] TblDefStudentFeeDetailsDto dTO)
+        {
+            var id = await Mediator.Send(new UpdateStudentFeeDetails() { Input = dTO, User = UserInfo() });
+            if (id > 0)
+                return Created($"get/{id}", dTO);
+            else if (id == -1)
+            {
+                return BadRequest(new ApiMessageDto { Message = ApiMessageInfo.Duplicate(nameof(dTO.Id)) });
+            }
+            return BadRequest(new ApiMessageDto { Message = ApiMessageInfo.Failed });
+        }
+        [HttpGet("DeleteFeeDetailsandUpdateFeeHeader")]
+        public async Task<ActionResult> DeleteFeeDetailsandUpdateFeeHeader([FromQuery] int id)
+        {
+            var studentFeeHeaderId = await Mediator.Send(new DeleteFeeDetailsandUpdateFeeHeader() { Id = id, User = UserInfo() });
+            if (studentFeeHeaderId > 0)
+                return Ok(studentFeeHeaderId);
+            return BadRequest(new ApiMessageDto { Message = ApiMessageInfo.Failed });
+        }
+
+    }
+}

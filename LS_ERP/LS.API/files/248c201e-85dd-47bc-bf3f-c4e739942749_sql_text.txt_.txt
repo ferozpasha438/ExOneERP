@@ -1,0 +1,3092 @@
+CREATE TABLE [Audit] (
+          [DateTime] varchar(24) NOT NULL,
+          [Action] varchar(36) NOT NULL,
+          [TableName] varchar(21) NOT NULL,
+          [Field] varchar(90) NOT NULL,
+          [Value] varchar(90) NOT NULL,
+          [Old_Value] varchar(90) NOT NULL
+      );
+Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (1ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      CREATE TABLE [Auditing] (
+          [DateTime] varchar(24) NOT NULL,
+          [Action] varchar(21) NOT NULL,
+          [TableName] varchar(90) NOT NULL,
+          [Field] varchar(90) NOT NULL,
+          [Value] varchar(90) NOT NULL,
+          [Old_Value] varchar(90) NOT NULL
+      );
+Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (2ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      CREATE TABLE [Delete] (
+          [EmployeeAddressID] bigint NOT NULL IDENTITY,
+          [AddressTypeID] bigint NULL,
+          [AddressLine1] nvarchar(500) NULL,
+          [AddressLine2] nvarchar(500) NULL,
+          [AddressLine3] nvarchar(500) NULL,
+          [City] varchar(30) NULL,
+          [CountryID] bigint NULL,
+          [POBox] nvarchar(30) NULL,
+          [EmployeeID] bigint NULL,
+          [IsActive] bit NULL,
+          [IsSystem] int NULL,
+          [CreatedBy] bigint NULL,
+          [CreatedDate] datetime NULL,
+          [ModifiedBy] bigint NULL,
+          [ModifiedDate] datetime NULL,
+          CONSTRAINT [PK_HRM_TRAN_EmployeeAddress] PRIMARY KEY ([EmployeeAddressID])
+      );
+Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (1ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      CREATE TABLE [DeleteEmployeeTable] (
+          [EmployeeID] bigint NOT NULL IDENTITY,
+          [EmployeeName] nvarchar(20) NULL,
+          [AssetTypeID] bigint NULL,
+          [CreatedBy] bigint NULL,
+          [ModifiedBy] bigint NULL,
+          CONSTRAINT [PK_DeleteEmployeeTable] PRIMARY KEY ([EmployeeID])
+      );
+Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (2ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      CREATE TABLE [HRM_AUDIT_ServiceRequestStage] (
+          [ServiceRequestStageID] bigint NOT NULL IDENTITY,
+          [EmployeeServiceRequestID] bigint NULL,
+          [EntryDate] datetime NULL,
+          [EntryBy] bigint NULL,
+          [Remarks] nvarchar(500) NULL,
+          [InProcess] bit NULL,
+          [ActionID] int NULL,
+          [ServiceRequestProcessStageID] int NULL,
+          [AssignedEmployeeID] bigint NULL,
+          [IsCancel] bit NULL,
+          [IsRejected] bit NULL,
+          [IsApproved] bit NULL,
+          CONSTRAINT [PK__HRM_AUDI__3852430146136164] PRIMARY KEY ([ServiceRequestStageID])
+      );
+Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (2ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      CREATE TABLE [HRM_DEF_ApprovalAuthorityMatrix] (
+          [ApprovalAuthorityMatrixID] bigint NOT NULL IDENTITY,
+          [ApprovalAuthorityID] bigint NOT NULL,
+          [CompanyID] bigint NOT NULL,
+          [BranchID] bigint NULL,
+          [DepartmentID] bigint NULL,
+          [PositionID] bigint NULL,
+          [ManagerEmployeeID] bigint NOT NULL,
+          [IsActive] bit NULL,
+          [IsSystem] int NULL,
+          [CreatedBy] bigint NULL,
+          [CreatedDate] datetime NULL,
+          [ModifiedBy] bigint NULL,
+          [ModifiedDate] datetime NULL,
+          CONSTRAINT [PK__HRM_DEF___09474BC064999E5F] PRIMARY KEY ([ApprovalAuthorityMatrixID])
+      );
+Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (2ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      CREATE TABLE [HRM_DEF_Asset_Audit] (
+          [AssetAuditID] bigint NOT NULL IDENTITY,
+          [AssetID] bigint NULL,
+          [AssetTypeID] bigint NULL,
+          [AssetNumber] nvarchar(20) NULL,
+          [Make] nvarchar(20) NULL,
+          [ModelNumber] nvarchar(20) NULL,
+          [MakeYear_EN] datetime NULL,
+          [MakeYear_AR] nvarchar(30) NULL,
+          [IsActive] bit NULL,
+          [LogDate] datetime NULL,
+          [UserAction] nvarchar(20) NULL,
+          [CreatedBy] bigint NULL,
+          [CreatedDate] datetime NULL,
+          [ModifiedBy] bigint NULL,
+          [ModifiedDate] datetime NULL,
+          [Barcode] nvarchar(500) NULL,
+          [Remarks] nvarchar(500) NULL,
+          [AllowSharing] bit NULL
+      );
+Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (1ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      CREATE TABLE [HRM_DEF_AssetType] (
+          [AssetTypeID] bigint NOT NULL IDENTITY,
+          [AssetName_EN] nvarchar(30) NULL,
+          [AssetName_AR] nvarchar(30) NULL,
+          [AssetTypeDescription] nvarchar(30) NULL,
+          [IsActive] bit NULL,
+          [IsSystem] int NULL,
+          [CreatedBy] bigint NULL,
+          [CreatedDate] datetime NULL,
+          [ModifiedBy] bigint NULL,
+          [ModifiedDate] datetime NULL,
+          CONSTRAINT [PK__HRM_DEF___FD33C22217F790F9] PRIMARY KEY ([AssetTypeID])
+      );
+Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (2ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      CREATE TABLE [HRM_DEF_AssetType_Audit] (
+          [AssetTypeAuditID] bigint NOT NULL IDENTITY,
+          [AssetTypeID] bigint NULL,
+          [AssetName_EN] nvarchar(30) NULL,
+          [AssetName_AR] nvarchar(30) NULL,
+          [AssetTypeDescription] nvarchar(30) NULL,
+          [IsActive] bit NULL,
+          [IsSystem] int NULL,
+          [LogDate] datetime NULL,
+          [UserAction] nvarchar(20) NULL,
+          [CreatedBy] bigint NULL,
+          [CreatedDate] datetime NULL,
+          [ModifiedBy] bigint NULL,
+          [ModifiedDate] datetime NULL
+      );
+Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (2ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      CREATE TABLE [HRM_DEF_BankDetails] (
+          [AccountId] int NOT NULL IDENTITY,
+          [NameEN] varchar(250) NULL,
+          [NameAR] nvarchar(250) NULL,
+          [BankNameEN] varchar(250) NULL,
+          [BankNameAR] nvarchar(250) NULL,
+          [BranchName] nvarchar(250) NULL,
+          [Address] nvarchar(500) NULL,
+          [AccountNumber] nvarchar(50) NULL,
+          [IBAN] nvarchar(150) NULL,
+          [CompanyID] int NULL,
+          [IsDefaultConfig] bit NULL,
+          [CreatedOn] datetime NULL DEFAULT ((getdate())),
+          [CreatedBy] int NULL,
+          [UpdatedOn] datetime NULL,
+          [UpdatedBy] int NULL,
+          CONSTRAINT [PK_HRM_DEF_BankDetails] PRIMARY KEY ([AccountId])
+      );
+Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (1ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      CREATE TABLE [HRM_DEF_Branch] (
+          [BranchID] bigint NOT NULL IDENTITY,
+          [BranchName_EN] nvarchar(100) NULL,
+          [BranchName_AR] nvarchar(100) NULL,
+          [BranchDescription] nvarchar(100) NULL,
+          [IsActive] bit NULL,
+          [IsSystem] int NULL,
+          [CreatedBy] bigint NULL,
+          [CreatedDate] datetime NULL,
+          [ModifiedBy] bigint NULL,
+          [ModifiedDate] datetime NULL,
+          [Remarks] nvarchar(500) NULL,
+          CONSTRAINT [PK_HRM_DEF_Branch] PRIMARY KEY ([BranchID])
+      );
+Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (1ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      CREATE TABLE [HRM_DEF_BusinessUnit] (
+          [BusinessUnitID] bigint NOT NULL IDENTITY,
+          [BusinessUnitName_EN] nvarchar(100) NULL,
+          [BusinessUnitName_AR] nvarchar(100) NULL,
+          [BusinessUnitDescription] nvarchar(100) NULL,
+          [IsActive] bit NULL,
+          [IsSystem] int NULL,
+          [CreatedBy] bigint NULL,
+          [CreatedDate] datetime NULL,
+          [ModifiedBy] bigint NULL,
+          [ModifiedDate] datetime NULL
+      );
+Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (2ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      CREATE TABLE [HRM_DEF_City] (
+          [CityID] bigint NOT NULL IDENTITY,
+          [CityName_EN] nvarchar(100) NULL,
+          [CityName_AR] nvarchar(100) NULL,
+          [CityDescription] nvarchar(100) NULL,
+          [IsActive] bit NULL,
+          [IsSystem] int NULL,
+          [CreatedBy] bigint NULL,
+          [CreatedDate] datetime NULL,
+          [ModifiedBy] bigint NULL,
+          [ModifiedDate] datetime NULL,
+          CONSTRAINT [PK__HRM_DEF___F2D21A968F2DCCD5] PRIMARY KEY ([CityID])
+      );
+Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (2ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      CREATE TABLE [HRM_DEF_Company] (
+          [CompanyID] bigint NOT NULL IDENTITY,
+          [CompanyName_EN] nvarchar(100) NULL,
+          [CompanyName_AR] nvarchar(100) NULL,
+          [CompanyDescription] nvarchar(100) NULL,
+          [IsActive] bit NULL,
+          [CreatedBy] bigint NULL,
+          [CreatedDate] datetime NULL,
+          [ModifiedBy] bigint NULL,
+          [ModifiedDate] datetime NULL,
+          [IsSystem] int NULL,
+          [AddressEN] nvarchar(500) NULL,
+          [City] nvarchar(150) NULL,
+          [StateProvince] nvarchar(150) NULL,
+          [ZipCode] varchar(20) NULL,
+          [AddressAR] nvarchar(500) NULL,
+          [Country] nvarchar(150) NULL,
+          [VATNumber] nvarchar(50) NULL,
+          [Logo] nvarchar(500) NULL,
+          [CRNumber] nvarchar(50) NULL,
+          [CCNumber] nvarchar(50) NULL,
+          [Phone] nvarchar(20) NULL,
+          [Fax] nvarchar(50) NULL,
+          [EmailId] nvarchar(150) NULL,
+          [Website] nvarchar(150) NULL,
+          [IsDefault] bit NULL,
+          [PaymentNote] nvarchar(500) NULL,
+          [InvoiceNote] nvarchar(500) NULL,
+          [IsInvoice] bit NULL,
+          CONSTRAINT [PK__HRM_DEF___2D971C4C9CCB0E03] PRIMARY KEY ([CompanyID])
+      );
+Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (1ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      CREATE TABLE [HRM_DEF_ContractType] (
+          [ContractTypeID] bigint NOT NULL IDENTITY,
+          [ContractTypeName_EN] nvarchar(100) NULL,
+          [ContractTypeName_AR] nvarchar(100) NULL,
+          [IsActive] bit NULL,
+          [IsSystem] int NULL,
+          [CreatedBy] bigint NULL,
+          [CreatedDate] datetime NULL,
+          [ModifiedBy] bigint NULL,
+          [ModifiedDate] datetime NULL,
+          CONSTRAINT [PK__HRM_DEF___68A615459C3A291D] PRIMARY KEY ([ContractTypeID])
+      );
+Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (1ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      CREATE TABLE [HRM_DEF_CostCenter] (
+          [CostCenterID] bigint NOT NULL IDENTITY,
+          [CostCenterName_EN] nvarchar(100) NULL,
+          [CostCenterName_AR] nvarchar(100) NULL,
+          [CostCenterDescription] nvarchar(100) NULL,
+          [IsActive] bit NULL,
+          [IsSystem] int NULL,
+          [CreatedBy] bigint NULL,
+          [CreatedDate] datetime NULL,
+          [ModifiedBy] bigint NULL,
+          [ModifiedDate] datetime NULL
+      );
+Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (2ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      CREATE TABLE [HRM_DEF_Currency] (
+          [CurrencyId] int NOT NULL IDENTITY,
+          [NameEN] varchar(50) NOT NULL,
+          [NameAR] nvarchar(50) NULL,
+          [Symbol] nvarchar(5) NOT NULL,
+          [Description] nvarchar(250) NULL,
+          [IsDefault] bit NULL,
+          [CreatedOn] datetime NULL DEFAULT ((getdate())),
+          [CreatedBy] int NULL,
+          [UpdatedOn] datetime NULL,
+          [UpdatedBy] int NULL,
+          CONSTRAINT [PK_HRM_DEF_Currency] PRIMARY KEY ([CurrencyId])
+      );
+Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (2ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      CREATE TABLE [HRM_DEF_CurrentJob] (
+          [CurrentJobID] bigint NOT NULL IDENTITY,
+          [CurrentJobName_EN] nvarchar(100) NULL,
+          [CurrentJobName_AR] nvarchar(100) NULL,
+          [CurrentJobDescription] nvarchar(500) NULL,
+          [IsActive] bit NULL,
+          [IsSystem] int NULL,
+          [CreatedBy] bigint NULL,
+          [CreatedDate] datetime NULL,
+          [ModifiedBy] bigint NULL,
+          [ModifiedDate] datetime NULL,
+          CONSTRAINT [PK__HRM_DEF___292BCD646CE9A62F] PRIMARY KEY ([CurrentJobID])
+      );
+Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (3ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      CREATE TABLE [HRM_DEF_Customer] (
+          [CustomerId] bigint NOT NULL IDENTITY,
+          [NameEN] varchar(150) NOT NULL,
+          [NameAR] nvarchar(150) NOT NULL,
+          [CompanyId] int NULL,
+          [AddressEN] nvarchar(500) NULL,
+          [AddressAR] nvarchar(500) NULL,
+          [City] nvarchar(150) NULL,
+          [StateProvince] nvarchar(150) NULL,
+          [ZipCode] nvarchar(20) NULL,
+          [Country] nvarchar(150) NULL,
+          [Industry] nvarchar(150) NULL,
+          [VATNumber] nvarchar(50) NULL,
+          [ContactName] nvarchar(50) NULL,
+          [MobileNumber] varchar(50) NULL,
+          [Phone] nvarchar(20) NULL,
+          [Fax] nvarchar(20) NULL,
+          [EmailId] varchar(150) NULL,
+          [Website] varchar(250) NULL,
+          [IsDefaultConfig] bit NULL,
+          [CreatedOn] datetime NULL DEFAULT ((getdate())),
+          [CreatedBy] int NULL,
+          [UpdatedOn] datetime NULL,
+          [UpdatedBy] int NULL,
+          CONSTRAINT [PK_HRM_DEF_Customer] PRIMARY KEY ([CustomerId])
+      );
+Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (1ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      CREATE TABLE [HRM_DEF_Department] (
+          [DepartmentID] bigint NOT NULL IDENTITY,
+          [DepartmentName_EN] nvarchar(100) NULL,
+          [DepartmentName_AR] nvarchar(100) NULL,
+          [DepartmentDescription] nvarchar(100) NULL,
+          [DivisionID] bigint NULL,
+          [CostCenterID] bigint NULL,
+          [IsActive] bit NULL,
+          [IsSystem] int NULL,
+          [CreatedBy] bigint NULL,
+          [CreatedDate] datetime NULL,
+          [ModifiedBy] bigint NULL,
+          [ModifiedDate] datetime NULL,
+          CONSTRAINT [PK_HRM_DEF_Department] PRIMARY KEY ([DepartmentID])
+      );
+Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (2ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      CREATE TABLE [HRM_DEF_Division] (
+          [DivisionID] bigint NOT NULL IDENTITY,
+          [DivisionName_EN] nvarchar(100) NULL,
+          [DivisionName_AR] nvarchar(100) NULL,
+          [DivisionDescription] nvarchar(100) NULL,
+          [IsActive] bit NULL,
+          [IsSystem] int NULL,
+          [CreatedBy] bigint NULL,
+          [CreatedDate] datetime NULL,
+          [ModifiedBy] bigint NULL,
+          [ModifiedDate] datetime NULL,
+          CONSTRAINT [PK_HRM_DEF_Division] PRIMARY KEY ([DivisionID])
+      );
+Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (2ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      CREATE TABLE [HRM_DEF_DocumentType] (
+          [DocumentTypeID] bigint NOT NULL IDENTITY,
+          [DocumentTypeName_EN] nvarchar(100) NULL,
+          [DocumentTypeName_AR] nvarchar(100) NULL,
+          [IsActive] bit NULL,
+          [IsSystem] bit NULL,
+          [CreatedBy] bigint NULL,
+          [CreatedDate] datetime NULL,
+          [ModifiedBy] bigint NULL,
+          [ModifiedDate] datetime NULL,
+          [DocumentDescription] nvarchar(500) NULL,
+          CONSTRAINT [PK_HRM_DEF_DocumentType] PRIMARY KEY ([DocumentTypeID])
+      );
+Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (1ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      CREATE TABLE [HRM_DEF_EmployeeWeekDays] (
+          [EmployeeWeekDaysID] bigint NOT NULL IDENTITY,
+          [EmplyeeWeekDay_EN] nvarchar(25) NULL,
+          [EmplyeeWeekDay_AR] nvarchar(25) NULL,
+          [CreatedBy] bigint NULL,
+          [CreatedDate] datetime NULL,
+          [ModifiedBy] bigint NULL,
+          [ModifiedDate] datetime NULL,
+          CONSTRAINT [PK_HRM_DEFEmployeeWeekDays] PRIMARY KEY ([EmployeeWeekDaysID])
+      );
+Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (3ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      CREATE TABLE [HRM_DEF_FlightClass] (
+          [FlightClassID] bigint NOT NULL IDENTITY,
+          [FlightClassName_AR] nvarchar(100) NULL,
+          [FlightClassName_EN] nvarchar(100) NULL,
+          [IsActive] bit NULL,
+          [CreatedBy] bigint NULL,
+          [CreatedDate] datetime NULL,
+          [ModifiedBy] bigint NULL,
+          [ModifiedDate] datetime NULL,
+          CONSTRAINT [PK_HRM_DEF_FlightClass] PRIMARY KEY ([FlightClassID])
+      );
+Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (2ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      CREATE TABLE [HRM_DEF_FlightType] (
+          [FlightTypeID] bigint NOT NULL IDENTITY,
+          [FlightTypeName_EN] nvarchar(50) NULL,
+          [FlightTypeName_AR] nvarchar(50) NULL,
+          [IsActive] bit NULL,
+          [IsSystem] bit NULL,
+          [CreatedBy] bigint NULL,
+          [CreatedDate] datetime NULL,
+          [ModifiedBy] bigint NULL,
+          [ModifiedDate] datetime NULL,
+          CONSTRAINT [PK__HRM_DEF___68CE86FD3DC6D8BF] PRIMARY KEY ([FlightTypeID])
+      );
+Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (2ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      CREATE TABLE [HRM_DEF_Frequency] (
+          [FrequencyID] bigint NOT NULL IDENTITY,
+          [FrequencyName_EN] nvarchar(100) NULL,
+          [FrequencyName_AR] nvarchar(100) NULL,
+          [FrequencyDescription] nvarchar(100) NULL,
+          [IsActive] bit NULL,
+          [IsSystem] bit NULL,
+          [DurationInDays] int NULL,
+          [DurationInMonth] int NULL,
+          [CreatedBy] bigint NULL,
+          [CreatedDate] datetime NULL,
+          [ModifiedBy] bigint NULL,
+          [ModifiedDate] datetime NULL,
+          CONSTRAINT [PK_HRM_DEF_Frequency] PRIMARY KEY ([FrequencyID])
+      );
+Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (1ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      CREATE TABLE [HRM_DEF_GardeningLeave] (
+          [GardeningLeaveID] bigint NOT NULL IDENTITY,
+          [GardeningLeaveName_EN] nvarchar(100) NULL,
+          [GardeningLeaveName_AR] nvarchar(100) NULL,
+          [IsActive] bit NULL,
+          [IsSystem] int NULL,
+          [CreatedBy] bigint NULL,
+          [CreatedDate] datetime NULL,
+          [ModifiedBy] bigint NULL,
+          [ModifiedDate] datetime NULL
+      );
+Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (1ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      CREATE TABLE [HRM_DEF_Grade] (
+          [GradeID] bigint NOT NULL IDENTITY,
+          [GradeName_EN] nvarchar(100) NULL,
+          [GradeName_AR] nvarchar(100) NULL,
+          [IsActive] bit NULL,
+          [IsSystem] int NULL,
+          [CreatedBy] bigint NULL,
+          [CreatedDate] datetime NULL,
+          [ModifiedBy] bigint NULL,
+          [ModifiedDate] datetime NULL,
+          CONSTRAINT [PK_HRM_DEF_Grade] PRIMARY KEY ([GradeID])
+      );
+Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (1ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      CREATE TABLE [HRM_DEF_Grade1] (
+          [GradeID] bigint NOT NULL IDENTITY,
+          [GradeName_EN] nvarchar(100) NULL,
+          [GradeName_AR] nvarchar(100) NULL,
+          [IsActive] bit NULL,
+          [IsSystem] int NULL,
+          [CreatedBy] bigint NULL,
+          [CreatedDate] datetime NULL,
+          [ModifiedBy] bigint NULL,
+          [ModifiedDate] datetime NULL
+      );
+Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (1ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      CREATE TABLE [HRM_DEF_InsuranceClass] (
+          [InsuranceClassID] bigint NOT NULL IDENTITY,
+          [InsuranceClassName_EN] nvarchar(100) NULL,
+          [InsuranceClassName_AR] nvarchar(100) NULL,
+          [IsActive] bit NULL,
+          [IsSystem] int NULL,
+          [CreatedBy] bigint NULL,
+          [CreatedDate] datetime NULL,
+          [ModifiedBy] bigint NULL,
+          [ModifiedDate] datetime NULL,
+          CONSTRAINT [PK_HRM_DEF_InsuranceClass] PRIMARY KEY ([InsuranceClassID])
+      );
+Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (1ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      CREATE TABLE [HRM_DEF_InsuranceProvider] (
+          [InsuranceProviderID] bigint NOT NULL IDENTITY,
+          [InsuranceProviderName_EN] nvarchar(100) NULL,
+          [InsuranceProviderName_AR] nvarchar(100) NULL,
+          [IsActive] bit NULL,
+          [IsSystem] int NULL,
+          [CreatedBy] bigint NULL,
+          [CreatedDate] datetime NULL,
+          [ModifiedBy] bigint NULL,
+          [ModifiedDate] datetime NULL,
+          CONSTRAINT [PK_HRM_DEF_InsuranceProvider] PRIMARY KEY ([InsuranceProviderID])
+      );
+Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (1ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      CREATE TABLE [HRM_DEF_InsuranceType] (
+          [InsuranceTypeID] bigint NOT NULL IDENTITY,
+          [InsuranceTypeName_EN] nvarchar(100) NULL,
+          [InsuranceTypeName_AR] nvarchar(100) NULL,
+          [IsActive] bit NULL,
+          [IsSystem] int NULL,
+          [CreatedBy] bigint NULL,
+          [CreatedDate] datetime NULL,
+          [ModifiedBy] bigint NULL,
+          [ModifiedDate] datetime NULL,
+          CONSTRAINT [PK_HRM_DEF_InsuranceType] PRIMARY KEY ([InsuranceTypeID])
+      );
+Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (2ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      CREATE TABLE [HRM_DEF_InvoiceStatus] (
+          [InvoiceStatusId] int NOT NULL IDENTITY,
+          [NameEN] varchar(150) NOT NULL,
+          [NameAR] nvarchar(150) NOT NULL,
+          [IsDefaultConfig] bit NULL,
+          [CreatedOn] datetime NULL DEFAULT ((getdate())),
+          [CreatedBy] int NULL,
+          [UpdatedOn] datetime NULL,
+          [UpdatedBy] int NULL,
+          CONSTRAINT [PK_HRM_DEF_InvoiceStatus] PRIMARY KEY ([InvoiceStatusId])
+      );
+Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (1ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      CREATE TABLE [HRM_DEF_LegalEntity] (
+          [LegalEntityID] bigint NOT NULL IDENTITY,
+          [LegalEntityName_EN] nvarchar(100) NULL,
+          [LegalEntityName_AR] nvarchar(100) NULL,
+          [LegalEntityDescription] nvarchar(100) NULL,
+          [IsActive] bit NULL,
+          [IsSystem] int NULL,
+          [CreatedBy] bigint NULL,
+          [CreatedDate] datetime NULL,
+          [ModifiedBy] bigint NULL,
+          [ModifiedDate] datetime NULL,
+          CONSTRAINT [PK__HRM_DEF___5266B1A270E74673] PRIMARY KEY ([LegalEntityID])
+      );
+Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (1ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      CREATE TABLE [HRM_DEF_LegalEntity1] (
+          [LegalEntityID] bigint NOT NULL IDENTITY,
+          [LegalEntityName_EN] nvarchar(100) NULL,
+          [LegalEntityName_AR] nvarchar(100) NULL,
+          [LegalEntityDescription] nvarchar(100) NULL,
+          [IsActive] bit NULL,
+          [IsSystem] int NULL,
+          [CreatedBy] bigint NULL,
+          [CreatedDate] datetime NULL,
+          [ModifiedBy] bigint NULL,
+          [ModifiedDate] datetime NULL
+      );
+Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (2ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      CREATE TABLE [HRM_DEF_LoanType] (
+          [LoanTypeID] bigint NOT NULL IDENTITY,
+          [LoanTypeName_EN] nvarchar(100) NULL,
+          [LoanTypeName_AR] nvarchar(100) NULL,
+          [LoanTypeDescription] nvarchar(100) NULL,
+          [IsActive] bit NULL,
+          [IsSystem] int NULL,
+          [CreatedBy] bigint NULL,
+          [CreatedDate] datetime NULL,
+          [ModifiedBy] bigint NULL,
+          [ModifiedDate] datetime NULL,
+          CONSTRAINT [PK_HRM_DEF_LoanType] PRIMARY KEY ([LoanTypeID])
+      );
+Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (1ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      CREATE TABLE [HRM_DEF_OutofOfficeReason] (
+          [OutofOfficeReasonID] bigint NOT NULL IDENTITY,
+          [OutofOfficeReasonName_EN] nvarchar(100) NULL,
+          [OutofOfficeReasonName_AR] nvarchar(100) NULL,
+          [IsActive] bit NULL,
+          [CreatedBy] bigint NULL,
+          [CreatedDate] datetime NULL,
+          [ModifiedBy] bigint NULL,
+          [ModifiedDate] datetime NULL,
+          CONSTRAINT [PK_HRM_DEF_OutofOfficeReason] PRIMARY KEY ([OutofOfficeReasonID])
+      );
+Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (1ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      CREATE TABLE [HRM_DEF_Package] (
+          [PackageID] bigint NOT NULL IDENTITY,
+          [PackageName_EN] nvarchar(100) NULL,
+          [PackageName_AR] nvarchar(100) NULL,
+          [PackageDescription] nvarchar(500) NULL,
+          [IsActive] bit NULL,
+          [CreatedDate] datetime NULL,
+          [CreatedBy] bigint NULL,
+          [ModifiedDate] datetime NULL,
+          [ModifiedBy] bigint NULL,
+          CONSTRAINT [PK__HRM_DEF___322035EC3C0D968B] PRIMARY KEY ([PackageID])
+      );
+Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (1ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      CREATE TABLE [HRM_DEF_PaymentMethod] (
+          [PaymentMethodId] int NOT NULL IDENTITY,
+          [NameEN] varchar(150) NOT NULL,
+          [NameAR] nvarchar(150) NOT NULL,
+          [AccountNumber] nvarchar(150) NULL,
+          [CompanyId] int NULL,
+          [Provider] nvarchar(150) NULL,
+          [Reference] nvarchar(150) NULL,
+          [Description] nvarchar(500) NULL,
+          [PaymentTypeId] int NULL,
+          [IsDefaultConfig] bit NULL,
+          [CreatedOn] datetime NULL DEFAULT ((getdate())),
+          [CreatedBy] int NULL,
+          [UpdatedOn] datetime NULL,
+          [UpdatedBy] int NULL,
+          CONSTRAINT [PK_HRM_DEF_PaymentMethod] PRIMARY KEY ([PaymentMethodId])
+      );
+Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (2ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      CREATE TABLE [HRM_DEF_PaymentType] (
+          [PaymentTypeId] int NOT NULL IDENTITY,
+          [NameEN] varchar(150) NOT NULL,
+          [NameAR] nvarchar(150) NOT NULL,
+          [IsDefaultConfig] bit NULL,
+          [CreatedOn] datetime NULL DEFAULT ((getdate())),
+          [CreatedBy] int NULL,
+          [UpdatedOn] datetime NULL,
+          [UpdatedBy] int NULL,
+          CONSTRAINT [PK_HRM_DEF_PaymentType] PRIMARY KEY ([PaymentTypeId])
+      );
+Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (2ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      CREATE TABLE [HRM_DEF_PayrollGroup] (
+          [PayrollGroupID] bigint NOT NULL IDENTITY,
+          [PayrollGroupName_EN] nvarchar(200) NULL,
+          [PayrollGroupName_AR] nvarchar(200) NULL,
+          [IsActive] bit NULL,
+          [Remarks] nvarchar(500) NULL,
+          [CreatedBy] bigint NULL,
+          [CreatedDate] datetime NULL,
+          [ModifiedBy] bigint NULL,
+          [ModifiedDate] datetime NULL,
+          [CountryID] bigint NULL,
+          [CompanyID] bigint NULL,
+          [SiteID] bigint NULL,
+          [ProjectID] bigint NULL,
+          [BusinessUnitID] bigint NULL,
+          [DivisionID] bigint NULL,
+          [BranchID] bigint NULL,
+          [DepartmentID] bigint NULL,
+          [IsForAllEmployee] bit NULL,
+          [IsForFutureEmployee] bit NULL,
+          CONSTRAINT [PK_HRM_DEF_PayrollGroup] PRIMARY KEY ([PayrollGroupID])
+      );
+Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (2ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      CREATE TABLE [HRM_DEF_PayrollPeriod] (
+          [PeriodID] bigint NOT NULL IDENTITY,
+          [PeriodMonth] date NULL,
+          [IsOpen] bit NULL,
+          [IsClose] bit NULL,
+          [IsActive] bit NULL,
+          [Remarks] nvarchar(500) NULL,
+          [CreatedBy] bigint NULL,
+          [CreatedDate] datetime NULL,
+          [ModifiedBy] bigint NULL,
+          [ModifiedDate] datetime NULL,
+          CONSTRAINT [PK__HRM_DEF___E521BB36DA8757F1] PRIMARY KEY ([PeriodID])
+      );
+Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (1ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      CREATE TABLE [HRM_DEF_PayType] (
+          [PayTypeID] bigint NOT NULL IDENTITY,
+          [PayTypeName_EN] nvarchar(100) NULL,
+          [PayTypeName_AR] nvarchar(100) NULL,
+          [PayTypeDescription] nvarchar(100) NULL,
+          [PayTypeGroupID] int NULL,
+          [IsActive] bit NULL,
+          [IsSystem] bit NULL,
+          [IsFixed] bit NULL,
+          [IsCompulsory] bit NULL,
+          [CreatedBy] bigint NULL,
+          [CreatedDate] datetime NULL,
+          [ModifiedBy] bigint NULL,
+          [ModifiedDate] datetime NULL,
+          CONSTRAINT [PK_HRM_DEF_PayType] PRIMARY KEY ([PayTypeID])
+      );
+Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (1ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      CREATE TABLE [HRM_DEF_PayTypeGroup] (
+          [PayTypeGroupID] int NOT NULL IDENTITY,
+          [PayTypeGroupName_EN] nvarchar(100) NULL,
+          [PayTypeGroupName_AR] nvarchar(100) NULL,
+          [IsActive] bit NULL,
+          [IsSystem] bit NULL,
+          [CreatedBy] bigint NULL,
+          [CreatedDate] datetime NULL,
+          [ModifiedBy] bigint NULL,
+          [ModifiedDate] datetime NULL,
+          CONSTRAINT [PK_HRM_DEF_PayTypeGroup] PRIMARY KEY ([PayTypeGroupID])
+      );
+Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (1ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      CREATE TABLE [HRM_DEF_PersonType] (
+          [PersonTypeID] bigint NOT NULL IDENTITY,
+          [PersonTypeName_EN] nvarchar(100) NULL,
+          [IsActive] bit NULL,
+          [IsSystem] int NULL,
+          [CreatedBy] bigint NULL,
+          [CreatedDate] datetime NULL,
+          [ModifiedBy] bigint NULL,
+          [ModifiedDate] datetime NULL,
+          [PersonTypeName_AR] nvarchar(100) NULL,
+          CONSTRAINT [PK__HRM_DEF___D95DCAFD46F4877C] PRIMARY KEY ([PersonTypeID])
+      );
+Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (1ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      CREATE TABLE [HRM_DEF_Position] (
+          [PositionID] bigint NOT NULL IDENTITY,
+          [PositionName_EN] nvarchar(100) NULL,
+          [PositionName_AR] nvarchar(100) NULL,
+          [PositionDescription] nvarchar(100) NULL,
+          [IsActive] bit NULL,
+          [IsSystem] int NULL,
+          [CreatedBy] bigint NULL,
+          [CreatedDate] datetime NULL,
+          [ModifiedBy] bigint NULL,
+          [ModifiedDate] datetime NULL,
+          CONSTRAINT [PK_HRM_DEF_Position] PRIMARY KEY ([PositionID])
+      );
+Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (1ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      CREATE TABLE [HRM_DEF_Product] (
+          [ProductId] int NOT NULL IDENTITY,
+          [NameEN] varchar(150) NULL,
+          [NameAR] nvarchar(150) NULL,
+          [CompanyId] int NULL,
+          [ProductCode] nvarchar(150) NULL,
+          [Description] nvarchar(500) NULL,
+          [ProductTypeId] int NULL,
+          [UnitPrice] decimal(18,2) NULL,
+          [CostPrice] decimal(18,2) NULL,
+          [UnitTypeId] int NULL,
+          [Barcode] varchar(150) NULL,
+          [IsDefaultConfig] bit NULL,
+          [CreatedOn] datetime NULL DEFAULT ((getdate())),
+          [CreatedBy] int NULL,
+          [UpdatedOn] datetime NULL,
+          [UpdatedBy] int NULL,
+          CONSTRAINT [PK_HRM_DEF_Product] PRIMARY KEY ([ProductId])
+      );
+Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (2ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      CREATE TABLE [HRM_DEF_ProductType] (
+          [ProductTypeId] int NOT NULL IDENTITY,
+          [NameEN] varchar(150) NOT NULL,
+          [NameAR] nvarchar(150) NOT NULL,
+          [IsDefaultConfig] bit NULL,
+          [CompanyId] int NULL,
+          [CreatedOn] datetime NULL DEFAULT ((getdate())),
+          [CreatedBy] int NULL,
+          [UpdatedOn] datetime NULL,
+          [UpdatedBy] int NULL,
+          CONSTRAINT [PK_HRF_DEF_ProductType] PRIMARY KEY ([ProductTypeId])
+      );
+Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (2ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      CREATE TABLE [HRM_DEF_Project] (
+          [ProjectID] bigint NOT NULL IDENTITY,
+          [ProjectName_EN] nvarchar(100) NULL,
+          [ProjectName_AR] nvarchar(100) NULL,
+          [ProjectSiteID] bigint NULL,
+          [ProjectDescription] nvarchar(100) NULL,
+          [IsActive] bit NULL,
+          [IsSystem] int NULL,
+          [CreatedBy] bigint NULL,
+          [CreatedDate] datetime NULL,
+          [ModifiedBy] bigint NULL,
+          [ModifiedDate] datetime NULL,
+          CONSTRAINT [PK_HRM_DEF_Project] PRIMARY KEY ([ProjectID])
+      );
+Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (3ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      CREATE TABLE [HRM_DEF_ReportCommonFilters] (
+          [CommonFilterID] bigint NOT NULL IDENTITY,
+          [DisplayLabelName_EN] nvarchar(250) NULL,
+          [ParameterControlType] int NULL,
+          [ParameterColumnName] nvarchar(100) NULL,
+          [ParameterColumnDataType] int NULL,
+          [ConditionQuery] nvarchar(max) NULL,
+          [CreatedBy] bigint NULL,
+          [CreatedDate] datetime NULL,
+          [ModifiedBy] bigint NULL,
+          [ModifiedDate] datetime NULL,
+          [IsActive] bit NULL,
+          [IsCompulsory] bit NULL,
+          [RelationFilterID] bigint NULL,
+          [ConditionQueryType] int NULL,
+          [DisplayLabelName_AR] nvarchar(250) NULL,
+          CONSTRAINT [PK_HRM_DEF_ReportCommonFilters] PRIMARY KEY ([CommonFilterID])
+      );
+Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (2ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      CREATE TABLE [HRM_DEF_Reports] (
+          [ReportID] bigint NOT NULL IDENTITY,
+          [ReportName_EN] nvarchar(100) NULL,
+          [ReportName_AR] nvarchar(100) NULL,
+          [Description] nvarchar(500) NULL,
+          [DataModelType] int NULL,
+          [DataModel] nvarchar(max) NULL,
+          [IsActive] bit NULL,
+          [CreatedBy] bigint NULL,
+          [CreatedDate] datetime NULL,
+          [ModifiedBy] bigint NULL,
+          [ModifiedDate] bigint NULL,
+          [AcceptCommonFilters] bit NULL,
+          CONSTRAINT [PK_HRM_DEF_Reports] PRIMARY KEY ([ReportID])
+      );
+Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (5ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      CREATE TABLE [HRM_DEF_Role] (
+          [RoleID] bigint NOT NULL IDENTITY,
+          [RoleName_EN] nvarchar(100) NULL,
+          [RoleName_AR] nvarchar(100) NULL,
+          [RoleDescription] nvarchar(500) NULL,
+          [IsActive] bit NULL,
+          [IsSystem] int NULL,
+          [CreatedBy] bigint NULL,
+          [CreatedDate] datetime NULL,
+          [ModifiedBy] bigint NULL,
+          [ModifiedDate] datetime NULL,
+          [Type] int NULL,
+          CONSTRAINT [PK__HRM_DEF___8AFACE3AD520041C] PRIMARY KEY ([RoleID])
+      );
+      DECLARE @defaultSchema AS sysname;
+      SET @defaultSchema = SCHEMA_NAME();
+      DECLARE @description AS sql_variant;
+      SET @description = N'1.Admin , 2.HR , 4.Employee , 5.';
+      EXEC sp_addextendedproperty 'MS_Description', @description, 'SCHEMA', @defaultSchema, 'TABLE', N'HRM_DEF_Role', 'COLUMN', N'Type';
+Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (1ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      CREATE TABLE [HRM_DEF_ServiceRequestProcessStage] (
+          [ServiceRequestProcessStageID] bigint NOT NULL IDENTITY,
+          [ServiceRequestTypeID] int NOT NULL,
+          [RuleOrder] int NULL,
+          [ApplicableCompany] nvarchar(300) NULL,
+          [ApplicableDepartment] nvarchar(300) NULL,
+          [ApplicableBranch] nvarchar(300) NULL,
+          [ApplicableEmployee] nvarchar(300) NULL,
+          [ApprovalAuthorityID] int NULL,
+          [ApprovalEmployeeID] bigint NULL,
+          [ExpectedDuration] int NULL,
+          [IsActive] bit NULL,
+          [IsSystem] bit NULL,
+          [CreatedBy] nvarchar(100) NULL,
+          [CreatedDate] nvarchar(100) NULL,
+          [ModifiedBy] nvarchar(100) NULL,
+          [ModifiedDate] nvarchar(100) NULL,
+          CONSTRAINT [PK_HRM_DEF_ServiceRequestProcessStep] PRIMARY KEY ([ServiceRequestProcessStageID])
+      );
+Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (1ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      CREATE TABLE [HRM_DEF_ServiceRequestType] (
+          [ServiceRequestTypeID] bigint NOT NULL IDENTITY,
+          [ServiceRequestTypeName_EN] nvarchar(100) NULL,
+          [ServiceRequestTypeName_AR] nvarchar(100) NULL,
+          [Description] nvarchar(500) NULL,
+          [Icon] nvarchar(100) NULL,
+          [IsActive] bit NULL,
+          [IsSystem] bit NULL,
+          [CreatedBy] bigint NULL,
+          [CreatedDate] datetime NULL,
+          [ModifiedBy] bigint NULL,
+          [ModifiedDate] datetime NULL,
+          [ActionName] nvarchar(100) NULL,
+          [ControllerName] nvarchar(100) NULL,
+          [CssClass] nvarchar(50) NULL,
+          CONSTRAINT [PK__HRM_DEF___59EC08217AA20610] PRIMARY KEY ([ServiceRequestTypeID])
+      );
+Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (1ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      CREATE TABLE [HRM_DEF_ServiceRequestType2] (
+          [ServiceRequestTypeID] bigint NOT NULL IDENTITY,
+          [ServiceRequestTypeName_EN] nvarchar(100) NULL,
+          [ServiceRequestTypeName_AR] nvarchar(100) NULL,
+          [Description] nvarchar(500) NULL,
+          [Icon] nvarchar(100) NULL,
+          [IsActive] bit NULL,
+          [IsSystem] bit NULL,
+          [CreatedBy] bigint NULL,
+          [CreatedDate] datetime NULL,
+          [ModifiedBy] bigint NULL,
+          [ModifiedDate] datetime NULL,
+          [ActionName] nvarchar(100) NULL,
+          [ControllerName] nvarchar(100) NULL,
+          CONSTRAINT [PK_HRM_TRAN_ServiceRequestTypes] PRIMARY KEY ([ServiceRequestTypeID])
+      );
+Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (1ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      CREATE TABLE [HRM_DEF_Site] (
+          [SiteID] bigint NOT NULL IDENTITY,
+          [SiteName_EN] nvarchar(100) NULL,
+          [SiteName_AR] nvarchar(100) NULL,
+          [ProjectID] bigint NULL,
+          [SiteDescription] nvarchar(100) NULL,
+          [IsActive] bit NULL,
+          [IsSystem] int NULL,
+          [CreatedBy] bigint NULL,
+          [CreatedDate] datetime NULL,
+          [ModifiedBy] bigint NULL,
+          [ModifiedDate] datetime NULL,
+          CONSTRAINT [PK__HRM_DEF___B9DCB9035C7000CD] PRIMARY KEY ([SiteID])
+      );
+Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (1ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      CREATE TABLE [HRM_DEF_Sponsor] (
+          [SponsorID] bigint NOT NULL IDENTITY,
+          [SponsorName_EN] nvarchar(100) NULL,
+          [SponsorName_AR] nvarchar(100) NULL,
+          [SponsorDescription] nvarchar(100) NULL,
+          [IsActive] bit NULL,
+          [IsSystem] int NULL,
+          [CreatedBy] bigint NULL,
+          [CreatedDate] datetime NULL,
+          [ModifiedBy] bigint NULL,
+          [ModifiedDate] datetime NULL,
+          CONSTRAINT [PK_HRM_DEF_Sponsor] PRIMARY KEY ([SponsorID])
+      );
+Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (1ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      CREATE TABLE [HRM_DEF_Sponsor1] (
+          [SponsorID] bigint NOT NULL,
+          [SponsorName_EN] nvarchar(100) NULL,
+          [SponsorName_AR] nvarchar(100) NULL,
+          [SponsorDescription] nvarchar(100) NULL,
+          [IsActive] bit NULL,
+          [IsSystem] int NULL,
+          [CreatedBy] bigint NULL,
+          [CreatedDate] datetime NULL,
+          [ModifiedBy] bigint NULL,
+          [ModifiedDate] datetime NULL
+      );
+Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (2ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      CREATE TABLE [HRM_DEF_Tax] (
+          [TaxId] int NOT NULL IDENTITY,
+          [CompanyId] int NULL,
+          [NameEN] varchar(50) NOT NULL,
+          [NameAR] nvarchar(50) NOT NULL,
+          [Symbol] nvarchar(10) NOT NULL,
+          [TaxTariffPercentage] decimal(18,2) NULL DEFAULT (((0))),
+          [IsDefault] bit NULL,
+          [CreatedOn] datetime NULL DEFAULT ((getdate())),
+          [CreatedBy] int NULL,
+          [UpdatedOn] datetime NULL,
+          [UpdatedBy] int NULL,
+          CONSTRAINT [PK_HRM_DEF_Tax] PRIMARY KEY ([TaxId])
+      );
+Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (1ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      CREATE TABLE [HRM_DEF_TicketFrequency] (
+          [TicketFrequencyID] bigint NOT NULL IDENTITY,
+          [TicketFrequencyName_EN] nvarchar(100) NULL,
+          [TicketFrequencyName_AR] nvarchar(100) NULL,
+          [NumberOfTickets] int NULL,
+          [IsActive] bit NULL,
+          [IsSystem] int NULL,
+          [CreatedBy] bigint NULL,
+          [CreatedDate] datetime NULL,
+          [ModifiedBy] bigint NULL,
+          [ModifiedDate] datetime NULL,
+          CONSTRAINT [PK__HRM_DEF___BFC7D4E6489AC854] PRIMARY KEY ([TicketFrequencyID])
+      );
+Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (2ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      CREATE TABLE [HRM_DEF_TicketSetup] (
+          [TicketID] bigint NOT NULL IDENTITY,
+          [TicketName_EN] nvarchar(100) NULL,
+          [TicketName_AR] nvarchar(100) NULL,
+          [TicketDescription] nvarchar(200) NULL,
+          [TicketCostRate] bigint NULL,
+          [FromCityID] bigint NULL,
+          [ToCityID] bigint NULL,
+          [IsActive] bit NULL,
+          [IsSystem] int NULL,
+          [CreatedBy] bigint NULL,
+          [CreatedDate] datetime NULL,
+          [ModifiedBy] bigint NULL,
+          [ModifiedDate] datetime NULL,
+          CONSTRAINT [PK__HRM_DEF___712CC6271A1FE3F1] PRIMARY KEY ([TicketID])
+      );
+Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (1ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      CREATE TABLE [HRM_DEF_TicketType] (
+          [TicketTypeID] bigint NOT NULL IDENTITY,
+          [TicketTypeName_EN] nvarchar(100) NULL,
+          [TicketTypeName_AR] nvarchar(100) NULL,
+          [IsActive] bit NULL,
+          [IsSystem] int NULL,
+          [CreatedBy] bigint NULL,
+          [CreatedDate] datetime NULL,
+          [ModifiedBy] bigint NULL,
+          [ModifiedDate] datetime NULL,
+          CONSTRAINT [PK__HRM_DEF___6CD6845179354AAD] PRIMARY KEY ([TicketTypeID])
+      );
+Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (1ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      CREATE TABLE [HRM_DEF_TravelType] (
+          [TravelTypeID] bigint NOT NULL IDENTITY,
+          [TravelTypeName_EN] nvarchar(50) NULL,
+          [TravelTypeName_AR] nvarchar(50) NULL,
+          [IsActive] bit NULL,
+          [IsSystem] bit NULL,
+          [CreatedBy] bigint NULL,
+          [CreatedDate] datetime NULL,
+          [ModifiedBy] bigint NULL,
+          [ModifiedDate] datetime NULL,
+          CONSTRAINT [PK_HRM_DEF_PurposeType] PRIMARY KEY ([TravelTypeID])
+      );
+Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (1ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      CREATE TABLE [HRM_DEF_UnitType] (
+          [UnitId] int NOT NULL IDENTITY,
+          [NameEN] varchar(150) NOT NULL,
+          [NameAR] nvarchar(150) NOT NULL,
+          [CompanyId] int NULL,
+          [IsDefaultConfig] bit NULL,
+          [CreatedOn] datetime NULL DEFAULT ((getdate())),
+          [CreatedBy] int NULL,
+          [UpdatedOn] datetime NULL,
+          [UpdatedBy] int NULL,
+          CONSTRAINT [PK_HRM_DEF_Unit] PRIMARY KEY ([UnitId])
+      );
+Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (2ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      CREATE TABLE [HRM_DEF_VacationType] (
+          [VacationTypeID] bigint NOT NULL IDENTITY,
+          [VacationTypeName_EN] nvarchar(100) NOT NULL,
+          [VacationTypeName_AR] nvarchar(100) NOT NULL,
+          [NoOfDays] int NOT NULL,
+          [NoOfMonths] int NOT NULL,
+          [PerMonthVacationBalanceValue] decimal(18,2) NOT NULL,
+          [VacationTypeDescription] nvarchar(500) NULL,
+          [IsActive] bit NULL,
+          [IsSystem] int NULL,
+          [CreatedBy] bigint NULL,
+          [CreatedDate] datetime NULL,
+          [ModifiedBy] bigint NULL,
+          [ModifiedDate] datetime NULL,
+          CONSTRAINT [PK__HRM_DEF___22E546565224328E] PRIMARY KEY ([VacationTypeID])
+      );
+Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (1ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      CREATE TABLE [HRM_DEF_ValueType] (
+          [ValueTypeID] bigint NOT NULL IDENTITY,
+          [ValueTypeName_EN] nvarchar(100) NULL,
+          [ValueTypeName_AR] nvarchar(100) NULL,
+          [ValueTypeDescription] nvarchar(100) NULL,
+          [IsActive] bit NULL,
+          [CreatedDate] datetime NULL,
+          [CreatedBy] bigint NULL,
+          [ModifiedDate] datetime NULL,
+          [ModifiedBy] bigint NULL,
+          CONSTRAINT [PK_HRM_DEF_ValueType] PRIMARY KEY ([ValueTypeID])
+      );
+Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (1ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      CREATE TABLE [HRM_SYS_AddressType] (
+          [AddressTypeID] bigint NOT NULL IDENTITY,
+          [AddressTypeName_EN] nvarchar(50) NULL,
+          [AddressTypeName_AR] nvarchar(50) NULL,
+          [IsActive] bit NULL,
+          [IsSystem] bit NULL,
+          [CreatedBy] bigint NULL,
+          [CreatedDate] datetime NULL,
+          [ModifiedBy] bigint NULL,
+          [ModifiedDate] datetime NULL,
+          CONSTRAINT [PK__HRM_SYS___8BF56CC1CF01E403] PRIMARY KEY ([AddressTypeID])
+      );
+Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (1ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      CREATE TABLE [HRM_SYS_ApprovalAuthority] (
+          [ApprovalAuthorityID] int NOT NULL,
+          [ApprovalAuthorityName_EN] nvarchar(100) NULL,
+          [ApprovalAuthorityName_AR] nvarchar(100) NULL,
+          [RelationColumn] nvarchar(50) NULL,
+          CONSTRAINT [PK_HRM_ApprovalAuthority] PRIMARY KEY ([ApprovalAuthorityID])
+      );
+Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (2ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      CREATE TABLE [HRM_SYS_BloodGroup] (
+          [BloodGroupId] bigint NOT NULL IDENTITY,
+          [BloodGroupName_EN] nvarchar(100) NULL,
+          [BloodGroupName_AR] nvarchar(100) NULL,
+          [IsActive] bit NULL,
+          [IsSystem] int NULL,
+          [CreatedBy] bigint NULL,
+          [CreatedDate] datetime NULL,
+          [ModifiedBy] bigint NULL,
+          [ModifiedDate] datetime NULL,
+          CONSTRAINT [PK__HRM_DEF___4398C68FC6C9F052] PRIMARY KEY ([BloodGroupId])
+      );
+Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (1ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      CREATE TABLE [HRM_SYS_ContractType] (
+          [ContractTypeID] bigint NOT NULL IDENTITY,
+          [ContractTypeName_EN] nvarchar(100) NULL,
+          [ContractTypeName_AR] nvarchar(100) NULL,
+          [IsActive] bit NULL,
+          [IsSystem] int NULL,
+          [CreatedBy] bigint NULL,
+          [CreatedDate] datetime NULL,
+          [ModifiedBy] bigint NULL,
+          [ModifiedDate] datetime NULL
+      );
+Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (1ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      CREATE TABLE [HRM_SYS_CourseType] (
+          [CourseTypeID] bigint NOT NULL IDENTITY,
+          [CourseTypeName_EN] nvarchar(100) NULL,
+          [CourseTypeName_AR] nvarchar(100) NULL,
+          [IsActive] bit NULL,
+          [IsSystem] int NULL,
+          [CreatedBy] bigint NULL,
+          [CreatedDate] datetime NULL,
+          [ModifiedBy] bigint NULL,
+          [ModifiedDate] datetime NULL,
+          CONSTRAINT [PK__HRM_SYS___8173695206FDF9D8] PRIMARY KEY ([CourseTypeID])
+      );
+Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (1ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      CREATE TABLE [HRM_SYS_DependantType] (
+          [DependantTypeID] bigint NOT NULL IDENTITY,
+          [DependantTypeName_EN] nvarchar(50) NULL,
+          [DependantTypeName_AR] nvarchar(50) NULL,
+          [IsActive] bit NULL,
+          [IsSystem] bit NULL,
+          [CreatedBy] bigint NULL,
+          [CreatedDate] datetime NULL,
+          [ModifiedBy] bigint NULL,
+          [ModifiedDate] datetime NULL,
+          CONSTRAINT [PK__HRM_SYS___7EA1BC2CBCD3DE14] PRIMARY KEY ([DependantTypeID])
+      );
+Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (1ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      CREATE TABLE [HRM_SYS_DocumentOwner] (
+          [DocumentOwnerID] bigint NOT NULL IDENTITY,
+          [DocumentOwnerName_EN] nvarchar(100) NULL,
+          [DocumentOwnerName_AR] nvarchar(100) NULL,
+          [IsActive] bit NULL,
+          [IsSystem] int NULL,
+          [CreatedBy] bigint NULL,
+          [CreatedDate] datetime NULL,
+          [ModifiedBy] bigint NULL,
+          [ModifiedDate] datetime NULL,
+          CONSTRAINT [PK_HRM_SYS_DocumentOwner] PRIMARY KEY ([DocumentOwnerID])
+      );
+Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (1ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      CREATE TABLE [HRM_SYS_EducationDegree] (
+          [DegreeID] bigint NOT NULL IDENTITY,
+          [DegreeName_EN] nvarchar(100) NULL,
+          [DegreeName_AR] nvarchar(100) NULL,
+          [IsActive] bit NULL,
+          [IsSystem] int NULL,
+          [CreatedBy] bigint NULL,
+          [CreatedDate] datetime NULL,
+          [ModifiedBy] bigint NULL,
+          [ModifiedDate] datetime NULL,
+          CONSTRAINT [PK__HRM_SYS___4D9492CE187C8F58] PRIMARY KEY ([DegreeID])
+      );
+Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (1ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      CREATE TABLE [HRM_SYS_EmployeeStatus] (
+          [EmployeeStatusID] int NOT NULL,
+          [EmployeeStatusName_EN] nvarchar(100) NULL,
+          [EmployeeStatusName_AR] nvarchar(100) NULL,
+          [IsActive] bit NULL,
+          [CreatedBy] bigint NULL,
+          [CreatedDate] datetime NULL,
+          [ModifiedBy] bigint NULL,
+          [ModifiedDate] datetime NULL,
+          CONSTRAINT [PK_HRM_SYS_EmployeeStatus] PRIMARY KEY ([EmployeeStatusID])
+      );
+Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (3ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      CREATE TABLE [HRM_SYS_EndOfServiceType] (
+          [EndofServiceTypeID] bigint NOT NULL IDENTITY,
+          [EndofServiceTypeName_EN] nvarchar(100) NULL,
+          [EndofServiceTypeName_AR] nvarchar(100) NULL,
+          [IsActive] bit NULL,
+          [CreatedBy] bigint NULL,
+          [CreatedDate] datetime NULL,
+          [ModifiedBy] bigint NULL,
+          [ModifiedDate] datetime NULL,
+          CONSTRAINT [PK__HRM_SYS___0CD2B712721D3D8C] PRIMARY KEY ([EndofServiceTypeID])
+      );
+Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (1ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      CREATE TABLE [HRM_SYS_FlightType] (
+          [FlightTypeID] bigint NOT NULL IDENTITY,
+          [FlightTypeName_EN] nvarchar(50) NULL,
+          [FlightTypeName_AR] nvarchar(50) NULL,
+          [IsActive] bit NULL,
+          [IsSystem] bit NULL,
+          [CreatedBy] bigint NULL,
+          [CreatedDate] datetime NULL,
+          [ModifiedBy] bigint NULL,
+          [ModifiedDate] datetime NULL,
+          CONSTRAINT [PK__HRM_SYS___68CE86FDC411220D] PRIMARY KEY ([FlightTypeID])
+      );
+Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (1ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      CREATE TABLE [HRM_SYS_Gender] (
+          [GenderID] bigint NOT NULL IDENTITY,
+          [GenderName_EN] nvarchar(100) NULL,
+          [GenderName_AR] nvarchar(100) NULL,
+          [IsActive] bit NULL,
+          [IsSystem] int NULL,
+          [CreatedBy] bigint NULL,
+          [CreatedDate] datetime NULL,
+          [ModifiedBy] bigint NULL,
+          [ModifiedDate] datetime NULL,
+          CONSTRAINT [PK__HRM_DEF___4E24E9F7723DD639] PRIMARY KEY ([GenderID])
+      );
+Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (3ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      CREATE TABLE [HRM_SYS_GosiConfiguration] (
+          [GosiConfigurationID] bigint NOT NULL IDENTITY,
+          [formula] nvarchar(200) NULL,
+          [PercentageValue] int NULL,
+          [GosiFlagID] int NULL,
+          [CompanyPercentage] int NULL,
+          CONSTRAINT [PK__HRM_SYS___2F2D5EB638B76300] PRIMARY KEY ([GosiConfigurationID])
+      );
+Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (3ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      CREATE TABLE [HRM_SYS_GosiFlag] (
+          [GosiFlagID] bigint NOT NULL IDENTITY,
+          [GosiFlagName_EN] nvarchar(100) NULL,
+          [GosiFlagName_AR] nvarchar(100) NULL,
+          [IsActive] bit NULL,
+          [IsSystem] int NULL,
+          [CreatedBy] bigint NULL,
+          [CreatedDate] datetime NULL,
+          [ModifiedBy] bigint NULL,
+          [ModifiedDate] datetime NULL,
+          CONSTRAINT [PK__HRM_SYS___360DC2E973A84270] PRIMARY KEY ([GosiFlagID])
+      );
+Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (3ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      CREATE TABLE [HRM_SYS_MaritalStatus] (
+          [MaritalStatusID] bigint NOT NULL IDENTITY,
+          [MaritalStatusName_EN] nvarchar(100) NULL,
+          [MaritalStatusName_AR] nvarchar(100) NULL,
+          [IsActive] bit NULL,
+          [IsSystem] int NULL,
+          [CreatedBy] bigint NULL,
+          [CreatedDate] datetime NULL,
+          [ModifiedBy] bigint NULL,
+          [ModifiedDate] datetime NULL
+      );
+Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (3ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      CREATE TABLE [HRM_SYS_Module] (
+          [ID] int NOT NULL IDENTITY,
+          [ModuleName] nvarchar(150) NULL,
+          [Remarks] nvarchar(500) NULL,
+          [IsActive] bit NULL,
+          CONSTRAINT [PK_HRM_SYS_Module] PRIMARY KEY ([ID])
+      );
+Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (1ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      CREATE TABLE [HRM_SYS_Nationality] (
+          [NationalityID] bigint NOT NULL IDENTITY,
+          [NationalityName_EN] nvarchar(100) NULL,
+          [NationalityName_AR] nvarchar(100) NULL,
+          [IsActive] bit NULL,
+          [IsSystem] int NULL,
+          [CreatedBy] bigint NULL,
+          [CreatedDate] datetime NULL,
+          [ModifiedBy] bigint NULL,
+          [ModifiedDate] datetime NULL,
+          CONSTRAINT [PK__HRM_DEF___F628E7441F479E4C] PRIMARY KEY ([NationalityID])
+      );
+Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (1ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      CREATE TABLE [HRM_SYS_NoticePeriod] (
+          [NoticePeriodID] bigint NOT NULL IDENTITY,
+          [NoticePeriodName_EN] nvarchar(100) NULL,
+          [NoticePeriodName_AR] nvarchar(100) NULL,
+          [IsActive] bit NULL,
+          [IsSystem] int NULL,
+          [CreatedBy] bigint NULL,
+          [CreatedDate] datetime NULL,
+          [ModifiedBy] bigint NULL,
+          [ModifiedDate] datetime NULL,
+          CONSTRAINT [PK__HRM_DEF___A3B86728108E96FD] PRIMARY KEY ([NoticePeriodID])
+      );
+Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (1ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      CREATE TABLE [HRM_SYS_PaymentMethod] (
+          [PaymentMethodID] int NOT NULL IDENTITY,
+          [PaymentName] nvarchar(100) NULL,
+          [IsActive] bit NULL,
+          [IsSystem] bit NULL,
+          [CreatedBy] bigint NULL,
+          [CreatedDate] datetime NULL,
+          [ModifiedBy] bigint NULL,
+          [ModifiedDate] datetime NULL,
+          CONSTRAINT [PK_HRM_SYS_PaymentMethod] PRIMARY KEY ([PaymentMethodID])
+      );
+Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (1ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      CREATE TABLE [HRM_SYS_PhoneType] (
+          [PhoneTypeID] bigint NOT NULL IDENTITY,
+          [PhoneTypeName_EN] nvarchar(100) NULL,
+          [PhoneTypeName_AR] nvarchar(100) NULL,
+          [IsActive] bit NULL,
+          [IsSystem] int NULL,
+          [CreatedBy] bigint NULL,
+          [CreatedDate] datetime NULL,
+          [ModifiedBy] bigint NULL,
+          [ModifiedDate] datetime NULL,
+          CONSTRAINT [PK_HRM_TRAN_PhoneType] PRIMARY KEY ([PhoneTypeID])
+      );
+Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (1ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      CREATE TABLE [HRM_SYS_ProbationPeriod] (
+          [ProbationPeriodID] bigint NOT NULL IDENTITY,
+          [ProbationPeriodName_EN] nvarchar(100) NULL,
+          [ProbationPeriodName_AR] nvarchar(100) NULL,
+          [IsActive] bit NULL,
+          [IsSystem] int NULL,
+          [CreatedBy] bigint NULL,
+          [CreatedDate] datetime NULL,
+          [ModifiedBy] bigint NULL,
+          [ModifiedDate] datetime NULL,
+          CONSTRAINT [PK__HRM_DEF___FD6411107A3306DA] PRIMARY KEY ([ProbationPeriodID])
+      );
+Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (2ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      CREATE TABLE [HRM_SYS_Purpouse] (
+          [PurpouseID] bigint NOT NULL IDENTITY,
+          [Purpouse_AR] nvarchar(100) NULL,
+          [Purpouse_EN] nvarchar(100) NULL,
+          [IsActive] bit NULL,
+          [CreatedBy] bigint NULL,
+          [CreatedDate] datetime NULL,
+          [ModifiedBy] bigint NULL,
+          [ModifiedDate] datetime NULL,
+          CONSTRAINT [PK__HRM_SYS___6322CD5BB1B22FCE] PRIMARY KEY ([PurpouseID])
+      );
+Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (1ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      CREATE TABLE [HRM_SYS_Religion] (
+          [ReligionID] bigint NOT NULL IDENTITY,
+          [ReligionName_EN] nvarchar(100) NULL,
+          [ReligionName_AR] nvarchar(100) NULL,
+          [IsActive] bit NULL,
+          [IsSystem] int NULL,
+          [CreatedBy] bigint NULL,
+          [CreatedDate] datetime NULL,
+          [ModifiedBy] bigint NULL,
+          [ModifiedDate] datetime NULL,
+          CONSTRAINT [PK__HRM_DEF___D3ADAB6A239456F4] PRIMARY KEY ([ReligionID])
+      );
+Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (1ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      CREATE TABLE [HRM_SYS_Screen] (
+          [ScreenID] bigint NOT NULL IDENTITY,
+          [ScreenName_EN] nvarchar(100) NULL,
+          [ScreenName_AR] nvarchar(100) NULL,
+          [ActionName] varchar(100) NULL,
+          [ControllerName] varchar(100) NULL,
+          [IsActive] bit NULL,
+          [ScreenType] int NULL,
+          [AdditionalData] varchar(100) NULL,
+          [CreatedBy] varchar(100) NULL,
+          [CreatedDate] datetime NULL,
+          CONSTRAINT [PK__HRM_SYS___0AB60F852B9C7DE2] PRIMARY KEY ([ScreenID])
+      );
+Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (2ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      CREATE TABLE [HRM_SYS_SystemConfiguration] (
+          [SystemConfigurationID] bigint NOT NULL IDENTITY,
+          [ModuleName] nvarchar(50) NULL,
+          [ModuleNameLabel] nvarchar(50) NULL,
+          [SectionName] nvarchar(50) NULL,
+          [SectionNameLabel] nvarchar(50) NULL,
+          [ParameterName] nvarchar(50) NULL,
+          [ParameterLabel] nvarchar(50) NULL,
+          [ParameterValue] nvarchar(50) NULL,
+          [IsEditable] bit NULL,
+          [CreatedBy] bigint NULL,
+          [CreatedDate] datetime NULL,
+          [ModifiedBy] bigint NULL,
+          [ModifiedDate] datetime NULL,
+          [IsActive] bit NULL DEFAULT (((1))),
+          [ModuleID] bigint NULL,
+          [SectionID] bigint NULL,
+          CONSTRAINT [PK_HRM_SYS_SystemConfiguration] PRIMARY KEY ([SystemConfigurationID])
+      );
+Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (1ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      CREATE TABLE [HRM_SYS_Title] (
+          [TitleID] bigint NOT NULL IDENTITY,
+          [TitleName_EN] nvarchar(100) NULL,
+          [TitleName_AR] nvarchar(100) NULL,
+          [IsActive] bit NULL,
+          [IsSystem] int NULL,
+          [CreatedBy] bigint NULL,
+          [CreatedDate] datetime NULL,
+          [ModifiedBy] bigint NULL,
+          [ModifiedDate] datetime NULL
+      );
+Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (2ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      CREATE TABLE [HRM_TRAN_AccountInfo] (
+          [BankID] int NOT NULL IDENTITY,
+          [BankName] nvarchar(30) NULL,
+          [AccountNo] nvarchar(50) NULL,
+          [IBANno] nvarchar(50) NULL,
+          [AccountHolder] nvarchar(50) NULL,
+          [BankBranch] nvarchar(50) NULL,
+          [BankCode] nvarchar(50) NULL,
+          [IsSalaryAccount] bit NULL,
+          [Remarks] nvarchar(500) NULL,
+          [EmployeeID] bigint NULL,
+          [IsActive] bit NULL,
+          [CreatedBy] bigint NULL,
+          [CreatedDate] datetime NULL,
+          [ModifiedBy] bigint NULL,
+          [ModifiedDate] datetime NULL,
+          CONSTRAINT [PK_HRM_TRAN_BankDetails] PRIMARY KEY ([BankID])
+      );
+Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (2ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      CREATE TABLE [HRM_TRAN_AccountInfo_Audit] (
+          [AccountInfoAuditID] bigint NOT NULL IDENTITY,
+          [BankID] int NULL,
+          [BankName] nvarchar(30) NULL,
+          [AccountNo] int NULL,
+          [IBANno] nvarchar(50) NULL,
+          [AccountHolder] nvarchar(50) NULL,
+          [BankBranch] nvarchar(50) NULL,
+          [BankCode] nvarchar(50) NULL,
+          [IsSalaryAccount] bit NULL,
+          [Remarks] nvarchar(500) NULL,
+          [EmployeeID] bigint NULL,
+          [LogDate] datetime NULL,
+          [UserAction] nvarchar(20) NULL,
+          [IsActive] bit NULL,
+          [CreatedBy] bigint NULL,
+          [CreatedDate] datetime NULL,
+          [ModifiedBy] bigint NULL,
+          [ModifiedDate] datetime NULL,
+          CONSTRAINT [PK__HRM_TRAN__4B60A63D6014F6D2] PRIMARY KEY ([AccountInfoAuditID])
+      );
+Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (2ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      CREATE TABLE [HRM_TRAN_ContactInfo] (
+          [ContactInfoID] bigint NOT NULL IDENTITY,
+          [PrimaryMobileNumber] nvarchar(500) NULL,
+          [Email] nvarchar(500) NULL,
+          [EmployeeID] bigint NULL,
+          [IsActive] bit NULL,
+          [CreatedBy] bigint NULL,
+          [CreatedDate] datetime NULL,
+          [ModifiedBy] bigint NULL,
+          [ModifiedDate] datetime NULL,
+          CONSTRAINT [PK_HRM_TRAN_ContactInfo] PRIMARY KEY ([ContactInfoID])
+      );
+Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (1ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      CREATE TABLE [HRM_TRAN_ContactInfo_Audit] (
+          [AuditContactInfoID] bigint NOT NULL IDENTITY,
+          [ContactInfoID] bigint NULL,
+          [PrimaryMobileNumber] nvarchar(500) NULL,
+          [Email] nvarchar(500) NULL,
+          [EmployeeID] bigint NULL,
+          [IsActive] bit NULL,
+          [CreatedBy] bigint NULL,
+          [CreatedDate] datetime NULL,
+          [ModifiedBy] bigint NULL,
+          [ModifiedDate] datetime NULL,
+          [LogDateTime] datetime NULL,
+          [UserAction] nvarchar(20) NULL,
+          CONSTRAINT [PK__HRM_TRAN__AA98479C532704D4] PRIMARY KEY ([AuditContactInfoID])
+      );
+Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (2ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      CREATE TABLE [HRM_TRAN_Contract] (
+          [ContractInformationID] bigint NOT NULL IDENTITY,
+          [DateOfJoining_AR] nvarchar(100) NULL,
+          [DateOfJoining_EN] datetime NULL,
+          [DateOfHiring_AR] nvarchar(100) NULL,
+          [DateOfHiring_EN] datetime NULL,
+          [CurrentJobID] bigint NULL,
+          [PositionID] bigint NULL,
+          [LegalEntityID] bigint NULL,
+          [SponsorID] bigint NULL,
+          [BusinessUnitID] bigint NULL,
+          [CompanyID] bigint NULL,
+          [BranchID] bigint NULL,
+          [DivisionID] bigint NULL,
+          [DepartmentID] bigint NULL,
+          [CostCenterID] bigint NULL,
+          [GradeID] bigint NULL,
+          [ProjectID] bigint NULL,
+          [SiteID] bigint NULL,
+          [LineManagerID] bigint NULL,
+          [ContractTypeID] bigint NULL,
+          [ContractStartDate_AR] nvarchar(100) NULL,
+          [ContractStartDate_EN] datetime NULL,
+          [ContractEndDate_AR] nvarchar(100) NULL,
+          [ContractEndDate_EN] datetime NULL,
+          [NoticePeriodID] bigint NULL,
+          [ProbationPeriod_EN] nvarchar(200) NULL,
+          [VacationTypeID] bigint NULL,
+          [TicketTypeID] bigint NULL,
+          [NumberOfTickets] bigint NULL,
+          [TicketFrequencyID] bigint NULL,
+          [TicketClass] nvarchar(500) NULL,
+          [MaxTicketRate] decimal(18,0) NULL,
+          [TicketStartRoute] nvarchar(500) NULL,
+          [TicketEndRoute] nvarchar(500) NULL,
+          [TicketRemarks] nvarchar(500) NULL,
+          [MaximumPerdiem] nvarchar(500) NULL,
+          [GOSINumber] nvarchar(200) NULL,
+          [GOSIPoll] decimal(18,2) NULL,
+          [GOSIPollEmployee] decimal(18,2) NULL,
+          [GOSIPollCompany] decimal(18,2) NULL,
+          [EmployeeID] bigint NULL,
+          [IsActive] bit NULL,
+          [CreatedBy] bigint NULL,
+          [CreatedDate] datetime NULL,
+          [ModifiedBy] bigint NULL,
+          [ModifiedDate] datetime NULL,
+          [ProbationPeriodID] bigint NULL,
+          [VacationSalaryAdvance] bit NULL,
+          [Allowances] bit NULL,
+          [Exit_ReEntryVisa] bit NULL,
+          [CompanyCarForBussinessTrip] bit NULL,
+          [GosiFlagID] int NULL,
+          [IsApplied] bit NULL,
+          [EmployeeStatusID] int NULL,
+          [EmployeePayrollStatus] bit NULL,
+          [PayrollHoldComments] nvarchar(500) NULL,
+          [IsEmployeeEligibleForTicket] bit NULL,
+          CONSTRAINT [PK_HRM_TRAN_Contract] PRIMARY KEY ([ContractInformationID])
+      );
+Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (2ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      CREATE TABLE [HRM_TRAN_Contract_Audit] (
+          [ContractInformationAuditID] bigint NOT NULL IDENTITY,
+          [ContractInformationID] bigint NULL,
+          [DateOfJoining_AR] nvarchar(100) NULL,
+          [DateOfJoining_EN] datetime NULL,
+          [DateOfHiring_AR] nvarchar(100) NULL,
+          [DateOfHiring_EN] datetime NULL,
+          [CurrentJobID] bigint NULL,
+          [PositionID] bigint NULL,
+          [LegalEntityID] bigint NULL,
+          [SponsorID] bigint NULL,
+          [BusinessUnitID] bigint NULL,
+          [BranchID] bigint NULL,
+          [DivisionID] bigint NULL,
+          [DepartmentID] bigint NULL,
+          [CostCenterID] bigint NULL,
+          [GradeID] bigint NULL,
+          [ProjectID] bigint NULL,
+          [SiteID] bigint NULL,
+          [LineManagerID] bigint NULL,
+          [ContractTypeID] bigint NULL,
+          [ContractStartDate_AR] nvarchar(100) NULL,
+          [ContractStartDate_EN] datetime NULL,
+          [ContractEndDate_AR] nvarchar(100) NULL,
+          [ContractEndDate_EN] datetime NULL,
+          [NoticePeriodID] bigint NULL,
+          [ProbationPeriod_EN] nvarchar(200) NULL,
+          [VacationTypeID] bigint NULL,
+          [TicketTypeID] bigint NULL,
+          [NumberOfTickets] bigint NULL,
+          [TicketFrequencyID] bigint NULL,
+          [TicketClass] nvarchar(500) NULL,
+          [MaxTicketRate] decimal(18,0) NULL,
+          [TicketStartRoute] nvarchar(500) NULL,
+          [TicketEndRoute] nvarchar(500) NULL,
+          [TicketRemarks] nvarchar(500) NULL,
+          [MaximumPerdiem] nvarchar(500) NULL,
+          [GOSINumber] nvarchar(200) NULL,
+          [GOSIPoll] nvarchar(500) NULL,
+          [EmployeeID] bigint NULL,
+          [IsActive] bit NULL,
+          [CreatedBy] bigint NULL,
+          [CreatedDate] datetime NULL,
+          [ModifiedBy] bigint NULL,
+          [ModifiedDate] datetime NULL,
+          [ProbationPeriodID] bigint NULL,
+          [VacationSalaryAdvance] bit NULL,
+          [Allowances] bit NULL,
+          [Exit_ReEntryVisa] bit NULL,
+          [CompanyCarForBussinessTrip] bit NULL,
+          [GosiFlagID] int NULL,
+          [IsApplied] int NULL,
+          [LogDate] datetime NULL,
+          [UserAction] nvarchar(20) NULL,
+          CONSTRAINT [PK__HRM_TRAN__CB1DE5C7268586AE] PRIMARY KEY ([ContractInformationAuditID])
+      );
+Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (2ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      CREATE TABLE [HRM_TRAN_DocumentsInfo] (
+          [DocumentID] bigint NOT NULL IDENTITY,
+          [DocumentTypeID] bigint NULL,
+          [DocumentNumber] nvarchar(30) NULL,
+          [EmployeeID] bigint NULL,
+          [NameInDocument] nvarchar(30) NULL,
+          [IssueLocation] nvarchar(30) NULL,
+          [DocumentOwnerID] bigint NULL,
+          [ProfessionInIqama] nvarchar(30) NULL,
+          [InsuranceTypeID] bigint NULL,
+          [InsuranceProviderID] bigint NULL,
+          [InsuranceClassID] bigint NULL,
+          [InsurancePolicyNo] nvarchar(30) NULL,
+          [IssueDate_EN] datetime NULL,
+          [IssueDate_AR] nvarchar(30) NULL,
+          [ExpiryDate_EN] datetime NULL,
+          [ExpiryDate_AR] nvarchar(30) NULL,
+          [Costing] nvarchar(30) NULL,
+          [DocumentStatus] nvarchar(30) NULL,
+          [ScannedDocument] nvarchar(500) NULL,
+          [Remarks] nvarchar(500) NULL,
+          [IsActive] bit NULL,
+          [CreatedBy] bigint NULL,
+          [CreatedDate] datetime NULL,
+          [ModifiedBy] bigint NULL,
+          [ModifiedDate] datetime NULL,
+          CONSTRAINT [PK_HRM_TRAN_DocumentsInfo] PRIMARY KEY ([DocumentID])
+      );
+Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (2ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      CREATE TABLE [HRM_TRAN_DocumentsInfo_Audit] (
+          [DocumentAuditID] bigint NOT NULL IDENTITY,
+          [DocumentID] bigint NULL,
+          [DocumentTypeID] bigint NULL,
+          [DocumentNumber] nvarchar(30) NULL,
+          [EmployeeID] bigint NULL,
+          [NameInDocument] nvarchar(30) NULL,
+          [IssueLocation] nvarchar(30) NULL,
+          [DocumentOwnerID] bigint NULL,
+          [ProfessionInIqama] nvarchar(30) NULL,
+          [InsuranceTypeID] bigint NULL,
+          [InsuranceProviderID] bigint NULL,
+          [InsuranceClassID] bigint NULL,
+          [InsurancePolicyNo] nvarchar(30) NULL,
+          [IssueDate_EN] datetime NULL,
+          [IssueDate_AR] nvarchar(30) NULL,
+          [ExpiryDate_EN] datetime NULL,
+          [ExpiryDate_AR] nvarchar(30) NULL,
+          [Costing] nvarchar(30) NULL,
+          [DocumentStatus] nvarchar(30) NULL,
+          [ScannedDocument] nvarchar(500) NULL,
+          [Remarks] nvarchar(500) NULL,
+          [IsActive] bit NULL,
+          [CreatedBy] bigint NULL,
+          [CreatedDate] datetime NULL,
+          [ModifiedBy] bigint NULL,
+          [ModifiedDate] datetime NULL,
+          [LogDate] datetime NULL,
+          [UserAction] nvarchar(30) NULL,
+          CONSTRAINT [PK__HRM_TRAN__06C08E85388B6CD5] PRIMARY KEY ([DocumentAuditID])
+      );
+Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (1ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      CREATE TABLE [HRM_TRAN_EducationInfo] (
+          [EducationID] bigint NOT NULL IDENTITY,
+          [EmployeeID] bigint NULL,
+          [CurrentDegreeID] bigint NULL,
+          [YearOfCertification] datetime NULL,
+          [DegreeID] bigint NULL,
+          [Qualification] nvarchar(50) NULL,
+          [YearOfCertification_AR] nvarchar(50) NULL,
+          [YearOfCertification_EN] datetime NULL,
+          [CollegeOrUniversity] nvarchar(50) NULL,
+          [CountryID] bigint NULL,
+          [CourseTypeID] bigint NULL,
+          [Remarks] nvarchar(500) NULL,
+          [IsActive] bit NULL,
+          [CreatedBy] bigint NULL,
+          [CreatedDate] datetime NULL,
+          [ModifiedBy] bigint NULL,
+          [ModifiedDate] datetime NULL,
+          CONSTRAINT [PK_HRM_TRAN_EducationInfo] PRIMARY KEY ([EducationID])
+      );
+Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (3ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      CREATE TABLE [HRM_TRAN_EducationInfo_Audit] (
+          [EducationInfoAuditID] bigint NOT NULL IDENTITY,
+          [EducationID] bigint NULL,
+          [EmployeeID] bigint NULL,
+          [CurrentDegreeID] bigint NULL,
+          [YearOfCertification] datetime NULL,
+          [DegreeID] bigint NULL,
+          [Qualification] nvarchar(50) NULL,
+          [YearOfCertification_AR] nvarchar(50) NULL,
+          [YearOfCertification_EN] datetime NULL,
+          [CollegeOrUniversity] nvarchar(50) NULL,
+          [CountryID] bigint NULL,
+          [CourseTypeID] bigint NULL,
+          [LogDate] datetime NULL,
+          [UserAction] nvarchar(20) NULL,
+          [Remarks] nvarchar(500) NULL,
+          [IsActive] bit NULL,
+          [CreatedBy] bigint NULL,
+          [CreatedDate] datetime NULL,
+          [ModifiedBy] bigint NULL,
+          [ModifiedDate] datetime NULL,
+          CONSTRAINT [PK__HRM_TRAN__AC5CD4A8546CF3CF] PRIMARY KEY ([EducationInfoAuditID])
+      );
+Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (1ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      CREATE TABLE [HRM_TRAN_EmployeeAddress_Audit] (
+          [EmployeeAddressAuditID] bigint NOT NULL IDENTITY,
+          [EmployeeAddressID] bigint NULL,
+          [AddressTypeID] bigint NULL,
+          [AddressLine1] nvarchar(500) NULL,
+          [AddressLine2] nvarchar(500) NULL,
+          [City] varchar(30) NULL,
+          [CountryID] bigint NULL,
+          [POBox] nvarchar(30) NULL,
+          [EmployeeID] bigint NULL,
+          [LogDate] datetime NULL,
+          [UserAction] nvarchar(20) NULL,
+          [IsActive] bit NULL,
+          [IsSystem] int NULL,
+          [CreatedBy] bigint NULL,
+          [CreatedDate] datetime NULL,
+          [ModifiedBy] bigint NULL,
+          [ModifiedDate] datetime NULL,
+          CONSTRAINT [PK__HRM_TRAN__2D26A5978F4A951B] PRIMARY KEY ([EmployeeAddressAuditID])
+      );
+Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (1ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      CREATE TABLE [HRM_TRAN_EmployeeAsset_Audit] (
+          [EmployeeAssetAuditID] bigint NOT NULL IDENTITY,
+          [EmployeeAssetID] bigint NULL,
+          [AssetID] bigint NULL,
+          [DateOfIssue_EN] datetime NULL,
+          [DateOfIssue_AR] nvarchar(30) NULL,
+          [GeneralRemarks] nvarchar(500) NULL,
+          [SharedRemarks] nvarchar(500) NULL,
+          [LogDate] datetime NULL,
+          [UserAction] nvarchar(20) NULL,
+          [ModifiedBy] bigint NULL,
+          [ModifiedDate] datetime NULL
+      );
+Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (1ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      CREATE TABLE [HRM_TRAN_EmployeeAssetMap_Audit] (
+          [EmployeeAssetMapAuditID] bigint NOT NULL IDENTITY,
+          [EmployeeAssetMapID] bigint NULL,
+          [EmployeeAssetID] bigint NULL,
+          [EmployeeID] bigint NULL,
+          [IsShared] bit NULL,
+          [IsReturned] bit NULL,
+          [IssuedBy] bigint NULL,
+          [RecievedBy] bigint NULL,
+          [ReasonOfReturn] nvarchar(500) NULL,
+          [DateOfReturn_EN] datetime NULL,
+          [DateOfReturn_AR] nvarchar(100) NULL,
+          [LogDate] datetime NULL,
+          [UserAction] nvarchar(20) NULL
+      );
+Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (2ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      CREATE TABLE [HRM_TRAN_EmployeeDependant] (
+          [EmployeeDependantID] bigint NOT NULL IDENTITY,
+          [DependantTypeID] bigint NULL,
+          [FirstName_EN] nvarchar(100) NULL,
+          [FirstName_AR] nvarchar(100) NULL,
+          [LastName_EN] nvarchar(100) NULL,
+          [LastName_AR] nvarchar(100) NULL,
+          [GenderID] bigint NULL,
+          [DateOfBirth_EN] datetime NULL,
+          [DateOfBirth_AR] nvarchar(100) NULL,
+          [PhoneNumber] bigint NULL,
+          [EmergencyContact] bit NULL,
+          [EmployeeAddressID] bigint NULL,
+          [AddressTypeID] bigint NULL,
+          [AddressLine1] nvarchar(200) NULL,
+          [AddressLine2] nvarchar(200) NULL,
+          [IqamaNumber] nvarchar(50) NULL,
+          [NameInIqama_EN] nvarchar(100) NULL,
+          [NameInIqama_AR] nvarchar(200) NULL,
+          [IqamaExpiryDate_EN] datetime NULL,
+          [IqamaExpiryDate_AR] nvarchar(100) NULL,
+          [PassportExpiryDate_EN] datetime NULL,
+          [PassportExpiryDate_AR] nvarchar(100) NULL,
+          [EligibleForTicket] bit NULL,
+          [EligibleForExitReentry] bit NULL,
+          [EligibleForInsurance] bit NULL,
+          [EligibleForSchooling] bit NULL,
+          [IsActive] bit NULL,
+          [CreatedBy] bigint NULL,
+          [CreatedDate] datetime NULL,
+          [ModifiedBy] bigint NULL,
+          [ModifiedDate] datetime NULL,
+          [EmployeeID] bigint NULL,
+          [UseEmployeeAddress] bit NULL,
+          CONSTRAINT [PK_HRM_TRAN_EmployeeDependants] PRIMARY KEY ([EmployeeDependantID])
+      );
+Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (2ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      CREATE TABLE [HRM_TRAN_EmployeeDependant_Audit] (
+          [EmployeeDependantAuditID] bigint NOT NULL IDENTITY,
+          [DependantTypeID] bigint NULL,
+          [FirstName_EN] nvarchar(100) NULL,
+          [FirstName_AR] nvarchar(100) NULL,
+          [LastName_EN] nvarchar(100) NULL,
+          [LastName_AR] nvarchar(100) NULL,
+          [GenderID] bigint NULL,
+          [DateOfBirth_EN] datetime NULL,
+          [DateOfBirth_AR] nvarchar(100) NULL,
+          [PhoneNumber] bigint NULL,
+          [EmergencyContact] bit NULL,
+          [EmployeeAddressID] bigint NULL,
+          [AddressTypeID] bigint NULL,
+          [AddressLine1] nvarchar(200) NULL,
+          [AddressLine2] nvarchar(200) NULL,
+          [IqamaNumber] nvarchar(50) NULL,
+          [NameInIqama_EN] nvarchar(100) NULL,
+          [NameInIqama_AR] nvarchar(200) NULL,
+          [IqamaExpiryDate_EN] datetime NULL,
+          [IqamaExpiryDate_AR] nvarchar(100) NULL,
+          [PassportExpiryDate_EN] datetime NULL,
+          [PassportExpiryDate_AR] nvarchar(100) NULL,
+          [EligibleForTicket] bit NULL,
+          [EligibleForExitReentry] bit NULL,
+          [EligibleForInsurance] bit NULL,
+          [EligibleForSchooling] bit NULL,
+          [IsActive] bit NULL,
+          [CreatedBy] bigint NULL,
+          [CreatedDate] datetime NULL,
+          [ModifiedBy] bigint NULL,
+          [ModifiedDate] datetime NULL,
+          [EmployeeID] bigint NULL,
+          [UseEmployeeAddress] bit NULL,
+          [LogDate] datetime NULL,
+          [UserAction] nvarchar(20) NULL,
+          [EmployeeDependantID] bigint NULL,
+          CONSTRAINT [PK__HRM_TRAN__5D4A8C27FBE7A52F] PRIMARY KEY ([EmployeeDependantAuditID])
+      );
+Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (1ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      CREATE TABLE [HRM_TRAN_EmployeeEndOfServiceDetails] (
+          [EmployeeEndOfServiceDetailsID] bigint NOT NULL IDENTITY,
+          [EmployeeServiceRequestID] bigint NULL,
+          [EndofServiceTypeID] bigint NULL,
+          [OutofOfficeReasonID] bigint NULL,
+          [ServiceRequestProcessStageID] bigint NULL,
+          [LastDateOfDuty] datetime NULL,
+          [CreatedBy] bigint NULL,
+          [CreatedDate] datetime NULL,
+          [ModifiedBy] bigint NULL,
+          [ModifiedDate] datetime NULL,
+          CONSTRAINT [PK_HRM_TRAN_EmployeeEndOfServiceDetails] PRIMARY KEY ([EmployeeEndOfServiceDetailsID])
+      );
+Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (1ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      CREATE TABLE [HRM_TRAN_EmployeeLoanRequestDetails] (
+          [EmployeeLoanRequestDetailsID] bigint NOT NULL IDENTITY,
+          [ServiceRequestProcessStageID] bigint NULL,
+          [EmployeeServiceRequestID] bigint NULL,
+          [LoanAmount] decimal(18,0) NULL,
+          [ExpectedDateOfLoan] datetime NULL,
+          [RepaymentStartFrom] datetime NULL,
+          [RepaymentEndOfDate] datetime NULL,
+          [MonthlyRepaymentAmount] decimal(18,0) NULL,
+          [NoOfRepayments] int NULL,
+          [CreatedBy] bigint NULL,
+          [CreatedDate] datetime NULL,
+          [ModifiedBy] bigint NULL,
+          [ModifiedDate] datetime NULL,
+          CONSTRAINT [PK__HRM_TRAN__534656680F183235] PRIMARY KEY ([EmployeeLoanRequestDetailsID])
+      );
+Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (2ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      CREATE TABLE [HRM_TRAN_EmployeeMonthTimeSheet] (
+          [EmployeeMonthTimeSheetID] bigint NOT NULL IDENTITY,
+          [EmployeeNumber] nvarchar(503) NULL,
+          [PayrollGroupID] bigint NULL,
+          [PayrollMonth] int NULL,
+          [PayrollStartDate] int NULL,
+          [EmployeeID] bigint NOT NULL,
+          [EmployeeName] nvarchar(500) NULL,
+          [Day1] nvarchar(3) NULL,
+          [Day2] nvarchar(3) NULL,
+          [Day3] nvarchar(3) NULL,
+          [Day4] nvarchar(3) NULL,
+          [Day5] nvarchar(3) NULL,
+          [Day6] nvarchar(3) NULL,
+          [Day7] nvarchar(3) NULL,
+          [Day8] nvarchar(3) NULL,
+          [Day9] nvarchar(3) NULL,
+          [Day10] nvarchar(3) NULL,
+          [Day11] nvarchar(3) NULL,
+          [Day12] nvarchar(3) NULL,
+          [Day13] nvarchar(3) NULL,
+          [Day14] nvarchar(3) NULL,
+          [Day15] nvarchar(3) NULL,
+          [Day16] nvarchar(3) NULL,
+          [Day17] nvarchar(3) NULL,
+          [Day18] nvarchar(3) NULL,
+          [Day19] nvarchar(3) NULL,
+          [Day20] nvarchar(3) NULL,
+          [Day21] nvarchar(3) NULL,
+          [Day22] nvarchar(3) NULL,
+          [Day23] nvarchar(3) NULL,
+          [Day24] nvarchar(3) NULL,
+          [Day25] nvarchar(3) NULL,
+          [Day26] nvarchar(3) NULL,
+          [Day27] nvarchar(3) NULL,
+          [Day28] nvarchar(3) NULL,
+          [Day29] nvarchar(3) NULL,
+          [Day30] nvarchar(3) NULL,
+          [Day31] nvarchar(3) NULL,
+          [Notes] nvarchar(500) NULL,
+          [Bonous] int NULL,
+          [Doubleduty] nvarchar(50) NULL,
+          [ABS_Absent] smallint NULL,
+          [NH_Hired] smallint NULL,
+          [R_Resigned] smallint NULL,
+          [EXE_Excuse] smallint NULL,
+          [UV_UnpaidVacation] smallint NULL,
+          [EX2_Excuse] smallint NULL,
+          [VAC_Vacation] smallint NULL,
+          [SIC_SickLeave] smallint NULL,
+          [OT_OverTime] smallint NULL,
+          [WI_Withdraw] smallint NULL,
+          [UT_Transfer] smallint NULL,
+          [CreatedBy] bigint NULL,
+          [CreatedDate] datetime NULL,
+          [ModifiedBy] bigint NULL,
+          [ModifiedDate] datetime NULL,
+          CONSTRAINT [PK_HRM_TRAN_EmployeeMonthTimeSheet] PRIMARY KEY ([EmployeeMonthTimeSheetID])
+      );
+Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (1ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      CREATE TABLE [HRM_TRAN_EmployeeNormalServiceRequestLeaveDetails] (
+          [EmployeeNormalServiceRequestLeaveDetailsID] bigint NOT NULL IDENTITY,
+          [EmployeeServiceRequestID] bigint NULL,
+          [LeaveTypesID] int NULL,
+          [FromDate] datetime NULL,
+          [ToDate] datetime NULL,
+          [NoOfDays] int NULL,
+          [ReturnOn] datetime NULL,
+          [ServiceRequestProcessStageID] int NULL,
+          [CreatedBy] bigint NULL,
+          [CreatedDate] datetime NULL,
+          [ModifiedBy] bigint NULL,
+          [ModifiedDate] datetime NULL,
+          CONSTRAINT [PK_HRM_TRAN_EmployeeNormalServiceRequestLeaveDetails] PRIMARY KEY ([EmployeeNormalServiceRequestLeaveDetailsID])
+      );
+Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (3ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      CREATE TABLE [HRM_TRAN_EmployeePayrollPackage] (
+          [PayrollPackageID] bigint NOT NULL IDENTITY,
+          [PackageID] bigint NULL,
+          [PayTypeID] bigint NULL,
+          [ValueTypeID] bigint NULL,
+          [FrequencyID] bigint NULL,
+          [EmployeeID] bigint NULL,
+          [Formulae] nvarchar(200) NULL,
+          [FormulaeValue] decimal(18,0) NULL,
+          [ShortName] char(3) NULL,
+          [Amount] decimal(18,0) NULL,
+          [Remarks] nvarchar(500) NULL,
+          [IsActive] bit NULL,
+          [CreatedBy] bigint NULL,
+          [CreatedDate] datetime NULL,
+          [ModifiedBy] bigint NULL,
+          [ModifiedDate] datetime NULL,
+          CONSTRAINT [PK__HRM_TRAN__99DFC69201D345B0000] PRIMARY KEY ([PayrollPackageID])
+      );
+Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (2ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      CREATE TABLE [HRM_TRAN_EmployeePayrollPackage_Audit] (
+          [PayrollPackageAuditID] bigint NOT NULL IDENTITY,
+          [PayrollPackageID] bigint NULL,
+          [PackageID] bigint NULL,
+          [PayTypeID] bigint NULL,
+          [ValueTypeID] bigint NULL,
+          [FrequencyID] bigint NULL,
+          [EmployeeID] bigint NULL,
+          [Formulae] nvarchar(200) NULL,
+          [FormulaeValue] decimal(18,0) NULL,
+          [ShortName] char(3) NULL,
+          [Amount] decimal(18,0) NULL,
+          [Remarks] nvarchar(500) NULL,
+          [IsActive] bit NULL,
+          [CreatedBy] bigint NULL,
+          [CreatedDate] datetime NULL,
+          [ModifiedBy] bigint NULL,
+          [ModifiedDate] datetime NULL,
+          [LogDate] datetime NULL,
+          [UserAction] nvarchar(500) NULL
+      );
+Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (2ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      CREATE TABLE [HRM_TRAN_EmployeePhone_Audit] (
+          [EmployeePhoneAuditID] bigint NOT NULL IDENTITY,
+          [PhoneID] bigint NULL,
+          [PhoneTypeID] bigint NULL,
+          [CountryID] bigint NULL,
+          [AreaCode] varchar(100) NULL,
+          [PhoneNumber] bigint NULL,
+          [EmployeeID] bigint NULL,
+          [IsActive] bit NULL,
+          [LogDate] datetime NULL,
+          [UserAction] nvarchar(20) NULL,
+          [CreatedBy] bigint NULL,
+          [CreatedDate] datetime NULL,
+          [ModifiedBy] bigint NULL,
+          [ModifiedDate] datetime NULL,
+          CONSTRAINT [PK__HRM_TRAN__69EAEF36B99D83DD] PRIMARY KEY ([EmployeePhoneAuditID])
+      );
+Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (1ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      CREATE TABLE [HRM_TRAN_EmployeeScheduleManagement] (
+          [EmployeeSMID] bigint NOT NULL IDENTITY,
+          [EmployeeID] bigint NULL,
+          [EmployeeDaysID] bigint NULL,
+          [Day] nvarchar(100) NULL,
+          [FromDate] datetime NULL,
+          [ToDate] datetime NULL,
+          [FromTime] time NULL,
+          [ToTime] time NULL,
+          [IsHoliday] bit NULL,
+          [CreatedBy] bigint NULL,
+          [CreatedDate] datetime NULL,
+          [ModifiedBy] bigint NULL,
+          [ModifiedDate] datetime NULL,
+          [IsSpecial] bit NULL,
+          CONSTRAINT [PK_HRM_TRAN_EmployeeScheduleManagement] PRIMARY KEY ([EmployeeSMID])
+      );
+Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (1ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      CREATE TABLE [HRM_TRAN_EmployeeServiceRequest] (
+          [EmployeeServiceRequestID] bigint NOT NULL IDENTITY,
+          [ServiceRequestRefNo] nvarchar(200) NULL,
+          [ServiceRequestTypeID] int NULL,
+          [EmployeeID] bigint NULL,
+          [EscalationLevel] int NULL,
+          [NextEscalatonTime] datetime NULL,
+          [ServiceRequestProcessStageID] int NULL,
+          [ReferenceID] int NULL,
+          [ReferenceDate] datetime NULL,
+          [ReferenceEmailID] nvarchar(100) NULL,
+          [ReferenceMobile] nvarchar(11) NULL,
+          [CreationDate] datetime NULL,
+          [CreationBy] bigint NULL,
+          [ModifiedBy] bigint NULL,
+          [ModifiedDate] datetime NULL,
+          [IsApproved] bit NOT NULL,
+          [Remarks] nvarchar(500) NULL,
+          CONSTRAINT [PK__HRM_TRAN__CA5A203E2F2FFC0C] PRIMARY KEY ([EmployeeServiceRequestID])
+      );
+Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (1ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      CREATE TABLE [HRM_TRAN_EmployeeTravelRequest] (
+          [EmployeeServiceRequestID] bigint NULL,
+          [PurpouseID] bigint NULL,
+          [IsDomestic] bit NULL,
+          [IsInternational] bit NULL,
+          [ServiceRequestProcessStageID] bigint NULL,
+          [CreationDate] datetime NULL,
+          [CreationBy] bigint NULL,
+          [ModifiedBy] bigint NULL,
+          [ModifiedDate] datetime NULL
+      );
+Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (2ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      CREATE TABLE [HRM_TRAN_EmployeeTravelServiceRequestDetails] (
+          [EmployeeTravelRequestDetailsID] bigint NOT NULL IDENTITY,
+          [EmployeeServiceRequestID] bigint NULL,
+          [ServiceRequestProcessStageID] bigint NULL,
+          [FlightClassID] bigint NULL,
+          [DependantTypeID] bigint NULL,
+          [FromCityID] bigint NULL,
+          [ToCityID] bigint NULL,
+          [DepartureDateTime] nvarchar(200) NULL,
+          [Remarks] nvarchar(200) NULL,
+          [CreationDate] datetime NULL,
+          [CreationBy] bigint NULL,
+          [ModifiedBy] bigint NULL,
+          [ModifiedDate] datetime NULL,
+          CONSTRAINT [PK__HRM_TRAN__0ACA1A576B9B8BD3] PRIMARY KEY ([EmployeeTravelRequestDetailsID])
+      );
+Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (1ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      CREATE TABLE [HRM_TRAN_EmployeeVacationBalanceUpdate] (
+          [VacationBalanceID] bigint NOT NULL IDENTITY,
+          [EmployeeID] bigint NULL,
+          [Days] decimal(18,2) NULL,
+          [EntryType] tinyint NULL,
+          [EntryDate] datetime NULL,
+          [EmployeeServiceRequestID] bigint NULL,
+          [PayrollID] bigint NULL,
+          [EntryUserID] bigint NULL,
+          [ModifiedBy] bigint NULL,
+          [ModifiedDate] datetime NULL,
+          CONSTRAINT [PK__HRM_TRAN__CF37465117B37A04] PRIMARY KEY ([VacationBalanceID])
+      );
+Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (2ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      CREATE TABLE [HRM_TRAN_ExitReEntyServiceRequestDetails] (
+          [ExitReEntryID] bigint NOT NULL IDENTITY,
+          [EmployeeServiceRequestID] bigint NULL,
+          [StartDateOfTravel] datetime NULL,
+          [ReturnDateOfTravel] datetime NULL,
+          [RequiredExitReEntryDuration] datetime NOT NULL,
+          [ServiceRequestProcessStageID] int NULL,
+          [CreatedBy] bigint NULL,
+          [CreatedDate] datetime NULL,
+          [ModifiedBy] bigint NULL,
+          [ModifiedDate] datetime NULL,
+          CONSTRAINT [PK_HRM_TRAN_ExitReEntyServiceRequestDetails] PRIMARY KEY ([ExitReEntryID])
+      );
+Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (1ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      CREATE TABLE [HRM_TRAN_HROverView] (
+          [HROverViewID] bigint NOT NULL IDENTITY,
+          [Warning] nvarchar(500) NULL,
+          [Screen_Section] nvarchar(500) NULL,
+          [EmployeeID] bigint NULL,
+          [IsActive] bit NULL,
+          [CreatedBy] bigint NULL,
+          [CreatedDate] datetime NULL,
+          [ModifiedBy] bigint NULL,
+          [ModifiedDate] datetime NULL,
+          CONSTRAINT [PK__HRM_TRAN__2DC415B52F3E8EF6] PRIMARY KEY ([HROverViewID])
+      );
+Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (1ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      CREATE TABLE [HRM_TRAN_Insurance_Audit] (
+          [InsuranceAuditID] bigint NOT NULL IDENTITY,
+          [InsuranceID] bigint NULL,
+          [InsuranceTypeID] bigint NULL,
+          [InsuranceProviderID] bigint NULL,
+          [PolicyHolderName] nvarchar(100) NULL,
+          [InsuranceClassID] bigint NULL,
+          [PolicyNumber] nvarchar(30) NULL,
+          [IssueDate_EN] datetime NULL,
+          [IssueDate_AR] nvarchar(30) NULL,
+          [ExpiryDate_EN] datetime NULL,
+          [ExpiryDate_AR] nvarchar(30) NULL,
+          [YearlyCost] decimal(18,0) NULL,
+          [EmployeeID] bigint NULL,
+          [IsActive] bit NULL,
+          [Remarks] nvarchar(500) NULL,
+          [LogDate] datetime NULL,
+          [UserAction] nvarchar(20) NULL,
+          [CreatedBy] bigint NULL,
+          [CreatedDate] datetime NULL,
+          [ModifiedBy] bigint NULL,
+          [ModifiedDate] datetime NULL,
+          CONSTRAINT [PK__HRM_TRAN__A18FF89CAC1B5BAE] PRIMARY KEY ([InsuranceAuditID])
+      );
+Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (3ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      CREATE TABLE [HRM_TRAN_Invoice] (
+          [InvoiceId] bigint NOT NULL IDENTITY,
+          [InvoiceNumber] nvarchar(150) NOT NULL,
+          [InvoiceDate] date NULL,
+          [InvoiceDueDate] date NULL,
+          [CurrencyId] int NULL,
+          [CompanyId] int NULL,
+          [PONumber] nvarchar(150) NULL,
+          [PaymentTerms] nvarchar(max) NULL,
+          [CustomerId] bigint NULL,
+          [BankId] int NULL,
+          [InvoiceStatusId] int NULL,
+          [SubTotal] decimal(18,2) NULL,
+          [DiscountAmount] decimal(18,2) NULL,
+          [AmountBeforeTax] decimal(18,2) NULL,
+          [TaxAmount] decimal(18,2) NULL,
+          [TotalAmount] decimal(18,2) NULL,
+          [TotalPayment] decimal(18,2) NULL,
+          [AmountDue] decimal(18,2) NULL,
+          [IsDefaultConfig] bit NULL,
+          [CreatedOn] datetime NULL DEFAULT ((getdate())),
+          [CreatedBy] int NULL,
+          [UpdatedOn] datetime NULL,
+          [UpdatedBy] int NULL,
+          [TaxTariffPercentage] decimal(18,2) NULL,
+          CONSTRAINT [PK_HRM_TRAN_Invoice] PRIMARY KEY ([InvoiceId])
+      );
+Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (1ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      CREATE TABLE [HRM_TRAN_InvoiceItems] (
+          [ProductInvoiceMapID] bigint NOT NULL IDENTITY,
+          [InvoiceId] bigint NULL,
+          [ProductId] int NULL,
+          [Quantity] decimal(18,2) NULL,
+          [UnitPrice] decimal(18,2) NULL,
+          [SubTotal] decimal(18,2) NULL,
+          [DiscountAmount] decimal(18,2) NULL,
+          [AmountBeforeTax] decimal(18,2) NULL,
+          [TaxAmount] decimal(18,2) NULL,
+          [TotalAmount] decimal(18,2) NULL,
+          [IsDefaultConfig] bit NULL,
+          [CreatedOn] datetime NULL DEFAULT ((getdate())),
+          [CreatedBy] int NULL,
+          [UpdatedOn] datetime NULL,
+          [UpdatedBy] int NULL,
+          [InvoiceNumber] varchar(50) NULL,
+          [Description] nvarchar(500) NULL,
+          [TaxTariffPercentage] decimal(18,2) NULL,
+          CONSTRAINT [PK_HRM_TRAN_ProductInvoiceMap] PRIMARY KEY ([ProductInvoiceMapID])
+      );
+Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (2ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      CREATE TABLE [HRM_TRAN_MapToContactInfo] (
+          [MapContactInfoID] bigint NOT NULL IDENTITY,
+          [ContactPersonName] nvarchar(500) NULL,
+          [ConatactNumber] bigint NULL,
+          [IsFamily] bit NULL,
+          [IsEmergency] bit NULL,
+          [ContactAddress] nvarchar(500) NULL,
+          [EmployeeID] bigint NULL,
+          [Remarks] nvarchar(500) NULL,
+          [ContactInfoID] bigint NULL,
+          CONSTRAINT [PK__HRM_TRAN__A77B38DBDE1A4B3A] PRIMARY KEY ([MapContactInfoID])
+      );
+Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (2ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      CREATE TABLE [HRM_TRAN_MapToContactInfo_Audit] (
+          [MapContactInfoAuditID] bigint NOT NULL IDENTITY,
+          [MapContactInfoID] bigint NULL,
+          [ContactPersonName] nvarchar(500) NULL,
+          [ConatactNumber] bigint NULL,
+          [IsFamily] bit NULL,
+          [IsEmergency] bit NULL,
+          [ContactAddress] nvarchar(500) NULL,
+          [EmployeeID] bigint NULL,
+          [Remarks] nvarchar(500) NULL,
+          [ContactInfoID] bigint NULL,
+          [LogDate] datetime NULL,
+          [UserAction] nvarchar(20) NULL,
+          CONSTRAINT [PK__HRM_TRAN__2C619B7FE2728E45] PRIMARY KEY ([MapContactInfoAuditID])
+      );
+Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (1ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      CREATE TABLE [HRM_TRAN_Payroll] (
+          [PayrollID] bigint NOT NULL,
+          [PayrollMonth] date NULL
+      );
+Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (1ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      CREATE TABLE [HRM_TRAN_PayrollEntry] (
+          [PayrollEntryID] bigint NOT NULL IDENTITY,
+          [PreparationID] bigint NULL,
+          [EmployeeID] bigint NULL,
+          [PayrollMonth] date NULL,
+          [Amount] decimal(18,0) NULL,
+          [IsAdd] bit NULL,
+          [IsDeduct] bit NULL,
+          [CreatedBy] bigint NULL,
+          [CreatedDate] datetime NULL,
+          [ModifiedBy] bigint NULL,
+          [ModifiedDate] datetime NULL,
+          [IsPosted] bit NULL,
+          [PostedBy] bigint NULL,
+          [PostedDate] datetime NULL,
+          CONSTRAINT [PK_HRM_TRAN_PayrollEntry] PRIMARY KEY ([PayrollEntryID])
+      );
+Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (1ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      CREATE TABLE [HRM_TRAN_PayrollEntry_Audit] (
+          [AuditPayrollEntryID] bigint NOT NULL IDENTITY,
+          [PayrollEntryID] bigint NULL,
+          [PreparationID] bigint NULL,
+          [EmployeeID] bigint NULL,
+          [PayrollMonth] date NULL,
+          [Amount] decimal(18,0) NULL,
+          [IsAdd] bit NULL,
+          [IsDeduct] bit NULL,
+          [CreatedBy] bigint NULL,
+          [CreatedDate] datetime NULL,
+          [ModifiedBy] bigint NULL,
+          [ModifiedDate] datetime NULL,
+          [IsPosted] bit NULL,
+          [PostedBy] bigint NULL,
+          [PostedDate] datetime NULL,
+          [LogDateTime] datetime NULL,
+          [UserAction] nvarchar(100) NULL,
+          CONSTRAINT [PK__HRM_TRAN__0DF41217AFA4C6C0] PRIMARY KEY ([AuditPayrollEntryID])
+      );
+Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (1ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      CREATE TABLE [HRM_TRAN_PayrollGroupMap_Delete] (
+          [PayrollGroupMapID] bigint NOT NULL IDENTITY,
+          [ID] bigint NULL,
+          [PayrollGroupID] bigint NULL,
+          [EmployeeID] bigint NULL,
+          [BranchID] bigint NULL,
+          [DepartmentID] bigint NULL,
+          [IsActive] bit NULL,
+          [CreatedBy] bigint NULL,
+          [CreatedDate] datetime NULL,
+          [ModifiedBy] bigint NULL,
+          [ModifiedDate] datetime NULL,
+          CONSTRAINT [PK__HRM_TRAN__B588238681EBC134] PRIMARY KEY ([PayrollGroupMapID])
+      );
+Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (1ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      CREATE TABLE [HRM_TRAN_PayrollProcess] (
+          [PayrollProcessID] bigint NOT NULL IDENTITY,
+          [EmployeeID] bigint NULL,
+          [TotalEarnings] decimal(18,2) NULL,
+          [TotalDeductions] decimal(18,2) NULL,
+          [NetPay] decimal(18,2) NULL,
+          [PayrollPeriodID] bigint NULL,
+          [PayrollGroupID] bigint NULL,
+          [CountryID] bigint NULL,
+          [CompanyID] bigint NULL,
+          [SiteID] bigint NULL,
+          [ProjectID] bigint NULL,
+          [BusinessUnitID] bigint NULL,
+          [DivisionID] bigint NULL,
+          [BranchID] bigint NULL,
+          [DepartmentID] bigint NULL,
+          [IsGroupProcess] bit NULL,
+          [IsProcessed] bit NULL,
+          [IsPosted] bit NULL,
+          [ProcessBy] bigint NULL,
+          [ProcessDate] datetime NULL,
+          [PostedBy] bigint NULL,
+          [PostedDate] datetime NULL,
+          CONSTRAINT [PK__HRM_TRAN__343E7E2B1C300BB5] PRIMARY KEY ([PayrollProcessID])
+      );
+Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (1ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      CREATE TABLE [HRM_TRAN_PayrollProcessDetails] (
+          [PayrollProcessDetailsID] bigint NOT NULL IDENTITY,
+          [PayrollProcessID] bigint NULL,
+          [IsEarning] bit NULL,
+          [IsDeduction] bit NULL,
+          [IsAdjustment] bit NULL,
+          [PayTypeID] bigint NULL,
+          [Amount] decimal(18,2) NULL,
+          [EmployeeID] bigint NULL,
+          [PayrollGroupID] bigint NULL
+      );
+Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (2ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      CREATE TABLE [HRM_TRAN_PersonalInfo] (
+          [PersonalInfoID] bigint NOT NULL IDENTITY,
+          [EmployeeID] bigint NULL,
+          [GenderID] bigint NULL,
+          [TitleID] bigint NULL,
+          [FirstName_EN] nvarchar(30) NULL,
+          [FirstName_AR] nvarchar(30) NULL,
+          [MiddleName_EN] nvarchar(30) NULL,
+          [MiddleName_AR] nvarchar(30) NULL,
+          [LastName_EN] nvarchar(30) NULL,
+          [LastName_AR] nvarchar(30) NULL,
+          [FullName_EN] nvarchar(30) NULL,
+          [FullName_AR] nvarchar(30) NULL,
+          [PersonTypeID] bigint NULL,
+          [MaritalStatusID] bigint NULL,
+          [DateOfBirth_EN] date NULL,
+          [DateOfBirth_AR] nvarchar(30) NULL,
+          [NationalityID] bigint NULL,
+          [ReligionID] bigint NULL,
+          [BloodGroupID] bigint NULL,
+          [EmployeePicture] nvarchar(100) NULL,
+          [IsActive] bit NULL,
+          [CreatedBy] bigint NULL,
+          [CreatedDate] datetime NULL,
+          [ModifiedBy] bigint NULL,
+          [ModifiedDate] datetime NULL,
+          CONSTRAINT [PK__HRM_TRAN__3214EC0727639C5F] PRIMARY KEY ([PersonalInfoID])
+      );
+Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (3ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      CREATE TABLE [HRM_TRAN_PersonalInfo_AUDIT] (
+          [AuditPersonalInfoID] bigint NOT NULL IDENTITY,
+          [PersonalInfoID] bigint NULL,
+          [EmployeeID] bigint NULL,
+          [GenderID] bigint NULL,
+          [TitleID] bigint NULL,
+          [FirstName_EN] nvarchar(30) NULL,
+          [FirstName_AR] nvarchar(30) NULL,
+          [MiddleName_EN] nvarchar(30) NULL,
+          [MiddleName_AR] nvarchar(30) NULL,
+          [LastName_EN] nvarchar(30) NULL,
+          [LastName_AR] nvarchar(30) NULL,
+          [FullName_EN] nvarchar(30) NULL,
+          [FullName_AR] nvarchar(30) NULL,
+          [PersonTypeID] bigint NULL,
+          [MaritalStatusID] bigint NULL,
+          [DateOfBirth_EN] date NULL,
+          [DateOfBirth_AR] nvarchar(30) NULL,
+          [NationalityID] bigint NULL,
+          [ReligionID] bigint NULL,
+          [BloodGroupID] bigint NULL,
+          [EmployeePicture] nvarchar(100) NULL,
+          [IsActive] bit NULL,
+          [CreatedBy] bigint NULL,
+          [CreatedDate] datetime NULL,
+          [ModifiedBy] bigint NULL,
+          [ModifiedDate] datetime NULL,
+          [LogDateTime] datetime NULL,
+          [UserAction] nvarchar(20) NULL,
+          CONSTRAINT [PK__HRM_TRAN__18588E5D691425F1] PRIMARY KEY ([AuditPersonalInfoID])
+      );
+Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (1ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      CREATE TABLE [HRM_TRAN_Preparation] (
+          [PreparationID] bigint NOT NULL IDENTITY,
+          [IsAdd] bit NULL,
+          [IsDeduct] bit NULL,
+          [PayTypeID] bigint NULL,
+          [FrequencyID] bigint NULL,
+          [PaymentMethodID] int NULL,
+          [PayrollPeriodID] bigint NULL,
+          [AdjustmentAmount] decimal(18,0) NULL,
+          [ReferenceDate] datetime NULL,
+          [EmployeeID] bigint NULL,
+          [UntilDate] date NULL,
+          [DaysofBasic] decimal(18,0) NULL,
+          [PercentageOfBasic] decimal(18,0) NULL,
+          [HoursofBasic] decimal(18,0) NULL,
+          [StartDate] datetime NULL,
+          [IsAdvance] bit NULL,
+          [NoOfMonths] int NULL,
+          [Remarks] nvarchar(500) NULL,
+          [Status] int NULL DEFAULT (((0))),
+          [CreatedBy] bigint NULL,
+          [CreatedDate] datetime NULL,
+          [ModifiedBy] bigint NULL,
+          [ModifiedDate] datetime NULL,
+          CONSTRAINT [PK_HRM_TRAN_Preparation] PRIMARY KEY ([PreparationID])
+      );
+Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (2ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      CREATE TABLE [HRM_TRAN_Preparation_Audit] (
+          [AuditPreparationID] bigint NOT NULL IDENTITY,
+          [PreparationID] bigint NULL,
+          [IsAdd] bit NULL,
+          [IsDeduct] bit NULL,
+          [PayTypeID] bigint NULL,
+          [FrequencyID] bigint NULL,
+          [PaymentMethodID] int NULL,
+          [PayrollPeriodID] bigint NULL,
+          [AdjustmentAmount] decimal(18,0) NULL,
+          [ReferenceDate] datetime NULL,
+          [EmployeeID] bigint NULL,
+          [UntilDate] date NULL,
+          [DaysofBasic] decimal(18,0) NULL,
+          [PercentageOfBasic] decimal(18,0) NULL,
+          [HoursofBasic] decimal(18,0) NULL,
+          [StartDate] datetime NULL,
+          [IsAdvance] bit NULL,
+          [NoOfMonths] int NULL,
+          [Remarks] nvarchar(500) NULL,
+          [Status] int NULL,
+          [CreatedBy] bigint NULL,
+          [CreatedDate] datetime NULL,
+          [ModifiedBy] bigint NULL,
+          [ModifiedDate] datetime NULL,
+          [LogDateTime] datetime NULL,
+          [UserAction] nvarchar(100) NULL,
+          CONSTRAINT [PK__HRM_TRAN__BC6AD6A4F1BCCF57] PRIMARY KEY ([AuditPreparationID])
+      );
+Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (1ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      CREATE TABLE [Invitations] (
+          [Id] int NOT NULL IDENTITY,
+          [RequestingSessionId] int NOT NULL,
+          [ReceivingMemberId] int NOT NULL,
+          [CreationDateTime] datetime2(0) NOT NULL,
+          [StatusId] tinyint NOT NULL,
+          [ResponseDateTime] datetime2(0) NULL,
+          CONSTRAINT [PK_Invitations] PRIMARY KEY ([Id])
+      );
+Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (1ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      CREATE TABLE [Table_2] (
+          [ID] int NULL,
+          [Value] nvarchar(50) NULL
+      );
+Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (1ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      CREATE TABLE [TBL_AUDIT] (
+          [AuditID] int NOT NULL IDENTITY,
+          [TableName] varchar(100) NULL,
+          [ColumnName] varchar(100) NULL,
+          [PKValue] varchar(100) NULL,
+          [CurrentValue] varchar(100) NULL,
+          [NewValue] varchar(100) NULL,
+          [LoginID] varchar(100) NULL,
+          [UpdatedOn] varchar(100) NULL,
+          CONSTRAINT [PK__TBL_AUDI__A17F23B809789D8B] PRIMARY KEY ([AuditID])
+      );
+Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (1ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      CREATE TABLE [testtable] (
+          [id] int NOT NULL IDENTITY,
+          [col1] varchar(100) NULL,
+          [col2] varchar(10) NULL,
+          CONSTRAINT [PK_testtable] PRIMARY KEY ([id])
+      );
+Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (2ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      CREATE TABLE [HRM_DEF_Asset] (
+          [AssetID] bigint NOT NULL IDENTITY,
+          [AssetTypeID] bigint NULL,
+          [AssetNumber] nvarchar(20) NULL,
+          [Make] nvarchar(20) NULL,
+          [ModelNumber] nvarchar(20) NULL,
+          [MakeYear_EN] datetime NULL,
+          [MakeYear_AR] nvarchar(30) NULL,
+          [IsActive] bit NULL,
+          [CreatedBy] bigint NULL,
+          [CreatedDate] datetime NULL,
+          [ModifiedBy] bigint NULL,
+          [ModifiedDate] datetime NULL,
+          [Barcode] nvarchar(500) NULL,
+          [Remarks] nvarchar(500) NULL,
+          [AllowSharing] bit NULL,
+          CONSTRAINT [PK__HRM_DEF___1BBF9F25EB07D2AA] PRIMARY KEY ([AssetID]),
+          CONSTRAINT [FK_HRM_DEF_AssetDetails_HRM_DEF_AssetType] FOREIGN KEY ([AssetTypeID]) REFERENCES [HRM_DEF_AssetType] ([AssetTypeID]) ON DELETE NO ACTION
+      );
+Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (2ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      CREATE TABLE [PracticeTable] (
+          [EmployeeID] bigint NOT NULL IDENTITY,
+          [IsEmergency] bit NULL,
+          [AssetTypeID] bigint NULL,
+          [DateOfBirth_EN] datetime NULL,
+          [DateOfBirth_AR] nvarchar(50) NULL,
+          [EmployeeName] nvarchar(50) NULL,
+          [CreatedBy] bigint NULL,
+          [ModifiedBy] bigint NULL,
+          CONSTRAINT [PK_PracticeTable] PRIMARY KEY ([EmployeeID]),
+          CONSTRAINT [FK_PracticeTable_HRM_DEF_AssetType] FOREIGN KEY ([AssetTypeID]) REFERENCES [HRM_DEF_AssetType] ([AssetTypeID]) ON DELETE NO ACTION
+      );
+Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (1ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      CREATE TABLE [TestForPractice] (
+          [CountryID] bigint NOT NULL IDENTITY,
+          [CountryName_EN] nvarchar(100) NULL,
+          [DocumentOwnerName_AR] nvarchar(100) NULL,
+          [IsFamily] bit NULL,
+          [DateOfBirth_EN] datetime NULL,
+          [AssetTypeID] bigint NULL,
+          [DateOfBirth_AR] nvarchar(30) NULL,
+          [IsActive] bit NULL,
+          [IsSystem] int NULL,
+          [CreatedBy] bigint NULL,
+          [CreatedDate] datetime NULL,
+          [ModifiedBy] bigint NULL,
+          [ModifiedDate] datetime NULL,
+          CONSTRAINT [FK__TestForPr__Asset__2057CCD0] FOREIGN KEY ([AssetTypeID]) REFERENCES [HRM_DEF_AssetType] ([AssetTypeID]) ON DELETE NO ACTION
+      );
+Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (2ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      CREATE TABLE [HRM_TRAN_Insurance] (
+          [InsuranceID] bigint NOT NULL IDENTITY,
+          [InsuranceTypeID] bigint NULL,
+          [InsuranceProviderID] bigint NULL,
+          [PolicyHolderName] nvarchar(100) NULL,
+          [InsuranceClassID] bigint NULL,
+          [PolicyNumber] nvarchar(30) NULL,
+          [IssueDate_EN] datetime NULL,
+          [IssueDate_AR] nvarchar(30) NULL,
+          [ExpiryDate_EN] datetime NULL,
+          [ExpiryDate_AR] nvarchar(30) NULL,
+          [YearlyCost] decimal(18,0) NULL,
+          [EmployeeID] bigint NULL,
+          [IsActive] bit NULL,
+          [Remarks] nvarchar(500) NULL,
+          [CreatedBy] bigint NULL,
+          [CreatedDate] datetime NULL,
+          [ModifiedBy] bigint NULL,
+          [ModifiedDate] datetime NULL,
+          CONSTRAINT [PK_HRM_TRAN_Insurance] PRIMARY KEY ([InsuranceID]),
+          CONSTRAINT [FK_HRM_TRAN_Insurance_HRM_DEF_InsuranceClass] FOREIGN KEY ([InsuranceClassID]) REFERENCES [HRM_DEF_InsuranceClass] ([InsuranceClassID]) ON DELETE NO ACTION,
+          CONSTRAINT [FK_HRM_TRAN_Insurance_HRM_DEF_InsuranceProvider] FOREIGN KEY ([InsuranceProviderID]) REFERENCES [HRM_DEF_InsuranceProvider] ([InsuranceProviderID]) ON DELETE NO ACTION,
+          CONSTRAINT [FK_HRM_TRAN_Insurance_HRM_DEF_InsuranceType] FOREIGN KEY ([InsuranceTypeID]) REFERENCES [HRM_DEF_InsuranceType] ([InsuranceTypeID]) ON DELETE NO ACTION
+      );
+Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (2ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      CREATE TABLE [HRM_TRAN_EmployeeOutofOfficeReasonDetails] (
+          [EmployeeOutofOfficeReasonID] bigint NOT NULL IDENTITY,
+          [EmployeeServiceRequestID] bigint NULL,
+          [OutofOfficeReasonID] bigint NULL,
+          [ServiceRequestProcessStageID] bigint NULL,
+          [FromDate] nvarchar(50) NULL,
+          [ToDate] nvarchar(50) NULL,
+          [CreatedBy] bigint NULL,
+          [CreatedDate] datetime NULL,
+          [ModifiedBy] bigint NULL,
+          [ModifiedDate] datetime NULL,
+          CONSTRAINT [PK_HRM_TRAN_EmployeeOutofOfficeReasonDetails] PRIMARY KEY ([EmployeeOutofOfficeReasonID]),
+          CONSTRAINT [FK_HRM_TRAN_EmployeeOutofOfficeReasonDetails_HRM_DEF_OutofOfficeReason] FOREIGN KEY ([OutofOfficeReasonID]) REFERENCES [HRM_DEF_OutofOfficeReason] ([OutofOfficeReasonID]) ON DELETE NO ACTION
+      );
+Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (1ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      CREATE TABLE [HRM_TRAN_Payscale] (
+          [PayscaleID] bigint NOT NULL IDENTITY,
+          [PackageID] bigint NULL,
+          [ValueTypeID] int NULL,
+          [PayTypeID] int NULL,
+          [FrequencyID] int NULL,
+          [Formulae] nvarchar(500) NULL,
+          [FormulaeValue] decimal(18,0) NULL,
+          [PayValue] decimal(18,0) NULL,
+          [IsActive] bit NULL,
+          [CreatedDate] datetime NULL,
+          [CreatedBy] bigint NULL,
+          [ModifiedDate] datetime NULL,
+          [ModifiedBy] bigint NULL,
+          CONSTRAINT [PK_HRM_TRAN_Payscale] PRIMARY KEY ([PayscaleID]),
+          CONSTRAINT [FK_HRM_TRAN_Payscale_HRM_DEF_Package1] FOREIGN KEY ([PackageID]) REFERENCES [HRM_DEF_Package] ([PackageID]) ON DELETE NO ACTION
+      );
+Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (1ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      CREATE TABLE [HRM_DEF_EmployeePayrolGroupMAP] (
+          [PayrollGroupID] bigint NOT NULL,
+          [EmployeeID] bigint NOT NULL,
+          [CreatedBy] bigint NULL,
+          [CreatedDate] datetime NULL,
+          [ModifiedBy] bigint NULL,
+          [ModifiedDate] datetime NULL,
+          CONSTRAINT [FK_HRM_DEF_EmployeePayrolGroupMAP_HRM_DEF_PayrollGroup] FOREIGN KEY ([PayrollGroupID]) REFERENCES [HRM_DEF_PayrollGroup] ([PayrollGroupID]) ON DELETE NO ACTION
+      );
+Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (2ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      CREATE TABLE [HRM_DEF_PayTypeFormulae] (
+          [FormulaeID] int NOT NULL IDENTITY,
+          [PayTypeGroupID] int NULL,
+          [PayTypeID] bigint NULL,
+          [FormulaPayTypeID] bigint NULL,
+          [IsActive] bit NULL,
+          [CreatedBy] bigint NULL,
+          [CreatedDate] datetime NULL,
+          [ModifiedBy] bigint NULL,
+          [ModifiedDate] datetime NULL,
+          CONSTRAINT [PK_HRM_DEF_PayTypeFormulae] PRIMARY KEY ([FormulaeID]),
+          CONSTRAINT [FK_HRM_DEF_PayTypeFormulae_HRM_DEF_PayType] FOREIGN KEY ([PayTypeID]) REFERENCES [HRM_DEF_PayType] ([PayTypeID]) ON DELETE NO ACTION,
+          CONSTRAINT [FK_HRM_DEF_PayTypeFormulae_HRM_DEF_PayTypeGroup] FOREIGN KEY ([PayTypeGroupID]) REFERENCES [HRM_DEF_PayTypeGroup] ([PayTypeGroupID]) ON DELETE NO ACTION
+      );
+Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (3ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      CREATE TABLE [HRM_DEF_PayTypeSetting] (
+          [PaytypeSettingID] bigint NOT NULL IDENTITY,
+          [PayTypeGroupID] int NULL,
+          [PayTypeID] bigint NULL,
+          [Multiplier] numeric(18,0) NULL,
+          [IsSystem] bit NULL,
+          [IsActive] bit NULL,
+          [CreatedBy] bigint NULL,
+          [CreatedDate] datetime NULL,
+          [ModifiedBy] bigint NULL,
+          [ModifiedDate] datetime NULL,
+          CONSTRAINT [PK_HRM_DEF_PayTypeSetting] PRIMARY KEY ([PaytypeSettingID]),
+          CONSTRAINT [FK_HRM_DEF_PayTypeSetting_HRM_DEF_PayType] FOREIGN KEY ([PayTypeID]) REFERENCES [HRM_DEF_PayType] ([PayTypeID]) ON DELETE NO ACTION,
+          CONSTRAINT [FK_HRM_DEF_PayTypeSetting_HRM_DEF_PayTypeGroup] FOREIGN KEY ([PayTypeGroupID]) REFERENCES [HRM_DEF_PayTypeGroup] ([PayTypeGroupID]) ON DELETE NO ACTION
+      );
+Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (1ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      CREATE TABLE [HRM_DEF_Report_OutputParams] (
+          [ID] bigint NOT NULL IDENTITY,
+          [ReportID] bigint NOT NULL,
+          [OutputParamName] nvarchar(500) NULL,
+          [IsActive] bit NOT NULL,
+          CONSTRAINT [PK_HRM_DEF_Report_OutputParams] PRIMARY KEY ([ID]),
+          CONSTRAINT [FK_HRM_DEF_Report_OutputParams_HRM_DEF_Reports] FOREIGN KEY ([ReportID]) REFERENCES [HRM_DEF_Reports] ([ReportID]) ON DELETE NO ACTION
+      );
+Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (4ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      CREATE TABLE [HRM_DEF_ReportFilters] (
+          [ReportFilterID] bigint NOT NULL IDENTITY,
+          [ReportID] bigint NOT NULL,
+          [DisplayLabelName_EN] nvarchar(250) NULL,
+          [DisplayLabelName_AR] nvarchar(250) NULL,
+          [ParameterControlType] int NULL,
+          [ParameterColumnName] nvarchar(100) NULL,
+          [ParameterColumnDataType] int NULL,
+          [ConditionQuery] nvarchar(max) NULL,
+          [CreatedBy] bigint NULL,
+          [CreatedDate] datetime NULL,
+          [ModifiedBy] bigint NULL,
+          [ModifiedDate] datetime NULL,
+          [IsActive] bit NULL,
+          [IsCompulsory] bit NULL,
+          [RelationFilterID] bigint NULL,
+          [ConditionQueryType] int NULL,
+          CONSTRAINT [PK_HRM_DEF_ReportFilters] PRIMARY KEY ([ReportFilterID]),
+          CONSTRAINT [FK_HRM_DEF_ReportFilters_HRM_DEF_Reports] FOREIGN KEY ([ReportID]) REFERENCES [HRM_DEF_Reports] ([ReportID]) ON DELETE NO ACTION
+      );
+Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (3ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      CREATE TABLE [HRM_DEF_ReportMappingByRole] (
+          [ReportMappingByRoleID] bigint NOT NULL IDENTITY,
+          [ReportID] bigint NULL,
+          [RoleID] bigint NULL,
+          [IsActive] bit NULL,
+          [UserID] bigint NULL,
+          [CreatedBy] bigint NULL,
+          [CreatedDate] datetime NULL,
+          [ModifiedBy] bigint NULL,
+          [ModifiedDate] datetime NULL,
+          CONSTRAINT [PK_HRM_DEF_ReportMappingByRole] PRIMARY KEY ([ReportMappingByRoleID]),
+          CONSTRAINT [FK_HRM_DEF_ReportMappingByRole_HRM_DEF_ReportMappingByRole] FOREIGN KEY ([ReportID]) REFERENCES [HRM_DEF_Reports] ([ReportID]) ON DELETE NO ACTION
+      );
+Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (2ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      CREATE TABLE [HRM_DEF_User] (
+          [UserID] bigint NOT NULL IDENTITY,
+          [ProfileName] nvarchar(100) NULL,
+          [UserDescription] nvarchar(500) NULL,
+          [ProfilePicture] varchar(100) NULL,
+          [UserType] int NULL,
+          [RoleID] bigint NULL,
+          [EmployeeID] bigint NULL,
+          [CompanyId] int NULL,
+          [UserName] nvarchar(100) NULL,
+          [UserPassword] nvarchar(100) NULL,
+          [PasswordExpirationDate] datetime NULL,
+          [IncorrectPasswordAttempts] int NULL,
+          [IsActive] bit NULL,
+          [IsSystem] int NULL,
+          [CreatedBy] bigint NULL,
+          [CreatedDate] datetime NULL,
+          [ModifiedBy] bigint NULL,
+          [ModifiedDate] datetime NULL,
+          [ProfileName_AR] nvarchar(100) NULL,
+          CONSTRAINT [PK_HRM_DEF_User] PRIMARY KEY ([UserID]),
+          CONSTRAINT [FK__HRM_DEF_U__RoleI__4E88ABD4] FOREIGN KEY ([RoleID]) REFERENCES [HRM_DEF_Role] ([RoleID]) ON DELETE NO ACTION
+      );
+Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (2ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      CREATE TABLE [HRM_TRAN_EmployeeTicketServiceRequestDetails] (
+          [EmployeeTicketServiceRequestLeaveDetailsID] bigint NOT NULL IDENTITY,
+          [EmployeeServiceRequestID] bigint NULL,
+          [FlightClassID] bigint NULL,
+          [ServiceRequestProcessStageID] bigint NULL,
+          [TravelTypeID] bigint NULL,
+          [DependantTypeID] bigint NULL,
+          [FromDate] datetime NULL,
+          [ToDate] datetime NULL,
+          [ExpectedDepartureDate] datetime NULL,
+          [SpecialComments] nvarchar(500) NULL,
+          [CreatedBy] bigint NULL,
+          [CreatedDate] datetime NULL,
+          [ModifiedBy] bigint NULL,
+          [ModifiedDate] datetime NULL,
+          CONSTRAINT [PK_HRM_TRAN_EmployeeTicketServiceRequestLeaveDetails] PRIMARY KEY ([EmployeeTicketServiceRequestLeaveDetailsID]),
+          CONSTRAINT [FK_HRM_TRAN_EmployeeTicketServiceRequestDetails_HRM_DEF_TravelType] FOREIGN KEY ([TravelTypeID]) REFERENCES [HRM_DEF_TravelType] ([TravelTypeID]) ON DELETE NO ACTION,
+          CONSTRAINT [FK_HRM_TRAN_EmployeeTicketServiceRequestLeaveDetails_HRM_DEF_FlightClass] FOREIGN KEY ([FlightClassID]) REFERENCES [HRM_DEF_FlightClass] ([FlightClassID]) ON DELETE NO ACTION
+      );
+Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (2ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      CREATE TABLE [HRM_DEF_ReportMaster] (
+          [ID] bigint NOT NULL IDENTITY,
+          [ModuleID] int NULL,
+          [ReportName] nvarchar(50) NULL,
+          [StoreProcName] nvarchar(150) NULL,
+          [RoleID] bigint NULL,
+          [IsActive] bigint NULL,
+          [CreatedOn] datetime NULL,
+          CONSTRAINT [PK_HRM_DEF_ReportMaster] PRIMARY KEY ([ID]),
+          CONSTRAINT [FK_HRM_DEF_ReportMaster_HRM_SYS_Module] FOREIGN KEY ([ModuleID]) REFERENCES [HRM_SYS_Module] ([ID]) ON DELETE NO ACTION
+      );
+Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (1ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      CREATE TABLE [HRM_TRAN_EmployeePhone] (
+          [PhoneID] bigint NOT NULL IDENTITY,
+          [PhoneTypeID] bigint NULL,
+          [CountryID] bigint NULL,
+          [AreaCode] varchar(100) NULL,
+          [PhoneNumber] bigint NULL,
+          [EmployeeID] bigint NULL,
+          [IsActive] bit NULL,
+          [CreatedBy] bigint NULL,
+          [CreatedDate] datetime NULL,
+          [ModifiedBy] bigint NULL,
+          [ModifiedDate] datetime NULL,
+          CONSTRAINT [PK_HRM_TRAN_EmployeePhone] PRIMARY KEY ([PhoneID]),
+          CONSTRAINT [FK_HRM_TRAN_EmployeePhone_HRM_SYS_PhoneType] FOREIGN KEY ([PhoneTypeID]) REFERENCES [HRM_SYS_PhoneType] ([PhoneTypeID]) ON DELETE NO ACTION
+      );
+Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (2ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      CREATE TABLE [HRM_DEF_Menu] (
+          [MenuID] bigint NOT NULL IDENTITY,
+          [MenuLabel_EN] nvarchar(100) NULL,
+          [MenuLabel_AR] nvarchar(100) NULL,
+          [MenuDescription] varchar(500) NULL,
+          [ParentMenuID] bigint NULL,
+          [ScreenID] bigint NULL,
+          [MenuType] int NULL,
+          [IsActive] bit NULL,
+          [IsSystem] int NULL,
+          [CreatedBy] bigint NULL,
+          [CreatedDate] datetime NULL,
+          [ModifiedBy] bigint NULL,
+          [ModifiedDate] datetime NULL,
+          [CssClass] nvarchar(50) NULL,
+          CONSTRAINT [PK__HRM_DEF___C99ED250182419AA] PRIMARY KEY ([MenuID]),
+          CONSTRAINT [FK__HRM_DEF_M__Paren__5812160E] FOREIGN KEY ([ParentMenuID]) REFERENCES [HRM_DEF_Menu] ([MenuID]) ON DELETE NO ACTION,
+          CONSTRAINT [FK__HRM_DEF_M__Scree__59063A47] FOREIGN KEY ([ScreenID]) REFERENCES [HRM_SYS_Screen] ([ScreenID]) ON DELETE NO ACTION
+      );
+Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (1ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      CREATE TABLE [HRM_SYS_RuleEngine] (
+          [RuleEngineID] bigint NOT NULL IDENTITY,
+          [GroupKey] nvarchar(30) NULL,
+          [PropertyName] nvarchar(30) NULL,
+          [Condition] nvarchar(30) NULL,
+          [ConditionValue] nvarchar(30) NULL,
+          [ErrorMessage_EN] nvarchar(100) NULL,
+          [ErrorMessage_AR] nvarchar(100) NULL,
+          [IsDependent] bit NULL,
+          [ScreenID] bigint NOT NULL,
+          [DependentPropertyName] nvarchar(30) NULL,
+          [DependentKeyId] bigint NULL,
+          [IsRegularExpression] bit NULL,
+          [RegularExpression] nvarchar(500) NULL,
+          [IsRequired] bit NULL,
+          [IsActive] bit NULL,
+          [IsSystem] int NULL,
+          [Language] nvarchar(30) NULL,
+          [CreatedBy] bigint NULL,
+          [CreatedDate] datetime NULL,
+          [ModifiedBy] bigint NULL,
+          [ModifiedDate] datetime NULL,
+          CONSTRAINT [PK__HRM_SYS___43072CCB00B23E93] PRIMARY KEY ([RuleEngineID]),
+          CONSTRAINT [FK_HRM_SYS_RuleEngine_HRM_SYS_Screen] FOREIGN KEY ([ScreenID]) REFERENCES [HRM_SYS_Screen] ([ScreenID]) ON DELETE NO ACTION
+      );
+Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (2ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      CREATE TABLE [HRM_DEF_TicketBalanceSetup] (
+          [TicketBalanceSetupID] bigint NOT NULL IDENTITY,
+          [EmployeeID] bigint NULL,
+          [DependantTypeID] bigint NULL,
+          [EmployeeDependantID] bigint NULL,
+          [NumberOfTickets] int NULL,
+          [TicketStatus] int NULL,
+          [CreatedBy] bigint NULL,
+          [CreatedDate] datetime NULL,
+          [IsActive] bit NULL,
+          [ModifiedBy] bigint NULL,
+          [ModifiedDate] bigint NULL,
+          [Remarks] nvarchar(50) NULL,
+          CONSTRAINT [PK_HRM_DEF_TicketBalanceSetup] PRIMARY KEY ([TicketBalanceSetupID]),
+          CONSTRAINT [FK_HRM_DEF_TicketBalanceSetup_HRM_SYS_DependantType] FOREIGN KEY ([DependantTypeID]) REFERENCES [HRM_SYS_DependantType] ([DependantTypeID]) ON DELETE NO ACTION,
+          CONSTRAINT [FK_HRM_DEF_TicketBalanceSetup_HRM_TRAN_EmployeeDependant] FOREIGN KEY ([EmployeeDependantID]) REFERENCES [HRM_TRAN_EmployeeDependant] ([EmployeeDependantID]) ON DELETE NO ACTION
+      );
+Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (1ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      CREATE TABLE [HRM_TRAN_EmployeeTimeSheetCalculation] (
+          [ETCalculationID] bigint NOT NULL IDENTITY,
+          [ABS_Absent] smallint NULL,
+          [NH_Hired] smallint NULL,
+          [R] smallint NULL,
+          [EXE] smallint NULL,
+          [UV] smallint NULL,
+          [EX2] smallint NULL,
+          [VAC] smallint NULL,
+          [SIC] smallint NULL,
+          [OT] smallint NULL,
+          [WI] smallint NULL,
+          [UT] smallint NULL,
+          [EmployeeID] bigint NULL,
+          [EmployeeMonthTimeSheetID] bigint NULL,
+          CONSTRAINT [PK__HRM_TRAN__BE3BB55F9AB1A71D] PRIMARY KEY ([ETCalculationID]),
+          CONSTRAINT [FK__HRM_TRAN___Emplo__5D2BD0E6] FOREIGN KEY ([EmployeeMonthTimeSheetID]) REFERENCES [HRM_TRAN_EmployeeMonthTimeSheet] ([EmployeeMonthTimeSheetID]) ON DELETE NO ACTION
+      );
+Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (3ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      CREATE TABLE [HRM_TRAN_EmployeeCancelRequestDetails] (
+          [EmployeeServiceRequestID] bigint NULL,
+          [CancelServiceRequestID] bigint NULL,
+          [CancelServiceRequestTypeID] int NULL,
+          [ServiceRequestProcessStageID] bigint NULL,
+          [CancelServiceRequestReferenceNo] nvarchar(200) NULL,
+          [CreatedBy] bigint NULL,
+          [CreatedDate] datetime NULL,
+          [ModifiedBy] bigint NULL,
+          [ModifiedDate] datetime NULL,
+          CONSTRAINT [FK_HRM_TRAN_EmployeeCancelRequestDetails_HRM_TRAN_EmployeeServiceRequest] FOREIGN KEY ([EmployeeServiceRequestID]) REFERENCES [HRM_TRAN_EmployeeServiceRequest] ([EmployeeServiceRequestID]) ON DELETE NO ACTION
+      );
+Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (2ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      CREATE TABLE [HRM_TRAN_EmployeeVacationServiceRequestDetails] (
+          [EmployeeServiceRequestID] bigint NULL,
+          [SalaryInAdvance] bit NULL,
+          [ExistRentryVisa] bit NULL,
+          [TicketsForDependants] bit NULL,
+          [CompanyCar] bit NULL,
+          [Allowances] bit NULL,
+          [TrafficViolation] nvarchar(100) NULL,
+          [CreationDate] datetime NULL,
+          [CreationBy] bigint NULL,
+          [ModifiedBy] bigint NULL,
+          [ModifiedDate] datetime NULL,
+          [EscalationLevel] int NULL,
+          [NextEscalatonTime] datetime NULL,
+          [ServiceRequestProcessStageID] bigint NULL,
+          [ReturnDate] datetime NULL,
+          [ReplacementEmployeeID] bigint NULL,
+          CONSTRAINT [FK__HRM_TRAN___Retur__37C5420D] FOREIGN KEY ([EmployeeServiceRequestID]) REFERENCES [HRM_TRAN_EmployeeServiceRequest] ([EmployeeServiceRequestID]) ON DELETE NO ACTION
+      );
+Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (1ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      CREATE TABLE [HRM_TRAN_EmployeeVSRReturnDetails] (
+          [EmployeeServiceRequestID] bigint NOT NULL,
+          [ReturnOn] datetime NULL,
+          [ServiceRequestProcessStageID] int NULL,
+          [CreatedBy] bigint NULL,
+          [CreatedDate] datetime NULL,
+          [ModifiedBy] bigint NULL,
+          [ModifiedDate] datetime NULL,
+          CONSTRAINT [FK_HRM_TRAN_EMPVSRReturnDetails_HRM_TRAN_EmployeeServiceRequest] FOREIGN KEY ([EmployeeServiceRequestID]) REFERENCES [HRM_TRAN_EmployeeServiceRequest] ([EmployeeServiceRequestID]) ON DELETE NO ACTION
+      );
+Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (1ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      CREATE TABLE [HRM_TRAN_ServiceRequestDocumentDetails] (
+          [ServiceRequestDocumentsID] bigint NOT NULL IDENTITY,
+          [DocumentTypeID] bigint NULL,
+          [DocumentName] nvarchar(500) NULL,
+          [FilePath] nvarchar(500) NULL,
+          [UploadedDate] datetime NULL,
+          [UploadedBy] bigint NULL,
+          [IsDeleted] bit NULL,
+          [ServiceRequestStageID] bigint NULL,
+          [EmployeeServiceRequestID] bigint NULL,
+          CONSTRAINT [PK__HRM_TRAN__EA52F2F349E3F248] PRIMARY KEY ([ServiceRequestDocumentsID]),
+          CONSTRAINT [FK_HRM_TRAN_ServiceRequestDocumentDetails_HRM_DEF_DocumentType] FOREIGN KEY ([DocumentTypeID]) REFERENCES [HRM_DEF_DocumentType] ([DocumentTypeID]) ON DELETE NO ACTION,
+          CONSTRAINT [FK_HRM_TRAN_ServiceRequestDocumentDetails_HRM_TRAN_EmployeeServiceRequest] FOREIGN KEY ([EmployeeServiceRequestID]) REFERENCES [HRM_TRAN_EmployeeServiceRequest] ([EmployeeServiceRequestID]) ON DELETE NO ACTION
+      );
+Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (2ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      CREATE TABLE [HRM_TRAN_EmployeeAsset] (
+          [EmployeeAssetID] bigint NOT NULL IDENTITY,
+          [AssetID] bigint NULL,
+          [DateOfIssue_EN] datetime NULL,
+          [DateOfIssue_AR] nvarchar(30) NULL,
+          [GeneralRemarks] nvarchar(500) NULL,
+          [SharedRemarks] nvarchar(500) NULL,
+          [ModifiedBy] bigint NULL,
+          [ModifiedDate] datetime NULL,
+          CONSTRAINT [PK__HRM_TRAN__0028F42183ABEFE7] PRIMARY KEY ([EmployeeAssetID]),
+          CONSTRAINT [FK_HRM_TRAN_EmployeeAsset_HRM_DEF_AssetDetails] FOREIGN KEY ([AssetID]) REFERENCES [HRM_DEF_Asset] ([AssetID]) ON DELETE NO ACTION
+      );
+Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (4ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      CREATE TABLE [HRM_DEF_RoleMenuMapping] (
+          [RoleMenuMappingID] bigint NOT NULL IDENTITY,
+          [RoleID] bigint NULL,
+          [MenuID] bigint NULL,
+          [ScreenPermission] int NULL,
+          [Remarks] varchar(500) NULL,
+          [IsActive] bit NULL,
+          [IsSystem] int NULL,
+          [CreatedBy] bigint NULL,
+          [CreatedDate] datetime NULL,
+          [ModifiedBy] bigint NULL,
+          [ModifiedDate] datetime NULL,
+          CONSTRAINT [PK__HRM_DEF___B804E07DF8662758] PRIMARY KEY ([RoleMenuMappingID]),
+          CONSTRAINT [FK__HRM_DEF_R__MenuI__5CD6CB2B] FOREIGN KEY ([MenuID]) REFERENCES [HRM_DEF_Menu] ([MenuID]) ON DELETE NO ACTION,
+          CONSTRAINT [FK__HRM_DEF_R__RoleI__5BE2A6F2] FOREIGN KEY ([RoleID]) REFERENCES [HRM_DEF_Role] ([RoleID]) ON DELETE NO ACTION
+      );
+Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (1ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      CREATE INDEX [IX_HRM_DEF_Asset_AssetTypeID] ON [HRM_DEF_Asset] ([AssetTypeID]);
+Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (0ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      CREATE INDEX [IX_HRM_DEF_EmployeePayrolGroupMAP_PayrollGroupID] ON [HRM_DEF_EmployeePayrolGroupMAP] ([PayrollGroupID]);
+Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (0ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      CREATE INDEX [IX_HRM_DEF_Menu_ParentMenuID] ON [HRM_DEF_Menu] ([ParentMenuID]);
+Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (0ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      CREATE INDEX [IX_HRM_DEF_Menu_ScreenID] ON [HRM_DEF_Menu] ([ScreenID]);
+Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (1ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      CREATE UNIQUE INDEX [UQ__HRM_DEF___B3697C196B0FDBE9] ON [HRM_DEF_PayType] ([PayTypeName_EN]) WHERE [PayTypeName_EN] IS NOT NULL;
+Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (1ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      CREATE INDEX [IX_HRM_DEF_PayTypeFormulae_PayTypeGroupID] ON [HRM_DEF_PayTypeFormulae] ([PayTypeGroupID]);
+Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (1ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      CREATE INDEX [IX_HRM_DEF_PayTypeFormulae_PayTypeID] ON [HRM_DEF_PayTypeFormulae] ([PayTypeID]);
+Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (1ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      CREATE INDEX [IX_HRM_DEF_PayTypeSetting_PayTypeGroupID] ON [HRM_DEF_PayTypeSetting] ([PayTypeGroupID]);
+Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (0ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      CREATE INDEX [IX_HRM_DEF_PayTypeSetting_PayTypeID] ON [HRM_DEF_PayTypeSetting] ([PayTypeID]);
+Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (0ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      CREATE INDEX [IX_HRM_DEF_Report_OutputParams_ReportID] ON [HRM_DEF_Report_OutputParams] ([ReportID]);
+Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (0ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      CREATE INDEX [IX_HRM_DEF_ReportFilters_ReportID] ON [HRM_DEF_ReportFilters] ([ReportID]);
+Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (1ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      CREATE INDEX [IX_HRM_DEF_ReportMappingByRole_ReportID] ON [HRM_DEF_ReportMappingByRole] ([ReportID]);
+Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (1ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      CREATE INDEX [IX_HRM_DEF_ReportMaster_ModuleID] ON [HRM_DEF_ReportMaster] ([ModuleID]);
+Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (1ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      CREATE UNIQUE INDEX [IX_HRM_DEF_Role] ON [HRM_DEF_Role] ([RoleName_EN]) WHERE [RoleName_EN] IS NOT NULL;
+Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (0ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      CREATE UNIQUE INDEX [IX_HRM_DEF_Role_1] ON [HRM_DEF_Role] ([RoleName_AR]) WHERE [RoleName_AR] IS NOT NULL;
+Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (0ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      CREATE INDEX [IX_HRM_DEF_RoleMenuMapping_MenuID] ON [HRM_DEF_RoleMenuMapping] ([MenuID]);
+Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (1ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      CREATE INDEX [IX_HRM_DEF_RoleMenuMapping_RoleID] ON [HRM_DEF_RoleMenuMapping] ([RoleID]);
+Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (1ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      CREATE INDEX [IX_HRM_DEF_TicketBalanceSetup_DependantTypeID] ON [HRM_DEF_TicketBalanceSetup] ([DependantTypeID]);
+Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (0ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      CREATE INDEX [IX_HRM_DEF_TicketBalanceSetup_EmployeeDependantID] ON [HRM_DEF_TicketBalanceSetup] ([EmployeeDependantID]);
+Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (1ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      CREATE INDEX [IX_HRM_DEF_User_RoleID] ON [HRM_DEF_User] ([RoleID]);
+Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (0ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      CREATE INDEX [IX_HRM_SYS_RuleEngine_ScreenID] ON [HRM_SYS_RuleEngine] ([ScreenID]);
+Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (0ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      CREATE INDEX [IX_HRM_TRAN_EmployeeAsset_AssetID] ON [HRM_TRAN_EmployeeAsset] ([AssetID]);
+Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (0ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      CREATE INDEX [IX_HRM_TRAN_EmployeeCancelRequestDetails_EmployeeServiceRequestID] ON [HRM_TRAN_EmployeeCancelRequestDetails] ([EmployeeServiceRequestID]);
+Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (0ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      CREATE INDEX [IX_HRM_TRAN_EmployeeOutofOfficeReasonDetails_OutofOfficeReasonID] ON [HRM_TRAN_EmployeeOutofOfficeReasonDetails] ([OutofOfficeReasonID]);
+Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (1ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      CREATE INDEX [IX_HRM_TRAN_EmployeePhone_PhoneTypeID] ON [HRM_TRAN_EmployeePhone] ([PhoneTypeID]);
+Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (1ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      CREATE UNIQUE INDEX [IX_HRM_TRAN_EmployeeServiceRequest] ON [HRM_TRAN_EmployeeServiceRequest] ([EmployeeServiceRequestID]);
+Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (0ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      CREATE INDEX [IX_HRM_TRAN_EmployeeTicketServiceRequestDetails_FlightClassID] ON [HRM_TRAN_EmployeeTicketServiceRequestDetails] ([FlightClassID]);
+Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (0ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      CREATE INDEX [IX_HRM_TRAN_EmployeeTicketServiceRequestDetails_TravelTypeID] ON [HRM_TRAN_EmployeeTicketServiceRequestDetails] ([TravelTypeID]);
+Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (0ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      CREATE INDEX [IX_HRM_TRAN_EmployeeTimeSheetCalculation_EmployeeMonthTimeSheetID] ON [HRM_TRAN_EmployeeTimeSheetCalculation] ([EmployeeMonthTimeSheetID]);
+Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (0ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      CREATE INDEX [IX_HRM_TRAN_EmployeeVacationServiceRequestDetails_EmployeeServiceRequestID] ON [HRM_TRAN_EmployeeVacationServiceRequestDetails] ([EmployeeServiceRequestID]);
+Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (0ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      CREATE INDEX [IX_HRM_TRAN_EmployeeVSRReturnDetails_EmployeeServiceRequestID] ON [HRM_TRAN_EmployeeVSRReturnDetails] ([EmployeeServiceRequestID]);
+Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (0ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      CREATE INDEX [IX_HRM_TRAN_Insurance_InsuranceClassID] ON [HRM_TRAN_Insurance] ([InsuranceClassID]);
+Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (1ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      CREATE INDEX [IX_HRM_TRAN_Insurance_InsuranceProviderID] ON [HRM_TRAN_Insurance] ([InsuranceProviderID]);
+infoverbose: Executed DbCommand (1ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (1ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      CREATE INDEX [IX_HRM_TRAN_Insurance_InsuranceTypeID] ON [HRM_TRAN_Insurance] ([InsuranceTypeID]);
+Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (1ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      CREATE INDEX [IX_HRM_TRAN_Payscale_PackageID] ON [HRM_TRAN_Payscale] ([PackageID]);
+Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (0ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      CREATE INDEX [IX_HRM_TRAN_ServiceRequestDocumentDetails_DocumentTypeID] ON [HRM_TRAN_ServiceRequestDocumentDetails] ([DocumentTypeID]);
+Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (0ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      CREATE INDEX [IX_HRM_TRAN_ServiceRequestDocumentDetails_EmployeeServiceRequestID] ON [HRM_TRAN_ServiceRequestDocumentDetails] ([EmployeeServiceRequestID]);
+Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (1ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      CREATE INDEX [IX_PracticeTable_AssetTypeID] ON [PracticeTable] ([AssetTypeID]);
+Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (0ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      CREATE INDEX [IX_TestForPractice_AssetTypeID] ON [TestForPractice] ([AssetTypeID]);
+Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (1ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      INSERT INTO [__EFMigrationsHistory] ([MigrationId], [ProductVersion])
+      VALUES (N'20210914091620_adding_hrm_tables', N'5.0.0');

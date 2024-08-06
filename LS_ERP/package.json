@@ -1,0 +1,6 @@
+{
+  "dependencies": {
+    "@fullcalendar/angular": "^6.1.4",
+    "@fullcalendar/interaction": "^6.1.4"
+  }
+}

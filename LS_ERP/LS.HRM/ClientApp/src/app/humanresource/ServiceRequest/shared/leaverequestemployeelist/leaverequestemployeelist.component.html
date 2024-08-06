@@ -1,0 +1,13 @@
+
+<h3>{{'Select_EmployeeList' | translate}}</h3>
+<div class="row pt-3">
+  <div class="col-md-12 col-lg-12">
+    <spinner-loader [isLoading]="isLoading"></spinner-loader>
+  </div>
+  <div class="col-md-5 col-lg-5" *ngIf="empListSelectListItems.length > 0">
+    <ng-select [items]="empListSelectListItems"
+               bindLabel="text"
+               bindValue="value" (change)="selectEmpSelect($event)">
+    </ng-select>
+  </div>
+</div>

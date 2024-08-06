@@ -1,0 +1,28 @@
+<h3 class="modal-title">{{'Upload_Document_For_Grade' | translate}}</h3>
+<button type="button" class="close" aria-hidden="true" (click)="closeModel()"> ×</button>
+<form [formGroup]="form" (ngSubmit)="submit()" novalidate class="mt-4" enctype="multipart/form-data">
+  <div class="outer ">
+    <div class="row rowm0 mt-3">
+      <div class="col-md-4 col-lg-4 col-sm-4">
+        <div class="form-group">
+          <label>{{'Upload_Document' | translate}}</label>
+          <div>
+            <input accept="application/pdf" type="file" (change)="onFileChanged($event)" style="width: 100%;" />
+          </div>
+        </div>
+      </div>
+      <div class="col-md-8 col-lg-8 col-sm-8">
+        <div *ngIf="fileName">
+          <a target="_blank" href="{{fileName}}">{{'Download_File' | translate}}</a>
+        </div>
+      </div>
+    </div>
+    <div class="row customrow mt-4">
+      <div class="col-lg-12 col-md-12 text-center">
+        <input type="button" class="btn btn-secondary" value="{{'Cancel' | translate}}" (click)="closeModel()" />
+        &nbsp;&nbsp;
+        <input type="submit" class="btn waves-effect waves-light btn-primary" value="{{'Save' | translate}}">
+      </div>
+    </div>
+  </div>
+</form>

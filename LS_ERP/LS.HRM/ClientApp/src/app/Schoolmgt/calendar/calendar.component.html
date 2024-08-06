@@ -1,0 +1,67 @@
+<style>
+  /*.mat-calendar {
+    background-color: #ffdfdf !important;
+  }*/
+</style>
+<div class="page-breadcrumb">
+  <div class="row">
+    <div class="col-12 align-self-center">
+      <h3 class="page-title text-truncate text-dark font-weight-medium mb-1">
+        {{'School_Calendar' | translate}}
+      </h3>
+      <div class="d-flex align-items-center">
+        <nav aria-label="breadcrumb">
+          <ol class="breadcrumb m-0 p-0">
+            <li class="breadcrumb-item text-muted">{{'School_Calendar' | translate}}</li>
+            <li class="breadcrumb-item active" aria-current="page">{{'School_Calendar' | translate}}</li>
+          </ol>
+        </nav>
+      </div>
+    </div>
+  </div>
+</div>
+<form [formGroup]="form" (ngSubmit)="submit()" novalidate class="mt-4">
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-md-2 col-lg-2">
+        <label>{{'Branch_Code' | translate}}</label>
+      </div>
+      <div class="col-md-2 col-lg-2">
+        <div class="form-group">
+          <select class="custom-select mr-sm-2" formControlName="branchCode" (change)="loadResultList()">
+            <option value="">{{'Select' | translate}} {{'Branch_Code' | translate}} </option>
+            <ng-container *ngIf="branchCodeList">
+              <option *ngFor="let item of branchCodeList" value="{{item.value}}">{{ isArab ? item.textTwo : item.text  }}</option>
+            </ng-container>
+          </select>
+          <validation-message [control]="form.controls.branchCode"></validation-message>
+        </div>
+      </div>
+    </div>
+    <div class="row" *ngIf="isShowDiv">
+      <div class="col-md-2 col-lg-2">
+        <div class="row">
+          <div class="col-md-12 col-lg-12" style="padding: 8%;">
+            <span style="background-color: red; color: #fff; padding: 5%; ">{{'Weekend' | translate}}</span>
+          </div>
+          <div class="col-md-12 col-lg-12" style="padding: 8%;">
+            <span style="background-color: green; color: #fff; padding: 5%; ">{{'Holiday' | translate}}</span>
+          </div>
+          <div class="col-md-12 col-lg-12" style="padding: 8%;">
+            <span style="background-color: yellow; color: #000; padding: 5%; ">{{'Event' | translate}}</span>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-6 col-lg-6">
+        <mat-calendar #calendar [dateClass]="dateClass()" [(selected)]="selectedDate"
+                      [minDate]="minDate" [maxDate]="maxDate">
+        </mat-calendar>
+      </div>
+      <div class="col-md-4 col-lg-4">
+        <div *ngFor="let dayData of allDatesData; let i = index">
+          <span class="spanDiv{{dayData.eventType}}">{{dayData.eventDate}} &nbsp;&nbsp;({{isArab?dayData.eventNameAr:dayData.eventName}})</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</form>

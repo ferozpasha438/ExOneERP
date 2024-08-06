@@ -1,0 +1,100 @@
+<div class="modal-header">
+    <h3 class="modal-title">{{modalTitle}}</h3>
+    <button type="button" class="close" aria-hidden="true" (click)="closeModel()"> ×</button>
+</div>
+<form [formGroup]="form" (ngSubmit)="submit()" novalidate class="mt-4">
+    <div class="row">
+        <div class="col-md-6 col-lg-6">
+            <div class="form-group">
+                <label for="payrollComponentCode">{{'PayrollComponentCode' | translate}}</label>
+                <input class="form-control input-mandatory" id="payrollComponentCode" type="text"
+                    placeholder="{{'Please_Enter' | translate}} {{'PayrollComponentCode' | translate}} "
+                    formControlName="payrollComponentCode" [readonly]="isReadOnly">
+                <validation-message [control]="form.controls.payrollComponentCode"></validation-message>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-6 col-lg-6">
+            <div class="form-group">
+                <label for="payrollComponentNameEn">{{'PayrollComponentNameEn' | translate}}</label>
+                <input class="form-control input-mandatory" id="payrollComponentNameEn" type="text"
+                    placeholder="{{'Please_Enter' | translate}} {{'PayrollComponentNameEn' | translate}}"
+                    formControlName="payrollComponentNameEn">
+                <validation-message [control]="form.controls.payrollComponentNameEn"></validation-message>
+            </div>
+        </div>
+        <div class="col-md-6 col-lg-6">
+            <div class="form-group">
+                <label for="payrollComponentNameAr">{{'PayrollComponentNameAr' | translate}}</label>
+                <input class="form-control " id="payrollComponentNameAr" type="text"
+                    placeholder="{{'Please_Enter' | translate}} {{'PayrollComponentNameAr' | translate}}"
+                    formControlName="payrollComponentNameAr">
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-6 col-lg-6">
+            <div class="form-group">
+                <label for="payrollComponentType">{{'PayrollComponentType' | translate}}</label>
+                <select class="custom-select input-mandatory" formControlName="payrollComponentType">
+                    <option value="">{{'PayrollComponentType' | translate}}</option>
+                    <option *ngFor="let componentType of componentTypes" value="{{componentType.value}}">
+                        {{componentType.text}}</option>
+                </select>
+                <validation-message [control]="form.controls.payrollComponentType"></validation-message>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-6 col-lg-6">
+            <div class="form-group">
+                <label for="isFormula">{{'IsFormula' | translate}}</label>
+                <br />
+                <mat-slide-toggle color="primary" formControlName="isFormula"></mat-slide-toggle>
+            </div>
+        </div>
+        <div *ngIf="form.controls['isFormula'].value" class="col-md-6 col-lg-6">
+            <div class="form-group">
+                <label for="formulaQueryString">{{'FormulaQueryString' | translate}}</label>
+                <input class="form-control input-mandatory" type="text"
+                    placeholder="{{'Please_Enter' | translate}} {{'FormulaQueryString' | translate}}"
+                    formControlName="formulaQueryString">
+                <validation-message [control]="form.controls.payrollComponentType"></validation-message>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-6 col-lg-6">
+            <div class="form-group">
+                <label for="isUsedForOtherPayrollComponent">{{'IsUsedForOtherPayrollComponent' | translate}}</label>
+                <br />
+                <mat-slide-toggle color="primary" formControlName="isUsedForOtherPayrollComponent"></mat-slide-toggle>
+            </div>
+        </div>
+        <div class="col-md-6 col-lg-6">
+            <div class="form-group">
+                <label for="isApplicableForDeduction">{{'IsApplicableForDeduction' | translate}}</label>
+                <br />
+                <mat-slide-toggle color="primary" formControlName="isApplicableForDeduction"></mat-slide-toggle>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-6 col-lg-6">
+            <div class="form-group">
+                <label for="isActive">{{'Is_Active' | translate}}</label>
+                <br />
+                <mat-slide-toggle color="primary" formControlName="isActive"></mat-slide-toggle>
+            </div>
+        </div>
+    </div>
+    <div class="row mt-3">
+        <div class="col-md-12 col-lg-12 text-center">
+            <input type="button" class="btn waves-effect waves-light btn-rounded   btn-secondary btn-midblock"
+                value="{{'Cancel' | translate}}" (click)="closeModel()" /> &nbsp;
+            <input type="submit" class="btn waves-effect waves-light btn-rounded btn-primary btn-midblock"
+                value="{{'Save' | translate}}" />
+        </div>
+    </div>
+</form>

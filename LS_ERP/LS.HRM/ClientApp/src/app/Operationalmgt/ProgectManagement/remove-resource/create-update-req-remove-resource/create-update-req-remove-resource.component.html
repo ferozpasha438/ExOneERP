@@ -1,0 +1,178 @@
+<h3> {{modalTitle}} <button type="button" class="close" aria-hidden="true" (click)="closeModel()"> ×</button></h3>
+<form [formGroup]="form" (ngSubmit)="submit()" novalidate class="mt-4" #myform="ngForm">
+  <div class="modal-body">
+    <div *ngIf="id>0">
+      {{'Request_Number' |translate}}:{{id}}
+    </div>
+    <div class="outer ">
+      <div class="row rowm0 ">
+
+        <div class="col-md-12 col-lg-12">
+
+          <div class="row mt-3">
+            <div class="col-md-12 col-lg-12">
+              <div class="p-3" style="border:1px solid #f4f4f4;">
+                <div class="row  mt-2" id="inputEntry">
+
+                  <div class="col-md-4 col-lg-4">
+                    <label class="mr-sm-2">{{'Customer_Code' | translate}}</label>
+                    <div class="form-group ">
+                      <div class="input-group mb-2">
+                        <auto-loader [isLoading]="isDataLoading"></auto-loader>
+                        <input type="text" class="form-control"
+                               placeholder="{{'Please_Enter' | translate}} {{'Customer_Code' | translate}}"
+                               [formControl]="custCodeControl"
+                               matInput
+                               [matAutocomplete]="auto1">
+                        <mat-autocomplete #auto1="matAutocomplete" (optionSelected)="onSelectionCustomerCode($event,1)">
+                          <mat-option *ngFor="let option of filteredCustCodes | async"
+                                      [value]="option.value" style="font-size:smaller">
+                            {{ isArabic?option.textTwo:option.text}}
+                          </mat-option>
+                        </mat-autocomplete>
+
+                      </div>
+
+                      <span *ngIf="!(form.get('customerCode')?.hasError('required') && myform?.submitted)" style="color:red">
+                        <validation-message [control]="form.controls.customerCode"></validation-message>
+                      </span>
+                      <span *ngIf="form.get('customerCode')?.hasError('required')&& myform?.submitted" style="color:red">{{'Required'|translate}}</span>
+                    </div>
+
+                  </div>
+
+
+                  <div class="col-md-4 col-lg-4">
+                    <label class="mr-sm-2">{{'Project' | translate}}</label>
+                    <div class="form-group ">
+                      <div class="input-group mb-2">
+
+                        <select class="custom-select mr-sm-2" formControlName="projectCode" (change)="onSelectionProjectCode()">
+                          <option value=''>{{'Select' | translate}} {{'Project' | translate}} </option>
+                          <option *ngFor="let pr of projectsList" value="{{pr.value}}">{{pr.value}}</option>
+                        </select>
+                      </div>
+
+                      <span *ngIf="!(form.get('projectCode')?.hasError('required') && myform?.submitted)" style="color:red">
+                        <validation-message [control]="form.controls.projectCode"></validation-message>
+                      </span>
+                      <span *ngIf="form.get('projectCode')?.hasError('required')&& myform?.submitted" style="color:red">{{'Required'|translate}}</span>
+                    </div>
+
+                  </div>
+                  <div class="col-md-4 col-lg-4">
+                    <label class="mr-sm-2">{{'Site' | translate}}</label>
+                    <div class="form-group ">
+                      <div class="input-group mb-2">
+
+                        <select class="custom-select mr-sm-2" formControlName="siteCode" (change)="onSelectionSiteCode()">
+                          <option value=''>{{'Select' | translate}} {{'Site' | translate}} </option>
+                          <option *ngFor="let s of siteCodeList" value="{{s.siteCode}}">{{ isArabic?s.siteArbName:s.siteName}}</option>
+                        </select>
+                      </div>
+
+                      <span *ngIf="!(form.get('siteCode')?.hasError('required') && myform?.submitted)" style="color:red">
+                        <validation-message [control]="form.controls.siteCode"></validation-message>
+                      </span>
+                      <span *ngIf="form.get('siteCode')?.hasError('required')&& myform?.submitted" style="color:red">{{'Required'|translate}}</span>
+
+                    </div>
+
+                  </div>
+                  <div class="col-md-4 col-lg-4">
+                    <label class="mr-sm-2">{{'Employee' | translate}}</label>
+                    <div class="form-group ">
+                      <div class="input-group mb-2">
+                        <auto-loader [isLoading]="isDataLoading"></auto-loader>
+                        <input type="text" class="form-control"
+                               placeholder="{{'Please_Enter' | translate}} {{'Employee' | translate}}"
+                               [formControl]="empNumberControl"
+                               matInput
+                               [matAutocomplete]="auto3">
+                        <mat-autocomplete #auto3="matAutocomplete" (optionSelected)="onSelectionEmployee($event,1)">
+                          <mat-option *ngFor="let option of filteredEmployees | async"
+                                      [value]="option.text" style="font-size:smaller">
+                            {{option.text}}-{{ !isArabic?option.textTwo:option.textAr}}
+                          </mat-option>
+                        </mat-autocomplete>
+
+                      </div>
+                      <span *ngIf="!(form.get('employeeNumber')?.hasError('required') && myform?.submitted)" style="color:red">
+                        <validation-message [control]="form.controls.employeeNumber"></validation-message>
+                      </span>
+                      <span *ngIf="form.get('employeeNumber')?.hasError('required')&& myform?.submitted" style="color:red">{{'Required'|translate}}</span>
+
+                    </div>
+
+                  </div>
+
+
+
+                  <div class="col-md-4 col-lg-4">
+                    <div class="form-group ">
+                      <label class="mr-sm-2">
+                        {{'From_Date' | translate}}
+                      </label>
+
+                      <div class="form-group ">
+                        <div class="input-group ">
+                          <input class="form-control datapickerinput" placeholder=" {{'Please_Enter' | translate}} {{'From_Date' | translate}}" formControlName="fromDate"
+                                 [matDatepicker]="picker1" [min]="projectData?.startDate" [max]="projectData?.endDate" (click)="openDatePicker(picker1)">
+
+                          <div class="input-group-prepend datapickericon">
+                            <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
+                            <mat-datepicker #picker1></mat-datepicker>
+                          </div>
+
+                        </div>
+                        <span *ngIf="!(form.get('fromDate')?.hasError('required') && myform?.submitted)" style="color:red">
+                          <validation-message [control]="form.controls.fromDate"></validation-message>
+                        </span>
+                        <span *ngIf="form.get('fromDate')?.hasError('required')&& myform?.submitted" style="color:red">{{'Required'|translate}}</span>
+
+                      </div>
+                    </div>
+                  </div>
+
+
+
+
+
+
+
+
+                </div>
+
+              </div>
+            </div>
+
+
+
+
+          </div>
+
+        </div>
+        <div class="col-md-12 col-lg-12">
+
+          <div class="row mt-3 ">
+            <div class="col-md-12 col-lg-12 text-center">
+              <input type="button"
+                     class="btn waves-effect waves-light btn-rounded   btn-secondary btn-midblock"
+                     value="{{'Cancel' | translate}}" (click)="closeModel()" /> &nbsp;
+
+              <input type="submit" *ngIf="modalBtnTitle != 'View'"
+                     class="btn waves-effect waves-light btn-rounded btn-primary btn-midblock"
+                     value="{{'Save' | translate}}" />
+
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+    </div>
+
+
+  </div>
+
+</form>

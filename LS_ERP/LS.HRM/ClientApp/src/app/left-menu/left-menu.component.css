@@ -1,0 +1,15 @@
+ul#sidebarnav {
+  max-height: 630px;
+  overflow-y: auto;
+}
+.defaultColor {
+  color: #665f5f !important;
+  font-weight:500!important;
+}
+.sidebar-nav #sidebarnav .sidebar-item .sidebar-link { 
+  padding: 12px 6px!important;
+}
+.span_fontSize{
+    font-size:13.4px;
+    text-transform:uppercase;
+}

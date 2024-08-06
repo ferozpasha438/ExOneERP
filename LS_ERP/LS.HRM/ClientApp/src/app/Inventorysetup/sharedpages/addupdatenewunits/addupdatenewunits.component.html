@@ -1,0 +1,50 @@
+<h3>{{'Create_New_Unit' | translate}} <button type="button" class="close" aria-hidden="true" (click)="closeModel()"> ×</button></h3>
+<form [formGroup]="form" (ngSubmit)="submit()" novalidate class="mt-4">
+
+  <div class="row">
+    <div class="col-md-6 col-lg-6">
+      <div class="form-group">
+        <label>{{'UOM_Code' | translate}}</label>
+        <input class="form-control" type="text"
+               placeholder="{{'Please_Enter' | translate}} {{'UOM_Code' | translate}}" maxlength="10" formControlName="uomCode" [readonly]="isReadOnly" (change)="onTextchange($event.target.value)">
+        <validation-message [control]="form.controls.uOMCode"></validation-message>
+      </div>
+    </div>
+    <div class="col-md-6 col-lg-6">
+      <div class="form-group">
+        <label>{{'Uom_Name' | translate}}</label>
+        <input class="form-control" type="text"
+               placeholder="{{'Please_Enter' | translate}} {{'Uom_Name' | translate}}" maxlength="20" formControlName="uomName">
+        <validation-message [control]="form.controls.uOMName"></validation-message>
+      </div>
+    </div>
+    <div class="col-md-12 col-lg-12">
+      <div class="form-group">
+        <label>{{'Uom_Description' | translate}}</label>
+        <input class="form-control" type="text"
+               placeholder="{{'Please_Enter' | translate}} {{'Uom_Description' | translate}}" maxlength="20" formControlName="uomDesc">
+      </div>
+    </div>
+
+    <!--<div class="col-md-6 col-lg-6">
+      <div class="form-group">
+        <label>{{'Is_Active' | translate}}</label>
+        <div class="form-group">
+          <div>
+            <mat-slide-toggle color="primary" formControlName="isActive"> </mat-slide-toggle>
+          </div>
+        </div>
+      </div>
+    </div>-->
+  </div>
+  <div class="row mt-3 ">
+    <div class="col-md-12 col-lg-12 text-center">
+      <input type="button"
+             class="btn waves-effect waves-light btn-rounded   btn-secondary btn-midblock" (click)="closeModel()"
+             value="{{'Cancel' | translate}}" /> &nbsp;
+      <input type="submit"
+             class="btn waves-effect waves-light btn-rounded btn-primary btn-midblock"
+             value="{{'Save' | translate}}" />
+    </div>
+  </div>
+</form>

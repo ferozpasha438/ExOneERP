@@ -1,0 +1,125 @@
+
+<h3> {{'Create_New_Sales_Invoice' | translate}} ({{inputData?.invoiceNumber}}) <button type="button" class="close" aria-hidden="true" (click)="closeModel()"> ×</button></h3>
+<form [formGroup]="form" (ngSubmit)="submit()" novalidate class="mt-1">
+  <div class="row rowm0 ">
+
+
+    <div class="col-md-4 col-lg-4">
+      <div class="form-group ">
+        <label class="mr-sm-2">
+          {{'Select_Payment' | translate}}
+        </label>
+        <br />
+        <mat-radio-group aria-label="Select an option" formControlName="paymentType" (change)="paymentSelected($event)">
+          <mat-radio-button *ngIf="inputData?.dueDays>0" value="Credit">{{'Credit' | translate}} &nbsp;&nbsp;</mat-radio-button>
+          <mat-radio-button value="Cash">{{'Cash_Bank' | translate}}</mat-radio-button>
+          <!--<mat-radio-button value="3">Bank</mat-radio-button>-->
+        </mat-radio-group>
+      </div>
+    </div>
+
+
+
+
+    <div class="table-responsive" *ngIf="!isCreditSelected">
+
+      <div style="padding-bottom:10px;">
+        <table>
+
+          <tr>
+            <td style="width:20%">
+
+              <select class="custom-select mr-sm-2" [(ngModel)]="editPaymentData.paymentCode" [ngModelOptions]="{standalone: true}">
+                <option value="">{{'Select_Payment' | translate}}</option>
+                <option *ngFor="let item of paymentCodeList" value="{{item.text}}">{{item.text}}</option>
+              </select>
+
+
+            </td>
+            <td style="width:20%">
+
+              <!--<label class="mr-sm-2">{{'Amount' | translate}}</label>-->
+              <input class="form-control" type="number" placeholder="{{'Amount' | translate}}" [(ngModel)]="editPaymentData.settledAmount" [ngModelOptions]="{standalone: true}" />
+
+
+            </td>
+            <td style="width:55%">
+
+              <!--<label class="mr-sm-2">{{'Remarks' | translate}}</label>-->
+              <input type="text" class="form-control" placeholder="{{'Remarks' | translate}}" style="width:75%" [(ngModel)]="editPaymentData.remarks" [ngModelOptions]="{standalone: true}" />
+
+
+            </td>
+            <td>
+
+              <button type="button" class="btn waves-effect waves-light   btn-primary" (click)="AddPaymentItem()">{{'Add' | translate}}</button>
+
+
+            </td>
+          </tr>
+        </table>
+      </div>
+      
+      <table id="zero_config" class="table  table-bordered no-wrap">
+        <thead>
+          <tr>
+            <th style="width:5%">{{'S.No' | translate}}</th>
+            <th style="width:25%">{{'paymentCode' | translate}}</th>
+            <th style="width:25%">{{'Amount' | translate}}</th>
+            <th style="width:45%">{{'Remarks' | translate}}</th>
+            <th>{{'Action' | translate}}</th>
+
+          </tr>
+        </thead>
+
+        <ng-container *ngIf="paymentsList.length>0">
+          <tr *ngFor="let item of paymentsList ;let i=index">
+            <td>{{i+1}}</td>
+            <td>{{item.paymentCode}}</td>
+            <td>{{item.settledAmount | number:'1.2'}}</td>
+            <td> {{item.remarks}}</td>
+            <td>
+
+              <span>
+                <a class="tableicons pcursor" (click)="updatePaymentData(i)" matTooltip="{{'Edit' | translate}}"><i class="icon-note"> </i></a> &nbsp;
+
+              </span>
+              <span>
+                <a class="tableicons pcursor" (click)="deletePayment(i)" matTooltip="{{'Remove' | translate}}"><i class="icon-trash"> </i></a> &nbsp;
+
+              </span>
+            </td>
+          </tr>
+        </ng-container>
+        <tr>
+          <td colspan="5">{{'Settled_Amount'}}:{{settledAmount  | number:'1.2'}}&nbsp;;{{'Invoice_Amount'}}:{{inputData.totalAmount  | number:'1.2'}}&nbsp;;{{'Balance_Amount'}}:{{balanceAmount  | number:'1.2'}}</td>
+         
+        </tr>
+
+
+      </table>
+    </div>
+
+
+  
+
+
+
+
+
+
+
+
+
+
+  </div>
+    <div class="row">
+      <div class="col-lg-12 col-md-12 text-center">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal" (click)="closeModel()">
+          {{'Cancel' | translate}}
+        </button>
+        &nbsp;&nbsp;
+        <input type="submit" class="btn waves-effect waves-light   btn-primary  " value="{{'Save' | translate}}">
+      </div>
+    </div>
+</form>

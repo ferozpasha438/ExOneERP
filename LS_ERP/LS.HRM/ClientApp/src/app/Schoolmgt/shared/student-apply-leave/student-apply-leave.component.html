@@ -1,0 +1,271 @@
+<div class="page-breadcrumb">
+  <div class="row">
+    <div class="col-12 align-self-center">
+      <h3 class="modal-title">{{'Student_Apply_Leave' | translate}}</h3>
+      <button type="button" class="close" aria-hidden="true" (click)="closeModel()"> ×</button>
+    </div>
+  </div>
+</div>
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-md-12 col-lg-12">
+      <div class="card">
+        <div class="card-body">
+          <div class="row">
+            <div class="col-md-12 col-lg-12 text-right">
+              <a class="btn waves-effect waves-light btn-rounded btn-outline-primary"
+                 (click)="showCreateForm()">
+                <i class="icon-plus"> </i>{{'Add' | translate }}
+              </a>
+            </div>
+          </div>
+          <div class="cardtitle-divider"></div>
+          <!--<div class="row pb-3">
+            <div class="col-md-4">
+              <div class="form-group ">
+                <label>{{'Reason_Type' | translate}}</label>
+                <select class="custom-select mr-sm-2" [(ngModel)]="selectedReasonType" (change)="changeReasonType(1);">
+                  <option value="">{{'Select' | translate}} {{'Reason_Type' | translate}} </option>
+                  <option value="Positive">{{'Positive' | translate}}</option>
+                  <option value="Negative">{{'Negative' | translate}}</option>
+                </select>
+                <validation-message [control]="form.controls.reasonType"></validation-message>
+              </div>
+            </div>
+            <div class="col-md-4">
+              <div class="form-group ">
+                <label>{{'Reason_Code' | translate}}</label>
+                <select class="custom-select mr-sm-2" [(ngModel)]="selectedReasonCode">
+                  <option value="">{{'Select' | translate}} {{'Reason_Code' | translate}} </option>
+                  <ng-container *ngIf="reasonSortList">
+                    <option *ngFor="let item of reasonSortList" value="{{item.reasonCode}}">{{ isArab ? item.reasonName2 : item.reasonName1  }}</option>
+                  </ng-container>
+                </select>
+                <validation-message [control]="form.controls.reasonCode"></validation-message>
+              </div>
+            </div>
+            <div class="col-md-4 arabicright mt-4">
+              <button class="btn btn-primary mt-2">
+                {{'Select' | translate}}
+              </button>
+            </div>
+          </div>-->
+          <div class="table-responsive">
+            <spinner-loader [isLoading]="isLoading"></spinner-loader>
+            <div class="mat-elevation-z8">
+              <ng-container>
+                <table mat-table [dataSource]="data" matSort matSortActive="id" matSortDisableClear
+                       matSortDirection="desc" class="table  table-bordered no-wrap">
+                  <ng-container matColumnDef="leaveCode">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                      {{'Leave_Code' | translate}}
+                    </th>
+                    <td mat-cell *matCellDef="let row">{{ row.leaveCode }}</td>
+                  </ng-container>
+                  <ng-container matColumnDef="leaveReason">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                      {{'Leave_Reason' | translate}}
+                    </th>
+                    <td mat-cell *matCellDef="let row">{{ row.leaveReason }}</td>
+                  </ng-container>
+
+                  <ng-container matColumnDef="leaveStartDate">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                      {{'Starting_Date' | translate}}
+                    </th>
+                    <td mat-cell *matCellDef="let row">{{ row.leaveStartDate }}</td>
+                  </ng-container>
+                  <ng-container matColumnDef="leaveEndDate">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                      {{'Ending_Date' | translate}}
+                    </th>
+                    <td mat-cell *matCellDef="let row">{{ row.leaveEndDate }}</td>
+                  </ng-container>
+                  <ng-container matColumnDef="leaveMessage">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                      {{'Leave_Message' | translate}}
+                    </th>
+                    <td mat-cell *matCellDef="let row">{{ row.leaveMessage }}</td>
+                  </ng-container>
+                  <ng-container matColumnDef="Actions" stickyEnd>
+                    <th mat-header-cell *matHeaderCellDef> {{'Actions' | translate}}</th>
+                    <td mat-cell *matCellDef="let row">
+                      <a class="tableicons" matTooltip="{{'Edit_Item' | translate}}" *ngIf="row.isApproved==false" (click)="edit(row)">
+                        <i class="icon-note"> </i>
+                      </a>
+                    </td>
+                  </ng-container>
+                  <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
+                  <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+                </table>
+                <ng-container>
+                  <mat-paginator [length]="totalItemsCount" [pageSize]="pageService.pageCount"
+                                 [pageSizeOptions]="pageService.selectItemsPerPage"
+                                 (page)="onPageSwitch($event)">
+                  </mat-paginator>
+                </ng-container>
+              </ng-container>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<form [formGroup]="form" (ngSubmit)="submit()" novalidate class="mt-4" *ngIf="isShowForm">
+  <div class="outer">
+    <div class="row rowm0 mt-3">
+      <div class="col-md-6 col-lg-6 col-sm-6">
+        <div class="form-group">
+          <label>{{'Student_Registration_Number' | translate}}</label>
+          <input class="form-control" type="text" placeholder="{{'Student_Registration_Number' | translate}}"
+                 formControlName="stuAdmNum" readonly />
+          <validation-message [control]="form.controls.stuAdmNum"></validation-message>
+        </div>
+      </div>
+      <!--<div class="col-md-6 col-lg-6 col-sm-6">
+        <div class="form-group">
+          <label>{{'Date_of_Transaction' | translate}}</label>
+          <div class="input-group ">
+            <input class="form-control datapickerinput" placeholder="{{'Date_of_Transaction' | translate}}"
+                   formControlName="dateofTransaction" [matDatepicker]="picker1">
+            <div class="input-group-prepend datapickericon">
+              <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
+              <mat-datepicker #picker1></mat-datepicker><br /><br />
+            </div>
+          </div>
+          <validation-message [control]="form.controls.dateofTransaction"></validation-message>
+        </div>
+      </div>-->
+      <div class="col-md-6 col-lg-6 col-sm-6">
+        <div class="form-group">
+          <label>{{'Student_Name' | translate}}</label>
+          <input class="form-control" type="text" placeholder="{{'Student_Name' | translate}}"
+                 formControlName="stuName" readonly/>
+          <validation-message [control]="form.controls.stuName"></validation-message>
+        </div>
+      </div>
+      <div class="col-md-6 col-lg-6 col-sm-6">
+        <div class="form-group">
+          <label>{{'Student_Name_in_Arabic' | translate}}</label>
+          <input class="form-control" type="text" placeholder="{{'Student_Name_in_Arabic' | translate}}"
+                 formControlName="stuName2" readonly/>
+          <validation-message [control]="form.controls.stuName2"></validation-message>
+        </div>
+      </div>
+      <div class="col-md-6 col-lg-6 col-sm-6">
+        <div class="form-group ">
+          <label>{{'Leave_Code' | translate}}</label>
+          <select class="custom-select mr-sm-2" formControlName="leaveCode">
+            <option value="">{{'Select' | translate}} {{'Leave_Code' | translate}} </option>
+            <ng-container *ngIf="leaveCodeList">
+              <option *ngFor="let item of leaveCodeList" value="{{item.leaveCode}}">{{ isArab ? item.leaveName2 : item.leaveName  }}</option>
+            </ng-container>
+          </select>
+          <validation-message [control]="form.controls.leaveCode"></validation-message>
+        </div>
+      </div>
+      <div class="col-md-6 col-lg-6 col-sm-6">
+        <div class="form-group">
+          <label>{{'Leave_Reason' | translate}}</label>
+          <input class="form-control" type="text" placeholder="{{'Leave_Reason' | translate}}"
+                 formControlName="leaveReason" />
+          <validation-message [control]="form.controls.leaveReason"></validation-message>
+        </div>
+      </div>
+      <div class="col-md-6 col-lg-6 col-sm-6">
+        <div class="form-group">
+          <label>{{'Starting_Date' | translate}}</label>
+          <div class="input-group ">
+            <input class="form-control datapickerinput" placeholder="{{'Starting_Date' | translate}}"
+                   formControlName="leaveStartDate" [matDatepicker]="picker2">
+            <div class="input-group-prepend datapickericon">
+              <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
+              <mat-datepicker #picker2></mat-datepicker><br /><br />
+            </div>
+          </div>
+          <validation-message [control]="form.controls.leaveStartDate"></validation-message>
+        </div>
+      </div>
+      <div class="col-md-6 col-lg-6 col-sm-6">
+        <div class="form-group">
+          <label>{{'Ending_Date' | translate}}</label>
+          <div class="input-group ">
+            <input class="form-control datapickerinput" placeholder="{{'Ending_Date' | translate}}"
+                   formControlName="leaveEndDate" [matDatepicker]="picker3">
+            <div class="input-group-prepend datapickericon">
+              <mat-datepicker-toggle matSuffix [for]="picker3"></mat-datepicker-toggle>
+              <mat-datepicker #picker3></mat-datepicker><br /><br />
+            </div>
+          </div>
+          <validation-message [control]="form.controls.leaveEndDate"></validation-message>
+        </div>
+      </div>
+      <div class="col-md-6 col-lg-6 col-sm-6">
+        <div class="form-group">
+          <label>{{'Leave_Message' | translate}}</label>
+          <input class="form-control" type="text" placeholder="{{'Leave_Message' | translate}}"
+                 formControlName="leaveMessage" />
+          <validation-message [control]="form.controls.leaveMessage"></validation-message>
+        </div>
+      </div>
+      <div class="col-md-6 col-lg-6 col-sm-6 ">
+        <label>{{'Attachment' | translate}}</label>
+        <div class="form-group">
+          <input type="file" formControlName="leaveFile" />
+        </div>
+      </div>
+      <div class="col-md-12 col-lg-12 col-sm-12 text-right mb-3">
+        <input type="submit" class="btn waves-effect waves-light btn-primary" value="{{'Save' | translate}}">
+
+      </div>
+    </div>
+    <div class="card" *ngIf="isShowApproval">
+      <div class="row m-0">
+        <div class="col-md-12 mb-3" style="background: #919191">
+          <h3 style="margin: 0px;padding:5px;color: #fff;">{{'Approval_Details' | translate}}</h3>
+        </div>
+        <div class="col-md-6 col-lg-6 col-sm-6">
+          <label>{{'Is_approved' | translate}}</label>
+          <div class="form-group">
+            <mat-slide-toggle color="primary" formControlName="isapproved"></mat-slide-toggle>
+          </div>
+        </div>
+        <div class="col-md-6 col-lg-6 col-sm-6">
+          <div class="form-group">
+            <label>{{'Approval_Remarks' | translate}}</label>
+            <textarea class="form-control" type="text" placeholder="{{'Approval_Remarks' | translate}}"
+                      formControlName="approvalRemarks"></textarea>
+            <validation-message [control]="form.controls.approvalRemarks"></validation-message>
+          </div>
+        </div>
+        <div class="col-md-6 col-lg-6 col-sm-6">
+          <div class="form-group">
+            <label>{{'Approve_Date' | translate}}</label>
+            <input class="form-control" type="text" placeholder="{{'Approve_Date' | translate}}"
+                   formControlName="approveDate" />
+            <validation-message [control]="form.controls.approveDate"></validation-message>
+          </div>
+        </div>
+        <div class="col-md-6 col-lg-6 col-sm-6">
+          <div class="form-group">
+            <label>{{'Approved_By' | translate}}</label>
+            <input class="form-control" type="text" placeholder="{{'Approved_By' | translate}}"
+                   formControlName="approvedBy" />
+            <validation-message [control]="form.controls.approvedBy"></validation-message>
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+    <div class="row customrow mt-4" *ngIf="isShowApproval">
+      <div class="col-lg-12 col-md-12 text-center">
+        <input type="button" class="btn btn-secondary" value="{{'Cancel' | translate}}"
+               (click)="closeModel()" />
+        &nbsp;&nbsp;
+        <input type="submit" class="btn waves-effect waves-light btn-primary" value="{{'Save' | translate}}">
+      </div>
+    </div>
+  </div>
+</form>

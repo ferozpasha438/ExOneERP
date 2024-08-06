@@ -1,0 +1,199 @@
+<h3 class="modal-title">{{modalTitle | translate}}</h3>
+<button type="button" class="close" aria-hidden="true" (click)="closeModel()"> ×</button>
+<form [formGroup]="form" (ngSubmit)="submit()" novalidate class="mt-4">
+
+
+  <div class="row">
+
+
+    <div class="col-md-2 col-lg-2">
+      <div class="form-group">
+        <label>{{'Customer_Code' | translate}}</label>
+        <input class="form-control" type="text"
+               placeholder="{{'Please_Enter' | translate}} {{'Customer_Code' | translate}}" formControlName="customerCode" readonly>
+
+
+      </div>
+    </div>
+ <div class="col-md-2 col-lg-2">
+      <div class="form-group">
+        <label>{{'Branch_Code' | translate}}</label>
+        <input class="form-control" type="text"
+               placeholder="{{'Please_Enter' | translate}} {{'Branch_Code' | translate}}" formControlName="branchCode" readonly>
+
+
+      </div>
+    </div>
+     <div class="col-md-2 col-lg-2">
+      <div class="form-group">
+        <label>{{'Project_Code' | translate}}</label>
+        <input class="form-control" type="text"
+               placeholder="{{'Please_Enter' | translate}} {{'Project_Code' | translate}}" formControlName="projectCode" readonly>
+
+
+      </div>
+    </div>
+
+    <div class="col-md-4 col-lg-4">
+      <div class="form-group">
+        <label>{{'Project_Name_English' | translate}}</label>
+        <input class="form-control" type="text"
+               placeholder="{{'Please_Enter' | translate}} {{'Project_Name_English' | translate}}" formControlName="projectNameEng">
+        <validation-message [control]="form.controls.projectNameEng"></validation-message>
+      </div>
+    </div>
+
+    <div class="col-md-4 col-lg-4">
+      <div class="form-group">
+        <label>{{'Project_Name_Arab' | translate}}</label>
+        <input class="form-control" type="text"
+               placeholder="{{'Please_Enter' | translate}} {{'Project_Name_Arab' | translate}}" formControlName="projectNameArb">
+        <validation-message [control]="form.controls.projectNameArb"></validation-message>
+      </div>
+    </div>
+    <!--<div class="col-md-3 col-lg-3">
+      <label class="mr-sm-2">{{'Project_Start_Date' | translate}}</label>
+      <div class="form-group ">
+        <div class="input-group mb-2">
+          <input class="form-control datapickerinput" [matDatepicker]="picker1" placeholder="{{'Please_Enter' | translate}} {{'Project_Start_Date' | translate}}" formControlName="startDate" (click)="openDatePicker(picker1)"
+                 >
+
+          <div class="input-group-prepend datapickericon">
+            <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
+            <mat-datepicker #picker1></mat-datepicker>
+
+          </div>
+
+        </div>
+
+      </div>
+      <validation-message [control]="form.controls.startDate"></validation-message>
+    </div>
+    <div class="col-md-3 col-lg-3">
+      <label class="mr-sm-2">{{'Project_End_Date' | translate}}</label>
+      <div class="form-group ">
+        <div class="input-group mb-2">
+          <input class="form-control datapickerinput" [matDatepicker]="picker2" placeholder="{{'Please_Enter' | translate}} {{'Project_End_Date' | translate}}" formControlName="endDate" (click)="openDatePicker(picker2)"
+                 >
+
+          <div class="input-group-prepend datapickericon">
+            <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
+            <mat-datepicker #picker2></mat-datepicker>
+
+          </div>
+
+        </div>
+
+      </div>
+      <validation-message [control]="form.controls.endDate"></validation-message>
+    </div>-->
+
+
+  </div>
+
+  <div *ngIf="projectSites.length>0" class="table-responsive">
+    <table id="zero_config" class="table  table-bordered no-wrap">
+
+      <thead>
+        <tr>
+          <th>{{'Site' | translate}}</th>
+          <th>{{'Start_Date' | translate}}</th>
+          <th>{{'End_Date' | translate}}</th>
+          <th>{{'Working_Hours' | translate}}</th>
+        
+        </tr>
+      </thead>
+
+
+
+
+
+
+      <tr *ngFor="let ps of projectSites;let i=index;">
+
+        <td>
+          {{ps.siteCode}}
+        </td>
+
+
+
+        <td *ngIf="ps.id==0">
+          <div class="form-group ">
+            <div class="input-group mb-2">
+              <input class="form-control datapickerinput" [(ngModel)]="ps.startDate" [ngModelOptions]="{standalone: true}" [matDatepicker]="picker1" placeholder="{{'Please_Enter' | translate}} {{'Project_Start_Date' | translate}}" (click)="openDatePicker(picker1)">
+
+              <div class="input-group-prepend datapickericon">
+                <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
+                <mat-datepicker #picker1></mat-datepicker>
+
+              </div>
+
+            </div>
+
+          </div>
+
+        </td>
+        <td *ngIf="ps.id!=0">
+          {{ps.startDate |date:'dd/MM/YYYY'}}
+        </td>
+
+        <td *ngIf="ps.id==0">
+          <div class="form-group ">
+            <div class="input-group mb-2">
+              <input class="form-control datapickerinput" [(ngModel)]="ps.endDate" [ngModelOptions]="{standalone: true}" [matDatepicker]="picker2" placeholder="{{'Please_Enter' | translate}} {{'Project_End_Date' | translate}}" (click)="openDatePicker(picker2)">
+
+              <div class="input-group-prepend datapickericon">
+                <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
+                <mat-datepicker #picker2></mat-datepicker>
+
+              </div>
+
+            </div>
+
+          </div>
+
+        </td>
+        <td *ngIf="ps.id!=0">
+          {{ps.endDate|date:'dd/MM/YYYY'}}
+        </td>
+
+
+           <td *ngIf="ps.id==0">
+          <div class="form-group ">
+            <div class="input-group mb-2">
+              <input type="number"  [(ngModel)]="ps.siteWorkingHours" [ngModelOptions]="{standalone: true}" (change)="changeWorkingHours(i)">
+
+          
+
+            </div>
+
+          </div>
+
+        </td>
+           <td *ngIf="ps.id!=0">
+             {{ps.siteWorkingHours}}
+           </td>
+
+      </tr>
+
+
+    </table>
+
+    </div>
+
+
+
+
+
+
+    <div class="row mt-3 ">
+      <div class="col-md-12 col-lg-12 text-center">
+        <input type="button"
+               class="btn waves-effect waves-light btn-rounded   btn-secondary btn-midblock"
+               value="{{'Cancel' | translate}}" (click)="closeModel()" /> &nbsp;
+        <input type="submit" *ngIf="canSave()"
+               class="btn waves-effect waves-light btn-rounded btn-primary btn-midblock"
+               value="{{'Save' | translate}}" />
+      </div>
+    </div>
+</form>

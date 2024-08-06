@@ -1,0 +1,143 @@
+<div class="page-breadcrumb">
+  <div class="row">
+    <div class="col-12 align-self-center">
+   
+      <div class="d-flex align-items-center">
+        <nav aria-label="breadcrumb">
+          <ol class="breadcrumb m-0 p-0">
+            <li class="breadcrumb-item text-muted"> {{'Operational_Management' | translate}} </li>
+            <li class="breadcrumb-item text-muted"> {{'Operations' | translate}} </li>
+            <li class="breadcrumb-item   active" aria-current="page">{{'Primary_Site_Log' | translate}}</li>
+
+          </ol>
+        </nav>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-md-12 col-lg-12">
+      <div class="card">
+        <div class="card-body">
+          <div class="row">
+            <div class="col-md-12 col-lg-12">
+              <h4 class="card-title pt6">{{'Primary_Site_Log' | translate}} </h4>
+            </div>
+            <div class="col-md-4 col-lg-4">
+              <input type="text"
+                     class="form-control"
+                     placeholder="{{'Search'|translate}}..."
+                     [(ngModel)]="searchValue" (keyup)="applyFilter(searchValue)" (keydown)="applyFilter(searchValue)" [ngModelOptions]="{standalone: true}" />
+            </div>
+            <div class="col-md-4 col-lg-4 text-center">
+              <spinner-loader [isLoading]="isLoading"></spinner-loader>
+            </div>
+          </div>
+
+          <div class="cardtitle-divider"></div>
+          <div class="table-responsive">
+
+            <div class="mat-elevation-z8">
+              <ng-container>
+                <!--matSortActive="id"
+
+                matSortDisableClear matSortDirection="desc"-->
+                <table mat-table [dataSource]="data" matSortDisableClear matSort (matSortChange)="onSortOrder($event)" class="table  table-bordered no-wrap">
+                  <ng-container matColumnDef="employeeNumber">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                      {{'Employee_Number' | translate}}
+                    </th>
+                    <td mat-cell *matCellDef="let row">{{ row.employeeNumber }}</td>
+                  </ng-container>
+
+                  <ng-container matColumnDef="employeeName">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                      {{'Employee_Name' | translate}}
+                    </th>
+                    <td mat-cell *matCellDef="let row">{{ row.employeeName }}</td>
+                  </ng-container>
+
+                  <ng-container matColumnDef="employeeNameAr">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                      {{'Employee_Name' | translate}}
+                    </th>
+                    <td mat-cell *matCellDef="let row">{{ row.employeeNameAr }}</td>
+                  </ng-container>
+                   <ng-container matColumnDef="primarySiteCode">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                      {{'Site_Code' | translate}}
+                    </th>
+                    <td mat-cell *matCellDef="let row">{{ row.primarySiteCode }}</td>
+                  </ng-container>
+                   <ng-container matColumnDef="primarySiteName">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                      {{'Site_Name' | translate}}
+                    </th>
+                    <td mat-cell *matCellDef="let row">{{ row.primarySiteName }}</td>
+                  </ng-container>
+                   <ng-container matColumnDef="primarySiteNameAr">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                      {{'Site_Name' | translate}}
+                    </th>
+                    <td mat-cell *matCellDef="let row">{{ row.primarySiteNameAr }}</td>
+                  </ng-container>
+                        <!--<ng-container matColumnDef="lastTransferDate">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                      {{'Transfered_Date' | translate}}
+                    </th>
+                    <td mat-cell *matCellDef="let row">{{row.primarySiteLogId>0? (row.lastTransferDate | date:'dd/MM/yyyy'):"-"}}</td>
+                  </ng-container>-->
+
+               
+
+
+
+
+                  <ng-container matColumnDef="Actions" stickyEnd>
+                    <th mat-header-cell *matHeaderCellDef>{{'Actions' | translate}}</th>
+                    <td mat-cell *matCellDef="let row">
+                      
+                        <span *ngIf=" row.primarySiteLogId>0" >
+                           <a class="tableicons pcursor" (click)="view(row)" matTooltip="{{'view_logs' | translate}}"><i class="icon-list"></i></a>&nbsp;
+                        </span>
+                        <span *ngIf=" row.primarySiteLogId==0" >
+                          <a class="tableicons pcursor" (click)="add(row)" matTooltip="{{'add_new_log' | translate}}">
+                            <i class="fas fa-plus-circle"></i>&nbsp;
+                          </a>
+
+                        </span>
+
+                     
+
+                    </td>
+                  </ng-container>
+
+                  <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
+                  <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+
+                </table>
+                <ng-container>
+                  <mat-paginator [length]="totalItemsCount"
+                                 [pageSize]="pageService.pageCount"
+                                 [pageSizeOptions]="pageService.selectItemsPerPage"
+                                 (page)="onPageSwitch($event)">
+                  </mat-paginator>
+
+                </ng-container>
+              </ng-container>
+
+            </div>
+
+          </div>
+
+        </div>
+
+
+
+      </div>
+    </div>
+
+  </div>
+
+</div>

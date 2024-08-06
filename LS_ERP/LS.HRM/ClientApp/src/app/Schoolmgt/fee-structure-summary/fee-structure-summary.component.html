@@ -1,0 +1,199 @@
+<div class="page-breadcrumb">
+  <div class="row">
+    <div class="col-12 align-self-center">
+      <h3 class="page-title text-truncate text-dark font-weight-medium mb-1">
+        {{'Fee_Structure_Summary_Report' | translate}}
+      </h3>
+      <div class="d-flex align-items-center">
+        <nav aria-label="breadcrumb">
+          <ol class="breadcrumb m-0 p-0">
+            <li class="breadcrumb-item text-muted">{{'Reports' | translate}}</li>
+            <li class="breadcrumb-item   active" aria-current="page">
+              {{'Fee_Structure_Summary_Report' | translate }}
+            </li>
+          </ol>
+        </nav>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-md-12 col-lg-12">
+      <div class="card">
+        <div class="card-body">
+          <div class="row">            
+            <div class="col-md-3 col-lg-3">              
+              <div class="form-group">
+                <!--<label>{{'Branch_Code' | translate}}</label>-->
+                <select class="custom-select mr-sm-2" [(ngModel)]="branchCode" (change)="loadResultList()">
+                  <option value="">{{'Select' | translate}} {{'Branch_Code' | translate}} </option>
+                  <ng-container *ngIf="branchCodeList">
+                    <option *ngFor="let item of branchCodeList" value="{{item.value}}">{{ isArab ? item.textTwo : item.text  }}</option>
+                  </ng-container>
+                </select>
+              </div>
+            </div>
+            <div class="col-md-2 col-lg-2">
+              <div class="form-group">
+                <!--<label>{{'Grade' | translate}}</label>-->
+                <select class="custom-select mr-sm-2" [(ngModel)]="gradeCode" (change)="loadResultList()">
+                  <option value="">{{'Select' | translate}} {{'Grade' | translate}} </option>
+                  <ng-container *ngIf="gradeList">
+                    <option *ngFor="let item of gradeList" value="{{item.value}}">{{item.text}}</option>
+                  </ng-container>
+                </select>
+              </div>
+            </div>
+            <!--<div class="col-md-3 col-lg-3">
+              <div class="form-group">-->
+                <!--<label>{{'Academic_Year' | translate}}</label>-->
+                <!--<select class="custom-select mr-sm-2" [(ngModel)]="academicYear" (change)="loadResultList()">
+                  <option value="0">{{'Select' | translate}} {{'Academic_Year' | translate}} </option>
+                  <ng-container *ngIf="acYearList">
+                    <option *ngFor="let item of acYearList" value="{{item.text}}">{{item.text}}</option>
+                  </ng-container>
+                </select>
+              </div>
+            </div>-->
+            <div class="col-md-4 col-lg-4" style="align-content:flex-start">
+              <button class="btn btn-primary" (click)="generateReport()" *ngIf="reportData.length==0 && totalItemsCount>0">
+                {{'Generate_Report' | translate}}
+              </button>
+              <span *ngIf="reportData.length>0">
+                <button class="btn btn-primary" [useExistingCss]="true" printTitle="{{'Term_Due_Payment_Report' | translate}}"
+                        printSectionId="printcontainer"
+                        ngxPrint data-toggle="modal" (click)="openPrint()">
+                  {{'Print' | translate}}
+                </button>
+                &nbsp;
+                <button class="btn btn-primary" (click)="exportexcel()">{{'Export_To_Excel' | translate}}</button>
+              </span>
+              <span>
+                &nbsp;
+                <button class="btn btn-primary icon-refresh" (click)="refresh()"></button>
+              </span>
+            </div>
+            <div class="col-md-3 col-lg-3">&nbsp;</div>
+          </div>
+          <div class="cardtitle-divider"></div>
+          <div class="table-responsive">
+            <spinner-loader [isLoading]="isLoading"></spinner-loader>
+            <div class="mat-elevation-z8">
+              <ng-container>
+                <table mat-table [dataSource]="data" matSort matSortActive="id" matSortDisableClear
+                       matSortDirection="desc" class="table  table-bordered no-wrap">
+                  <ng-container matColumnDef="structCode">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                      {{'Struct_Code' | translate}}
+                    </th>
+                    <td mat-cell *matCellDef="let row">{{ row.structCode }}</td>
+                  </ng-container>
+                  <ng-container matColumnDef="feeStructureName">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                      {{'Fee_Structure_Name' | translate}}
+                    </th>
+                    <td mat-cell *matCellDef="let row">{{ row.feeStructureName }}</td>
+                  </ng-container>
+                  <ng-container matColumnDef="gradeCode">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                      {{'Grade' | translate}}
+                    </th>
+                    <td mat-cell *matCellDef="let row">{{ row.gradeCode }}</td>
+                  </ng-container>
+                  <ng-container matColumnDef="totalAmount">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                      {{'Total_Amount' | translate}}
+                    </th>
+                    <td mat-cell *matCellDef="let row">{{ row.totalAmount }}</td>
+                  </ng-container>
+                  <ng-container matColumnDef="tax">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                      {{'Tax' | translate}}
+                    </th>
+                    <td mat-cell *matCellDef="let row">{{ row.tax }}</td>
+                  </ng-container>
+                  <ng-container matColumnDef="netFee">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                      {{'Net_Fee' | translate}}
+                    </th>
+                    <td mat-cell *matCellDef="let row">{{ row.netFee }}</td>
+                  </ng-container>
+                  <ng-container matColumnDef="Actions" stickyEnd>
+                    <th mat-header-cell *matHeaderCellDef> {{'Actions' | translate}}</th>
+                    <td mat-cell *matCellDef="let row">
+                      <a class="tableicons" (click)="viewDetails(row)" matTooltip="{{'View_Details' | translate}}">
+                        <i class="fas fa-eye"> </i>
+                      </a>
+                    </td>
+                  </ng-container>
+                  <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
+                  <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+                </table>
+                <ng-container>
+                  <mat-paginator [length]="totalItemsCount" [pageSize]="pageService.pageCount"
+                                 [pageSizeOptions]="pageService.selectItemsPerPage"
+                                 (page)="onPageSwitch($event)">
+                  </mat-paginator>
+                </ng-container>
+              </ng-container>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div id="printcontainer" *ngIf="reportData.length>0" hidden>
+  <div width="100%">
+    <table id="attndTable">
+      <tr>
+        <td colspan="2">{{'Fee_Structure_Summary_Report' | translate}}</td>
+      </tr>
+      <tr>
+        <td colspan="4">{{'Branch_Code'|translate}}:{{(filter?.branchCode==null||filter.branchCode==''?'All':filter.branchCode)}}</td>
+      </tr>
+    </table>
+    <br />
+  </div>
+  <table id="attndTable" width="100%">
+    <tr>
+      <th>{{'Struct_Code' | translate}}</th>
+      <th>{{'Fee_Structure_Name' | translate}}</th>
+      <th>{{'Grade' | translate}}</th>
+      <th>{{'Total_Amount' | translate}}</th>
+      <th>{{'Tax' | translate}}</th>
+      <th>{{'Net_Fee' | translate}}</th>
+    </tr>
+    <tr *ngFor="let row of reportData;let i=index;">
+      <td>{{ row.structCode }}</td>
+      <td>{{ row.feeStructureName }}</td>
+      <td>{{ row.gradeCode }}</td>
+      <td>{{ row.totalAmount}}</td>
+      <td>{{ row.tax}}</td>
+      <td>{{ row.netFee}}</td>
+    </tr>
+  </table>
+
+
+</div>
+
+
+<style>
+  #attndTable td, th {
+    border: solid;
+    border-width: 1px;
+    padding: 5px 5px 5px 5px;
+    text-align: center;
+  }
+
+  #attndTable table {
+    width: 100%;
+  }
+
+  #printcontainer div {
+    width: 100%;
+    padding: 10px 10px 10px 10px;
+  }
+</style>

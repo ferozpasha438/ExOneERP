@@ -1,0 +1,471 @@
+<div class="page-breadcrumb">
+  <div class="row">
+    <div class="col-12 align-self-center">
+      <h3 class="page-title text-truncate text-dark font-weight-medium mb-1">
+        {{'Product_Hierarchy' | translate}}
+      </h3>
+      <div class="d-flex align-items-center">
+        <nav aria-label="breadcrumb">
+          <ol class="breadcrumb m-0 p-0">
+            <li class="breadcrumb-item text-muted">{{'Administration' | translate}} </li>
+            <li class="breadcrumb-item text-muted ">{{'Inventory_Management' | translate}}</li>
+            <li class="breadcrumb-item   active" aria-current="page">{{'Product_Hierarchy' | translate}} (010304)</li>
+
+          </ol>
+        </nav>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-md-12 col-lg-12">
+      <div class="card">
+        <div class="card-body">
+          <h4 class="card-title">{{'Set_Product_Hierarchy' | translate}}</h4>
+          <div class="cardtitle-divider"></div>
+          <ul class="nav nav-tabs  nav-bordered mb-3">
+            <li class="nav-item">
+              <a href="#category" data-toggle="tab" aria-expanded="false"
+                 class="nav-link active">
+                <i class="mdi mdi-home-variant d-lg-none d-block mr-1"></i>
+                <span class="d-none d-lg-block">{{'Category' | translate}}</span>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a href="#subcategory" data-toggle="tab" aria-expanded="true"
+                 class="nav-link ">
+                <i class="mdi mdi-account-circle d-lg-none d-block mr-1"></i>
+                <span class="d-none d-lg-block">{{'Sub_Category' | translate}}</span>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a href="#class" data-toggle="tab" aria-expanded="false"
+                 class="nav-link">
+                <i class="mdi mdi-settings-outline d-lg-none d-block mr-1"></i>
+                <span class="d-none d-lg-block">{{'Class' | translate}}</span>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a href="#subclass" data-toggle="tab" aria-expanded="false"
+                 class="nav-link">
+                <i class="mdi mdi-settings-outline d-lg-none d-block mr-1"></i>
+                <span class="d-none d-lg-block">{{'Sub_Class' | translate}} </span>
+              </a>
+            </li>
+
+
+          </ul>
+
+          <div class="tab-content">
+            <div class="tab-pane show active" id="category">
+<!--<div class="row">
+  <div class="col-md-7 col-lg-9">
+    <h4 class="card-title pt6">{{'Category_List' | translate}} </h4>
+  </div>
+  <div class="col-md-3">
+
+    <input class="form-control" placeholder="search..." [(ngModel)]="searchValue" />
+  </div>
+  <div class="col-md-4">
+    <button (click)="applyFilter(searchValue)" class="btn btn-primary">Search</button> &nbsp;
+    <a (click)="refresh()" class=""><i class="btn btn-primary icon-refresh"></i></a>
+  </div>
+  <div class="col-md-3 col-lg-3 text-right">
+    <a data-toggle="modal"
+       data-target="#createnewcategory" class="  btn waves-effect waves-light btn-rounded btn-outline-primary" (click)="create()" href="#"> <i class="icon-plus"> </i>{{'Add_New_Category' | translate}}  </a>
+  </div>
+</div>
+<div class="cardtitle-divider"></div>
+<div class="example-table-container   pt-3">
+  <ng-container>
+
+    <table mat-table [dataSource]="data" matSortDisableClear matSort (matSortChange)="onSortOrder($event)" class="table  table-bordered no-wrap">
+      <ng-container matColumnDef="ItemCatCode">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>
+          {{'Category_Code' | translate}}
+        </th>
+        <td mat-cell *matCellDef="let row">{{ row.itemCatCode }}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="ItemCatName">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>
+          {{'Category_Name' | translate}}
+        </th>
+        <td mat-cell *matCellDef="let row">{{ row.itemCatName }}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="ItemCatDesc">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>
+          {{'Category_Desc' | translate}}
+        </th>
+        <td mat-cell *matCellDef="let row">{{ row.itemCatDesc }}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="ItemCatPrefix">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>
+          {{'ItemCatPrefix' | translate}}
+        </th>
+        <td mat-cell *matCellDef="let row">{{ row.itemCatPrefix}}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="Actions" stickyEnd>
+        <th mat-header-cell *matHeaderCellDef>{{'Actions' | translate}}</th>
+        <td mat-cell *matCellDef="let row">
+
+          <a class="tableicons" (click)="edit(row.id)"><i class="icon-note"> </i></a>
+          <a class="tableicons" (click)="delete(row.id)"><i class="icon-trash"> </i></a>
+        </td>
+      </ng-container>
+
+      <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+
+    </table>
+    <ng-container>
+      <mat-paginator [length]="totalItemsCount"
+                     [pageSize]="pageService.pageCount"
+                     [pageSizeOptions]="pageService.selectItemsPerPage"
+                     (page)="onPageSwitch($event)">
+      </mat-paginator>
+
+    </ng-container>
+  </ng-container>
+</div>-->
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-md-12 col-lg-12">
+      <div class="card">
+        <div class="card-body">
+          <div class="row pb-3">
+            <div class="col-md-12 col-lg-12">
+              <h4 class="card-title pt6">{{'Category_List' | translate}}</h4>
+            </div>
+            <div class="col-md-3">
+<!--(keyup)="applyFilter($event)"-->
+<input class="form-control" placeholder="search..." [(ngModel)]="searchValue" />
+</div>
+<div class="col-md-4">
+  <button (click)="applyFilter(searchValue)" class="btn btn-primary">Search</button> &nbsp;
+  <a (click)="refresh()" class=""><i class="btn btn-primary icon-refresh"></i></a>
+</div>
+<div class="col-md-3 col-lg-3 text-right">
+<!--<a data-toggle="modal" data-target="#createnewbranch" class="btn waves-effect waves-light btn-rounded btn-outline-primary" (click)="create()" href="#"> <i class="icon-plus"> </i>Add New Branch  </a>-->
+<a data-toggle="modal"
+                 data-target="#createnewcategory" class="  btn waves-effect waves-light btn-rounded btn-outline-primary" (click)="create()" href="#"> <i class="icon-plus"> </i>{{'Add_New_Category' | translate}}  </a>
+
+            </div>
+          </div>
+
+          <div class="cardtitle-divider"></div>
+          <div class="table-responsive">
+
+            <spinner-loader [isLoading]="isLoading"></spinner-loader>
+            <div class="mat-elevation-z8">
+              <ng-container>
+
+                <table mat-table [dataSource]="data" matSortDisableClear matSort (matSortChange)="onSortOrder($event)" class="table  table-bordered no-wrap">
+                  <ng-container matColumnDef="ItemCatCode">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                      {{'Category_Code' | translate}}
+                    </th>
+                    <td mat-cell *matCellDef="let row">{{ row.itemCatCode }}</td>
+                  </ng-container>
+
+                  <ng-container matColumnDef="ItemCatName">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                      {{'Category_Name' | translate}}
+                    </th>
+                    <td mat-cell *matCellDef="let row">{{ row.itemCatName }}</td>
+                  </ng-container>
+
+                  <ng-container matColumnDef="ItemCatDesc">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                      {{'Category_Desc' | translate}}
+                    </th>
+                    <td mat-cell *matCellDef="let row">{{ row.itemCatDesc }}</td>
+                  </ng-container>
+
+                  <ng-container matColumnDef="ItemCatPrefix">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                      {{'ItemCatPrefix' | translate}}
+                    </th>
+                    <td mat-cell *matCellDef="let row">{{ row.itemCatPrefix}}</td>
+                  </ng-container>
+
+                  <ng-container matColumnDef="Actions" stickyEnd>
+                    <th mat-header-cell *matHeaderCellDef>{{'Actions' | translate}}</th>
+                    <td mat-cell *matCellDef="let row">
+
+                      <a class="tableicons" (click)="edit(row.id)"><i class="icon-note"> </i></a>
+                      <a class="tableicons" (click)="delete(row.id)"><i class="icon-trash"> </i></a>
+                    </td>
+                  </ng-container>
+
+                  <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
+                  <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+
+                </table>
+                <ng-container>
+                  <mat-paginator [length]="totalItemsCount"
+                                 [pageSize]="pageService.pageCount"
+                                 [pageSizeOptions]="pageService.selectItemsPerPage"
+                                 (page)="onPageSwitch($event)">
+                  </mat-paginator>
+
+                </ng-container>
+              </ng-container>
+            </div>
+          </div>
+
+        </div>
+
+
+
+      </div>
+    </div>
+
+  </div>
+
+</div>
+</div>
+            <div class="tab-pane" id="subcategory">
+              <h4 class="page-title text-truncate text-dark font-weight-medium mb-4">
+                {{'Create_Sub_Category' | translate}}
+              </h4>
+              <div class="cardtitle-divider"> </div>
+              <div class="row">
+                <div class="col-md-6 col-lg-6 borderright">
+
+                  <ul id="tree2">
+                    <li>
+                      <input type="checkbox" formControlName="" /><a> {{'Apparel' | translate}} </a>
+                    </li>
+                    <li>
+                      <input type="checkbox" formControlName="" /><a> {{'Glassware' | translate}} </a>
+                    </li>
+                    <li>
+                      <input type="checkbox" formControlName="" /><a href="#"> {{'Household' | translate}} </a>
+
+                      <ul>
+                        <li>
+                          <input type="checkbox" /><a href="#"> {{'Current_Asset' | translate}} </a>
+                          <ul>
+                            <li>{{'Kitchenware' | translate}}</li>
+                            <li>{{'Living' | translate}}</li>
+                            <li>{{'Dining' | translate}}</li>
+                          </ul>
+                        </li>
+
+                      </ul>
+                    </li>
+                    <li>
+                      <input type="checkbox" formControlName="" /><a> {{'General' | translate}} </a>
+                    </li>
+                    <li>
+                      <input type="checkbox" formControlName="" /><a> {{'Soaps_and_Detergents' | translate}} </a>
+                    </li>
+                  </ul>
+                </div>
+                <div class="col-md-6 col-lg-6">
+
+                  <div class="row">
+
+                    <div class="col-md-6 col-lg-6">
+
+                      <div class="form-group">
+                        <label>{{'Category_Code' | translate}}</label>
+                        <input type="text" class="form-control" placeholder="{{'Please_Enter' | translate}} {{'Category_Code' | translate}} " formControlName="">
+                      </div>
+
+                    </div>
+                    <div class="col-md-6 col-lg-6">
+
+                      <div class="form-group">
+                        <label>{{'Category_Name' | translate}} </label>
+                        <input type="text" class="form-control" placeholder="{{'Please_Enter' | translate}} {{'Category_Name' | translate}}" formControlName="">
+                      </div>
+
+                    </div>
+                    <div class="col-md-6 col-lg-6">
+
+                      <div class="form-group">
+                        <label>{{'Sub_Category_Code' | translate}}</label>
+                        <input type="text" class="form-control" placeholder="{{'Please_Enter' | translate}} {{'Sub_Category_Code' | translate}}" formControlName="">
+                      </div>
+
+                    </div>
+                    <div class="col-md-6 col-lg-6">
+
+                      <div class="form-group">
+                        <label>{{'Sub_Category_Name' | translate}}</label>
+                        <input type="text" class="form-control" placeholder="{{'Please_Enter' | translate}} {{'Sub_Category_Name' | translate}}" formControlName="">
+                      </div>
+
+                    </div>
+                    <div class="col-md-12 col-lg-12">
+
+                      <div class="form-group">
+                        <label>{{'Sub_Category_Description' | translate}}</label>
+                        <input type="text" class="form-control" placeholder="{{'Please_Enter' | translate}} {{'Sub_Category_Description' | translate}}" formControlName="">
+                      </div>
+
+                    </div>
+                    <div class="col-md-6 col-lg-6">
+
+                      <div class="form-group">
+                        <label>{{'Alternate_Name' | translate}}</label>
+                        <input type="text" class="form-control" placeholder="{{'Please_Enter' | translate}} {{'Alternate_Name' | translate}}" formControlName="">
+                      </div>
+
+                    </div>
+
+                    <div class="col-md-6 col-lg-6">
+                      <div class="form-group">
+                        <label>{{'Is_Active' | translate}}</label>
+                        <div class="form-group">
+
+                          <div>
+                            <mat-slide-toggle color="primary" formControlName=""> </mat-slide-toggle>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                </div>
+              </div>
+              <div class="row mt-3 ">
+                <div class="col-md-12 col-lg-12 text-center">
+
+                  <input type="submit"
+                         class="btn waves-effect waves-light btn-rounded btn-primary btn-midblock"
+                         value="{{'Save' | translate}}" />
+                </div>
+              </div>
+            </div>
+            <div class="tab-pane" id="class">
+              <div class="row">
+                <div class="col-md-7 col-lg-9">
+                  <h4 class="card-title pt6">{{'Class_List' | translate}} </h4>
+                </div>
+                <div class="col-md-3 col-lg-3 text-right">
+                  <a data-toggle="modal"
+                     data-target="#createnewclass" class="  btn waves-effect waves-light btn-rounded btn-outline-primary" onclick="create(0)" href="#"> <i class="icon-plus"> </i>{{'Add_New_Class' | translate}}  </a>
+
+                </div>
+              </div>
+
+              <div class="cardtitle-divider"></div>
+              <div class="table-responsive">
+
+                <table class="table  table-bordered no-wrap">
+                  <thead>
+                    <tr>
+                      <th>{{'Class_Code' | translate}}</th>
+                      <th>{{'Class_Name' | translate}}</th>
+                      <th>{{'Alternate_Name' | translate}}</th>
+                      <th>{{'Is_Active' | translate}}</th>
+                      <th> </th>
+
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td>201201244</td>
+                      <td>Households</td>
+                      <td>Households_001</td>
+                      <td class="text-center"><span class="badge badge-pill badge-success">Active</span></td>
+                      <td class="text-center"><a class="tableicons" href="#"><i class="icon-note"> </i></a> <a class="tableicons" href="#"><i class="icon-trash"> </i></a></td>
+
+                    </tr>
+                    <tr>
+                      <td>0223231214</td>
+                      <td>Apparel</td>
+                      <td>Apparel_001</td>
+                      <td class="text-center"><span class="badge badge-pill badge-success">Active</span></td>
+                      <td class="text-center"><a class="tableicons" href="#"><i class="icon-note"> </i></a> <a class="tableicons" href="#"><i class="icon-trash"> </i></a></td>
+
+                    </tr>
+                    <tr>
+                      <td>3323125214</td>
+                      <td>General</td>
+                      <td>General_002</td>
+                      <td class="text-center"><span class="badge badge-pill badge-success">Active</span></td>
+                      <td class="text-center"><a class="tableicons" href="#"><i class="icon-note"> </i></a> <a class="tableicons" href="#"><i class="icon-trash"> </i></a></td>
+
+                    </tr>
+
+                </table>
+
+              </div>
+            </div>
+            <div class="tab-pane" id="subclass">
+              <div class="row">
+                <div class="col-md-7 col-lg-9">
+                  <h4 class="card-title pt6">{{'Sub_Class_List' | translate}} </h4>
+                </div>
+                <div class="col-md-3 col-lg-3 text-right">
+                  <a data-toggle="modal"
+                     data-target="#createnewsubclass" class="  btn waves-effect waves-light btn-rounded btn-outline-primary" onclick="create(0)" href="#"> <i class="icon-plus"> </i>{{'Add_New_Sub_Class' | translate}} </a>
+
+                </div>
+              </div>
+
+              <div class="cardtitle-divider"></div>
+              <div class="table-responsive">
+
+                <table class="table  table-bordered no-wrap">
+                  <thead>
+                    <tr>
+                      <th>{{'Sub_Class_Code' | translate}} </th>
+                      <th>{{'Sub_Class_Name' | translate}} </th>
+                      <th>{{'Alternate_Name' | translate}}</th>
+                      <th>{{'Is_Active' | translate}}</th>
+                      <th> </th>
+
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td>201201244</td>
+                      <td>Households</td>
+                      <td>Households_001</td>
+                      <td class="text-center"><span class="badge badge-pill badge-success">Active</span></td>
+                      <td class="text-center"><a class="tableicons" href="#"><i class="icon-note"> </i></a> <a class="tableicons" href="#"><i class="icon-trash"> </i></a></td>
+
+                    </tr>
+                    <tr>
+                      <td>0223231214</td>
+                      <td>Apparel</td>
+                      <td>Apparel_001</td>
+                      <td class="text-center"><span class="badge badge-pill badge-success">Active</span></td>
+                      <td class="text-center"><a class="tableicons" href="#"><i class="icon-note"> </i></a> <a class="tableicons" href="#"><i class="icon-trash"> </i></a></td>
+
+                    </tr>
+                    <tr>
+                      <td>3323125214</td>
+                      <td>General</td>
+                      <td>General_002</td>
+                      <td class="text-center"><span class="badge badge-pill badge-success">Active</span></td>
+                      <td class="text-center"><a class="tableicons" href="#"><i class="icon-note"> </i></a> <a class="tableicons" href="#"><i class="icon-trash"> </i></a></td>
+
+                    </tr>
+
+                </table>
+
+              </div>
+            </div>
+          </div>
+
+
+
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+</div>

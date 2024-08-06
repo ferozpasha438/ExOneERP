@@ -1,0 +1,139 @@
+<h3> {{modalTitle}} <button type="button" class="close" aria-hidden="true" (click)="closeModel()"> ×</button></h3>
+<form [formGroup]="form" (ngSubmit)="submit()" novalidate class="mt-4" #myform="ngForm">
+  <div class="modal-body">
+    <div class="outer ">
+      <div class="row rowm0 ">
+
+        <div class="col-md-12 col-lg-12">
+
+          <div class="row mt-3">
+   
+
+    
+            <div *ngIf="mappingsList.length!=0" class="col-md-12 col-lg-12" style="padding-top:5px">
+
+              <div class="row  mt-2">
+
+
+             
+                  <table class="table  table-bordered no-wrap">
+                    <tr width="100%">
+
+                      <th width="10%">
+                        {{'Skillset'|translate}}
+                      </th>
+                      <th colspan="2">
+                        {{'Employee'|translate}}
+                      </th>
+                      <th width="15%">
+                        {{'Default_Shift'|translate}}
+                      </th>
+                      <th width="20%">
+                        {{'OffDay'|translate}}
+                      </th>
+                    
+                      <th>
+                        {{'From_Date'|translate}}
+                      </th>
+                      <th>
+                        {{'To_Date'|translate}}
+                      </th>
+                     
+                      <th width="5%"  *ngIf="modalBtnTitle !='View'">
+                        {{'Action'|translate}}
+                      </th>
+                    </tr>
+                    <tr *ngFor="let row of mappingsList; let i=index;">
+
+                      <td>{{getSkillSet(row?.skillSet).text}}</td>
+                      <td *ngIf="editRow!=i">
+                        {{row?.employeeNumber}}
+                      </td>
+                      <td *ngIf="editRow!=i">
+                        {{getEmployee(row?.employeeNumber)?.text}}
+                      </td>
+                  
+                      <td colspan="2" *ngIf="editRow==i">
+                        <auto-loader [isLoading]="isDataLoading"></auto-loader>
+                        <input type="text" class="form-control" style="width:inherit"
+                               placeholder="{{'Enter' | translate}} {{'Employee' | translate}}"
+                               [formControl]="empCodeControl"
+                               matInput
+                               [matAutocomplete]="auto_emp">
+                        <mat-autocomplete #auto_emp="matAutocomplete" (optionSelected)="autoSelectionEmployeeNumber($event)">
+                          <mat-option *ngFor="let option of filteredEmployeeNumbers | async"
+                                      [value]="option">
+                            {{option.text}}-{{ !isArab? option.textTwo:option.textAr}}
+                          </mat-option>
+                        </mat-autocomplete>
+                        <validation-message [control]="empCodeControl"></validation-message>
+                      </td>
+                      <td *ngIf="editRow!=i">
+                        {{row.defShift}}
+                      </td>
+                      <td *ngIf="editRow==i">
+                        <select class="form-control" [(ngModel)]="row.defShift" [ngModelOptions]="{standalone: true}">
+                          <option value="">{{'Select' | translate}}</option>
+                          <option *ngFor="let s of shiftCodesForProjectSite" value="{{s.shiftCode}}">{{s.shiftCode}}</option>
+                        </select>
+                      </td>
+
+                      <td *ngIf="editRow!=i">
+                        {{getOffDay(row?.offDay)}}
+                      </td>
+                      <td *ngIf="editRow==i">
+                        <select class="form-control" [(ngModel)]="row.offDay" [ngModelOptions]="{standalone: true}">
+                          <option value=-1>{{'Select' | translate}}</option>
+                          <option value=0>{{'Sunday' | translate}}</option>
+                          <option value=1>{{'Monday' | translate}}</option>
+                          <option value=2>{{'Tuesday' | translate}}</option>
+                          <option value=3>{{'Wednesday' | translate}}</option>
+                          <option value=4>{{'Thursday' | translate}}</option>
+                          <option value=5>{{'Friday' | translate}}</option>
+                          <option value=6>{{'Saturday' | translate}}</option>
+                        </select>
+                      </td>
+                      <td>{{ToDateString(row?.fromDate)}}</td>
+                      <td>{{ToDateString(row?.toDate)}}</td>
+
+                      <td class="clickaction clickicons"  *ngIf="modalBtnTitle !='View'">
+                        <i class="icon-note" (click)="editMap(i)"></i>
+                      </td>
+                    </tr>
+                  </table>
+                </div>
+
+
+
+
+        
+
+            </div>
+
+          </div>
+
+        </div>
+        <div class="col-md-12 col-lg-12">
+
+          <div class="row mt-3 ">
+            <div class="col-md-12 col-lg-12 text-center">
+              <input type="button"
+                     class="btn waves-effect waves-light btn-rounded   btn-secondary btn-midblock"
+                     value="{{'Cancel' | translate}}" (click)="closeModel()" /> &nbsp;
+              <span *ngIf="mappingsList.length!=0">
+                <input type="submit"  *ngIf="modalBtnTitle !='View'"
+                       class="btn waves-effect waves-light btn-rounded btn-primary btn-midblock"
+                       value="{{'Save' | translate}}" />
+              </span>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+    </div>
+
+
+  </div>
+
+</form>

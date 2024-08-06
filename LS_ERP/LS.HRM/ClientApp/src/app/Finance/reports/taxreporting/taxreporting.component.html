@@ -1,0 +1,224 @@
+
+<div class="page-breadcrumb">
+  <div class="row">
+    <div class="col-12 align-self-center">
+      <h3 class="page-title text-truncate text-dark font-weight-medium mb-1">
+        {{'Tax_Reporting' | translate}}
+      </h3>
+    </div>
+  </div>
+</div>
+
+<div class="modal-body">
+
+
+  <div class="outer  ">
+    <div class="row">
+      <div class="col-md-6 col-lg-6">
+        <div class="form-group">
+          <label>{{'Branch_Code' | translate}}</label>
+          <auto-loader [isLoading]="isBranchLoading"></auto-loader>
+          <input type="text" class="form-control"
+                 placeholder="{{'Please_Enter' | translate}} {{'Branch_Code' | translate}}"
+                 [formControl]="branchCodeControl"
+                 matInput
+                 [matAutocomplete]="auto">
+          <mat-autocomplete #auto="matAutocomplete">
+            <mat-option *ngFor="let option of filteredOptions | async"
+                        [value]="option.value">
+              <!--[value]="option.text + '-' + option.value"> (optionSelected)="selectedOption($event)" (blur)="branchcodeBlur($event)" -->
+              {{option.value}}
+            </mat-option>
+          </mat-autocomplete>
+        </div>
+      </div>
+      <div class="col-md-6 col-lg-6">
+        <div class="form-group">
+          <label>{{'From_Date' | translate}}</label>
+          <div class="form-group ">
+            <div class="input-group mb-2">
+              <input class="form-control datapickerinput" placeholder="{{'Select_a_Date' | translate}}" [(ngModel)]="dateFrom"
+                     [matDatepicker]="picker2">
+
+              <div class="input-group-prepend datapickericon">
+                <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
+                <mat-datepicker #picker2></mat-datepicker><br /><br />
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+      <div class="col-md-6 col-lg-6">
+        <div class="form-group">
+          <label>{{'To_Date' | translate}}</label>
+          <div class="form-group ">
+            <div class="input-group mb-2">
+              <input class="form-control datapickerinput" placeholder="{{'Select_a_Date' | translate}}" [(ngModel)]="dateTo"
+                     [matDatepicker]="picker1">
+
+              <div class="input-group-prepend datapickericon">
+                <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
+                <mat-datepicker #picker1></mat-datepicker><br /><br />
+              </div>
+
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-md-6 col-lg-6">
+        <div class="form-group">
+          <br />
+          <button type="button" class="btn btn-primary" (click)="search()">Search</button>
+        </div>
+      </div>
+
+
+    </div>
+  </div>
+
+  <spinner-loader [isLoading]="isLoading"></spinner-loader>
+
+  <div class="table-responsive"  *ngIf="company">
+
+    <button type="button" class="btn waves-effect waves-light btn-rounded btn-primary btn-midblock" data-toggle="modal" (click)="openPrint()">
+      {{'Print' | translate}}
+    </button>
+    <br />
+    <br />
+
+    <div class="outer" id="printcontainer">
+      <table style="width:100%; padding-bottom:5px;" cellpadding="0" cellspacing="0" width="100%" class="ur_tablestyle">
+        <tr>
+          <td> {{company.companyName}}</td>
+        </tr>
+        <tr>
+          <td style="text-align:center;">
+            <img src="{{company.logoURL}}" style="width:200px;height:150px;" />
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <div class="font-weight-medium">
+              <br />
+              {{company.branchName}}
+              <br />
+              {{company.companyAddress}}
+              <br />
+              {{'Tel_Phone' | translate }} :  {{company.phone}}
+              <br />
+            </div>
+
+          </td>
+        </tr>
+        <tr>
+          <td style="text-align:center;">
+            <p>
+              The Statement of " Tax Reporting " for {{dateFrom | date:'dd/MM/yyyy'}} to {{dateTo | date:'dd/MM/yyyy'}}
+            </p>
+
+          </td>
+        </tr>
+      </table>
+
+      <!--<table class="table table-sm offset-sm-0">
+    <tr>
+      <td>
+        <h5> <strong> Name of the Company </strong> </h5>
+        <h6 style="white-space:pre-line;">@address</h6>
+      </td>
+      <td>
+        <img class="float-right" src="/arasmo.jpg" />
+      </td>
+    </tr>
+  </table>-->
+      <!--<table class="table table-sm offset-sm-0">
+    <thead>
+      <tr>
+        <td style="width: 33%; " *ngIf="dateFrom && dateTo"> Date Range: {{dateFrom}} to {{dateTo}} </td>
+        <td style="width: 34%; text-align:center"> Tax Report Document Wise </td>
+        <td style="width: 33%; text-align:right"> Branch:  {{company.branchName}} </td>
+      </tr>
+    </thead>
+  </table>-->
+      <table style="width:100%; padding-bottom:5px;" border="1" cellpadding="0" cellspacing="0" width="100%" class="table  table-bordered no-wrap ur_tablestyle">
+        
+
+          <thead class="alert-dark ">
+            <tr>
+              <th> TranNumber </th>
+              <th> TranDate </th>
+              <th> Type </th>
+              <th> Source </th>
+              <th> Code </th>
+              <th> Vendor <br /> Customer Name </th>
+              <th> TAXNumber </th>
+              <!--<th> TaxCode </th>-->
+              <th style="text-align:right"> Total </th>
+              <th style="text-align:right"> Input </th>
+              <th style="text-align:right"> Output </th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let item of List">
+              <td> {{item.tranNumber}}  </td>
+              <td> {{item.date | date:'dd-MM-yyyy'}}  </td>
+              <td> {{item.type}}  </td>
+              <td> {{item.source}}  </td>
+              <td> {{item.code}}  </td>
+              <td> {{item.name}}  </td>
+              <td> {{item.taxIdNumber}}  </td>
+              <td style="text-align:right">  {{item.totalAmount}}  </td>
+              <td style="text-align:right">  {{item.inputTaxAmount}}  </td>
+              <td style="text-align:right">  {{item.outputTaxAmount}}  </td>
+            </tr>
+
+            <tr>
+              <td style="text-align:right" colspan="8"><strong>Total</strong></td>
+              <td class="align-right" style="text-align:right"><strong>{{totalInputTaxAomunt}}</strong></td>
+              <td class="align-right" style="text-align:right"><strong>{{totalOutputTaxAomunt}}</strong></td>
+            </tr>
+
+            <tr>
+              <td colspan="5" style="text-align:right"> Summary Of Transaction </td>
+              <td style="text-align:right"> Total Amount </td>
+              <td style="text-align:right"> Tax Amount </td>
+              <td colspan="4">  </td>
+            </tr>
+            <tr>
+              <td colspan="5" style="text-align:right"> Total Sales </td>
+              <td style="text-align:right"> {{totalSaleAmount}} </td>
+              <td style="text-align:right">{{totalOutputTaxAomunt}} </td>
+              <td colspan="4">  </td>
+            </tr>
+            <tr>
+              <td colspan="5" style="text-align:right"> Total Purchases </td>
+              <td style="text-align:right"> {{totalPurchaseAmount}} </td>
+              <td style="text-align:right"> {{totalInputTaxAomunt}} </td>
+              <td colspan="4">  </td>
+            </tr>
+            <tr>
+              <td colspan="5" style="text-align:right"> Net Tax Payable </td>
+              <td style="text-align:right">   </td>
+              <td style="text-align:right"> {{totalTax}} </td>
+              <td colspan="4">  </td>
+            </tr>
+
+          </tbody>
+
+          <!--<tfoot>
+        <tr>
+          <td colspan="7">
+            Printed on  @DateTime.Now.Date.ToString("dd/MMM/yyyy")
+          </td>
+        </tr>
+      </tfoot>-->
+        </table>
+
+
+    </div>
+  </div>
+  </div>
+
+

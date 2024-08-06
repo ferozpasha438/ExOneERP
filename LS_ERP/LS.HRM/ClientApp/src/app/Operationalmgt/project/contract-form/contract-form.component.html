@@ -1,0 +1,252 @@
+
+<div>
+  <span *ngIf=" !contractFormData?.contractFormHead?.isApproved">
+    <span *ngIf="templatesSelectionList.length!=0 && contractFormData?.contractFormHead?.id==0">
+      <select class="custom-select mr-sm-2" (change)="OnTemplateSelection($event)">
+        <option value="">{{'Select' | translate}} {{'SelectTemplate' | translate}} </option>
+        <option *ngFor="let template of templatesSelectionList" value="{{template.value}}"> {{ !isArabic? template.text: template.textTwo }}</option>
+      </select>
+    </span>
+    <span>
+      <br />
+    </span>
+    
+    <span *ngIf="(templatesSelectionList.length==0 || contractFormData?.contractFormHead?.id==0)">
+      <button (click)="createContractTemplate()">{{'Create_Template'|translate}}</button> &nbsp;
+    </span>
+ <span *ngIf="templateData!=null">
+      <button (click)="editContractTemplate()">{{'Edit_Template'|translate}}</button> &nbsp;
+    </span>
+    <span *ngIf="contractFormData?.contractFormHead?.id==0 && templateData!=null">
+      <button *ngIf="project?.isAdendum" (click)="saveContractForm()">{{'Save_Addendum' | translate}}</button> &nbsp;
+      <button *ngIf="!project?.isAdendum" (click)="saveContractForm()">{{'Save_Contract'|translate}}</button> &nbsp;
+
+    </span>
+    <span *ngIf="contractFormData?.contractFormHead?.id>0">
+      <button (click)="editContractForm()">{{'Edit_Contract'|translate}}</button> &nbsp;
+
+    </span>
+    <span *ngIf="contractFormData?.contractFormHead?.id>0">
+      <button (click)="approveContract()">{{'Approve_Contract'|translate}}</button> &nbsp;
+
+    </span>
+    <span *ngIf="contractFormData?.contractFormHead?.id>0 ||this.templateData!=null ">
+      <button (click)="editProposalCosting()">{{'Edit_Proposal_Costing'|translate}}</button> &nbsp;
+
+    </span>
+  </span>
+  <span>
+    <button *ngIf="contractFormData?.contractFormHead?.id>0 ||this.templateData!=null " (click)="printInvoice()">{{'Print'|translate}}</button>&nbsp;
+    <button type="button" class="" aria-hidden="true" (click)="closeModel()"> Close</button>
+  </span>
+</div>
+
+<br />
+<br />
+<br />
+<!-- Container -->
+
+<div *ngIf="contractFormData?.contractFormHead?.id>0 ||this.templateData!=null ">
+  <div class="container-fluid invoice-container print-container" style=" width:850px; padding-top:5px;" id="printcontainer" *ngIf="contractFormData?.contractClauses.length!=0 && contractFormData!=null">
+    <div id="ProposalPage1" style="page-break-after:always">
+      <br>
+
+      <table style="width:100%" border="0" cellpadding="0" cellspacing="0">
+        <tr>
+          <td style="width: 50%;font-style:italic; font-size: 0.775rem !important; color: #000000; font-family: 'Poppins', sans-serif; font-weight: 500;">
+            (Reference No.{{referenceNumber}})
+
+          </td>
+
+          <td style="width: 50%; font-style: italic; text-align: right; font-size: 0.775rem !important; color: #000000; font-family: 'Poppins', sans-serif; font-weight: 500; ">
+            ({{referenceNumber}}رقم المرجع)
+          </td>
+
+        </tr>
+        <tr>
+          <td style="width: 50%; text-align: center; padding: 10px;">
+            <b><u>Contract of providing Security Guarding Services<br />({{contractFormData?.contractFormHead?.titleOfServiceEng}})</u></b>
+          </td>
+
+          <td style="width: 50%; text-align: center; padding: 10px;">
+            <b><u>  عقد تقديم خدمات حراسات أمنية<br />({{contractFormData?.contractFormHead?.titleOfServiceArb}})</u></b>
+          </td>
+
+        </tr>
+
+        <tr>
+          <td style="width: 50%; text-align: justify; padding: 10px; vertical-align: top">
+            {{TranslateTaggedDataEng(contractFormData?.contractFormHead?.companyDetailsEng)}}
+          </td>
+          <td style="width: 50%; text-align: justify; padding: 10px; vertical-align: top">
+            {{TranslateTaggedDataArb(contractFormData?.contractFormHead?.companyDetailsArb)}}
+          </td>
+        </tr>
+        <tr>
+          <td style="width: 50%; text-align: left; padding: 10px;">
+            <u> (Referred to it from here on as first party)</u>
+          </td>
+          <td style="width: 50%; text-align: right; padding: 10px;">
+            <u>(ويشار إليها فيما بعد بالطرف الأول)</u>
+          </td>
+        </tr>
+        <tr>
+          <td style="width: 50%; text-align: justify; padding: 10px; vertical-align: top">
+            {{TranslateTaggedDataEng(contractFormData?.contractFormHead?.customerDetailsEng)}}
+          </td>
+          <td style="width: 50%; text-align: justify; padding: 10px; vertical-align: top">
+            {{TranslateTaggedDataArb(contractFormData?.contractFormHead?.customerDetailsArb)}}
+          </td>
+        </tr>
+
+
+        <tr>
+          <td style="width: 50%; text-align: left; padding: 10px;">
+            <u> (Referred to it from here on as Second party)</u>
+          </td>
+          <td style="width: 50%; text-align: right; padding: 10px;">
+            <u>( و يشار إليها فيما بعد بالطرف الثاني)</u>
+          </td>
+        </tr>
+        <tr>
+          <td style="width: 50%; text-align: center; padding: 10px;">
+            <b><u> Preamble</u></b>
+          </td>
+          <td style="width: 50%; text-align: center; padding: 10px;">
+            <b><u>البند التمهيدي</u></b>
+          </td>
+        </tr>
+        <tr>
+          <td style="width: 50%; text-align: justify; padding: 10px; vertical-align: top">
+            {{contractFormData?.contractFormHead?.preambleEng}}
+          </td>
+          <td style="width: 50%; text-align: justify; padding: 10px; vertical-align: top">
+            {{contractFormData?.contractFormHead?.preambleArb}}
+          </td>
+        </tr>
+        <ng-container *ngIf="contractFormData?.contractClauses.length>0">
+          <ng-container *ngFor="let clause of contractFormData.contractClauses;let i=index">
+            <ng-container *ngIf="i==2">
+              <tr>
+                <td colspan="2">
+                  <table style="width:100%;" border="0" cellpadding="0" cellspacing="0">
+                    <tr>
+
+                      <td style=" border: 1px solid #878787; padding: 5px; text-align: center; font-size: 0.875rem !important; color: #000000; font-family: 'Poppins', sans-serif; font-weight: 600;">
+                        {{'Qty' | translate}}
+                      </td>
+                      <td style=" border: 1px solid #878787; padding: 5px; text-align: center; font-size: 0.875rem !important; color: #000000; font-family: 'Poppins', sans-serif; font-weight: 600;">
+                        {{'Position' | translate}}
+                      </td>
+                      <td style=" border: 1px solid #878787; padding: 5px; text-align: center; font-size: 0.875rem !important; color: #000000; font-family: 'Poppins', sans-serif; font-weight: 600;">
+                        {{'Unit_Rate' | translate}}
+                      </td>
+                      <td style=" border: 1px solid #878787; padding: 5px; text-align: center; font-size: 0.875rem !important; color: #000000; font-family: 'Poppins', sans-serif; font-weight: 600;">
+                        {{'Total' | translate}}
+                      </td>
+                    </tr>
+
+
+                    <tr *ngFor="let propCost of proposalCosting;">
+                      <td style=" border:1px solid #878787;padding:5px;text-align: center;font-size:0.775rem !important;color: #000000; font-family: 'Poppins', sans-serif;font-weight: 500;">
+                        {{propCost.qty}}
+                      </td>
+                      <td style=" border:1px solid #878787;padding:5px;text-align: left;font-size:0.775rem !important;color: #000000; font-family: 'Poppins', sans-serif;font-weight: 500;">
+                        {{propCost.itemEng}}
+                      </td>
+                      <td style=" border:1px solid #878787;padding:5px;text-align: right;font-size:0.775rem !important;color: #000000; font-family: 'Poppins', sans-serif;font-weight: 500;">
+                        {{propCost.price |number:'3.2-5'}}
+                      </td>
+                      <td style=" border:1px solid #878787;padding:5px;text-align: right;font-size:0.775rem !important;color: #000000; font-family: 'Poppins', sans-serif;font-weight: 500;">
+                        {{propCost.total |number:'3.2-5'}}
+                      </td>
+                    </tr>
+                    <tr>
+                      <td colspan="3" style=" border: 1px solid #878787; padding: 5px; text-align: right; font-size: 0.875rem !important; color: #000000; font-family: 'Poppins', sans-serif; font-weight: 600;">
+                        {{'Grand_Total'}}
+                      </td>
+                      <td style=" border:1px solid #878787;padding:5px;text-align: right;font-size:0.775rem !important;color: #000000; font-family: 'Poppins', sans-serif;font-weight: 500;">
+                        {{grandTotal |number:'3.2-5'}}
+                      </td>
+                    </tr>
+                  </table>
+                </td>
+                </tr>
+</ng-container>
+
+            <tr *ngIf="clause.clauseTitleEng!=null">
+              <td style="width: 50%; text-align: center; padding: 10px; vertical-align: top">
+                <b><u>{{clause.clauseTitleEng}}</u></b>
+              </td>
+              <td style="width: 50%; text-align: center; padding: 10px; vertical-align: top">
+                <b> <u> {{clause.clauseTitleArb}}</u></b>
+              </td>
+            </tr>
+            <tr *ngIf="clause.clauseSubTitleEng!=null">
+              <td style="width: 50%; text-align: left; padding: 10px; vertical-align: top">
+                <b><u> {{clause.clauseSubTitleEng}}</u></b>
+              </td>
+              <td style="width: 50%; text-align: right; padding: 10px;vertical-align: top" >
+                <b><u>{{clause.clauseSubTitleArb}}</u></b>
+              </td>
+            </tr>
+            <tr *ngIf="clause.clauseDescriptionEng!=null">
+              <td style="width: 50%; text-align: justify; padding: 10px; white-space: pre-wrap; vertical-align: top">
+                {{clause.clauseDescriptionEng}}
+              </td>
+              <td style="width: 50%; text-align: justify; padding: 10px; white-space: pre-wrap; vertical-align: top">
+                {{clause.clauseDescriptionArb}}
+              </td>
+            </tr>
+          </ng-container>
+
+        </ng-container>
+
+        <tr>
+          <td style="width: 50%; text-align: left; padding: 10px;">
+            <b> First party:</b>
+          </td>
+          <td style="width: 50%; text-align: right; padding: 10px;">
+            <b> :الطرف الأو</b>
+          </td>
+        </tr>
+        <tr>
+          <td style="width: 50%; text-align: left; padding: 10px; white-space: pre-wrap; vertical-align: top" >
+            {{contractFormData?.contractFormHead?.firstPartyEng}}
+          </td>
+          <td style="width: 50%; text-align: right; padding: 10px; white-space: pre-wrap; vertical-align: top">
+            {{contractFormData?.contractFormHead?.firstPartyArb}}
+          </td>
+        </tr>
+        <br/>
+        <tr>
+          
+          <td style="width: 50%; text-align: left; padding: 10px;">
+            <b> Second party:</b>
+          </td>
+          <td style="width: 50%; text-align: right; padding: 10px;">
+            <b> :الطرف الثاني</b>
+          </td>
+        </tr>
+        <tr>
+          <td style="width: 50%; text-align: left; padding: 10px; white-space: pre-wrap; vertical-align: top" >
+            {{contractFormData?.contractFormHead?.secondPartyEng}}
+          </td>
+          <td style="width: 50%; text-align: right; padding: 10px; white-space: pre-wrap; vertical-align: top">
+            {{contractFormData?.contractFormHead?.secondPartyArb}}
+          </td>
+        </tr>
+
+      </table>
+    </div>
+
+  </div>
+</div>
+
+
+
+
+
+
+
+

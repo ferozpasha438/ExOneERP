@@ -1,0 +1,112 @@
+<div class="page-breadcrumb">
+  <div class="row">
+    <div class="col-12 align-self-center">
+      <h3 class="modal-title">{{'Student_Fee_History' | translate}}</h3>
+      <button type="button" class="close" aria-hidden="true" (click)="closeModel()"> ×</button>
+    </div>
+  </div>
+</div>
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-md-12 col-lg-12">
+      <div class="card">
+        <div class="card-body">
+          <!--<div class="row pb-3">
+              <div class="col-md-3">-->
+          <!--(keyup)="applyFilter($event)"-->
+          <!--<input class="form-control" placeholder="{{'Search' | translate}}..."
+                      [(ngModel)]="searchValue" />
+              </div>
+              <div class="col-md-4 arabicright">
+                  <button (click)="applyFilter(searchValue)" class="btn btn-primary">{{'Search' |
+                      translate}}</button> &nbsp;
+                  <a (click)="refresh()" class=""><i class="btn btn-primary icon-refresh"></i></a>
+              </div>
+          </div>-->
+          <div class="row">
+            <div class="col-md-4 col-lg-4">
+              <h4 class="card-title pt6">{{'Student_Fee_History' | translate}}</h4>
+            </div>
+            <!-- <div class="col-md-8 col-lg-8 text-right">
+                <a data-toggle="modal" data-target="#addupdateUnit"
+                    class="  btn waves-effect waves-light btn-rounded btn-outline-primary"
+                    href="#"> <i class="icon-plus"> </i>{{'Add_New_Subjects' |
+                    translate}}</a>
+
+            </div> -->
+          </div>
+          <div class="cardtitle-divider"></div>
+          <div class="table-responsive">
+            <spinner-loader [isLoading]="isLoading"></spinner-loader>
+            <div class="mat-elevation-z8">
+              <ng-container>
+                <table mat-table [dataSource]="data" matSort matSortActive="id" matSortDisableClear
+                       matSortDirection="desc" class="table  table-bordered no-wrap">
+                  <ng-container matColumnDef="feeDueDate">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                      {{'Due_Date' | translate}}
+                    </th>
+                    <td mat-cell *matCellDef="let row">{{ row.feeDueDate }}</td>
+                  </ng-container>
+                  <ng-container matColumnDef="termCode">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                      {{'Term_Code' | translate}}
+                    </th>
+                    <td mat-cell *matCellDef="let row">{{ row.termCode }}</td>
+                  </ng-container>
+                  <!--<ng-container matColumnDef="totFeeAmount">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                      {{'Total_Fee_Amount' | translate}}
+                    </th>
+                    <td mat-cell *matCellDef="let row">{{ row.totFeeAmount }}</td>
+                  </ng-container>
+                  <ng-container matColumnDef="taxAmount">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                      {{'Tax_Amount' | translate}}
+                    </th>
+                    <td mat-cell *matCellDef="let row">{{ row.taxAmount }}</td>
+                  </ng-container>-->
+                  <ng-container matColumnDef="netFeeAmount">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                      {{'Net_Fee_Amount' | translate}}
+                    </th>
+                    <td mat-cell *matCellDef="let row">{{ row.netFeeAmount }}</td>
+                  </ng-container>
+                  <ng-container matColumnDef="isPaid">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                      {{'Paid_Fee_Amount' | translate}}
+                    </th>
+                    <td mat-cell *matCellDef="let row">{{ row.isPaid?row.netFeeAmount:0 }}</td>
+                  </ng-container>
+                  <!--<ng-container matColumnDef="paidOn">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                      {{'Paid_On' | translate}}
+                    </th>
+                    <td mat-cell *matCellDef="let row">{{ row.paidOn }}</td>
+                  </ng-container>-->
+                  <!--<ng-container matColumnDef="Actions" stickyEnd>
+                    <th mat-header-cell *matHeaderCellDef> {{'Actions' | translate}}</th>
+                    <td mat-cell *matCellDef="let row">
+                      <a class="tableicons" (click)="editTermFeeHeader(row)" matTooltip="{{'Edit_Item' | translate}}" *ngIf="row.isPaid==false">
+                        <i class="icon-note"> </i>
+                      </a>
+                    </td>
+                  </ng-container>-->
+                  <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
+                  <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+                </table>
+                <ng-container>
+                  <mat-paginator [length]="totalItemsCount" [pageSize]="pageService.pageCount"
+                                 [pageSizeOptions]="pageService.selectItemsPerPage"
+                                 (page)="onPageSwitch($event)">
+                  </mat-paginator>
+                </ng-container>
+              </ng-container>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+

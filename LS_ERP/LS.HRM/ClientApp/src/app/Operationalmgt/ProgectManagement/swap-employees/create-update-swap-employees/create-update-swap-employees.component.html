@@ -1,0 +1,295 @@
+<h3> {{modalTitle}} <button type="button" class="close" aria-hidden="true" (click)="closeModel()"> ×</button></h3>
+<form [formGroup]="form" (ngSubmit)="submit()" novalidate class="mt-4" #myform="ngForm">
+  <div class="modal-body">
+    <div *ngIf="id>0">
+      {{'Request_Number' |translate}}:{{id}}
+    </div>
+    <div class="outer ">
+      <div class="row rowm0 ">
+
+
+
+
+
+
+
+        <div class="row  mt-2" id="inputEntry">
+
+          <div class="col-md-12 col-lg-12" style="border:1px solid #f4f4f4; padding-bottom:5px">
+            <div class="row  mt-2" id="inputEntry">
+              <div class="col-md-3 col-lg-3">
+                <label class="mr-sm-2">{{'Customer_Code' | translate}}</label>
+                <div class="form-group ">
+                  <div class="input-group mb-2">
+                    <auto-loader [isLoading]="isDataLoading"></auto-loader>
+                    <input type="text" class="form-control"
+                           placeholder="{{'Please_Enter' | translate}} {{'Customer_Code' | translate}}"
+                           [formControl]="srcCustCodeControl"
+                           matInput
+                           [matAutocomplete]="auto1">
+                    <mat-autocomplete #auto1="matAutocomplete" (optionSelected)="onSelectionCustomerCode($event,1,'src')">
+                      <mat-option *ngFor="let option of filteredSrcCustCodes | async"
+                                  [value]="option.value" style="font-size:smaller">
+                        {{ isArabic?option.textTwo:option.text}}
+                      </mat-option>
+                    </mat-autocomplete>
+
+                  </div>
+                  <!--<validation-message [control]="srcCustCodeControl"></validation-message>-->
+
+                  <span *ngIf="!(form.get('srcCustomerCode')?.hasError('required') && myform?.submitted)" style="color:red">
+                    <validation-message [control]="form.controls.srcCustomerCode"></validation-message>
+                  </span>
+                  <span *ngIf="form.get('srcCustomerCode')?.hasError('required')&& myform?.submitted" style="color:red">{{'Required'|translate}}</span>
+                </div>
+
+              </div>
+
+
+              <div class="col-md-3 col-lg-3">
+                <label class="mr-sm-2">{{'Project' | translate}}</label>
+                <div class="form-group ">
+                  <div class="input-group mb-2">
+
+                    <select class="custom-select mr-sm-2" formControlName="srcProjectCode" (change)="onSelectionProjectCode('src')">
+                      <option value=''>{{'Select' | translate}} {{'Project' | translate}} </option>
+                      <option *ngFor="let pr of srcProjectsList" value="{{pr.value}}">{{pr.value}}</option>
+                    </select>
+                  </div>
+
+                  <span *ngIf="!(form.get('srcProjectCode')?.hasError('required') && myform?.submitted)" style="color:red">
+                    <validation-message [control]="form.controls.srcProjectCode"></validation-message>
+                  </span>
+                  <span *ngIf="form.get('srcProjectCode')?.hasError('required')&& myform?.submitted" style="color:red">{{'Required'|translate}}</span>
+                </div>
+
+              </div>
+
+              <div class="col-md-3 col-lg-3">
+                <label class="mr-sm-2">{{'Site' | translate}}</label>
+                <div class="form-group ">
+                  <div class="input-group mb-2">
+
+                    <select class="custom-select mr-sm-2" formControlName="srcSiteCode" (change)="onSelectionSiteCode('src')">
+                      <option value=''>{{'Select' | translate}} {{'Site' | translate}} </option>
+                      <option *ngFor="let s of srcSiteCodeList" value="{{s.siteCode}}">{{ isArabic?s.siteArbName:s.siteName}}</option>
+                    </select>
+                  </div>
+
+                  <span *ngIf="!(form.get('srcSiteCode')?.hasError('required') && myform?.submitted)" style="color:red">
+                    <validation-message [control]="form.controls.srcSiteCode"></validation-message>
+                  </span>
+                  <span *ngIf="form.get('srcSiteCode')?.hasError('required')&& myform?.submitted" style="color:red">{{'Required'|translate}}</span>
+
+                </div>
+
+              </div>
+              <div class="col-md-3 col-lg-3">
+                <label class="mr-sm-2">{{'Employee' | translate}}</label>
+                <div class="form-group ">
+                  <div class="input-group mb-2">
+                    <auto-loader [isLoading]="isDataLoading"></auto-loader>
+                    <input type="text" class="form-control"
+                           placeholder="{{'Please_Enter' | translate}} {{'Employee' | translate}}"
+                           [formControl]="srcEmpNumberControl"
+                           matInput
+                           [matAutocomplete]="auto3">
+                    <mat-autocomplete #auto3="matAutocomplete" (optionSelected)="onSelectionEmployee($event,1,'src')">
+                      <mat-option *ngFor="let option of filteredSrcEmployees | async"
+                                  [value]="option.text" style="font-size:smaller">
+                        {{option.text}}-{{ !isArabic?option.textTwo:option.textAr}}
+                      </mat-option>
+                    </mat-autocomplete>
+
+                  </div>
+
+                  <span *ngIf="!(form.get('srcEmployeeNumber')?.hasError('required') && myform?.submitted)" style="color:red">
+                    <validation-message [control]="form.controls.srcEmployeeNumber"></validation-message>
+                  </span>
+                  <span *ngIf="form.get('srcEmployeeNumber')?.hasError('required')&& myform?.submitted" style="color:red">{{'Required'|translate}}</span>
+
+                </div>
+
+              </div>
+
+
+            </div>
+          </div>
+
+          <div class="col-md-12 col-lg-12" style="padding:5px;text-align:center;font-size:xx-large">
+            <i class="fas fa-sync-alt"></i>
+          </div>
+          <div class="col-md-12 col-lg-12" style="border:1px solid #f4f4f4; padding-top:5px">
+            <div class="row  mt-2" id="inputEntry">
+              <div class="col-md-3 col-lg-3">
+                <label class="mr-sm-2">{{'Customer_Code' | translate}}</label>
+                <div class="form-group ">
+                  <div class="input-group mb-2">
+                    <auto-loader [isLoading]="isDataLoading"></auto-loader>
+                    <input type="text" class="form-control"
+                           placeholder="{{'Please_Enter' | translate}} {{'Customer_Code' | translate}}"
+                           [formControl]="destCustCodeControl"
+                           matInput
+                           [matAutocomplete]="auto2">
+                    <mat-autocomplete #auto2="matAutocomplete" (optionSelected)="onSelectionCustomerCode($event,1,'dest')">
+                      <mat-option *ngFor="let option of filteredDestCustCodes | async"
+                                  [value]="option.value" style="font-size:smaller">
+                        {{ isArabic?option.textTwo:option.text}}
+                      </mat-option>
+                    </mat-autocomplete>
+
+                  </div>
+
+                  <span *ngIf="!(form.get('destCustomerCode')?.hasError('required') && myform?.submitted)" style="color:red">
+                    <validation-message [control]="form.controls.destCustomerCode"></validation-message>
+                  </span>
+                  <span *ngIf="form.get('destCustomerCode')?.hasError('required')&& myform?.submitted" style="color:red">{{'Required'|translate}}</span>
+
+
+                </div>
+
+              </div>
+
+
+              <div class="col-md-3 col-lg-3">
+                <label class="mr-sm-2">{{'Project' | translate}}</label>
+                <div class="form-group ">
+                  <div class="input-group mb-2">
+
+                    <select class="custom-select mr-sm-2" formControlName="destProjectCode" (change)="onSelectionProjectCode('dest')">
+                      <option value=''>{{'Select' | translate}} {{'Project' | translate}} </option>
+                      <option *ngFor="let pr of destProjectsList" value="{{pr.value}}">{{pr.value}}</option>
+                    </select>
+                  </div>
+
+                  <span *ngIf="!(form.get('destProjectCode')?.hasError('required') && myform?.submitted)" style="color:red">
+                    <validation-message [control]="form.controls.destProjectCode"></validation-message>
+                  </span>
+                  <span *ngIf="form.get('destProjectCode')?.hasError('required')&& myform?.submitted" style="color:red">{{'Required'|translate}}</span>
+
+                </div>
+
+              </div>
+              <div class="col-md-3 col-lg-3">
+                <label class="mr-sm-2">{{'Site' | translate}}</label>
+                <div class="form-group ">
+                  <div class="input-group mb-2">
+
+                    <select class="custom-select mr-sm-2" formControlName="destSiteCode" (change)="onSelectionSiteCode('dest')">
+                      <option value=''>{{'Select' | translate}} {{'Site' | translate}} </option>
+                      <option *ngFor="let s of destSiteCodeList" value="{{s.siteCode}}">{{ isArabic?s.siteArbName:s.siteName}}</option>
+                    </select>
+                  </div>
+
+                  <span *ngIf="!(form.get('destSiteCode')?.hasError('required') && myform?.submitted)" style="color:red">
+                    <validation-message [control]="form.controls.destSiteCode"></validation-message>
+                  </span>
+                  <span *ngIf="form.get('destSiteCode')?.hasError('required')&& myform?.submitted" style="color:red">{{'Required'|translate}}</span>
+
+                </div>
+
+              </div>
+
+
+
+
+
+
+
+              <div class="col-md-3 col-lg-3">
+                <label class="mr-sm-2">{{'Employee' | translate}}</label>
+                <div class="form-group ">
+                  <div class="input-group mb-2">
+                    <auto-loader [isLoading]="isDataLoading"></auto-loader>
+                    <input type="text" class="form-control"
+                           placeholder="{{'Please_Enter' | translate}} {{'Employee' | translate}}"
+                           [formControl]="destEmpNumberControl"
+                           matInput
+                           [matAutocomplete]="auto4">
+                    <mat-autocomplete #auto4="matAutocomplete" (optionSelected)="onSelectionEmployee($event,1,'dest')">
+                      <mat-option *ngFor="let option of filteredDestEmployees | async"
+                                  [value]="option.text" style="font-size:smaller">
+                        {{option.text}}-{{ !isArabic?option.textTwo:option.textAr}}
+                      </mat-option>
+                    </mat-autocomplete>
+
+                  </div>
+
+                  <span *ngIf="!(form.get('destEmployeeNumber')?.hasError('required') && myform?.submitted)" style="color:red">
+                    <validation-message [control]="form.controls.destEmployeeNumber"></validation-message>
+                  </span>
+                  <span *ngIf="form.get('destEmployeeNumber')?.hasError('required')&& myform?.submitted" style="color:red">{{'Required'|translate}}</span>
+
+                </div>
+
+              </div>
+
+            </div>
+          </div>
+
+          <div class="col-md-12 col-lg-12" style="padding:5px;text-align:center;font-size:xx-large">
+          </div>
+
+          <div class="col-md-12 col-lg-12" style="border:1px solid #f4f4f4; padding-top:5px">
+            <div class="col-md-4 col-lg-4">
+              <div class="form-group ">
+                <label class="mr-sm-2">
+                  {{'From_Date' | translate}}
+                </label>
+
+                <div class="form-group ">
+                  <div class="input-group ">
+                    <input class="form-control datapickerinput" placeholder=" {{'Please_Enter' | translate}} {{'From_Date' | translate}}" formControlName="fromDate"
+                           [matDatepicker]="picker1" [min]="srcProjectData?.startDate" [max]="srcProjectData?.endDate" (click)="openDatePicker(picker1)">
+
+
+                    <div class="input-group-prepend datapickericon">
+                      <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
+                      <mat-datepicker #picker1></mat-datepicker>
+                    </div>
+                  </div>
+                  <span *ngIf="!(form.get('fromDate')?.hasError('required') && myform?.submitted)" style="color:red">
+                    <validation-message [control]="form.controls.fromDate"></validation-message>
+                  </span>
+                  <span *ngIf="form.get('fromDate')?.hasError('required')&& myform?.submitted" style="color:red">{{'Required'|translate}}</span>
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+
+
+
+
+
+
+
+
+
+
+        <div class="col-md-12 col-lg-12">
+
+          <div class="row mt-3 ">
+            <div class="col-md-12 col-lg-12 text-center">
+              <input type="button"
+                     class="btn waves-effect waves-light btn-rounded   btn-secondary btn-midblock"
+                     value="{{'Cancel' | translate}}" (click)="closeModel()" /> &nbsp;
+
+              <input type="submit" *ngIf="modalBtnTitle !='View'"
+                     class="btn waves-effect waves-light btn-rounded btn-primary btn-midblock"
+                     value="{{'Save' | translate}}" />
+
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+    </div>
+
+
+  </div>
+
+</form>

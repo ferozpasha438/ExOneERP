@@ -1,0 +1,97 @@
+
+<h3> {{'Create_New_Sales_Invoice' | translate}} ({{modalBtnTitle}}) <button type="button" class="close" aria-hidden="true" (click)="closeModel()"> ×</button></h3>
+<form [formGroup]="form" (ngSubmit)="submit()" novalidate class="mt-1">
+  <div class="row rowm0 ">
+    <!--<div class="col-md-12 col-lg-12">
+    <div class="form-group ">
+      <label class="mr-sm-2">
+        docNumber
+      </label>
+      <input class="form-control" type="text" placeholder="{{'TAX_Id_Number' | translate}}" formControlName="docNum">
+      <validation-message [control]="form.controls.docNum"></validation-message>
+    </div>
+  </div>-->
+    <!--<div class="col-md-12 col-lg-12">
+    <div class="form-group ">
+      <label class="mr-sm-2">
+        Payment Due Days
+      </label>
+      <select class="custom-select mr-sm-2" formControlName="days">
+        <option value="">Payment Due Days</option>
+        <option *ngFor="let item of paymentTermsList" value="{{item.textTwo}}">{{item.textTwo}}</option>
+
+      </select>
+      <validation-message [control]="form.controls.days"></validation-message>
+    </div>
+  </div>-->
+
+    <div class="col-md-4 col-lg-4">
+      <div class="form-group ">
+        <label class="mr-sm-2">
+          {{'Select_Payment' | translate}}
+        </label>
+        <br />
+        <mat-radio-group aria-label="Select an option" formControlName="paymentType" (change)="paymentSelected($event)">
+          <mat-radio-button value="Credit">{{'Credit' | translate}} &nbsp;&nbsp;</mat-radio-button>
+          <mat-radio-button value="Check">{{'Cash_Bank' | translate}}</mat-radio-button>
+          <!--<mat-radio-button value="3">Bank</mat-radio-button>-->
+        </mat-radio-group>
+        <validation-message [control]="form.controls.paymentType"></validation-message>
+      </div>
+    </div>
+    <div class="col-md-4 col-lg-4" *ngIf="!isCreditSelected">
+      <div class="form-group ">
+        <label class="mr-sm-2">{{'PayCode' | translate}}</label>
+        <select class="custom-select mr-sm-2" formControlName="payCode">
+          <option value="">{{'Select_Payment' | translate}}</option>
+          <option *ngFor="let item of payCodeList" value="{{item.text}}">{{item.text}}</option>
+        </select>
+
+      </div>
+    </div>
+    <div class="col-md-12 col-lg-12">
+      <div class="form-group ">
+        <label class="mr-sm-2">
+          {{'Remasks1' | translate}}
+        </label>
+        <input class="form-control" type="text" placeholder="{{'Remasks1' | translate}}" formControlName="remarks1">
+      </div>
+    </div>
+    <div class="col-md-12 col-lg-12">
+      <div class="form-group ">
+        <label class="mr-sm-2">
+          {{'Remasks2' | translate}}
+        </label>
+        <input class="form-control" type="text" placeholder="{{'Remasks2' | translate}}" formControlName="remarks2">
+      </div>
+    </div>
+
+    <div class="col-md-12 col-lg-12">
+      <label class="mr-sm-2">{{'Posting_Date' | translate}}</label>
+      <div class="form-group ">
+        <div class="input-group mb-2">
+          <input class="form-control datapickerinput" placeholder="{{'Select_a_Date' | translate}}" formControlName="createdOn" [matDatepicker]="picker">
+
+          <div class="input-group-prepend datapickericon">
+            <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+            <mat-datepicker #picker></mat-datepicker><br /><br />
+          </div>
+
+        </div>        
+
+      </div>
+
+    </div>
+
+
+  </div>
+  <div class="row">
+    <div class="col-lg-12 col-md-12 text-center">
+      <button type="button" class="btn btn-secondary" data-dismiss="modal" (click)="closeModel()">
+        {{'Cancel' | translate}}
+      </button>
+      &nbsp;&nbsp;
+      <input type="submit" class="btn waves-effect waves-light   btn-primary  " value="{{'Save' | translate}}">
+    </div>
+  </div>
+</form>

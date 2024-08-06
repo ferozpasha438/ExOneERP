@@ -1,0 +1,67 @@
+<div class="modal-header">
+  <h3 class="modal-title">{{modalTitle}}</h3>
+  <button type="button" class="close" aria-hidden="true" (click)="closeModel()"> ×</button>
+
+</div>
+<form [formGroup]="form" (ngSubmit)="submit()" novalidate class="mt-4">
+  <div class="row">
+    <div class="col-md-6 col-lg-6">
+      <div class="form-group">
+        <label for="branchNameEn">{{'BranchName_EN' | translate}}</label>
+        <input class="form-control input-mandatory" id="branchNameEn" type="text"
+               placeholder="{{'Please_Enter' | translate}} {{'BranchName _EN' | translate}}" formControlName="branchNameEn">
+        <validation-message [control]="form.controls.branchNameEn"></validation-message>
+      </div>
+    </div>
+    <div class="col-md-6 col-lg-6">
+      <div class="form-group">
+        <label for="branchNameAr">{{'BranchName_AR' | translate}}</label>
+        <input class="form-control input-mandatory" id="branchNameAr" type="text"
+               placeholder="{{'Please_Enter' | translate}} {{'BranchName_AR' | translate}}" formControlName="branchNameAr">
+        <validation-message [control]="form.controls.branchNameAr"></validation-message>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-6 col-lg-6">
+      <div class="form-group">
+        <label for="ifscCode">{{'IFSC Code' | translate}}</label>
+        <input class="form-control input-mandatory" id="ifscCode" type="text"
+               placeholder="{{'Please_Enter' | translate}} {{'IFSC Code' | translate}}" formControlName="ifscCode" [readonly]="isReadOnly">
+        <validation-message [control]="form.controls.ifscCode"></validation-message>
+      </div>
+    </div>
+    <div class="col-md-6 col-lg-6">
+      <div class="form-group">
+        <label for="bankCode">{{'Bank' | translate}}</label>
+        <select class="custom-select input-mandatory" id="bankCode" formControlName="bankCode">
+          <option value="">{{'Choose' | translate}} {{'Bank' | translate}}</option>
+          <ng-container *ngIf="bankList">
+            <option *ngFor="let bank of bankList" value="{{bank.value}}">{{bank.text}}</option>
+          </ng-container>
+        </select>
+        <validation-message [control]="form.controls.bankCode"></validation-message>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-6 col-lg-6">
+      <div class="form-group">
+        <label for="isActive">{{'Is_Active' | translate}}</label>
+        <br />
+        <mat-slide-toggle color="primary" formControlName="isActive"></mat-slide-toggle>
+      </div>
+    </div>
+  </div>
+  <div class="row mt-3 ">
+    <div class="col-md-12 col-lg-12 text-center">
+      <input type="button"
+             class="btn waves-effect waves-light btn-rounded   btn-secondary btn-midblock"
+             value="{{'Cancel' | translate}}" (click)="closeModel()" /> &nbsp;
+      <input type="submit"
+             class="btn waves-effect waves-light btn-rounded btn-primary btn-midblock"
+             value="{{'Save' | translate}}" />
+    </div>
+  </div>
+</form>
+

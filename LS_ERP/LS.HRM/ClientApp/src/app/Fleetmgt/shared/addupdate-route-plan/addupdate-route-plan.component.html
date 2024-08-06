@@ -1,0 +1,175 @@
+<h3 class="modal-title">{{'Fleet_Route_Plan' | translate}}</h3>
+<button type="button" class="close" aria-hidden="true" (click)="closeModel()"> ×</button>
+<form [formGroup]="form" (ngSubmit)="submit()" novalidate class="mt-4">
+  <div class="outer ">
+    <div class="row rowm0 mt-3">
+      <div class="col-md-6 col-lg-6 col-sm-6">
+        <div class="form-group">
+          <label>{{'Route_Plan_Code' | translate}}</label>
+          <input class="form-control" type="text" placeholder="{{'Route_Plan_Code' | translate}}"
+                 formControlName="routePlanCode" />
+          <!--<validation-message [control]="form.controls.routePlanCode"></validation-message>-->
+        </div>
+      </div>
+
+      <div class="col-md-6 col-lg-6 col-sm-6">
+        <div class="form-group">
+          <label>{{'Route_Name' | translate}}</label>
+          <input class="form-control" type="text" placeholder="{{'Route_Name' | translate}}"
+                 formControlName="routeNameEn" />
+          <!--<validation-message [control]="form.controls.routeNameEn"></validation-message>-->
+        </div>
+      </div>
+
+      <div class="col-md-6 col-lg-6 col-sm-6">
+        <div class="form-group">
+          <label>{{'Route_NameAr' | translate}}</label>
+          <input class="form-control" type="text" placeholder="{{'Route_NameAr' | translate}}"
+                 formControlName="routeNameAr" />
+          <!--<validation-message [control]="form.controls.routeNameAr"></validation-message>-->
+        </div>
+      </div>
+      <div class="col-md-6 col-lg-6 col-sm-6">
+        <div class="form-group">
+          <label>{{'City' | translate}}</label>
+          <select class="custom-select mr-sm-2" [(ngModel)]="city" [ngModelOptions]="{ standalone: true }" (change)="loadRelatedItems()">
+            <option value="">{{'Select' | translate}} {{'City' | translate}} </option>
+            <ng-container *ngIf="cityList">
+              <option *ngFor="let item of cityList" value="{{item.value}}">{{ isArab ? item.textTwo : item.text  }}</option>
+            </ng-container>
+          </select>
+        </div>
+    </div>
+
+
+    </div>
+    <!--<div class="row rowm0 mt-3">
+
+      <div class="form-group">
+        <label>{{'City' | translate}}</label>
+        <select class="custom-select mr-sm-2" formControlName="city">
+          <option value="">{{'Select' | translate}} {{'City' | translate}} </option>
+          <ng-container *ngIf="cityList">
+            <option *ngFor="let item of cityList" value="{{item.value}}">{{ isArab ? item.textTwo : item.text  }}</option>
+          </ng-container>
+        </select>
+
+        <validation-message [control]="form.controls.city"></validation-message>
+      </div>
+
+      <div class="form-group">
+        <label>{{'Area_List' | translate}}</label>
+        <select class="custom-select mr-sm-2" formControlName="routeCode">
+          <option value="">{{'Select' | translate}} {{'Area_List' | translate}} </option>
+          <ng-container *ngIf="areaList">
+            <option *ngFor="let item of areaList" value="{{item.routeName}}">{{ isArab ? item.routeNameAr : item.routeName  }}</option>
+          </ng-container>
+        </select>
+
+        <validation-message [control]="form.controls.routeCode"></validation-message>
+      </div>
+
+      <div class="form-group">
+        <label>{{'Route_Directions' | translate}}</label>
+        <select class="custom-select mr-sm-2" formControlName="routeDir">
+          <option value="">{{'Select' | translate}} {{'Direction' | translate}} </option>
+          <option value="U">{{'Up' | translate}}</option>
+          <option value="D">{{'Down' | translate}}</option>
+        </select>
+
+        <validation-message [control]="form.controls.routeDir"></validation-message>
+      </div>
+
+      <button type="button" class="btn waves-effect waves-light h-lg-25   btn-primary  " (click)="addRoutePlan()"><i class="icon-plus"></i></button>
+
+
+      <div class="col-md-6 col-lg-6 col-sm-6">
+        <label>{{'Is_Active' | translate}}</label>
+        <div class="form-group">
+          <mat-slide-toggle color="primary" formControlName="isActive"></mat-slide-toggle>
+        </div>
+      </div>
+
+    </div>-->
+
+
+
+  <div class="table-responsive">
+  <table id="zero_config" class="table  table-bordered no-wrap">
+      <thead>
+          <tr>
+              <!--<th>{{'City' | translate}}</th>-->
+              <th>{{'Area_List' | translate}}</th>
+              <th>{{'Routr_Dir' | translate}}</th>
+          </tr>
+      </thead>
+      <tbody>
+          <tr>
+              <!--<td>
+                 <select class="custom-select mr-sm-2" [(ngModel)]="city" [ngModelOptions]="{ standalone: true }" (change)="loadRelatedItems()" >
+                  <option value="">{{'Select' | translate}} {{'City' | translate}} </option>
+                  <ng-container *ngIf="cityList">
+                    <option *ngFor="let item of cityList" value="{{item.value}}">{{ isArab ? item.textTwo : item.text  }}</option>
+                  </ng-container>
+                </select>
+              </td>-->
+              <td>
+                  <select class="custom-select mr-sm-2" [(ngModel)]="routeCode" [ngModelOptions]="{ standalone: true }" >
+                    <option value="">{{'Select' | translate}} {{'Area_List' | translate}} </option>
+                    <ng-container *ngIf="areaList">
+                      <option *ngFor="let item of areaList" value="{{item.value}}">{{ isArab ? item.textTwo : item.text  }}</option>
+                    </ng-container>
+                 </select>
+              </td>
+              <td>
+                 <select class="custom-select mr-sm-2" [(ngModel)]="flag" [ngModelOptions]="{ standalone: true }">
+                    <option value="">{{'Select' | translate}} {{'Direction' | translate}} </option>
+                    <option value="U">{{'Up' | translate}}</option>
+                    <option value="D">{{'Down' | translate}}</option>
+                 </select>
+              </td>
+  
+                  <td>
+                      <button type="button" class="btn waves-effect waves-light   btn-primary  " (click)="addRoutePlan()"><i class="icon-plus"></i></button>
+                  </td>
+              </tr>
+          </tbody>
+          <thead>
+            <tr>
+              <!--<th>{{'City' | translate}}</th>-->
+              <th>{{'Area_List' | translate}}</th>
+              <th>{{'Routr_Dir' | translate}}</th>
+
+            </tr>
+          </thead>
+          <tbody>
+              <tr *ngFor="let item of routePlanDetails; let index = i;">
+                  <!--<td>{{item.city}}</td>-->
+                  <td>{{item.routeCode}}</td>
+                  <td>{{item.flag}}</td>
+                  <td class="text-center">
+                    <!--<i class="icon-note cpointer" (click)="editInvoiceItem(item)"> </i>-->
+                    <i class="icon-trash cpointer " (click)="deleteItem(item)"> </i>
+                  </td>
+
+                  <!--<td class="text-center">
+                      <i class="icon-note cpointer" (click)="editInvoiceItem(item)"> </i> &nbsp;
+                      <i class="icon-trash cpointer " (click)="deleteInvoiceItem(item)"> </i> &nbsp;
+                  </td>-->
+              </tr>
+          </tbody>
+
+
+      </table>
+
+  </div>
+
+    <div class="row customrow mt-4">
+      <div class="col-lg-12 col-md-12 text-center">
+        <input type="button" class="btn btn-secondary" value="{{'Cancel' | translate}}" (click)="closeModel()" />
+        &nbsp;&nbsp;
+        <input type="submit" class="btn waves-effect waves-light btn-primary" value="{{'Save' | translate}}">
+      </div>
+    </div>
+  </div>
+</form>

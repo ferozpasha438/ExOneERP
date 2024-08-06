@@ -1,0 +1,90 @@
+<br />
+<app-employeebasicinfo [employeeBasicInfo]="employeeBasicInfo"></app-employeebasicinfo>
+<br />
+
+<h2 class="arabicright">{{'DocumentInfo' | translate}}</h2>
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-md-12 col-lg-12">
+      <div class="card">
+        <div class="card-body">
+          <div class="row">
+            <div class="col-md-12 col-lg-12">
+              <h4 class="card-title pt6"> {{'EmployeeDocumentList' | translate}}</h4>
+            </div>
+            <div class="col-md-3">
+              <input class="form-control" placeholder="{{'Search' | translate}}..." [(ngModel)]="searchValue" />
+            </div>
+            <div class="col-md-4 arabicright">
+              <button (click)="applyFilter(searchValue)" class="btn btn-primary">{{'Search' | translate}}</button>
+              &nbsp;
+              <a (click)="refresh()" class=""><i class="btn btn-primary icon-refresh"></i></a>
+            </div>
+            <div class="col-md-5 col-lg-5 text-right">
+              <a data-toggle="modal" data-target="#scrollable-modal"
+                class="  btn waves-effect waves-light btn-rounded btn-outline-primary" (click)="create()" href="#"> <i
+                  class="icon-plus"> </i>{{'AddEmployeeDocument' | translate}}</a>
+            </div>
+          </div>
+          <div class="cardtitle-divider"></div>
+          <div class="table-responsive">
+            <table mat-table [dataSource]="data" matSort matSortActive="Id" matSortDisableClear matSortDirection="desc"
+              class="table  table-bordered no-wrap">
+              <ng-container matColumnDef="sno">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                  {{"SNo"|translate}}
+                </th>
+                <td mat-cell *matCellDef="let row; let i = index;">{{ i+1 }}</td>
+              </ng-container>
+              <ng-container matColumnDef="documentTypeName">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                  {{"DocumentType"|translate}}
+                </th>
+                <td mat-cell *matCellDef="let row">{{ row.documentTypeName }}</td>
+              </ng-container>
+              <ng-container matColumnDef="name">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                  {{"FileName"|translate}}
+                </th>
+                <td mat-cell *matCellDef="let row">
+                  <a href="{{fileUrl + '/fileUpload/downLoadFilesByFileName?folderName=employeedocuments&fileName=' + row.fileName}}"
+                    target="_blank">
+                    {{ row.name }}
+                  </a>
+                </td>
+              </ng-container>
+              <ng-container matColumnDef="documentNumber">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                  {{"DocumentNumber"|translate}}
+                </th>
+                <td mat-cell *matCellDef="let row">{{ row.documentNumber }}</td>
+              </ng-container>
+              <ng-container matColumnDef="isVerified">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                  {{"IsVerified?"|translate}}
+                </th>
+                <td mat-cell *matCellDef="let row">{{ row.isVerified }}</td>
+              </ng-container>
+              <ng-container matColumnDef="Actions" stickyEnd>
+                <th mat-header-cell *matHeaderCellDef>Actions </th>
+                <td mat-cell *matCellDef="let row" class="text-center">
+                  <a class="tableicons" data-toggle="modal" data-target="#scrollable-modal" (click)="edit(row.id)"
+                    matTooltip="{{'Edit' | translate}}"><i class="icon-note"></i></a> &nbsp;
+                  <a class="tableicons" (click)="delete(row.id)" matTooltip="{{'Delete' | translate}}"><i
+                      class="icon-trash"> </i></a>
+                </td>
+              </ng-container>
+              <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
+              <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+            </table>
+            <ng-container>
+              <mat-paginator [length]="totalItemsCount" [pageSize]="pageService.pageCount"
+                [pageSizeOptions]="pageService.selectItemsPerPage">
+              </mat-paginator>
+            </ng-container>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

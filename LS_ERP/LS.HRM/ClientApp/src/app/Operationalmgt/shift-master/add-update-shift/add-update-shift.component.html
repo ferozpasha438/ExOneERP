@@ -1,0 +1,144 @@
+<h3 class="modal-title">{{modalTitle | translate}}</h3>
+<button type="button" class="close" aria-hidden="true" (click)="closeModel()"> ×</button>
+<form [formGroup]="form" (ngSubmit)="submit()" novalidate class="mt-4">
+
+  <div class="row">
+
+
+    <div class="col-md-2 col-lg-2">
+      <div class="form-group">
+        <label>{{'Shift_Code' | translate}}</label>
+        <input class="form-control" type="text"
+               placeholder="{{'Enter' | translate}} {{'Shift_Code' | translate}}" formControlName="shiftCode" readonly={{readonly}}>
+        <validation-message [control]="form.controls.shiftCode"></validation-message>
+      </div>
+    </div>
+
+    <div class="col-md-4 col-lg-4">
+      <div class="form-group">
+        <label>{{'Shift_Name_English' | translate}}</label>
+        <input class="form-control" type="text"
+               placeholder="{{'Please_Enter' | translate}} {{'Shift_Name_English' | translate}}" formControlName="shiftName_EN">
+        <validation-message [control]="form.controls.shiftName_EN"></validation-message>
+      </div>
+    </div>
+
+    <div class="col-md-4 col-lg-4">
+      <div class="form-group">
+        <label>{{'Shift_Name_Arab' | translate}}</label>
+        <input class="form-control" type="text"
+               placeholder="{{'Please_Enter' | translate}} {{'Shift_Name_Arab' | translate}}" formControlName="shiftName_AR">
+        <validation-message [control]="form.controls.shiftName_AR"></validation-message>
+      </div>
+    </div>
+    <div class="col-md-2 col-lg-2">
+      <div class="form-group">
+        <label>{{'Is_Off' | translate}}</label>
+        <br />
+        <mat-slide-toggle color="primary" formControlName="isOff" (change)="setDisable()"></mat-slide-toggle>
+      </div>
+    </div>
+    <div class="col-md-6 col-lg-6">
+      <div class="form-group">
+        <label>{{'In_Time' | translate}}</label>
+        <input class="form-control" type="time"
+               placeholder="{{'Please_Enter' | translate}} {{'In_Time' | translate}}" formControlName="inTime">
+        <validation-message [control]="form.controls.inTime"></validation-message>
+      </div>
+    </div>
+
+
+
+    <div class="col-md-6 col-lg-6">
+      <div class="form-group">
+        <label>{{'Out_Time' | translate}}</label>
+        <input class="form-control" type="time"
+               placeholder="{{'Please_Enter' | translate}} {{'Out_Time' | translate}}" formControlName="outTime">
+        <validation-message [control]="form.controls.outTime"></validation-message>
+      </div>
+    </div>
+
+
+    <div class="col-md-6 col-lg-6">
+      <div class="form-group">
+        <label>{{'Break_Time' | translate}}</label>
+        <input class="form-control" type="number" min="15" max="60" step="15"
+               placeholder="{{'Please_Enter' | translate}} {{'Break_Time' | translate}}" formControlName="breakTime">
+        <validation-message [control]="form.controls.breakTime"></validation-message>
+      </div>
+    </div>
+
+    <div class="col-md-6 col-lg-6">
+      <div class="form-group">
+        <label>{{'In_Grace_Time' | translate}}</label>
+        <input class="form-control" type="number" min="0" max="60" step="5"
+               placeholder="{{'Please_Enter' | translate}} {{'In_Grace_Time' | translate}}" formControlName="inGrace">
+        <validation-message [control]="form.controls.inGrace"></validation-message>
+      </div>
+    </div>
+
+    <div class="col-md-6 col-lg-6">
+      <div class="form-group">
+        <label>{{'Out_Grace_Time' | translate}}</label>
+        <input class="form-control" type="number" min="0" max="60" step="5"
+               placeholder="{{'Please_Enter' | translate}} {{'Out_Grace_Time' | translate}}" formControlName="outGrace">
+        <validation-message [control]="form.controls.outGrace"></validation-message>
+      </div>
+    </div>
+
+    <!--<div class="col-md-6 col-lg-6">
+    <div class="form-group">
+      <label>{{'Working_Time' | translate}}</label>
+      <input class="form-control" type="text"
+             placeholder="{{'Please_Enter' | translate}} {{'Working_Time' | translate}}" formControlName="workingTime">
+      <validation-message [control]="form.controls.workingTime"></validation-message>
+    </div>
+  </div>
+  <div class="col-md-6 col-lg-6">
+    <div class="form-group">
+      <label>{{'Net_Working_Time' | translate}}</label>
+      <input class="form-control" type="text"
+             placeholder="{{'Please_Enter' | translate}} {{'Net_Working_Time' | translate}}" formControlName="netWorkingTime">
+      <validation-message [control]="form.controls.netWorkingTime"></validation-message>
+    </div>
+  </div>-->
+
+
+
+    <!--<div class="col-md-6 col-lg-6">
+    <div class="form-group">
+      <label>{{'Is_Active' | translate}}</label>
+      <br />
+      <mat-slide-toggle color="primary" formControlName="isActive"></mat-slide-toggle>
+    </div>
+  </div>-->
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  </div>
+  <div class="row mt-3 ">
+    <div class="col-md-12 col-lg-12 text-center">
+      <input type="button"
+             class="btn waves-effect waves-light btn-rounded   btn-secondary btn-midblock"
+             value="{{'Cancel' | translate}}" (click)="closeModel()" /> &nbsp;
+      <input type="submit"
+             class="btn waves-effect waves-light btn-rounded btn-primary btn-midblock"
+             value="{{'Save' | translate}}" />
+    </div>
+  </div>
+</form>

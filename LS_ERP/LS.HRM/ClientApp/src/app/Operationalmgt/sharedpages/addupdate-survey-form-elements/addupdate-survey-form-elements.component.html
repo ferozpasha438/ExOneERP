@@ -1,0 +1,127 @@
+<h3 class="modal-title">{{modalTitle | translate}}</h3>
+<button type="button" class="close" aria-hidden="true" (click)="closeModel()"> ×</button>
+<form [formGroup]="form" (ngSubmit)="submit()" #myform="ngForm">
+
+
+  <div class="row">
+    <div class="col-md-6 col-lg-6">
+      <div class="form-group">
+        <label>{{'Element_Code' | translate}}</label>
+        
+        <input class="form-control" type="text"
+               placeholder="{{'Please_Enter' | translate}} {{'Element_Code' | translate}}" formControlName="formElementCode" readonly>
+
+      </div>
+    </div>
+    <div class="col-md-6 col-lg-6">
+
+      <div class="form-group mb-4">
+        <label class="mr-sm-2" for="eletype">{{'Element_Type' | translate}}</label>
+        <select class="custom-select mr-sm-2" formControlName="elementType" value="option.value" (change)="elementTypeChanged($event)">
+          <option selected="">{{'Choose_Element_Type' | translate}}</option>
+          <option value="Absolute">{{'Absolute' | translate}}</option>
+          <option value="Boolean">{{'Boolean' | translate}}</option>
+          <option value="List">{{'List' | translate}}</option>
+          <option value="Scale">{{'Scale' | translate}}</option>
+          <option value="Percentage">{{'Percentage' | translate}}</option>
+        </select>
+        <span *ngIf="!(form.get('elementType')?.hasError('required') && myform?.submitted)" style="color:red">
+          <validation-message [control]="form.controls.elementType"></validation-message>
+        </span>
+        <span *ngIf="form.get('elementType')?.hasError('required') && myform?.submitted" style="color:red">{{'Required'|translate}}</span>
+      </div>
+
+    </div>
+    <div class="col-md-6 col-lg-6">
+      <div class="form-group">
+        <label>{{'Element_English_Name' | translate}}</label>
+        <input class="form-control" type="text"
+               placeholder="{{'Please_Enter' | translate}} {{'Element_English_Name' | translate}}" formControlName="elementEngName">
+        <span *ngIf="!(form.get('elementEngName')?.hasError('required') && myform?.submitted)" style="color:red">
+          <validation-message [control]="form.controls.elementEngName"></validation-message>
+        </span>
+        <span *ngIf="form.get('elementEngName')?.hasError('required') && myform?.submitted" style="color:red">{{'Required'|translate}}</span>
+      </div>
+    </div>
+
+    <div class="col-md-6 col-lg-6">
+      <div class="form-group">
+        <label>{{'Element_Arabic_Name' | translate}}</label>
+        <input class="form-control" type="text"
+               placeholder="{{'Please_Enter' | translate}} {{'Element_Arabic_Name' | translate}}" formControlName="elementArbName">
+        <span *ngIf="!(form.get('elementArbName')?.hasError('required') && myform?.submitted)" style="color:red">
+          <validation-message [control]="form.controls.elementArbName"></validation-message>
+        </span>
+        <span *ngIf="form.get('elementArbName')?.hasError('required') && myform?.submitted" style="color:red">{{'Required'|translate}}</span>
+      </div>
+    </div>
+
+
+
+    <div class="col-md-6 col-lg-6" *ngIf="listVisible">
+      <div class="form-group">
+        <label>{{'List_Value_String' | translate}}</label>
+        <input class="form-control" type="text"
+               placeholder="{{'Please_Enter' | translate}} {{'List_Value_String' | translate}}" formControlName="listValueString">
+
+      </div>
+
+    </div>
+
+
+
+
+    <div class="col-md-3 col-lg-3" *ngIf="minmaxVisible">
+      <div class="form-group">
+        <label>{{'Min_Value' | translate}}</label>
+        <input class="form-control" type="number"
+               placeholder="{{'Please_Enter' | translate}} {{'Min_Value' | translate}}" formControlName="minValue">
+      </div>
+    </div>
+
+    <div class="col-md-3 col-lg-3" *ngIf="minmaxVisible">
+      <div class="form-group">
+        <label>{{'Max_Value' | translate}}</label>
+        <input class="form-control" type="number"
+               placeholder="{{'Please_Enter' | translate}} {{'Max_Value' | translate}}" formControlName="maxValue">
+      </div>
+    </div>
+
+
+  </div>
+
+  <div class="col-md-6 col-lg-6">
+    <div class="form-group">
+      <label>{{'Is_Active' | translate}}</label>
+      <br />
+      <mat-slide-toggle color="primary" formControlName="isActive"></mat-slide-toggle>
+    </div>
+  </div>
+  <div class="row mt-3 ">
+    <div class="col-md-12 col-lg-12 text-center">
+      <input type="button"
+             class="btn waves-effect waves-light btn-rounded   btn-secondary btn-midblock"
+             value="{{'Cancel' | translate}}" (click)="closeModel()" /> &nbsp;
+      <input type="submit"
+             class="btn waves-effect waves-light btn-rounded btn-primary btn-midblock"
+             value="{{'Save' | translate}}" />
+    </div>
+  </div>
+
+
+
+</form>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  

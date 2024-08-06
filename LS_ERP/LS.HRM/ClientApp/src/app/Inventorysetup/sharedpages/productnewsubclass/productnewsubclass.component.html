@@ -1,0 +1,56 @@
+<h3>{{'Create_New_Sub_Class' | translate}} <button type="button" class="close" aria-hidden="true" (click)="closeModel()"> ×</button></h3>
+<form [formGroup]="form" (ngSubmit)="submit()" novalidate class="mt-4">
+
+  <div class="row">
+    <div class="col-md-6 col-lg-6">
+      <div class="form-group">
+        <label>{{'Sub_Class_Code' | translate}}</label>
+        <input class="form-control" type="text"
+               placeholder="{{'Please_Enter' | translate}} {{'Sub_Class_Code' | translate}}" formControlName="itemSubClassCode" maxlength="20" [readonly]="isReadOnly" (change)="onTextchange($event.target.value)">
+        <validation-message [control]="form.controls.itemSubClassCode"></validation-message>
+      </div>
+    </div>
+    <div class="col-md-6 col-lg-6">
+      <div class="form-group">
+        <label>{{'Sub_Class_Name' | translate}}</label>
+        <input class="form-control" type="text"
+               placeholder="{{'Please_Enter' | translate}} {{'Sub_Class_Name' | translate}}" formControlName="itemSubClassName" maxlength="50">
+        <validation-message [control]="form.controls.itemSubClassName"></validation-message>
+      </div>
+    </div>
+
+    <div class="col-md-6 col-lg-6">
+      <div class="form-group">
+        <label>{{'Sub_class_desc' | translate}}</label>
+        <input class="form-control" type="text"
+               placeholder="{{'Please_Enter' | translate}} {{'Sub_class_desc' | translate}}" formControlName="itemSubClassDesce" maxlength="50">
+      </div>
+    </div>
+
+
+
+
+    <!--<div class="col-md-6 col-lg-6">
+      <div class="form-group">
+        <label for="isavctive">{{'Is_Active' | translate}}</label>
+        <div class="form-group">
+          <mat-slide-toggle color="primary" formControlName="isActive"> </mat-slide-toggle>
+        </div>
+      </div>
+    </div>-->
+
+
+
+
+  </div>
+  <div class="row mt-3 ">
+    <div class="col-md-12 col-lg-12 text-center">
+      <input type="button"
+             class="btn waves-effect waves-light btn-rounded   btn-secondary btn-midblock" (click)="closeModel()"
+             value="{{'Cancel' | translate}}" /> &nbsp;
+      <input type="submit"
+             class="btn waves-effect waves-light btn-rounded btn-primary btn-midblock"
+             value="{{'Save' | translate}}" />
+    </div>
+  </div>
+</form>

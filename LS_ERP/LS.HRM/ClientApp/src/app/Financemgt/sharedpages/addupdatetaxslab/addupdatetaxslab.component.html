@@ -1,0 +1,261 @@
+
+
+<div class="page-breadcrumb">
+  <div class="row">
+    <div class="col-12 align-self-center">
+      <h3 class="page-title text-truncate text-dark font-weight-medium mb-1">
+        {{'Taxes' | translate}}
+      </h3>
+      <button type="button" class="close" aria-hidden="true" (click)="closeModel()"> ×</button>
+      <div class="d-flex align-items-center">
+
+        <nav aria-label="breadcrumb">
+          <ol class="breadcrumb m-0 p-0">
+            <li class="breadcrumb-item text-muted"> {{'Financial_Management' | translate}} </li>
+            <li class="breadcrumb-item text-muted ">{{'Finance' | translate}}</li>
+            <li class="breadcrumb-item   active" aria-current="page">{{'Taxes' | translate}} </li>
+
+          </ol>
+        </nav>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<div class="container-fluid">
+
+  <ng-container *ngIf="!isLoading">
+    <form [formGroup]="form" (ngSubmit)="submit()" novalidate class="mt-4">
+      <div class="row">
+        <div class="col-md-12 col-lg-12">
+          <div class="card">
+            <div class="card-body">
+              <div class="row">
+                <div class="col-md-4 col-lg-4">
+                  <h4 class="card-title pt6">{{'System_Taxes_Input' | translate}}</h4>
+
+                </div>
+
+
+              </div>
+              <div class="cardtitle-divider"></div>
+              <div class="row">
+                <div class="col-md-3 col-lg-3">
+                  {{'Tax_Code' | translate}}
+                </div>
+                <div class="col-md-9 col-lg-9 pb-1">
+                  <input class="form-control" id="TaxCode"
+                         placeholder="{{'Please_Type' | translate}} {{'Tax_Code' | translate}}" formControlName="taxCode">
+                  <validation-message [control]="form.controls.taxCode"></validation-message>
+                </div>
+                <div class="col-md-3 col-lg-3">
+                  {{'Tax_Name' | translate}}
+                </div>
+                <div class="col-md-9 col-lg-9 pb-1">
+
+                  <select class="custom-select mr-sm-2" formControlName="taxName">
+                    <option value="">{{'Select_VAT' | translate}}</option>
+                    <option *ngFor="let item of vatList" value="{{item.value}}">{{item.text}}</option>
+                  </select>
+
+
+                  <!--<input class="form-control" id="TaxName"
+                         placeholder="{{'Please_Type' | translate}} {{'Tax_Name' | translate}}" formControlName="taxName">-->
+                  <validation-message [control]="form.controls.taxName"></validation-message>
+                </div>
+                <div class="col-md-3 col-lg-3">
+                  {{'Is_Active' | translate}}
+
+                </div>
+                <div class="col-md-9 col-lg-9">
+                  <mat-slide-toggle color="primary" formControlName="isActive"></mat-slide-toggle>
+                </div>
+                <div class="col-md-3 col-lg-3">
+                  {{'Inter_State_Tax_Code' | translate}}
+
+                </div>
+                <div class="col-md-9 col-lg-9">
+                  <mat-slide-toggle color="primary" formControlName="isInterState"></mat-slide-toggle>
+                </div>
+
+              </div>
+
+
+              <div class="row">
+                <div class="col-md-12 col-lg-12 mt-4">
+                  <h4 class="card-title pt6">
+                    {{'System_Taxes_Output' | translate}}
+
+                  </h4>
+                </div>
+
+              </div>
+
+              <div class="cardtitle-divider"></div>
+              <div class="table-responsive">
+                <table class="table  table-bordered no-wrap">
+                  <thead>
+                    <tr>
+                      <th> {{'Tax_Code' | translate}}</th>
+                      <th> {{'Tax_Percentage' | translate}} </th>
+                      <th> {{'Input_Account_Code' | translate}} </th>
+                      <th> {{'Output_Account_Code' | translate}}</th>
+
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td>
+                        <input type="text" class="form-control" formControlName="taxComponent01" />
+                        <validation-message [control]="form.controls.taxComponent01"></validation-message>
+                      </td>
+                      <td>
+                        <input type="number" class="form-control" placeholder="{{'Please_Type' | translate}} {{'Tax_Percentage' | translate}}" formControlName="taxper01" />
+                        <validation-message [control]="form.controls.taxper01"></validation-message>
+                      </td>
+                      <td>
+
+                        <ng-select [items]="accountList"
+                                   bindLabel="value"
+                                   bindValue="textTwo" formControlName="inputAcCode01">  </ng-select>
+
+                        <!--<select class="custom-select mr-sm-2" formControlName="inputAcCode01">
+                         <option value=""> {{'Select_Account_Code' | translate}}</option>
+                         <option *ngFor="let accout of accountList" value="{{accout.textTwo}}">{{accout.value}}</option>
+                       </select>
+                       <validation-message [control]="form.controls.inputAcCode01"></validation-message>-->
+
+                      </td>
+                      <td>
+
+                        <ng-select [items]="accountList"
+                                   bindLabel="value"
+                                   bindValue="textTwo" formControlName="outputAcCode01">  </ng-select>
+
+                        <!--<select class="custom-select mr-sm-2" formControlName="outputAcCode01">
+                          <option value="">{{'Select_Account_Code' | translate}} </option>
+                          <option *ngFor="let accout of accountList" value="{{accout.textTwo}}">{{accout.value}}</option>
+                        </select>
+                        <validation-message [control]="form.controls.outputAcCode01"></validation-message>-->
+                      </td>
+
+                    </tr>
+
+                    <tr>
+                      <td colspan="4">{{'Other_Taxes_Optional' | translate}}</td>
+                    </tr>
+
+
+                    <tr>
+                      <td>
+                        <input type="text" class="form-control" formControlName="taxComponent02" />
+                        <!--<validation-message [control]="form.controls.taxComponent02"></validation-message>-->
+                      </td>
+                      <td>
+                        <input type="number" class="form-control" placeholder="{{'Please_Type' | translate}} {{'Tax_Percentage' | translate}}" formControlName="taxper02" />
+                        <!--<validation-message [control]="form.controls.taxper02"></validation-message>-->
+                      </td>
+                      <td>
+
+                        <ng-select [items]="accountList"
+                                   bindLabel="value"
+                                   bindValue="textTwo" formControlName="inputAcCode02">  </ng-select>
+
+                        <!--<select class="custom-select mr-sm-2" formControlName="inputAcCode02">
+    <option value="">{{'Select_Account_Code' | translate}}</option>
+    <option *ngFor="let accout of accountList" value="{{accout.textTwo}}">{{accout.value}}</option>
+  </select>-->
+                        <!--<validation-message [control]="form.controls.inputAcCode02"></validation-message>-->
+                      </td>
+                      <td>
+                        <ng-select [items]="accountList"
+                                   bindLabel="value"
+                                   bindValue="textTwo" formControlName="outputAcCode02">  </ng-select>
+                        <!--<select class="custom-select mr-sm-2" formControlName="outputAcCode02">
+    <option value="">{{'Select_Account_Code' | translate}}</option>
+    <option *ngFor="let accout of accountList" value="{{accout.textTwo}}">{{accout.value}}</option>
+  </select>-->
+                        <!--<validation-message [control]="form.controls.outputAcCode02"></validation-message>-->
+                      </td>
+
+                    </tr>
+
+
+                    <tr>
+                      <td><input type="text" class="form-control" formControlName="taxComponent03" /></td>
+                      <td><input type="number" class="form-control" placeholder="{{'Please_Type' | translate}} {{'Tax_Percentage' | translate}}" formControlName="taxper03" /></td>
+                      <td>
+                        <select class="custom-select mr-sm-2" formControlName="inputAcCode03">
+                          <option value="">{{'Select_Account_Code' | translate}}</option>
+                          <option *ngFor="let accout of accountList" value="{{accout.textTwo}}">{{accout.value}}</option>
+                        </select>
+                      </td>
+                      <td>
+                        <select class="custom-select mr-sm-2" formControlName="outputAcCode03">
+                          <option value="">{{'Select_Account_Code' | translate}}</option>
+                          <option *ngFor="let accout of accountList" value="{{accout.textTwo}}">{{accout.value}}</option>
+                        </select>
+                      </td>
+
+                    </tr>
+
+                    <tr>
+                      <td><input type="text" class="form-control" formControlName="taxComponent04" /></td>
+                      <td><input type="number" class="form-control" placeholder="{{'Please_Type' | translate}} {{'Tax_Percentage' | translate}}" formControlName="taxper04" /></td>
+                      <td>
+                        <select class="custom-select mr-sm-2" formControlName="inputAcCode04">
+                          <option value="">{{'Select_Account_Code' | translate}}</option>
+                          <option *ngFor="let accout of accountList" value="{{accout.textTwo}}">{{accout.value}}</option>
+                        </select>
+                      </td>
+                      <td>
+                        <select class="custom-select mr-sm-2" formControlName="outputAcCode04">
+                          <option value="">{{'Select_Account_Code' | translate}}</option>
+                          <option *ngFor="let accout of accountList" value="{{accout.textTwo}}">{{accout.value}}</option>
+                        </select>
+                      </td>
+
+                    </tr>
+                    <tr>
+                      <td><input type="text" class="form-control" formControlName="taxComponent05" /></td>
+                      <td><input type="number" class="form-control" placeholder="{{'Please_Type' | translate}} {{'Tax_Percentage' | translate}}" formControlName="taxper05" /></td>
+                      <td>
+                        <select class="custom-select mr-sm-2" formControlName="inputAcCode05">
+                          <option value="">{{'Select_Account_Code' | translate}}</option>
+                          <option *ngFor="let accout of accountList" value="{{accout.textTwo}}">{{accout.value}}</option>
+                        </select>
+                      </td>
+                      <td>
+                        <select class="custom-select mr-sm-2" formControlName="outputAcCode05">
+                          <option value="">{{'Select_Account_Code' | translate}}</option>
+                          <option *ngFor="let accout of accountList" value="{{accout.textTwo}}">{{accout.value}}</option>
+                        </select>
+                      </td>
+
+                    </tr>
+
+                  </tbody>
+                </table>
+              </div>
+              <div class="row mt-3 ">
+                <div class="col-md-12 col-lg-12 text-center">
+                  <input type="button"
+                         class="btn waves-effect waves-light btn-rounded   btn-secondary btn-midblock"
+                         value="{{'Cancel' | translate}}" (click)="closeModel()" /> &nbsp;
+                  <input type="submit"
+                         class="btn waves-effect waves-light btn-rounded btn-primary btn-midblock"
+                         value="{{'Save' | translate}}" />
+                </div>
+              </div>
+            </div>
+
+
+
+          </div>
+        </div>
+
+      </div>
+    </form>
+  </ng-container>
+</div>

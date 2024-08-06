@@ -1,0 +1,288 @@
+<br />
+<app-employeebasicinfo [employeeBasicInfo]="employeeBasicInfo"></app-employeebasicinfo>
+<br />
+
+<h2 class="arabicright">{{'PersonalInformation' | translate}}</h2>
+<div class="col-md-12 col-lg-12">
+  <form [formGroup]="form" (ngSubmit)="submit()" novalidate class="mt-4">
+    <!--Name-->
+    <div class="row">
+      <div class="col-md-3 col-lg-3">
+        <div class="form-group">
+          <label for="firstNameEn">{{'FirstNameEN' | translate}}</label>
+          <input class="form-control input-mandatory" id="firstNameEn" type="text"
+            placeholder="{{'Please_Enter' | translate}} {{'FirstNameEN' | translate}}" formControlName="firstNameEn">
+          <validation-message [control]="form.controls.firstNameEn"></validation-message>
+        </div>
+      </div>
+      <div class="col-md-3 col-lg-3">
+        <div class="form-group">
+          <label for="firstNameAr">{{'FirstNameAR' | translate}}</label>
+          <input class="form-control" id="firstNameAr" type="text"
+            placeholder="{{'Please_Enter' | translate}} {{'FirstNameAR' | translate}}" formControlName="firstNameAr">
+        </div>
+      </div>
+      <div class="col-md-3 col-lg-3">
+        <div class="form-group">
+          <label for="lastNameEn">{{'LastNameEN' | translate}}</label>
+          <input class="form-control input-mandatory" id="lastNameEn" type="text"
+            placeholder="{{'Please_Enter' | translate}} {{'LastNameEN' | translate}}" formControlName="lastNameEn">
+          <validation-message [control]="form.controls.lastNameEn"></validation-message>
+        </div>
+      </div>
+      <div class="col-md-3 col-lg-3">
+        <div class="form-group">
+          <label for="lastNameAr">{{'LastNameAR' | translate}}</label>
+          <input class="form-control" id="lastNameAr" type="text"
+            placeholder="{{'Please_Enter' | translate}} {{'LastNameAR' | translate}}" formControlName="lastNameAr">
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-3 col-lg-3">
+        <div class="form-group">
+          <label for="nickNameEn">{{'NickNameEN' | translate}}</label>
+          <input class="form-control" id="nickNameEn" type="text"
+            placeholder="{{'Please_Enter' | translate}} {{'NickNameEN' | translate}}" formControlName="nickNameEn">
+        </div>
+      </div>
+      <div class="col-md-3 col-lg-3">
+        <div class="form-group">
+          <label for="nickNameAr">{{'NickNameAR' | translate}}</label>
+          <input class="form-control" id="nickNameAr" type="text"
+            placeholder="{{'Please_Enter' | translate}} {{'NickNameAR' | translate}}" formControlName="nickNameAr">
+        </div>
+      </div>
+      <div class="col-md-3 col-lg-3">
+        <div class="form-group">
+        <label for="countryCode" class="mr-sm-2">{{'Nationality' | translate}}</label>
+        <select class="custom-select input-mandatory mr-sm-2" formControlName="countryCode">
+          <option value="">{{'Nationality' | translate}}</option>
+          <option *ngFor="let nation of nationalities" value="{{nation.value}}">{{nation.text}}</option>
+        </select>
+        <validation-message [control]="form.controls.countryCode"></validation-message>
+      </div>
+    </div>
+      <div class="col-md-3 col-lg-3">
+        <div class="form-group">
+        <label for="religionCode" class="mr-sm-2">{{'Religion' | translate}}</label>
+        <select class="custom-select input-mandatory mr-sm-2" #religionCode formControlName="religionCode"
+          (change)="loadGroups(religionCode.value)">
+          <option value="">{{'Religion' | translate}}</option>
+          <option *ngFor="let religion of religions" value="{{religion.value}}">{{religion.text}}</option>
+        </select>
+        <validation-message [control]="form.controls.religionCode"></validation-message>
+      </div>
+    </div>
+    </div>
+    <div class="row">
+      <div class="col-md-3 col-lg-3">
+        <div class="form-group ">
+          <label for="employeeTypeCode" class="mr-sm-2">{{'EmployeeType' | translate}}</label>
+          <select class="custom-select input-mandatory mr-sm-2" formControlName="employeeTypeCode">
+            <option value="">{{'Employee_Type' | translate}}</option>
+            <option *ngFor="let employeeType of employeeTypes" value="{{employeeType.value}}">{{employeeType.text}}
+            </option>
+          </select>
+          <validation-message [control]="form.controls.employeeTypeCode"></validation-message>
+        </div>
+      </div>
+      <div class="col-md-3 col-lg-3">
+        <div class="form-group ">
+          <label for="bloodGroupCode" class="mr-sm-2">{{'BloodGroup' | translate}}</label>
+          <select class="custom-select input-mandatory mr-sm-2" formControlName="bloodGroupCode">
+            <option value="">{{'BloodGroup' | translate}}</option>
+            <option *ngFor="let bloodGroup of bloodGroups" value="{{bloodGroup.value}}">{{bloodGroup.text}}</option>
+          </select>
+          <validation-message [control]="form.controls.bloodGroupCode"></validation-message>
+        </div>
+      </div>
+      <div class="col-md-3 col-lg-3">
+        <div class="form-group ">
+          <label for="genderCode" class="mr-sm-2">{{'Gender' | translate}}</label>
+          <select class="custom-select input-mandatory mr-sm-2" formControlName="genderCode">
+            <option value="">{{'Gender' | translate}}</option>
+            <option *ngFor="let gender of genders" value="{{gender.value}}">{{gender.text}}</option>
+          </select>
+          <validation-message [control]="form.controls.genderCode"></validation-message>
+        </div>
+      </div>
+      <div class="col-md-3 col-lg-3">
+        <div class="form-group ">
+          <label for="maritalStatusCode" class="mr-sm-2">{{'MartialStatus' | translate}}</label>
+          <select class="custom-select input-mandatory mr-sm-2" formControlName="maritalStatusCode">
+            <option value="">{{'MartialStatus' | translate}}</option>
+            <option *ngFor="let maritalStatus of maritalStatuses" value="{{maritalStatus.value}}">{{maritalStatus.text}}
+            </option>
+          </select>
+          <validation-message [control]="form.controls.maritalStatusCode"></validation-message>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-3 col-lg-3">
+        <div class="form-group ">
+          <label for="fatherNameEn" class="mr-sm-2">{{'FatherNameEN' | translate}}</label>
+          <input class="form-control" maxlength="20" type="text"
+            placeholder="{{'Please_Enter' | translate}} {{'FatherNameEN' | translate}}" formControlName="fatherNameEn">
+        </div>
+      </div>
+      <div class="col-md-3 col-lg-3">
+        <div class="form-group ">
+          <label for="fatherNameAr" class="mr-sm-2">{{'FatherNameAR' | translate}}</label>
+          <input class="form-control" maxlength="20" type="text"
+            placeholder="{{'Please_Enter' | translate}} {{'FatherNameAR' | translate}}" formControlName="fatherNameAr">
+        </div>
+      </div>
+      <div class="col-md-3 col-lg-3">
+        <div class="form-group ">
+          <label for="motherNameEn" class="mr-sm-2">{{'MotherNameEN' | translate}}</label>
+          <input class="form-control" maxlength="20" type="text"
+            placeholder="{{'Please_Enter' | translate}} {{'MotherNameEN' | translate}}" formControlName="motherNameEn">
+        </div>
+      </div>
+      <div class="col-md-3 col-lg-3">
+        <div class="form-group ">
+          <label for="motherNameAr" class="mr-sm-2">{{'MotherNameAR' | translate}}</label>
+          <input class="form-control" maxlength="20" type="text"
+            placeholder="{{'Please_Enter' | translate}} {{'MotherNameAR' | translate}}" formControlName="motherNameAr">
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-3 col-lg-3">
+        <div class="form-group">
+          <label for="primaryNumber">{{'PrimaryNumber' | translate}}</label>
+          <input class="form-control input-mandatory" id="primaryNumber" type="text"
+            placeholder="{{'Please_Enter' | translate}} {{'PrimaryNumber' | translate}}"
+            formControlName="primaryNumber">
+          <validation-message [control]="form.controls.primaryNumber"></validation-message>
+        </div>
+      </div>
+      <div class="col-md-3 col-lg-3">
+        <div class="form-group">
+          <label for="idNumber1">{{'IDNumber1' | translate}}</label>
+          <input class="form-control" id="idNumber1" type="text"
+            placeholder="{{'Please_Enter' | translate}} {{'IDNumber1' | translate}}" formControlName="idNumber1">
+        </div>
+      </div>
+      <div class="col-md-3 col-lg-3">
+        <div class="form-group">
+          <label for="idNumber2">{{'IDNumber2' | translate}}</label>
+          <input class="form-control" id="idNumber2" type="text"
+            placeholder="{{'Please_Enter' | translate}} {{'IDNumber2' | translate}}" formControlName="idNumber2">
+        </div>
+      </div>
+      <div class="col-md-3 col-lg-3">
+        <div class="form-group ">
+          <label for="dateOfBirth" class="mr-sm-2">
+            {{'DateOfBirth' | translate}}
+          </label>
+          <div class="input-group ">
+            <input class="form-control input-mandatory"
+              placeholder=" {{'Please_Enter' | translate}} {{'DateOfBirth' | translate}}" formControlName="dateOfBirth"
+              [matDatepicker]="picker">
+            <div class="input-group-prepend datapickericon">
+              <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+              <mat-datepicker #picker></mat-datepicker>
+              <validation-message [control]="form.controls.dateOfBirth"></validation-message>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-3 col-lg-3">
+        <label for="titleCode" class="mr-sm-2">{{'Title' | translate}}</label>
+        <select class="custom-select input-mandatory mr-sm-2" formControlName="titleCode">
+          <option value="">{{'Title' | translate}}</option>
+          <option *ngFor="let title of titles" value="{{title.value}}">{{title.text}}</option>
+        </select>
+        <validation-message [control]="form.controls.titleCode"></validation-message>
+      </div>
+      <div class="col-md-3 col-lg-3">
+        <div class="form-group">
+          <label for="groupCode">{{'Group' | translate}}</label>
+          <select class="custom-select mr-sm-2" #groupCode formControlName="groupCode"
+            (change)="loadSubGroups(groupCode.value)">
+            <option value="">{{'Group' | translate}}</option>
+            <option *ngFor="let group of groups" value="{{group.value}}">{{group.text}}</option>
+          </select>
+        </div>
+      </div>
+      <div class="col-md-3 col-lg-3">
+        <div class="form-group">
+          <label for="subGroupCode">{{'SubGroup' | translate}}</label>
+          <select class="custom-select mr-sm-2" formControlName="subGroupCode">
+            <option value="">{{'Sub_Group' | translate}}</option>
+            <option *ngFor="let subGroup of subGroups" value="{{subGroup.value}}">{{subGroup.text}}</option>
+          </select>
+        </div>
+      </div>
+      <div class="col-md-3 col-lg-3">
+        <label class="mr-sm-2">{{'IsPhysicallyChallenged?' | translate}}</label>
+        <br />
+        <mat-slide-toggle color="primary" formControlName="isPhysicallyChallenged"></mat-slide-toggle>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-3 col-lg-3">
+        <label>{{'Is_Active' | translate}}</label>
+        <br />
+        <mat-slide-toggle color="primary" formControlName="isActive"></mat-slide-toggle>
+      </div>
+    </div>
+    <br />
+    <h2>{{'Languages' | translate}}</h2>
+    <br />
+    <div formArrayName="employeeLanguages">
+      <div *ngFor="let item of employeeLanguages.controls;let i=index">
+        <div [formGroupName]="i" class="row">
+          <div class="form-group col-md-4 mb-3 ">
+            <select class="custom-select mr-sm-2" formControlName="languageCode">
+              <option value="">{{'Languages' | translate}}</option>
+              <option *ngFor="let language of languages" value="{{language.value}}">{{language.text}}</option>
+            </select>
+          </div>
+          <div class="custom-control custom-switch col-md-1 col-lg-2 ">
+            <mat-slide-toggle color="primary" formControlName="canRead">
+              <label class="custom-control-label" for="item.canRead">
+                {{"READ" | translate}}
+              </label>
+            </mat-slide-toggle>
+          </div>
+          <div class="custom-control custom-switch col-md-1 col-lg-2">
+            <mat-slide-toggle color="primary" formControlName="canWrite">
+              <label class="custom-control-label" for="item.canWrite">
+                {{"WRITE"| translate}}
+              </label>
+            </mat-slide-toggle>
+          </div>
+          <div class="custom-control custom-switch col-md-1 col-lg-2">
+            <mat-slide-toggle color="primary" formControlName="canSpeak">
+              <label class="custom-control-label" for="item.canSpeak">
+                {{"SPEAK"|translate}}
+              </label>
+            </mat-slide-toggle>
+          </div>
+          <br />
+          <div *ngIf="i==0">
+            <button style="border:none" (click)="addItem()">+</button>
+          </div>
+          <div *ngIf="i>0">
+            <button style="border:none" (click)="removeItem(i)">-</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <br />
+    <div class="row mt-3 ">
+      <div class="col-md-12 col-lg-12 text-right">
+        <input type="button" class="btn waves-effect waves-light btn-rounded   btn-secondary btn-midblock"
+          value="{{'Cancel' | translate}}" (click)="closeModel()" /> &nbsp;
+        <input type="submit" class="btn waves-effect waves-light btn-rounded btn-primary btn-midblock"
+          value="{{'Save' | translate}}" />
+      </div>
+    </div>
+  </form>
+</div>

@@ -1,0 +1,73 @@
+<h3 class="modal-title">{{modalTitle | translate}}</h3>
+<button type="button" class="close" aria-hidden="true" (click)="closeModel()"> ×</button>
+<form [formGroup]="form" (ngSubmit)="submit()" novalidate class="mt-4">
+  <div class="row">
+    <div class="col-md-6 col-lg-6">
+      <div class="form-group" >
+        <label>{{'Surveyor_Code' | translate}}</label>
+        <input class="form-control" type="text"
+               placeholder="{{'Please_Enter' | translate}} {{'Surveyor_Code' | translate}}" formControlName="surveyorCode" readonly>
+        <validation-message [control]="form.controls.surveyorCode"></validation-message>
+      </div>
+    </div>
+
+    <div class="col-md-6 col-lg-6">
+      <div class="form-group">
+        <label>{{'Surveyor_Name_English' | translate}}</label>
+        <input class="form-control" type="text"
+               placeholder="{{'Please_Enter' | translate}} {{'Surveyor_Name_English' | translate}}" formControlName="surveyorNameEng">
+        <validation-message [control]="form.controls.surveyorNameEng"></validation-message>
+      </div>
+    </div>
+
+    <div class="col-md-6 col-lg-6">
+      <div class="form-group">
+        <label>{{'Surveyor_Name_Arab' | translate}}</label>
+        <input class="form-control" type="text"
+               placeholder="{{'Please_Enter' | translate}} {{'Surveyor_Name_Arab' | translate}}" formControlName="surveyorNameArb">
+        <validation-message [control]="form.controls.surveyorNameArb"></validation-message>
+      </div>
+    </div>
+
+
+    <div class="col-md-6 col-lg-6">
+      <div class="form-group">
+        <label>{{'Branch' | translate}}</label>
+        <br />
+         <select class="custom-select mr-sm-2" formControlName="branch">
+         <option value="">{{'Select' | translate}} {{'Branch' | translate}} </option>
+         <option *ngFor="let brnch of branchCodeList" value="{{brnch.value}}">{{brnch.value}}-{{brnch.text}}</option>
+        </select>
+        <validation-message [control]="form.controls.branch"></validation-message>
+      </div>
+    </div>
+ <div class="col-md-6 col-lg-6">
+   <div class="form-group">
+     <label>{{'User' | translate}}</label>
+     <br />
+     <select class="custom-select mr-sm-2" formControlName="userId">
+       <option value="">{{'Select_User' | translate}}</option>
+       <option *ngFor="let user of userList" value="{{user.value}}">{{user.value}}-{{user.text}}</option>
+     </select>
+     <validation-message [control]="form.controls.userId"></validation-message>
+   </div>
+    </div>
+    <div class="col-md-6 col-lg-6">
+      <div class="form-group">
+        <label>{{'Is_Active' | translate}}</label>
+        <br />
+        <mat-slide-toggle color="primary" formControlName="isActive"></mat-slide-toggle>
+      </div>
+    </div>
+  </div>
+  <div class="row mt-3 ">
+    <div class="col-md-12 col-lg-12 text-center">
+      <input type="button"
+             class="btn waves-effect waves-light btn-rounded   btn-secondary btn-midblock"
+             value="{{'Cancel' | translate}}" (click)="closeModel()" /> &nbsp;
+      <input type="submit"
+             class="btn waves-effect waves-light btn-rounded btn-primary btn-midblock"
+             value="{{'Save' | translate}}" />
+    </div>
+  </div>
+</form>

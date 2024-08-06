@@ -1,0 +1,154 @@
+
+<form [formGroup]="form" (ngSubmit)="submit()" novalidate class="mt-4">
+  <div class="modal-body">
+    <h3 class="modal-title">{{modalTitle | translate}}</h3>
+    <button type="button" class="close" aria-hidden="true" (click)="closeModel()"> ×</button>
+    <div class="outer ">
+      <div class="row rowm0 ">
+
+        <div class="col-md-12 col-lg-12">
+          <div class="row  " hidden>
+          </div>
+          <div class="row mt-3">
+            <div class="col-md-12 col-lg-12">
+              <div class="p-3" style="border:1px solid #f4f4f4;">
+                <div class="row  mt-2">
+
+                  <div class="col-md-3 col-lg-3">
+                    <label class="mr-sm-2">{{'Customer_Code' | translate}}</label>
+                    <div class="form-group ">
+                      <div class="input-group mb-2">
+                        <auto-loader [isLoading]="isDataLoading"></auto-loader>
+
+                        <input class="form-control" type="text"
+                               placeholder="{{'Please_Enter' | translate}} {{'Customer_Code' | translate}}" formControlName="customerCode" readonly>
+
+                      </div>
+                    
+                      <validation-message [control]="form.controls.customerCode"></validation-message>
+
+                    </div>
+
+                  </div>
+                  <div class="col-md-3 col-lg-3">
+                    <label class="mr-sm-2">{{'Project_Code' | translate}}</label>
+                    <div class="form-group ">
+                      <div class="input-group mb-2">
+                        <auto-loader [isLoading]="isDataLoading"></auto-loader>
+
+                        <input class="form-control" type="text"
+                               placeholder="{{'Please_Enter' | translate}} {{'Project_Code' | translate}}" formControlName="projectCode" readonly>
+
+                      </div>
+                     
+                      <validation-message [control]="form.controls.customerCode"></validation-message>
+
+                    </div>
+
+                  </div>
+
+                  <div class="col-md-3 col-lg-3">
+                    <div class="form-group ">
+                      <label class="mr-sm-2">{{'Site' | translate}}</label>
+                      <select class="custom-select mr-sm-2" formControlName="siteCode" (change)="onSelectSiteCode($event)">
+                        <option value=''>{{'Select' | translate}} {{'Site' | translate}} </option>
+                        <option *ngFor="let site of siteCodeList" value="{{site.siteCode}}">{{site.siteCode}}-{{ !isArab?site.siteName:site.siteArbName}}</option>
+
+                      </select>
+                      <validation-message [control]="form.controls.siteCode"></validation-message>
+                    </div>
+                  </div>
+                </div>
+
+              </div>
+            </div>
+
+          </div>
+
+        </div>
+      </div>
+      <div class="table-responsive">
+        <table id="zero_config" class="table  table-bordered no-wrap">
+          <thead>
+            <tr>
+              <th>{{'Shift_Code' | translate}}</th>
+              <th>{{'Shift_Name_English' | translate}}</th>
+              <th>{{'Shift_Name_Arab' | translate}}</th>
+              <th>
+              </th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>
+
+
+                <select class="custom-select mr-sm-2" [(ngModel)]="shiftCode" [ngModelOptions]="{standalone: true}" (change)="getShiftDetails($event)">
+                  <option value="">{{'Select' | translate}} {{'Shift_Code' | translate}} </option>
+                  <option *ngFor="let sc of listOfShiftCodes" value="{{sc.value}}">{{sc.value}}</option>
+                <!--<option *ngFor="let sc of listOfShiftCodes" value="{{sc.value}}">{{GetFirstChar(sc.value)}}</option>-->
+                </select>
+              </td>
+              <td>
+                <input class="form-control" type="text" placeholder="  {{'Shift_Name_English' | translate}}" [(ngModel)]="shiftName_EN" [ngModelOptions]="{standalone: true}" readonly="readonly">
+
+              </td>
+              <td>
+                <input class="form-control" type="text" placeholder="  {{'Shift_Name_Arab' | translate}}" [(ngModel)]="shiftName_AR" [ngModelOptions]="{standalone: true}" readonly="readonly">
+              </td>
+
+              <td class="text-center"> <i class="fas fa-plus-circle" (click)="addShift()"> </i></td>
+
+            </tr>
+          </tbody>
+          <tr>
+            <td colspan="10"></td>
+          </tr>
+          <thead>
+            <tr>
+              <th>{{'Shift_Code' | translate}}</th>
+              <th>{{'Shift_Name_English' | translate}}</th>
+              <th>{{'Shift_Name_Arab' | translate}}</th>
+
+
+              <th></th>
+
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let item of listOfShifts; let i = index;">
+              <td>{{item.shiftCode}}</td>
+              <td>{{item.shiftName_EN}}</td>
+              <td>{{item.shiftName_AR}}</td>
+
+              <td>
+                <!--<span *ngIf="this.item.shiftId==0 || !isRoasterGenerated">-->
+                  <span *ngIf="this.item.shiftId==0 || this.item.canDelete">
+                    <i class="fas fa-minus-circle" (click)="removeElement(i)"></i>
+                  </span>
+</td>
+
+            </tr>
+
+        </table>
+      </div>
+    </div>
+
+
+  </div>
+  <div class="modal-footer">
+    <div class="row mt-3 ">
+      <div class="col-md-12 col-lg-12 text-center">
+        <input type="button"
+               class="btn waves-effect waves-light btn-rounded   btn-secondary btn-midblock"
+               value="{{'Cancel' | translate}}" (click)="closeModel()" /> &nbsp;
+        <input type="submit"
+               class="btn waves-effect waves-light btn-rounded btn-primary btn-midblock"
+               value="{{'Save' | translate}}" />
+      </div>
+    </div>
+
+
+  </div>
+</form>
+

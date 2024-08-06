@@ -1,0 +1,99 @@
+<div class="modal-header">
+    <h3 class="modal-title">{{modalTitle}}</h3>
+    <button type="button" class="close" aria-hidden="true" (click)="closeModel()"> ×</button>
+</div>
+<form [formGroup]="form" (ngSubmit)="submit()" novalidate class="mt-4">
+    <div class="row">
+        <div class="col-md-6 col-lg-6">
+            <div class="form-group">
+                <label for="holidayCalendarCode">{{'HolidayCalendarCode' | translate}}</label>
+                <input class="form-control input-mandatory" id="holidayCalendarCode" type="text"
+                    placeholder="{{'Please_Enter' | translate}} {{'Shift Code' | translate}} "
+                    formControlName="holidayCalendarCode" [readonly]="isReadOnly">
+                <validation-message [control]="form.controls.holidayCalendarCode"></validation-message>
+            </div>
+        </div>
+        <div class="col-md-6 col-lg-6">
+            <div class="form-group ">
+                <label class="mr-sm-2">{{'DateYear' | translate}}</label>
+                <div class="input-group">
+                    <input class="form-control input-mandatory" type="number" placeholder="Choose a year"
+                        (change)="loadHolidays($event.target.value)" formControlName="year" [readonly]="isReadOnly">
+                    <validation-message [control]="form.controls.year"></validation-message>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-6 col-lg-6">
+            <div class="form-group">
+                <label for="holidayCalendarNameEn">{{'HolidayCalendarNameEn' | translate}}</label>
+                <input class="form-control input-mandatory" id="holidayCalendarNameEn" type="text"
+                    placeholder="{{'Please_Enter' | translate}} {{'HolidayCalendarNameEn' | translate}}"
+                    formControlName="holidayCalendarNameEn">
+                <validation-message [control]="form.controls.holidayCalendarNameEn"></validation-message>
+            </div>
+        </div>
+        <div class="col-md-6 col-lg-6">
+            <div class="form-group">
+                <label for="holidayCalendarNameAr">{{'HolidayCalendarNameAr' | translate}}</label>
+                <input class="form-control" id="holidayCalendarNameAr" type="text"
+                    placeholder="{{'Please_Enter' | translate}} {{'HolidayCalendarNameAr' | translate}}"
+                    formControlName="holidayCalendarNameAr">
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-6 col-lg-6">
+            <div class="form-group ">
+                <label for="remarks" class="mr-sm-2">
+                    {{'Remarks' | translate}}
+                </label>
+                <textarea class="form-control" placeholder=" {{'Please_Enter' | translate}}  {{'Remarks' | translate}}"
+                    formControlName="remarks"></textarea>
+            </div>
+        </div>
+    </div>
+    &nbsp;
+    <h3> Configure Holidays:- </h3>
+    <hr>
+    &nbsp;
+    <div class="row">
+        <div *ngFor="let holiday of holidays" class="col-md-6 col-lg-6">
+            <div class="form-group">
+                <mat-slide-toggle color="primary" [checked]="holiday.checked" [id]="holiday.holidayCode"
+                    (change)="toggle($event, holiday.holidayCode)"></mat-slide-toggle>
+                &nbsp;
+                <label class="holidaytxt" for="holiday.holidayCode">{{isArab?
+                    holiday.holidayNameAr:holiday.holidayNameEn}} ({{holiday.date | date: 'dd/MM/yyyy' }})</label>
+            </div>
+        </div>
+    </div>
+    <hr>
+    <div class="row">
+        <div class="col-md-6 col-lg-6 text-center">
+            <div class="form-group">
+                <label for="isActive">{{'Is_Active' | translate}}</label>
+                <br />
+                <mat-slide-toggle color="primary" formControlName="isActive"></mat-slide-toggle>
+            </div>
+        </div>
+    </div>
+    <div class="row mt-3 ">
+        <div class="col-md-12 col-lg-12 text-center">
+            <input type="button" class="btn waves-effect waves-light btn-rounded   btn-secondary btn-midblock"
+                value="{{'Cancel' | translate}}" (click)="closeModel()" /> &nbsp;
+            <input type="submit" class="btn waves-effect waves-light btn-rounded btn-primary btn-midblock"
+                value="{{'Save' | translate}}" />
+        </div>
+    </div>
+</form>
+
+
+
+
+<style>
+    .holidaytxt {
+        font-size: larger;
+    }
+</style>

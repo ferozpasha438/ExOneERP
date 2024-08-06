@@ -1,0 +1,93 @@
+
+<h3> {{'Edit_Check_Date' | translate}} <button type="button" class="close" aria-hidden="true" (click)="closeModel()"> ×</button></h3>
+
+
+<spinner-loader [isLoading]="!checkData"></spinner-loader>
+
+<form [formGroup]="form" (ngSubmit)="submit()" novalidate class="mt-1">
+
+  <table class="table table-bordered" *ngIf="checkData">
+    <tbody>
+      <tr>
+        <td> <label class="mr-sm-2">{{'PayCode' | translate}}</label> : {{checkData.payCode}}</td>
+        <td> <label>{{'Branch' | translate}}</label> : {{checkData.branchCode}}</td>
+      </tr>
+      <tr>
+        <td>  <label class="mr-sm-2">{{'checkdate' | translate}} </label> : {{checkData.checkDate | date:'dd/MM/yyyy' }}</td>
+        <td> <label class="mr-sm-2">{{'checkNumber' | translate}}</label> : {{checkData.checkNumber}}</td>
+      </tr>
+      <tr>
+        <td colspan="2"><label>  {{'Remarks' | translate}}</label> : {{checkData.remarks}}</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div class="row rowm0 pt-2">
+
+    <div class="col-md-3 col-lg-3">
+      <div class="form-group ">
+        <label class="mr-sm-2">{{'PayCode' | translate}}</label>
+        <select class="custom-select mr-sm-2" formControlName="payCode" (change)="setCheckNumber($event)">
+          <option value="">{{'select' | translate}}</option>
+          <option *ngFor="let item of payCodeList" value="{{item.text}}">{{item.text}}</option>
+        </select>
+        <validation-message [control]="form.controls.payCode"></validation-message>
+      </div>
+    </div>
+
+    <div class="col-md-6 col-lg-6">
+      <div class="form-group">
+        <label>{{'Branch' | translate}}</label>
+        <input class="form-control" type="text"
+               placeholder="{{'PleaseEnter' | translate}}" formControlName="branchCode" readonly>
+        <validation-message [control]="form.controls.branchCode"></validation-message>
+      </div>
+    </div>
+
+
+
+    <div class="col-md-3 col-lg-3">
+      <div class="form-group ">
+        <label class="mr-sm-2">{{'checkNumber' | translate}} </label>
+        <input class="form-control" type="text" placeholder="{{'Please_Enter' | translate}}  {{'TAX_Id_Number' | translate}} " formControlName="checkNumber" maxlength="10">
+        <validation-message [control]="form.controls.checkNumber"></validation-message>
+      </div>
+
+    </div>
+    <div class="col-md-3 col-lg-3">
+      <label class="mr-sm-2">{{'checkdate' | translate}}</label>
+      <div class="form-group ">
+        <div class="input-group mb-2">
+          <input type="text" class="form-control datapickerinput" placeholder="{{'Select_a_Date' | translate}}" formControlName="checkDate"
+                 [matDatepicker]="checkdate">
+          <validation-message [control]="form.controls.checkDate"></validation-message>
+          <div class="input-group-prepend datapickericon">
+            <mat-datepicker-toggle matSuffix [for]="checkdate"></mat-datepicker-toggle>
+            <mat-datepicker #checkdate></mat-datepicker><br /><br />
+          </div>
+
+        </div>
+
+      </div>
+    </div>
+
+    <div class="col-md-4 col-lg-4">
+      <div class="form-group ">
+        <label class="mr-sm-2">
+          {{'Remarks' | translate}}
+        </label>
+        <input class="form-control" type="text" placeholder="{{'Remarks' | translate}}" formControlName="remarks">
+        <validation-message [control]="form.controls.remarks"></validation-message>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-lg-12 col-md-12 text-center">
+      <button type="button" class="btn btn-secondary" data-dismiss="modal" (click)="closeModel()">
+        {{'Cancel' | translate}}
+      </button>
+      &nbsp;&nbsp;
+      <input type="submit" class="btn waves-effect waves-light   btn-primary  " value="{{'Save' | translate}}">
+    </div>
+  </div>
+</form>

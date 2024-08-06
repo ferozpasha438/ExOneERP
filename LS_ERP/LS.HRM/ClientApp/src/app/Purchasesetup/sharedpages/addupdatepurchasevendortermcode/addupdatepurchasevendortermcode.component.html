@@ -1,0 +1,93 @@
+<!--  Modal content for the above example -->
+<!--<div class="modal fade" id="createnewunits" tabindex="-1" role="dialog"
+     aria-labelledby="myLargeModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3 class="modal-title">{{'CreateNewPurchaseTerm_Title' | translate}}</h3>
+        <button type="button" class="close" data-dismiss="modal"
+                aria-hidden="true">
+          ×
+        </button>
+      </div>
+      <div class="modal-body">-->
+<h3> {{'CreateNewPurchaseTerm_Title' | translate}}<button type="button" class="close" aria-hidden="true" (click)="closeModel()"> ×</button></h3>
+<form [formGroup]="form" (ngSubmit)="submit()" novalidate class="mt-4">
+  <div class="row">
+    <div class="col-md-6 col-lg-6">
+      <div class="form-group">
+        <label>{{'PurchaseOrder' | translate}}{{'TermsCode' | translate}}  </label>
+        <input class="form-control" type="text"
+               placeholder="{{'PleaseEnter' | translate}} {{'PurchaseOrder' | translate}}{{'TermsCode' | translate}}" formControlName="poTermsCode" [readonly]="isReadOnly" (change)="onTextchange($event.target.value)">
+      </div>
+    </div>
+    <div class="col-md-6 col-lg-6">
+      <div class="form-group">
+        <label>{{'PurchaseOrder' | translate}}{{'TermsName' | translate}}  </label>
+        <input class="form-control" type="text"
+               placeholder="{{'PleaseEnter' | translate}} {{'PurchaseOrder' | translate}}{{'TermsName' | translate}} " formControlName="poTermsName">
+      </div>
+    </div>
+    <div class="col-md-12 col-lg-12">
+      <div class="form-group">
+        <label> {{'PurchaseOrder' | translate}}{{'TermsDescription' | translate}} </label>
+        <input class="form-control" type="text"
+               placeholder="{{'PleaseEnter' | translate}} {{'PurchaseOrder' | translate}}{{'TermsDescription' | translate}}" formControlName="poTermsDesc">
+      </div>
+    </div>
+    <div class="col-md-6 col-lg-6">
+      <div class="form-group">
+        <label> {{'PurchaseOrder' | translate}} {{'DueDays' | translate}}</label>
+        <div class="input-group mb-2">
+          <input class="form-control datapickerinput" type="text" placeholder="{{'PurchaseOrder' | translate}} {{'DueDays' | translate}}" formControlName="poTermsDueDays">
+          <!--<input class="form-control" type="text" placeholder="{{'PurchaseOrder' | translate}} {{'DueDays' | translate}}" formControlName="poTermsDueDays"
+         [matDatepicker]="picker">
+
+  <div class="input-group-prepend datapickericon">
+    <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+    <mat-datepicker #picker></mat-datepicker>
+  </div>-->
+
+        </div>
+
+      </div>
+    </div>
+    <div class="col-md-6 col-lg-6">
+      <div class="form-group">
+        <label> {{'PurchaseOrder' | translate}} {{'DiscountDays' | translate}} </label>
+        <div class="input-group mb-2">
+          <input class="form-control datapickerinput" type="text" placeholder="{{'PurchaseOrder' | translate}} {{'DiscountDays' | translate}}" formControlName="poTermDiscDays">
+          <!--<input class="form-control datapickerinput" placeholder="{{'PurchaseOrder' | translate}} {{'DiscountDays' | translate}}" formControlName="poTermDiscDays"
+                 [matDatepicker]="picker1">-->
+
+          <!--<div class="input-group-prepend datapickericon">
+    <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
+    <mat-datepicker #picker1></mat-datepicker>
+  </div>-->
+
+        </div>
+      </div>
+    </div>
+
+   
+
+
+
+
+  </div>
+  <div class="row mt-3 ">
+    <div class="col-md-12 col-lg-12 text-center">
+      <input type="button"
+             class="btn waves-effect waves-light btn-rounded   btn-secondary btn-midblock" (click)="closeModel()"
+             value="{{'Cancel' | translate}}" /> &nbsp;
+      <input type="submit"
+             class="btn waves-effect waves-light btn-rounded btn-primary btn-midblock"
+             value="{{'Save' | translate}}" />
+    </div>
+  </div>
+</form>
+  <!--</div>
+  </div>-->
+  <!-- /.modal-content -->
+  <!--</div>--><!-- /.modal-dialog -->
+  <!--</div>--><!-- /.modal -->

@@ -1,0 +1,96 @@
+
+<h3> {{'Create_New_Product' | translate}} <button type="button" class="close" aria-hidden="true" (click)="closeModel()"> ×</button></h3>
+<form [formGroup]="form" (ngSubmit)="submit()" novalidate class="mt-1">
+  <div class="row rowm0 ">
+
+    <div class="col-md-6 col-lg-6">
+      <div class="form-group ">
+        <label class="mr-sm-2">
+          {{'Name' | translate}}
+        </label>
+        <input class="form-control" type="text" placeholder="{{'Name' | translate}}" formControlName="nameEN">
+        <validation-message [control]="form.controls.nameEN"></validation-message>
+      </div>
+    </div>
+    <div class="col-md-6 col-lg-6">
+      <div class="form-group ">
+        <label class="mr-sm-2">
+          {{'Name_Ar' | translate}}
+        </label>
+        <input class="form-control" type="text" placeholder="{{'Name_Ar' | translate}}" formControlName="nameAR">
+        <validation-message [control]="form.controls.nameAR"></validation-message>
+      </div>
+    </div>
+
+    <div class="col-md-6 col-lg-6">
+
+      <div class="form-group mb-4">
+        <label class="mr-sm-2" for="city">{{'Product_Type' | translate}}</label>
+        <select class="custom-select mr-sm-2" id="coty" formControlName="productTypeId">
+          <option value="">{{'Choose' | translate}} {{'Zone' | translate}}</option>
+          <ng-container *ngIf="productTypeList">
+            <option *ngFor="let zone of productTypeList" value="{{zone.id}}">{{ isArab ? zone.nameAR : zone.nameEN  }}</option>
+          </ng-container>
+        </select>
+        <validation-message [control]="form.controls.productTypeId"></validation-message>
+      </div>
+
+    </div>
+
+    <div class="col-md-6 col-lg-6">
+
+      <div class="form-group mb-4">
+        <label class="mr-sm-2" for="city">{{'Unit_Type' | translate}}</label>
+        <select class="custom-select mr-sm-2" id="coty" formControlName="unitTypeId">
+          <option value="">{{'Choose' | translate}} {{'Zone' | translate}}</option>
+          <ng-container *ngIf="unitTypeList">
+            <option *ngFor="let zone of unitTypeList" value="{{zone.id}}">{{isArab ? zone.nameAR : zone.nameEN }}</option>
+          </ng-container>
+        </select>
+        <validation-message [control]="form.controls.unitTypeId"></validation-message>
+      </div>
+
+    </div>
+
+
+    <div class="col-md-6 col-lg-6">
+      <div class="form-group ">
+        <label class="mr-sm-2">
+          {{'Description' | translate}}
+        </label>
+        <textarea class="form-control" type="text" placeholder="{{'Description' | translate}}" formControlName="description"></textarea>
+        <validation-message [control]="form.controls.description"></validation-message>
+      </div>
+    </div>
+
+    <div class="col-md-6 col-lg-6">
+      <div class="form-group ">
+        <label class="mr-sm-2">
+          {{'Cost_Price' | translate}}
+        </label>
+        <input class="form-control" type="text" placeholder="{{'Cost_Price' | translate}}" formControlName="costPrice">
+        <validation-message [control]="form.controls.costPrice"></validation-message>
+      </div>
+    </div>
+
+    <div class="col-md-6 col-lg-6">
+      <div class="form-group ">
+        <label class="mr-sm-2">
+          {{'Unit_Price' | translate}}
+        </label>
+        <input class="form-control" type="text" placeholder="{{'Unit_Price' | translate}}" formControlName="unitPrice">
+        <validation-message [control]="form.controls.unitPrice"></validation-message>
+      </div>
+    </div>
+
+  </div>
+  <div class="row">
+    <div class="col-lg-12 col-md-12 text-center">
+      <button type="button" class="btn btn-secondary" data-dismiss="modal" (click)="closeModel()">
+        {{'Cancel' | translate}}
+      </button>
+      &nbsp;&nbsp;
+      <input type="submit" class="btn waves-effect waves-light   btn-primary  " value="{{'Save' | translate}}">
+    </div>
+  </div>
+</form>

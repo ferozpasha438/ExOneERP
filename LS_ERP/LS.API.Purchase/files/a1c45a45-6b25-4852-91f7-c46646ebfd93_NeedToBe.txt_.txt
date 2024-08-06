@@ -1,0 +1,2 @@
+Check branch approvals and give access invoice to approval for users. -- tblFinDefBranchesAuthority -- hint check direct from this table
+make popup to small

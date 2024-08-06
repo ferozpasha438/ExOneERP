@@ -1,0 +1,161 @@
+<div class="page-breadcrumb">
+  <div class="row">
+    <div class="col-12 align-self-center">
+      <h3 class="modal-title">{{'Address' | translate}}</h3>
+      <button type="button" class="close" aria-hidden="true" (click)="closeModel()"> ×</button>
+    </div>
+  </div>
+</div>
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-md-12 col-lg-12">
+      <div class="card">
+        <div class="card-body">
+          <div class="row">
+            <div class="col-md-4 col-lg-4">
+              <h4 class="card-title pt6">{{'Address' | translate}}</h4>
+            </div>
+          </div>
+          <div class="cardtitle-divider"></div>
+          <div class="table-responsive">
+            <spinner-loader [isLoading]="isLoading"></spinner-loader>
+            <div class="mat-elevation-z8">
+              <ng-container>
+                <table mat-table [dataSource]="data" matSort matSortActive="id" matSortDisableClear
+                       matSortDirection="desc" class="table  table-bordered no-wrap">
+                  <ng-container matColumnDef="buildingName">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                      {{'Building_Name' | translate}}
+                    </th>
+                    <td mat-cell *matCellDef="let row">{{ row.buildingName }}</td>
+                  </ng-container>
+                  <ng-container matColumnDef="pAddress1">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                      {{'Street' | translate}}
+                    </th>
+                    <td mat-cell *matCellDef="let row">{{ row.pAddress1 }}</td>
+                  </ng-container>
+                  <ng-container matColumnDef="zipCode">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                      {{'District' | translate}}
+                    </th>
+                    <td mat-cell *matCellDef="let row">{{ row.zipCode }}</td>
+                  </ng-container>
+                  <ng-container matColumnDef="city">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                      {{'City' | translate}}
+                    </th>
+                    <td mat-cell *matCellDef="let row">{{ row.city }}</td>
+                  </ng-container>
+                  <ng-container matColumnDef="country">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                      {{'Country' | translate}}
+                    </th>
+                    <td mat-cell *matCellDef="let row">{{ row.country }}</td>
+                  </ng-container>
+                  <ng-container matColumnDef="phone1">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                      {{'Phone' | translate}}
+                    </th>
+                    <td mat-cell *matCellDef="let row">{{ row.phone1 }}</td>
+                  </ng-container>
+                  <ng-container matColumnDef="mobile1">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                      {{'Mobile' | translate}}
+                    </th>
+                    <td mat-cell *matCellDef="let row">{{ row.mobile1 }}</td>
+                  </ng-container>
+                  <ng-container matColumnDef="Actions" stickyEnd>
+                    <th mat-header-cell *matHeaderCellDef> {{'Actions' | translate}}</th>
+                    <td mat-cell *matCellDef="let row">
+                      <a class="tableicons" matTooltip="{{'Edit_Item' | translate}}" (click)="edit(row)">
+                        <i class="icon-note"></i>
+                      </a>
+                    </td>
+                  </ng-container>
+                  <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
+                  <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+                </table>
+                <ng-container>
+                  <mat-paginator [length]="totalItemsCount" [pageSize]="pageService.pageCount"
+                                 [pageSizeOptions]="pageService.selectItemsPerPage"
+                                 (page)="onPageSwitch($event)">
+                  </mat-paginator>
+                </ng-container>
+              </ng-container>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<form [formGroup]="form" (ngSubmit)="submit()" novalidate class="mt-4">
+  <div class="outer ">
+    <div class="row rowm0 mt-3 m-0">
+      <div class="col-md-4 col-lg-4 col-sm-4">
+        <div class="form-group">
+          <label>{{'Building_Name' | translate}}</label>
+          <input class="form-control" type="text" placeholder="{{'Building_Name' | translate}}"
+                 formControlName="buildingName" />
+          <validation-message [control]="form.controls.buildingName"></validation-message>
+        </div>
+      </div>
+      <div class="col-md-4 col-lg-4 col-sm-4">
+        <div class="form-group">
+          <label>{{'Street' | translate}}</label>
+          <input class="form-control" type="text" placeholder="{{'Street' | translate}}"
+                 formControlName="pAddress1" />
+          <validation-message [control]="form.controls.pAddress1"></validation-message>
+        </div>
+      </div>
+      <div class="col-md-4 col-lg-4 col-sm-4">
+        <div class="form-group">
+          <label>{{'District' | translate}}</label>
+          <input class="form-control" type="text" placeholder="{{'District' | translate}}"
+                 formControlName="zipCode" />
+          <validation-message [control]="form.controls.zipCode"></validation-message>
+        </div>
+      </div>
+      <div class="col-md-4 col-lg-4 col-sm-4">
+        <div class="form-group">
+          <label>{{'City' | translate}}</label>
+          <input class="form-control" type="text" placeholder="{{'City' | translate}}"
+                 formControlName="city" />
+          <validation-message [control]="form.controls.city"></validation-message>
+        </div>
+      </div>
+      <div class="col-md-4 col-lg-4 col-sm-4">
+        <div class="form-group">
+          <label>{{'Country' | translate}}</label>
+          <input class="form-control" type="text" placeholder="{{'Country' | translate}}"
+                 formControlName="country" />
+          <validation-message [control]="form.controls.country"></validation-message>
+        </div>
+      </div>
+      <div class="col-md-4 col-lg-4 col-sm-4">
+        <div class="form-group">
+          <label>{{'Phone' | translate}}</label>
+          <input class="form-control" type="text" placeholder="{{'Phone' | translate}}"
+                 formControlName="phone1" />
+          <validation-message [control]="form.controls.phone1"></validation-message>
+        </div>
+      </div>
+      <div class="col-md-4 col-lg-4 col-sm-4">
+        <div class="form-group">
+          <label>{{'Mobile' | translate}}</label>
+          <input class="form-control" type="text" placeholder="{{'Mobile' | translate}}"
+                 formControlName="mobile1" />
+          <validation-message [control]="form.controls.mobile1"></validation-message>
+        </div>
+      </div>
+    </div>
+    <div class="row customrow mt-4">
+      <div class="col-lg-12 col-md-12 text-center">
+        <input type="button" class="btn btn-secondary" value="{{'Cancel' | translate}}" (click)="closeModel()" />
+        &nbsp;&nbsp;
+        <input type="submit" class="btn waves-effect waves-light btn-primary" value="{{'Save' | translate}}">
+      </div>
+    </div>
+  </div>
+</form>

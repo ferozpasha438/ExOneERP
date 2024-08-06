@@ -1,0 +1,54 @@
+<h3 class="modal-title">{{'Update_Shift'}}</h3>
+<button type="button" class="close" aria-hidden="true" (click)="closeModel()"> ×</button>
+
+
+
+<table id="zero_config" class="table  table-bordered no-wrap">
+  <tr>
+    <th>{{'Employee_ID' | translate}}</th>
+    <td>{{employeeData?.employeeID}}</td>
+
+    <th>{{'Name' | translate}}</th>
+    <td>{{employeeData?.name}}</td>
+
+     <th>{{'Date' | translate}}</th>
+     <td>{{inputData?.attnDate|date:'dd-MM-YYYY'}}</td>
+
+    <th>{{'Actual_Shift' | translate}}</th>
+     <td>{{inputData?.shiftCode}}</td>
+
+
+  </tr>
+  <tr>
+    <td colspan="8">
+      <div class="row" style="align-content:center">
+        <div class="col-md-3 col-lg-3">
+          <select class="form-control" [(ngModel)]="updatedShift" [ngModelOptions]="{standalone: true}">
+            <option value="">{{'Select' | translate}} {{'Shift' | translate}} </option>
+            <option *ngFor="let shift of inputData.shiftCodesSelectionList" value="{{shift.shiftCode}}">{{shift.shiftCode}}({{ !isArabic?shift.shiftName_EN:shift.shiftName_AR}})</option>
+          </select>
+        </div>
+
+
+
+        <div class="row">
+
+        <div class="col2-md-12 col-lg-12">
+          <input type="button" class="btn waves-effect waves-light btn-rounded   btn-secondary btn-midblock"
+                 value="{{'Cancel' | translate}}" (click)="closeModel()" />
+      &nbsp;
+
+          <input type="button" *ngIf="updatedShift!=inputShift && updatedShift!=''" class="btn waves-effect waves-light btn-rounded btn-success   btn-secondary btn-midblock"
+                 value="{{'Save' | translate}}" (click)="save()" />
+        </div>
+        </div>
+      </div>
+
+</td>
+
+  </tr>
+
+
+</table>
+
+  

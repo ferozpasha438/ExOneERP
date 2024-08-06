@@ -1,0 +1,540 @@
+
+
+<!-- Web Fonts
+======================= -->
+<!--<link rel='stylesheet' href='https://fonts.googleapis.com/css?family=Poppins:100,200,300,400,500,600,700,800,900'
+      type='text/css'>-->
+<!-- Stylesheet
+======================= -->
+
+<!--<link href="/assets/style_new.css" rel="stylesheet" />-->
+
+<style>
+
+ 
+  /*@media print {
+    div.print-container {
+      padding-top: 50px !important;
+      border: 1px solid red;
+    }
+  }
+
+  .customrow {
+    width: 850px;
+    margin: auto
+  }
+
+  .custumtable tr td, .custumtable tr th {
+    border: 0.3px solid #d1d0d0 !important;
+  }
+
+  .custumtable {
+    border: 0.3px solid #d1d0d0 !important;
+  }
+
+  .custumtable_bottom {
+    border-top: 0px solid #878787 !important;
+  }
+
+    .custumtable_bottom tr td, .custumtable_bottom tr th {
+      border-top: 0px solid #20b4e2 !important;
+      border-left: 0.5px solid #20b4e2 !important;
+      border-right: 0.5px solid #20b4e2 !important;
+      border-bottom: 0.5px solid #20b4e2 !important
+    }*/
+  table, th, td {
+    border-left-width: 0.1px !important;
+    border-right-width: 0.1px !important;
+    border-top-width: 0.1px !important;
+    border-bottom-width: 0.1px !important;
+  }
+
+</style>
+<br />
+<!-- Container -->
+<ng-container *ngIf="items && items.length > 0">
+  <div [style.padding-top]="!isSavePDF ?'150px !important':'5px !important'" class="container-fluid invoice-container print-container" style="width: 850px; margin: auto; padding-top: 5px !important; border: 1px solid #ccc; border-radius: 10px;" id="printcontainer">
+    <table style="width:100%; padding-bottom:5px;" border="0" cellpadding="0" cellspacing="0" width="100%" class="">
+      <tr>
+        <td colspan="5" style="text-align:center;" [style]="!isSavePDF ? 'height : 0px ' : 'height:75px'">
+          <!--<img id="logo" style="width:100%;" src="~/Content/Invoice/images/einvprintlogo/alsajerheader.jpg" title="invoice" alt="invoice"  *ngIf="isSavePDF"/>-->
+          <!--<img src="https://www.c-sharpcorner.com/App_Themes/CSharp/Images/SiteLogo.png" />-->
+          <!--<img *ngIf="isSavePDF" src="{{company.logoURL}}" alt="" style="width:200px;height:150px;" />-->
+          <img *ngIf="!isSavePDF" src="{{company.headerLogo}}" alt="" style="width:100%;" />
+        </td>
+      </tr>
+    </table>
+
+    <table style="width:100%" border="0" cellpadding="0" cellspacing="0" width="100%" class="">
+      <tr>
+        <td style="width:36%" class="">
+          <h4 style="font-size: 0.85rem !important; color: #0c2f54; font-family: 'Poppins', sans-serif; font-weight: 500; line-height: 1.2; margin: 0; padding-top: 4px">
+            {{company.companyName}}
+          </h4>
+          <h4 style="font-size: 0.85rem !important; color: #0c2f54; font-family: 'Poppins', sans-serif; font-weight: 500; line-height: 1.2; margin: 0; padding-top: 4px">
+            {{company.companyAddress}}
+          </h4>
+          <span></span>
+          <h4 style="font-size: 0.85rem !important; color: #0c2f54; font-family: 'Poppins', sans-serif; font-weight: 500; line-height: 1.2; margin: 0; padding-top: 4px">
+            C.R. No.: <span style="font-size: 0.85rem !important; color: #0c2f54; font-family: 'Poppins', sans-serif; font-weight: 500; line-height: 1.2; margin: 0; "> {{company.crNumber}} </span>
+          </h4>
+          <h4 style="font-size: 0.85rem !important; color: #0c2f54; font-family: 'Poppins', sans-serif; font-weight: 500; line-height: 1.2; margin: 0; padding-top: 4px">
+            C.C. No.:  <span style="font-size: 0.85rem !important; color: #0c2f54; font-family: 'Poppins', sans-serif; font-weight: 500; line-height: 1.2; margin: 0; ">{{company.ccNumber}}</span>
+          </h4>
+
+          <h4 style="font-size: 0.85rem !important; color: #0c2f54; font-family: 'Poppins', sans-serif; font-weight: 500; line-height: 1.2; margin: 0; padding-top: 4px">
+            VAT NO :  <span style="font-size: 0.85rem !important; color: #0c2f54; font-family: 'Poppins', sans-serif; font-weight: 500; line-height: 1.2; margin: 0; ">{{company.vatNumber}} </span>
+          </h4>
+        </td>
+
+        <td style="width:28%;text-align: center;vertical-align: middle;">
+          <span style="font-size: 1.75rem !important; position:relative; left:-15px; color: #0c2f54; font-family: 'Poppins', sans-serif;font-weight: 500;line-height: 1.2;margin:0; ">
+            {{invoice.isCreditConverted ? ' اشعار دائن ' : ' فاتورة ضريبية ' }}
+          </span>
+          <br />
+          <span style="font-size: 1.3rem !important; color: #0c2f54; font-family: 'Poppins', sans-serif; font-weight: 500; line-height: 1.2; margin:0; ">
+            {{invoice.isCreditConverted ? ' Credit note ' : ' VAT INVOICE ' }} &nbsp; &nbsp;&nbsp;
+          </span>
+          <!--@*<img id="logo" style="width:120px" src="~/Content/Invoice/images/logo.png" title="invoice" alt="invoice" />*@-->
+        </td>
+        <td style="text-align: right;width:36%" class="">
+          <h4 style="font-size: 0.85rem !important; color: #0c2f54; font-family: 'Poppins', sans-serif; font-weight: 500; line-height: 1.2; margin: 0; padding-top: 4px">
+            {{company.companyNameAr }}
+          </h4>
+          <h4 style="font-size: 0.85rem !important; color: #0c2f54; font-family: 'Poppins', sans-serif; font-weight: 500; line-height: 1.2; margin: 0; padding-top: 4px">
+            {{company.companyAddressAr}}
+          </h4>
+
+          <h4 style="font-size: 0.85rem !important; color: #0c2f54; font-family: 'Poppins', sans-serif; font-weight: 500; line-height: 1.2; margin: 0; padding-top: 4px">
+            {{company.crNumber}} :  رقم السجل التجاري
+          </h4>
+          <h4 style="font-size: 0.85rem !important; color: #0c2f54; font-family: 'Poppins', sans-serif; font-weight: 500; line-height: 1.2; margin: 0; padding-top: 4px">
+            {{company.ccNumber}}    : رقم العضوية
+          </h4>
+
+          <h4 style="font-size: 0.85rem !important; color: #0c2f54; font-family: 'Poppins', sans-serif; font-weight: 500; line-height: 1.2; margin: 0; padding-top: 4px">
+            {{company.vatNumber}} :  الرقم الضريبي
+          </h4>
+        </td>
+
+
+      </tr>
+
+
+    </table>
+
+
+    <!--@*<table style="width:100%" border="0" cellpadding="0" cellspacing="0" width="100%">
+    <tr>
+      <td style="font-size: 2rem !important;color: #0c2f54; font-family: 'Poppins', sans-serif;font-weight: 500;
+            line-height: 1.2;margin:0;padding-top:15px;text-align: center;">
+        <span class="eng_hide">
+          VAT INVOICE  &nbsp; &nbsp;&nbsp;
+        </span>  <span style="font-size: 2.75rem !important;color: #0c2f54; font-family: 'Poppins', sans-serif;font-weight: 500;
+     line-height: 1.2;margin:0; ">فاتورة ضريبية</span>
+      </td>
+    </tr>
+  </table>*@-->
+    <div style="padding-top:10px;padding-bottom:5px">
+      <table style="width:100%;" border="0" cellpadding="0" cellspacing="0" width="100%">
+        <tr>
+          <td style="width:40%;text-align: center;">
+            <table style="width:100%;" border="0" cellpadding="0" cellspacing="0" width="100%" class="">
+              <tr>
+                <td style="border: 0.1px solid #878787; border-collapse: collapse;padding:5px;width:33%;text-align: center;font-size:0.875rem !important;color: #000000; font-family: 'Poppins', sans-serif;">
+                  Invoice #
+                </td>
+                <td style="border: 0.1px solid #878787; border-collapse: collapse; padding:5px;text-align: center;font-size:0.875rem !important;color: #000000; font-family: 'Poppins', sans-serif;">
+                  {{invoice.invoiceNumber}}
+                </td>
+                <td style="border: 0.1px solid #878787; border-collapse: collapse;padding:5px;width:33%;text-align: center;font-size:1rem !important;color: #000000; font-family: 'Poppins', sans-serif;">
+                  رقم الفاتورة
+                </td>
+              </tr>
+              <tr>
+                <td style="border: 0.1px solid #878787; border-collapse: collapse;padding:5px;width:33%;text-align: center;font-size:0.875rem !important;color: #000000; font-family: 'Poppins', sans-serif;">
+                  Service Month
+                </td>
+                <td style="border: 0.1px solid #878787; border-collapse: collapse; padding:5px;text-align: center;font-size:0.875rem !important;color: #000000; font-family: 'Poppins', sans-serif;">
+                  {{invoice.serviceDate1}}
+                </td>
+                <td style="border: 0.1px solid #878787; border-collapse: collapse;padding:5px;width:33%;text-align: center;font-size:1rem !important;color: #000000; font-family: 'Poppins', sans-serif;">
+                  شهر العمل
+                </td>
+              </tr>
+            </table>
+          </td>
+          <td style="width:20%">
+          </td>
+          <td style="width:40%">
+
+            <table style="width:100%;" border="0" cellpadding="0" cellspacing="0" width="100%" class="">
+              <tr>
+                <td style="border: 0.1px solid #878787; border-collapse: collapse;padding:5px;width:33%;text-align: center;font-size:0.875rem !important;color: #000000; font-family: 'Poppins', sans-serif;font-weight: 500;">
+                  Issue Date
+                </td>
+                <td style="border: 0.1px solid #878787; border-collapse: collapse; padding:5px;text-align: center;font-size:0.875rem !important;color: #000000; font-family: 'Poppins', sans-serif;font-weight: 500;">
+                  <label class="two">
+                    {{invoice.invoiceDate | date:'dd-MM-yyyy'}}
+                  </label>
+                </td>
+                <td style="border: 0.1px solid #878787; border-collapse: collapse;padding:5px;width:33%;text-align: center;font-size:1rem !important;color: #000000; font-family: 'Poppins', sans-serif;font-weight: 500;">
+                  تاريخ الاصدار
+                </td>
+              </tr>
+              <tr>
+                <td style="border: 0.1px solid #878787; border-collapse: collapse;padding:5px;width:33%;text-align: center;font-size:0.875rem !important;color: #000000; font-family: 'Poppins', sans-serif;font-weight: 500;">
+                  Due Date
+                </td>
+                <td style="border: 0.1px solid #878787; border-collapse: collapse; padding:5px;text-align: center;font-size:0.875rem !important;color: #000000; font-family: 'Poppins', sans-serif;font-weight: 500;">
+                  <label class="two">{{invoice.invoiceDueDate | date:'dd-MM-yyyy'}}</label>
+                </td>
+                <td style="border: 0.1px solid #878787; border-collapse: collapse;padding:5px;width:33%;text-align: center;font-size:1rem !important;color: #000000; font-family: 'Poppins', sans-serif;font-weight: 500;">
+                  تاريخ الاستحقاق
+                </td>
+              </tr>
+            </table>
+
+
+          </td>
+        </tr>
+      </table>
+    </div>
+    <div style="padding-bottom:5px">
+      <table style="width:100%;" border="0" cellpadding="0" cellspacing="0" width="100%" class="">
+        <tr>
+          <td style="border: 0.1px solid #878787; border-collapse: collapse;padding:5px;width:10%;text-align: center;font-size:0.875rem !important;color: #000000; font-family: 'Poppins', sans-serif;font-weight: 500;">
+            Address
+          </td>
+          <td style="border: 0.1px solid #878787; border-collapse: collapse;padding:5px;width:22%;text-align: center;font-size:0.875rem !important;color: #000000; font-family: 'Poppins', sans-serif;font-weight: 500;">
+            {{customer.custAddress2}}
+          </td>
+          <td style="border: 0.1px solid #878787; border-collapse: collapse;padding:5px;width:20%;text-align: center;font-size:0.875rem !important;color: #000000; font-family: 'Poppins', sans-serif;font-weight: 500;">
+
+            {{ invoice.customerName ? 'Walk-In / في الموقع ' : ''}}  {{'Inv_Customer_Name' | translate}}
+          </td>
+          <td style="border: 0.1px solid #878787; border-collapse: collapse; padding:5px;text-align: left;font-size:0.875rem !important;color: #000000; font-family: 'Poppins', sans-serif;font-weight: 500;">
+            {{customer.custName}}
+          </td>
+        </tr>
+      </table>
+    </div>
+    <div style="padding-bottom:5px">
+      <table style="width:100%;" border="0" cellpadding="0" cellspacing="0" width="100%" class="">
+        <tr>
+          <td style="border: 0.1px solid #878787; border-collapse: collapse; padding: 5px; width: 25%; text-align: right; font-size: 1rem !important; color: #000000; font-family: 'Poppins', sans-serif; font-weight: 500;" class="">
+            {{customer.custAddress1}}
+          </td>
+          <td style="border: 0.1px solid #878787; border-collapse: collapse;width:10%; padding:5px;text-align: center;font-size:1rem !important;color: #000000; font-family: 'Poppins', sans-serif;font-weight: 500;">
+            العنوان
+          </td>
+          <td style="border: 0.1px solid #878787; border-collapse: collapse;padding:5px;text-align: right;font-size:1rem !important;color: #000000; font-family: 'Poppins', sans-serif;font-weight: 500;" class="">
+            {{customer.custArbName}}
+          </td>
+          <td style="border: 0.1px solid #878787; border-collapse: collapse;padding:5px;width:15%;text-align: center;font-size:1rem !important;color: #000000; font-family: 'Poppins', sans-serif;font-weight: 500;">
+            اسم العميل
+          </td>
+        </tr>
+      </table>
+    </div>
+
+    <div style="padding-bottom:5px">
+      <table style="width:100%;" border="0" cellpadding="0" cellspacing="0" width="100%" class="">
+        <tr>
+          <td style="width: 30%; border: 0.1px solid #878787; border-collapse: collapse; padding: 5px; text-align: center; font-size: 0.875rem !important; color: #000000; font-family: 'Poppins', sans-serif; font-weight: 500;">
+            Payment Terms <span style="padding:5px;text-align: right;font-size:1rem !important;color: #000000; font-family: 'Poppins', sans-serif;font-weight: 500;">   شروط الدفع   </span>
+          </td>
+          <td style="border: 0.1px solid #878787; border-collapse: collapse;width:30%; padding:5px;text-align: center;font-size:0.875rem !important;color: #000000; font-family: 'Poppins', sans-serif;font-weight: 500;">
+            P.O. No. &nbsp; <span style="padding:5px;text-align: right;font-size:1rem !important;color: #000000; font-family: 'Poppins', sans-serif;font-weight: 500;">   رقم أمر الشراء  </span>
+          </td>
+          <td style="border: 0.1px solid #878787; border-collapse: collapse; padding: 5px; text-align: center; font-size: 0.875rem !important; color: #000000; font-family: 'Poppins', sans-serif; font-weight: 500;">
+            {{'Customer_Inv_VAT_No' | translate}} &nbsp; <span style="padding:5px;text-align: right;font-size:1rem !important;color: #000000; font-family: 'Poppins', sans-serif;font-weight: 500;"> {{'Customer_Inv_VAT_No_Ar' | translate}}</span>
+          </td>
+        </tr>
+        <tr>
+          <td style="width:30%;border: 0.1px solid #878787; border-collapse: collapse;padding:5px;text-align: center;font-size:0.875rem !important;color: #000000; font-family: 'Poppins', sans-serif;font-weight: 500;">
+            {{invoice.paymentTermId}}
+          </td>
+          <td style="border: 0.1px solid #878787; border-collapse: collapse;width:30%; padding:5px;text-align: center;font-size:0.875rem !important;color: #000000; font-family: 'Poppins', sans-serif;font-weight: 500;">
+
+            {{invoice.invoiceRefNumber}}
+          </td>
+          <td style="border: 0.1px solid #878787; border-collapse: collapse;padding:5px;text-align: center;font-size:0.875rem !important;color: #000000; font-family: 'Poppins', sans-serif;font-weight: 500;">
+
+            {{customer.vatNumber}}
+          </td>
+        </tr>
+      </table>
+    </div>
+
+
+    <!--<div style="padding-bottom:5px">
+      <table style="width:100%;" border="0" cellpadding="0" cellspacing="0" width="100%" class="custumtable">
+        <tr>
+          <td style="width:30%;border: 0.1px solid #878787; border-collapse: collapse;padding:5px;text-align: center;font-size:0.875rem !important;color: #000000; font-family: 'Poppins', sans-serif;font-weight: 500;">
+            شروط الدفع   <span style="padding:5px;text-align: right;font-size:1rem !important;color: #000000; font-family: 'Poppins', sans-serif;font-weight: 500;"> Payment Terms </span>
+          </td>
+          <td style="border: 0.1px solid #878787; border-collapse: collapse;width:30%; padding:5px;text-align: center;font-size:0.875rem !important;color: #000000; font-family: 'Poppins', sans-serif;font-weight: 500;">
+            رقم أمر الشراء  &nbsp; &nbsp; <span style="padding:5px;text-align: right;font-size:1rem !important;color: #000000; font-family: 'Poppins', sans-serif;font-weight: 500;">P.O. No.</span>
+          </td>
+          <td style="border: 0.1px solid #878787; border-collapse: collapse;padding:5px;text-align: center;font-size:0.875rem !important;color: #000000; font-family: 'Poppins', sans-serif;font-weight: 500;">
+            الرقم الضريبي للعميل &nbsp; &nbsp; <span style="padding:5px;text-align: right;font-size:1rem !important;color: #000000; font-family: 'Poppins', sans-serif;font-weight: 500;">{{'Customer_VAT_No' | translate}}</span>
+          </td>
+        </tr>
+        <tr>
+          <td style="width:30%;border: 0.1px solid #878787; border-collapse: collapse;padding:5px;text-align: center;font-size:0.875rem !important;color: #000000; font-family: 'Poppins', sans-serif;font-weight: 500;">
+            {{invoice.paymentTermId}}
+          </td>
+          <td style="border: 0.1px solid #878787; border-collapse: collapse;width:30%; padding:5px;text-align: center;font-size:0.875rem !important;color: #000000; font-family: 'Poppins', sans-serif;font-weight: 500;">
+
+            {{invoice.invoiceRefNumber}}
+          </td>
+          <td style="border: 0.1px solid #878787; border-collapse: collapse;padding:5px;text-align: center;font-size:0.875rem !important;color: #000000; font-family: 'Poppins', sans-serif;font-weight: 500;">
+
+            {{customer.vatNumber}}
+          </td>
+        </tr>
+      </table>
+    </div>-->
+
+
+    <div style="padding-bottom:5px" dir="rtl">
+      <table style="width:100%;" border="0" cellpadding="0" cellspacing="0" width="100%" class="">
+        <tr>
+          <th [style.opacity]="OpacityValue" style="width:10%;border: 0.1px solid #878787; border-collapse: collapse;padding:5px;text-align: center;font-size:0.875rem !important;color: #000000; font-family: 'Poppins', sans-serif;">
+            <div style="font-size: 1rem !important; color: #706f6f; font-family: 'Poppins', sans-serif; font-weight: 500;">رقم الصنف</div>
+            <div style="font-size: 0.875rem !important; color: #706f6f; font-family: 'Poppins', sans-serif; font-weight: 500;">Item</div>
+          </th>
+          <th [style.opacity]="OpacityValue" style="width:10%;border: 0.1px solid #878787; border-collapse: collapse;padding:5px;text-align: center;font-size:0.875rem !important;color: #000000; font-family: 'Poppins', sans-serif;">
+            <div style="font-size: 1rem !important; color: #706f6f; font-family: 'Poppins', sans-serif; font-weight: 500;"> اسم</div>
+            <div style="font-size: 0.875rem !important; color: #706f6f; font-family: 'Poppins', sans-serif; font-weight: 500;">Name</div>
+          </th>
+          <th [style.opacity]="OpacityValue" style="border: 0.1px solid #878787; border-collapse: collapse;padding:5px;text-align: center;font-size:0.875rem !important;color: #000000; font-family: 'Poppins', sans-serif;">
+            <div style="font-size: 1rem !important; color: #706f6f; font-family: 'Poppins', sans-serif; font-weight: 500;">الوصف</div>
+            <div style="font-size: 0.875rem !important; color: #706f6f; font-family: 'Poppins', sans-serif; font-weight: 500;">Description</div>
+          </th>
+          <th [style.opacity]="OpacityValue" style="width:10%;border: 0.1px solid #878787; border-collapse: collapse;padding:5px;text-align: center;font-size:0.875rem !important;color: #000000; font-family: 'Poppins', sans-serif;">
+            <div style="font-size: 1rem !important; color: #706f6f; font-family: 'Poppins', sans-serif; font-weight: 500;"> الكمية</div>
+            <div style="font-size: 0.875rem !important; color: #706f6f; font-family: 'Poppins', sans-serif; font-weight: 500;">Quantity</div>
+          </th>
+          <th [style.opacity]="OpacityValue" style="width:10%;border: 0.1px solid #878787; border-collapse: collapse;padding:5px;text-align: center;font-size:0.875rem !important;color: #000000; font-family: 'Poppins', sans-serif;">
+            <div style="font-size: 1rem !important; color: #706f6f; font-family: 'Poppins', sans-serif; font-weight: 500;">سعر الوحدة</div>
+            <div style="font-size: 0.875rem !important; color: #706f6f; font-family: 'Poppins', sans-serif; font-weight: 500;">Unit Price</div>
+          </th>
+          <th [style.opacity]="OpacityValue" style="width:10%;border: 0.1px solid #878787; border-collapse: collapse;padding:5px;text-align: center;font-size:0.875rem !important;color: #000000; font-family: 'Poppins', sans-serif;">
+            <div style="font-size: 1rem !important; color: #706f6f; font-family: 'Poppins', sans-serif; font-weight: 500;"> نسبة الخصم </div>
+            <div style="font-size: 0.875rem !important; color: #706f6f; font-family: 'Poppins', sans-serif; font-weight: 500;">Discount Percentage</div>
+          </th>
+          <th [style.opacity]="OpacityValue" style="width:10%;border: 0.1px solid #878787; border-collapse: collapse;padding:5px;text-align: center;font-size:0.875rem !important;color: #000000; font-family: 'Poppins', sans-serif;">
+            <div style="font-size: 1rem !important; color: #706f6f; font-family: 'Poppins', sans-serif; font-weight: 500;"> مبلغ الخصم </div>
+            <div style="font-size: 0.875rem !important; color: #706f6f; font-family: 'Poppins', sans-serif; font-weight: 500;">Discount Amount</div>
+          </th>
+          <th [style.opacity]="OpacityValue" style="width:10%;border: 0.1px solid #878787; border-collapse: collapse;padding:5px;text-align: center;font-size:0.875rem !important;color: #000000; font-family: 'Poppins', sans-serif;">
+            <div style="font-size: 1rem !important; color: #706f6f; font-family: 'Poppins', sans-serif; font-weight: 500;"> ضريبة القيمة المضافة</div>
+            <div style="font-size: 0.875rem !important; color: #706f6f; font-family: 'Poppins', sans-serif; font-weight: 500;">VAT</div>
+          </th>
+          <th [style.opacity]="OpacityValue" style="width:15%;border: 0.1px solid #878787; border-collapse: collapse;padding:5px;text-align: center;font-size:0.875rem !important;color: #000000; font-family: 'Poppins', sans-serif;">
+            <div style="font-size: 1rem !important; color: #706f6f; font-family: 'Poppins', sans-serif; font-weight: 500;"> إجمالي ضريبة القيمة المضافة</div>
+            <div style="font-size: 0.875rem !important; color: #706f6f; font-family: 'Poppins', sans-serif; font-weight: 500;">VAT Amount</div>
+          </th>
+          <th [style.opacity]="OpacityValue" style="width:15%;border: 0.1px solid #878787; border-collapse: collapse;padding:5px;text-align: center;font-size:0.875rem !important;color: #000000; font-family: 'Poppins', sans-serif;">
+            <div style="font-size: 1rem !important; color: #706f6f; font-family: 'Poppins', sans-serif; font-weight: 500;">السعر الإجمالي</div>
+            <div style="font-size: 0.875rem !important; color: #706f6f; font-family: 'Poppins', sans-serif; font-weight: 500;">Total Price</div>
+          </th>
+          <!--<th [style.opacity]="OpacityValue" style="width:15%;border: 0.1px solid #878787; border-collapse: collapse;padding:5px;text-align: center;font-size:0.875rem !important;color: #000000; font-family: 'Poppins', sans-serif;" *ngIf="dashBoardType != 'school'">
+    <div style="font-size: 1rem !important; color: #706f6f; font-family: 'Poppins', sans-serif; font-weight: 500;">  اسم الموقع  </div>
+    <div style="font-size: 0.875rem !important; color: #706f6f; font-family: 'Poppins', sans-serif; font-weight: 500;">Site Name</div>
+  </th>-->
+        </tr>
+        <tr *ngFor="let ivt of items" [style.opacity]="OpacityValue">
+          <td style="width:10%;border: 0.1px solid #878787; border-collapse: collapse;padding:5px;text-align: center;font-size:0.675rem !important;color: #000000; font-family: 'Poppins', sans-serif;font-weight: 500;">
+            {{ivt.productId}}
+          </td>
+          <td style="width:10%;border: 0.1px solid #878787; border-collapse: collapse;padding:5px;text-align: center;font-size:0.675rem !important;color: #000000; font-family: 'Poppins', sans-serif;font-weight: 500;">
+            <b style="font-weight:600;">
+              {{ivt.productName}}<br />
+            </b>
+          </td>
+          <td style="border: 0.1px solid #878787; border-collapse: collapse;padding:5px;text-align: left;font-size:0.875rem !important;color: #000000; font-family: 'Poppins', sans-serif;font-weight: 500;" class="">
+            <div style="font-size:0.675rem !important;color: #000000; font-family: 'Poppins', sans-serif;font-weight: 500;">
+              {{ivt.description}}
+            </div>
+          </td>
+          <td style="width:10%;border: 0.1px solid #878787; border-collapse: collapse;padding:5px;text-align: center;font-size:0.675rem !important;color: #000000; font-family: 'Poppins', sans-serif;font-weight: 500;">
+            {{ivt.quantity}}
+          </td>
+          <td style="width:10%;border: 0.1px solid #878787; border-collapse: collapse;padding:5px;text-align: center;font-size:0.675rem !important;color: #000000; font-family: 'Poppins', sans-serif;font-weight: 500;">
+            {{ivt.unitPrice | leadingZeros}}
+          </td>
+          <td style="width:10%;border: 0.1px solid #878787; border-collapse: collapse;padding:5px;text-align: center;font-size:0.675rem !important;color: #000000; font-family: 'Poppins', sans-serif;font-weight: 500;">
+            {{ivt.discount | leadingZeros}} %
+          </td>
+          <td style="width:10%;border: 0.1px solid #878787; border-collapse: collapse;padding:5px;text-align: center;font-size:0.675rem !important;color: #000000; font-family: 'Poppins', sans-serif;font-weight: 500;">
+            {{ivt.discountAmount | leadingZeros}}
+          </td>
+          <td style="width:10%;border: 0.1px solid #878787; border-collapse: collapse;padding:5px;text-align: center;font-size:0.675rem !important;color: #000000; font-family: 'Poppins', sans-serif;font-weight: 500;">
+            {{ivt.taxTariffPercentage==null?"0 %":ivt.taxTariffPercentage + " %"}}
+          </td>
+          <td style="width:15%;border: 0.1px solid #878787; border-collapse: collapse;padding:5px;text-align: center;font-size:0.675rem !important;color: #000000; font-family: 'Poppins', sans-serif;font-weight: 500;">
+            {{ivt.taxAmount | leadingZeros}}
+          </td>
+          <td style="width:15%;border: 0.1px solid #878787; border-collapse: collapse;padding:5px;text-align: center;font-size:0.675rem !important;color: #000000; font-family: 'Poppins', sans-serif;font-weight: 500;">
+            {{ivt.totalAmount | leadingZeros}}
+            <!--@((((Logic.UtilityHelper.GetDecimal(item.SubTotal_AR) * Logic.UtilityHelper.GetDecimal(item.TaxTariffPercentage_AR)) / 100) + Logic.UtilityHelper.GetDecimal(item.SubTotal_AR)).ToString(System.Globalization.CultureInfo.InvariantCulture))-->
+          </td>
+          <!--<td style="width:15%;border: 0.1px solid #878787; border-collapse: collapse;padding:5px;text-align: center;font-size:0.675rem !important;color: #000000; font-family: 'Poppins', sans-serif;font-weight: 500;" *ngIf="dashBoardType != 'school'">
+            {{ivt.siteName}}
+          </td>-->
+        </tr>
+
+        <tr>
+          <td rowspan="2" colspan="7" style=" border: 0.1px solid #878787; border-collapse: collapse;padding:5px;font-size:0.675rem !important;color: #000000; font-family: 'Poppins', sans-serif;font-weight: 500;">
+            <div style="text-align: right;font-size:0.875rem !important;color: #000000; font-family: 'Poppins', sans-serif;font-weight: 500;" class="">
+              المجموع كتابة : {{totalAmountAr}}
+            </div>
+            <div style="text-align: left;font-size:1rem !important;color: #000000; font-family: 'Poppins', sans-serif;font-weight: 500;" class="">
+              Total In Words: {{totalAmountEn}}
+            </div>
+            <div class="">
+              <img src="{{invoice.qrCode}}" alt="QR Code" style="width:26%;" />
+            </div>
+          </td>
+          <td colspan="2" style=" border: 0.1px solid #878787; border-collapse: collapse;border-right:0;padding:5px;text-align: left;font-size:0.675rem !important;color: #706f6f; font-family: 'Poppins', sans-serif;font-weight: 500;" class="">
+            <div style="font-size:1rem !important;color: #706f6f; font-family: 'Poppins', sans-serif;font-weight: 500;"> الإجمالي غير شامل الضريبة</div>
+            <div style="font-size:0.875rem !important;color: #706f6f; font-family: 'Poppins', sans-serif;font-weight: 500;">Sub Total Excluding VAT</div>
+          </td>
+          <td style=" border: 0.1px solid #878787; border-collapse: collapse;padding:5px;text-align: right;font-size:0.875rem !important;color: #706f6f; font-family: 'Poppins', sans-serif;font-weight: 500;" class="">
+            SAR {{invoice.subTotal | leadingZeros}}
+          </td>
+        </tr>
+        <tr>
+          <td colspan="2" style=" border: 0.1px solid #878787; border-collapse: collapse;border-right:0;padding:5px;text-align: left;font-size:0.675rem !important;color: #706f6f; font-family: 'Poppins', sans-serif;font-weight: 500;" class="">
+            <div style="font-size:1rem !important;color: #706f6f; font-family: 'Poppins', sans-serif;font-weight: 500;">
+              <span style="font-size:0.875rem !important;color: #706f6f; font-family: 'Poppins', sans-serif;font-weight: 500;">
+              </span> ضريبة القيمة المضافة
+            </div>
+            <div style="font-size:0.875rem !important;color: #706f6f; font-family: 'Poppins', sans-serif;font-weight: 500;">VAT Amount</div>
+          </td>
+          <td style=" border: 0.1px solid #878787; border-collapse: collapse;padding:5px;text-align: right;font-size:0.875rem !important;color: #706f6f; font-family: 'Poppins', sans-serif;font-weight: 500;" class="">
+            SAR {{invoice.taxAmount | leadingZeros}}
+          </td>
+        </tr>
+        <tr>
+          <td rowspan="4" colspan="7" style=" border: 0.1px solid #878787; border-collapse: collapse;padding:5px;font-size:0.675rem !important;color: #706f6f; font-family: 'Poppins', sans-serif;font-weight: 500;vertical-align: top;" class="">
+            <table border="0" style="width:100%">
+              <tr>
+
+                <td colspan="12" style="text-align: left; padding: 8px; border: none!important;" [style.opacity]="OpacityValue" >
+                  <div style="line-height: 18px;">:Bank Account Details</div>
+                  <div style="line-height: 18px;"> Account Name: {{company.companyName}}</div>
+                  <div style="line-height: 18px;">{{company.companyNameAr}} :Account Name in Arabic</div>
+                  <div style="line-height: 18px;"> {{bank.bankNameAr}} :Bank Name in Arabic</div>
+                  <div style="line-height: 18px;"> Bank Name : {{bank.bankName}} </div>
+
+                  <div style="line-height: 18px;" *ngIf="!hasNonArabChars(bank.branchName)">{{bank.branchName}} : Branch Name </div>
+                  <div style="line-height: 18px;" *ngIf="hasNonArabChars(bank.branchName)">Branch Name: {{bank.branchName}}</div>
+                  <!--<div style="line-height: 18px;">Branch: {{bank.BranchName}}</div>-->
+                  <!--<div style="line-height: 18px;"> {{bank.branchAddress}} :Address</div>-->
+                  <div style="line-height: 18px;"> Account No: {{bank.accountNumber}}</div>
+                  <div style="line-height: 18px;">IBAN: {{bank.iban}}</div>
+                </td>
+
+              </tr>
+
+            </table>
+          </td>
+          <td colspan="2" style=" border: 0.1px solid #878787; border-collapse: collapse;border-right:0;padding:5px;text-align: left;font-size:0.675rem !important;color: #000000; font-family: 'Poppins', sans-serif;font-weight: 600;" class="">
+            <div style="font-size:1rem !important;color: #000000; font-family: 'Poppins', sans-serif;font-weight: 600;"> الاجمالي شامل الضريبة</div>
+            <div style="font-size:0.875rem !important;color: #000000; font-family: 'Poppins', sans-serif;font-weight: 600;">Total Including VAT</div>
+          </td>
+          <td style=" border: 0.1px solid #878787; border-collapse: collapse; border-right: 0; padding: 5px; text-align: right; font-size: 0.875rem !important; color: #000000; font-family: 'Poppins', sans-serif; font-weight: 600;" class="">
+            SAR <span id="spnTotalInclVat">{{(invoice.totalAmount + invoice.discountAmount) | leadingZeros}}</span>
+          </td>
+        </tr>
+        <tr>
+          <td colspan="2" style=" border: 0.1px solid #878787; border-collapse: collapse;border-right:0;padding:5px;text-align: left;font-size:0.675rem !important;color: #706f6f; font-family: 'Poppins', sans-serif;font-weight:500;" class="">
+            <div style="font-size:1rem !important;color: #706f6f; font-family: 'Poppins', sans-serif;font-weight: 500;"> مبلغ الخصم </div>
+            <div style="font-size:0.875rem !important;color: #706f6f; font-family: 'Poppins', sans-serif;font-weight: 500;">Discount Amount</div>
+          </td>
+          <td style=" border: 0.1px solid #878787; border-collapse: collapse;padding:5px;text-align: right;font-size:0.875rem !important;color: #706f6f; font-family: 'Poppins', sans-serif;font-weight: 500;" class="">
+            SAR  {{invoice.discountAmount | leadingZeros}}
+          </td>
+        </tr>
+        <tr>
+          <td colspan="2" style=" border: 0.1px solid #878787; border-collapse: collapse;border-right:0;padding:5px;text-align: left;font-size:0.675rem !important;color: #706f6f; font-family: 'Poppins', sans-serif;font-weight:500;" class="">
+            <div style="font-size:1rem !important;color: #706f6f; font-family: 'Poppins', sans-serif;font-weight: 500;">المبلغ المدفوع</div>
+            <div style="font-size:0.875rem !important;color: #706f6f; font-family: 'Poppins', sans-serif;font-weight: 500;">Amount Paid</div>
+          </td>
+          <td style=" border: 0.1px solid #878787; border-collapse: collapse;padding:5px;text-align: right;font-size:0.875rem !important;color: #706f6f; font-family: 'Poppins', sans-serif;font-weight: 500;" class="">
+            SAR  {{invoice.paidAmount | leadingZeros}}
+          </td>
+        </tr>
+        <tr>
+          <td colspan="2" style=" border: 0.1px solid #878787; border-collapse: collapse;border-right:0;padding:5px;text-align: left;font-size:0.675rem !important;color: #000000; font-family: 'Poppins', sans-serif;font-weight:600;" class="">
+            <div style="font-size:1rem !important;color: #000000; font-family: 'Poppins', sans-serif;font-weight: 600;">الرصيد المستحق</div>
+            <div style="font-size:0.875rem !important;color: #000000; font-family: 'Poppins', sans-serif;font-weight: 600;">Balance Due  </div>
+          </td>
+          <td style=" border: 0.1px solid #878787; border-collapse: collapse;padding:5px;text-align: right;font-size:0.875rem !important;color: #000000; font-family: 'Poppins', sans-serif;font-weight: 600;" class="">
+            SAR {{ (invoice.totalAmount - invoice.paidAmount) | leadingZeros}}
+          </td>
+        </tr>
+      </table>
+
+      <div style="padding-top:5px">
+        <table dir="ltr" style="width:100%;" border="0" cellpadding="0" cellspacing="0" width="100%" class="">
+          <tr>
+            <td style="width:33%;height:70px;vertical-align: top;border: 0.1px solid #878787; border-collapse: collapse;padding:5px; font-size:0.875rem !important;color: #000000; font-family: 'Poppins', sans-serif;font-weight: 500" class="">
+              Prepared by:
+              <span style="float:right">  : إنشاء </span>
+            </td>
+
+            <td style="vertical-align: top;border: 0.1px solid #878787; border-collapse: collapse;padding:5px; font-size:0.875rem !important;color: #000000; font-family: 'Poppins', sans-serif;font-weight: 500 " class="">
+              Approved by:
+
+              <span style="float:right"> : موافقة </span>
+            </td>
+            <td style="width:33%;vertical-align: top;border: 0.1px solid #878787; border-collapse: collapse;padding:5px;font-size:0.875rem !important;color: #000000; font-family: 'Poppins', sans-serif;font-weight: 500" class="">
+              Received by:
+
+
+              <span style="float:right">  : استلام </span>
+
+            </td>
+          </tr>
+        </table>
+      </div>
+
+      <table style="width:100%;" border="0" cellpadding="0" cellspacing="0" width="100%" class="ur_tablestyle" *ngIf="isSavePDF">
+        <tr>
+          <td colspan="5">
+            <!--<img id="logo" style="width:100%;" src="~/Content/Invoice/images/einvprintlogo/alsajerfooter.jpg" title="invoice" alt="invoice" />-->            
+          </td>
+        </tr>
+      </table>
+
+      <table style="width:100%;" border="0" cellpadding="0" cellspacing="0" width="100%" class="ur_tablestyle" *ngIf="!isSavePDF">
+        <tr>
+          <td colspan="5">
+            <!--<img id="logo" style="width:100%;" src="~/Content/Invoice/images/einvprintlogo/alsajerfooter.jpg" title="invoice" alt="invoice" />-->
+            <img src="{{company.footerLogo}}" style="width:100%;" />
+          </td>
+        </tr>
+      </table>
+
+      <!--@*<table style="width:100%;" border="0" cellpadding="0" cellspacing="0" width="100%">
+      <tr>
+        <td style="        text-align: center;
+              font-size: 0.575rem !important;
+              color: #595e8b;
+              font-family: 'Poppins', sans-serif;
+              font-weight: 500;
+              padding-top: 8px
+      ">
+          Head Office: Jeddah | Gulf Center | Office 309 | Tel: 012 6602983 | Fax: 012 6602343 | P.O. Box 122620 Jeddah 21332 Kingdom of Saudi Arabia
+        </td>
+      </tr>
+    </table>*@-->
+    </div>
+  </div>
+
+</ng-container>

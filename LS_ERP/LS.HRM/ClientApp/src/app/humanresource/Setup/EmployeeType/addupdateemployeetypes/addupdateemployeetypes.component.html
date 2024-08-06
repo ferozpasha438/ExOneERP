@@ -1,0 +1,53 @@
+<div class="modal-header">
+  <h3 class="modal-title">{{modalTitle}}</h3>
+  <button type="button" class="close" aria-hidden="true" (click)="closeModel()"> ×</button>
+</div>
+<form [formGroup]="form" (ngSubmit)="submit()" novalidate class="mt-4">
+  <div class="row">
+    <div class="col-md-6 col-lg-6">
+      <div class="form-group">
+        <label for="employeeTypeCode">{{'EmployeeTypeCode' | translate}}</label>
+        <input class="form-control input-mandatory" id="employeeTypeCode" type="text"
+               placeholder="{{'Please_Enter' | translate}} {{'EmployeeTypeCode' | translate}} " formControlName="employeeTypeCode" [readonly]="isReadOnly">
+        <validation-message [control]="form.controls.employeeTypeCode"></validation-message>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-6 col-lg-6">
+      <div class="form-group">
+        <label for="employeeTypeNameEn">{{'EmployeeTypeName_EN' | translate}}</label>
+        <input class="form-control input-mandatory" id="employeeTypeNameEn" type="text"
+               placeholder="{{'Please_Enter' | translate}} {{'EmployeeTypeName_EN' | translate}}" formControlName="employeeTypeNameEn">
+        <validation-message [control]="form.controls.employeeTypeNameEn"></validation-message>
+      </div>
+    </div>
+    <div class="col-md-6 col-lg-6">
+      <div class="form-group">
+        <label for="employeeTypeNameAr">{{'EmployeeTypeName_AR' | translate}}</label>
+        <input class="form-control" id="employeeTypeNameAr" type="text"
+               placeholder="{{'Please_Enter' | translate}} {{'EmployeeTypeName_AR' | translate}}" formControlName="employeeTypeNameAr">
+      </div>
+    </div>
+  </div> 
+  <div class="row">
+    <div class="col-md-6 col-lg-6">
+      <div class="form-group">
+        <label for="isActive">{{'Is_Active' | translate}}</label>
+        <br />
+        <mat-slide-toggle color="primary" formControlName="isActive"></mat-slide-toggle>
+      </div>
+    </div>
+  </div>
+  <div class="row mt-3">
+    <div class="col-md-12 col-lg-12 text-center">
+      <input type="button"
+             class="btn waves-effect waves-light btn-rounded   btn-secondary btn-midblock"
+             value="{{'Cancel' | translate}}" (click)="closeModel()" /> &nbsp;
+      <input type="submit"
+             class="btn waves-effect waves-light btn-rounded btn-primary btn-midblock"
+             value="{{'Save' | translate}}" />
+    </div>
+  </div>
+</form>
+
