@@ -64,8 +64,8 @@ const routes: Routes = [
   { path: 'getvisatypes', component: GetvisatypesComponent },
   { path: 'Getnationality', component: GetnationalityComponent },
   { path: 'Getemployeelist', component: GetemployeelistComponent },
-  { path: 'getleavetypes', component: GetleavetypesComponent },
-  { path: 'getleavetemplates', component: GetleavetemplatesComponent },//GetleavetemplatesComponent 
+  { path: 'getmyrequest', component: MyrequestComponent  },
+  { path: 'getwaitingapprovalrequest', component: WaitingapprovalrequestComponent  },//GetleavetemplatesComponent 
   { path: 'getmartialstatus', component: GetmaritalstatusComponent },
   { path: 'getgrade', component: GetgradeComponent },
 
