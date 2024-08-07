@@ -272,6 +272,7 @@ namespace CIN.Application.HumanResource.ServiceRequest.HRMServiceRequestQuery
                     .Select(e => new TblHRMTrnEmployeeServiceRequestAuditDto
                     {
                         Remarks = e.Remarks,
+                        ActionID = e.ActionID,
                         EntryBy = e.EntryBy,
                         ActionName = ((ProcessStage)e.ActionID).ToString(),
                         EntryDate = e.EntryDate,
@@ -279,8 +280,17 @@ namespace CIN.Application.HumanResource.ServiceRequest.HRMServiceRequestQuery
 
                 foreach (var item in audits)
                 {
-                    var empInfoItem = await _context.PersonalInformation.Where(e => e.Id == item.EntryBy).Select(e => new { e.FirstNameEn, e.FirstNameAr, e.LastNameEn, e.LastNameAr }).FirstOrDefaultAsync();
-                    item.EntryName = isArab ? string.Concat(empInfoItem.FirstNameAr + " ", empInfoItem.LastNameAr) : string.Concat(empInfoItem.FirstNameEn + " ", empInfoItem.LastNameEn);
+                    if (item.ActionID == (int)ProcessStage.Approved)
+                    {
+                        var user = await _context.SystemLogins.Select(e => new { e.Id, e.UserName }).FirstOrDefaultAsync(e => e.Id == item.EntryBy);
+                        item.EntryName = user.UserName;
+                    }
+                    else
+                    {
+                        var empInfoItem = await _context.PersonalInformation.Where(e => e.Id == item.EntryBy).Select(e => new { e.FirstNameEn, e.FirstNameAr, e.LastNameEn, e.LastNameAr }).FirstOrDefaultAsync();
+                        item.EntryName = isArab ? string.Concat(empInfoItem.FirstNameAr + " ", empInfoItem.LastNameAr) : string.Concat(empInfoItem.FirstNameEn + " ", empInfoItem.LastNameEn);
+                    }
+                    item.ActionID = 0;
                 }
 
 

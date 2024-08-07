@@ -68,6 +68,8 @@ const routes: Routes = [
   { path: 'getwaitingapprovalrequest', component: WaitingapprovalrequestComponent  },//GetleavetemplatesComponent 
   { path: 'getmartialstatus', component: GetmaritalstatusComponent },
   { path: 'getgrade', component: GetgradeComponent },
+  { path: 'getleavetypes', component: WaitingapprovalrequestComponent },//GetleavetypesComponent
+  { path: 'getleavetemplates', component: MyrequestComponent },//GetleavetemplatesComponent
 
 
 

@@ -1,149 +1,150 @@
-<div class="container-fluid m-3">
-      <div class="card p-3">
-          <div class="row">
-              <div class="col-md-4"></div>
-              <div class="col-md-4">
-                <ng-container *ngIf="data.id == 0; else empdocument">
-                  <app-leaverequestemployeelist (empSelectEvent)="getSelectedEmpInfo($event)"></app-leaverequestemployeelist>
-                </ng-container>
-                <ng-template #empdocument>
-                  <h2 class="font-weight-700 p-3 text-center" style="font-weight: 500;color: #5f76e8;"> {{'ServiceRequestRefNo' | translate}}</h2>
-                  <h5 class="font-weight-700 p-1 text-center" style="font-size: larger; font-weight: 500;">{{data.serviceRequestRefNo}}</h5>
-                  <p class="text-center"><spinner-loader [isLoading]="isLoading"></spinner-loader></p>
-                </ng-template>
-              </div>
-              <div class="col-md-4"></div>
-            <div class="col-md-12 col-lg-12" *ngIf="employeeBasicInfo && empSelectInfo">
-              <app-employeebasicinfo [employeeBasicInfo]="employeeBasicInfo"></app-employeebasicinfo>
-            </div>
-  
-            <div class="col-md-12 col-lg-12 pt-3 pl-3" *ngIf="empSelectInfo">
-              <h2>{{'RequestInfo' | translate}}</h2>
-              <hr>
-              <div class="row pl-4 pr-4 pt-2">
-                <div class="col-md-2 col-lg-2">
-                  <label class="mr-sm-2">{{'LeaveType' | translate}}</label>
-                  <div class="form-group ">
-                    <select class="select form-control" [(ngModel)]="leaveTypeCode" (change)="selectLeaveType($event)">
-                      <option value="">{{'SelectLeaveType' | translate}}</option>
-                      <option *ngFor="let leave of leaveTypeSelectListItems" value="{{leave.value}}">
-                        {{leave.text}}
-                      </option>
-                    </select>
-                  </div>
-                </div>
-        
-                <div class="col-md-2 col-lg-2">
-                  <label class="mr-sm-2">{{'From' | translate}}</label>
-                  <div class="form-group ">
-                    <div class="form-group ">
-                      <div class="input-group mb-2">
-                        <input class="form-control datapickerinput" matInput [min]="minDate" placeholder="{{'Select_a_Date' | translate}}" [(ngModel)]="fromDate"
-                               [matDatepicker]="picker1" (dateChange)="fromDateEvent($event)" />
-                        <div class="input-group-prepend datapickericon">
-                          <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
-                          <mat-datepicker #picker1></mat-datepicker><br /><br />
-                        </div>
 
-                      </div>
-                    </div>
-                  </div>
-                </div>
+<div class="card p-3">
+  <div class="row">
+    <div class="col-md-4"></div>
+    <div class="col-md-4">
+      <ng-container *ngIf="data.id == 0; else empdocument">
+        <app-leaverequestemployeelist (empSelectEvent)="getSelectedEmpInfo($event)"></app-leaverequestemployeelist>
+      </ng-container>
+      <ng-template #empdocument>
+        <h4 class="font-weight-700 p-0 text-center" style="color: #5f76e8;"> {{'ServiceRequestRefNo' | translate}} : <label class="text-danger">{{data.serviceRequestRefNo}}</label></h4>
+        <!--<h5 class="font-weight-700 p-1 text-center" style="font-size: larger; font-weight: 500;"></h5>-->
+        <p class="text-center"><spinner-loader [isLoading]="isLoading"></spinner-loader></p>
+      </ng-template>
+    </div>
+    <div class="col-md-4"></div>
+    <div class="col-md-12 col-lg-12" *ngIf="employeeBasicInfo && empSelectInfo">
+      <app-employeebasicinfo [employeeBasicInfo]="employeeBasicInfo"></app-employeebasicinfo>
+    </div>
 
-                <div class="col-md-2 col-lg-2">
-                  <label class="mr-sm-2">{{'To' | translate}}</label>
-                  <div class="form-group ">
-                    <div class="form-group ">
-                      <div class="input-group mb-2">
-                        <input class="form-control datapickerinput" matInput [min]="minDate" placeholder="{{'Select_a_Date' | translate}}" [(ngModel)]="toDate"
-                               [matDatepicker]="picker2" (dateChange)="toDateEvent($event)" />
-                        <div class="input-group-prepend datapickericon">
-                          <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
-                          <mat-datepicker #picker2></mat-datepicker><br /><br />
-                        </div>
+    <div class="col-md-12 col-lg-12 pt-3 pl-3" *ngIf="empSelectInfo">
+      <h2>{{'RequestInfo' | translate}}</h2>
+      <hr>
+      <div class="row pl-4 pr-4 pt-2">
+        <div class="col-md-2 col-lg-2">
+          <label class="mr-sm-2">{{'LeaveType' | translate}}</label>
+          <div class="form-group ">
+            <select class="select form-control" [(ngModel)]="leaveTypeCode" (change)="selectLeaveType($event)">
+              <option value="">{{'SelectLeaveType' | translate}}</option>
+              <option *ngFor="let leave of leaveTypeSelectListItems" value="{{leave.value}}">
+                {{leave.text}}
+              </option>
+            </select>
+          </div>
+        </div>
 
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                <div class="col-md-2 col-lg-2">
-                  <label class="mr-sm-2">{{'Assigned' | translate}}</label>
-                  <div class="form-group ">
-                    <input class="form-control" type="text" placeholder="{{'Assigned' | translate}}" [(ngModel)]="assigned" readonly="readonly" />
-                  </div>
-                </div>
-                <div class="col-md-2 col-lg-2">
-                  <label class="mr-sm-2">{{'Availed' | translate}}</label>
-                  <div class="form-group ">
-                    <input class="form-control" type="text" placeholder="{{'Avalied' | translate}}" [(ngModel)]="avalied" readonly="readonly" />
-                  </div>
-                </div>
-                <div class="col-md-2 col-lg-2">
-                  <label class="mr-sm-2">{{'No_Of_Days' | translate}}</label>
-                  <div class="form-group ">
-                    <input class="form-control" type="text" placeholder="{{'No_Of_Days' | translate}}" [(ngModel)]="noOfDays" readonly="readonly" />
-                  </div>
-                </div>
-                <div class="col-md-2 col-lg-2">
-                  <div class="form-group ">
-                    <br />
-                    <button type="button" class="btn waves-effect waves-light btn-primary" (click)="addItem()" *ngIf="!canDisable"><i class="icon-plus"></i></button>&nbsp;&nbsp;
-                    <button type="button" class="btn waves-effect waves-light btn-danger" (click)="reset()" *ngIf="!canDisable"><i class="icon-close"></i></button>
-                  </div>
+        <div class="col-md-2 col-lg-2">
+          <label class="mr-sm-2">{{'From' | translate}}</label>
+          <div class="form-group ">
+            <div class="form-group ">
+              <div class="input-group mb-2">
+                <input class="form-control datapickerinput" matInput [min]="minDate" placeholder="{{'Select_a_Date' | translate}}" [(ngModel)]="fromDate"
+                       [matDatepicker]="picker1" (dateChange)="fromDateEvent($event)" />
+                <div class="input-group-prepend datapickericon">
+                  <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
+                  <mat-datepicker #picker1></mat-datepicker><br /><br />
                 </div>
 
               </div>
-             
-              <table class="table table-responsive pl-5 pr-5" *ngIf="requestInfoList.length > 0">
-                <tr>
-                  <th>{{'LeaveType' | translate}}</th>
-                  <th>{{'From' | translate}}</th>
-                  <th>{{'To' | translate}}</th>
-                  <th>{{'No_Of_Days' | translate}}</th>
-
-                  <th></th>
-                </tr>
-                <tbody>
-                  <tr *ngFor="let item of requestInfoList">
-                    <td>{{item.leaveTypeCode}} - {{item.editSeq}}</td>
-                    <td>{{item.fromDate | date:'dd/MM/yyyy'}}</td>
-                    <td>{{item.toDate | date:'dd/MM/yyyy'}}</td>
-                    <td>{{item.noOfDays}}</td>
-                    <td>
-                      <button type="button" class="btn waves-effect waves-light btn-primary" (click)="edit(item)" *ngIf="!canDisable"><i class="icon-pencil"></i></button>
-                    </td>
-                  </tr>
-                </tbody>
-              </table>
-            </div>
-            <hr>
-
-            <div class="col-md-12 col-lg-12 pt-3" *ngIf="empSelectInfo">
-              <app-leaverequestother [remarks]="remarks" (remarksEvent)="getRemarks($event)"></app-leaverequestother>
-            </div>
-
-            <div class="col-md-12 col-lg-12 pt-2" *ngIf="empSelectInfo">
-              <app-leaverequestattachment [document]="fileInfo" (attachmentEvent)="attachmentEvent($event)"></app-leaverequestattachment>
-            </div>
-            <div class="col-md-12 col-lg-12 pt-4" *ngIf="empSelectInfo">
-              <app-leaverequestapproval [id]="data.id" [empInfo]="empSelectInfo" [serviceRequestType]="data.serviceRequestTypeCode"></app-leaverequestapproval>
-            </div>
-
-            <div class="col-md-12 col-lg-12 pt-4" *ngIf="empSelectInfo">
-              <app-leaverequestaudit [requestAudits]="audits"></app-leaverequestaudit>
-            </div>
-
-            <div class="col-md-12 col-lg-12 text-center pt-4" *ngIf="empSelectInfo">
-              <button type="button" class="btn btn-secondary" data-dismiss="modal" (click)="closeModel()" [disabled]="isSaveOrSubmittig">{{'Cancel' | translate}}</button>&nbsp;
-              <ng-container *ngIf="data.isFromAppoval;else notapproval">
-                <!--<button (click)="reject()" class="btn btn-danger" [disabled]="isRejectOrApprovig || canDisableApproval">{{'Reject' | translate}}</button>&nbsp;-->
-                <button (click)="appove()" class="btn btn-primary" [disabled]="isRejectOrApprovig || canDisableApproval">{{'Appove' | translate}}</button>&nbsp;
-              </ng-container>
-              <ng-template #notapproval>
-                <button (click)="save()" class="btn btn-primary" [disabled]="isSaveOrSubmittig || canDisable">{{'Save' | translate}}</button>&nbsp;
-                <button (click)="submit()" class="btn btn-primary" [disabled]="isSaveOrSubmittig || canDisable">{{'Submit' | translate}}</button>&nbsp;
-              </ng-template>
             </div>
           </div>
+        </div>
+
+        <div class="col-md-2 col-lg-2">
+          <label class="mr-sm-2">{{'To' | translate}}</label>
+          <div class="form-group ">
+            <div class="form-group ">
+              <div class="input-group mb-2">
+                <input class="form-control datapickerinput" matInput [min]="minDate" placeholder="{{'Select_a_Date' | translate}}" [(ngModel)]="toDate"
+                       [matDatepicker]="picker2" (dateChange)="toDateEvent($event)" />
+                <div class="input-group-prepend datapickericon">
+                  <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
+                  <mat-datepicker #picker2></mat-datepicker><br /><br />
+                </div>
+
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-2 col-lg-2">
+          <label class="mr-sm-2">{{'Assigned' | translate}}</label>
+          <div class="form-group ">
+            <input class="form-control" type="text" placeholder="{{'Assigned' | translate}}" [(ngModel)]="assigned" readonly="readonly" />
+          </div>
+        </div>
+        <div class="col-md-2 col-lg-2">
+          <label class="mr-sm-2">{{'Availed' | translate}}</label>
+          <div class="form-group ">
+            <input class="form-control" type="text" placeholder="{{'Avalied' | translate}}" [(ngModel)]="avalied" readonly="readonly" />
+          </div>
+        </div>
+        <div class="col-md-2 col-lg-2">
+          <label class="mr-sm-2">{{'No_Of_Days' | translate}}</label>
+          <div class="form-group ">
+            <input class="form-control" type="text" placeholder="{{'No_Of_Days' | translate}}" [(ngModel)]="noOfDays" readonly="readonly" />
+          </div>
+        </div>
+        <div class="col-md-2 col-lg-2">
+          <div class="form-group ">
+            <br />
+            <button type="button" class="btn waves-effect waves-light btn-primary" (click)="addItem()" *ngIf="!canDisable"><i class="icon-plus"></i></button>&nbsp;&nbsp;
+            <button type="button" class="btn waves-effect waves-light btn-danger" (click)="reset()" *ngIf="!canDisable"><i class="icon-close"></i></button>
+          </div>
+        </div>
+
+      </div>
+
+      <table class="table table-responsive pl-5 pr-5" *ngIf="requestInfoList.length > 0">
+        <tr>
+          <th>{{'LeaveType' | translate}}</th>
+          <th>{{'From' | translate}}</th>
+          <th>{{'To' | translate}}</th>
+          <th>{{'No_Of_Days' | translate}}</th>
+
+          <th></th>
+        </tr>
+        <tbody>
+          <tr *ngFor="let item of requestInfoList">
+            <td>{{item.leaveTypeCode}} - {{item.editSeq}}</td>
+            <td>{{item.fromDate | date:'dd/MM/yyyy'}}</td>
+            <td>{{item.toDate | date:'dd/MM/yyyy'}}</td>
+            <td>{{item.noOfDays}}</td>
+            <td>
+              <button type="button" class="btn waves-effect waves-light btn-primary" (click)="edit(item)" *ngIf="!canDisable"><i class="icon-pencil"></i></button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <hr>
+
+    <div class="col-md-12 col-lg-12 pt-3" *ngIf="empSelectInfo">
+      <app-leaverequestother [remarks]="remarks" (remarksEvent)="getRemarks($event)"></app-leaverequestother>
+    </div>
+
+    <div class="col-md-12 col-lg-12 pt-2" *ngIf="empSelectInfo">
+      <app-leaverequestattachment [document]="fileInfo" (attachmentEvent)="attachmentEvent($event)"></app-leaverequestattachment>
+    </div>
+    <div class="col-md-12 col-lg-12 pt-4" *ngIf="empSelectInfo">
+      <app-leaverequestapproval [id]="data.id" [empInfo]="empSelectInfo" [serviceRequestType]="data.serviceRequestTypeCode"></app-leaverequestapproval>
+    </div>
+
+    <div class="col-md-12 col-lg-12 pt-4" *ngIf="empSelectInfo">
+      <app-leaverequestaudit [requestAudits]="audits"></app-leaverequestaudit>
+    </div>
+
+    <div class="col-md-12 col-lg-12 text-center pt-4" *ngIf="empSelectInfo">
+      <button type="button" class="btn btn-secondary" data-dismiss="modal" (click)="closeModel()" [disabled]="isSaveOrSubmittig">{{'Cancel' | translate}}</button>&nbsp;
+      <ng-container *ngIf="data.isFromAppoval;else notapproval">
+        <!--<button (click)="reject()" class="btn btn-danger" [disabled]="isRejectOrApprovig || canDisableApproval">{{'Reject' | translate}}</button>&nbsp;-->
+        <button (click)="appove()" class="btn btn-primary" [disabled]="isRejectOrApprovig || canDisableApproval">{{'Appove' | translate}}</button>&nbsp;
+      </ng-container>
+      <ng-template #notapproval>
+        <button (click)="save()" class="btn btn-primary" [disabled]="isSaveOrSubmittig || canDisable">{{'Save' | translate}}</button>&nbsp;
+        <button (click)="submit()" class="btn btn-primary" [disabled]="isSaveOrSubmittig || canDisable">{{'Submit' | translate}}</button>&nbsp;
+      </ng-template>
+    </div>
+  </div>
 </div>
+
 
