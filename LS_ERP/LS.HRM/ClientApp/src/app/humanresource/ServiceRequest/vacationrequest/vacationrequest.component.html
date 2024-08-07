@@ -1,50 +1,38 @@
-<div class="container-fluid">
-  <div class="row">
-    <div class="col-md-12 col-lg-12">
-      <div class="card">
-        <div class="card-body p-0">
-          <div class="row pl-0 ml-0 mr-0 pr-0 pt-3">
-            <div class="col-md-12 col-lg-12 pb-4">
-              <ng-container *ngIf="data.id == 0; else empdocument">
-                <app-leaverequestemployeelist (empSelectEvent)="getSelectedEmpInfo($event)"></app-leaverequestemployeelist>
-              </ng-container>
-              <ng-template #empdocument>
-                <h5 class="font-weight-700"> {{'serviceRequestRefNo' | translate}} : {{data.serviceRequestRefNo}}</h5>
-                <p class="text-center"><spinner-loader [isLoading]="isLoading"></spinner-loader></p>
-              </ng-template>
-            </div>
-
+<div class="container-fluid m-3">
+      <div class="card p-3">
+          <div class="row">
+              <div class="col-md-4"></div>
+              <div class="col-md-4">
+                <ng-container *ngIf="data.id == 0; else empdocument">
+                  <app-leaverequestemployeelist (empSelectEvent)="getSelectedEmpInfo($event)"></app-leaverequestemployeelist>
+                </ng-container>
+                <ng-template #empdocument>
+                  <h2 class="font-weight-700 p-3 text-center" style="font-weight: 500;color: #5f76e8;"> {{'ServiceRequestRefNo' | translate}}</h2>
+                  <h5 class="font-weight-700 p-1 text-center" style="font-size: larger; font-weight: 500;">{{data.serviceRequestRefNo}}</h5>
+                  <p class="text-center"><spinner-loader [isLoading]="isLoading"></spinner-loader></p>
+                </ng-template>
+              </div>
+              <div class="col-md-4"></div>
             <div class="col-md-12 col-lg-12" *ngIf="employeeBasicInfo && empSelectInfo">
               <app-employeebasicinfo [employeeBasicInfo]="employeeBasicInfo"></app-employeebasicinfo>
             </div>
-
+  
             <div class="col-md-12 col-lg-12 pt-3 pl-3" *ngIf="empSelectInfo">
-              <h3>{{'Request_Info' | translate}}</h3>
-
+              <h2>{{'RequestInfo' | translate}}</h2>
+              <hr>
               <div class="row pl-4 pr-4 pt-2">
                 <div class="col-md-2 col-lg-2">
                   <label class="mr-sm-2">{{'LeaveType' | translate}}</label>
                   <div class="form-group ">
                     <select class="select form-control" [(ngModel)]="leaveTypeCode" (change)="selectLeaveType($event)">
-                      <option value="">{{'Select_LeaveType' | translate}}</option>
+                      <option value="">{{'SelectLeaveType' | translate}}</option>
                       <option *ngFor="let leave of leaveTypeSelectListItems" value="{{leave.value}}">
                         {{leave.text}}
                       </option>
                     </select>
                   </div>
                 </div>
-                <div class="col-md-1 col-lg-1">
-                  <label class="mr-sm-2">{{'Assigned' | translate}}</label>
-                  <div class="form-group ">
-                    <input class="form-control" type="text" placeholder="{{'Assigned' | translate}}" [(ngModel)]="assigned" readonly="readonly" />
-                  </div>
-                </div>
-                <div class="col-md-1 col-lg-1">
-                  <label class="mr-sm-2">{{'Avalied' | translate}}</label>
-                  <div class="form-group ">
-                    <input class="form-control" type="text" placeholder="{{'Avalied' | translate}}" [(ngModel)]="avalied" readonly="readonly" />
-                  </div>
-                </div>
+        
                 <div class="col-md-2 col-lg-2">
                   <label class="mr-sm-2">{{'From' | translate}}</label>
                   <div class="form-group ">
@@ -78,8 +66,19 @@
                     </div>
                   </div>
                 </div>
-
-                <div class="col-md-1 col-lg-1">
+                <div class="col-md-2 col-lg-2">
+                  <label class="mr-sm-2">{{'Assigned' | translate}}</label>
+                  <div class="form-group ">
+                    <input class="form-control" type="text" placeholder="{{'Assigned' | translate}}" [(ngModel)]="assigned" readonly="readonly" />
+                  </div>
+                </div>
+                <div class="col-md-2 col-lg-2">
+                  <label class="mr-sm-2">{{'Availed' | translate}}</label>
+                  <div class="form-group ">
+                    <input class="form-control" type="text" placeholder="{{'Avalied' | translate}}" [(ngModel)]="avalied" readonly="readonly" />
+                  </div>
+                </div>
+                <div class="col-md-2 col-lg-2">
                   <label class="mr-sm-2">{{'No_Of_Days' | translate}}</label>
                   <div class="form-group ">
                     <input class="form-control" type="text" placeholder="{{'No_Of_Days' | translate}}" [(ngModel)]="noOfDays" readonly="readonly" />
@@ -94,7 +93,7 @@
                 </div>
 
               </div>
-              <br />
+             
               <table class="table table-responsive pl-5 pr-5" *ngIf="requestInfoList.length > 0">
                 <tr>
                   <th>{{'LeaveType' | translate}}</th>
@@ -117,6 +116,7 @@
                 </tbody>
               </table>
             </div>
+            <hr>
 
             <div class="col-md-12 col-lg-12 pt-3" *ngIf="empSelectInfo">
               <app-leaverequestother [remarks]="remarks" (remarksEvent)="getRemarks($event)"></app-leaverequestother>
@@ -145,9 +145,5 @@
               </ng-template>
             </div>
           </div>
-        </div>
-      </div>
-    </div>
-  </div>
 </div>
 

@@ -1,17 +1,17 @@
 <style>
   .serq {
-    width: 42px !important;
-    height: 35px;
+    width: 69px !important;
+    height: 70px;
     background: gray;
-    border-radius: 50em;
+    border-radius: 10rem;
     text-align: center;
     color: #fff;
-    font-size: 18px;
-    line-height: 22px;
-    padding: 5px;
-    margin: 0px 10px 20px 10px;
+    font-size: 30px;
+    line-height: 25px;
+    padding: 24px;
+    margin: 8px 23px 11px 13px;
     position: relative;
-    top: -15px;
+    top: -9px;
   }
 
   .name-colo {
@@ -25,15 +25,17 @@
     background: #ff800f;
   }
 
-  .name-dislpay {
+  .name-display {
     display: inline-block;
+    font-size: larger;
   }
 </style>
-<h3>{{'Request_Approval' | translate}}</h3>
+<h2>{{'RequestApproval' | translate}}</h2>
+<hr>
 <div class="row pt-3">
   <div class="col-md-3 col-lg-3" *ngFor="let item of approvalList;let i=index;">
-    <div class="serq name-dislpay col-lg-2 margin-10l " [ngClass]="{'success-color': (item.shortValue === 1), 'next-approval': (item.shortValue === 2)}"> {{item.intValue}}</div>
-    <div class="name-dislpay">
+    <div class="serq name-display col-lg-2 margin-10l " [ngClass]="{'success-color': (item.shortValue === 1), 'next-approval': (item.shortValue === 2)}"> {{item.intValue}}</div>
+    <div class="name-display">
       <strong>{{item.text}}</strong><br>
       <span class="name-colo">{{item.textTwo}}</span>
     </div>
