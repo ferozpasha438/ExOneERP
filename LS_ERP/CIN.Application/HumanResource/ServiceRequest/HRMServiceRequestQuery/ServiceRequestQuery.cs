@@ -837,19 +837,19 @@ namespace CIN.Application.HumanResource.ServiceRequest.HRMServiceRequestQuery
 
         public async Task<AppCtrollerDto> Handle(ApprovalVacationRequestList request, CancellationToken cancellationToken)
         {
-            using (var transaction = await _context.Database.BeginTransactionAsync())
-            {
-                try
-                {
-                    Log.Info("----Info ApprovalVacationRequestList method start----");
-                    var obj = request.Input;
-                    var userId = request.User.UserId;
-                    var ActionType = (int)ProcessStage.Approved;
-                    short approvalCount = 0;
-                    if (!obj.Ids.Any())
-                        return ApiMessageInfo.Status("No Approvals found");
+            Log.Info("----Info ApprovalVacationRequestList method start----");
+            var obj = request.Input;
+            var userId = request.User.UserId;
+            var ActionType = (int)ProcessStage.Approved;//obj.ActionType;
+            short approvalCount = 0;
+            if (!obj.Ids.Any())
+                return ApiMessageInfo.Status("No Approvals found");
 
-                    foreach (var serviceId in obj.Ids)
+            foreach (var serviceId in obj.Ids)
+            {
+                using (var transaction = await _context.Database.BeginTransactionAsync())
+                {
+                    try
                     {
                         TblHRMTrnEmployeeServiceRequest serviceReq = await _context.EmployeeServiceRequests.FirstOrDefaultAsync(e => e.Id == serviceId);
                         if (serviceReq is not null)
@@ -932,29 +932,28 @@ namespace CIN.Application.HumanResource.ServiceRequest.HRMServiceRequestQuery
                                         await _context.EmployeeServiceRequestAudits.AddAsync(employeeServiceRequestAudit);
                                         await _context.SaveChangesAsync();
                                         approvalCount++;
+
+                                        await transaction.CommitAsync();
                                     }
                                 }
 
                             }
                         }
-
                     }
-
-                    await transaction.CommitAsync();
-
-                    Log.Info("----Info ApprovalVacationRequestList method Exit----");
-                    return ApiMessageInfo.Status(1, approvalCount);
-                }
-                catch (Exception ex)
-                {
-                    await transaction.RollbackAsync();
-                    Log.Error("Error in ApprovalVacationRequestList Method");
-                    Log.Error("Error occured time : " + DateTime.UtcNow);
-                    Log.Error("Error message : " + ex.Message);
-                    Log.Error("Error StackTrace : " + ex.StackTrace);
-                    return ApiMessageInfo.Status(ex.Message + " " + ex.InnerException.Message + " " + ex.StackTrace);
+                    catch (Exception ex)
+                    {
+                        await transaction.RollbackAsync();
+                        Log.Error("Error in ApprovalVacationRequestList Method");
+                        Log.Error("Error occured time : " + DateTime.UtcNow);
+                        Log.Error("Error message : " + ex.Message);
+                        Log.Error("Error StackTrace : " + ex.StackTrace);
+                        return ApiMessageInfo.Status(0);// ex.Message + " " + ex.InnerException.Message + " " + ex.StackTrace);
+                    }
                 }
             }
+
+            Log.Info("----Info ApprovalVacationRequestList method Exit----");
+            return ApiMessageInfo.Status(1, approvalCount);
         }
     }
 
