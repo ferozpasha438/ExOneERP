@@ -1,5 +1,6 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
+import { SelectionModel } from '@angular/cdk/collections';
 import { MatPaginator, PageEvent } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
@@ -15,6 +16,7 @@ import { ParentHrmAdminComponent } from '../../../sharedcomponent/ParentHrmAdmin
 import { VacationrequestComponent } from '../vacationrequest/vacationrequest.component';
 import { ServicerequestinfoComponent } from '../servicerequestinfo/servicerequestinfo.component';
 import { CustomSelectListItem } from '../../../models/MenuItemListDto';
+import { MultiapprovalrequestComponent } from '../shared/multiapprovalrequest/multiapprovalrequest.component';
 
 @Component({
   selector: 'app-waitingapprovalrequest',
@@ -32,12 +34,13 @@ export class WaitingapprovalrequestComponent extends ParentHrmAdminComponent imp
   isLoading: boolean = false;
   totalItemsCount: number = 0;
   data: MatTableDataSource<any> = new MatTableDataSource();
-  displayedColumns: string[] = ['serviceRequestRefNo', 'serviceRequestType', 'employeeName', 'processedby', 'isApproved', 'Actions'];
+  displayedColumns: string[] = ['select', 'serviceRequestRefNo', 'serviceRequestType', 'employeeName', 'processedby', 'isApproved', 'Actions'];
   isArab: boolean = false;
   serviceRequestRefNo: string = '';
   lastRecordId: number = 0;
   listofVacRequest: Array<any> = [];
   empListSelectListItems: Array<CustomSelectListItem> = [];
+  selection = new SelectionModel<any>(true, []);
   empId: any;
   empInfo: any;
   hasMore: boolean = false;
@@ -54,6 +57,7 @@ export class WaitingapprovalrequestComponent extends ParentHrmAdminComponent imp
   }
 
   refresh() {
+    this.selection.clear();
     this.listofVacRequest = [];
     this.empInfo = null;
     this.lastRecordId = 0;
@@ -67,7 +71,7 @@ export class WaitingapprovalrequestComponent extends ParentHrmAdminComponent imp
       this.isLoading = false;
     });
   }
-  initialLoading() {   
+  initialLoading() {
     this.loadList(0, this.pageService.pageCount, "", this.sortingOrder);
   }
 
@@ -81,12 +85,13 @@ export class WaitingapprovalrequestComponent extends ParentHrmAdminComponent imp
     this.apiService.getPagination('ServiceRequest/getWaitingApprovalServiceRequestList', this.utilService.getQueryString(page, pageCount, query, orderBy, '', '', this.lastRecordId, this.empId)).subscribe(result => {
       this.totalItemsCount = 0;
       if (result.items && result.items.length > 0) {
-        this.hasMore = true;
+        this.hasMore = (result.items.length as number) == this.pageService.pageCount;
         (result.items as Array<any>).forEach(item => this.listofVacRequest.push(item));
       }
       else {
         this.hasMore = false;
       }
+
       this.data = new MatTableDataSource(this.listofVacRequest);
 
       ////this.totalItemsCount = result.totalCount;
@@ -105,6 +110,38 @@ export class WaitingapprovalrequestComponent extends ParentHrmAdminComponent imp
     }, error => this.utilService.ShowApiErrorMessage(error));
   }
 
+  /** Whether the number of selected elements matches the total number of rows. */
+  isAllSelected() {
+    const numSelected = this.selection.selected.length;
+    const numRows = this.data.data.length;
+    return numSelected === numRows;
+  }
+
+  /** Selects all rows if they are not all selected; otherwise clear selection. */
+  toggleAllRows() {
+    if (this.isAllSelected()) {
+      this.selection.clear();
+      return;
+    }
+
+    this.selection.select(...this.data.data);
+  }
+
+  approveSelectedRequests() {
+    if (this.selection.selected.length > 0) {
+      let dialogRef = this.utilService.openCrudDialog(this.dialog, MultiapprovalrequestComponent, '50', '35');
+      (dialogRef.componentInstance as any).data = this.selection.selected.map(item => item.id);
+
+      dialogRef.afterClosed().subscribe(res => {
+        if (res && res === true) {
+          this.refresh();
+        }
+      });
+    }
+    else
+      this.notifyService.showError('select requests');
+  }
+
   selectEmpSelect(evt: any) {
     if (evt) {
       let empIetm = this.empListSelectListItems.find(e => e.value == evt.value) as any;
@@ -121,6 +158,7 @@ export class WaitingapprovalrequestComponent extends ParentHrmAdminComponent imp
     const search = searchValue;//.target.value as string;
     //if (search && search.length >= 3) {
     if (search || this.empId) {
+      this.selection.clear();
       this.listofVacRequest = [];
       this.searchValue = search;
       this.lastRecordId = 0;

@@ -117,5 +117,16 @@ namespace LS.API.HRM.Admin.Controllers.ServiceRequest
 
             return BadRequest(new ApiMessageDto { Message = result.Message });
         }
+
+        [HttpPost("approvalVacationRequestList")]
+        public async Task<ActionResult> ApprovalVacationRequestList([FromBody] ApprovalListDto input)
+        {
+            var result = await Mediator.Send(new ApprovalVacationRequestList() { Input = input, User = UserInfo() });
+
+            if (result.Id > 0)
+                return NoContent();
+
+            return BadRequest(new ApiMessageDto { Message = result.Message });
+        }
     }
 }

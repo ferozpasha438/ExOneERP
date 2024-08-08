@@ -111,6 +111,7 @@ import { LeaverequestemployeelistComponent } from './ServiceRequest/shared/leave
 import { WaitingapprovalrequestComponent } from './ServiceRequest/waitingapprovalrequest/waitingapprovalrequest.component';
 import { LeaverequestauditComponent } from './ServiceRequest/shared/leaverequestaudit/leaverequestaudit.component';
 import { GetemployeeleaveComponent } from './Employeemgt/EmployeeLeaveInfo/EmployeeLeave/getemployeeleave.component';
+import { MultiapprovalrequestComponent } from './ServiceRequest/shared/multiapprovalrequest/multiapprovalrequest.component';
 // import { GetgenderComponent } from './Setup/Grade/getgender/getgender.component';
 
 @NgModule({
@@ -219,6 +220,7 @@ import { GetemployeeleaveComponent } from './Employeemgt/EmployeeLeaveInfo/Emplo
     LeaverequestauditComponent,
     
     GetemployeeleaveComponent,
+          MultiapprovalrequestComponent,
   ],
   imports: [
     CommonModule,

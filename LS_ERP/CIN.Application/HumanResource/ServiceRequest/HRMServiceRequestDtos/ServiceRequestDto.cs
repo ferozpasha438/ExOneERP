@@ -9,6 +9,12 @@ using System.Threading.Tasks;
 
 namespace CIN.Application.HumanResource.ServiceRequest.HRMServiceRequestDtos
 {
+    public class ApprovalListDto
+    {
+        public int ActionType { get; set; }
+        public string Remarks { get; set; }
+        public List<int> Ids { get; set; }
+    }
     public class ServiceRequestDataDto
     {
         public int Id { get; set; }
@@ -21,14 +27,13 @@ namespace CIN.Application.HumanResource.ServiceRequest.HRMServiceRequestDtos
         public string Remarks { get; set; }
         public bool IsApproved { get; set; }
         public short Sequence { get; set; }
-       
     }
 
     public class VacationServiceRequestDto : ServiceRequestDataDto
     {
         public string DocumentName { get; set; }
         public string FileName { get; set; }
-        public string DocumentType { get; set; }      
+        public string DocumentType { get; set; }
         public CustomSelectListItem EmployeeInfo { get; set; }
         public List<TblHRMTrnEmployeeVacationServiceRequestLeaveDetailsDto> List { get; set; }
         public List<TblHRMTrnEmployeeServiceRequestAuditDto> Audits { get; set; }

@@ -809,7 +809,150 @@ namespace CIN.Application.HumanResource.ServiceRequest.HRMServiceRequestQuery
                     Log.Error("Error occured time : " + DateTime.UtcNow);
                     Log.Error("Error message : " + ex.Message);
                     Log.Error("Error StackTrace : " + ex.StackTrace);
-                    return ApiMessageInfo.Status(ex.InnerException.Message + " " + ex.StackTrace);
+                    return ApiMessageInfo.Status(0);
+                }
+            }
+        }
+    }
+
+    #endregion
+
+    #region ApprovalVacationRequestList
+
+    public class ApprovalVacationRequestList : UserIdentityDto, IRequest<AppCtrollerDto>
+    {
+        public UserIdentityDto User { get; set; }
+        public ApprovalListDto Input { get; set; }
+    }
+    public class ApprovalVacationRequestListHandler : IRequestHandler<ApprovalVacationRequestList, AppCtrollerDto>
+    {
+        private readonly CINDBOneContext _context;
+        private readonly IMapper _mapper;
+
+        public ApprovalVacationRequestListHandler(IMapper mapper, CINDBOneContext context)
+        {
+            _mapper = mapper;
+            _context = context;
+        }
+
+        public async Task<AppCtrollerDto> Handle(ApprovalVacationRequestList request, CancellationToken cancellationToken)
+        {
+            using (var transaction = await _context.Database.BeginTransactionAsync())
+            {
+                try
+                {
+                    Log.Info("----Info ApprovalVacationRequestList method start----");
+                    var obj = request.Input;
+                    var userId = request.User.UserId;
+                    var ActionType = (int)ProcessStage.Approved;
+                    short approvalCount = 0;
+                    if (!obj.Ids.Any())
+                        return ApiMessageInfo.Status("No Approvals found");
+
+                    foreach (var serviceId in obj.Ids)
+                    {
+                        TblHRMTrnEmployeeServiceRequest serviceReq = await _context.EmployeeServiceRequests.FirstOrDefaultAsync(e => e.Id == serviceId);
+                        if (serviceReq is not null)
+                        {
+                            var empControlUserIds = _context.EmployeeControls.Where(e => e.IsUser == true).Select(e => e.UserId);
+                            //check loggedin user has approval mapping
+                            if (empControlUserIds.Any(e => e.Value == userId))
+                            {
+                                var brachCode = await _context.EmployeeContracts.Where(e => e.EmployeeID == serviceReq.EmployeeID).Select(e => e.BranchCode).FirstOrDefaultAsync();
+                                var approvals = _context.ServiceRequestApprovalAuthorityMatrix.Where(e => e.BranchCode == brachCode);
+                                var approvers = approvals.Select(e => e.ManagerEmployeeID);
+
+                                var approversCount = await approvers.CountAsync();
+                                var approvedCount = 0;
+
+                                var audits = await _context.GetAuditApprovalInfo(serviceReq.Id);
+                                approvedCount = await audits.CountAsync();
+
+                                //check no duplicate approval entry 
+                                var existingApprovalEntries = audits.Select(e => e.EntryBy);
+                                if (!existingApprovalEntries.Any(ent => ent == userId))
+                                {
+                                    //check all approvals are not completed
+                                    if (approversCount != approvedCount)
+                                    {
+                                        if ((approversCount - approvedCount) == 1)
+                                        {
+                                            serviceReq.IsApproved = true;
+                                        }
+
+                                        serviceReq.ActionID = ActionType;
+                                        serviceReq.Modified = DateTime.Now;
+                                        serviceReq.ModifiedBy = userId;
+                                        _context.EmployeeServiceRequests.Update(serviceReq);
+                                        await _context.SaveChangesAsync();
+
+                                        //if it is last approval in the sequence
+                                        if (serviceReq.IsApproved)
+                                        {
+                                            var requestInfos = await _context.EmployeeVacationServiceRequestLeaveDetails.Where(e => e.EmployeeServiceRequestID == serviceReq.Id).ToListAsync();
+                                            if (requestInfos.Any())
+                                            {
+                                                List<TblHRMTrnEmployeeLeaveInformation> employeeLeaveInformations = new();
+                                                foreach (var item in requestInfos)
+                                                {
+                                                    var template = await _context.LeaveTemplateMappings.Select(e => new { e.LeaveTypeCode, e.TemplateCode, e.Count })
+                                                        .FirstOrDefaultAsync(e => e.LeaveTypeCode == item.LeaveTypeCode);
+
+                                                    employeeLeaveInformations.Add(new()
+                                                    {
+                                                        TemplateCode = template.TemplateCode,
+                                                        LeaveTypeCode = item.LeaveTypeCode,
+                                                        Assigned = 0,
+                                                        Availed = item.NoOfDays,
+                                                        EmployeeID = serviceReq.EmployeeID,
+                                                        IsActive = true,
+                                                        TranDate = DateTime.Now,
+                                                        Created = DateTime.Now,
+                                                        CreatedBy = userId,
+                                                    });
+                                                }
+
+                                                if (employeeLeaveInformations.Count > 0)
+                                                {
+                                                    await _context.EmployeeLeaveInformations.AddRangeAsync(employeeLeaveInformations);
+                                                    await _context.SaveChangesAsync();
+                                                }
+                                            }
+                                        }
+
+                                        TblHRMTrnEmployeeServiceRequestAudit employeeServiceRequestAudit = new()
+                                        {
+                                            EmployeeServiceRequestID = serviceReq.Id,
+                                            ActionID = ActionType,
+                                            EntryBy = userId,
+                                            EntryDate = DateTime.Now,
+                                            ServiceRequestProcessStageID = 0,
+                                            Remarks = obj.Remarks,
+                                        };
+                                        await _context.EmployeeServiceRequestAudits.AddAsync(employeeServiceRequestAudit);
+                                        await _context.SaveChangesAsync();
+                                        approvalCount++;
+                                    }
+                                }
+
+                            }
+                        }
+
+                    }
+
+                    await transaction.CommitAsync();
+
+                    Log.Info("----Info ApprovalVacationRequestList method Exit----");
+                    return ApiMessageInfo.Status(1, approvalCount);
+                }
+                catch (Exception ex)
+                {
+                    await transaction.RollbackAsync();
+                    Log.Error("Error in ApprovalVacationRequestList Method");
+                    Log.Error("Error occured time : " + DateTime.UtcNow);
+                    Log.Error("Error message : " + ex.Message);
+                    Log.Error("Error StackTrace : " + ex.StackTrace);
+                    return ApiMessageInfo.Status(ex.Message + " " + ex.InnerException.Message + " " + ex.StackTrace);
                 }
             }
         }

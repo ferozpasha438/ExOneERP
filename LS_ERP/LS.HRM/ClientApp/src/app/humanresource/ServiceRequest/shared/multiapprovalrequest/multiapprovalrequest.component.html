@@ -1,0 +1,21 @@
+<h3 class="modal-title">{{'Approvals' | translate}}</h3>
+<button type="button" class="close" aria-hidden="true" (click)="closeModel()"> ×</button>
+
+<div class="row">
+  <div class="col-md-12 col-lg-12">
+    <label class="mr-sm-2">{{'Remarks' | translate}}</label>
+    <textarea class="form-control" placeholder="{{'Please_Select' | translate}} {{'Remarks' | translate}}" [(ngModel)]="remarks"></textarea>
+  </div>
+
+  <div class="col-md-12 col-lg-12 text-center">
+    <input type="button"
+           class="btn waves-effect waves-light btn-rounded btn-primary btn-midblock"
+           value="{{'Approve' | translate}}" (click)="appove()" [disabled]="isRejectOrApprovig" /> &nbsp;
+    <!--<input type="button"
+       class="btn waves-effect waves-light btn-rounded   btn-primary btn-midblock"
+       value="{{'Not_Approve' | translate}}" (click)="reject()" [disabled]="isRejectOrApprovig"/> &nbsp;-->
+    <input type="button"
+           class="btn waves-effect waves-light btn-rounded   btn-secondary btn-midblock"
+           value="{{'Cancel' | translate}}" (click)="closeModel()" /> &nbsp;
+  </div>
+</div>
