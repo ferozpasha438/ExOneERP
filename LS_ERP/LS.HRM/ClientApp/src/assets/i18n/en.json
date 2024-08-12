@@ -3133,5 +3133,27 @@
   "Select_Document_Type": "Select_Document_Type",
   "Attach_File": "Attach_File",
   "Upload": "Upload",
-  "Select_LeaveType": "Select_LeaveType"
+  "Select_LeaveType": "Select_LeaveType",
+
+  //till here completed
+
+  "ServiceRequestRefNo": "ServiceRequestRefNo",
+  "IsApproved?": "IsApproved?",
+  "RequestApproval": "RequestApproval",
+  "SelectDocumentType": "SelectDocumentType",
+  "AttachFile": "AttachFile",
+
+  "Audits": "Audits",
+  "EntryName": "EntryName",
+  "EntryDate": "EntryDate",
+  "ActionName": "ActionName",
+  "SelectEmployeeList": "SelectEmployeeList",
+  "Assigned": "Assigned",
+  "Availed": "Availed",
+
+  "WaitingRequests": "WaitingRequests",
+  "Processedby": "Processedby",
+  "More": "More",
+  "UpdateLeaveTemplate": "UpdateLeaveTemplate"
+
 }

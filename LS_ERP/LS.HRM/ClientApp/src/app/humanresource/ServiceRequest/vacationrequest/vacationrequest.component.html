@@ -7,9 +7,9 @@
         <app-leaverequestemployeelist (empSelectEvent)="getSelectedEmpInfo($event)"></app-leaverequestemployeelist>
       </ng-container>
       <ng-template #empdocument>
-        <h4 class="font-weight-700 p-0 text-center" style="color: #5f76e8;"> {{'ServiceRequestRefNo' | translate}} : <label class="text-danger">{{data.serviceRequestRefNo}}</label></h4>
-        <!--<h5 class="font-weight-700 p-1 text-center" style="font-size: larger; font-weight: 500;"></h5>-->
-        <p class="text-center"><spinner-loader [isLoading]="isLoading"></spinner-loader></p>
+        <h2 class="font-weight-700 p-3 text-center" style="font-weight: 500;color: #5f76e8;"> {{'ServiceRequestRefNo' | translate}}</h2>
+                  <h5 class="font-weight-700 p-1 text-center" style="font-size: larger; font-weight: 500;">{{data.serviceRequestRefNo}}</h5>
+                  <p class="text-center"><spinner-loader [isLoading]="isLoading"></spinner-loader></p>
       </ng-template>
     </div>
     <div class="col-md-4"></div>
@@ -75,13 +75,13 @@
         <div class="col-md-2 col-lg-2">
           <label class="mr-sm-2">{{'Availed' | translate}}</label>
           <div class="form-group ">
-            <input class="form-control" type="text" placeholder="{{'Avalied' | translate}}" [(ngModel)]="avalied" readonly="readonly" />
+            <input class="form-control" type="text" placeholder="{{'Availed' | translate}}" [(ngModel)]="avalied" readonly="readonly" />
           </div>
         </div>
         <div class="col-md-2 col-lg-2">
-          <label class="mr-sm-2">{{'No_Of_Days' | translate}}</label>
+          <label class="mr-sm-2">{{'NoOfDays' | translate}}</label>
           <div class="form-group ">
-            <input class="form-control" type="text" placeholder="{{'No_Of_Days' | translate}}" [(ngModel)]="noOfDays" readonly="readonly" />
+            <input class="form-control" type="text" placeholder="{{'NoOfDays' | translate}}" [(ngModel)]="noOfDays" readonly="readonly" />
           </div>
         </div>
         <div class="col-md-2 col-lg-2">
@@ -99,7 +99,7 @@
           <th>{{'LeaveType' | translate}}</th>
           <th>{{'From' | translate}}</th>
           <th>{{'To' | translate}}</th>
-          <th>{{'No_Of_Days' | translate}}</th>
+          <th>{{'NoOfDays' | translate}}</th>
 
           <th></th>
         </tr>
