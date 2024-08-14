@@ -20,6 +20,8 @@ import { MatTableDataSource } from '@angular/material/table';
 import { DeleteConfirmDialogComponent } from '../../../sharedcomponent/delete-confirm-dialog';
 import { ApprovaldialogwindowsComponent } from '../../approvaldialogwindows/approvaldialogwindows.component';
 import { MatSort } from '@angular/material/sort';
+import { AddupdateinvitemexpserialbatchComponent } from '../addupdateinvitemexpserialbatch/addupdateinvitemexpserialbatch.component';
+import { MultiFileUploadDto } from '../../../models/sharedDto';
 
 @Component({
   selector: 'app-addupdatepurchaseorder',
@@ -126,6 +128,7 @@ export class AddupdatepurchaseorderComponent implements OnInit {
   itemTaxPer: string = '0';
   taxAmount: number = 0;
   itemTracking: number = 0;
+  serExpTracking = 'Track';
   isloadPRdata: boolean = false;
   constructor(private fb: FormBuilder, private http: HttpClient, private router: Router, private apiService: ApiService,
     private authService: AuthorizeService, private utilService: UtilityService, public dialogRef: MatDialogRef<AddupdatepurchaseorderComponent>,
@@ -344,6 +347,8 @@ export class AddupdatepurchaseorderComponent implements OnInit {
   }
   loadPRdata(event: any) {
     let PRValue = event.value;
+    let PRText = event.text;
+    //alert(PRText);
     this.apiService.getall(`PurchaseOrder/GetPRList/${PRValue}`).subscribe(res => {
       if (res) {
         this.isReadOnly = true;
@@ -375,7 +380,7 @@ export class AddupdatepurchaseorderComponent implements OnInit {
           this.listOfInvoices.push({
             sequence: this.getSequence(),
             tranNumber: "0", tranItemCode: item.tranItemCode, tranItemName: item.tranItemName, tranItemName2: item.tranItemName2, tranItemQty: item.tranItemQty, tranItemUnitCode: item.tranItemUnitCode, tranUOMFactor: item.tranUOMFactor,
-            tranItemCost: item.tranItemCost, tranTotCost: item.tranTotCost, discPer: item.discPer, discAmt: item.discAmt, itemTax: item.itemTax, itemTaxPer: item.itemTaxPer, taxAmount: item.taxAmount, itemTracking: item.itemTracking
+            tranItemCost: item.tranItemCost, tranTotCost: item.tranTotCost, discPer: item.discPer, discAmt: item.discAmt, itemTax: item.itemTax, itemTaxPer: item.itemTaxPer, taxAmount: item.taxAmount, itemTracking: item.itemTracking, serExpTracking: item.serExpTracking
           });
         });
         this.setGrandTotal();
@@ -412,6 +417,8 @@ export class AddupdatepurchaseorderComponent implements OnInit {
     }
   }
 
+
+  
 
   //public edit(id: number) {
   //  /*this.openDialogManage(id, DBOperation.update, 'Updating Warehouse', 'Update');*/
@@ -508,6 +515,26 @@ export class AddupdatepurchaseorderComponent implements OnInit {
     },
       error => this.utilService.ShowApiErrorMessage(error));
   }
+
+  public openIntExpSerial1(row: any) {
+  
+    this.openDialogManage(0, DBOperation.create, row.expSerial, row.purchaseOrderNO, AddupdateinvitemexpserialbatchComponent);
+
+  }
+  private openDialogManage<T>(id: number = 0, dbops: DBOperation, modalTitle: string = '', modalBtnTitle: string = '', component: T, moduleFile: MultiFileUploadDto = { module: '00', action: '00act' }, width: number = 100) {
+    let dialogRef = this.utilService.openDialogCongif(this.dialog, component, width);
+    (dialogRef.componentInstance as any).dbops = dbops;
+    (dialogRef.componentInstance as any).modalTitle = modalTitle;
+    (dialogRef.componentInstance as any).modalBtnTitle = modalBtnTitle;
+    (dialogRef.componentInstance as any).id = id;
+    (dialogRef.componentInstance as any).moduleFile = moduleFile;
+
+    dialogRef.afterClosed().subscribe(res => {
+      if (res && res === true) {
+        this.initialLoading();
+      }
+    });
+  }
   initialLoading() {
     this.loadList(0, this.pageService.pageCount, "", this.sortingOrder);
   }
@@ -584,7 +611,7 @@ export class AddupdatepurchaseorderComponent implements OnInit {
         sequence: this.getSequence(),
 
         tranNumber: "0", tranItemCode: this.tranItemCode, tranItemName: this.tranItemName, tranItemName2: '', tranItemQty: this.tranItemQty, tranItemUnitCode: this.tranItemUnitCode, tranUOMFactor: this.tranUOMFactor,
-        tranItemCost: this.tranItemCost, tranTotCost: this.tranTotCost, discPer: this.discPer, discAmt: this.discAmt, itemTax: 0, itemTaxPer: this.itemTaxPer, taxAmount: this.taxAmount, itemTracking: 0
+        tranItemCost: this.tranItemCost, tranTotCost: this.tranTotCost, discPer: this.discPer, discAmt: this.discAmt, itemTax: 0, itemTaxPer: this.itemTaxPer, taxAmount: this.taxAmount, itemTracking: this.itemTracking, serExpTracking: this.serExpTracking
       });
 
       this.setGrandTotal();
@@ -624,6 +651,8 @@ export class AddupdatepurchaseorderComponent implements OnInit {
       this.itemTaxPer = item.itemTaxPer,
       this.taxAmount = item.taxAmount,
       this.itemTracking = item.itemTracking;
+      this.serExpTracking = item.serExpTracking;
+
 
   }
 
@@ -953,6 +982,12 @@ export class AddupdatepurchaseorderComponent implements OnInit {
       this.utilService.FillUpFields();
   }
 
+  //onButtonClick(item: any): void {
+  //  console.log('Button clicked:', item.serExpTracking);
+  //  alert(item.serExpTracking);
+  //  // Add your button click logic here
+  //}
+
   loadTaxdata(event: any) {
 
     let ItemCode = event.value;
@@ -1065,7 +1100,7 @@ export class AddupdatepurchaseorderComponent implements OnInit {
           this.listOfInvoices.push({
             sequence: this.getSequence(),
             tranNumber: "0", tranItemCode: item.tranItemCode, tranItemName: item.tranItemName, tranItemName2: item.tranItemName2, tranItemQty: item.tranItemQty, tranItemUnitCode: item.tranItemUnitCode, tranUOMFactor: item.tranUOMFactor,
-            tranItemCost: item.tranItemCost, tranTotCost: item.tranTotCost, discPer: item.discPer, discAmt: item.discAmt, itemTax: item.itemTax, itemTaxPer: item.itemTaxPer, taxAmount: item.taxAmount, itemTracking: item.itemTracking
+            tranItemCost: item.tranItemCost, tranTotCost: item.tranTotCost, discPer: item.discPer, discAmt: item.discAmt, itemTax: item.itemTax, itemTaxPer: item.itemTaxPer, taxAmount: item.taxAmount, itemTracking: item.itemTracking, serExpTracking: item.serExpTracking
           });
         });
         this.setGrandTotal();

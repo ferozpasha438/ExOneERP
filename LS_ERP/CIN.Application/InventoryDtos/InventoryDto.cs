@@ -330,6 +330,8 @@ namespace CIN.Application.InventoryDtos
     {
         [StringLength(20)]
         public string ItemCode { get; set; }
+        [StringLength(250)]
+        public string ItemName { get; set; }
         [StringLength(50)]
         public string PoNumber { get; set; }
         [StringLength(30)]

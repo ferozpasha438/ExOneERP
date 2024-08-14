@@ -165,7 +165,7 @@
                      data-target="#scrollable-modal" (click)="printing(row.id)" id="{{'view_' + row.id}}" matTooltip="{{'Print_Preview' | translate}}"><i class="icon-printer"> </i></a> &nbsp;
 
                   <a class="tableicons" *ngIf="!row.isSettled && !row.isApproved" (click)="delete(row.id)" matTooltip="{{'Delete_Item' | translate}}"><i class="icon-trash"> </i></a>
-                  <ng-container *ngIf="row.hasAuthority && row.expSerial == 0">
+                  <ng-container *ngIf="row.hasAuthority">
                     <a class="tableicons pcursor" *ngIf="!row.approvedUser && !row.isSettled" (click)="approvePurchaseOrder(row)" matTooltip="{{'Approve_Item' | translate}}"><i class="icon-arrow-up-circle"> </i></a> &nbsp;
                     <a class="tableicons pcursor" *ngIf="row.canSettle && !row.isSettled" (click)="AccountPosting(row.id)" matTooltip="{{'Posting_Item' | translate}}"><i class="icon-action-undo"> </i></a> &nbsp;
                   </ng-container>
