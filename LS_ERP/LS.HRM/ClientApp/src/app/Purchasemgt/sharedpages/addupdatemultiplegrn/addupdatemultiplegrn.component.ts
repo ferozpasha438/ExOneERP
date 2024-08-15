@@ -20,6 +20,12 @@ import { MatTableDataSource } from '@angular/material/table';
 import { DeleteConfirmDialogComponent } from '../../../sharedcomponent/delete-confirm-dialog';
 import { ApprovaldialogwindowsComponent } from '../../approvaldialogwindows/approvaldialogwindows.component';
 import { MatSort } from '@angular/material/sort';
+import { MultiFileUploadDto } from '../../../models/sharedDto';
+import { AddupdateinvitemexpserialbatchComponent } from '../addupdateinvitemexpserialbatch/addupdateinvitemexpserialbatch.component';
+import { AddupdateinvexpbatchComponent } from '../addupdateinvexpbatch/addupdateinvexpbatch.component';
+import { TranslateService } from '@ngx-translate/core';
+import { Addupdateexpairybatch } from '../addupdateexpairybatch/addupdateexpairybatch.component';
+
 
 @Component({
   selector: 'app-addupdatemultiplegrn',
@@ -79,7 +85,7 @@ export class AddupdatemultiplegrnComponent implements OnInit {
   //data: MatTableDataSource<any> | null;
   //totalItemsCount: number;
   //sortingOrder: string = 'id';
-  form: FormGroup;
+  form!: FormGroup;
   //searchValue: string = '';
   isLoading: boolean = false;
   isReadOnly: boolean = false;
@@ -110,7 +116,7 @@ export class AddupdatemultiplegrnComponent implements OnInit {
 
   //]
   isshown: boolean = false;
-
+  pono: string = '';
   tranItemCode: number = 0;
   tranItemName: string = '';
   tranItemName2: string = '';
@@ -130,9 +136,15 @@ export class AddupdatemultiplegrnComponent implements OnInit {
   receivedQty: number = 0;
 
   itemTracking: number = 0;
+  serExpTracking: string = '';
+  isExpiryButtonEnabled: boolean = false;
+  buttonName: string = '';
+  shouldHideButtonName: boolean = false;  // Condition to disable the name
+
   constructor(private fb: FormBuilder, private http: HttpClient, private router: Router, private apiService: ApiService,
     private authService: AuthorizeService, private utilService: UtilityService, public dialogRef: MatDialogRef<AddupdatemultiplegrnComponent>,
-    private notifyService: NotificationService, private validationService: ValidationService, public pageService: PaginationService, public dialog: MatDialog) {
+    private notifyService: NotificationService, private validationService: ValidationService, public pageService: PaginationService, public dialog: MatDialog,
+    private translate: TranslateService  ) {
 
 
 
@@ -164,6 +176,8 @@ export class AddupdatemultiplegrnComponent implements OnInit {
 
 
     }
+
+    this.isExpiryButtonEnabled = false;
 
   }
   onSortOrder(sort: any) {
@@ -333,6 +347,7 @@ export class AddupdatemultiplegrnComponent implements OnInit {
     this.apiService.getall('PurchaseOrder/GetGRNSelectList').subscribe(res => {
       if (res) {
         this.PurchaseRequestList = res;
+        this.isExpiryButtonEnabled = false;
       }
     })
   }
@@ -547,7 +562,7 @@ export class AddupdatemultiplegrnComponent implements OnInit {
 
         tranNumber: "0", tranItemCode: this.tranItemCode, tranItemName: this.tranItemName, tranItemName2: '', tranItemQty: this.tranItemQty, tranItemUnitCode: this.tranItemUnitCode, tranUOMFactor: this.tranUOMFactor,
         tranItemCost: this.tranItemCost, tranTotCost: this.tranTotCost, discPer: this.discPer, discAmt: this.discAmt, itemTax: 0, itemTaxPer: this.itemTaxPer,
-        taxAmount: this.taxAmount, itemTracking: 0, receivingQty: this.receivingQty, balQty: this.balQty, receivedQty: this.receivedQty
+        taxAmount: this.taxAmount, itemTracking: 0, receivingQty: this.receivingQty, balQty: this.balQty, receivedQty: this.receivedQty, serExpTracking: this.serExpTracking
       });
     
       this.setGrandTotal();
@@ -571,8 +586,8 @@ export class AddupdatemultiplegrnComponent implements OnInit {
   }
 
   editInvoiceItem(item: any) {
-  
-    this.editsequence = item.sequence,
+      this.pono = item.PONO;
+      this.editsequence = item.sequence,
       this.tranItemCode = item.tranItemCode,
       this.tranItemName = item.tranItemName,
       this.tranItemName2 = item.tranItemName2,
@@ -586,13 +601,29 @@ export class AddupdatemultiplegrnComponent implements OnInit {
       this.itemTax = item.itemTax,
       this.itemTaxPer = item.itemTaxPer,
       this.taxAmount = item.taxAmount,
-      this.itemTracking = item.itemTracking;
-    this.receivingQty = item.receivingQty;
-    this.balQty = item.balQty;
-    this.receivedQty = item.receivedQty;
+      this.itemTracking = item.itemTracking,
+      this.receivingQty = item.receivingQty,
+      this.balQty = item.balQty,
+      this.receivedQty = item.receivedQty
+      this.serExpTracking = item.serExpTracking
 
-
+    if (this.serExpTracking === 'EXP') {
+      this.isExpiryButtonEnabled = true;
+      this.buttonName = this.serExpTracking;
+    } else if (this.serExpTracking === 'SRL') {
+      this.isExpiryButtonEnabled = true;  // This is commented out
+      this.buttonName = this.serExpTracking;
+    } else {
+      this.buttonName = this.serExpTracking;
+    }
+   
   }
+
+
+
+
+
+ 
 
   //setGrandTotal() {
   //  this.grandTotal = 0;
@@ -663,7 +694,7 @@ export class AddupdatemultiplegrnComponent implements OnInit {
     //this.productId = 0;
     //this.product = this.description = this.unitType = '';
     //this.quantity = this.price = this.vat = this.vatAmount = this.total = 0;
-    this.tranItemCode = 0,
+      this.tranItemCode = 0,
       this.tranItemName = '',
       this.tranItemName2 = '',
       this.tranItemQty = 0,
@@ -676,11 +707,12 @@ export class AddupdatemultiplegrnComponent implements OnInit {
       this.itemTax = '',
       this.itemTaxPer = '',
       this.taxAmount = 0,
-      this.itemTracking = 0;
-    this.receivingQty = 0;
-    this.balQty = 0;
-    this.receivedQty = 0;
-
+      this.itemTracking = 0,
+      this.receivingQty = 0,
+      this.balQty = 0,
+      this.receivedQty = 0,
+      this.serExpTracking=''
+    this.isExpiryButtonEnabled = false;
   }
 
   calculate() {
@@ -802,7 +834,7 @@ export class AddupdatemultiplegrnComponent implements OnInit {
     this.form.value['tranDiscAmount'] = this.discAmt;
     this.apiService.post('PurchaseOrder/CreateGRN', this.form.value)
       .subscribe(res => {
-        debugger;
+        //debugger;
         this.reset();
         this.dialogRef.close(true);
         this.utilService.OkMessage();
@@ -896,7 +928,7 @@ export class AddupdatemultiplegrnComponent implements OnInit {
           this.listOfInvoices.push({
             sequence: this.getSequence(),
             tranNumber: "0", tranItemCode: item.tranItemCode, tranItemName: item.tranItemName, tranItemName2: item.tranItemName2, tranItemQty: item.tranItemQty, tranItemUnitCode: item.tranItemUnitCode, tranUOMFactor: item.tranUOMFactor,
-            tranItemCost: item.tranItemCost, tranTotCost: item.tranTotCost, discPer: item.discPer, discAmt: item.discAmt, itemTax: item.itemTax, itemTaxPer: item.itemTaxPer, taxAmount: item.taxAmount, itemTracking: item.itemTracking, receivingQty: item.receivingQty, balQty: item.balQty, receivedQty: item.receivedQty
+            tranItemCost: item.tranItemCost, tranTotCost: item.tranTotCost, discPer: item.discPer, discAmt: item.discAmt, itemTax: item.itemTax, itemTaxPer: item.itemTaxPer, taxAmount: item.taxAmount, itemTracking: item.itemTracking, receivingQty: item.receivingQty, balQty: item.balQty, receivedQty: item.receivedQty, serExpTracking: item.serExpTracking
           });
         });
         this.setGrandTotal();
@@ -955,8 +987,67 @@ export class AddupdatemultiplegrnComponent implements OnInit {
       }
     })
   }
+
+  //public openIntExpSerial1(row: any) {
+
+  //  this.openDialogManage(0, DBOperation.create, row.expSerial, row.PONO, AddupdateinvitemexpserialbatchComponent);
+
+  //}
+
+  public openIntExpSerial() {
+    var item = { 'tranItemCode': this.tranItemCode, 'tranItemName': this.tranItemName, 'tranItemQty': this.tranItemQty, 'PONO': this.pono, 'tracking': this.serExpTracking };
+    if (item.tracking == 'EXP') {
+      this.openDialogManage1(item, DBOperation.create, this.translate.instant('Create_New_Grn_Request'), '', Addupdateexpairybatch);
+    } else {
+      alert("Call Serial Popup");
+    }
+  }
+
+  private openDialogManage1<T>(item: any, dbops: DBOperation, modalTitle: string = '', modalBtnTitle: string = '', component: T, moduleFile: MultiFileUploadDto = { module: '00', action: '00act' }, width: number = 60) {
+    let dialogRef = this.utilService.openDialogCongif(this.dialog, component, width);
+    (dialogRef.componentInstance as any).dbops = dbops;
+    (dialogRef.componentInstance as any).modalTitle = modalTitle;
+    (dialogRef.componentInstance as any).modalBtnTitle = modalBtnTitle;
+    (dialogRef.componentInstance as any).inputData = item;
+    (dialogRef.componentInstance as any).moduleFile = moduleFile;
+
+    dialogRef.afterClosed().subscribe(res => {
+      if (res && res === true) {
+        this.initialLoading();
+      }
+    });
+  }
+
+
+  //public edit(id: number) {
+  //  this.openDialogManage(id, DBOperation.update, this.translate.instant('Create_New_Grn_Request'), '', AddupdatemultiplegrnComponent);
+  //}
+
+  public createExp(item: any) {
+    
+    this.openDialogManage(item, DBOperation.update, this.translate.instant('Create_New_Expairy_Request'), '', Addupdateexpairybatch);
+  }
+
+  private openDialogManage<T>(item: any, dbops: DBOperation, modalTitle: string = '', modalBtnTitle: string = '', component: T, moduleFile: MultiFileUploadDto = { module: '00', action: '00act' }, width: number = 70, height: number=50) {
+    let dialogRef = this.utilService.openDialogCongif(this.dialog, component, width);
+    (dialogRef.componentInstance as any).dbops = dbops;
+    (dialogRef.componentInstance as any).modalTitle = modalTitle;
+    (dialogRef.componentInstance as any).modalBtnTitle = modalBtnTitle;
+    (dialogRef.componentInstance as any).inputData = item;
+    (dialogRef.componentInstance as any).moduleFile = moduleFile;
+
+    dialogRef.afterClosed().subscribe(res => {
+      if (res && res === true) {
+        this.initialLoading();
+      }
+    });
+  }
+
   loadGRNdata(event: any) {
     let PONO = event.value;
+    //this.isExpiryButtonEnabled = false;
+    this.shouldHideButtonName = true;
+    this.buttonName = '';
     this.apiService.getall(`PurchaseOrder/GetGRNList/${PONO}`).subscribe(res => {
       if (res) {
         this.setToDefault();
@@ -974,8 +1065,8 @@ export class AddupdatemultiplegrnComponent implements OnInit {
         listOfInvoices.forEach(item => {
           this.listOfInvoices.push({
             sequence: this.getSequence(),
-            tranNumber: "0", tranItemCode: item.tranItemCode, tranItemName: item.tranItemName, tranItemName2: item.tranItemName2, tranItemQty: item.tranItemQty, tranItemUnitCode: item.tranItemUnitCode, tranUOMFactor: item.tranUOMFactor,
-            tranItemCost: item.tranItemCost, tranTotCost: item.tranTotCost, discPer: item.discPer, discAmt: item.discAmt, itemTax: item.itemTax, itemTaxPer: item.itemTaxPer, taxAmount: item.taxAmount, itemTracking: item.itemTracking, receivingQty: 0, balQty: item.balQty, receivedQty: 0
+            tranNumber: "0", tranItemCode: item.tranItemCode, tranItemName: item.tranItemName, tranItemName2: item.tranItemName2, tranItemQty: item.tranItemQty, tranItemUnitCode: item.tranItemUnitCode, tranUOMFactor: item.tranUOMFactor, PONO: item.poNo,
+            tranItemCost: item.tranItemCost, tranTotCost: item.tranTotCost, discPer: item.discPer, discAmt: item.discAmt, itemTax: item.itemTax, itemTaxPer: item.itemTaxPer, taxAmount: item.taxAmount, itemTracking: item.itemTracking, receivingQty: 0, balQty: item.balQty, receivedQty: 0, serExpTracking: item.serExpTracking
           });
         });
         this.setGrandTotal();
