@@ -519,6 +519,9 @@ namespace CIN.Application.SchoolMgtDto
         public string BranchPrefix { get; set; }
         public int? NextStuNum { get; set; }
         public int? NextFeeVoucherNum { get; set; }
+        public string BranchNotification_Moderator { get; set; }
+        public string Default_InTime { get; set; }
+        public string Default_OutTime { get; set; }
         public List<SchoolBranchesAuthorityDto> SchoolBranchesAuthorityList { get; set; }
 
     }

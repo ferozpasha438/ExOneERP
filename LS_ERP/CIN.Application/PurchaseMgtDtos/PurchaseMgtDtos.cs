@@ -345,6 +345,8 @@ namespace CIN.Application.PurchaseSetupDtos
         public decimal? ReceivedQty { get; set; }
         public decimal? ReturnedQty { get; set; }
         public string ItemDescription { get; set; }
+        public string SerExpTracking { get; set; }
+        public string PoNo { get; set; }
 
 
     }

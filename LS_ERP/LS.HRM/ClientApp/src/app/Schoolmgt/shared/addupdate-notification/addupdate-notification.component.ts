@@ -32,13 +32,13 @@ export class AddupdateNotificationComponent implements OnInit {
 
   ngOnInit(): void {
     this.form = this.fb.group({
-      'branchCode': ['', Validators.required],
-      'gradeCode': ['', Validators.required],
-      'nationalityCode': ['', Validators.required],
-      'sectionCode': ['', Validators.required],
-      'ptGroupCode': ['', Validators.required],
-      'genderCode': ['', Validators.required],
-      'pickUpAndDropZone': ['', Validators.required],
+      'branchCode': [''],
+      'gradeCode': [''],
+      'nationalityCode': [''],
+      'sectionCode': [''],
+      'ptGroupCode': [''],
+      'genderCode': [''],
+      'pickUpAndDropZone': [''],
       'notificationTitle': ['', Validators.required],
       'notificationTitle_Ar': ['', Validators.required],
       'notificationMessage': ['', Validators.required],
@@ -83,7 +83,7 @@ export class AddupdateNotificationComponent implements OnInit {
   reset() {
     this.form.reset();
   }
-  approveEvent() {
+  approveNotification() {
     this.form.value['id'] = this.id;
     this.form.value['notificationType'] = 3;
     this.apiService.post('WebNotification/BulkWebNotificationApproval', this.form.value)
@@ -105,7 +105,7 @@ export class AddupdateNotificationComponent implements OnInit {
         if (res.isApproved) {
           this.isShowSave = false;
         } else {
-          this.apiService.get('TeacherMaster/IsApprovalLoginTeacher', 4).subscribe(res => {
+          this.apiService.get('TeacherMaster/IsApprovalLoginTeacher', 3).subscribe(res => {
             if (res) {
               this.isApprovalLogin = res;
             }

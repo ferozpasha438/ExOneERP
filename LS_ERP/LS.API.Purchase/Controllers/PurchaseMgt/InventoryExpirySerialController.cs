@@ -66,5 +66,12 @@ namespace LS.API.Purchase.Controllers.PurchaseMgt
             return BadRequest(new ApiMessageDto { Message = specBatch.Message });
         }
 
+        [HttpGet("GetExpairyDetails/{ItemCode}")]
+        public async Task<IActionResult> GetExpairyDetails([FromRoute] string ItemCode)
+        {
+            var obj = await Mediator.Send(new GetExpairyDetails() { ItemCode = ItemCode, User = UserInfo() });
+            return obj is not null ? Ok(obj) : NotFound(new ApiMessageDto { Message = ApiMessageInfo.NotFound });
+        }
+
     }
 }
