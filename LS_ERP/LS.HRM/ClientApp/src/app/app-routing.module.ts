@@ -16,8 +16,8 @@ import { HomeComponent } from './home/home.component';
 
 
 const routes: Routes = [
-  { path: '', component: LoginComponent, pathMatch: 'full' },
-   //{ path: '', component: Login2Component, pathMatch: 'full' },
+  //{ path: '', component: LoginComponent, pathMatch: 'full' },
+   { path: '', component: Login2Component, pathMatch: 'full' },
 
   //{ path: 'login', component: LoginComponent },
   //{ path: 'home', component: HomeComponent },
