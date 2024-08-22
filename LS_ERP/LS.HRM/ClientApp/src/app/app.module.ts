@@ -51,6 +51,7 @@ import { NgApexchartsModule } from "ng-apexcharts";
 import { NgxMaterialTimepickerModule } from 'ngx-material-timepicker';
 import { TestExampleComponent } from './Operationalmgt/test-example/test-example.component';
 import { Login2Component } from './account/Login/login2/login2.component';
+import { Home2Component } from './home2/home2.component';
 //import { Login2Component } from './account/login2/login2.component';
 
 
@@ -104,6 +105,7 @@ export function HttpLoaderFactory(http: HttpClient) {
     LeftMenuComponent,
     TestExampleComponent,
     Login2Component,
+    Home2Component,
     //Login2Component,
     //SubmitLoaderComponent,
     //SubmitSaveLoaderComponent,

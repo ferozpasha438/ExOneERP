@@ -1,5 +1,5 @@
 import { HttpClient } from '@angular/common/http';
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, AfterViewInit, ViewChild } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { MatCalendar, MatCalendarCellCssClasses } from '@angular/material/datepicker';
 import { MatTableDataSource } from '@angular/material/table';
@@ -8,7 +8,7 @@ import { default as data } from "../../assets/i18n/siteConfig.json";
 import { AuthorizeService } from '../api-authorization/AuthorizeService';
 import { ApiService } from '../services/api.service';
 import { UtilityService } from '../services/utility.service';
-import { ApexPlotOptions, ChartComponent } from "ng-apexcharts";
+import { ApexMarkers, ApexPlotOptions, ChartComponent } from "ng-apexcharts";
 
 import {
   ApexNonAxisChartSeries,
@@ -16,7 +16,7 @@ import {
   ApexChart
 } from "ng-apexcharts";
 
-//Default
+//Defult
 import {
   ApexAxisChartSeries,
   ApexDataLabels,
@@ -38,7 +38,6 @@ export type ChartOptions = {
   chart: ApexChart;
   responsive: ApexResponsive[];
   labels: any;
-  
 };
 export type RadialChartOptions = {
   series: ApexNonAxisChartSeries;
@@ -66,7 +65,6 @@ export type ChartOptionsDefault1 = {
   yaxis: ApexYAxis;
   xaxis: ApexXAxis;
 };
-
 type ApexXAxisDefault = {
   type?: "category" | "datetime" | "numeric";
   categories?: any;
@@ -102,8 +100,6 @@ export type ChartOptionsDefault2 = {
   tooltip: any; //ApexTooltip;
 };
 
-
-
 declare global {
   interface Window {
     Apex: any;
@@ -122,8 +118,6 @@ window.Apex = {
     show: false
   }
 };
-
-
 
 const arrayData = [
   {
@@ -254,6 +248,19 @@ const arrayData = [
   }
 ];
 
+export type ChartOptionsDefault4 = {
+  series: ApexAxisChartSeries;
+  chart: ApexChart;
+  xaxis: ApexXAxis;
+  dataLabels: ApexDataLabels;
+  grid: ApexGrid;
+  fill: ApexFill;
+  markers: ApexMarkers;
+  yaxis: ApexYAxis;
+  stroke: ApexStroke;
+  title: ApexTitleSubtitle;
+};
+
 export type ChartOptionsDefault3 = {
   series: ApexNonAxisChartSeries;
   chart: ApexChart;
@@ -265,12 +272,11 @@ export type ChartOptionsDefault3 = {
 
 @Component({
   selector: 'app-home',
-  templateUrl: './home.component.html',
-  // styleUrls: ['./home.component.css'],
+  templateUrl: './home2.component.html',
+  styleUrls: ['./home2.component.scss'],
 })
-export class HomeComponent implements OnInit {
+export class Home2Component implements OnInit, AfterViewInit {
   @ViewChild("chart") chart!: ChartComponent;
-  public chartOptions!: Partial<ChartOptions>;
   public chartOptions1!: Partial<ChartOptions>;
   public chartOptions2!: Partial<ChartOptions>;
   public chartOptions3!: Partial<ChartOptions>;
@@ -281,6 +287,8 @@ export class HomeComponent implements OnInit {
   public chartOptionsDefault2!: Partial<ChartOptionsDefault2>;
   public chartQuarterOptionsDefault2!: Partial<ChartOptionsDefault2>;
   public chartOptionsDefault3!: Partial<ChartOptionsDefault3>;
+  public chartOptionsDefault4!: Partial<ChartOptionsDefault4>;
+
 
   isArab: boolean = false;
   dashBoardType: string = '';
@@ -319,6 +327,7 @@ export class HomeComponent implements OnInit {
   dashboardStudents: Array<any> = [];
   isShowDonut: boolean = false;
   isShowCalandar: boolean = false;
+
 
   //#startregion Opr
 
@@ -644,6 +653,7 @@ export class HomeComponent implements OnInit {
         ],
         chart: {
           type: "bar",
+          width: '100%',
           height: 350,
           stacked: true,
           toolbar: {
@@ -667,149 +677,24 @@ export class HomeComponent implements OnInit {
         ],
         plotOptions: {
           bar: {
-            horizontal: false
+            columnWidth: "70%"
           }
         },
         xaxis: {
           type: "category",
-          categories: [
-            "01/2011",
-            "02/2011",
-            "03/2011",
-            "04/2011",
-            "05/2011",
-            "06/2011"
-          ]
+          categories: ["01/2011", "02/2011", "03/2011", "04/2011", "05/2011", "06/2011"]
         },
         legend: {
           position: "right",
           offsetY: 40
         },
         fill: {
-          opacity: 1
-        }
-      };   
-
-
-      this.chartOptionsDefault1 = {
-        series: [
-          {
-            name: "Cash Flow",
-            data: [
-              1.45,
-              5.42,
-              5.9,
-              -0.42,
-              -12.6,
-              -18.1,
-              -18.2,
-              -14.16,
-              -11.1,
-              -6.09,
-              0.34,
-              3.88,
-              13.07,
-              5.8,
-              2,
-              7.37,
-              8.1,
-              13.57,
-              15.75,
-              17.1,
-              19.8,
-              -27.03,
-              -54.4,
-              -47.2,
-              -43.3,
-              -18.6,
-              -48.6,
-              -41.1,
-              -39.6,
-              -37.6,
-              -29.4,
-              -21.4,
-              -2.4
-            ]
-          }
-        ],
-        chart: {
-          type: "bar",
-          height: 350
-        },
-        plotOptions: {
-          bar: {
-            colors: {
-              ranges: [
-                {
-                  from: -100,
-                  to: -46,
-                  color: "#F15B46"
-                },
-                {
-                  from: -45,
-                  to: 0,
-                  color: "#FEB019"
-                }
-              ]
-            },
-            columnWidth: "80%"
-          }
-        },
-        dataLabels: {
-          enabled: false
-        },
-        yaxis: {
-          title: {
-            text: "Growth"
-          },
-          labels: {
-            formatter: function (y) {
-              return y.toFixed(0) + "%";
-            }
-          }
-        },
-        xaxis: {
-          type: "datetime",
-          categories: [
-            "2011-01-01",
-            "2011-02-01",
-            "2011-03-01",
-            "2011-04-01",
-            "2011-05-01",
-            "2011-06-01",
-            "2011-07-01",
-            "2011-08-01",
-            "2011-09-01",
-            "2011-10-01",
-            "2011-11-01",
-            "2011-12-01",
-            "2012-01-01",
-            "2012-02-01",
-            "2012-03-01",
-            "2012-04-01",
-            "2012-05-01",
-            "2012-06-01",
-            "2012-07-01",
-            "2012-08-01",
-            "2012-09-01",
-            "2012-10-01",
-            "2012-11-01",
-            "2012-12-01",
-            "2013-01-01",
-            "2013-02-01",
-            "2013-03-01",
-            "2013-04-01",
-            "2013-05-01",
-            "2013-06-01",
-            "2013-07-01",
-            "2013-08-01",
-            "2013-09-01"
-          ],
-          labels: {
-            rotate: -90
-          }
+          opacity: 1,
+          colors: ["#3d85c6", "#6fa8dc", "#9fc5e8", "#cfe2f3"] // Set alternating grey and blue colors for each series
         }
       };
+
+     
 
       this.chartOptionsDefault2 = {
         series: [
@@ -1004,6 +889,74 @@ export class HomeComponent implements OnInit {
         ]
       };
 
+      this.chartOptionsDefault4 = {
+        series: [
+          {
+            name: "Likes",
+            data: [4, 3, 10, 9, 15, 19, 18, 9, 12, 7, 19, 5, 13, 9, 17, 2, 7, 5]
+          }
+        ],
+        chart: {
+          height: 100,
+          type: "line"
+        },
+        stroke: {
+          width: 7,
+          curve: "smooth"
+        },
+        xaxis: {
+          type: "datetime",
+          categories: [
+            "1/11/2000",
+            "2/11/2000",
+            "3/11/2000",
+            "4/11/2000",
+            "5/11/2000",
+            "6/11/2000",
+            "7/11/2000",
+            "8/11/2000",
+            "9/11/2000",
+            "10/11/2000",
+            "11/11/2000",
+            "12/11/2000",
+            "1/11/2001",
+            "2/11/2001",
+            "3/11/2001",
+            "4/11/2001",
+            "5/11/2001",
+            "6/11/2001"
+          ]
+        },
+        fill: {
+          type: "gradient",
+          gradient: {
+            shade: "dark",
+            gradientToColors: ["#FDD835"],
+            shadeIntensity: 1,
+            type: "horizontal",
+            opacityFrom: 1,
+            opacityTo: 1,
+            stops: [0, 100, 100, 100]
+          }
+        },
+        markers: {
+          size: 4,
+          colors: ["#FFA41B"],
+          strokeColors: "#fff",
+          strokeWidth: 2,
+          hover: {
+            size: 7
+          }
+        },
+        yaxis: {
+          min: -10,
+          max: 20,
+          title: {
+            text: "Engagement"
+          }
+        }
+      };
+    
     let res = {
       "branchCode": "Jeddah",
       "totalStudents": 28,
@@ -2392,7 +2345,129 @@ export class HomeComponent implements OnInit {
     }
   }
 
-}
+  }
+  ngAfterViewInit() {
+    this.chartOptionsDefault1 = {
+      series: [
+        {
+          name: "Cash Flow",
+          data: [
+            1.45,
+            5.42,
+            5.9,
+            -0.42,
+            -12.6,
+            -18.1,
+            -18.2,
+            -14.16,
+            -11.1,
+            -6.09,
+            0.34,
+            3.88,
+            13.07,
+            5.8,
+            2,
+            7.37,
+            8.1,
+            13.57,
+            15.75,
+            17.1,
+            19.8,
+            -27.03,
+            -54.4,
+            -47.2,
+            -43.3,
+            -18.6,
+            -48.6,
+            -41.1,
+            -39.6,
+            -37.6,
+            -29.4,
+            -21.4,
+            -2.4
+          ]
+        }
+      ],
+      chart: {
+        type: "bar",
+        width: '100%',
+        height: 350,
+      },
+      plotOptions: {
+        bar: {
+          colors: {
+            ranges: [
+              {
+                from: -100,
+                to: -46,
+                color: "#D3D3D3"
+              },
+              {
+                from: -45,
+                to: 0,
+                color: "#D3D3D3"
+              }
+            ]
+          },
+          columnWidth: "80%"
+        }
+      },
+      dataLabels: {
+        enabled: false
+      },
+      yaxis: {
+        title: {
+          text: "Growth"
+        },
+        labels: {
+          formatter: function (y) {
+            return y.toFixed(0) + "%";
+          }
+        }
+      },
+      xaxis: {
+        type: "datetime",
+        categories: [
+          "2011-01-01",
+          "2011-02-01",
+          "2011-03-01",
+          "2011-04-01",
+          "2011-05-01",
+          "2011-06-01",
+          "2011-07-01",
+          "2011-08-01",
+          "2011-09-01",
+          "2011-10-01",
+          "2011-11-01",
+          "2011-12-01",
+          "2012-01-01",
+          "2012-02-01",
+          "2012-03-01",
+          "2012-04-01",
+          "2012-05-01",
+          "2012-06-01",
+          "2012-07-01",
+          "2012-08-01",
+          "2012-09-01",
+          "2012-10-01",
+          "2012-11-01",
+          "2012-12-01",
+          "2013-01-01",
+          "2013-02-01",
+          "2013-03-01",
+          "2013-04-01",
+          "2013-05-01",
+          "2013-06-01",
+          "2013-07-01",
+          "2013-08-01",
+          "2013-09-01"
+        ],
+        labels: {
+          rotate: -90
+        }
+      }
+    };
+  }
 dateClass() {
 
   return (date: Date): MatCalendarCellCssClasses => {

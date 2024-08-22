@@ -4,6 +4,7 @@ import { LoginComponent } from './account/login.component';
 import { Login2Component } from './account/Login/login2/login2.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { HomeComponent } from './home/home.component';
+import { Home2Component } from './home2/home2.component';
 
 
 //import { BranchesComponent } from './systemsetup/branches/branches.component';
@@ -25,7 +26,9 @@ const routes: Routes = [
     path: 'dashboard', component: DashboardComponent,
     children: [
 
-      { path: '', component: HomeComponent },
+      // { path: '', component: HomeComponent },
+      { path: '', component: Home2Component },
+
 
       //ADM
       //{ path: 'branchlist', component: BranchesComponent },
