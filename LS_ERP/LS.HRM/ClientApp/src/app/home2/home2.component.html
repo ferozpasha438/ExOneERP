@@ -241,7 +241,7 @@
         <!-- <app-card [title]="'Email sent'" [cardClass]="'email-sent-card'" [classHeader]="true"> -->
         <div class="email-sent-card">
             <div class="card">
-                <div class="card-body" style="overflow-x:hidden;">
+                <div class="card-body" style="overflow-x:hidden;" *ngIf="chartOptionsDefault && chartOptionsDefault.series">
                     <h4 class="card-title">Total Products </h4>
                     <apx-chart [series]="chartOptionsDefault.series"
                                [chart]="chartOptionsDefault.chart"

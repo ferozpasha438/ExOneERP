@@ -23,11 +23,12 @@ const routes: Routes = [
   //{ path: 'login', component: LoginComponent },
   //{ path: 'home', component: HomeComponent },
   {
-    path: 'dashboard', component: DashboardComponent,
+    path: 'dashboard', component: DashboardComponent,  
     children: [
 
       // { path: '', component: HomeComponent },
       { path: '', component: Home2Component },
+      { path: 'home1', component: HomeComponent },
 
 
       //ADM
