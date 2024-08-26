@@ -1,13 +1,13 @@
 {
   "financeurl": "https://exoneerp.com/erpfin/api",
-  "financemgtapiurl": "http://localhost:13462/api",
-  "operationapiurl": "http://localhost:60186/api",
-  "inventoryapiurl": "http://localhost:65356/api",
-  "inventorymgtapiurl": "http://localhost:65356/api",
-  "salesapiurl": "http://localhost:3788/api",
-  "purchaseapiurl": "http://localhost:65356/api",
-  "schoolapiurl": "http://localhost:16039/api",
-  "schoolmgtapiurl": "http://localhost:16039/api",
-  "schooltestapiurl": "http://localhost:16039/api",
-  "fleetapiurl": "http://localhost:13427/api"
+  "financemgtapiurl": "https://exoneerp.com/erpfinmgt/api",
+  "operationapiurl": "https://exoneerp.com/erpopt/api",
+  "inventoryapiurl": "https://exoneerp.com/erpinvt/api",
+  "inventorymgtapiurl": "https://exoneerp.com/erpinvt/api",
+  "salesapiurl": "https://exoneerp.com/erpsale/api",
+  "purchaseapiurl": "https://exoneerp.com/erpPurc/api",
+  "schoolapiurl": "https://exoneerp.com/smapi/api",
+  "schoolmgtapiurl": "https://exoneerp.com/smapi/api",
+  "schooltestapiurl": "https://exoneerp.com/smapi/api",
+  "fleetapiurl": "https://exoneerp.com/erpfleet/api"
 }
