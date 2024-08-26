@@ -80,7 +80,7 @@
         <!-- <app-card [title]="'Statistics'" [classHeader]="true"> -->
         <!-- <span class="code-header"><span class="text-muted">Get 15% Off on <a href="https://www.amcharts.com/" target="_blank">amCharts</a> licences. Use code "codedthemes" and get the discount.</span></span> -->
         <div class="card">
-            <div class="card-body" *ngIf="chartOptionsDefault1 && chartOptionsDefault1.series" style="overflow-x:hidden;">
+            <div class="card-body p-2" *ngIf="chartOptionsDefault1 && chartOptionsDefault1.series" style="overflow-x:hidden;">
                 <h4 class="card-title">Total CASH Flow</h4>
                 <apx-chart [series]="chartOptionsDefault1.series" [chart]="chartOptionsDefault1.chart"
                     [dataLabels]="chartOptionsDefault1.dataLabels" [plotOptions]="chartOptionsDefault1.plotOptions"
