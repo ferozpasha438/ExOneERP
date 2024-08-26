@@ -1,5 +1,5 @@
 {
-  "financeurl": "https://exoneerp.com/erpfin/api",
+  "financeurl": "http://localhost:65356/api",
   "financemgtapiurl": "http://localhost:13462/api",
   "operationapiurl": "http://localhost:60186/api",
   "inventoryapiurl": "http://localhost:65356/api",
