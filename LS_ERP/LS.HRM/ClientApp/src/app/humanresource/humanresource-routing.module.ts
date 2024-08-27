@@ -80,6 +80,7 @@ const routes: Routes = [
   { path: 'getholidaycalendar', component: GetholidaycalendarComponent },
   { path: 'getdivisions', component: GetdivisonComponent },
   { path: 'getemployeestatuses', component: GetemployeestatusComponent },
+  { path: 'getdepartments', component: GetdepartmentsComponent },
 
 
 ];

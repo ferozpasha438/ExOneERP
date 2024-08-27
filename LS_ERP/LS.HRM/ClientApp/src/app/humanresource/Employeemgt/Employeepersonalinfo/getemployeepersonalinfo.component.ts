@@ -47,7 +47,7 @@ export class GetemployeepersonalinfoComponent extends ParentHrmAdminComponent im
     this.loadTitles();
     this.loadLanguages();
     this.employeeBasicInfo = {
-      'employeeImageUrl': ['/assets/images/profile.jpg'],
+      'employeeImageUrl': ['assets/images/profile.jpg'],
       'allowImageUpload': [true],
       'employeeName': [''],
       'employeeNumber': [''],
