@@ -16,7 +16,7 @@ import {
   ApexChart
 } from "ng-apexcharts";
 
-//Defult
+//Default
 import {
   ApexAxisChartSeries,
   ApexDataLabels,
@@ -38,6 +38,7 @@ export type ChartOptions = {
   chart: ApexChart;
   responsive: ApexResponsive[];
   labels: any;
+  
 };
 export type RadialChartOptions = {
   series: ApexNonAxisChartSeries;
@@ -65,6 +66,7 @@ export type ChartOptionsDefault1 = {
   yaxis: ApexYAxis;
   xaxis: ApexXAxis;
 };
+
 type ApexXAxisDefault = {
   type?: "category" | "datetime" | "numeric";
   categories?: any;
@@ -100,6 +102,8 @@ export type ChartOptionsDefault2 = {
   tooltip: any; //ApexTooltip;
 };
 
+
+
 declare global {
   interface Window {
     Apex: any;
@@ -118,6 +122,8 @@ window.Apex = {
     show: false
   }
 };
+
+
 
 const arrayData = [
   {
@@ -260,10 +266,11 @@ export type ChartOptionsDefault3 = {
 @Component({
   selector: 'app-home',
   templateUrl: './home.component.html',
-  styleUrls: ['./home.component.css'],
+  // styleUrls: ['./home.component.css'],
 })
 export class HomeComponent implements OnInit {
   @ViewChild("chart") chart!: ChartComponent;
+  public chartOptions!: Partial<ChartOptions>;
   public chartOptions1!: Partial<ChartOptions>;
   public chartOptions2!: Partial<ChartOptions>;
   public chartOptions3!: Partial<ChartOptions>;
@@ -315,9 +322,9 @@ export class HomeComponent implements OnInit {
 
   //#startregion Opr
 
-  @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
+  @ViewChild(MatPaginator, { static: true }) paginator!: MatPaginator;
   isLoadSchoolDashBoard: boolean = false;
-  attendanceData: MatTableDataSource<any>;
+  attendanceData!: MatTableDataSource<any>;
   interval: any;
   oprDashboard: any = { notReportedEmpCount: 1, totalEmpCount: 1, reportedEmpCount: 1, lateArrivalsCount: 0 };
   oprChartData1: Array<any> = [];

@@ -68,8 +68,8 @@ const routes: Routes = [
   { path: 'getwaitingapprovalrequest', component: WaitingapprovalrequestComponent  },//GetleavetemplatesComponent 
   { path: 'getmartialstatus', component: GetmaritalstatusComponent },
   { path: 'getgrade', component: GetgradeComponent },
-  { path: 'getleavetypes', component: WaitingapprovalrequestComponent },//GetleavetypesComponent
-  { path: 'getleavetemplates', component: MyrequestComponent },//GetleavetemplatesComponent
+  { path: 'getleavetypes', component: GetleavetypesComponent },//GetleavetypesComponent
+  { path: 'getleavetemplates', component: GetleavetemplatesComponent },//GetleavetemplatesComponent
 
 
 
@@ -80,6 +80,7 @@ const routes: Routes = [
   { path: 'getholidaycalendar', component: GetholidaycalendarComponent },
   { path: 'getdivisions', component: GetdivisonComponent },
   { path: 'getemployeestatuses', component: GetemployeestatusComponent },
+  { path: 'getdepartments', component: GetdepartmentsComponent },
 
 
 ];

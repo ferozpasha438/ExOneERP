@@ -10,7 +10,7 @@ import { NotificationService } from '../../../services/notification.service';
 import { UtilityService } from '../../../services/utility.service';
 import { ParentSystemSetupComponent } from '../../../sharedcomponent/parentsystemsetup.component';
 import { default as data } from "../../../../assets/i18n/apiuri.json";
-
+import { default as dashboard } from "../../../../assets/i18n/siteConfig.json";
 @Component({
   selector: 'app-login2',
   templateUrl: './login2.component.html',
@@ -52,10 +52,10 @@ export class Login2Component extends ParentSystemSetupComponent implements OnIni
     //});
 
     this.cinloginForm = this.fb.group({
-      'cinNumber': ['erphrm', Validators.required],
+      'cinNumber': ['Saher', Validators.required],
       'userName': ['Admin', Validators.required],
       //'password': ['admin@123', Validators.required]
-      'password': ['sh1234', Validators.required]
+      'password': ['admin@123', Validators.required]
 
     });
   }
@@ -125,7 +125,10 @@ export class Login2Component extends ParentSystemSetupComponent implements OnIni
           this.authService.setAuthorize(true);
           this.authService.SetSubmitting(false);
           //this.router.navigateByUrl('dashboard');
-          window.location.href = "dashboard";
+          if (dashboard.dashBoardType == "default")
+            window.location.href = "dashboard";
+          else
+            window.location.href = "dashboard/home1";
         },
           error => {
             this.authService.SetSubmitting(false);
