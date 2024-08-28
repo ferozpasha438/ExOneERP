@@ -2862,7 +2862,6 @@
   "Update_Sales_Invoice": "Update Sales Invoice",
 
 
-
   "ManageAddressType": "Manage Address Type",
   "AddressTypeCode": "Address Type Code",
   "AddressTypeName": "Address Type Name",
@@ -3193,7 +3192,6 @@
   "ManageEmployeePayrollPackage": "Manage Employee Payroll Package",
   "EARNINGS": "EARNINGS",
   "EditPayrollComponent": "Edit Payroll Component",
-  "DEDUCTIONS": "DEDUCTIONS",
 
   "AddLeaveType": "Add Leave Type",
   "UpdateLeaveType": "Update Leave Type",
