@@ -1,0 +1,66 @@
+<div class="page-breadcrumb">
+    <div class="row">
+        <div class="col-12 align-self-center">
+            <h3 class="page-title text-truncate text-dark font-weight-medium mb-1">
+                {{ "PayrollManagement" | translate }}
+            </h3>
+            <div class="d-flex align-items-center">
+                <nav aria-label="breadcrumb">
+                    <ol class="breadcrumb m-0 p-0">
+                        <li class="breadcrumb-item text-muted">
+                            {{ "PayrollManagement" | translate }}
+                        </li>
+                        <li class="breadcrumb-item active" aria-current="page">
+                            {{ "PayrollProcess" | translate }}
+                        </li>
+                    </ol>
+                </nav>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-md-12 col-lg-12">
+            <div class="card">
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-12 col-lg-12">
+                            <h4 class="card-title pt6">
+                                {{ "PayrollProcess" | translate }}
+                            </h4>
+                        </div>
+                    </div>
+                    <br />
+                    <div class="row">
+                        <div class="col-md-4 col-lg-4">
+                            <label for="companyId" class="mr-sm-2">{{ "Company" | translate }}</label>
+                            <select class="custom-select mr-sm-2" (change)="loadBranches($event)">
+                                <option value="">{{'Company' | translate}}</option>
+                                <option *ngFor="let company of companies" value="{{company.value}}">
+                                    {{company.text}}</option>
+                            </select>
+                        </div>
+                        <div class="col-md-4 col-lg-4">
+                            <div class="form-group">
+                                <label for="branchCode" class="mr-sm-2">{{ "Branch" | translate }}</label>
+                                <ng-select [items]="branches" bindLabel="text" bindValue="value"
+                                    placeholder="SelectBranch" [(ngModel)]="branchCode"
+                                    [ngModelOptions]="{standalone: true}">
+                                </ng-select>
+                            </div>
+                        </div>
+                        <div class="col-md-4 col-lg-4">
+                            <label for="payrollGroupCode" class="mr-sm-2">{{ "PayrollGroup" | translate }}</label>
+                            <select class="custom-select mr-sm-2" [(ngModel)]="payrollGroupCode">
+                                <option value="">{{'PayrollGroup' | translate}}</option>
+                                <option *ngFor="let payrollGroup of payrollGroups" value="{{payrollGroup.value}}">
+                                    {{payrollGroup.text}}</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
