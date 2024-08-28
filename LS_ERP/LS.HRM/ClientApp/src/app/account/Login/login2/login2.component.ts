@@ -27,7 +27,7 @@ export class Login2Component extends ParentSystemSetupComponent implements OnIni
   //cinNumber: string = '';
   isCinForm: boolean = true;
   apiUri: string = data.financeurl;
-  lastcinnumber: string = 'sahir';
+  lastcinnumber: string = '';
   constructor(private fb: FormBuilder, private http: HttpClient, private router: Router,// private apiService: ApiService,
     private authService: AuthorizeService, private utilService: UtilityService, private notifyService: NotificationService) {
     super(authService);
@@ -41,7 +41,7 @@ export class Login2Component extends ParentSystemSetupComponent implements OnIni
     //if (this.authService.isAuthenticated())
     //  window.location.href = "dashboard";
     //else
-    this.lastcinnumber = localStorage.getItem('lastcinnumber') ?? '';
+    this.lastcinnumber = localStorage.getItem('lastcinnumber') ?? 'sahir';
     localStorage.clear();
     localStorage.setItem('lastcinnumber', this.lastcinnumber);
     this.setForm();
