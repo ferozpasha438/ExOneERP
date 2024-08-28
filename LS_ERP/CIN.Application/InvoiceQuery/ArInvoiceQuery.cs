@@ -2467,7 +2467,7 @@ namespace CIN.Application.InvoiceQuery
                         ////}
                         #endregion
 
-                        await transaction.CommitAsync();
+                        await transaction.CommitAsync();                        
                         returnStatus++;
                     }
                     catch (Exception ex)
