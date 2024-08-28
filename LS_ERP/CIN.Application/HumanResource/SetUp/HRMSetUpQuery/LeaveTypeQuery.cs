@@ -261,6 +261,7 @@ namespace CIN.Application.HumanResource.SetUp.HRMSetUpQuery
     {
         public UserIdentityDto User { get; set; }
         public int EmployeeId { get; set; }
+        public string RequestType { get; set; }
     }
 
     public class GetLeaveTypeSelectListItemHandler : IRequestHandler<GetLeaveTypeSelectListItem, List<VacationRequestLeaveTypeDto>>
@@ -292,7 +293,7 @@ namespace CIN.Application.HumanResource.SetUp.HRMSetUpQuery
 
             try
             {
-                bool isArab = request.User.Culture.IsArab();
+                bool isArab = request.User.Culture.IsArab(), IsLeaveRequest = false;
                 var list = (await _context.EmployeeLeaveInformations.AsNoTracking()
                     .Where(e => e.EmployeeID == request.EmployeeId).ToListAsync())
                     .GroupBy(e => e.LeaveTypeCode)
@@ -300,16 +301,27 @@ namespace CIN.Application.HumanResource.SetUp.HRMSetUpQuery
 
                 List<VacationRequestLeaveTypeDto> vacationList = new();
                 var leaveTypes = _context.LeaveTypes.AsNoTracking();
+                if (request.RequestType.HasValue() && request.RequestType == "leaveRequest")
+                {
+                    IsLeaveRequest = true;
+                }
+
                 foreach (var item in list)
                 {
-                    var leaveType = await leaveTypes.Where(e => e.LeaveTypeCode == item.Key).FirstOrDefaultAsync();
-                    vacationList.Add(new VacationRequestLeaveTypeDto
+                    TblHRMSysLeaveType leaveType = IsLeaveRequest ?
+                                                   await leaveTypes.Where(e => e.LeaveTypeCode == item.Key && e.IsUsedForVacation == false).FirstOrDefaultAsync() :
+                                                   await leaveTypes.Where(e => e.LeaveTypeCode == item.Key).FirstOrDefaultAsync();
+
+                    if (leaveType is not null)
                     {
-                        Text = isArab ? leaveType.LeaveTypeAr : leaveType.LeaveTypeEn,
-                        Value = item.Key,
-                        Assigned = item.Sum(e => e.Assigned),
-                        Availed = item.Sum(e => e.Availed),
-                    });
+                        vacationList.Add(new VacationRequestLeaveTypeDto
+                        {
+                            Text = isArab ? leaveType.LeaveTypeAr : leaveType.LeaveTypeEn,
+                            Value = item.Key,
+                            Assigned = item.Sum(e => e.Assigned),
+                            Availed = item.Sum(e => e.Availed),
+                        });
+                    }
                 }
 
                 return vacationList;
