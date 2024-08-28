@@ -1,20 +1,20 @@
-<h3 class="modal-title">{{'Fleet_Vehicle_Type' | translate}}</h3>
+<h3 class="modal-title">{{'Vehicle_Type' | translate}}</h3>
 <button type="button" class="close" aria-hidden="true" (click)="closeModel()"> ×</button>
 <form [formGroup]="form" (ngSubmit)="submit()" novalidate class="mt-4">
   <div class="outer ">
     <div class="row rowm0 mt-3">
       <div class="col-md-6 col-lg-6 col-sm-6">
         <div class="form-group">
-          <label>{{'Vehicle_Type' | translate}}</label>
-          <input class="form-control" type="text" placeholder="{{'Vehicle_Type' | translate}}"
+          <label>{{'Vehicle_Type_EN' | translate}}</label>
+          <input class="form-control" type="text" placeholder="{{'Vehicle_Type_EN' | translate}}"
                  formControlName="vehicleType" />
           <validation-message [control]="form.controls.vehicleType"></validation-message>
         </div>
       </div>
       <div class="col-md-6 col-lg-6 col-sm-6">
         <div class="form-group">
-          <label>{{'vehicleTypeInArabic' | translate}}</label>
-          <input class="form-control" type="text" placeholder="{{'Vehicle_Type_Ar' | translate}}"
+          <label>{{'Vehicle_Type_AR' | translate}}</label>
+          <input class="form-control" type="text" placeholder="{{'Vehicle_Type_AR' | translate}}"
                  formControlName="vehicleType_Ar" />
           <validation-message [control]="form.controls.vehicleType_Ar"></validation-message>
         </div>

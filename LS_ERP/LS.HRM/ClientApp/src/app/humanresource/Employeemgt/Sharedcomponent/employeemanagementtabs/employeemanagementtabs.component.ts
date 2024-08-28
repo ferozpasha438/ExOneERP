@@ -32,7 +32,7 @@ export class EmployeemanagementtabsComponent implements OnInit {
   }
 
   closeModel() {
-    this.dialogRef.close();
+    this.dialogRef.close(true);
   }
 }
 

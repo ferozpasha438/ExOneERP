@@ -29,9 +29,9 @@ namespace LS.API.HRM.Admin.Controllers.SystemSetup
             return obj is not null ? Ok(obj) : NotFound(new ApiMessageDto { Message = ApiMessageInfo.NotFound });
         }
         [HttpGet("getLeaveTypeSelectListItem")]
-        public async Task<IActionResult> GetLeaveTypeSelectListItem([FromQuery] int employeeId)
+        public async Task<IActionResult> GetLeaveTypeSelectListItem([FromQuery] int employeeId, [FromQuery] string requestType)
         {
-            var list = await Mediator.Send(new GetLeaveTypeSelectListItem() { EmployeeId = employeeId, User = UserInfo() });
+            var list = await Mediator.Send(new GetLeaveTypeSelectListItem() { EmployeeId = employeeId, RequestType = requestType, User = UserInfo() });
             return Ok(list);
         }
 

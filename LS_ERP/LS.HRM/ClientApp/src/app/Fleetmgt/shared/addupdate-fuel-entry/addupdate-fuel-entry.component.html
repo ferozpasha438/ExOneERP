@@ -1,4 +1,4 @@
-<h3 class="modal-title">{{'Addupdate_Fuel_Entry' | translate}}</h3>
+<h3 class="modal-title">{{'Vehicle_Fuel_Entry' | translate}}</h3>
 <button type="button" class="close" aria-hidden="true" (click)="closeModel()"> ×</button>
 <form [formGroup]="form" (ngSubmit)="submit()" novalidate class="mt-4">
   <div class="outer ">
@@ -71,9 +71,9 @@
 
       <div class="col-md-6 col-lg-6 col-sm-6">
         <div class="form-group">
-          <label>{{'FuellingDate' | translate}}</label>
+          <label>{{'Fuelling_Date' | translate}}</label>
           <div class="input-group ">
-            <input class="form-control datapickerinput" placeholder="{{'FuellingDate' | translate}}"
+            <input class="form-control datapickerinput" placeholder="{{'Fuelling_Date' | translate}}"
                    formControlName="fuellingDate" [matDatepicker]="picker3">
             <div class="input-group-prepend datapickericon">
               <mat-datepicker-toggle matSuffix [for]="picker3"></mat-datepicker-toggle>

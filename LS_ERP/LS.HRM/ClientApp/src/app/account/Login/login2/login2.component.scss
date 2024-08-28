@@ -1,0 +1,172 @@
+.bsb-btn-xl {
+  --bs-btn-padding-y: 0.625rem;
+  --bs-btn-padding-x: 1.25rem;
+  --bs-btn-font-size: calc(1.26rem + 0.12vw);
+  --bs-btn-border-radius: var(--bs-border-radius-lg);
+  /* background-color: aqua; */
+}
+
+.vl {
+  border-left: 2px solid #d9d9d9;
+  height: 500px;
+  position: absolute;
+  left: 50%;
+  margin-left: 0px;
+  top: 13.05rem;
+  width: 0px;
+}
+
+.custom-btn {
+  width: 8.375rem;
+  background-color: #fff;
+  border: 1px solid #cdcdcd;
+}
+
+.box {
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+  border-radius: 12px;
+  border: 1px solid rgb(192, 192, 192);
+}
+
+.txt {
+  font-size: 56px;
+  font-weight: 800;
+  color: black;
+}
+
+.txt1 {
+  font-size: 22px;
+  font-weight: 500;
+  color: #999999;
+}
+
+.txtd{
+  color: black;
+}
+
+@media(min-width:1200px) {
+  .bsb-btn-xl {
+    --bs-btn-font-size: 1.35rem
+  }
+}
+
+.bsb-btn-2xl {
+  --bs-btn-padding-y: 0.75rem;
+  --bs-btn-padding-x: 1.5rem;
+  --bs-btn-font-size: calc(1.27rem + 0.24vw);
+  --bs-btn-border-radius: var(--bs-border-radius-lg)
+}
+
+@media(min-width:1200px) {
+  .bsb-btn-2xl {
+    --bs-btn-font-size: 1.45rem
+  }
+}
+
+.bsb-btn-3xl {
+  --bs-btn-padding-y: 0.875rem;
+  --bs-btn-padding-x: 1.75rem;
+  --bs-btn-font-size: calc(1.28rem + 0.36vw);
+  --bs-btn-border-radius: var(--bs-border-radius-lg)
+}
+
+@media(min-width:1200px) {
+  .bsb-btn-3xl {
+    --bs-btn-font-size: 1.55rem
+  }
+}
+
+.bsb-btn-4xl {
+  --bs-btn-padding-y: 1rem;
+  --bs-btn-padding-x: 2rem;
+  --bs-btn-font-size: calc(1.29rem + 0.48vw);
+  --bs-btn-border-radius: var(--bs-border-radius-lg)
+}
+
+@media(min-width:1200px) {
+  .bsb-btn-4xl {
+    --bs-btn-font-size: 1.65rem
+  }
+}
+
+.bsb-btn-5xl {
+  --bs-btn-padding-y: 1.125rem;
+  --bs-btn-padding-x: 2.25rem;
+  --bs-btn-font-size: calc(1.3rem + 0.6vw);
+  --bs-btn-border-radius: var(--bs-border-radius-lg)
+}
+
+@media(min-width:1200px) {
+  .bsb-btn-5xl {
+    --bs-btn-font-size: 1.75rem
+  }
+}
+
+.bsb-tpl-bg-platinum {
+  background: #ffff !important;
+  border-radius: 12px;
+}
+
+.bsb-tpl-bg-lotion {
+  background: #ffff !important;
+  border-radius: 12px;
+}
+
+@media (min-width: 1200px) {
+  .p-xl-5 {
+    padding: 2rem !important;
+  }
+}
+
+
+
+
+
+//  THIS CSS IS UPDATED ONES OF THE OLD HRM LOGIN PAGE  |
+//                                                      V
+
+.mt-5, .my-5 {
+  margin-top: 4rem !important;
+}                                                      
+
+.selectLanguage {
+  float: right;
+  padding-top: 25px;
+  // padding-right: 10px;
+}
+
+.mt-5 {
+  margin-top: 4rem !important;
+}
+
+.auth-wrapper .auth-box .modal-bg-img {
+  border-radius: 10px 0 0 10px;
+  background-color: #fff;
+  vertical-align: middle;
+}
+
+.form-control {
+  /* display: block; */
+  width: 100%;
+  height: calc(1.5em + 0.75rem + 2px);
+  padding: 0.375rem 0.75rem;
+  font-size: 1rem;
+  font-weight: 400;
+  line-height: 1.5;
+  color: #4F5467;
+  background-color: #fff;
+  background-clip: padding-box;
+  border: 1px solid #e9ecef;
+  border-radius: 15px;
+  transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+}
+
+input::placeholder {
+  font-size: 18px; /* Adjust the size as needed */
+  color: #999999;
+}
+
+.borderdsn{
+  border-left: 1px solid grey;
+  height: 3rem;
+}

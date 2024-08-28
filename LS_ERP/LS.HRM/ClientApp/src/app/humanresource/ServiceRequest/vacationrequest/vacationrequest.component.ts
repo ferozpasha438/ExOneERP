@@ -110,7 +110,7 @@ export class VacationrequestComponent extends ParentHrmAdminComponent implements
   }
 
   loadEmpInfo() {
-    this.apiService.getQueryString(`leaveType/getLeaveTypeSelectListItem?employeeId=`, this.empSelectInfo.intValue).subscribe(res => {
+    this.apiService.getQueryString(`leaveType/getLeaveTypeSelectListItem`, `?employeeId=${this.empSelectInfo.intValue}&requestType=leaveRequest`).subscribe(res => {
       this.leaveTypeSelectListItems = res;
     });
 
