@@ -1,4 +1,4 @@
-<h3 class="modal-title">{{'Addupdate_Service_Code' | translate}}</h3>
+<h3 class="modal-title">{{'Service_Code' | translate}}</h3>
 <button type="button" class="close" aria-hidden="true" (click)="closeModel()"> ×</button>
 <form [formGroup]="form" (ngSubmit)="submit()" novalidate class="mt-4">
   <div class="outer ">
@@ -35,8 +35,8 @@
 
       <div class="col-md-6 col-lg-6 col-sm-6">
         <div class="form-group">
-          <label>{{'Service_Name_En' | translate}}</label>
-          <input class="form-control" type="text" placeholder="{{'Service_Name_En' | translate}}"
+          <label>{{'Service_Name_EN' | translate}}</label>
+          <input class="form-control" type="text" placeholder="{{'Service_Name_EN' | translate}}"
                  formControlName="serviceName_En" />
           <validation-message [control]="form.controls.serviceName_En"></validation-message>
         </div>
@@ -44,8 +44,8 @@
 
       <div class="col-md-6 col-lg-6 col-sm-6">
         <div class="form-group">
-          <label>{{'Service_Name_Ar' | translate}}</label>
-          <input class="form-control" type="text" placeholder="{{'Service_Name_Ar' | translate}}"
+          <label>{{'Service_Name_AR' | translate}}</label>
+          <input class="form-control" type="text" placeholder="{{'Service_Name_AR' | translate}}"
                  formControlName="serviceName_Ar" />
           <validation-message [control]="form.controls.serviceName_Ar"></validation-message>
         </div>

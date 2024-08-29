@@ -1,4 +1,4 @@
-<h3 class="modal-title">{{'Fleet_Route_Plan' | translate}}</h3>
+<h3 class="modal-title">{{'Route_Plan' | translate}}</h3>
 <button type="button" class="close" aria-hidden="true" (click)="closeModel()"> ×</button>
 <form [formGroup]="form" (ngSubmit)="submit()" novalidate class="mt-4">
   <div class="outer ">
@@ -14,8 +14,8 @@
 
       <div class="col-md-6 col-lg-6 col-sm-6">
         <div class="form-group">
-          <label>{{'Route_Name' | translate}}</label>
-          <input class="form-control" type="text" placeholder="{{'Route_Name' | translate}}"
+          <label>{{'Route_Name_EN' | translate}}</label>
+          <input class="form-control" type="text" placeholder="{{'Route_Name_EN' | translate}}"
                  formControlName="routeNameEn" />
           <!--<validation-message [control]="form.controls.routeNameEn"></validation-message>-->
         </div>
@@ -23,8 +23,8 @@
 
       <div class="col-md-6 col-lg-6 col-sm-6">
         <div class="form-group">
-          <label>{{'Route_NameAr' | translate}}</label>
-          <input class="form-control" type="text" placeholder="{{'Route_NameAr' | translate}}"
+          <label>{{'Route_Name_AR' | translate}}</label>
+          <input class="form-control" type="text" placeholder="{{'Route_Name_AR' | translate}}"
                  formControlName="routeNameAr" />
           <!--<validation-message [control]="form.controls.routeNameAr"></validation-message>-->
         </div>

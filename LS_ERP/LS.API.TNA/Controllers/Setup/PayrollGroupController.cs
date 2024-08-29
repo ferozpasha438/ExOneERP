@@ -58,7 +58,7 @@ namespace LS.API.TNA.Controllers.Setup
         }
 
         [HttpGet("GetPayrollGroupSelectListItem")]
-        public async Task<IActionResult> GetAddressTypeSelectListItem()
+        public async Task<IActionResult> GetPayrollGroupSelectListItem()
         {
             var list = await Mediator.Send(new GetPayrollGroupSelectListItem() { User = UserInfo() });
             return Ok(list);
