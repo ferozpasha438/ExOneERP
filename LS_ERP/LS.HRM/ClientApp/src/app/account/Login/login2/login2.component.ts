@@ -57,8 +57,8 @@ export class Login2Component extends ParentSystemSetupComponent implements OnIni
     this.cinloginForm = this.fb.group({
       'cinNumber': [this.lastcinnumber, Validators.required],
       'userName': ['Admin', Validators.required],
-      'password': ['admin@123', Validators.required]
-      //'password': ['sh1234', Validators.required]
+      //'password': ['admin@123', Validators.required]
+      'password': ['sh1234', Validators.required]
 
     });
   }
