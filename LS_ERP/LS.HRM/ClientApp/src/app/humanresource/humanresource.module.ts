@@ -111,6 +111,8 @@ import { GetemployeeleaveComponent } from './Employeemgt/EmployeeLeaveInfo/Emplo
 import { MultiapprovalrequestComponent } from './ServiceRequest/shared/multiapprovalrequest/multiapprovalrequest.component';
 import { GetvacationpolicyComponent } from './Setup/VacationPolicy/getvacationpolicy/getvacationpolicy.component';
 import { AddupdatevacationpolicyComponent } from './Setup/VacationPolicy/addupdatevacationpolicy/addupdatevacationpolicy.component';
+import { EmployeeexitreentryComponent } from './ServiceRequest/shared/employeeexitreentry/employeeexitreentry.component';
+import { EmployeereportingbackComponent } from './ServiceRequest/shared/employeereportingback/employeereportingback.component';
 // import { GetgenderComponent } from './Setup/Grade/getgender/getgender.component';
 
 @NgModule({
@@ -218,6 +220,8 @@ import { AddupdatevacationpolicyComponent } from './Setup/VacationPolicy/addupda
     MultiapprovalrequestComponent,
     GetvacationpolicyComponent,
     AddupdatevacationpolicyComponent,
+    EmployeeexitreentryComponent,
+    EmployeereportingbackComponent,
   ],
   imports: [CommonModule, HumanresourceRoutingModule, SharedModule],
 })
