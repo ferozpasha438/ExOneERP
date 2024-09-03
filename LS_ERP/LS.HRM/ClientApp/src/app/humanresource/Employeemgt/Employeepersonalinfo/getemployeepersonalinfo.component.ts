@@ -142,9 +142,6 @@ export class GetemployeepersonalinfoComponent
           this.form.patchValue(res);
           res.allowImageUpload = true;
           this.employeeBasicInfo = res;
-          if (!res['employeeImageUrl'])
-            this.employeeBasicInfo.employeeImageUrl =
-              'assets/images/profile.jpg';
           if (res['religionCode'] != null)
             this.loadGroups(res['religionCode'] as string);
           if (res['groupCode'] != null)
