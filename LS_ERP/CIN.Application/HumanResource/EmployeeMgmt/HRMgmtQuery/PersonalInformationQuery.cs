@@ -107,7 +107,7 @@ namespace CIN.Application.HumanResource.EmployeeMgmt.HRMgmtQuery
                     personalInformation.EmployeeName = isArab ? string.Concat(personalInformation.FirstNameAr, " ", personalInformation.LastNameAr) :
                         string.Concat(personalInformation.FirstNameEn, " ", personalInformation.LastNameEn);
                     personalInformation.EmployeeImageUrl = !string.IsNullOrEmpty(personalInformation.EmployeeImageUrl) ?
-                        personalInformation.EmployeeImageUrl : "/assets/images/profile.jpg";
+                        personalInformation.EmployeeImageUrl : string.Empty;
 
                     var employeeLanguages = await _context.EmployeeLanguages.AsNoTracking()
                         .Where(e => (e.EmployeeId == int.Parse(request.EmployeeNumber)))
