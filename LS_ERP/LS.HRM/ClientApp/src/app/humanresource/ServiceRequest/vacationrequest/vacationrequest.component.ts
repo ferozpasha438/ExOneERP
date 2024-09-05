@@ -53,7 +53,7 @@ export class VacationrequestComponent extends ParentHrmAdminComponent implements
   canDisableApproval: boolean = false;
   totalCutOffNoOfDays: number = 50;
   isOnVacation: boolean = false;
-
+  vacationErrorMessage: string = 'some error';
   constructor(private fb: FormBuilder, private apiService: ApiService,
     private authService: AuthorizeService, private utilService: UtilityService, public dialogRef: MatDialogRef<VacationrequestComponent>,
     private notifyService: NotificationService, private validationService: ValidationService, public dialog: MatDialog) {
@@ -70,6 +70,7 @@ export class VacationrequestComponent extends ParentHrmAdminComponent implements
   }
   getSelectedEmpInfo(empIem: any) {
     this.empSelectInfo = empIem;
+    this.reset();
     this.loadEmpInfo();
   }
   getRemarks(remark: string) {
@@ -116,6 +117,7 @@ export class VacationrequestComponent extends ParentHrmAdminComponent implements
     this.apiService.getQueryString(`serviceRequest/getVacationPolicyForEmployee`, `?employeeId=${this.empSelectInfo.intValue}`).subscribe(res => {
       this.isOnVacation = this.utilService.hasValue(res.text);
       this.totalCutOffNoOfDays = res.intValue;
+      this.vacationErrorMessage = res.text;
     });
 
     this.apiService.getQueryString(`leaveType/getLeaveTypeSelectListItem`, `?employeeId=${this.empSelectInfo.intValue}&requestType=`).subscribe(res => {
@@ -209,7 +211,7 @@ export class VacationrequestComponent extends ParentHrmAdminComponent implements
         if (this.requestInfoList.length > 0) {
           const alrLeaveType = this.requestInfoList.find(e => e.leaveTypeCode == this.leaveTypeCode);
           if (alrLeaveType) {
-            this.notifyService.showError('duplicate leave ( ' + this.leaveTypeCode + ' ) edit it');
+            this.notifyService.showError('duplicate leave ( ' + this.leaveTypeCode + ' ) ');//edit it
             return;
           }
           const totalNoOfDays = this.requestInfoList.map(item => item.noOfDays).reduce((inititem, a) => inititem + a, 0);

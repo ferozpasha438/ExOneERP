@@ -55,6 +55,13 @@ namespace LS.API.HRM.Admin.Controllers.ServiceRequest
             return Ok(list);
         }
 
+        [HttpGet("getVacationPolicyForEmployee")]
+        public async Task<IActionResult> GetVacationPolicyForEmployee([FromQuery] int employeeId)
+        {
+            var list = await Mediator.Send(new GetVacationPolicyForEmployee() { EmployeeId = employeeId });
+            return Ok(list);
+        }
+
         [HttpPost]
         public async Task<ActionResult> Create()
         {
@@ -128,5 +135,40 @@ namespace LS.API.HRM.Admin.Controllers.ServiceRequest
 
             return BadRequest(new ApiMessageDto { Message = result.Message });
         }
+
+        [HttpPost("releaseVacationRequest")]
+        public async Task<ActionResult> ReleaseVacationRequest([FromBody] ApprovalListDto input)
+        {
+            var result = await Mediator.Send(new ApprovalVacationRequestList() { Input = input, User = UserInfo() });
+
+            if (result.Id > 0)
+                return NoContent();
+
+            return BadRequest(new ApiMessageDto { Message = result.Message });
+        }
+
+        [HttpPost("reportVacationRequest")]
+        public async Task<ActionResult> ReportVacationRequest([FromBody] ApprovalListDto input)
+        {
+            var result = await Mediator.Send(new ApprovalVacationRequestList() { Input = input, User = UserInfo() });
+
+            if (result.Id > 0)
+                return NoContent();
+
+            return BadRequest(new ApiMessageDto { Message = result.Message });
+        }
+
+        [HttpDelete("cancelVacationRequest")]
+        public async Task<ActionResult> CancelVacationRequest([FromRoute] ApprovalListDto input)
+        {
+            var result = await Mediator.Send(new ApprovalVacationRequestList() { Input = input, User = UserInfo() });
+
+            if (result.Id > 0)
+                return NoContent();
+
+            return BadRequest(new ApiMessageDto { Message = result.Message });
+        }
+
+
     }
 }

@@ -477,14 +477,36 @@ namespace CIN.Application.HumanResource.ServiceRequest.HRMServiceRequestQuery
             try
             {
                 Log.Info("----Info GetVacationPolicyForEmployee method start----");
-                var contractInfo = await _context.EmployeeContracts.Include(e => e.SysVacationPolicy)
+                var contractInfo = await _context.EmployeeContracts.Include(e => e.SysVacationPolicy).AsNoTracking()
                     .Where(e => e.EmployeeID == request.EmployeeId)
                     .Select(e => new { e.SysVacationPolicy.VacationDurationInMonths, e.SysVacationPolicy.MaximumDaysAllowed })
                     .FirstOrDefaultAsync();
-                //contractInfo?.VacationDurationInMonths ?? 0
-                //_context.EmployeeVacationDateLogs
+
+                if (contractInfo is null)
+                    return new() { Text = "You do not have Vacation Policy" };
+
+                var logInfo = await _context.EmployeeVacationDateLogs.Where(e => e.EmployeeID == request.EmployeeId)
+                    .OrderByDescending(e => e.Id)
+                    //.Select(e => e.ToDate)
+                    .FirstOrDefaultAsync();
+
                 Log.Info("----Info GetVacationPolicyForEmployee method end----");
-                return new() { Text = "y", IntValue = contractInfo?.MaximumDaysAllowed ?? 0 };
+
+                if (logInfo is not null)
+                {
+                    var rValue = DateTime.Now;
+                    var lValue = logInfo.ToDate;
+
+                    int totalMonths = (rValue.Month - lValue.Month) + 12 * (rValue.Year - lValue.Year);
+                    int totalDays = (rValue.Day - lValue.Day) + 12 * (rValue.Month - lValue.Month);
+                    if (totalMonths >= contractInfo.VacationDurationInMonths && totalDays > 0)
+                    {
+                        return new() { IntValue = contractInfo.MaximumDaysAllowed };
+                    }
+                    return new() { Text = $"You are still not completed {contractInfo.VacationDurationInMonths} months", IntValue = 0 };
+                }
+
+                return new() { IntValue = contractInfo.MaximumDaysAllowed };
             }
             catch (Exception ex)
             {
@@ -628,7 +650,7 @@ namespace CIN.Application.HumanResource.ServiceRequest.HRMServiceRequestQuery
                         await _context.EmployeeServiceRequests.AddAsync(serviceReq);
                         await _context.SaveChangesAsync();
 
-                        string ServiceRequestRefNo = $"SRQ{serviceType.ServiceRequestTypeCode}{DateTime.Now.Year}{serviceReq.Id:d10}";
+                        string ServiceRequestRefNo = $"SRQ{serviceType.ServiceRequestTypeCode}{DateTime.Now.Year}{serviceReq.Id:d9}";
                         var servicerequest = await _context.EmployeeServiceRequests.FirstOrDefaultAsync(e => e.Id == serviceReq.Id);
                         servicerequest.ServiceRequestRefNo = ServiceRequestRefNo;
 
@@ -695,7 +717,7 @@ namespace CIN.Application.HumanResource.ServiceRequest.HRMServiceRequestQuery
                     Log.Error("Error occured time : " + DateTime.UtcNow);
                     Log.Error("Error message : " + ex.Message);
                     Log.Error("Error StackTrace : " + ex.StackTrace);
-                    return ApiMessageInfo.Status(0);
+                    return ApiMessageInfo.Status(ex.Message + " " + ex.StackTrace);
                 }
             }
         }
