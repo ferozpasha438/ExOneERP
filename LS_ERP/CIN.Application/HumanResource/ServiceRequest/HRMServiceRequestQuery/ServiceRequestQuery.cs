@@ -198,7 +198,8 @@ namespace CIN.Application.HumanResource.ServiceRequest.HRMServiceRequestQuery
                         IsApproved = e.IsApproved,
                         EmployeeNumber = e.TrnPersonalInformation.EmployeeNumber,
                         EmployeeName = isArab ? string.Concat(e.TrnPersonalInformation.FirstNameAr + " ", e.TrnPersonalInformation.LastNameAr)
-                                              : string.Concat(e.TrnPersonalInformation.FirstNameEn + " ", e.TrnPersonalInformation.LastNameEn)
+                                              : string.Concat(e.TrnPersonalInformation.FirstNameEn + " ", e.TrnPersonalInformation.LastNameEn),
+                        
 
                     })
                     .PaginationListAsync(request.Input.Page, request.Input.PageCount, cancellationToken);
