@@ -12,7 +12,6 @@ import { UtilityService } from '../../../services/utility.service';
 import { DeleteConfirmDialogComponent } from '../../../sharedcomponent/delete-confirm-dialog';
 import { PaginationService } from '../../../sharedcomponent/pagination.service';
 import { ParentHrmAdminComponent } from '../../../sharedcomponent/ParentHrmAdmin.component';
-import { VacationrequestComponent } from '../vacationrequest/vacationrequest.component';
 import { ServicerequestinfoComponent } from '../servicerequestinfo/servicerequestinfo.component';
 
 

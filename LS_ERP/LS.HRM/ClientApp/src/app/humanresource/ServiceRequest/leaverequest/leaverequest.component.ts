@@ -12,12 +12,12 @@ import * as moment from 'moment/moment';
 import { StickyDirection } from '@angular/cdk/table';
 import { DeleteConfirmDialogComponent } from '../../../sharedcomponent/delete-confirm-dialog';
 @Component({
-  selector: 'app-vacationrequest',
-  templateUrl: './vacationrequest.component.html',
+  selector: 'app-leaverequest',
+  templateUrl: './leaverequest.component.html',
   styles: [
   ]
 })
-export class VacationrequestComponent extends ParentHrmAdminComponent implements OnInit {
+export class LeaverequestComponent extends ParentHrmAdminComponent implements OnInit {
   remarks: string = '';
   //employeeNumber: string = '';
   employeeId: string = '';
@@ -52,7 +52,7 @@ export class VacationrequestComponent extends ParentHrmAdminComponent implements
   canDisable: boolean = false;
   canDisableApproval: boolean = false;
   constructor(private fb: FormBuilder, private apiService: ApiService,
-    private authService: AuthorizeService, private utilService: UtilityService, public dialogRef: MatDialogRef<VacationrequestComponent>,
+    private authService: AuthorizeService, private utilService: UtilityService, public dialogRef: MatDialogRef<LeaverequestComponent>,
     private notifyService: NotificationService, private validationService: ValidationService, public dialog: MatDialog) {
     super(authService)
   };
@@ -210,6 +210,7 @@ export class VacationrequestComponent extends ParentHrmAdminComponent implements
         this.editSeq = this.editSeq;
         this.requestInfoList.push({ leaveTypeCode: this.leaveTypeCode, editSeq: this.editSeq, noOfDays: this.noOfDays, fromDate: this.fromDate, toDate: this.toDate });
         this.editSeq++;
+
       }
 
       this.reset();
@@ -260,7 +261,7 @@ export class VacationrequestComponent extends ParentHrmAdminComponent implements
 
   }
   saveOrSubmit() {
-   // console.log(this.fileInfo, this.fileInfo.files);
+    // console.log(this.fileInfo, this.fileInfo.files);
     if (this.requestInfoList && this.requestInfoList.length > 0 && this.empSelectInfo) {
       if (this.hasDocument) {//this.fileInfo && this.fileInfo.files) {
         this.requestInfoList.forEach(item => {
