@@ -28,10 +28,7 @@ import { GetqualificationsComponent } from './Setup/Qualification/getqualificati
 import { GetvisatypesComponent } from './Setup/VisaType/getvisatypes/getvisatypes.component';
 import { GetEmployeeTypesComponent } from './Setup/EmployeeType/getemployeetypes/getemployeetypes.component';
 
-
-
 //addupdates imports
-
 
 import { AddupdatedegreetypesComponent } from './Setup/DegreeType/addupdatedegreetypes/addupdatedegreetypes.component';
 import { AddupdateaddresstypesComponent } from './Setup/AddressType/addupdateaddresstypes/addupdateaddresstypes.component';
@@ -112,6 +109,10 @@ import { WaitingapprovalrequestComponent } from './ServiceRequest/waitingapprova
 import { LeaverequestauditComponent } from './ServiceRequest/shared/leaverequestaudit/leaverequestaudit.component';
 import { GetemployeeleaveComponent } from './Employeemgt/EmployeeLeaveInfo/EmployeeLeave/getemployeeleave.component';
 import { MultiapprovalrequestComponent } from './ServiceRequest/shared/multiapprovalrequest/multiapprovalrequest.component';
+import { GetvacationpolicyComponent } from './Setup/VacationPolicy/getvacationpolicy/getvacationpolicy.component';
+import { AddupdatevacationpolicyComponent } from './Setup/VacationPolicy/addupdatevacationpolicy/addupdatevacationpolicy.component';
+import { EmployeeexitreentryComponent } from './ServiceRequest/shared/employeeexitreentry/employeeexitreentry.component';
+import { EmployeereportingbackComponent } from './ServiceRequest/shared/employeereportingback/employeereportingback.component';
 import { LeaverequestComponent } from './ServiceRequest/leaverequest/leaverequest.component';
 // import { GetgenderComponent } from './Setup/Grade/getgender/getgender.component';
 
@@ -140,9 +141,6 @@ import { LeaverequestComponent } from './ServiceRequest/leaverequest/leavereques
     GetcoursetypesComponent,
     GetqualificationsComponent,
     GetEmployeeTypesComponent,
-
-
-
     AddupdatedocumentownersComponent,
     AddupdatepositionsComponent,
     AddupdatereligionsComponent,
@@ -158,7 +156,7 @@ import { LeaverequestComponent } from './ServiceRequest/leaverequest/leavereques
     AddupdateinsuranceprovidersComponent,
     AddupdateinsurancetypesComponent,
     AddupdatelanguagesComponent,
-   /* AddupdatemartialstatusComponent,*/
+    /* AddupdatemartialstatusComponent,*/
     AddupdatesubgroupsComponent,
     AddupdatetitlesComponent,
     AddupdatebloodgroupsComponent,
@@ -211,7 +209,7 @@ import { LeaverequestComponent } from './ServiceRequest/leaverequest/leavereques
     LeaverequestemployeeinfoComponent,
     VacationrequestComponent,
     MyrequestComponent,
-    ServicerequestinfoComponent,  
+    ServicerequestinfoComponent,
     GetgradeComponent,
     AddupdategradeComponent,
     GetmaritalstatusComponent,
@@ -219,15 +217,15 @@ import { LeaverequestComponent } from './ServiceRequest/leaverequest/leavereques
     LeaverequestemployeelistComponent,
     WaitingapprovalrequestComponent,
     LeaverequestauditComponent,
-    
     GetemployeeleaveComponent,
+    MultiapprovalrequestComponent,
+    GetvacationpolicyComponent,
+    AddupdatevacationpolicyComponent,
+    EmployeeexitreentryComponent,
+    EmployeereportingbackComponent,
     MultiapprovalrequestComponent,
     LeaverequestComponent,
   ],
-  imports: [
-    CommonModule,
-    HumanresourceRoutingModule,
-    SharedModule
-  ]
+  imports: [CommonModule, HumanresourceRoutingModule, SharedModule],
 })
-export class HumanresourceModule { }
+export class HumanresourceModule {}

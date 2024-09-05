@@ -554,6 +554,7 @@ namespace CIN.DB
         public DbSet<TblHRMSysLeaveType> LeaveTypes { get; set; }
         public DbSet<TblHRMSysLeaveTemplate> LeaveTemplates { get; set; }
         public DbSet<TblHRMSysLeaveTemplateMapping> LeaveTemplateMappings { get; set; }
+        public DbSet<TblHRMSysVacationPolicy> VacationPolicies { get; set; }
 
         //Transactions
         public DbSet<TblHRMTrnPersonalInformation> PersonalInformation { get; set; }
@@ -850,6 +851,7 @@ namespace CIN.DB
             modelBuilder.Entity<TblHRMSysLeaveType>().Property(e => e.Id).Metadata.SetAfterSaveBehavior(PropertySaveBehavior.Throw);
             modelBuilder.Entity<TblHRMSysLeaveTemplate>().Property(e => e.Id).Metadata.SetAfterSaveBehavior(PropertySaveBehavior.Throw);
             modelBuilder.Entity<TblHRMSysDependentType>().Property(e => e.Id).Metadata.SetAfterSaveBehavior(PropertySaveBehavior.Throw);
+            modelBuilder.Entity<TblHRMSysVacationPolicy>().Property(e => e.Id).Metadata.SetAfterSaveBehavior(PropertySaveBehavior.Throw);
 
             //Transactions
             modelBuilder.Entity<TblHRMTrnPersonalInformation>().Property(e => e.Id).Metadata.SetAfterSaveBehavior(PropertySaveBehavior.Throw);

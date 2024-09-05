@@ -1,0 +1,220 @@
+<div class="modal-header">
+    <h3 class="modal-title">{{"Vacation–Travel Exit Re-Entry Information" | translate}}</h3>
+    <button type="button" class="close" aria-hidden="true" (click)="closeModel()"> ×</button>
+  </div>
+  <form [formGroup]="form" (ngSubmit)="submit()" novalidate class="mt-4">
+    <div class="row">
+      <div class="col-md-6 col-lg-6">
+        <div class="form-group">
+          <label for="employeeNumber">{{'EmployeeNumber' | translate}}</label>
+          <input class="form-control" id="EmployeeNumber" type="text"
+                 placeholder="{{'Please_Enter' | translate}} {{'EmployeeNumber' | translate}} " formControlName="employeeNumber" [readonly]="isReadOnly">
+          <validation-message [control]="form.controls.employeeNumber"></validation-message>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-12 col-lg-12">
+        <div class="form-group">
+          <label for="employeeName">{{'EmployeeName' | translate}}</label>
+          <input class="form-control" id="employeeName" type="text"
+                 placeholder="{{'Please_Enter' | translate}} {{'EmployeeName' | translate}}" formControlName="employeeName" [readonly]="isReadOnly">
+          <validation-message [control]="form.controls.employeeName"></validation-message>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-6 col-lg-6">
+        <div class="form-group">
+          <label for="exitReEntryNumber">{{'ExitRe-EntryNumber' | translate}}</label>
+          <input class="form-control" id="exitReEntryNumber" type="number"
+                 placeholder="{{'Please_Enter' | translate}} {{'ExitRe-EntryNumber' | translate}}" formControlName="exitReEntryNumber">
+          <validation-message [control]="form.controls.exitReEntryNumber"></validation-message>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-6 col-lg-6">
+        <div class="form-group ">
+          <label for="exitEffectiveDate" class="mr-sm-2">
+            {{'ExitEffectiveDate' | translate}}
+          </label>
+          <div class="input-group ">
+            <input class="form-control input-mandatory"
+              placeholder=" {{'Please_Enter' | translate}} {{'ExitEffectiveDate' | translate}}" formControlName="exitEffectiveDate"
+              [matDatepicker]="picker">
+            <div class="input-group-prepend datapickericon">
+              <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+              <mat-datepicker #picker></mat-datepicker>
+              <validation-message [control]="form.controls.exitEffectiveDate"></validation-message>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-6 col-lg-6">
+        <div class="form-group ">
+          <label for="validuptodate" class="mr-sm-2">
+            {{'ValidUpto(Date)' | translate}}
+          </label>
+          <div class="input-group ">
+            <input class="form-control input-mandatory"
+              placeholder=" {{'Please_Enter' | translate}} {{'ValidUpto(Date)' | translate}}" formControlName="validuptodate"
+              [matDatepicker]="picker">
+            <div class="input-group-prepend datapickericon">
+              <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+              <mat-datepicker #picker></mat-datepicker>
+              <validation-message [control]="form.controls.validuptodate"></validation-message>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-6 col-lg-6">
+        <div class="form-group">
+          <label for="numberOfDays">{{'NumberOfDays' | translate}}</label>
+          <input class="form-control" id="numberOfDays" type="text"
+                 placeholder="{{'Please_Enter' | translate}} {{'NumberOfDays' | translate}}" formControlName="numberOfDays" [readonly]="isReadOnly">
+          <validation-message [control]="form.controls.numberOfDays"></validation-message>
+        </div>
+      </div>
+
+      <div class="col-md-6 col-lg-6">
+        <div class="form-group ">
+          <label for="expectedDateofReporting" class="mr-sm-2">
+            {{'ExpectedDateofReporting' | translate}}
+          </label>
+          <div class="input-group ">
+            <input class="form-control input-mandatory"
+              placeholder=" {{'Please_Enter' | translate}} {{'ExpectedDateofReporting' | translate}}" formControlName="expectedDateofReporting"
+              [matDatepicker]="picker">
+            <div class="input-group-prepend datapickericon">
+              <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+              <mat-datepicker #picker></mat-datepicker>
+              <validation-message [control]="form.controls.expectedDateofReporting"></validation-message>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+    <div class="row">
+      <div class="col-md-6 col-lg-6">
+        <div class="form-group">
+          <mat-slide-toggle color="primary" formControlName="vacationExtensionAllowed"></mat-slide-toggle>&nbsp;
+          <label for="vacationExtensionAllowed">{{'VacationExtensionAllowed?' | translate}}</label>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-6 col-lg-6">
+        <div class="form-group">
+          <label for="Business Class">{{'TicketNumber' | translate}}</label>
+          <input class="form-control" id="ticketNumber" type="text"
+                 placeholder="{{'Please_Enter' | translate}} {{'TicketNumber' | translate}}" formControlName="ticketNumber">
+          <validation-message [control]="form.controls.ticketNumber"></validation-message>
+        </div>
+      </div>
+      <div class="col-md-6 col-lg-6">
+        <label for="ticketClass" class="mr-sm-2">{{'TicketClass' | translate}}</label>
+        <select class="custom-select mr-sm-2" formControlName="ticketClass">
+          <option value="firstClass">{{'First Class' | translate}}</option>
+          <option value="economyClass">{{'Economy Class' | translate}}</option>
+          <option value="business Class">{{'Business Class' | translate}}</option>
+        </select>
+        <validation-message [control]="form.controls.ticketClass"></validation-message>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-12 col-lg-12">
+        <label for="airLines" class="mr-sm-2">{{'AirLines' | translate}}</label>
+        <select class="custom-select mr-sm-2" formControlName="airLines">
+          <option value="firstClass">{{'ABC' | translate}}</option>
+          <option value="economyClass">{{'ABC' | translate}}</option>
+          <option value="businessClass">{{'ABC' | translate}}</option>
+        </select>
+        <validation-message [control]="form.controls.airLines"></validation-message>
+      </div>
+    </div>
+    &nbsp;
+    <div class="row">
+      <div class="col-md-6 col-lg-6">
+        <label for="airLines" class="mr-sm-2">{{'BoardingCity' | translate}}</label>
+        <select class="custom-select mr-sm-2" formControlName="airLines">
+          <option value="firstClass">{{'ABC' | translate}}</option>
+          <option value="economyClass">{{'ABC' | translate}}</option>
+          <option value="businessClass">{{'ABC' | translate}}</option>
+        </select>
+        <validation-message [control]="form.controls.airLines"></validation-message>
+      </div>
+      <div class="col-md-6 col-lg-6">
+        <label for="airLines" class="mr-sm-2">{{'DestinationCity' | translate}}</label>
+        <select class="custom-select mr-sm-2" formControlName="airLines">
+          <option value="firstClass">{{'ABC' | translate}}</option>
+          <option value="economyClass">{{'ABC' | translate}}</option>
+          <option value="businessClass">{{'ABC' | translate}}</option>
+        </select>
+        <validation-message [control]="form.controls.airLines"></validation-message>
+      </div>
+    </div>
+    &nbsp;
+    <div class="row">
+      <div class="col-md-6 col-lg-6">
+        <div class="form-group">
+          <mat-slide-toggle color="primary" formControlName="vacationExtensionAllowed"></mat-slide-toggle>&nbsp;
+          <label for="vacationExtensionAllowed">{{'VacationExtensionAllowed?' | translate}}</label>
+        </div>
+      </div>
+      <div class="col-md-6 col-lg-6">
+        <div class="form-group">
+          <label for="replacementemployee">{{'ReplacementEmployee' | translate}}</label>
+          <input class="form-control" id="replacementemployee" type="text"
+                 placeholder="{{'Please_Enter' | translate}} {{'ReplacementEmployee' | translate}} " formControlName="replacementemployee" [readonly]="isReadOnly">
+          <validation-message [control]="form.controls.replacementemployee"></validation-message>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-12 col-lg-12">
+        <div class="form-group">
+          <label for="nameOfTheReplacementEmployee">{{'NameOfTheReplacementEmployee' | translate}}</label>
+          <input class="form-control" id="nameOfTheReplacementEmployee" type="text"
+                 placeholder="{{'Please_Enter' | translate}} {{'NameOfTheReplacementEmployee' | translate}} " formControlName="nameOfTheReplacementEmployee" [readonly]="isReadOnly">
+          <validation-message [control]="form.controls.nameOfTheReplacementEmployee"></validation-message>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-12 col-lg-12">
+        <div class="form-group ">
+          <label for="remarks" class="mr-sm-2">
+            {{'Remarks' | translate}}
+          </label>
+          <textarea class="form-control" placeholder=" {{'Please_Enter' | translate}}  {{'Remarks' | translate}}"
+            formControlName="remarks"></textarea>
+        </div>
+      </div>
+    </div>
+
+  &nbsp;
+    <div class="row">
+      <div class="col-md-6 col-lg-6">
+        <div class="form-group">
+          <label for="isActive">{{'Is_Active' | translate}}</label>
+          <br />
+          <mat-slide-toggle color="primary" formControlName="isActive"></mat-slide-toggle>
+        </div>
+      </div>
+    </div>
+    <div class="row mt-3 ">
+      <div class="col-md-12 col-lg-12 text-center">
+        <input type="submit"
+               class="btn waves-effect waves-light btn-rounded btn-primary btn-midblock"
+               value="{{'Save & Release' | translate}}" /> &nbsp;
+        <input type="button"
+               class="btn waves-effect waves-light btn-rounded   btn-secondary btn-midblock"
+               value="{{'Cancel Vacation' | translate}}" />
+      </div>
+    </div>
+  </form>
+  

@@ -37,6 +37,9 @@ import { GetgradeComponent } from './Setup/Grade/getgrade/getgrade.component';
 import { GetmaritalstatusComponent } from './Setup/MaritalStatus/getmaritalstatus/getmaritalstatus.component';
 import { GetdepartmentsComponent } from './Setup/Departments/getdepartments/getdepartments.component';
 import { WaitingapprovalrequestComponent } from './ServiceRequest/waitingapprovalrequest/waitingapprovalrequest.component';
+import { GetvacationpolicyComponent } from './Setup/VacationPolicy/getvacationpolicy/getvacationpolicy.component';
+import { EmployeeexitreentryComponent } from './ServiceRequest/shared/employeeexitreentry/employeeexitreentry.component';
+import { EmployeereportingbackComponent } from './ServiceRequest/shared/employeereportingback/employeereportingback.component';
 
 
 const routes: Routes = [
@@ -70,19 +73,16 @@ const routes: Routes = [
   { path: 'getgrade', component: GetgradeComponent },
   { path: 'getleavetypes', component: GetleavetypesComponent },//GetleavetypesComponent
   { path: 'getleavetemplates', component: GetleavetemplatesComponent },//GetleavetemplatesComponent
-
-
-
-  //time & attendance
-
   { path: 'getshifts', component: GetshiftsComponent },
   { path: 'getholiday', component: GetholidayComponent },
   { path: 'getholidaycalendar', component: GetholidaycalendarComponent },
   { path: 'getdivisions', component: GetdivisonComponent },
   { path: 'getemployeestatuses', component: GetemployeestatusComponent },
   { path: 'getdepartments', component: GetdepartmentsComponent },
-
-
+  { path: 'getvacationpolicy', component: GetvacationpolicyComponent },
+  { path: 'getemployeeexitreentry', component: EmployeeexitreentryComponent },
+  { path: 'getemployeereportingback', component: EmployeereportingbackComponent },
+  // { path: 'getvacationreq', component: VacationrequestComponent },
 ];
 
 @NgModule({
