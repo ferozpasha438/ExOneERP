@@ -52,7 +52,12 @@
                     <th mat-header-cell *matHeaderCellDef>{{'Actions' | translate}}</th>
                     <td mat-cell *matCellDef="let row">
                       <a class="tableicons" (click)="edit(row)" matTooltip="{{'Edit_Item' | translate}}"><i class="icon-note"> </i></a> &nbsp;
-                      <a class="tableicons" (click)="delete(row.id)" matTooltip="{{'Delete_Item' | translate}}"><i class="icon-trash"> </i></a>
+                      <!--<a class="tableicons" (click)="delete(row.id)" matTooltip="{{'Delete_Item' | translate}}"><i class="icon-trash"> </i></a>-->
+                      <ng-container *ngIf="row.isApproved">
+                        <a class="tableicons" (click)="release(row)" matTooltip="{{'Release' | translate}}"><i class="fa fa-plane"> </i></a>
+                        <a class="tableicons" (click)="reporting(row)" matTooltip="{{'Reporting' | translate}}"><i class="fa fa-arrow-circle-left"> </i></a>
+                        <a class="tableicons" (click)="cancel(row)" matTooltip="{{'Cancel' | translate}}"><i class="fa fa-window-close"> </i></a>
+                      </ng-container>
                     </td>
                   </ng-container>
                   <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>

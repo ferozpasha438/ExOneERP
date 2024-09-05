@@ -199,7 +199,7 @@ namespace CIN.Application.HumanResource.ServiceRequest.HRMServiceRequestQuery
                         EmployeeNumber = e.TrnPersonalInformation.EmployeeNumber,
                         EmployeeName = isArab ? string.Concat(e.TrnPersonalInformation.FirstNameAr + " ", e.TrnPersonalInformation.LastNameAr)
                                               : string.Concat(e.TrnPersonalInformation.FirstNameEn + " ", e.TrnPersonalInformation.LastNameEn),
-                        
+
 
                     })
                     .PaginationListAsync(request.Input.Page, request.Input.PageCount, cancellationToken);
@@ -452,6 +452,51 @@ namespace CIN.Application.HumanResource.ServiceRequest.HRMServiceRequestQuery
 
         }
     }
+    #endregion
+
+
+
+    #region GetVacationPolicyForEmployee
+    public class GetVacationPolicyForEmployee : IRequest<CustomSelectListItem>
+    {
+        public int EmployeeId { get; set; }
+    }
+
+    public class GetVacationPolicyForEmployeeHandler : IRequestHandler<GetVacationPolicyForEmployee, CustomSelectListItem>
+    {
+        private readonly CINDBOneContext _context;
+        private readonly IMapper _mapper;
+        public GetVacationPolicyForEmployeeHandler(CINDBOneContext context, IMapper mapper)
+        {
+            _context = context;
+            _mapper = mapper;
+        }
+
+        public async Task<CustomSelectListItem> Handle(GetVacationPolicyForEmployee request, CancellationToken cancellationToken)
+        {
+            try
+            {
+                Log.Info("----Info GetVacationPolicyForEmployee method start----");
+                var contractInfo = await _context.EmployeeContracts.Include(e => e.SysVacationPolicy)
+                    .Where(e => e.EmployeeID == request.EmployeeId)
+                    .Select(e => new { e.SysVacationPolicy.VacationDurationInMonths, e.SysVacationPolicy.MaximumDaysAllowed })
+                    .FirstOrDefaultAsync();
+                //contractInfo?.VacationDurationInMonths ?? 0
+                //_context.EmployeeVacationDateLogs
+                Log.Info("----Info GetVacationPolicyForEmployee method end----");
+                return new() { Text = "y", IntValue = contractInfo?.MaximumDaysAllowed ?? 0 };
+            }
+            catch (Exception ex)
+            {
+                Log.Error("Error in GetVacationPolicyForEmployee Method");
+                Log.Error("Error occured time : " + DateTime.UtcNow);
+                Log.Error("Error message : " + ex.Message);
+                Log.Error("Error StackTrace : " + ex.StackTrace);
+                throw;
+            }
+        }
+    }
+
     #endregion
 
     #region CreateUpdateVacationRequest

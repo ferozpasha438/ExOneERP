@@ -34,8 +34,7 @@ export class EmployeeexitreentryComponent extends ParentHrmAdminComponent implem
 
   ngOnInit(): void {
     this.setForm();
-    if (this.id > 0)
-      this.setEditForm();
+    this.loadData()
   }
 
   setForm() {
@@ -61,7 +60,8 @@ export class EmployeeexitreentryComponent extends ParentHrmAdminComponent implem
     );
     this.isReadOnly = false;
   }
-  setEditForm() {
+
+  loadData() {
     this.apiService.get('', this.id).subscribe(res => {
       if (res) {
         this.isReadOnly = true;
@@ -69,9 +69,7 @@ export class EmployeeexitreentryComponent extends ParentHrmAdminComponent implem
       }
     });
   }
-  closeModel() {
-    this.dialogRef.close();
-  }
+
 
   submit() {
     if (this.form.valid) {
@@ -90,7 +88,14 @@ export class EmployeeexitreentryComponent extends ParentHrmAdminComponent implem
     else
       this.utilService.FillUpFields();
   }
+  cancelVacation() {
+    this.dialogRef.close();
+    this.utilService.OkMessage();
+  }
 
+  closeModel() {
+    this.dialogRef.close();
+  }
   reset() {
     this.form.controls['employeeNumber'].setValue('');
     this.form.controls['employeeName'].setValue('');

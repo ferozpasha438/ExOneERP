@@ -33,8 +33,7 @@ export class EmployeereportingbackComponent extends ParentHrmAdminComponent impl
 
   ngOnInit(): void {
     this.setForm();
-    if (this.id > 0)
-      this.setEditForm();
+    this.loadData();
   }
 
   setForm() {
@@ -57,7 +56,7 @@ export class EmployeereportingbackComponent extends ParentHrmAdminComponent impl
     );
     this.isReadOnly = false;
   }
-  setEditForm() {
+  loadData() {
     this.apiService.get('', this.id).subscribe(res => {
       if (res) {
         this.isReadOnly = true;

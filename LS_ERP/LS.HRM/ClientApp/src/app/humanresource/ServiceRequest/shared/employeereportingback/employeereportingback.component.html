@@ -107,9 +107,12 @@
     </div>
     
     <div class="row mt-3">
-        <div class="col-md-12 col-lg-12 text-center">
-            <input type="submit" class="btn waves-effect waves-light btn-rounded btn-primary btn-midblock"
-                value="{{'Save' | translate}}" /> &nbsp;
-        </div>
+      <div class="col-md-12 col-lg-12 text-center">
+        <input type="submit" class="btn waves-effect waves-light btn-rounded btn-primary btn-midblock"
+               value="{{'Save' | translate}}" /> &nbsp;
+        <input type="button"
+               class="btn waves-effect waves-light btn-rounded   btn-secondary btn-midblock"
+               value="{{'Cancel' | translate}}" (click)="closeModel()" />
+      </div>
     </div>
 </form>

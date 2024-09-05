@@ -51,6 +51,9 @@ export class VacationrequestComponent extends ParentHrmAdminComponent implements
   audits: any;
   canDisable: boolean = false;
   canDisableApproval: boolean = false;
+  totalCutOffNoOfDays: number = 50;
+  isOnVacation: boolean = false;
+
   constructor(private fb: FormBuilder, private apiService: ApiService,
     private authService: AuthorizeService, private utilService: UtilityService, public dialogRef: MatDialogRef<VacationrequestComponent>,
     private notifyService: NotificationService, private validationService: ValidationService, public dialog: MatDialog) {
@@ -110,7 +113,12 @@ export class VacationrequestComponent extends ParentHrmAdminComponent implements
   }
 
   loadEmpInfo() {
-    this.apiService.getQueryString(`leaveType/getLeaveTypeSelectListItem`, `?employeeId=${this.empSelectInfo.intValue}&requestType=leaveRequest`).subscribe(res => {
+    this.apiService.getQueryString(`serviceRequest/getVacationPolicyForEmployee`, `?employeeId=${this.empSelectInfo.intValue}`).subscribe(res => {
+      this.isOnVacation = this.utilService.hasValue(res.text);
+      this.totalCutOffNoOfDays = res.intValue;
+    });
+
+    this.apiService.getQueryString(`leaveType/getLeaveTypeSelectListItem`, `?employeeId=${this.empSelectInfo.intValue}&requestType=`).subscribe(res => {
       this.leaveTypeSelectListItems = res;
     });
 
@@ -204,6 +212,11 @@ export class VacationrequestComponent extends ParentHrmAdminComponent implements
             this.notifyService.showError('duplicate leave ( ' + this.leaveTypeCode + ' ) edit it');
             return;
           }
+          const totalNoOfDays = this.requestInfoList.map(item => item.noOfDays).reduce((inititem, a) => inititem + a, 0);
+          if ((totalNoOfDays + this.noOfDays) > this.totalCutOffNoOfDays) {
+            this.notifyService.showError('No Of Days not more than ( ' + this.totalCutOffNoOfDays + ' )');
+            return;
+          }
         }
 
         this.checkDatesSeqMissing(new Date(this.toDate));
@@ -260,7 +273,7 @@ export class VacationrequestComponent extends ParentHrmAdminComponent implements
 
   }
   saveOrSubmit() {
-   // console.log(this.fileInfo, this.fileInfo.files);
+    // console.log(this.fileInfo, this.fileInfo.files);
     if (this.requestInfoList && this.requestInfoList.length > 0 && this.empSelectInfo) {
       if (this.hasDocument) {//this.fileInfo && this.fileInfo.files) {
         this.requestInfoList.forEach(item => {

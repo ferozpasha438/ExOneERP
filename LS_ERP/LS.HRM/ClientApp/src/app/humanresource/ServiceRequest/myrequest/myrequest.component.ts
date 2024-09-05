@@ -13,6 +13,8 @@ import { DeleteConfirmDialogComponent } from '../../../sharedcomponent/delete-co
 import { PaginationService } from '../../../sharedcomponent/pagination.service';
 import { ParentHrmAdminComponent } from '../../../sharedcomponent/ParentHrmAdmin.component';
 import { ServicerequestinfoComponent } from '../servicerequestinfo/servicerequestinfo.component';
+import { EmployeeexitreentryComponent } from '../shared/employeeexitreentry/employeeexitreentry.component';
+import { EmployeereportingbackComponent } from '../shared/employeereportingback/employeereportingback.component';
 
 
 @Component({
@@ -103,13 +105,36 @@ export class MyrequestComponent extends ParentHrmAdminComponent implements OnIni
     });
   }
 
+  private openComponentDialogManage<T>(data: any, modalTitle: string, component: T) {
+    let dialogRef = this.utilService.openDialogCongif(this.dialog, component, 75);
+    (dialogRef.componentInstance as any).data = data;
+    (dialogRef.componentInstance as any).modalTitle = modalTitle;
+
+    dialogRef.afterClosed().subscribe(res => {
+      if (res && res === true)
+        this.initialLoading();
+    });
+  }
+
   public create() {
     this.serviceRequestRefNo = '';
     this.openDialogManage(0, DBOperation.create, this.translate.instant('AddLeaveTemplate'), 'Add');
   }
-  public edit(row:any) {
+  public edit(row: any) {
     this.serviceRequestRefNo = row.serviceRequestRefNo;
     this.openDialogManage(row.id, DBOperation.update, this.translate.instant('UpdateLeaveTemplate'), 'Update');
+  }
+  public release(row: any) {
+    this.serviceRequestRefNo = row.serviceRequestRefNo;
+    this.openComponentDialogManage(row, this.translate.instant('Employeeexitreentry'), EmployeeexitreentryComponent);
+  }
+  public reporting(row: any) {
+    this.serviceRequestRefNo = row.serviceRequestRefNo;
+    this.openComponentDialogManage(row, this.translate.instant('Employeeexitreentry'), EmployeereportingbackComponent);
+  }
+  public cancel(row: any) {
+    this.serviceRequestRefNo = row.serviceRequestRefNo;
+    this.openComponentDialogManage(row, this.translate.instant('Employeereportingback'), EmployeereportingbackComponent);
   }
 
   public delete(id: number) {

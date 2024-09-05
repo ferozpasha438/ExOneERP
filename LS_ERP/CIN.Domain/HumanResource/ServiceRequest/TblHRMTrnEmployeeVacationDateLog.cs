@@ -5,6 +5,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using CIN.Domain.HumanResource.EmployeeMgt;
 
 namespace CIN.Domain.HumanResource.ServiceRequest
 {
@@ -15,7 +16,11 @@ namespace CIN.Domain.HumanResource.ServiceRequest
         public TblHRMTrnEmployeeServiceRequest TrnEmployeeServiceRequest { get; set; }
         [Required]
         public int EmployeeServiceRequestID { get; set; }
-
+        //EmployeeID
+        [ForeignKey(nameof(EmployeeID))]
+        public TblHRMTrnPersonalInformation TrnPersonalInformation { get; set; }
+        [Required]
+        public int EmployeeID { get; set; }
         [Required]
         public DateTime FromDate { get; set; }
         [Required]
