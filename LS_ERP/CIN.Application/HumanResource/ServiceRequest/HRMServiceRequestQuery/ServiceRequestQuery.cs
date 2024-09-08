@@ -198,7 +198,8 @@ namespace CIN.Application.HumanResource.ServiceRequest.HRMServiceRequestQuery
                         IsApproved = e.IsApproved,
                         EmployeeNumber = e.TrnPersonalInformation.EmployeeNumber,
                         EmployeeName = isArab ? string.Concat(e.TrnPersonalInformation.FirstNameAr + " ", e.TrnPersonalInformation.LastNameAr)
-                                              : string.Concat(e.TrnPersonalInformation.FirstNameEn + " ", e.TrnPersonalInformation.LastNameEn)
+                                              : string.Concat(e.TrnPersonalInformation.FirstNameEn + " ", e.TrnPersonalInformation.LastNameEn),
+
 
                     })
                     .PaginationListAsync(request.Input.Page, request.Input.PageCount, cancellationToken);
@@ -453,6 +454,73 @@ namespace CIN.Application.HumanResource.ServiceRequest.HRMServiceRequestQuery
     }
     #endregion
 
+
+
+    #region GetVacationPolicyForEmployee
+    public class GetVacationPolicyForEmployee : IRequest<CustomSelectListItem>
+    {
+        public int EmployeeId { get; set; }
+    }
+
+    public class GetVacationPolicyForEmployeeHandler : IRequestHandler<GetVacationPolicyForEmployee, CustomSelectListItem>
+    {
+        private readonly CINDBOneContext _context;
+        private readonly IMapper _mapper;
+        public GetVacationPolicyForEmployeeHandler(CINDBOneContext context, IMapper mapper)
+        {
+            _context = context;
+            _mapper = mapper;
+        }
+
+        public async Task<CustomSelectListItem> Handle(GetVacationPolicyForEmployee request, CancellationToken cancellationToken)
+        {
+            try
+            {
+                Log.Info("----Info GetVacationPolicyForEmployee method start----");
+                var contractInfo = await _context.EmployeeContracts.Include(e => e.SysVacationPolicy).AsNoTracking()
+                    .Where(e => e.EmployeeID == request.EmployeeId)
+                    .Select(e => new { e.SysVacationPolicy.VacationDurationInMonths, e.SysVacationPolicy.MaximumDaysAllowed })
+                    .FirstOrDefaultAsync();
+
+                if (contractInfo is null)
+                    return new() { Text = "You do not have Vacation Policy" };
+
+                var logInfo = await _context.EmployeeVacationDateLogs.Where(e => e.EmployeeID == request.EmployeeId)
+                    .OrderByDescending(e => e.Id)
+                    //.Select(e => e.ToDate)
+                    .FirstOrDefaultAsync();
+
+                Log.Info("----Info GetVacationPolicyForEmployee method end----");
+
+                if (logInfo is not null)
+                {
+                    var rValue = DateTime.Now;
+                    var lValue = logInfo.ToDate;
+
+                    int totalMonths = (rValue.Month - lValue.Month) + 12 * (rValue.Year - lValue.Year);
+                    int totalDays = (rValue.Day - lValue.Day) + 12 * (rValue.Month - lValue.Month);
+                    if (totalMonths >= contractInfo.VacationDurationInMonths && totalDays > 0)
+                    {
+                        return new() { IntValue = contractInfo.MaximumDaysAllowed };
+                    }
+                    return new() { Text = $"You are still not completed {contractInfo.VacationDurationInMonths} months", IntValue = 0 };
+                }
+
+                return new() { IntValue = contractInfo.MaximumDaysAllowed };
+            }
+            catch (Exception ex)
+            {
+                Log.Error("Error in GetVacationPolicyForEmployee Method");
+                Log.Error("Error occured time : " + DateTime.UtcNow);
+                Log.Error("Error message : " + ex.Message);
+                Log.Error("Error StackTrace : " + ex.StackTrace);
+                throw;
+            }
+        }
+    }
+
+    #endregion
+
     #region CreateUpdateVacationRequest
 
     public class CreateUpdateVacationRequest : UserIdentityDto, IRequest<AppCtrollerDto>
@@ -582,7 +650,7 @@ namespace CIN.Application.HumanResource.ServiceRequest.HRMServiceRequestQuery
                         await _context.EmployeeServiceRequests.AddAsync(serviceReq);
                         await _context.SaveChangesAsync();
 
-                        string ServiceRequestRefNo = $"SRQ{serviceType.ServiceRequestTypeCode}{DateTime.Now.Year}{serviceReq.Id:d10}";
+                        string ServiceRequestRefNo = $"SRQ{serviceType.ServiceRequestTypeCode}{DateTime.Now.Year}{serviceReq.Id:d9}";
                         var servicerequest = await _context.EmployeeServiceRequests.FirstOrDefaultAsync(e => e.Id == serviceReq.Id);
                         servicerequest.ServiceRequestRefNo = ServiceRequestRefNo;
 
@@ -649,7 +717,7 @@ namespace CIN.Application.HumanResource.ServiceRequest.HRMServiceRequestQuery
                     Log.Error("Error occured time : " + DateTime.UtcNow);
                     Log.Error("Error message : " + ex.Message);
                     Log.Error("Error StackTrace : " + ex.StackTrace);
-                    return ApiMessageInfo.Status(0);
+                    return ApiMessageInfo.Status(ex.Message + " " + ex.StackTrace);
                 }
             }
         }

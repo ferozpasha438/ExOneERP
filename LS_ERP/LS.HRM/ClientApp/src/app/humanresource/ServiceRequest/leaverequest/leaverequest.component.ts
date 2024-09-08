@@ -12,12 +12,12 @@ import * as moment from 'moment/moment';
 import { StickyDirection } from '@angular/cdk/table';
 import { DeleteConfirmDialogComponent } from '../../../sharedcomponent/delete-confirm-dialog';
 @Component({
-  selector: 'app-vacationrequest',
-  templateUrl: './vacationrequest.component.html',
+  selector: 'app-leaverequest',
+  templateUrl: './leaverequest.component.html',
   styles: [
   ]
 })
-export class VacationrequestComponent extends ParentHrmAdminComponent implements OnInit {
+export class LeaverequestComponent extends ParentHrmAdminComponent implements OnInit {
   remarks: string = '';
   //employeeNumber: string = '';
   employeeId: string = '';
@@ -51,11 +51,8 @@ export class VacationrequestComponent extends ParentHrmAdminComponent implements
   audits: any;
   canDisable: boolean = false;
   canDisableApproval: boolean = false;
-  totalCutOffNoOfDays: number = 50;
-  isOnVacation: boolean = false;
-  vacationErrorMessage: string = 'some error';
   constructor(private fb: FormBuilder, private apiService: ApiService,
-    private authService: AuthorizeService, private utilService: UtilityService, public dialogRef: MatDialogRef<VacationrequestComponent>,
+    private authService: AuthorizeService, private utilService: UtilityService, public dialogRef: MatDialogRef<LeaverequestComponent>,
     private notifyService: NotificationService, private validationService: ValidationService, public dialog: MatDialog) {
     super(authService)
   };
@@ -70,7 +67,6 @@ export class VacationrequestComponent extends ParentHrmAdminComponent implements
   }
   getSelectedEmpInfo(empIem: any) {
     this.empSelectInfo = empIem;
-    this.reset();
     this.loadEmpInfo();
   }
   getRemarks(remark: string) {
@@ -114,13 +110,7 @@ export class VacationrequestComponent extends ParentHrmAdminComponent implements
   }
 
   loadEmpInfo() {
-    this.apiService.getQueryString(`serviceRequest/getVacationPolicyForEmployee`, `?employeeId=${this.empSelectInfo.intValue}`).subscribe(res => {
-      this.isOnVacation = this.utilService.hasValue(res.text);
-      this.totalCutOffNoOfDays = res.intValue;
-      this.vacationErrorMessage = res.text;
-    });
-
-    this.apiService.getQueryString(`leaveType/getLeaveTypeSelectListItem`, `?employeeId=${this.empSelectInfo.intValue}&requestType=`).subscribe(res => {
+    this.apiService.getQueryString(`leaveType/getLeaveTypeSelectListItem`, `?employeeId=${this.empSelectInfo.intValue}&requestType=leaveRequest`).subscribe(res => {
       this.leaveTypeSelectListItems = res;
     });
 
@@ -211,12 +201,7 @@ export class VacationrequestComponent extends ParentHrmAdminComponent implements
         if (this.requestInfoList.length > 0) {
           const alrLeaveType = this.requestInfoList.find(e => e.leaveTypeCode == this.leaveTypeCode);
           if (alrLeaveType) {
-            this.notifyService.showError('duplicate leave ( ' + this.leaveTypeCode + ' ) ');//edit it
-            return;
-          }
-          const totalNoOfDays = this.requestInfoList.map(item => item.noOfDays).reduce((inititem, a) => inititem + a, 0);
-          if ((totalNoOfDays + this.noOfDays) > this.totalCutOffNoOfDays) {
-            this.notifyService.showError('No Of Days not more than ( ' + this.totalCutOffNoOfDays + ' )');
+            this.notifyService.showError('duplicate leave ( ' + this.leaveTypeCode + ' ) edit it');
             return;
           }
         }
@@ -225,6 +210,7 @@ export class VacationrequestComponent extends ParentHrmAdminComponent implements
         this.editSeq = this.editSeq;
         this.requestInfoList.push({ leaveTypeCode: this.leaveTypeCode, editSeq: this.editSeq, noOfDays: this.noOfDays, fromDate: this.fromDate, toDate: this.toDate });
         this.editSeq++;
+
       }
 
       this.reset();

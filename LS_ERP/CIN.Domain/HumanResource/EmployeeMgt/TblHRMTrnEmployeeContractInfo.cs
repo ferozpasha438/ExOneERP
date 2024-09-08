@@ -60,5 +60,15 @@ namespace CIN.Domain.HumanResource.EmployeeMgt
         public TblHRMSysVacationPolicy SysVacationPolicy { get; set; }
         [StringLength(20)]
         public string VacationPolicyCode { get; set; }
+
+        //Employee Status
+        [ForeignKey(nameof(EmployeeStatusCode))]
+        public TblHRMSysEmployeeStatus SysEmployeeStatus { get; set; }
+        [Required]
+        [StringLength(20)]
+        public string EmployeeStatusCode { get; set; }
+
+        //Stop Payroll
+        public bool StopPayroll { get; set; }
     }
 }

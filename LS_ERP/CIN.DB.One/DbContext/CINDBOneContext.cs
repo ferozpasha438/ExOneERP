@@ -579,6 +579,7 @@ namespace CIN.DB
         public DbSet<TblHRMTrnEmployeeServiceRequestAudit> EmployeeServiceRequestAudits { get; set; }
         public DbSet<TblHRMTrnEmployeeServiceRequestDocumentDetails> EmployeeServiceRequestDocumentDetails { get; set; }
         public DbSet<TblHRMTrnEmployeeVacationServiceRequestLeaveDetails> EmployeeVacationServiceRequestLeaveDetails { get; set; }
+        public DbSet<TblHRMTrnEmployeeVacationDateLog> EmployeeVacationDateLogs { get; set; }
 
         #endregion
 
@@ -855,7 +856,7 @@ namespace CIN.DB
 
             //Transactions
             modelBuilder.Entity<TblHRMTrnPersonalInformation>().Property(e => e.Id).Metadata.SetAfterSaveBehavior(PropertySaveBehavior.Throw);
-            modelBuilder.Entity<TblHRMTrnPersonalInformation>().Property(e => e.EmployeeNumber).HasComputedColumnSql("RIGHT('0000'+CONVERT([VARCHAR](5),[Id]),(5))");            
+            modelBuilder.Entity<TblHRMTrnPersonalInformation>().Property(e => e.EmployeeNumber).HasComputedColumnSql("RIGHT('0000'+CONVERT([VARCHAR](5),[Id]),(5))");
             modelBuilder.Entity<TblHRMTrnEmployeeDependentInfo>().Property(e => e.Id).Metadata.SetAfterSaveBehavior(PropertySaveBehavior.Throw);
             modelBuilder.Entity<TblHRMTrnEmployeeAddress>().Property(e => e.Id).Metadata.SetAfterSaveBehavior(PropertySaveBehavior.Throw);
             modelBuilder.Entity<TblHRMTrnEmployeeQualificationInfo>().Property(e => e.Id).Metadata.SetAfterSaveBehavior(PropertySaveBehavior.Throw);

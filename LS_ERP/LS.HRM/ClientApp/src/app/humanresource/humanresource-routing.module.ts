@@ -38,6 +38,8 @@ import { GetmaritalstatusComponent } from './Setup/MaritalStatus/getmaritalstatu
 import { GetdepartmentsComponent } from './Setup/Departments/getdepartments/getdepartments.component';
 import { WaitingapprovalrequestComponent } from './ServiceRequest/waitingapprovalrequest/waitingapprovalrequest.component';
 import { GetvacationpolicyComponent } from './Setup/VacationPolicy/getvacationpolicy/getvacationpolicy.component';
+import { EmployeeexitreentryComponent } from './ServiceRequest/shared/employeeexitreentry/employeeexitreentry.component';
+import { EmployeereportingbackComponent } from './ServiceRequest/shared/employeereportingback/employeereportingback.component';
 
 
 const routes: Routes = [
@@ -78,6 +80,9 @@ const routes: Routes = [
   { path: 'getemployeestatuses', component: GetemployeestatusComponent },
   { path: 'getdepartments', component: GetdepartmentsComponent },
   { path: 'getvacationpolicy', component: GetvacationpolicyComponent },
+  { path: 'getemployeeexitreentry', component: EmployeeexitreentryComponent },
+  { path: 'getemployeereportingback', component: EmployeereportingbackComponent },
+  // { path: 'getvacationreq', component: VacationrequestComponent },
 ];
 
 @NgModule({

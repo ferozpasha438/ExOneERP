@@ -1,0 +1,118 @@
+<div class="modal-header">
+    <h3 class="modal-title">{{"Vacation – Employee Reporting Information" | translate}}</h3>
+    <button type="button" class="close" aria-hidden="true" (click)="closeModel()"> ×</button>
+</div>
+<form [formGroup]="form" (ngSubmit)="submit()" novalidate class="mt-4">
+    <div class="row">
+        <div class="col-md-6 col-lg-6">
+            <div class="form-group">
+                <label for="employeeNumber">{{'EmployeeNumber' | translate}}</label>
+                <input class="form-control" id="EmployeeNumber" type="text"
+                    placeholder="{{'Please_Enter' | translate}} {{'EmployeeNumber' | translate}} "
+                    formControlName="employeeNumber" [readonly]="isReadOnly">
+                <validation-message [control]="form.controls.employeeNumber"></validation-message>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12 col-lg-12">
+            <div class="form-group">
+                <label for="employeeName">{{'EmployeeName' | translate}}</label>
+                <input class="form-control" id="employeeName" type="text"
+                    placeholder="{{'Please_Enter' | translate}} {{'EmployeeName' | translate}}"
+                    formControlName="employeeName" [readonly]="isReadOnly">
+                <validation-message [control]="form.controls.employeeName"></validation-message>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-6 col-lg-6">
+            <div class="form-group ">
+                <label for="reportingDate" class="mr-sm-2">
+                    {{'ReportingDate' | translate}}
+                </label>
+                <div class="input-group ">
+                    <input class="form-control input-mandatory"
+                        placeholder=" {{'Please_Enter' | translate}} {{'ReportingDate' | translate}}"
+                        formControlName="reportingDate" [matDatepicker]="picker">
+                    <div class="input-group-prepend datapickericon">
+                        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                        <mat-datepicker #picker></mat-datepicker>
+                        <validation-message [control]="form.controls.reportingDate"></validation-message>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6 col-lg-6">
+            <label for="reportingManager" class="mr-sm-2">{{'ReportingManager' | translate}}</label>
+            <select class="custom-select mr-sm-2" formControlName="reportingManager">
+                <option value="firstClass">{{'ABC' | translate}}</option>
+                <option value="economyClass">{{'ABC' | translate}}</option>
+                <option value="business Class">{{'ABC' | translate}}</option>
+            </select>
+            <validation-message [control]="form.controls.reportingManager"></validation-message>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-6 col-lg-6">
+            <div class="form-group ">
+                <label for="latereportingreason" class="mr-sm-2">
+                    {{'LateReportingReason' | translate}}
+                </label>
+                <textarea class="form-control"
+                    placeholder=" {{'Please_Enter' | translate}}  {{'LateReportingReason' | translate}}"
+                    formControlName="latereportingreason"></textarea>
+            </div>
+        </div>
+        <div class="col-md-6 col-lg-6 mt-5">
+            <div class="form-group">
+                <mat-slide-toggle color="primary" formControlName="requiredApprovalLetterforLateReporting"></mat-slide-toggle>&nbsp;
+                <label for="requiredApprovalLetterforLateReporting">{{'RequiredApprovalLetterforLateReporting' | translate}}</label>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-6 col-lg-6">
+            <div class="form-group ">
+                <label for="remarks" class="mr-sm-2">
+                    {{'Remarks' | translate}}
+                </label>
+                <textarea class="form-control" placeholder=" {{'Please_Enter' | translate}}  {{'Remarks' | translate}}"
+                    formControlName="remarks"></textarea>
+            </div>
+        </div>
+        <div class="col-md-3 col-lg-3 mt-5">
+            <div class="form-group">
+                <mat-slide-toggle color="primary" formControlName="joiningReportSubmitted"></mat-slide-toggle>&nbsp;
+                <label for="joiningReportSubmitted">{{'JoiningReportSubmitted' | translate}}</label>
+            </div>
+        </div>
+        <div class="col-md-3 col-lg-3 mt-5">
+            <div class="form-group">
+                <mat-slide-toggle color="primary" formControlName="allowedtoResumeDuty"></mat-slide-toggle>&nbsp;
+                <label for="allowedtoResumeDuty">{{'AllowedtoResumeDuty' | translate}}</label>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-6 col-lg-6">
+            <div class="form-group ">
+                <label for="actionrequired" class="mr-sm-2">
+                    {{'Action Required' | translate}}
+                </label>
+                <textarea class="form-control" placeholder=" {{'Please_Enter' | translate}}  {{'Remarks' | translate}}"
+                    formControlName="actionrequired"></textarea>
+            </div>
+        </div>
+    </div>
+    
+    <div class="row mt-3">
+      <div class="col-md-12 col-lg-12 text-center">
+        <input type="submit" class="btn waves-effect waves-light btn-rounded btn-primary btn-midblock"
+               value="{{'Save' | translate}}" /> &nbsp;
+        <input type="button"
+               class="btn waves-effect waves-light btn-rounded   btn-secondary btn-midblock"
+               value="{{'Cancel' | translate}}" (click)="closeModel()" />
+      </div>
+    </div>
+</form>

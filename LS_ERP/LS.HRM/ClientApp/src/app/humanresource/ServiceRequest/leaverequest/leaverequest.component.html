@@ -13,15 +13,6 @@
       </ng-template>
     </div>
     <div class="col-md-4"></div>
-  </div>
-
-  <div class="row" *ngIf="isOnVacation">
-    <div class="col-md-12 col-lg-12">
-      <h4 text-center text-danger pt-3 font-bold>{{vacationErrorMessage}}</h4>
-    </div>
-  </div>
-
-  <div class="row" *ngIf="!isOnVacation">
     <div class="col-md-12 col-lg-12" *ngIf="employeeBasicInfo && empSelectInfo">
       <app-employeebasicinfo [employeeBasicInfo]="employeeBasicInfo"></app-employeebasicinfo>
     </div>
