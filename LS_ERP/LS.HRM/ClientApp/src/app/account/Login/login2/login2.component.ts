@@ -91,6 +91,7 @@ export class Login2Component extends ParentSystemSetupComponent implements OnIni
           localStorage.setItem('setupapi', metaData.admUrl);
           localStorage.setItem('apiEndpoint', metaData.admUrl);
           localStorage.setItem('oprEndPoint', metaData.opmUrl);
+          localStorage.setItem('hrmEndPoint', metaData.hrmUrl);
           localStorage.setItem('dbConnectionString', this.dbconnectionString);
 
 

@@ -70,7 +70,9 @@ export class AuthorizeService {
   public GetOprApiEndPoint(): string {
     return localStorage.getItem('oprEndPoint') ?? ''
   };
-
+  public GetHrmApiEndPoint(): string {
+    return localStorage.getItem('hrmEndPoint') ?? ''
+  };
   public DbConnectionString(): string {
     return localStorage.getItem('dbConnectionString') ?? ''
   };

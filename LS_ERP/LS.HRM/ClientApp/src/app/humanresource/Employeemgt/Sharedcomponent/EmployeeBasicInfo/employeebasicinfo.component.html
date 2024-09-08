@@ -6,7 +6,7 @@
     <img src="{{employeeBasicInfo.employeeImageUrl}}" class="h-md-75 w-md-100 btn-rounded">
     <div class="form-group" *ngIf="employeeBasicInfo.allowImageUpload">
       <div>
-        <input #csvInput hidden="true" type="file" onclick="this.value=null" (change)="onFileChanged($event)"
+        <input #csvInput [(ngModel)]="employeeBasicInfo.file" hidden="true" type="file" onclick="this.value=null" (change)="onFileChanged($event)"
           accept="image/*" />
         <button mat-flat-button color="primary" (click)="csvInput.click()" style="width: 100%; margin-top: 5px;">{{"ChoosePicture"| translate}}</button>
       </div>

@@ -13,6 +13,7 @@ import { DeleteConfirmDialogComponent } from '../../../../sharedcomponent/delete
 import { PaginationService } from '../../../../sharedcomponent/pagination.service';
 import { ParentHrmAdminComponent } from '../../../../sharedcomponent/ParentHrmAdmin.component';
 import { AddupdateinsuranceinfoComponent } from '../AddupdateInsurance/addupdateinsuranceinfo.component';
+import { default as constants } from '../../../../../assets/i18n/constants.json';
 
 @Component({
   selector: 'app-getemployeeinsuranceinfo',
@@ -60,6 +61,15 @@ export class GetemployeeinsuranceinfoComponent extends ParentHrmAdminComponent i
       if (res) {
         res.allowImageUpload=false;
         this.employeeBasicInfo = res;
+
+        if (
+          !(this.employeeBasicInfo.employeeImageUrl as string)?.includes(
+            constants.employeeProfile
+          )
+        )
+          this.employeeBasicInfo.employeeImageUrl = `${this.authService
+            .ApiEndPoint()
+            .replace('api', '')}${this.employeeBasicInfo.employeeImageUrl}`;
       }
     });
   }

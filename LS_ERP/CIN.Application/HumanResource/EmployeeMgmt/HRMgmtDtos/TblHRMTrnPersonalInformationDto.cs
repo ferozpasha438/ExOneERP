@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using CIN.Domain.HumanResource.EmployeeMgt;
+using Microsoft.AspNetCore.Http;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -84,5 +85,8 @@ namespace CIN.Application.HumanResource.EmployeeMgmt.HRMgmtDtos
         [StringLength(80)]
         public string EmployeeImageUrl { get; set; }
         public bool AllowImageUpload { get; set; }
+        //Profile Image Name with Guid and file extension.
+        [StringLength(80)]
+        public string ProfileFileName { get; set; }
     }
 }

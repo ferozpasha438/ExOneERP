@@ -107,7 +107,7 @@ namespace CIN.Application.HumanResource.EmployeeMgmt.HRMgmtQuery
                     personalInformation.EmployeeName = isArab ? string.Concat(personalInformation.FirstNameAr, " ", personalInformation.LastNameAr) :
                         string.Concat(personalInformation.FirstNameEn, " ", personalInformation.LastNameEn);
                     personalInformation.EmployeeImageUrl = !string.IsNullOrEmpty(personalInformation.EmployeeImageUrl) ?
-                        personalInformation.EmployeeImageUrl : "assets/images/profile.jpg";
+                        $"files/employeeprofiles/{personalInformation.EmployeeImageUrl}" : "assets/images/profile.jpg";
 
                     var employeeLanguages = await _context.EmployeeLanguages.AsNoTracking()
                         .Where(e => (e.EmployeeId == int.Parse(request.EmployeeNumber)))
@@ -203,6 +203,8 @@ namespace CIN.Application.HumanResource.EmployeeMgmt.HRMgmtQuery
                         personalInformation.SubGroupCode = obj.SubGroupCode;
                         personalInformation.MarriageDate = obj.MarriageDate;
                         personalInformation.PHDescription = obj.PHDescription;
+                        personalInformation.ProfileFileName = obj.ProfileFileName;
+                        personalInformation.EmployeeImageUrl = obj.EmployeeImageUrl;
                         personalInformation.ModifiedBy = request.User.UserId;
                         personalInformation.Modified = DateTime.Now;
 
@@ -242,6 +244,8 @@ namespace CIN.Application.HumanResource.EmployeeMgmt.HRMgmtQuery
                             SubGroupCode = obj.SubGroupCode,
                             MarriageDate = obj.MarriageDate,
                             PHDescription = obj.PHDescription,
+                            ProfileFileName = obj.ProfileFileName,
+                            EmployeeImageUrl = obj.EmployeeImageUrl,
                             CreatedBy = request.User.UserId,
                             Created = DateTime.Now,
                         };
