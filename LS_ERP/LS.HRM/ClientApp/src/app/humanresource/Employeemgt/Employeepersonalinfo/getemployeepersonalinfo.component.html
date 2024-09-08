@@ -234,6 +234,32 @@
       </div>
     </div>
     <br />
+    <h2 class="arabicright">{{'ContactInformation' | translate}}</h2>
+    <br />
+    <div class="row">
+      <div class="col-md-3 col-lg-3">
+        <div class="form-group">
+          <label for="primaryPhoneNumber">{{'PrimaryPhoneNumber' | translate}}</label>
+          <input class="form-control" type="text"
+            placeholder="{{'Please_Enter' | translate}} {{'PrimaryPhoneNumber' | translate}}" formControlName="primaryPhoneNumber">
+        </div>
+      </div>
+      <div class="col-md-3 col-lg-3">
+        <div class="form-group">
+          <label for="alternatePhoneNumber">{{'AlternatePhoneNumber' | translate}}</label>
+          <input class="form-control" type="text"
+            placeholder="{{'Please_Enter' | translate}} {{'AlternatePhoneNumber' | translate}}" formControlName="alternatePhoneNumber">
+        </div>
+      </div>
+      <div class="col-md-3 col-lg-3">
+        <div class="form-group">
+          <label for="email">{{'Email' | translate}}</label>
+          <input class="form-control" type="text"
+            placeholder="{{'Please_Enter' | translate}} {{'Email' | translate}}" formControlName="email">
+        </div>
+      </div>
+    </div>
+    <br />
     <h2 class="arabicright">{{'Languages' | translate}}</h2>
     <br />
     <div formArrayName="employeeLanguages">

@@ -102,6 +102,9 @@ export class GetemployeepersonalinfoComponent
       marriageDate: [null],
       pHDescription: [''],
       employeeLanguages: this.fb.array([this.CreateemployeeLanguages()]),
+      primaryPhoneNumber: ['', Validators.required],
+      alternatePhoneNumber: [''],
+      email: ['', Validators.required],
     });
   }
 
@@ -368,6 +371,9 @@ export class GetemployeepersonalinfoComponent
           pHDescription: this.form.value.pHDescription,
           employeeLanguages: this.form.value.employeeLanguages,
           isActive: this.form.value.isActive,
+          primaryPhoneNumber: this.form.value.primaryPhoneNumber,
+          alternatePhoneNumber: this.form.value.alternatePhoneNumber,
+          email: this.form.value.email,
         })
       );
 
@@ -435,6 +441,9 @@ export class GetemployeepersonalinfoComponent
     this.form.controls['isPhysicallyChallenged'].setValue('');
     this.form.controls['pHDescription'].setValue('');
     this.form.controls['isActive'].setValue('');
+    this.form.controls['primaryPhoneNumber'].setValue('');
+    this.form.controls['alternatePhoneNumber'].setValue('');
+    this.form.controls['email'].setValue('');
   }
 
   employeeBasicInfoChange(employeeBasicInfo: EmployeeBasicInfoDto) {

@@ -569,6 +569,7 @@ namespace CIN.DB
         public DbSet<TblHRMTrnEmployeeContractInfo> EmployeeContracts { get; set; }
         public DbSet<TblHRMTrnEmployeeControls> EmployeeControls { get; set; }
         public DbSet<TblHRMTrnEmployeeLeaveInformation> EmployeeLeaveInformations { get; set; }
+        public DbSet<TblHRMTrnEmployeeContactInfo> EmployeeContactInformation { get; set; }
 
 
         #region ServiceRequest
@@ -867,6 +868,7 @@ namespace CIN.DB
             modelBuilder.Entity<TblHRMTrnEmployeeContractInfo>().Property(e => e.Id).Metadata.SetAfterSaveBehavior(PropertySaveBehavior.Throw);
             modelBuilder.Entity<TblHRMTrnEmployeeControls>().Property(e => e.Id).Metadata.SetAfterSaveBehavior(PropertySaveBehavior.Throw);
             modelBuilder.Entity<TblHRMTrnEmployeeLeaveInformation>().Property(e => e.Id).Metadata.SetAfterSaveBehavior(PropertySaveBehavior.Throw);
+            modelBuilder.Entity<TblHRMTrnEmployeeContactInfo>().Property(e => e.Id).Metadata.SetAfterSaveBehavior(PropertySaveBehavior.Throw);
 
             //ServiceRequest
             //modelBuilder.Entity<TblHRMTrnEmployeeServiceRequest>().Property(e => e.ServiceRequestRefNo).HasComputedColumnSql("('SRQ'+right(('0'+CONVERT([VARCHAR](5),[Id])+year(getdate())+replicate('0',(7)-len([Id])))+CONVERT([nvarchar],[Id],(0)),(15)))");

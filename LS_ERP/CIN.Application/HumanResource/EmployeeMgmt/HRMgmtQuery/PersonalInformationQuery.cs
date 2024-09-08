@@ -127,6 +127,19 @@ namespace CIN.Application.HumanResource.EmployeeMgmt.HRMgmtQuery
                                 CanSpeak=false
                             },
                         };
+
+                    var employeeContactInfo = await _context.EmployeeContactInformation
+                        .AsNoTracking()
+                        .Where(e => (e.EmployeeID == int.Parse(request.EmployeeNumber)))
+                        .FirstOrDefaultAsync(cancellationToken);
+
+                    if (employeeContactInfo is not null)
+                    {
+                        personalInformation.PrimaryPhoneNumber = employeeContactInfo.PrimaryPhoneNumber;
+                        personalInformation.AlternatePhoneNumber = employeeContactInfo.AlternatePhoneNumber;
+                        personalInformation.Email = employeeContactInfo.Email;
+                    }
+
                     return personalInformation;
                 }
                 else
@@ -203,8 +216,8 @@ namespace CIN.Application.HumanResource.EmployeeMgmt.HRMgmtQuery
                         personalInformation.SubGroupCode = obj.SubGroupCode;
                         personalInformation.MarriageDate = obj.MarriageDate;
                         personalInformation.PHDescription = obj.PHDescription;
-                        personalInformation.ProfileFileName = obj.ProfileFileName;
-                        personalInformation.EmployeeImageUrl = obj.EmployeeImageUrl;
+                        personalInformation.ProfileFileName = !string.IsNullOrEmpty(obj.ProfileFileName) ? obj.ProfileFileName : personalInformation.ProfileFileName;
+                        personalInformation.EmployeeImageUrl = !string.IsNullOrEmpty(obj.EmployeeImageUrl) ? obj.EmployeeImageUrl : personalInformation.EmployeeImageUrl;
                         personalInformation.ModifiedBy = request.User.UserId;
                         personalInformation.Modified = DateTime.Now;
 
@@ -254,8 +267,43 @@ namespace CIN.Application.HumanResource.EmployeeMgmt.HRMgmtQuery
 
                     await _context.SaveChangesAsync();
 
-                    //Save Employee Languages
                     var employeeId = personalInformation.Id;
+
+                    var employeeContactInfo = await _context.EmployeeContactInformation
+                        .Where(e => e.EmployeeID == employeeId).FirstOrDefaultAsync();
+
+                    //if contact Info exists
+                    if (employeeContactInfo is not null)
+                    {
+                        //Updates only when contact Info is different from ex
+                        //if (!employeeContactInfo.PrimaryPhoneNumber.Equals(obj.PrimaryPhoneNumber) ||
+                        //(!string.IsNullOrEmpty(employeeContactInfo.AlternatePhoneNumber) && !employeeContactInfo.AlternatePhoneNumber.Equals(obj.AlternatePhoneNumber)) ||
+                        //!employeeContactInfo.Email.Equals(obj.Email))
+                        //{
+                        employeeContactInfo.PrimaryPhoneNumber = obj.PrimaryPhoneNumber;
+                        employeeContactInfo.AlternatePhoneNumber = obj.AlternatePhoneNumber;
+                        employeeContactInfo.Email = obj.Email;
+                        personalInformation.ModifiedBy = request.User.UserId;
+                        personalInformation.Modified = DateTime.Now;
+                        _context.EmployeeContactInformation.Update(employeeContactInfo);
+                        //}
+                    }
+                    else
+                    {
+                        employeeContactInfo = new TblHRMTrnEmployeeContactInfo()
+                        {
+                            EmployeeID = employeeId,
+                            PrimaryPhoneNumber = obj.PrimaryPhoneNumber,
+                            AlternatePhoneNumber = obj.AlternatePhoneNumber,
+                            Email = obj.Email,
+                            CreatedBy = request.User.UserId,
+                            Created = DateTime.Now,
+                        };
+                        await _context.EmployeeContactInformation.AddAsync(employeeContactInfo);
+                    }
+                    await _context.SaveChangesAsync();
+
+                    //Save Employee Languages
                     var employeeLanguagesDto = request.Input.EmployeeLanguages;
                     if (employeeLanguagesDto.Count > 0)
                     {
