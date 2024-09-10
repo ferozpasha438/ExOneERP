@@ -581,6 +581,8 @@ namespace CIN.DB
         public DbSet<TblHRMTrnEmployeeServiceRequestDocumentDetails> EmployeeServiceRequestDocumentDetails { get; set; }
         public DbSet<TblHRMTrnEmployeeVacationServiceRequestLeaveDetails> EmployeeVacationServiceRequestLeaveDetails { get; set; }
         public DbSet<TblHRMTrnEmployeeVacationDateLog> EmployeeVacationDateLogs { get; set; }
+        public DbSet<TblHRMTrnEmployeeExitReEntryInfo> EmployeeExitReEntryInfos { get; set; }
+        public DbSet<TblHRMTrnEmployeeReportingBackInfo> EmployeeReportingBackInfos { get; set; }
 
         #endregion
 

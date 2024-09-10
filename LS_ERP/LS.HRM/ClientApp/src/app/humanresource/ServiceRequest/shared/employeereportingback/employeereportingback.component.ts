@@ -41,14 +41,14 @@ export class EmployeereportingbackComponent extends ParentHrmAdminComponent impl
       {
         'employeeNumber': ['', Validators.required],
         'employeeName': ['', Validators.required],
-        'reportingDate': [''],
-        'latereportingreason': [''],
-        'reportingManager': [''],
-        'requiredApprovalLetterforLateReporting': [''],
-        'joiningReportSubmitted': [''],
-        'addressTypeNameAr': [''],
-        'allowedtoResumeDuty': [''],
-        'actionrequired': [''],
+        'reportingDate': ['', Validators.required],
+        'reportingReason': [''],
+        'managerEmployeeID': ['', Validators.required],
+        'isApprovalLetterRequired': [''],
+        'isJoiningReportSubmitted': [''],
+        'isAllowedToResumeDuty': [''],
+        //'addressTypeNameAr': [''],
+        'actionRequired': [''],
         'remarks': [''],
         'isActive': [false],
 
@@ -57,7 +57,7 @@ export class EmployeereportingbackComponent extends ParentHrmAdminComponent impl
     this.isReadOnly = false;
   }
   loadData() {
-    this.apiService.get('', this.id).subscribe(res => {
+    this.apiService.get('serviceRequest/getVacationExitReEntryInfoByRequest', this.id).subscribe(res => {
       if (res) {
         this.isReadOnly = true;
         this.form.patchValue(res);
@@ -72,10 +72,10 @@ export class EmployeereportingbackComponent extends ParentHrmAdminComponent impl
     if (this.form.valid) {
       if (this.id > 0)
         this.form.value['id'] = this.id;
-      this.apiService.post('', this.form.value)
+      this.apiService.post('serviceRequest/createVacationReportEntry', this.form.value)
         .subscribe(res => {
           this.utilService.OkMessage();
-          this.reset();
+          //this.reset();
           this.dialogRef.close(true);
         },
           error => {

@@ -42,19 +42,20 @@ export class EmployeeexitreentryComponent extends ParentHrmAdminComponent implem
       {
         'employeeNumber': ['', Validators.required],
         'employeeName': ['', Validators.required],
-        'exitReEntryNumber': [''],
-        'validuptodate': [''],
-        'numberOfDays': [''],
-        'expectedDateofReporting': [''],
-        'vacationExtensionAllowed': [''],
-        'addressTypeNameAr': [''],
-        'ticketNumber': [''],
+        'exitReEntryNumber': ['', Validators.required],
+        'exitEffectiveFromDate': ['', Validators.required],
+        'exitEffectiveToDate': ['', Validators.required],
+        'numberOfDays': ['', Validators.required],
+        'expectedDateofReporting': ['', Validators.required],
+        'isVacationExtensionAllowed': [''],
+        //'addressTypeNameAr': [''],
+        'ticketNumber': ['', Validators.required],
         'airLines': [''],
-        'ticketClass': [''],
+        'flightClassCode': ['', Validators.required],
         'replacementemployee': [''],
         'nameOfTheReplacementEmployee': [''],
-        'remarks': [''],
-        'isActive': [false],
+        'replacementRemarks': [''],
+        'isActive': [true],
 
       }
     );
@@ -62,7 +63,7 @@ export class EmployeeexitreentryComponent extends ParentHrmAdminComponent implem
   }
 
   loadData() {
-    this.apiService.get('', this.id).subscribe(res => {
+    this.apiService.get('serviceRequest/getVacationExitReEntryInfoByRequest', this.id).subscribe(res => {
       if (res) {
         this.isReadOnly = true;
         this.form.patchValue(res);
@@ -75,10 +76,10 @@ export class EmployeeexitreentryComponent extends ParentHrmAdminComponent implem
     if (this.form.valid) {
       if (this.id > 0)
         this.form.value['id'] = this.id;
-      this.apiService.post('', this.form.value)
+      this.apiService.post('serviceRequest/createVacationReleaseExit', this.form.value)
         .subscribe(res => {
           this.utilService.OkMessage();
-          this.reset();
+          //this.reset();
           this.dialogRef.close(true);
         },
           error => {

@@ -48,18 +48,24 @@ namespace CIN.Application.HumanResource.ServiceRequest.HRMServiceRequestQuery
                 bool isArab = request.User.Culture.IsArab();
                 var userId = request.User.UserId;
 
+                //check users are mapped to employees
                 var empControlUserIds = _context.EmployeeControls.Where(e => e.IsUser == true).Select(e => e.UserId);
                 if (empControlUserIds.Any(e => e.Value == userId))
                 {
                     List<TblHRMTrnEmployeeServiceRequestDto> serviceItemList = new();
 
+                    //get only unapproved servicerequests
                     var serviceQuery = _context.EmployeeServiceRequests.AsNoTracking().Where(e => e.IsApproved == false);
+
+                    //pagination with the help of { input.Id }
                     var serviceListIdQuery = input.Id == 0 ? serviceQuery : serviceQuery.Where(e => e.Id < input.Id);
 
+                    //filtering the data
                     if (input.Query.HasValue())
                     {
                         serviceListIdQuery = serviceListIdQuery.Where(e => e.ServiceRequestRefNo.Contains(input.Query) || e.ServiceRequestTypeCode.Contains(input.Query));
                     }
+                    //filtering the data
                     if (input.Code.HasValue())
                     {
                         int empId = int.Parse(input.Code);
@@ -69,18 +75,24 @@ namespace CIN.Application.HumanResource.ServiceRequest.HRMServiceRequestQuery
 
                     var serviceListIds = await serviceListIdQuery.OrderByDescending(e => e.Id).Select(e => e.Id).ToListAsync();
 
+
                     foreach (var sqrId in serviceListIds)
                     {
                         var sqrItem = await _context.EmployeeServiceRequests.Include(e => e.SysServiceRequestType)
                                             .Include(e => e.TrnPersonalInformation).AsNoTracking()
                                             .FirstOrDefaultAsync(e => e.Id == sqrId);
 
+
+                        //get the count of how many users approved this request
                         var auditInfo = await _context.GetAuditApprovalInfo(sqrId);
                         var approvedCount = await auditInfo.CountAsync();
 
+                        //get the no of approval users with their order defined
                         var userlist = await _context.GetApprovalUserWithOrder(isArab, sqrItem.ServiceRequestTypeCode, sqrItem.EmployeeID);
                         int seq = 1;
-                        var lastApprovedUser = await _context.EmployeeServiceRequestAudits.Include(e => e.TrnPersonalInformation).AsNoTracking()
+
+                        //get last Precessed User request entry
+                        var lastPrecessedActivityUser = await _context.EmployeeServiceRequestAudits.Include(e => e.TrnPersonalInformation).AsNoTracking()
                             .Where(e => e.EmployeeServiceRequestID == sqrId || e.ActionID == (int)ProcessStage.Save || e.ActionID == (int)ProcessStage.Submit)
                             .OrderByDescending(e => e.Id).Select(e => new
                             {
@@ -89,11 +101,15 @@ namespace CIN.Application.HumanResource.ServiceRequest.HRMServiceRequestQuery
                                 remarks = e.Remarks
                             }).FirstOrDefaultAsync();
 
-                        var lastPrecessedUser = $"{lastApprovedUser.lastPrecessedUser} [ {lastApprovedUser.remarks} ]";
+                        var lastProcessedUser = $"{lastPrecessedActivityUser.lastPrecessedUser} [ {lastPrecessedActivityUser.remarks} ]";
+
+                        //users order approval iteration to find user sequence
                         foreach (var item in userlist)
                         {
+                            //{ item.IntValue } is the table tblsyslogin's { Id } i.e { UserID }
                             if (item.IntValue == userId)
                             {
+                                //check weather logged in User match sequence to appove the servicerequest
                                 if ((seq - approvedCount) == 1)
                                 {
                                     input.Id = sqrItem.Id;
@@ -106,15 +122,16 @@ namespace CIN.Application.HumanResource.ServiceRequest.HRMServiceRequestQuery
                                         EmployeeNumber = sqrItem.TrnPersonalInformation.EmployeeNumber,
                                         EmployeeName = isArab ? string.Concat(sqrItem.TrnPersonalInformation.FirstNameAr + " ", sqrItem.TrnPersonalInformation.LastNameAr)
                                               : string.Concat(sqrItem.TrnPersonalInformation.FirstNameEn + " ", sqrItem.TrnPersonalInformation.LastNameEn),
-                                        LastProcessedUser = lastPrecessedUser,
+                                        LastProcessedUser = lastProcessedUser,
                                     });
                                     break;
                                 }
                             }
-                            lastPrecessedUser = $"{item.Text} [ processed stage {seq} ]";
+                            lastProcessedUser = $"{item.Text} [ processed stage {seq} ]";
                             seq++;
                         }
 
+                        //check UI pagination's { pageCount } prop with count of items
                         if (input.PageCount == serviceItemList.Count)
                             break;
                     }
@@ -521,6 +538,66 @@ namespace CIN.Application.HumanResource.ServiceRequest.HRMServiceRequestQuery
 
     #endregion
 
+
+
+    #region GetVacationExitReEntryInfoByRequest
+
+    public class GetVacationExitReEntryInfoByRequest : IRequest<TblHRMTrnEmployeeExitReEntryInfoDto>
+    {
+        public UserIdentityDto User { get; set; }
+        public int ServiceId { get; set; }
+    }
+
+    public class GetVacationExitReEntryInfoByRequestHandler : IRequestHandler<GetVacationExitReEntryInfoByRequest, TblHRMTrnEmployeeExitReEntryInfoDto>
+    {
+        private readonly CINDBOneContext _context;
+        private readonly IMapper _mapper;
+        public GetVacationExitReEntryInfoByRequestHandler(CINDBOneContext context, IMapper mapper)
+        {
+            _context = context;
+            _mapper = mapper;
+        }
+
+        public async Task<TblHRMTrnEmployeeExitReEntryInfoDto> Handle(GetVacationExitReEntryInfoByRequest request, CancellationToken cancellationToken)
+        {
+            try
+            {
+                Log.Info("----Info GetVacationExitReEntryInfoByRequest method start----");
+
+                bool isArab = request.User.Culture.IsArab();
+                var serReq = await _context.EmployeeServiceRequests.Where(e => e.Id == request.ServiceId).Select(e => new { e.Id, e.EmployeeID, e.IsApproved }).FirstOrDefaultAsync();
+                var empInfo = await _context.PersonalInformation.Where(e => e.Id == serReq.EmployeeID).FirstOrDefaultAsync();
+                var numberOfDays = await _context.EmployeeVacationServiceRequestLeaveDetails.Where(e => e.EmployeeServiceRequestID == serReq.Id)
+                                                 .SumAsync(e => e.NoOfDays);
+
+                TblHRMTrnEmployeeExitReEntryInfoDto exitReEntryInfo = new()
+                {
+                    EmployeeID = empInfo.Id,
+                    EmployeeNumber = empInfo.EmployeeNumber,
+                    EmployeeName = isArab ? string.Concat(empInfo.FirstNameAr + " ", empInfo.LastNameAr)
+                                              : string.Concat(empInfo.FirstNameEn + " ", empInfo.LastNameEn),
+                    NumberOfDays = numberOfDays,
+                    Replacementemployee = string.Empty,
+                    NameOfTheReplacementEmployee = string.Empty,
+                };
+
+                Log.Info("----Info GetVacationExitReEntryInfoByRequest method end----");
+                return exitReEntryInfo;
+            }
+            catch (Exception ex)
+            {
+                Log.Error("Error in GetVacationExitReEntryInfoByRequest Method");
+                Log.Error("Error occured time : " + DateTime.UtcNow);
+                Log.Error("Error message : " + ex.Message);
+                Log.Error("Error StackTrace : " + ex.StackTrace);
+                throw;
+            }
+        }
+    }
+
+    #endregion
+
+
     #region CreateUpdateVacationRequest
 
     public class CreateUpdateVacationRequest : UserIdentityDto, IRequest<AppCtrollerDto>
@@ -765,7 +842,7 @@ namespace CIN.Application.HumanResource.ServiceRequest.HRMServiceRequestQuery
                     {
 
                         var brachCode = await _context.EmployeeContracts.Where(e => e.EmployeeID == serviceReq.EmployeeID).Select(e => e.BranchCode).FirstOrDefaultAsync();
-                        var approvals = _context.ServiceRequestApprovalAuthorityMatrix.Where(e => e.BranchCode == brachCode);
+                        var approvals = _context.ServiceRequestApprovalAuthorityMatrix.Where(e => e.BranchCode == brachCode && e.ServiceRequestTypeCode == serviceReq.ServiceRequestTypeCode);
                         var approvers = approvals.Select(e => e.ManagerEmployeeID);
 
 
@@ -845,6 +922,20 @@ namespace CIN.Application.HumanResource.ServiceRequest.HRMServiceRequestQuery
                                 await _context.EmployeeLeaveInformations.AddRangeAsync(employeeLeaveInformations);
                                 await _context.SaveChangesAsync();
                             }
+
+                            TblHRMTrnEmployeeVacationDateLog tblHRMTrnEmployeeVacationDateLog = new()
+                            {
+                                EmployeeID = serviceReq.EmployeeID,
+                                EmployeeServiceRequestID = serviceReq.Id,
+                                FromDate = requestInfos.First().FromDate,
+                                ToDate = requestInfos.Last().ToDate,
+                                IsActive = true,
+                                Created = DateTime.Now,
+                                CreatedBy = userId,
+                            };
+                            await _context.EmployeeVacationDateLogs.AddAsync(tblHRMTrnEmployeeVacationDateLog);
+                            await _context.SaveChangesAsync();
+
                         }
                     }
 
@@ -885,7 +976,7 @@ namespace CIN.Application.HumanResource.ServiceRequest.HRMServiceRequestQuery
 
     #endregion
 
-    #region ApprovalVacationRequestList
+    #region ApprovalVacationRequestList For Multiple
 
     public class ApprovalVacationRequestList : UserIdentityDto, IRequest<AppCtrollerDto>
     {
@@ -927,7 +1018,7 @@ namespace CIN.Application.HumanResource.ServiceRequest.HRMServiceRequestQuery
                             if (empControlUserIds.Any(e => e.Value == userId))
                             {
                                 var brachCode = await _context.EmployeeContracts.Where(e => e.EmployeeID == serviceReq.EmployeeID).Select(e => e.BranchCode).FirstOrDefaultAsync();
-                                var approvals = _context.ServiceRequestApprovalAuthorityMatrix.Where(e => e.BranchCode == brachCode);
+                                var approvals = _context.ServiceRequestApprovalAuthorityMatrix.Where(e => e.BranchCode == brachCode && e.ServiceRequestTypeCode == serviceReq.ServiceRequestTypeCode);
                                 var approvers = approvals.Select(e => e.ManagerEmployeeID);
 
                                 var approversCount = await approvers.CountAsync();
@@ -1051,7 +1142,7 @@ namespace CIN.Application.HumanResource.ServiceRequest.HRMServiceRequestQuery
     public class CreateVacationReleaseExit : UserIdentityDto, IRequest<AppCtrollerDto>
     {
         public UserIdentityDto User { get; set; }
-        public CreateVacationReleaseExitDto Input { get; set; }
+        public TblHRMTrnEmployeeExitReEntryInfoDto Input { get; set; }
     }
     public class CreateVacationReleaseExitHandler : IRequestHandler<CreateVacationReleaseExit, AppCtrollerDto>
     {
@@ -1070,26 +1161,46 @@ namespace CIN.Application.HumanResource.ServiceRequest.HRMServiceRequestQuery
             var obj = request.Input;
             var userId = request.User.UserId;
 
-            using (var transaction = await _context.Database.BeginTransactionAsync())
+            try
             {
-                try
+                TblHRMTrnEmployeeExitReEntryInfo exitReEntryInfo = new()
                 {
-                    //var obj = request.Input;
+                    EmployeeServiceRequestID = obj.EmployeeServiceRequestID,
+                    EmployeeID = obj.EmployeeID,
+                    BoardingCityCode = obj.BoardingCityCode,
+                    DestinationCityCode = obj.DestinationCityCode,
+                    ExitEffectiveFromDate = obj.ExitEffectiveFromDate,
+                    ExitEffectiveToDate = obj.ExitEffectiveToDate,
+                    ExitReEntryNumber = obj.ExitReEntryNumber,
+                    ExpectedDateOfReporting = obj.ExpectedDateOfReporting,
+                    FlightClassCode = obj.FlightClassCode,
+                    IsReplacementRequired = obj.IsReplacementRequired,
+                    IsVacationExtensionAllowed = obj.IsVacationExtensionAllowed,
+                    NumberOfDays = obj.NumberOfDays,
+                    ReplacementEmployeeID = obj.ReplacementEmployeeID,
+                    TicketNumber = obj.TicketNumber,
+                    ReplacementRemarks = obj.ReplacementRemarks,
+                    Airlines = obj.Airlines,
+                    IsActive = true,
+                    CreatedBy = userId,
+                    Created = DateTime.Now,
+                };
 
-                }
-                catch (Exception ex)
-                {
-                    await transaction.RollbackAsync();
-                    Log.Error("Error in CreateVacationReleaseExit Method");
-                    Log.Error("Error occured time : " + DateTime.UtcNow);
-                    Log.Error("Error message : " + ex.Message);
-                    Log.Error("Error StackTrace : " + ex.StackTrace);
-                    return ApiMessageInfo.Status(0);// ex.Message + " " + ex.InnerException.Message + " " + ex.StackTrace);
-                }
+                await _context.EmployeeExitReEntryInfos.AddAsync(exitReEntryInfo);
+                await _context.SaveChangesAsync();
+
+                Log.Info("----Info CreateVacationReleaseExit method Exit----");
+                return ApiMessageInfo.Status(1);
+            }
+            catch (Exception ex)
+            {
+                Log.Error("Error in CreateVacationReleaseExit Method");
+                Log.Error("Error occured time : " + DateTime.UtcNow);
+                Log.Error("Error message : " + ex.Message);
+                Log.Error("Error StackTrace : " + ex.StackTrace);
+                return ApiMessageInfo.Status(0);// ex.Message + " " + ex.InnerException.Message + " " + ex.StackTrace);
             }
 
-            Log.Info("----Info CreateVacationReleaseExit method Exit----");
-            return ApiMessageInfo.Status(1);
         }
     }
 
@@ -1100,7 +1211,7 @@ namespace CIN.Application.HumanResource.ServiceRequest.HRMServiceRequestQuery
     public class CreateVacationReportEntry : UserIdentityDto, IRequest<AppCtrollerDto>
     {
         public UserIdentityDto User { get; set; }
-        public CreateVacationReportEntryDto Input { get; set; }
+        public TblHRMTrnEmployeeReportingBackInfoDto Input { get; set; }
     }
     public class CreateVacationReportEntryHandler : IRequestHandler<CreateVacationReportEntry, AppCtrollerDto>
     {
@@ -1119,25 +1230,40 @@ namespace CIN.Application.HumanResource.ServiceRequest.HRMServiceRequestQuery
             var obj = request.Input;
             var userId = request.User.UserId;
 
-            using (var transaction = await _context.Database.BeginTransactionAsync())
+            try
             {
-                try
+                TblHRMTrnEmployeeReportingBackInfo reportingBackInfo = new()
                 {
+                    EmployeeServiceRequestID = obj.EmployeeServiceRequestID,
+                    IsAllowedToResumeDuty = obj.IsAllowedToResumeDuty,
+                    IsApprovalLetterRequired = obj.IsApprovalLetterRequired,
+                    IsJoiningReportSubmitted = obj.IsJoiningReportSubmitted,
+                    ManagerEmployeeID = obj.ManagerEmployeeID,
+                    ActionRequired = obj.ActionRequired,
+                    EmployeeID = obj.EmployeeID,
+                    Remarks = obj.Remarks,
+                    UploadedFileName = obj.UploadedFileName,
+                    ReportingReason = obj.ReportingReason,
+                    ReportingDate = obj.ReportingDate,
+                    IsActive = true,
+                    CreatedBy = userId,
+                    Created = DateTime.Now,
+                };
 
-                }
-                catch (Exception ex)
-                {
-                    await transaction.RollbackAsync();
-                    Log.Error("Error in CreateVacationReportEntry Method");
-                    Log.Error("Error occured time : " + DateTime.UtcNow);
-                    Log.Error("Error message : " + ex.Message);
-                    Log.Error("Error StackTrace : " + ex.StackTrace);
-                    return ApiMessageInfo.Status(0);// ex.Message + " " + ex.InnerException.Message + " " + ex.StackTrace);
-                }
+                await _context.EmployeeReportingBackInfos.AddAsync(reportingBackInfo);
+                await _context.SaveChangesAsync();
+
+                Log.Info("----Info CreateVacationReportEntry method Exit----");
+                return ApiMessageInfo.Status(1);
             }
-
-            Log.Info("----Info CreateVacationReportEntry method Exit----");
-            return ApiMessageInfo.Status(1);
+            catch (Exception ex)
+            {
+                Log.Error("Error in CreateVacationReportEntry Method");
+                Log.Error("Error occured time : " + DateTime.UtcNow);
+                Log.Error("Error message : " + ex.Message);
+                Log.Error("Error StackTrace : " + ex.StackTrace);
+                return ApiMessageInfo.Status(0);// ex.Message + " " + ex.InnerException.Message + " " + ex.StackTrace);
+            }
         }
     }
 

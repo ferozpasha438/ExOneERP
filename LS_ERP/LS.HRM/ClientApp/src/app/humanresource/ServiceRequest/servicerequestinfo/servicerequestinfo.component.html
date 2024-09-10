@@ -6,12 +6,17 @@
 
 <div class="container-fluid m-3">
   <div style="position:relative;" class="row">
-    <div class="col-md-12">
-      <button type="button" class="m-1 btn-request btn" [ngClass]="item.isBtnClicked ? 'btn-danger' : 'btn-primary'" aria-hidden="true" (click)="loadComponents(item)" *ngFor="let item of btnList">{{item.text}}</button>
+    <div class="col-md-12 text-center">
+      <ng-container *ngIf="!serviceRequestTypeCode;else showName">
+        <button type="button" class="m-1 btn-request btn" [ngClass]="item.isBtnClicked ? 'btn-danger' : 'btn-primary'" aria-hidden="true" (click)="loadComponents(item)" *ngFor="let item of btnList">{{item.text}}</button>
+      </ng-container>
+      <ng-template #showName>
+        <button type="button" class="m-1 btn-request btn btn-danger">{{serviceRequestTypeCode}}</button>        
+      </ng-template>
       <button type="button" class="close" aria-hidden="true" (click)="closeModel()"> ×</button>
     </div>
   </div>
-  
+
   <div id="printcontainer" class="pt-0 pl-3 pr-3 pb-3 shadow">
     <ng-template loadingComponent></ng-template>
   </div>

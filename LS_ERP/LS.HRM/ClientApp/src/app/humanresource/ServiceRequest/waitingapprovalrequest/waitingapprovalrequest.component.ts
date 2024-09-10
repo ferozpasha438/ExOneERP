@@ -37,6 +37,7 @@ export class WaitingapprovalrequestComponent extends ParentHrmAdminComponent imp
   displayedColumns: string[] = ['select', 'serviceRequestRefNo', 'serviceRequestType', 'employeeName', 'processedby', 'isApproved', 'Actions'];
   isArab: boolean = false;
   serviceRequestRefNo: string = '';
+  serviceRequestTypeCode: string = '';
   lastRecordId: number = 0;
   listofVacRequest: Array<any> = [];
   empListSelectListItems: Array<CustomSelectListItem> = [];
@@ -172,6 +173,7 @@ export class WaitingapprovalrequestComponent extends ParentHrmAdminComponent imp
     (dialogRef.componentInstance as any).modalTitle = modalTitle;
     (dialogRef.componentInstance as any).modalBtnTitle = modalBtnTitle;
     (dialogRef.componentInstance as any).serviceRequestRefNo = this.serviceRequestRefNo;
+    (dialogRef.componentInstance as any).serviceRequestTypeCode = this.serviceRequestTypeCode;
     (dialogRef.componentInstance as any).id = id;
     (dialogRef.componentInstance as any).isFromAppoval = true;
 
@@ -186,6 +188,7 @@ export class WaitingapprovalrequestComponent extends ParentHrmAdminComponent imp
   //}
   public edit(row: any) {
     this.serviceRequestRefNo = row.serviceRequestRefNo;
+    this.serviceRequestTypeCode = row.serviceRequestTypeCode;
     this.openDialogManage(row.id, DBOperation.update, this.translate.instant('UpdateLeaveTemplate'), 'Update');
   }
 

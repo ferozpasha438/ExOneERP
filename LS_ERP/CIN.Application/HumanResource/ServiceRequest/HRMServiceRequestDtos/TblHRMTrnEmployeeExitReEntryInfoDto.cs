@@ -1,25 +1,17 @@
-﻿using CIN.Domain.HumanResource.EmployeeMgt;
-using CIN.Domain.HumanResource.Setup;
-using CIN.Domain.SystemSetup;
+﻿using AutoMapper;
+using CIN.Domain.HumanResource.ServiceRequest;
 using System;
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace CIN.Domain.HumanResource.ServiceRequest
+namespace CIN.Application.HumanResource.ServiceRequest.HRMServiceRequestDtos
 {
-    [Table("tblHRMTrnEmployeeExitReEntryInfo")]
-    public class TblHRMTrnEmployeeExitReEntryInfo : AuditableEntity<int>
+    [AutoMap(typeof(TblHRMTrnEmployeeExitReEntryInfo))]
+    public class TblHRMTrnEmployeeExitReEntryInfoDto : AuditableEntityDto<int>
     {
-        [ForeignKey(nameof(EmployeeServiceRequestID))]
-        public TblHRMTrnEmployeeServiceRequest TrnEmployeeServiceRequest { get; set; }
+
         [Required]
         public int EmployeeServiceRequestID { get; set; }
-        [ForeignKey(nameof(EmployeeID))]
-        public TblHRMTrnPersonalInformation TrnPersonalInformation { get; set; }
+
         [Required]
         public int EmployeeID { get; set; }
         [Required]
@@ -36,24 +28,24 @@ namespace CIN.Domain.HumanResource.ServiceRequest
         public bool IsVacationExtensionAllowed { get; set; }
         [StringLength(15)]
         public string TicketNumber { get; set; }
-        [ForeignKey(nameof(FlightClassCode))]
-        public TblHRMSysFlightClass SysFlightClass { get; set; }
+
         public string FlightClassCode { get; set; }
         [StringLength(200)]
         public string Airlines { get; set; }
-        [ForeignKey(nameof(BoardingCityCode))]
-        public TblErpSysCityCode SysBoardingCityCode { get; set; }
+
         [StringLength(20)]
         public string BoardingCityCode { get; set; }
-        [ForeignKey(nameof(DestinationCityCode))]
-        public TblErpSysCityCode SysDestinationCityCodeCityCode { get; set; }
+
         [StringLength(20)]
         public string DestinationCityCode { get; set; }
         public bool IsReplacementRequired { get; set; }
-        [ForeignKey(nameof(ReplacementEmployeeID))]
-        public TblHRMTrnPersonalInformation TrnReplacementEmployeeIDPersonalInformation { get; set; }
+
         public int ReplacementEmployeeID { get; set; }
         [StringLength(500)]
         public string ReplacementRemarks { get; set; }
+        public string EmployeeNumber { get; set; }
+        public string EmployeeName { get; set; }
+        public string Replacementemployee { get; set; }
+        public string NameOfTheReplacementEmployee { get; set; }
     }
 }
