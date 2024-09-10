@@ -15,6 +15,8 @@ import { UtilityService } from '../../../services/utility.service';
 import { ParentHrmAdminComponent } from '../../../sharedcomponent/ParentHrmAdmin.component';
 import { ValidationService } from '../../../sharedcomponent/ValidationService';
 import { CustomSelectListItem } from 'src/app/models/MenuItemListDto';
+import { EmployeeBasicInfoDto } from 'src/app/models/HumanResource/EmployeeBasicInfo';
+import { default as constants } from '../../../../assets/i18n/constants.json';
 
 @Component({
   selector: 'app-getemployeepersonalinfo',
@@ -37,7 +39,8 @@ export class GetemployeepersonalinfoComponent
   groups: Array<CustomSelectListItem> = [];
   subGroups: Array<CustomSelectListItem> = [];
   languages: Array<CustomSelectListItem> = [];
-  employeeBasicInfo: any;
+  employeeBasicInfo!: EmployeeBasicInfoDto;
+  formData!: FormData;
   constructor(
     private fb: FormBuilder,
     private apiService: ApiService,
@@ -61,10 +64,8 @@ export class GetemployeepersonalinfoComponent
     this.loadTitles();
     this.loadLanguages();
     this.employeeBasicInfo = {
-      employeeImageUrl: ['assets/images/profile.jpg'],
-      allowImageUpload: [true],
-      employeeName: [''],
-      employeeNumber: [''],
+      employeeImageUrl: 'assets/images/profile.jpg',
+      allowImageUpload: true,
     };
     if (this.employeeNumber != '') this.setEditForm();
   }
@@ -101,6 +102,9 @@ export class GetemployeepersonalinfoComponent
       marriageDate: [null],
       pHDescription: [''],
       employeeLanguages: this.fb.array([this.CreateemployeeLanguages()]),
+      primaryPhoneNumber: ['', Validators.required],
+      alternatePhoneNumber: [''],
+      email: ['', Validators.required],
     });
   }
 
@@ -142,6 +146,16 @@ export class GetemployeepersonalinfoComponent
           this.form.patchValue(res);
           res.allowImageUpload = true;
           this.employeeBasicInfo = res;
+
+          if (
+            !(this.employeeBasicInfo.employeeImageUrl as string)?.includes(
+              constants.employeeProfile
+            )
+          )
+            this.employeeBasicInfo.employeeImageUrl = `${this.authService
+              .ApiEndPoint()
+              .replace('api', '')}${this.employeeBasicInfo.employeeImageUrl}`;
+
           if (res['religionCode'] != null)
             this.loadGroups(res['religionCode'] as string);
           if (res['groupCode'] != null)
@@ -242,15 +256,136 @@ export class GetemployeepersonalinfoComponent
       });
   }
 
+  // submit() {
+  //   console.log(this.employeeLanguages.value);
+  //   if (this.form.valid) {
+  //     this.formData = new FormData();
+
+  //     if (this.employeeNumber != '')
+  //       this.formData.append('employeeNumber', this.employeeNumber);
+  //     this.formData.append('primaryNumber', this.form.value.primaryNumber);
+  //     this.formData.append('iDNumber1', this.form.value.iDNumber1);
+  //     this.formData.append('iDNumber2', this.form.value.iDNumber2);
+  //     this.formData.append('firstNameEn', this.form.value.firstNameEn);
+  //     this.formData.append('lastNameEn', this.form.value.lastNameEn);
+  //     this.formData.append('firstNameAr', this.form.value.firstNameAr);
+  //     this.formData.append('lastNameAr', this.form.value.lastNameAr);
+  //     this.formData.append('nickNameEn', this.form.value.nickNameEn);
+  //     this.formData.append('nickNameAr', this.form.value.nickNameAr);
+  //     this.formData.append('fatherNameEn', this.form.value.fatherNameEn);
+  //     this.formData.append('motherNameEn', this.form.value.motherNameEn);
+  //     this.formData.append('fatherNameAr', this.form.value.fatherNameAr);
+  //     this.formData.append('motherNameAr', this.form.value.motherNameAr);
+  //     this.formData.append('countryCode', this.form.value.countryCode);
+  //     this.formData.append('religionCode', this.form.value.religionCode);
+  //     this.formData.append(
+  //       'employeeTypeCode',
+  //       this.form.value.employeeTypeCode
+  //     );
+  //     this.formData.append('bloodGroupCode', this.form.value.bloodGroupCode);
+  //     this.formData.append('genderCode', this.form.value.genderCode);
+  //     this.formData.append(
+  //       'maritalStatusCode',
+  //       this.form.value.maritalStatusCode
+  //     );
+  //     this.formData.append('titleCode', this.form.value.titleCode);
+  //     this.formData.append('groupCode', this.form.value.groupCode);
+  //     this.formData.append('subGroupCode', this.form.value.subGroupCode);
+  //     this.formData.append(
+  //       'dateOfBirth',
+  //       this.utilService.selectedDateTime(this.form.value.dateOfBirth)
+  //     );
+  //     this.formData.append(
+  //       'marriageDate',
+  //       this.utilService.selectedDateTime(this.form.value.marriageDate)
+  //     );
+  //     this.formData.append(
+  //       'isPhysicallyChallenged',
+  //       this.form.value.isPhysicallyChallenged
+  //     );
+  //     this.formData.append('pHDescription', this.form.value.pHDescription);
+  //     this.formData.append(
+  //       'employeeLanguages',
+  //       this.form.value.employeeLanguages
+  //     );
+  //     this.formData.append('isActive', this.form.value.isActive);
+
+  //     if (this.employeeBasicInfo.file) {
+  //       this.formData.append(
+  //         'file',
+  //         this.employeeBasicInfo.file,
+  //         this.employeeBasicInfo.file.name
+  //       );
+  //     }
+
+  //     this.apiService.post('PersonalInformation', this.formData).subscribe(
+  //       (res) => {
+  //         this.utilService.OkMessage();
+  //         this.reset();
+  //         this.dialogRef.close(true);
+  //       },
+  //       (error) => {
+  //         this.utilService.ShowApiErrorMessage(error);
+  //       }
+  //     );
+  //   } else this.utilService.FillUpFields();
+  // }
+
   submit() {
     console.log(this.employeeLanguages.value);
     if (this.form.valid) {
-      if (this.employeeNumber != '')
-        this.form.value['employeeNumber'] = this.employeeNumber;
-      this.form.value['dateOfBirth'] = this.utilService.selectedDateTime(
-        this.form.controls['dateOfBirth'].value
+      this.formData = new FormData();
+      this.formData.append(
+        'input',
+        JSON.stringify({
+          employeeNumber: this.employeeNumber != '' ? this.employeeNumber : '',
+          primaryNumber: this.form.value.primaryNumber,
+          iDNumber1: this.form.value.iDNumber1,
+          iDNumber2: this.form.value.iDNumber2,
+          firstNameEn: this.form.value.firstNameEn,
+          lastNameEn: this.form.value.lastNameEn,
+          firstNameAr: this.form.value.firstNameAr,
+          lastNameAr: this.form.value.lastNameAr,
+          nickNameEn: this.form.value.nickNameEn,
+          nickNameAr: this.form.value.nickNameAr,
+          fatherNameEn: this.form.value.fatherNameEn,
+          motherNameEn: this.form.value.motherNameEn,
+          fatherNameAr: this.form.value.fatherNameAr,
+          motherNameAr: this.form.value.motherNameAr,
+          countryCode: this.form.value.countryCode,
+          religionCode: this.form.value.religionCode,
+          employeeTypeCode: this.form.value.employeeTypeCode,
+          bloodGroupCode: this.form.value.bloodGroupCode,
+          genderCode: this.form.value.genderCode,
+          maritalStatusCode: this.form.value.maritalStatusCode,
+          titleCode: this.form.value.titleCode,
+          groupCode: this.form.value.groupCode,
+          subGroupCode: this.form.value.subGroupCode,
+          dateOfBirth: this.utilService.selectedDateTime(
+            this.form.value.dateOfBirth
+          ),
+          marriageDate: this.utilService.selectedDateTime(
+            this.form.value.marriageDate
+          ),
+          isPhysicallyChallenged: this.form.value.isPhysicallyChallenged,
+          pHDescription: this.form.value.pHDescription,
+          employeeLanguages: this.form.value.employeeLanguages,
+          isActive: this.form.value.isActive,
+          primaryPhoneNumber: this.form.value.primaryPhoneNumber,
+          alternatePhoneNumber: this.form.value.alternatePhoneNumber,
+          email: this.form.value.email,
+        })
       );
-      this.apiService.post('PersonalInformation', this.form.value).subscribe(
+
+      if (this.employeeBasicInfo.file) {
+        this.formData.append(
+          'file',
+          this.employeeBasicInfo.file,
+          this.employeeBasicInfo.file.name
+        );
+      }
+
+      this.apiService.post('PersonalInformation', this.formData).subscribe(
         (res) => {
           this.utilService.OkMessage();
           this.reset();
@@ -295,8 +430,8 @@ export class GetemployeepersonalinfoComponent
     this.form.controls['countryCode'].setValue('');
     this.form.controls['religionCode'].setValue('');
     this.form.controls['employeeTypeCode'].setValue('');
-    this.form.controls['BloodGroupCode'].setValue('');
-    this.form.controls['GenderCode'].setValue('');
+    this.form.controls['bloodGroupCode'].setValue('');
+    this.form.controls['genderCode'].setValue('');
     this.form.controls['maritalStatusCode'].setValue('');
     this.form.controls['titleCode'].setValue('');
     this.form.controls['groupCode'].setValue('');
@@ -306,5 +441,12 @@ export class GetemployeepersonalinfoComponent
     this.form.controls['isPhysicallyChallenged'].setValue('');
     this.form.controls['pHDescription'].setValue('');
     this.form.controls['isActive'].setValue('');
+    this.form.controls['primaryPhoneNumber'].setValue('');
+    this.form.controls['alternatePhoneNumber'].setValue('');
+    this.form.controls['email'].setValue('');
+  }
+
+  employeeBasicInfoChange(employeeBasicInfo: EmployeeBasicInfoDto) {
+    this.employeeBasicInfo = employeeBasicInfo;
   }
 }
