@@ -957,7 +957,8 @@ namespace CIN.Application.HumanResource.ServiceRequest.HRMServiceRequestQuery
                                         //if it is last approval in the sequence
                                         if (serviceReq.IsApproved)
                                         {
-                                            var requestInfos = await _context.EmployeeVacationServiceRequestLeaveDetails.Where(e => e.EmployeeServiceRequestID == serviceReq.Id).ToListAsync();
+                                            var requestInfos = await _context.EmployeeVacationServiceRequestLeaveDetails.Where(e => e.EmployeeServiceRequestID == serviceReq.Id)
+                                                .OrderBy(e => e.Id).ToListAsync();
                                             if (requestInfos.Any())
                                             {
                                                 List<TblHRMTrnEmployeeLeaveInformation> employeeLeaveInformations = new();
@@ -985,6 +986,20 @@ namespace CIN.Application.HumanResource.ServiceRequest.HRMServiceRequestQuery
                                                     await _context.EmployeeLeaveInformations.AddRangeAsync(employeeLeaveInformations);
                                                     await _context.SaveChangesAsync();
                                                 }
+
+
+                                                TblHRMTrnEmployeeVacationDateLog tblHRMTrnEmployeeVacationDateLog = new()
+                                                {
+                                                    EmployeeID = serviceReq.EmployeeID,
+                                                    EmployeeServiceRequestID = serviceReq.Id,
+                                                    FromDate = requestInfos.First().FromDate,
+                                                    ToDate = requestInfos.Last().ToDate,
+                                                    IsActive = true,
+                                                    Created = DateTime.Now,
+                                                    CreatedBy = userId,
+                                                };
+                                                await _context.EmployeeVacationDateLogs.AddAsync(tblHRMTrnEmployeeVacationDateLog);
+                                                await _context.SaveChangesAsync();
                                             }
                                         }
 
@@ -997,8 +1012,10 @@ namespace CIN.Application.HumanResource.ServiceRequest.HRMServiceRequestQuery
                                             ServiceRequestProcessStageID = 0,
                                             Remarks = obj.Remarks,
                                         };
+
                                         await _context.EmployeeServiceRequestAudits.AddAsync(employeeServiceRequestAudit);
                                         await _context.SaveChangesAsync();
+
                                         approvalCount++;
 
                                         await transaction.CommitAsync();
@@ -1022,6 +1039,105 @@ namespace CIN.Application.HumanResource.ServiceRequest.HRMServiceRequestQuery
 
             Log.Info("----Info ApprovalVacationRequestList method Exit----");
             return ApiMessageInfo.Status(1, approvalCount);
+        }
+    }
+
+    #endregion
+
+
+
+    #region CreateVacationReleaseExit
+
+    public class CreateVacationReleaseExit : UserIdentityDto, IRequest<AppCtrollerDto>
+    {
+        public UserIdentityDto User { get; set; }
+        public CreateVacationReleaseExitDto Input { get; set; }
+    }
+    public class CreateVacationReleaseExitHandler : IRequestHandler<CreateVacationReleaseExit, AppCtrollerDto>
+    {
+        private readonly CINDBOneContext _context;
+        private readonly IMapper _mapper;
+
+        public CreateVacationReleaseExitHandler(IMapper mapper, CINDBOneContext context)
+        {
+            _mapper = mapper;
+            _context = context;
+        }
+
+        public async Task<AppCtrollerDto> Handle(CreateVacationReleaseExit request, CancellationToken cancellationToken)
+        {
+            Log.Info("----Info CreateVacationReleaseExit method start----");
+            var obj = request.Input;
+            var userId = request.User.UserId;
+
+            using (var transaction = await _context.Database.BeginTransactionAsync())
+            {
+                try
+                {
+                    //var obj = request.Input;
+
+                }
+                catch (Exception ex)
+                {
+                    await transaction.RollbackAsync();
+                    Log.Error("Error in CreateVacationReleaseExit Method");
+                    Log.Error("Error occured time : " + DateTime.UtcNow);
+                    Log.Error("Error message : " + ex.Message);
+                    Log.Error("Error StackTrace : " + ex.StackTrace);
+                    return ApiMessageInfo.Status(0);// ex.Message + " " + ex.InnerException.Message + " " + ex.StackTrace);
+                }
+            }
+
+            Log.Info("----Info CreateVacationReleaseExit method Exit----");
+            return ApiMessageInfo.Status(1);
+        }
+    }
+
+    #endregion
+
+
+    #region CreateVacationReportEntry
+    public class CreateVacationReportEntry : UserIdentityDto, IRequest<AppCtrollerDto>
+    {
+        public UserIdentityDto User { get; set; }
+        public CreateVacationReportEntryDto Input { get; set; }
+    }
+    public class CreateVacationReportEntryHandler : IRequestHandler<CreateVacationReportEntry, AppCtrollerDto>
+    {
+        private readonly CINDBOneContext _context;
+        private readonly IMapper _mapper;
+
+        public CreateVacationReportEntryHandler(IMapper mapper, CINDBOneContext context)
+        {
+            _mapper = mapper;
+            _context = context;
+        }
+
+        public async Task<AppCtrollerDto> Handle(CreateVacationReportEntry request, CancellationToken cancellationToken)
+        {
+            Log.Info("----Info CreateVacationReportEntry method start----");
+            var obj = request.Input;
+            var userId = request.User.UserId;
+
+            using (var transaction = await _context.Database.BeginTransactionAsync())
+            {
+                try
+                {
+
+                }
+                catch (Exception ex)
+                {
+                    await transaction.RollbackAsync();
+                    Log.Error("Error in CreateVacationReportEntry Method");
+                    Log.Error("Error occured time : " + DateTime.UtcNow);
+                    Log.Error("Error message : " + ex.Message);
+                    Log.Error("Error StackTrace : " + ex.StackTrace);
+                    return ApiMessageInfo.Status(0);// ex.Message + " " + ex.InnerException.Message + " " + ex.StackTrace);
+                }
+            }
+
+            Log.Info("----Info CreateVacationReportEntry method Exit----");
+            return ApiMessageInfo.Status(1);
         }
     }
 

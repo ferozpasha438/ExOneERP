@@ -38,4 +38,13 @@ namespace CIN.Application.HumanResource.ServiceRequest.HRMServiceRequestDtos
         public List<TblHRMTrnEmployeeVacationServiceRequestLeaveDetailsDto> List { get; set; }
         public List<TblHRMTrnEmployeeServiceRequestAuditDto> Audits { get; set; }
     }
+
+    public class CreateVacationReleaseExitDto
+    {
+
+    }
+    public class CreateVacationReportEntryDto
+    {
+
+    }
 }
