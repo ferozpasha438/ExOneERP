@@ -98,7 +98,7 @@ namespace LS.API.Controllers
                             MfgUrl = metaData.MfgUrl,
                             CrmUrl = metaData.CrmUrl,
                             DBConnectionString = Convert.ToBase64String(connectionString),
-                            UtlUrl = metaData.UtlUrl!=null? Convert.ToBase64String(ASCIIEncoding.ASCII.GetBytes(metaData.UtlUrl)) :null, // to get DMC connection string dynamic
+                            UtlUrl = metaData.UtlUrl != null ? Convert.ToBase64String(ASCIIEncoding.ASCII.GetBytes(metaData.UtlUrl)) : null, // to get DMC connection string dynamic
 
                         }); ;
                     }
@@ -108,8 +108,8 @@ namespace LS.API.Controllers
             }
             catch (Exception ex)
             {
-
-                throw;
+                return BadRequest(new ApiMessageDto { Message = "Server Error" });
+                //return BadRequest(new { ex.Message, ex.StackTrace, innermessage = ex.InnerException?.Message });
             }
 
             //bool isNotExpired = EF.Functions.DateFromParts(validDate.Year, validDate.Month, validDate.Day) >= currentdate;
