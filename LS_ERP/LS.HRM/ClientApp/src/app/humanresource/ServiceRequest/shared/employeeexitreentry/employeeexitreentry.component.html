@@ -36,16 +36,16 @@
   <div class="row">
     <div class="col-md-6 col-lg-6">
       <div class="form-group ">
-        <label for="exitEffectiveDate" class="mr-sm-2">
+        <label for="exitEffectiveFromDate" class="mr-sm-2">
           {{'ExitEffectiveDate' | translate}}
         </label>
         <div class="input-group ">
           <input class="form-control input-mandatory"
                  placeholder=" {{'Please_Enter' | translate}} {{'ExitEffectiveDate' | translate}}" formControlName="exitEffectiveFromDate"
-                 [matDatepicker]="picker">
+                 [matDatepicker]="picker1">
           <div class="input-group-prepend datapickericon">
-            <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-            <mat-datepicker #picker></mat-datepicker>
+            <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
+            <mat-datepicker #picker1></mat-datepicker>
             <validation-message [control]="form.controls.exitEffectiveFromDate"></validation-message>
           </div>
         </div>
@@ -53,16 +53,16 @@
     </div>
     <div class="col-md-6 col-lg-6">
       <div class="form-group ">
-        <label for="validuptodate" class="mr-sm-2">
+        <label for="exitEffectiveToDate" class="mr-sm-2">
           {{'ValidUpto(Date)' | translate}}
         </label>
         <div class="input-group ">
           <input class="form-control input-mandatory"
                  placeholder=" {{'Please_Enter' | translate}} {{'ValidUpto(Date)' | translate}}" formControlName="exitEffectiveToDate"
-                 [matDatepicker]="picker">
+                 [matDatepicker]="picker2">
           <div class="input-group-prepend datapickericon">
-            <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-            <mat-datepicker #picker></mat-datepicker>
+            <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
+            <mat-datepicker #picker2></mat-datepicker>
             <validation-message [control]="form.controls.exitEffectiveToDate"></validation-message>
           </div>
         </div>
@@ -87,10 +87,10 @@
         <div class="input-group ">
           <input class="form-control input-mandatory"
                  placeholder=" {{'Please_Enter' | translate}} {{'ExpectedDateofReporting' | translate}}" formControlName="expectedDateofReporting"
-                 [matDatepicker]="picker">
+                 [matDatepicker]="picker3">
           <div class="input-group-prepend datapickericon">
-            <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-            <mat-datepicker #picker></mat-datepicker>
+            <mat-datepicker-toggle matSuffix [for]="picker3"></mat-datepicker-toggle>
+            <mat-datepicker #picker3></mat-datepicker>
             <validation-message [control]="form.controls.expectedDateofReporting"></validation-message>
           </div>
         </div>
@@ -118,9 +118,8 @@
     <div class="col-md-6 col-lg-6">
       <label for="ticketClass" class="mr-sm-2">{{'TicketClass' | translate}}</label>
       <select class="custom-select mr-sm-2" formControlName="flightClassCode">
-        <option value="firstClass">{{'First Class' | translate}}</option>
-        <option value="economyClass">{{'Economy Class' | translate}}</option>
-        <option value="business Class">{{'Business Class' | translate}}</option>
+        <option value="">{{'ABC' | translate}}</option>
+        <option *ngFor="let item of flightClassList" value="{{item.value}}">{{item.text}}</option>
       </select>
       <validation-message [control]="form.controls.flightClassCode"></validation-message>
     </div>
@@ -128,11 +127,8 @@
   <div class="row">
     <div class="col-md-12 col-lg-12">
       <label for="airLines" class="mr-sm-2">{{'AirLines' | translate}}</label>
-      <select class="custom-select mr-sm-2" formControlName="airLines">
-        <option value="firstClass">{{'ABC' | translate}}</option>
-        <option value="economyClass">{{'ABC' | translate}}</option>
-        <option value="businessClass">{{'ABC' | translate}}</option>
-      </select>
+      <input class="form-control" id="airLines" type="text"
+             placeholder="{{'Please_Enter' | translate}} {{'TicketNumber' | translate}}" formControlName="airLines">
       <validation-message [control]="form.controls.airLines"></validation-message>
     </div>
   </div>
@@ -140,21 +136,20 @@
   <div class="row">
     <div class="col-md-6 col-lg-6">
       <label for="airLines" class="mr-sm-2">{{'BoardingCity' | translate}}</label>
-      <select class="custom-select mr-sm-2" formControlName="airLines">
-        <option value="firstClass">{{'ABC' | translate}}</option>
-        <option value="economyClass">{{'ABC' | translate}}</option>
-        <option value="businessClass">{{'ABC' | translate}}</option>
+      <select class="custom-select mr-sm-2" formControlName="boardingCityCode">
+        <option value="">{{'ABC' | translate}}</option>
+        <option *ngFor="let city of cities" value="{{city.value}}">{{city.text}}</option>
       </select>
-      <validation-message [control]="form.controls.airLines"></validation-message>
+      <validation-message [control]="form.controls.boardingCityCode"></validation-message>
     </div>
     <div class="col-md-6 col-lg-6">
       <label for="airLines" class="mr-sm-2">{{'DestinationCity' | translate}}</label>
-      <select class="custom-select mr-sm-2" formControlName="airLines">
-        <option value="firstClass">{{'ABC' | translate}}</option>
-        <option value="economyClass">{{'ABC' | translate}}</option>
-        <option value="businessClass">{{'ABC' | translate}}</option>
+      <select class="custom-select mr-sm-2" formControlName="destinationCityCode">
+        <option value="">{{'ABC' | translate}}</option>
+        <option *ngFor="let city of cities" value="{{city.value}}">{{city.text}}</option>
+
       </select>
-      <validation-message [control]="form.controls.airLines"></validation-message>
+      <validation-message [control]="form.controls.destinationCityCode"></validation-message>
     </div>
   </div>
   &nbsp;

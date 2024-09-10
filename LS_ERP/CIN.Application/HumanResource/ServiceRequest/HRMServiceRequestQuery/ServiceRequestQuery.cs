@@ -539,6 +539,42 @@ namespace CIN.Application.HumanResource.ServiceRequest.HRMServiceRequestQuery
     #endregion
 
 
+    #region GetFlightClassList
+
+    public class GetFlightClassList : IRequest<List<CustomSelectListItem>>
+    {
+    }
+
+    public class GetFlightClassListHandler : IRequestHandler<GetFlightClassList, List<CustomSelectListItem>>
+    {
+        private readonly CINDBOneContext _context;
+        private readonly IMapper _mapper;
+        public GetFlightClassListHandler(CINDBOneContext context, IMapper mapper)
+        {
+            _context = context;
+            _mapper = mapper;
+        }
+
+        public async Task<List<CustomSelectListItem>> Handle(GetFlightClassList request, CancellationToken cancellationToken)
+        {
+            try
+            {
+                Log.Info("----Info GetFlightClassList method start----");
+                return new() { new() { Text = "Business Class", Value = "B" }, new() { Text = "Economic Class", Value = "E" } };
+            }
+            catch (Exception ex)
+            {
+                Log.Error("Error in GetFlightClassList Method");
+                Log.Error("Error occured time : " + DateTime.UtcNow);
+                Log.Error("Error message : " + ex.Message);
+                Log.Error("Error StackTrace : " + ex.StackTrace);
+                throw;
+            }
+        }
+    }
+
+    #endregion
+
 
     #region GetVacationExitReEntryInfoByRequest
 
@@ -1160,47 +1196,61 @@ namespace CIN.Application.HumanResource.ServiceRequest.HRMServiceRequestQuery
             Log.Info("----Info CreateVacationReleaseExit method start----");
             var obj = request.Input;
             var userId = request.User.UserId;
-
-            try
+            using (var transaction = await _context.Database.BeginTransactionAsync())
             {
-                TblHRMTrnEmployeeExitReEntryInfo exitReEntryInfo = new()
+
+                try
                 {
-                    EmployeeServiceRequestID = obj.EmployeeServiceRequestID,
-                    EmployeeID = obj.EmployeeID,
-                    BoardingCityCode = obj.BoardingCityCode,
-                    DestinationCityCode = obj.DestinationCityCode,
-                    ExitEffectiveFromDate = obj.ExitEffectiveFromDate,
-                    ExitEffectiveToDate = obj.ExitEffectiveToDate,
-                    ExitReEntryNumber = obj.ExitReEntryNumber,
-                    ExpectedDateOfReporting = obj.ExpectedDateOfReporting,
-                    FlightClassCode = obj.FlightClassCode,
-                    IsReplacementRequired = obj.IsReplacementRequired,
-                    IsVacationExtensionAllowed = obj.IsVacationExtensionAllowed,
-                    NumberOfDays = obj.NumberOfDays,
-                    ReplacementEmployeeID = obj.ReplacementEmployeeID,
-                    TicketNumber = obj.TicketNumber,
-                    ReplacementRemarks = obj.ReplacementRemarks,
-                    Airlines = obj.Airlines,
-                    IsActive = true,
-                    CreatedBy = userId,
-                    Created = DateTime.Now,
-                };
+                    var empId = await _context.EmployeeServiceRequests.Where(e => e.Id == obj.EmployeeServiceRequestID).Select(e => e.EmployeeID).FirstOrDefaultAsync(); ;
+                    TblHRMTrnEmployeeExitReEntryInfo exitReEntryInfo = new()
+                    {
+                        EmployeeServiceRequestID = obj.EmployeeServiceRequestID,
+                        EmployeeID = empId,
+                        BoardingCityCode = obj.BoardingCityCode,
+                        DestinationCityCode = obj.DestinationCityCode,
+                        ExitEffectiveFromDate = obj.ExitEffectiveFromDate,
+                        ExitEffectiveToDate = obj.ExitEffectiveToDate,
+                        ExitReEntryNumber = obj.ExitReEntryNumber,
+                        ExpectedDateOfReporting = obj.ExpectedDateOfReporting,
+                        FlightClassCode = obj.FlightClassCode,
+                        IsReplacementRequired = obj.IsReplacementRequired,
+                        IsVacationExtensionAllowed = obj.IsVacationExtensionAllowed,
+                        NumberOfDays = obj.NumberOfDays,
+                        ReplacementEmployeeID = obj.ReplacementEmployeeID,
+                        TicketNumber = obj.TicketNumber,
+                        ReplacementRemarks = obj.ReplacementRemarks,
+                        Airlines = obj.Airlines,
+                        IsActive = true,
+                        CreatedBy = userId,
+                        Created = DateTime.Now,
+                    };
 
-                await _context.EmployeeExitReEntryInfos.AddAsync(exitReEntryInfo);
-                await _context.SaveChangesAsync();
+                    await _context.EmployeeExitReEntryInfos.AddAsync(exitReEntryInfo);
+                    await _context.SaveChangesAsync();
 
-                Log.Info("----Info CreateVacationReleaseExit method Exit----");
-                return ApiMessageInfo.Status(1);
+
+                    var contractInfo = await _context.EmployeeContracts.Where(e => e.EmployeeID == empId).FirstOrDefaultAsync();
+                    contractInfo.StopPayroll = true;
+                    var empStatus = await _context.EmployeeStatuses.FirstOrDefaultAsync(e => e.EmployeeStatusCode == "VACATION");
+                    contractInfo.EmployeeStatusCode = empStatus?.EmployeeStatusCode;
+
+
+                    await transaction.CommitAsync();
+
+                    Log.Info("----Info CreateVacationReleaseExit method Exit----");
+                    return ApiMessageInfo.Status(1);
+                }
+                catch (Exception ex)
+                {
+                    await transaction.RollbackAsync();
+                    Log.Error("Error in CreateVacationReleaseExit Method");
+                    Log.Error("Error occured time : " + DateTime.UtcNow);
+                    Log.Error("Error message : " + ex.Message);
+                    Log.Error("Error StackTrace : " + ex.StackTrace);
+                    return ApiMessageInfo.Status(0);// ex.Message + " " + ex.InnerException.Message + " " + ex.StackTrace);
+                }
+
             }
-            catch (Exception ex)
-            {
-                Log.Error("Error in CreateVacationReleaseExit Method");
-                Log.Error("Error occured time : " + DateTime.UtcNow);
-                Log.Error("Error message : " + ex.Message);
-                Log.Error("Error StackTrace : " + ex.StackTrace);
-                return ApiMessageInfo.Status(0);// ex.Message + " " + ex.InnerException.Message + " " + ex.StackTrace);
-            }
-
         }
     }
 

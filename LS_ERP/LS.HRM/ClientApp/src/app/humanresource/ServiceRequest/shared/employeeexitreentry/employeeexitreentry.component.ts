@@ -10,6 +10,7 @@ import { UtilityService } from 'src/app/services/utility.service';
 import { ParentHrmAdminComponent } from 'src/app/sharedcomponent/ParentHrmAdmin.component';
 import { ValidationService } from 'src/app/sharedcomponent/ValidationService';
 import { MyrequestComponent } from '../../myrequest/myrequest.component';
+import { CustomSelectListItem } from '../../../../models/MenuItemListDto';
 
 @Component({
   selector: 'app-employeeexitreentry',
@@ -19,12 +20,11 @@ import { MyrequestComponent } from '../../myrequest/myrequest.component';
 })
 export class EmployeeexitreentryComponent extends ParentHrmAdminComponent implements OnInit {
   modalTitle!: string;
-  modalBtnTitle!: string;
-  dbops!: DBOperation;
   form!: FormGroup;
-  id: number = 0;
+  data: any;
   isReadOnly: boolean = false;
-
+  cities: Array<CustomSelectListItem> = [];
+  flightClassList: Array<CustomSelectListItem> = [];
   constructor(private fb: FormBuilder, private apiService: ApiService,
     private authService: AuthorizeService, private utilService: UtilityService, public dialogRef: MatDialogRef<MyrequestComponent>,
     private notifyService: NotificationService, private validationService: ValidationService) {
@@ -47,11 +47,13 @@ export class EmployeeexitreentryComponent extends ParentHrmAdminComponent implem
         'exitEffectiveToDate': ['', Validators.required],
         'numberOfDays': ['', Validators.required],
         'expectedDateofReporting': ['', Validators.required],
-        'isVacationExtensionAllowed': [''],
+        'isVacationExtensionAllowed': [false],
         //'addressTypeNameAr': [''],
         'ticketNumber': ['', Validators.required],
         'airLines': [''],
         'flightClassCode': ['', Validators.required],
+        'boardingCityCode': ['', Validators.required],
+        'destinationCityCode': ['', Validators.required],
         'replacementemployee': [''],
         'nameOfTheReplacementEmployee': [''],
         'replacementRemarks': [''],
@@ -63,28 +65,45 @@ export class EmployeeexitreentryComponent extends ParentHrmAdminComponent implem
   }
 
   loadData() {
-    this.apiService.get('serviceRequest/getVacationExitReEntryInfoByRequest', this.id).subscribe(res => {
+    this.apiService.get('serviceRequest/getVacationExitReEntryInfoByRequest', this.data.id).subscribe(res => {
       if (res) {
         this.isReadOnly = true;
         this.form.patchValue(res);
+        this.form.controls['isActive'].setValue(true);
+        this.form.controls['exitEffectiveFromDate'].setValue('');
+        this.form.controls['exitEffectiveToDate'].setValue('');
       }
     });
+
+    this.apiService.getall('city/getSelectList').subscribe(res => {
+      if (res) {
+        this.cities = res;
+      }
+    });
+    this.apiService.getall('serviceRequest/getFlightClassList').subscribe(res => {
+      if (res) {
+        this.flightClassList = res;
+      }
+    });
+
   }
 
 
   submit() {
     if (this.form.valid) {
-      if (this.id > 0)
-        this.form.value['id'] = this.id;
-      this.apiService.post('serviceRequest/createVacationReleaseExit', this.form.value)
-        .subscribe(res => {
-          this.utilService.OkMessage();
-          //this.reset();
-          this.dialogRef.close(true);
-        },
-          error => {
-            this.utilService.ShowApiErrorMessage(error);
-          });
+      if (this.data.id > 0)
+        this.form.value['employeeServiceRequestID'] = this.data.id;
+
+      console.log(this.form.value);
+      ////this.apiService.post('serviceRequest/createVacationReleaseExit', this.form.value)
+      ////  .subscribe(res => {
+      ////    this.utilService.OkMessage();
+      ////    //this.reset();
+      ////    this.dialogRef.close(true);
+      ////  },
+      ////    error => {
+      ////      this.utilService.ShowApiErrorMessage(error);
+      ////    });
     }
     else
       this.utilService.FillUpFields();

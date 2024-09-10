@@ -62,10 +62,17 @@ namespace LS.API.HRM.Admin.Controllers.ServiceRequest
             return Ok(list);
         }
 
-        [HttpGet("getVacationExitReEntryInfoByRequest")]
-        public async Task<IActionResult> GetVacationExitReEntryInfoByRequest([FromQuery] int serviceId)
+        [HttpGet("getFlightClassList")]
+        public async Task<IActionResult> GetFlightClassList()
         {
-            var list = await Mediator.Send(new GetVacationExitReEntryInfoByRequest() { ServiceId = serviceId });
+            var list = await Mediator.Send(new GetFlightClassList() { });
+            return Ok(list);
+        }
+
+        [HttpGet("getVacationExitReEntryInfoByRequest/{serviceId}")]
+        public async Task<IActionResult> GetVacationExitReEntryInfoByRequest([FromRoute] int serviceId)
+        {
+            var list = await Mediator.Send(new GetVacationExitReEntryInfoByRequest() { ServiceId = serviceId, User = UserInfo() });
             return Ok(list);
         }
 

@@ -555,6 +555,7 @@ namespace CIN.DB
         public DbSet<TblHRMSysLeaveTemplate> LeaveTemplates { get; set; }
         public DbSet<TblHRMSysLeaveTemplateMapping> LeaveTemplateMappings { get; set; }
         public DbSet<TblHRMSysVacationPolicy> VacationPolicies { get; set; }
+        public DbSet<TblHRMSysFlightClass> FlightClasses { get; set; }
 
         //Transactions
         public DbSet<TblHRMTrnPersonalInformation> PersonalInformation { get; set; }
