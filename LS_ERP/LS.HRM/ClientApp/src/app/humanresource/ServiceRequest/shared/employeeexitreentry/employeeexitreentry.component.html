@@ -27,7 +27,7 @@
     <div class="col-md-6 col-lg-6">
       <div class="form-group">
         <label for="exitReEntryNumber">{{'ExitRe-EntryNumber' | translate}}</label>
-        <input class="form-control" id="exitReEntryNumber" type="number"
+        <input class="form-control" id="exitReEntryNumber" type="text"
                placeholder="{{'Please_Enter' | translate}} {{'ExitRe-EntryNumber' | translate}}" formControlName="exitReEntryNumber">
         <validation-message [control]="form.controls.exitReEntryNumber"></validation-message>
       </div>
@@ -163,22 +163,27 @@
     <div class="col-md-6 col-lg-6">
       <div class="form-group">
         <label for="replacementemployee">{{'ReplacementEmployee' | translate}}</label>
-        <input class="form-control" id="replacementemployee" type="text"
-               placeholder="{{'Please_Enter' | translate}} {{'ReplacementEmployee' | translate}} " formControlName="replacementemployee" [readonly]="isReadOnly">
-        <!--<validation-message [control]="form.controls.replacementemployee"></validation-message>-->
+        <!--<input class="form-control" id="replacementemployee" type="text"
+               placeholder="{{'Please_Enter' | translate}} {{'ReplacementEmployee' | translate}} " formControlName="replacementEmployeeID" [readonly]="isReadOnly">-->
+
+        <ng-select [items]="empListSelectListItems"
+                   bindLabel="text"
+                   bindValue="value" formControlName="replacementEmployeeID">
+        </ng-select>
+        <validation-message [control]="form.controls.replacementEmployeeID"></validation-message>
       </div>
     </div>
   </div>
-  <div class="row">
+  <!--<div class="row">
     <div class="col-md-12 col-lg-12">
       <div class="form-group">
         <label for="nameOfTheReplacementEmployee">{{'NameOfTheReplacementEmployee' | translate}}</label>
         <input class="form-control" id="nameOfTheReplacementEmployee" type="text"
-               placeholder="{{'Please_Enter' | translate}} {{'NameOfTheReplacementEmployee' | translate}} " formControlName="nameOfTheReplacementEmployee" [readonly]="isReadOnly">
+               placeholder="{{'Please_Enter' | translate}} {{'NameOfTheReplacementEmployee' | translate}} " formControlName="nameOfTheReplacementEmployee" [readonly]="isReadOnly">-->
         <!--<validation-message [control]="form.controls.nameOfTheReplacementEmployee"></validation-message>-->
-      </div>
+      <!--</div>
     </div>
-  </div>
+  </div>-->
   <div class="row">
     <div class="col-md-12 col-lg-12">
       <div class="form-group ">

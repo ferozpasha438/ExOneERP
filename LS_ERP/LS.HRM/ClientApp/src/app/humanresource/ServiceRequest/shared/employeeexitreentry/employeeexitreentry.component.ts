@@ -25,6 +25,8 @@ export class EmployeeexitreentryComponent extends ParentHrmAdminComponent implem
   isReadOnly: boolean = false;
   cities: Array<CustomSelectListItem> = [];
   flightClassList: Array<CustomSelectListItem> = [];
+  empListSelectListItems: Array<CustomSelectListItem> = [];
+
   constructor(private fb: FormBuilder, private apiService: ApiService,
     private authService: AuthorizeService, private utilService: UtilityService, public dialogRef: MatDialogRef<MyrequestComponent>,
     private notifyService: NotificationService, private validationService: ValidationService) {
@@ -54,8 +56,8 @@ export class EmployeeexitreentryComponent extends ParentHrmAdminComponent implem
         'flightClassCode': ['', Validators.required],
         'boardingCityCode': ['', Validators.required],
         'destinationCityCode': ['', Validators.required],
-        'replacementemployee': [''],
-        'nameOfTheReplacementEmployee': [''],
+        //'replacementemployee': [''],
+        'replacementEmployeeID': ['', Validators.required],
         'replacementRemarks': [''],
         'isActive': [true],
 
@@ -85,7 +87,9 @@ export class EmployeeexitreentryComponent extends ParentHrmAdminComponent implem
         this.flightClassList = res;
       }
     });
-
+    this.apiService.getall(`personalInformation/getEmployeeSelectListItem`).subscribe(res => {
+      this.empListSelectListItems = res;
+    });
   }
 
 
@@ -94,16 +98,17 @@ export class EmployeeexitreentryComponent extends ParentHrmAdminComponent implem
       if (this.data.id > 0)
         this.form.value['employeeServiceRequestID'] = this.data.id;
 
-      console.log(this.form.value);
-      ////this.apiService.post('serviceRequest/createVacationReleaseExit', this.form.value)
-      ////  .subscribe(res => {
-      ////    this.utilService.OkMessage();
-      ////    //this.reset();
-      ////    this.dialogRef.close(true);
-      ////  },
-      ////    error => {
-      ////      this.utilService.ShowApiErrorMessage(error);
-      ////    });
+      //console.log(this.form.value);
+
+      this.apiService.post('serviceRequest/createVacationReleaseExit', this.form.value)
+        .subscribe(res => {
+          this.utilService.OkMessage();
+          //this.reset();
+          this.dialogRef.close(true);
+        },
+          error => {
+            this.utilService.ShowApiErrorMessage(error);
+          });
     }
     else
       this.utilService.FillUpFields();

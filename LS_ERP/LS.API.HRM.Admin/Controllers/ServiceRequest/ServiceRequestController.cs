@@ -65,7 +65,7 @@ namespace LS.API.HRM.Admin.Controllers.ServiceRequest
         [HttpGet("getFlightClassList")]
         public async Task<IActionResult> GetFlightClassList()
         {
-            var list = await Mediator.Send(new GetFlightClassList() { });
+            var list = await Mediator.Send(new GetFlightClassList() { User = UserInfo() });
             return Ok(list);
         }
 

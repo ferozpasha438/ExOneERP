@@ -70,5 +70,7 @@ namespace CIN.Domain.HumanResource.EmployeeMgt
 
         //Stop Payroll
         public bool StopPayroll { get; set; }
+
+        public DateTime? LastWorkDay { get; set; }
     }
 }

@@ -216,6 +216,8 @@ namespace CIN.Application.HumanResource.ServiceRequest.HRMServiceRequestQuery
                         EmployeeNumber = e.TrnPersonalInformation.EmployeeNumber,
                         EmployeeName = isArab ? string.Concat(e.TrnPersonalInformation.FirstNameAr + " ", e.TrnPersonalInformation.LastNameAr)
                                               : string.Concat(e.TrnPersonalInformation.FirstNameEn + " ", e.TrnPersonalInformation.LastNameEn),
+                        HasReleaseExitEntry = _context.EmployeeExitReEntryInfos.Any(ex => ex.EmployeeServiceRequestID == e.Id),
+                        HasReportedBack = _context.EmployeeReportingBackInfos.Any(ex => ex.EmployeeServiceRequestID == e.Id),
 
 
                     })
@@ -543,6 +545,7 @@ namespace CIN.Application.HumanResource.ServiceRequest.HRMServiceRequestQuery
 
     public class GetFlightClassList : IRequest<List<CustomSelectListItem>>
     {
+        public UserIdentityDto User { get; set; }
     }
 
     public class GetFlightClassListHandler : IRequestHandler<GetFlightClassList, List<CustomSelectListItem>>
@@ -560,7 +563,15 @@ namespace CIN.Application.HumanResource.ServiceRequest.HRMServiceRequestQuery
             try
             {
                 Log.Info("----Info GetFlightClassList method start----");
-                return new() { new() { Text = "Business Class", Value = "B" }, new() { Text = "Economic Class", Value = "E" } };
+                var isArab = request.User.Culture.IsArab();
+
+                var flightList = await _context.FlightClasses.Where(e => e.IsActive)
+                    .Select(e => new CustomSelectListItem
+                    {
+                        Text = isArab ? e.FlightClassNameAr : e.FlightClassNameEn,
+                        Value = e.FlightClassCode
+                    }).ToListAsync();
+                return flightList;
             }
             catch (Exception ex)
             {
@@ -1233,12 +1244,13 @@ namespace CIN.Application.HumanResource.ServiceRequest.HRMServiceRequestQuery
                     contractInfo.StopPayroll = true;
                     var empStatus = await _context.EmployeeStatuses.FirstOrDefaultAsync(e => e.EmployeeStatusCode == "VACATION");
                     contractInfo.EmployeeStatusCode = empStatus?.EmployeeStatusCode;
-
+                    contractInfo.LastWorkDay = DateTime.Now;
+                    await _context.SaveChangesAsync();
 
                     await transaction.CommitAsync();
 
                     Log.Info("----Info CreateVacationReleaseExit method Exit----");
-                    return ApiMessageInfo.Status(1);
+                    return ApiMessageInfo.Status(1, exitReEntryInfo.Id);
                 }
                 catch (Exception ex)
                 {
@@ -1282,6 +1294,7 @@ namespace CIN.Application.HumanResource.ServiceRequest.HRMServiceRequestQuery
 
             try
             {
+                var empId = await _context.EmployeeServiceRequests.Where(e => e.Id == obj.EmployeeServiceRequestID).Select(e => e.EmployeeID).FirstOrDefaultAsync();
                 TblHRMTrnEmployeeReportingBackInfo reportingBackInfo = new()
                 {
                     EmployeeServiceRequestID = obj.EmployeeServiceRequestID,
@@ -1290,7 +1303,7 @@ namespace CIN.Application.HumanResource.ServiceRequest.HRMServiceRequestQuery
                     IsJoiningReportSubmitted = obj.IsJoiningReportSubmitted,
                     ManagerEmployeeID = obj.ManagerEmployeeID,
                     ActionRequired = obj.ActionRequired,
-                    EmployeeID = obj.EmployeeID,
+                    EmployeeID = empId,
                     Remarks = obj.Remarks,
                     UploadedFileName = obj.UploadedFileName,
                     ReportingReason = obj.ReportingReason,
@@ -1304,7 +1317,7 @@ namespace CIN.Application.HumanResource.ServiceRequest.HRMServiceRequestQuery
                 await _context.SaveChangesAsync();
 
                 Log.Info("----Info CreateVacationReportEntry method Exit----");
-                return ApiMessageInfo.Status(1);
+                return ApiMessageInfo.Status(1, reportingBackInfo.Id);
             }
             catch (Exception ex)
             {

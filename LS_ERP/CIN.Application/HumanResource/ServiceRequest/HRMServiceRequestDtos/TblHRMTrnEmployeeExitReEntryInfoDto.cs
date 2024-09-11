@@ -12,7 +12,7 @@ namespace CIN.Application.HumanResource.ServiceRequest.HRMServiceRequestDtos
         [Required]
         public int EmployeeServiceRequestID { get; set; }
 
-        [Required]
+        //[Required]
         public int EmployeeID { get; set; }
         [Required]
         [StringLength(30)]

@@ -76,17 +76,17 @@ export class EmployeereportingbackComponent extends ParentHrmAdminComponent impl
       if (this.data.id > 0)
         this.form.value['employeeServiceRequestID'] = this.data.id;
 
-      console.log(this.form.value);
+     // console.log(this.form.value);
 
-      ////this.apiService.post('serviceRequest/createVacationReportEntry', this.form.value)
-      ////  .subscribe(res => {
-      ////    this.utilService.OkMessage();
-      ////    //this.reset();
-      ////    this.dialogRef.close(true);
-      ////  },
-      ////    error => {
-      ////      this.utilService.ShowApiErrorMessage(error);
-      ////    });
+      this.apiService.post('serviceRequest/createVacationReportEntry', this.form.value)
+        .subscribe(res => {
+          this.utilService.OkMessage();
+          //this.reset();
+          this.dialogRef.close(true);
+        },
+          error => {
+            this.utilService.ShowApiErrorMessage(error);
+          });
     }
     else
       this.utilService.FillUpFields();
