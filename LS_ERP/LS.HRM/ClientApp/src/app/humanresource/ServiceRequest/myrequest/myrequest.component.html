@@ -58,6 +58,7 @@
                         <a class="tableicons" (click)="release(row)" matTooltip="{{'Release' | translate}}"><i class="fa fa-plane"> </i></a>
                         <a class="tableicons" (click)="cancel(row)" matTooltip="{{'Cancel' | translate}}"><i class="fa fa-window-close"> </i></a>
                       </ng-container>
+                        <!--<a class="tableicons" (click)="reporting(row)" matTooltip="{{'Reporting' | translate}}"><i class="fa fa-arrow-circle-left"> </i></a>-->
                         <a class="tableicons" (click)="reporting(row)" *ngIf="row.hasReleaseExitEntry && !row.hasReportedBack" matTooltip="{{'Reporting' | translate}}"><i class="fa fa-arrow-circle-left"> </i></a>
                       </ng-container>
                     </td>

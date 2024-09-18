@@ -23,6 +23,7 @@ namespace CIN.Application.HumanResource.EmployeeMgmt.HRMgmtDtos
         public string LeaveTypeName { get; set; }
         public decimal Availed { get; set; } = 0;
         public decimal Assigned { get; set; } = 0;
+        public decimal NoOfDays { get; set; } = 0;
         public DateTime TranDate { get; set; }
         [StringLength(500)]
         public string Remarks { get; set; }
@@ -30,6 +31,7 @@ namespace CIN.Application.HumanResource.EmployeeMgmt.HRMgmtDtos
         public string EmployeeName { get; set; }
         //Accrual or Pro-Rata
         public int Type { get; set; }
+        public string TypeOfAdj { get; set; }
     }
 
     public class BaseEmployeeLeaveInformationDto
@@ -38,6 +40,11 @@ namespace CIN.Application.HumanResource.EmployeeMgmt.HRMgmtDtos
         [StringLength(20)]
         public string LeaveTemplateCode { get; set; }
         public List<TblHRMTrnEmployeeLeaveInformationDto> EmployeeLeaves { get; set; }
+    }
+
+    public class CreateUpdateLeaveAdjTransactionDto
+    {
+        public TblHRMTrnEmployeeLeaveInformationDto EmployeeLeave { get; set; }
     }
 
     public class EmployeeLeaveInfoFilterDto
