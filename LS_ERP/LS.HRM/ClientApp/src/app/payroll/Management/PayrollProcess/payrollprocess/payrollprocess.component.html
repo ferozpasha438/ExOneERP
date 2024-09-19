@@ -59,6 +59,25 @@
                             </select>
                         </div>
                     </div>
+                    <div class="row">
+                        <div class="col-md-12 col-lg-12 mt-4 text-center">
+                            <button class="btn btn-primary" (click)="RunProcess()">{{'RunProcess'|translate}}</button>
+                            &nbsp;
+                            <button class="btn btn-primary">{{'ApproveProcess'|translate}}</button>
+                            &nbsp;
+                            <button class="btn btn-primary">{{'ReleaseProcess'|translate}}</button>
+                        </div>
+                    </div>
+                    <br />
+
+                    <div class="row">
+                        <div class="col-md-12 col-lg-12">
+                            <mat-accordion>
+                                <app-accordion-item *ngFor="let employee of employeeList" [item]="employee">
+                                </app-accordion-item>
+                            </mat-accordion>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>

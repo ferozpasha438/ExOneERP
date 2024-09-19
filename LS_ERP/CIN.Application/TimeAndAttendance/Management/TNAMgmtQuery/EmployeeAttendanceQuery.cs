@@ -89,7 +89,7 @@ namespace CIN.Application.TimeAndAttendance.Management.TNAMgmtQuery
                                                    .Where(e => (e.PayrollGroupCode.Contains(request.Input.PayrollGroupCode) &&
                                                    e.BranchCode.Contains(request.Input.BranchCode)
                                                    ))
-                                                   .OrderByDescending(x => x.EmployeeID).ToListAsync();
+                                                   .OrderBy(x => x.EmployeeID).ToListAsync();
 
                     contractEmployees = contractEmployees.Where(x => employeesWithAttendance.Exists(p => p.EmployeeID == x.EmployeeID)).ToList();
 
@@ -783,13 +783,13 @@ namespace CIN.Application.TimeAndAttendance.Management.TNAMgmtQuery
                             {
                                 var objConsolidatedEmployeeAttendance = new TblTNATrnConsolidatedEmployeeAttendance();
                                 objConsolidatedEmployeeAttendance.EmployeeID = employee.EmployeeID;
-                                objConsolidatedEmployeeAttendance.PayrollPeriodCode = employee.PayrollGroupCode;
+                                objConsolidatedEmployeeAttendance.PayrollPeriodCode = payrollGroupDetails.PayrollGroupEndDate.ToString("MMMM yyyy");
                                 objConsolidatedEmployeeAttendance.TotalDays = (payrollGroupDetails.PayrollGroupEndDate - payrollGroupDetails.PayrollGroupStartDate).Days + 1;
                                 objConsolidatedEmployeeAttendance.TotalOffDays = employeeWeeklyOffs.ToList().Count();
                                 objConsolidatedEmployeeAttendance.TotalHolidays = employeeCalendarMappings.ToList().Count();
-                                objConsolidatedEmployeeAttendance.TotalPresentDays = (objConsolidatedEmployeeAttendance.TotalDays - (objConsolidatedEmployeeAttendance.TotalOffDays + objConsolidatedEmployeeAttendance.TotalHolidays));
+                                objConsolidatedEmployeeAttendance.TotalPresentDays = employeeAttendance.Where(e => e.AttnFlag == "P").Count();
                                 objConsolidatedEmployeeAttendance.TotalAbsents = (objConsolidatedEmployeeAttendance.TotalDays - (objConsolidatedEmployeeAttendance.TotalPresentDays + objConsolidatedEmployeeAttendance.TotalOffDays + objConsolidatedEmployeeAttendance.TotalHolidays));
-                                objConsolidatedEmployeeAttendance.NetWorkingDays = (objConsolidatedEmployeeAttendance.TotalDays - (objConsolidatedEmployeeAttendance.TotalOffDays + objConsolidatedEmployeeAttendance.TotalHolidays));
+                                objConsolidatedEmployeeAttendance.NetWorkingDays = employeeAttendance.Where(e => e.AttnFlag == "P").Count();
                                 objConsolidatedEmployeeAttendance.TotalLateDays = employeeAttendance.Where(e => e.IsLate).ToList().Count();
                                 objConsolidatedEmployeeAttendance.TotalLateHours = employeeAttendance.Where(e => e.AttnFlag == "P").Sum(e => e.LateHours);
                                 objConsolidatedEmployeeAttendance.NormalOTHours = employeeAttendance.Where(e => !e.IsSpecialDay).Sum(e => e.OverTimeHours);
@@ -803,7 +803,7 @@ namespace CIN.Application.TimeAndAttendance.Management.TNAMgmtQuery
                         {
                             //Retrieve employee's consolidated attendance.
                             var consolidatedEmployeeAttendance = await _context.ConsolidatedEmployeeAttendance
-                                .Where(e => (e.PayrollPeriodCode == payrollGroupDetails.PayrollGroupCode))
+                                .Where(e => (e.PayrollPeriodCode == payrollGroupDetails.PayrollGroupEndDate.ToString("MMMM yyyy")))
                                 .ToListAsync();
 
                             //Delete employee's consolidated attendance
