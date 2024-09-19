@@ -59,7 +59,7 @@ namespace CIN.Domain.HumanResource.EmployeeMgt
         [ForeignKey(nameof(VacationPolicyCode))]
         public TblHRMSysVacationPolicy SysVacationPolicy { get; set; }
         [StringLength(20)]
-        public string VacationPolicyCode { get; set; }
+        public string? VacationPolicyCode { get; set; }
 
         //Employee Status
         [ForeignKey(nameof(EmployeeStatusCode))]
@@ -69,8 +69,8 @@ namespace CIN.Domain.HumanResource.EmployeeMgt
         public string EmployeeStatusCode { get; set; }
 
         //Stop Payroll
-        public bool StopPayroll { get; set; }
-
-        public DateTime? LastWorkDay { get; set; }
+        public bool? StopPayroll { get; set; }
+        [Column(TypeName = "date")]
+        public DateTime? LastDateOfDuty { get; set; }
     }
 }

@@ -10,6 +10,7 @@ import { AddupdatepayrollcomponentComponent } from './Setup/PayrollComponent/add
 import { GetpayrollpackageComponent } from './Management/PayrollPackage/getpayrollpackage/getpayrollpackage.component';
 import { AddupdatepayrollpackageComponent } from './Management/PayrollPackage/addupdatepayrollpackage/addupdatepayrollpackage.component';
 import { PayrollprocessComponent } from './Management/PayrollProcess/payrollprocess/payrollprocess.component';
+import { AccordionItemComponent } from './Management/PayrollProcess/accordion-item/accordion-item.component';
 
 
 @NgModule({
@@ -21,6 +22,7 @@ import { PayrollprocessComponent } from './Management/PayrollProcess/payrollproc
     GetpayrollpackageComponent,
     AddupdatepayrollpackageComponent,
     PayrollprocessComponent,
+    AccordionItemComponent,
   ],
   imports: [
     CommonModule,

@@ -1,0 +1,156 @@
+<mat-expansion-panel>
+    <mat-expansion-panel-header>
+        <mat-panel-title>
+            {{ "Employee" | translate }} : {{paySlipHeader.employeeNumber}} - {{paySlipHeader.employeeName}}
+            |
+            {{ "TotalEarnings" | translate }} : {{paySlipHeader.earnings | currency}}
+            |
+            {{ "TotalDeductions" | translate }} : {{paySlipHeader.deductions | currency}}
+            |
+            {{ "Netpay" | translate }} : {{paySlipHeader.netpay | currency}}
+        </mat-panel-title>
+    </mat-expansion-panel-header>
+    <div class="row">
+        <div class="col-md-12 col-lg-12">
+            <table class="table table-responsive">
+                <tr>
+                    <td>
+                        {{ "EmployeeNumber" | translate }}
+                    </td>
+                    <td>{{paySlipHeader.employeeNumber}}
+                    </td>
+                    <td>
+                        {{ "PayrollMonth" | translate }}
+                    </td>
+                    <td>{{paySlipHeader.payrollMonth}}
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        {{ "Employee" | translate }}
+                    </td>
+                    <td>{{paySlipHeader.employeeName}}
+                    </td>
+                    <td>
+                        {{ "CalendarDays" | translate }}
+                    </td>
+                    <td>{{paySlipHeader.calandarDays}}
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        {{ "Position" | translate }}
+                    </td>
+                    <td>{{paySlipHeader.positionName}}
+                    </td>
+                    <td>
+                        {{ "TotalPresentDays" | translate }}
+                    </td>
+                    <td>{{paySlipHeader.netWorkingDays}}
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        {{ "Grade" | translate }}
+                    </td>
+                    <td>{{paySlipHeader.gradeName}}
+                    </td>
+                    <td>
+                        {{ "TotalLeaves" | translate }}
+                    </td>
+                    <td>{{paySlipHeader.totalLeaves}}
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        {{ "Branch" | translate }}
+                    </td>
+                    <td>{{paySlipHeader.branchName}}
+                    </td>
+                    <td>
+                        {{ "TotalAbsents" | translate }}
+                    </td>
+                    <td>{{paySlipHeader.totalAbsents}}
+                    </td>
+                </tr>
+            </table>
+            <table class="table table-responsive">
+                <tr>
+                    <th style="font-size: 1rem; font-weight: bold;">
+                        {{'Earnings' | translate}}
+                    </th>
+                    <th style="font-size: 1rem; font-weight: bold;">
+                        {{ "Amount" | translate }}
+                    </th>
+                </tr>
+                <tbody>
+                    <tr *ngFor="let item of earningComponents;let i=index;">
+                        <ng-container *ngIf="(item.payrollComponentType === 1 || item.payrollComponentType === 3)">
+                            <td>{{item.payrollComponentName}}
+                            </td>
+                            <td class="text-right">{{item.payValue | currency}}</td>
+                        </ng-container>
+                    </tr>
+                    <tr style="font-size: 1rem; font-weight: bold; background-color: #e8eef3 !important;">
+                        <td>{{ "TotalEarnings" | translate }}
+                        </td>
+                        <td class="text-right">{{paySlipHeader.earnings | currency}}</td>
+                    </tr>
+                </tbody>
+            </table>
+            <table class="table table-responsive">
+                <tr>
+                    <th style="font-size: 1rem; font-weight: bold;">
+                        {{'Deductions' | translate}}
+                    </th>
+                    <th style="font-size: 1rem; font-weight: bold;">
+                        {{ "Amount" | translate }}
+                    </th>
+                </tr>
+                <tbody>
+                    <tr *ngFor="let item of deductionComponents;let i=index;">
+                        <ng-container *ngIf="(item.payrollComponentType === 2 || item.payrollComponentType === 4)">
+                            <td>{{item.payrollComponentName}}
+                            </td>
+                            <td class="text-right">{{item.payValue | currency}}</td>
+                        </ng-container>
+                    </tr>
+                    <tr style="font-size: 1rem; font-weight: bold; background-color: #e8eef3 !important;">
+                        <td>{{ "TotalDeductions" | translate }}
+                        </td>
+                        <td class="text-right">{{paySlipHeader.deductions | currency}}</td>
+                    </tr>
+                </tbody>
+            </table>
+            <table class="table table-responsive">
+                <tr>
+                    <th style="font-size: 1rem; font-weight: bold;">
+                        {{'NetPay' | translate}}
+                    </th>
+                    <th style="font-size: 1rem; font-weight: bold;">
+                        {{paySlipHeader.netpay | currency}}
+                    </th>
+                </tr>
+            </table>
+        </div>
+    </div>
+    <!-- {{employeePaySlip|json}} -->
+</mat-expansion-panel>
+<style>
+    table {
+        border-collapse: collapse;
+        width: 100%;
+    }
+
+    td,
+    th {
+        border: 1px solid #a5a5a5;
+        text-align: center;
+        padding: 10px;
+        font-size: 17px !important;
+    }
+
+    .mt-4 {
+        margin-top: 1.9rem !important;
+    }
+</style>

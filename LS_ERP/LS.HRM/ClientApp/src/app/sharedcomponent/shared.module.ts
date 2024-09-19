@@ -35,6 +35,7 @@ import { ComponentloaderDirective } from './componentloader.directive';
 import { LeadingZerosPipe } from './SafeHtmlPipe';
 import { MatSelectModule } from '@angular/material/select';
 import { ParentpayrollmgtComponent } from './parentpayrollmgt.component';
+import { MatExpansionModule } from '@angular/material/expansion';
 
 
 
@@ -173,7 +174,8 @@ export function HttpLoaderChildFactory(http: HttpClient) {
     FormsModule,
     ReactiveFormsModule,
     MatIconModule,
-    MatChipsModule
+    MatChipsModule,
+    MatExpansionModule
   ]
   , providers: [
     { provide: TranslateStore },
