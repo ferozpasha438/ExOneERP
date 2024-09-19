@@ -9,6 +9,8 @@ import { UtilityService } from 'src/app/services/utility.service';
 import { ParentHrmAdminComponent } from 'src/app/sharedcomponent/ParentHrmAdmin.component';
 import { ValidationService } from 'src/app/sharedcomponent/ValidationService';
 import { MyrequestComponent } from '../../myrequest/myrequest.component';
+import { CustomSelectListItem } from '../../../../models/MenuItemListDto';
+import { MatSlideToggleChange } from '@angular/material/slide-toggle';
 
 @Component({
   selector: 'app-employeereportingback',
@@ -18,11 +20,14 @@ import { MyrequestComponent } from '../../myrequest/myrequest.component';
 })
 export class EmployeereportingbackComponent extends ParentHrmAdminComponent implements OnInit {
   modalTitle!: string;
-  modalBtnTitle!: string;
-  dbops!: DBOperation;
   form!: FormGroup;
-  id: number = 0;
+  data: any;
   isReadOnly: boolean = false;
+  empListSelectListItems: Array<CustomSelectListItem> = [];
+
+  formData!: FormData;
+  fileUploadone!: File;
+  isApprovalLetterChange: boolean = false;
 
   constructor(private fb: FormBuilder, private apiService: ApiService,
     private authService: AuthorizeService, private utilService: UtilityService, public dialogRef: MatDialogRef<MyrequestComponent>,
@@ -41,27 +46,37 @@ export class EmployeereportingbackComponent extends ParentHrmAdminComponent impl
       {
         'employeeNumber': ['', Validators.required],
         'employeeName': ['', Validators.required],
-        'reportingDate': [''],
-        'latereportingreason': [''],
-        'reportingManager': [''],
-        'requiredApprovalLetterforLateReporting': [''],
-        'joiningReportSubmitted': [''],
-        'addressTypeNameAr': [''],
-        'allowedtoResumeDuty': [''],
-        'actionrequired': [''],
+        'reportingDate': ['', Validators.required],
+        'reportingReason': [''],
+        'managerEmployeeID': ['', Validators.required],
+        'isApprovalLetterRequired': [false],
+        'isJoiningReportSubmitted': [false],
+        'isAllowedToResumeDuty': [false],
+        //'addressTypeNameAr': [''],
+        'actionRequired': [''],
         'remarks': [''],
-        'isActive': [false],
+        'isActive': [true],
 
       }
     );
     this.isReadOnly = false;
   }
+  onSelectFile(fileInput: any) {
+    this.fileUploadone = <File>fileInput.target.files[0];
+  }
+  ApprovalLetterChange(event: MatSlideToggleChange) {
+    this.isApprovalLetterChange = event.checked;
+  }
+
   loadData() {
-    this.apiService.get('', this.id).subscribe(res => {
+    this.apiService.get('serviceRequest/getVacationExitReEntryInfoByRequest', this.data.id).subscribe(res => {
       if (res) {
         this.isReadOnly = true;
         this.form.patchValue(res);
       }
+    });
+    this.apiService.getall(`personalInformation/getEmployeeSelectListItem`).subscribe(res => {
+      this.empListSelectListItems = res;
     });
   }
   closeModel() {
@@ -69,18 +84,36 @@ export class EmployeereportingbackComponent extends ParentHrmAdminComponent impl
   }
 
   submit() {
+    this.formData = new FormData();
+
+
     if (this.form.valid) {
-      if (this.id > 0)
-        this.form.value['id'] = this.id;
-      this.apiService.post('', this.form.value)
+      if (this.data.id > 0)
+        this.form.value['employeeServiceRequestID'] = this.data.id;
+
+      this.formData.append("input", JSON.stringify(this.form.value));
+
+      if (this.isApprovalLetterChange)
+        if (!this.fileUploadone) {
+          this.notifyService.showError('pls upload file');
+          return;
+        }
+        else
+          this.formData.append("file", this.fileUploadone, this.fileUploadone.name);
+
+
+      //console.log(this.formData, this.form.value);
+
+      this.apiService.post('serviceRequest/createVacationReportEntry', this.formData)
         .subscribe(res => {
           this.utilService.OkMessage();
-          this.reset();
+          //this.reset();
           this.dialogRef.close(true);
         },
           error => {
             this.utilService.ShowApiErrorMessage(error);
           });
+
     }
     else
       this.utilService.FillUpFields();

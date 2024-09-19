@@ -38,17 +38,17 @@ namespace CIN.Domain.HumanResource.ServiceRequest
         public string TicketNumber { get; set; }
         [ForeignKey(nameof(FlightClassCode))]
         public TblHRMSysFlightClass SysFlightClass { get; set; }
-        public int FlightClassCode { get; set; }
+        public string FlightClassCode { get; set; }
         [StringLength(200)]
         public string Airlines { get; set; }
         [ForeignKey(nameof(BoardingCityCode))]
         public TblErpSysCityCode SysBoardingCityCode { get; set; }
         [StringLength(20)]
-        public int BoardingCityCode { get; set; }
+        public string BoardingCityCode { get; set; }
         [ForeignKey(nameof(DestinationCityCode))]
         public TblErpSysCityCode SysDestinationCityCodeCityCode { get; set; }
         [StringLength(20)]
-        public int DestinationCityCode { get; set; }
+        public string DestinationCityCode { get; set; }
         public bool IsReplacementRequired { get; set; }
         [ForeignKey(nameof(ReplacementEmployeeID))]
         public TblHRMTrnPersonalInformation TrnReplacementEmployeeIDPersonalInformation { get; set; }

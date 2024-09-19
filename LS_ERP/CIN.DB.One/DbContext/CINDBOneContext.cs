@@ -555,6 +555,7 @@ namespace CIN.DB
         public DbSet<TblHRMSysLeaveTemplate> LeaveTemplates { get; set; }
         public DbSet<TblHRMSysLeaveTemplateMapping> LeaveTemplateMappings { get; set; }
         public DbSet<TblHRMSysVacationPolicy> VacationPolicies { get; set; }
+        public DbSet<TblHRMSysFlightClass> FlightClasses { get; set; }
 
         //Transactions
         public DbSet<TblHRMTrnPersonalInformation> PersonalInformation { get; set; }
@@ -581,6 +582,8 @@ namespace CIN.DB
         public DbSet<TblHRMTrnEmployeeServiceRequestDocumentDetails> EmployeeServiceRequestDocumentDetails { get; set; }
         public DbSet<TblHRMTrnEmployeeVacationServiceRequestLeaveDetails> EmployeeVacationServiceRequestLeaveDetails { get; set; }
         public DbSet<TblHRMTrnEmployeeVacationDateLog> EmployeeVacationDateLogs { get; set; }
+        public DbSet<TblHRMTrnEmployeeExitReEntryInfo> EmployeeExitReEntryInfos { get; set; }
+        public DbSet<TblHRMTrnEmployeeReportingBackInfo> EmployeeReportingBackInfos { get; set; }
 
         #endregion
 

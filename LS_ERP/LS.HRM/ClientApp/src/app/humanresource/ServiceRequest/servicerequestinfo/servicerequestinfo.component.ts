@@ -20,6 +20,7 @@ export class ServicerequestinfoComponent implements OnInit {
   id: number = 0;
   modalTitle: string = '';
   serviceRequestRefNo: string = '';
+  serviceRequestTypeCode: string = '';
   isFromAppoval: boolean = false;
   modalBtnTitle: string = '';
   // employeeNumber: string = '00004';

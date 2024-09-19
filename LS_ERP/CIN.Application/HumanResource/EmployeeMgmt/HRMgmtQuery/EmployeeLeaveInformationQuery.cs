@@ -3,6 +3,7 @@ using AutoMapper.QueryableExtensions;
 using CIN.Application.Common;
 using CIN.Application.HumanResource.EmployeeMgmt.HRMgmtDtos;
 using CIN.Application.HumanResource.SetUp.HRMSetUpDtos;
+using CIN.Application.SystemSetupDtos;
 using CIN.Application.TimeAndAttendance.Management.TNAMgmtDtos;
 using CIN.DB;
 using CIN.Domain.HumanResource.EmployeeMgt;
@@ -193,7 +194,7 @@ namespace CIN.Application.HumanResource.EmployeeMgmt.HRMgmtQuery
         }
     }
 
-    #endregion
+    #endregion    
 
     #region GetEmployeeLeaveTemplateMappings
 
@@ -257,4 +258,133 @@ namespace CIN.Application.HumanResource.EmployeeMgmt.HRMgmtQuery
     }
 
     #endregion
+
+
+    #region GetCreateUpdateLeaveAdjTransactionList
+
+    public class GetCreateUpdateLeaveAdjTransactionList : IRequest<PaginatedList<CreateUpdateLeaveAdjTransactionDto>>
+    {
+        public UserIdentityDto User { get; set; }
+        public PaginationFilterDto Input { get; set; }
+    }
+
+    public class GetCreateUpdateLeaveAdjTransactionListHandler : IRequestHandler<GetCreateUpdateLeaveAdjTransactionList, PaginatedList<CreateUpdateLeaveAdjTransactionDto>>
+    {
+        private readonly CINDBOneContext _context;
+        private readonly IMapper _mapper;
+        public GetCreateUpdateLeaveAdjTransactionListHandler(CINDBOneContext context, IMapper mapper)
+        {
+            _context = context;
+            _mapper = mapper;
+        }
+        public async Task<PaginatedList<CreateUpdateLeaveAdjTransactionDto>> Handle(GetCreateUpdateLeaveAdjTransactionList request, CancellationToken cancellationToken)
+        {
+            var search = request.Input.Query;
+            var list = await _context.EmployeeLeaveInformations.AsNoTracking()
+              .Where(e => e.TemplateCode == null || e.TemplateCode == "")
+               .OrderByDescending(e => e.Id)
+               .Select(e => new CreateUpdateLeaveAdjTransactionDto
+               {
+                   EmployeeLeave = new()
+                   {
+                       Id = e.Id,
+                       EmployeeID = e.EmployeeID,
+                       TranDate = e.TranDate,
+                       Remarks = e.Remarks,
+                   }
+               })
+                 .PaginationListAsync(request.Input.Page, request.Input.PageCount, cancellationToken);
+
+            foreach (var item in list.Items)
+            {
+                var emp = await _context.PersonalInformation.FirstOrDefaultAsync(e => e.Id == item.EmployeeLeave.EmployeeID);
+                item.EmployeeLeave.EmployeeName = emp.EmployeeNumber;
+            }
+            return list;
+        }
+    }
+
+    #endregion
+
+    #region CreateUpdateLeaveAdjTransaction
+
+    public class CreateUpdateLeaveAdjTransaction : IRequest<AppCtrollerDto>
+    {
+        public UserIdentityDto User { get; set; }
+        public CreateUpdateLeaveAdjTransactionDto Input { get; set; }
+    }
+    public class CreateUpdateLeaveAdjTransactionHandler : IRequestHandler<CreateUpdateLeaveAdjTransaction, AppCtrollerDto>
+    {
+        private readonly CINDBOneContext _context;
+        private readonly IMapper _mapper;
+
+        public CreateUpdateLeaveAdjTransactionHandler(IMapper mapper, CINDBOneContext context)
+        {
+            _mapper = mapper;
+            _context = context;
+        }
+
+        public async Task<AppCtrollerDto> Handle(CreateUpdateLeaveAdjTransaction request, CancellationToken cancellationToken)
+        {
+            try
+            {
+                Log.Info("----Info CreateUpdateLeaveAdjTransaction method start----");
+                var obj = request.Input.EmployeeLeave;
+
+
+                if (obj is not null)
+                {
+                    TblHRMTrnEmployeeLeaveInformation employeeLeave = await _context.EmployeeLeaveInformations.FirstOrDefaultAsync(e => e.Id == obj.Id);
+
+                    employeeLeave.EmployeeID = obj.EmployeeID;
+                    //employeeLeave.TemplateCode = obj.TemplateCode;
+                    employeeLeave.LeaveTypeCode = obj.LeaveTypeCode;
+
+                    if (obj.TypeOfAdj == "Availed")
+                    {
+                        employeeLeave.Availed = obj.NoOfDays;
+                        employeeLeave.Assigned = 0;
+                    }
+                    else if (obj.TypeOfAdj == "Assigned")
+                    {
+                        employeeLeave.Assigned = obj.NoOfDays;
+                        employeeLeave.Availed = 0;
+                    }
+
+                    employeeLeave.TranDate = obj.TranDate;
+                    employeeLeave.Remarks = obj.Remarks;
+                    employeeLeave.IsActive = true;
+                    employeeLeave.CreatedBy = request.User.UserId;
+                    employeeLeave.Created = DateTime.Now;
+
+                    if (obj.Id > 0)
+                    {
+                        _context.EmployeeLeaveInformations.Update(employeeLeave);
+                    }
+                    else
+                    {
+                        await _context.EmployeeLeaveInformations.AddAsync(employeeLeave);
+                    }
+                    await _context.SaveChangesAsync();
+
+                    Log.Info("----Info CreateUpdateLeaveAdjTransaction method Exit----");
+                    return ApiMessageInfo.Status(1, employeeLeave.Id);
+                }
+
+                return ApiMessageInfo.Status(0);
+
+            }
+            catch (Exception ex)
+            {
+                Log.Error("Error in CreateUpdateLeaveAdjTransaction Method");
+                Log.Error("Error occured time : " + DateTime.UtcNow);
+                Log.Error("Error message : " + ex.Message);
+                Log.Error("Error StackTrace : " + ex.StackTrace);
+                return ApiMessageInfo.Status(0);
+            }
+        }
+    }
+
+    #endregion
+
 }

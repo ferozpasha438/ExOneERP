@@ -37,5 +37,5 @@ namespace CIN.Application.HumanResource.ServiceRequest.HRMServiceRequestDtos
         public CustomSelectListItem EmployeeInfo { get; set; }
         public List<TblHRMTrnEmployeeVacationServiceRequestLeaveDetailsDto> List { get; set; }
         public List<TblHRMTrnEmployeeServiceRequestAuditDto> Audits { get; set; }
-    }
+    }   
 }
