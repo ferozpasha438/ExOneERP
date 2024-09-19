@@ -53,7 +53,7 @@ export class VacationrequestComponent extends ParentHrmAdminComponent implements
   canDisableApproval: boolean = false;
   totalCutOffNoOfDays: number = 50;
   isOnVacation: boolean = false;
-  vacationErrorMessage: string = 'some error';
+  vacationErrorMessage: string = '';
   constructor(private fb: FormBuilder, private apiService: ApiService,
     private authService: AuthorizeService, private utilService: UtilityService, public dialogRef: MatDialogRef<VacationrequestComponent>,
     private notifyService: NotificationService, private validationService: ValidationService, public dialog: MatDialog) {
@@ -91,7 +91,7 @@ export class VacationrequestComponent extends ParentHrmAdminComponent implements
       this.empSelectInfo = res['employeeInfo'];
       this.remarks = res['remarks'];
       this.actionType = res['actionType'] as number;
-      this.canDisable = this.actionType == 2 || this.actionType == 4;
+      this.canDisable = this.actionType == 2 || this.actionType == 4; //C# ProcessStage enum 2 = submit & 4 = approval
       this.canDisableApproval = res['isApproved'] as boolean;
       this.audits = res['audits'];
 

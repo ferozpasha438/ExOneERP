@@ -522,7 +522,7 @@ namespace CIN.Application.HumanResource.ServiceRequest.HRMServiceRequestQuery
                     {
                         return new() { IntValue = contractInfo.MaximumDaysAllowed };
                     }
-                    return new() { Text = $"You are still not completed {contractInfo.VacationDurationInMonths} months", IntValue = 0 };
+                    return new() { Text = $"You are still not completed {contractInfo.VacationDurationInMonths} months of vacation", IntValue = 0 };
                 }
 
                 return new() { IntValue = contractInfo.MaximumDaysAllowed };
