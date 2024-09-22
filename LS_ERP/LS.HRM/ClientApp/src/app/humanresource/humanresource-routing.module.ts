@@ -40,6 +40,7 @@ import { WaitingapprovalrequestComponent } from './ServiceRequest/waitingapprova
 import { GetvacationpolicyComponent } from './Setup/VacationPolicy/getvacationpolicy/getvacationpolicy.component';
 import { EmployeeexitreentryComponent } from './ServiceRequest/shared/employeeexitreentry/employeeexitreentry.component';
 import { EmployeereportingbackComponent } from './ServiceRequest/shared/employeereportingback/employeereportingback.component';
+import { GetemployeeleavetransactionComponent } from './Employeemgt/EmployeeLeaveInfo/EmployeeLeaveTransaction/getemployeeleavetransaction/getemployeeleavetransaction.component';
 
 
 const routes: Routes = [
@@ -83,6 +84,8 @@ const routes: Routes = [
   { path: 'getemployeeexitreentry', component: EmployeeexitreentryComponent },
   { path: 'getemployeereportingback', component: EmployeereportingbackComponent },
   // { path: 'getvacationreq', component: VacationrequestComponent },
+  { path: 'getemployeeleavetransaction', component: GetemployeeleavetransactionComponent },
+
 ];
 
 @NgModule({
