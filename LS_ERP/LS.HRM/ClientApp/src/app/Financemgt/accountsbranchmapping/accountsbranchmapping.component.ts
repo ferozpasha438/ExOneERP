@@ -29,6 +29,7 @@ export class AccountsbranchmappingComponent extends ParentSystemSetupComponent i
   isChecked: boolean = false;
   isMainChecked: boolean = false;
   branchCodeError: string = '';
+  isLoading: boolean = false;
 
   constructor(private fb: FormBuilder, private apiService: ApiService, private authService: AuthorizeService,
     private utilService: UtilityService, private notifyService: NotificationService, public dialog: MatDialog,
@@ -65,7 +66,9 @@ export class AccountsbranchmappingComponent extends ParentSystemSetupComponent i
   }
 
   loadAcCodes() {
+    this.isLoading = true;
     this.apiService.getall(`accountsbranchmapping/getBranchAccountMappingList`).subscribe(res => {
+      this.isLoading = false;
       if (res) {
         this.acCodeList = res;
         this.allAcCodeList = res;

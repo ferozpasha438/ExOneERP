@@ -10,6 +10,7 @@
 </div>
 
 <div class="container-fluid">
+  <spinner-loader [isLoading]="isLoading"></spinner-loader>
   <div class="row">
     <div class="col-md-12 col-lg-12">
       <div class="card">
@@ -21,7 +22,7 @@
                 <div class="form-group">
                   <label for="seg2Code">{{'Seg1Code' | translate}}</label>
                   <input class="form-control" id="seg2Code" type="text"
-                         placeholder="{{'Please_Enter' | translate}} {{'Seg1Code' | translate}} " formControlName="seg2Code" [readonly] ="isEdit">
+                         placeholder="{{'Please_Enter' | translate}} {{'Seg1Code' | translate}} " formControlName="seg2Code" [readonly]="isEdit">
                   <validation-message [control]="form.controls.seg2Code"></validation-message>
                 </div>
               </div>
@@ -60,7 +61,7 @@
               <div class="col-md-12 col-lg-12 text-center">
                 <input type="button"
                        class="btn waves-effect waves-light btn-rounded   btn-secondary btn-midblock"
-                       value="{{'Cancel' | translate}}" (click)="cancel()"/> &nbsp;
+                       value="{{'Cancel' | translate}}" (click)="cancel()" /> &nbsp;
                 <input type="submit"
                        class="btn waves-effect waves-light btn-rounded btn-primary btn-midblock"
                        value="{{'Save' | translate}}" />

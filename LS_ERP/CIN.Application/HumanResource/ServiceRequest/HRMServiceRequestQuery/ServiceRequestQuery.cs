@@ -850,7 +850,7 @@ namespace CIN.Application.HumanResource.ServiceRequest.HRMServiceRequestQuery
     #endregion
 
 
-    #region RejectApproveVacationRequest
+    #region Reject_Or_ApproveVacationRequest
     public class RejectApproveVacationRequest : UserIdentityDto, IRequest<AppCtrollerDto>
     {
         public UserIdentityDto User { get; set; }
