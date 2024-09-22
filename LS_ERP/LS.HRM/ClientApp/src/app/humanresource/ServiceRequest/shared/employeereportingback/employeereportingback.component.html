@@ -64,10 +64,11 @@
             </div>
         </div>
         <div class="col-md-6 col-lg-6 mt-5">
-            <div class="form-group">
-                <mat-slide-toggle color="primary" formControlName="isApprovalLetterRequired"></mat-slide-toggle>&nbsp;
-                <label for="isApprovalLetterRequired">{{'RequiredApprovalLetterforLateReporting' | translate}}</label>
-            </div>
+          <div class="form-group">
+            <mat-slide-toggle color="primary" formControlName="isApprovalLetterRequired" (change)="ApprovalLetterChange($event)"></mat-slide-toggle>&nbsp;
+            <label for="isApprovalLetterRequired">{{'RequiredApprovalLetterforLateReporting' | translate}}</label>
+            <div class="pl-5 pt-1 pr-5" *ngIf="isApprovalLetterChange"> <input type="file" (change)="onSelectFile($event)"></div>
+          </div>
         </div>
     </div>
     <div class="row">

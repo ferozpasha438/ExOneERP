@@ -161,13 +161,86 @@ namespace LS.API.HRM.Admin.Controllers.ServiceRequest
             return BadRequest(new ApiMessageDto { Message = result.Message });
         }
 
+        //[HttpPost("createVacationReportEntry")]
+        //public async Task<ActionResult> CreateVacationReportEntry([FromBody] TblHRMTrnEmployeeReportingBackInfoDto input)
+        //{
+
+
+        //    var result = await Mediator.Send(new CreateVacationReportEntry() { Input = input, User = UserInfo() });
+
+        //    if (result.Id > 0)
+        //        return NoContent();
+
+        //    return BadRequest(new ApiMessageDto { Message = result.Message });
+        //}
+
+
         [HttpPost("createVacationReportEntry")]
-        public async Task<ActionResult> CreateVacationReportEntry([FromBody] TblHRMTrnEmployeeReportingBackInfoDto input)
+        public async Task<ActionResult> CreateVacationReportEntry()
         {
-            var result = await Mediator.Send(new CreateVacationReportEntry() { Input = input, User = UserInfo() });
+
+            try
+            {
+                List<TblErpSysFileUploadDto> fileUploads = new();
+                var file = HttpContext.Request.Form.Files[0];
+                string guid = string.Empty;
+
+                if (file != null && file.Length > 0)
+                {
+                    guid = Guid.NewGuid().ToString();
+
+                    guid = $"{guid}_${file.FileName}";
+                    var webRoot = $"{_env.ContentRootPath}/files/vacreqs";
+                    var filePath = Path.Combine(webRoot, guid);
+
+                    using (var stream = new FileStream(filePath, FileMode.Create))
+                    {
+                        file.CopyTo(stream);
+                    }
+                }
+
+                var obj = Convert.ToString(HttpContext.Request.Form["input"]);
+                TblHRMTrnEmployeeReportingBackInfoDto input = new();
+                if (obj.HasValue())//&& module.Length > 40
+                {
+                    input = JsonConvert.DeserializeObject<TblHRMTrnEmployeeReportingBackInfoDto>(obj);
+                    input.UploadedFileName = guid;
+                    var result = await Mediator.Send(new CreateVacationReportEntry() { Input = input, User = UserInfo() });
+                    if (result.Id > 0)
+                    {
+                        return NoContent();
+                    }
+                    return BadRequest(new ApiMessageDto { Message = result.Message });
+                }
+
+                return Ok(obj);
+            }
+            catch (Exception ex)
+            {
+
+                return BadRequest(ex.Message);
+            }
+
+            //var result = await Mediator.Send(new CreateVacationReportEntry() { Input = input, User = UserInfo() });
+
+            //if (result.Id > 0)
+            //    return NoContent();
+
+            //return BadRequest(new ApiMessageDto { Message = result.Message });
+        }
+
+        [HttpPost("createUpdateLeaveAdjTransaction")]
+        public async Task<ActionResult> CreateUpdateLeaveAdjTransaction([FromBody] CreateUpdateLeaveAdjTransactionDto input)
+        {
+            var result = await Mediator.Send(new CreateUpdateLeaveAdjTransaction() { Input = input, User = UserInfo() });
 
             if (result.Id > 0)
-                return NoContent();
+            {
+                if (input.EmployeeLeave.Id > 0)
+                    return NoContent();
+                else
+                    return Created($"get/{result.Id}", input);
+            }
 
             return BadRequest(new ApiMessageDto { Message = result.Message });
         }

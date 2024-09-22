@@ -1,4 +1,5 @@
 ﻿using CIN.Application;
+using CIN.Application.HumanResource.EmployeeMgmt.HRMgmtDtos;
 using CIN.Application.HumanResource.EmployeeMgmt.HRMgmtQuery;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -22,6 +23,13 @@ namespace LS.API.Payroll.Controllers.Shared
         {
             var obj = await Mediator.Send(new GetEmployeeContractInformationById() { EmployeeID = employeeID, User = UserInfo() });
             return obj is not null ? Ok(obj) : NotFound(new ApiMessageDto { Message = ApiMessageInfo.NotFound });
+        }
+
+        [HttpGet("GetEmployeeListByFilters")]
+        public async Task<IActionResult> GetEmployeeListByFilters([FromQuery] EmployeeFilterDto filter)
+        {
+            var obj = await Mediator.Send(new GetEmployeeListByFilters() { Input = filter, User = UserInfo() });
+            return Ok(obj);
         }
     }
 }

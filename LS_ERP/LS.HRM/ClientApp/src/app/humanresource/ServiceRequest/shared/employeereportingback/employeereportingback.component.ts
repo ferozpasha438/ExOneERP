@@ -10,6 +10,7 @@ import { ParentHrmAdminComponent } from 'src/app/sharedcomponent/ParentHrmAdmin.
 import { ValidationService } from 'src/app/sharedcomponent/ValidationService';
 import { MyrequestComponent } from '../../myrequest/myrequest.component';
 import { CustomSelectListItem } from '../../../../models/MenuItemListDto';
+import { MatSlideToggleChange } from '@angular/material/slide-toggle';
 
 @Component({
   selector: 'app-employeereportingback',
@@ -23,6 +24,10 @@ export class EmployeereportingbackComponent extends ParentHrmAdminComponent impl
   data: any;
   isReadOnly: boolean = false;
   empListSelectListItems: Array<CustomSelectListItem> = [];
+
+  formData!: FormData;
+  fileUploadone!: File;
+  isApprovalLetterChange: boolean = false;
 
   constructor(private fb: FormBuilder, private apiService: ApiService,
     private authService: AuthorizeService, private utilService: UtilityService, public dialogRef: MatDialogRef<MyrequestComponent>,
@@ -56,6 +61,13 @@ export class EmployeereportingbackComponent extends ParentHrmAdminComponent impl
     );
     this.isReadOnly = false;
   }
+  onSelectFile(fileInput: any) {
+    this.fileUploadone = <File>fileInput.target.files[0];
+  }
+  ApprovalLetterChange(event: MatSlideToggleChange) {
+    this.isApprovalLetterChange = event.checked;
+  }
+
   loadData() {
     this.apiService.get('serviceRequest/getVacationExitReEntryInfoByRequest', this.data.id).subscribe(res => {
       if (res) {
@@ -72,13 +84,27 @@ export class EmployeereportingbackComponent extends ParentHrmAdminComponent impl
   }
 
   submit() {
+    this.formData = new FormData();
+
+
     if (this.form.valid) {
       if (this.data.id > 0)
         this.form.value['employeeServiceRequestID'] = this.data.id;
 
-     // console.log(this.form.value);
+      this.formData.append("input", JSON.stringify(this.form.value));
 
-      this.apiService.post('serviceRequest/createVacationReportEntry', this.form.value)
+      if (this.isApprovalLetterChange)
+        if (!this.fileUploadone) {
+          this.notifyService.showError('pls upload file');
+          return;
+        }
+        else
+          this.formData.append("file", this.fileUploadone, this.fileUploadone.name);
+
+
+      //console.log(this.formData, this.form.value);
+
+      this.apiService.post('serviceRequest/createVacationReportEntry', this.formData)
         .subscribe(res => {
           this.utilService.OkMessage();
           //this.reset();
@@ -87,6 +113,7 @@ export class EmployeereportingbackComponent extends ParentHrmAdminComponent impl
           error => {
             this.utilService.ShowApiErrorMessage(error);
           });
+
     }
     else
       this.utilService.FillUpFields();

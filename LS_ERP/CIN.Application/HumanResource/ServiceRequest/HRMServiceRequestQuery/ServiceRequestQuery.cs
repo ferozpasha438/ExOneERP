@@ -522,7 +522,7 @@ namespace CIN.Application.HumanResource.ServiceRequest.HRMServiceRequestQuery
                     {
                         return new() { IntValue = contractInfo.MaximumDaysAllowed };
                     }
-                    return new() { Text = $"You are still not completed {contractInfo.VacationDurationInMonths} months", IntValue = 0 };
+                    return new() { Text = $"You are still not completed {contractInfo.VacationDurationInMonths} months of vacation", IntValue = 0 };
                 }
 
                 return new() { IntValue = contractInfo.MaximumDaysAllowed };
@@ -850,7 +850,7 @@ namespace CIN.Application.HumanResource.ServiceRequest.HRMServiceRequestQuery
     #endregion
 
 
-    #region RejectApproveVacationRequest
+    #region Reject_Or_ApproveVacationRequest
     public class RejectApproveVacationRequest : UserIdentityDto, IRequest<AppCtrollerDto>
     {
         public UserIdentityDto User { get; set; }
@@ -1244,7 +1244,7 @@ namespace CIN.Application.HumanResource.ServiceRequest.HRMServiceRequestQuery
                     contractInfo.StopPayroll = true;
                     var empStatus = await _context.EmployeeStatuses.FirstOrDefaultAsync(e => e.EmployeeStatusCode == "VACATION");
                     contractInfo.EmployeeStatusCode = empStatus?.EmployeeStatusCode;
-                    contractInfo.LastWorkDay = DateTime.Now;
+                    contractInfo.LastDateOfDuty = DateTime.Now;
                     await _context.SaveChangesAsync();
 
                     await transaction.CommitAsync();

@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace CIN.Domain.Payroll.Management
 {
-    [Table("TblPRLTrnEmployeePayrollProcess")]
+    [Table("tblPRLTrnEmployeePayrollProcess")]
     public class TblPRLTrnEmployeePayrollProcess : AuditableEntity<int>
     {
         [ForeignKey(nameof(EmployeeID))]
@@ -18,11 +18,9 @@ namespace CIN.Domain.Payroll.Management
         [Required]
         public int EmployeeID { get; set; }
 
-        [ForeignKey(nameof(PayrollPeriodCode))]
-        public TblPRLSysPayrollPeriod SysPayrollPeriod { get; set; }
         [Required]
         [StringLength(20)]
-        public string PayrollPeriodCode { get; set; }
+        public string PayrollMonth { get; set; }
 
         [ForeignKey(nameof(PayrollComponentCode))]
         public TblPRLSysPayrollComponent SysPayrollComponent { get; set; }
