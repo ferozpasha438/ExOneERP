@@ -49,18 +49,18 @@
                 <ng-container>
                   <table mat-table [dataSource]="data" matSortDisableClear matSort class="table  table-bordered no-wrap">
   
-                    <ng-container matColumnDef="sno">
+                    <!--<ng-container matColumnDef="sno">
                       <th mat-header-cell *matHeaderCellDef mat-sort-header>
                         {{'SNo' | translate}}
                       </th>
                       <td mat-cell *matCellDef="let row; let i = index;">{{ i+1 }}</td>
-                    </ng-container>
+                    </ng-container>-->
   
                     <ng-container matColumnDef="transaction">
                       <th mat-header-cell *matHeaderCellDef mat-sort-header>
                         {{'Transaction' | translate}}
                       </th>
-                      <td mat-cell *matCellDef="let row">{{ row.transaction }}</td>
+                      <td mat-cell *matCellDef="let row; let i = index;">{{ i+1 }}</td>
                     </ng-container>
 
                     <ng-container matColumnDef="employeeNumber">
@@ -81,14 +81,14 @@
                         <th mat-header-cell *matHeaderCellDef mat-sort-header>
                           {{'Date' | translate}}
                         </th>
-                        <td mat-cell *matCellDef="let row">{{ row.date }}</td>
+                        <td mat-cell *matCellDef="let row">{{ row.tranDate | date:'dd/MM/yyyy'}}</td>
                       </ng-container>
 
                     <ng-container matColumnDef="reason">
                       <th mat-header-cell *matHeaderCellDef mat-sort-header>
                         {{'Reason' | translate}}
                       </th>
-                      <td mat-cell *matCellDef="let row">{{ row.reason }}</td>
+                      <td mat-cell *matCellDef="let row">{{ row.remarks }}</td>
                     </ng-container>
 
                     <ng-container matColumnDef="isActive">

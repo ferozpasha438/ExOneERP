@@ -16,7 +16,7 @@ namespace CIN.Domain.HumanResource.EmployeeMgt
 
         [ForeignKey(nameof(TemplateCode))]
         public TblHRMSysLeaveTemplate SysLeaveTemplate { get; set; }
-        //[Required]
+        [Required]
         [StringLength(20)]
         public string TemplateCode { get; set; }
 
@@ -34,6 +34,7 @@ namespace CIN.Domain.HumanResource.EmployeeMgt
         public DateTime TranDate { get; set; }
         [StringLength(500)]
         public string Remarks { get; set; }
+        public bool? IsLeaveAdjusted { get; set; }
 
     }
 }

@@ -9,6 +9,7 @@ import { UtilityService } from 'src/app/services/utility.service';
 import { ParentHrmAdminComponent } from 'src/app/sharedcomponent/ParentHrmAdmin.component';
 import { ValidationService } from 'src/app/sharedcomponent/ValidationService';
 import { GetemployeeleavetransactionComponent } from '../getemployeeleavetransaction/getemployeeleavetransaction.component';
+import { CustomSelectListItem } from '../../../../../models/MenuItemListDto';
 
 @Component({
   selector: 'app-addupdateemployeeleavetransaction',
@@ -22,6 +23,8 @@ export class AddupdateemployeeleavetransactionComponent extends ParentHrmAdminCo
   form!: FormGroup;
   id: number = 0;
   isReadOnly: boolean = false;
+  empListSelectListItems: Array<CustomSelectListItem> = [];
+  leaveTypeSelectListItems: Array<any> = [];
 
   constructor(private fb: FormBuilder, private apiService: ApiService,
     private authService: AuthorizeService, private utilService: UtilityService, public dialogRef: MatDialogRef<AddupdateemployeeleavetransactionComponent>,
@@ -30,28 +33,45 @@ export class AddupdateemployeeleavetransactionComponent extends ParentHrmAdminCo
   };
 
 
-ngOnInit(): void {
-  this.setForm();
-  if(this.id > 0)
-  this.setEditForm();
+  ngOnInit(): void {
+    this.loadData();
+    this.setForm();
+
+    if (this.id > 0)
+      this.setEditForm();
   }
 
   setForm() {
     this.form = this.fb.group(
       {
-        'employeenumber': ['', Validators.required],
-        'date': ['', Validators.required],
-        'employeeName': [''],
-        'selectLeave': [''],
-        'selectType': [''],
+        'employeeID': ['', Validators.required],
+        'tranDate': ['', Validators.required],
+        'leaveTypeCode': ['', Validators.required],
+        'typeOfAdj': ['', Validators.required],
+        'noOfDays': ['', Validators.required],
+        'remarks': [''],
         'approvalAuthorityName': [''],
         'isActive': [false],
       }
     );
     this.isReadOnly = false;
   }
+
+  loadData() {
+    this.apiService.getall(`personalInformation/getEmployeeSelectListItem`).subscribe(res => {
+      this.empListSelectListItems = res;
+    });
+  }
+
+  loadLeaveTypeForEmp(evt: any) {
+    const empId = evt.intValue;
+    this.apiService.getQueryString(`leaveType/getLeaveTypeSelectListItem`, `?employeeId=${empId}&requestType=`).subscribe(res => {
+      this.leaveTypeSelectListItems = res;
+    });
+  }
+
   setEditForm() {
-    this.apiService.get('Position', this.id).subscribe(res => {
+    this.apiService.get('employeeLeave/getLeaveAdjTransactionById', this.id).subscribe(res => {
       if (res) {
         this.isReadOnly = true;
         this.form.patchValue(res);
@@ -66,15 +86,18 @@ ngOnInit(): void {
     if (this.form.valid) {
       if (this.id > 0)
         this.form.value['id'] = this.id;
-      this.apiService.post('Position', this.form.value)
+      // console.log(this.form.value);
+
+      this.apiService.post('employeeLeave/createUpdateLeaveAdjTransaction', { 'EmployeeLeave': this.form.value })
         .subscribe(res => {
           this.utilService.OkMessage();
-          this.reset();
+          // this.reset();
           this.dialogRef.close(true);
         },
           error => {
             this.utilService.ShowApiErrorMessage(error);
           });
+
     }
     else
       this.utilService.FillUpFields();

@@ -11,7 +11,7 @@ namespace CIN.Application.HumanResource.EmployeeMgmt.HRMgmtDtos
     {
         [Required]
         public int EmployeeID { get; set; }
-        [Required]
+        //[Required]
         [StringLength(20)]
         public string TemplateCode { get; set; }
         [StringLength(100)]
@@ -29,6 +29,7 @@ namespace CIN.Application.HumanResource.EmployeeMgmt.HRMgmtDtos
         public string Remarks { get; set; }
         [StringLength(100)]
         public string EmployeeName { get; set; }
+        public string EmployeeNumber { get; set; }
         //Accrual or Pro-Rata
         public int Type { get; set; }
         public string TypeOfAdj { get; set; }
