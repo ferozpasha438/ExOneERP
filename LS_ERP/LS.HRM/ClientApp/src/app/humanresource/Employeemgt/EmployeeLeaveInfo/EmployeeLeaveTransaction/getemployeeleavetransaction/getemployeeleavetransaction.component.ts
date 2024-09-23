@@ -20,7 +20,7 @@ import { ParentHrmAdminComponent } from 'src/app/sharedcomponent/ParentHrmAdmin.
   styles: [
   ]
 })
-export class GetemployeeleavetransactionComponent extends ParentHrmAdminComponent implements OnInit{
+export class GetemployeeleavetransactionComponent extends ParentHrmAdminComponent implements OnInit {
   @ViewChild(MatPaginator, { static: true }) paginator!: MatPaginator;
   @ViewChild(MatSort, { static: true }) sort!: MatSort;
 
@@ -29,11 +29,11 @@ export class GetemployeeleavetransactionComponent extends ParentHrmAdminComponen
   isLoading: boolean = false;
   totalItemsCount: number = 0;
   data: MatTableDataSource<any> = new MatTableDataSource();
-  displayedColumns: string[] = ['sno','transaction','employeeNumber','employeeName','employeeName','isActive','Actions', ];
+  displayedColumns: string[] = ['transaction', 'employeeNumber', 'employeeName', 'isActive', 'Actions',];
   isArab: boolean = false;
 
-  constructor( private apiService: ApiService, private authService: AuthorizeService, private translate: TranslateService,  private utilService: UtilityService, private notifyService: NotificationService,
-    public dialog: MatDialog, public pageService: PaginationService ) {
+  constructor(private apiService: ApiService, private authService: AuthorizeService, private translate: TranslateService, private utilService: UtilityService, private notifyService: NotificationService,
+    public dialog: MatDialog, public pageService: PaginationService) {
     super(authService);
   }
 
@@ -60,9 +60,7 @@ export class GetemployeeleavetransactionComponent extends ParentHrmAdminComponen
     this.isLoading = true;
 
     this.apiService
-      .getPagination(
-        'EmployeeTransaction',
-        this.utilService.getQueryString(page, pageCount, query, orderBy)
+      .getPagination('employeeLeave/getLeaveAdjTransactionList', this.utilService.getQueryString(page, pageCount, query, orderBy)
       )
       .subscribe(
         (result) => {
@@ -121,13 +119,13 @@ export class GetemployeeleavetransactionComponent extends ParentHrmAdminComponen
   }
 
   public create() {
-    this.openDialogManage( 0, DBOperation.create,
+    this.openDialogManage(0, DBOperation.create,
       this.translate.instant('AddEmployeeTransaction'),
       'Add'
     );
   }
   public edit(id: number) {
-    this.openDialogManage( id, DBOperation.update,
+    this.openDialogManage(id, DBOperation.update,
       this.translate.instant('UpdateEmployeeTransaction'),
       'Update'
     );

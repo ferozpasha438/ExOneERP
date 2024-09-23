@@ -260,15 +260,15 @@ namespace CIN.Application.HumanResource.EmployeeMgmt.HRMgmtQuery
     #endregion
 
 
-    #region GetCreateUpdateLeaveAdjTransactionList
+    #region GetLeaveAdjTransactionList
 
-    public class GetCreateUpdateLeaveAdjTransactionList : IRequest<PaginatedList<CreateUpdateLeaveAdjTransactionDto>>
+    public class GetLeaveAdjTransactionList : IRequest<PaginatedList<TblHRMTrnEmployeeLeaveInformationDto>>
     {
         public UserIdentityDto User { get; set; }
         public PaginationFilterDto Input { get; set; }
     }
 
-    public class GetCreateUpdateLeaveAdjTransactionListHandler : IRequestHandler<GetCreateUpdateLeaveAdjTransactionList, PaginatedList<CreateUpdateLeaveAdjTransactionDto>>
+    public class GetCreateUpdateLeaveAdjTransactionListHandler : IRequestHandler<GetLeaveAdjTransactionList, PaginatedList<TblHRMTrnEmployeeLeaveInformationDto>>
     {
         private readonly CINDBOneContext _context;
         private readonly IMapper _mapper;
@@ -277,30 +277,73 @@ namespace CIN.Application.HumanResource.EmployeeMgmt.HRMgmtQuery
             _context = context;
             _mapper = mapper;
         }
-        public async Task<PaginatedList<CreateUpdateLeaveAdjTransactionDto>> Handle(GetCreateUpdateLeaveAdjTransactionList request, CancellationToken cancellationToken)
+        public async Task<PaginatedList<TblHRMTrnEmployeeLeaveInformationDto>> Handle(GetLeaveAdjTransactionList request, CancellationToken cancellationToken)
         {
             var search = request.Input.Query;
             var list = await _context.EmployeeLeaveInformations.AsNoTracking()
-              .Where(e => e.TemplateCode == null || e.TemplateCode == "")
+              .Where(e => e.IsLeaveAdjusted == true)
                .OrderByDescending(e => e.Id)
-               .Select(e => new CreateUpdateLeaveAdjTransactionDto
+               .Select(e => new TblHRMTrnEmployeeLeaveInformationDto
                {
-                   EmployeeLeave = new()
-                   {
-                       Id = e.Id,
-                       EmployeeID = e.EmployeeID,
-                       TranDate = e.TranDate,
-                       Remarks = e.Remarks,
-                   }
+                   Id = e.Id,
+                   EmployeeID = e.EmployeeID,
+                   TranDate = e.TranDate,
+                   Remarks = e.Remarks,
+                   IsActive = e.IsActive,
                })
                  .PaginationListAsync(request.Input.Page, request.Input.PageCount, cancellationToken);
 
+            bool isArab = request.User.Culture.IsArab();
             foreach (var item in list.Items)
             {
-                var emp = await _context.PersonalInformation.FirstOrDefaultAsync(e => e.Id == item.EmployeeLeave.EmployeeID);
-                item.EmployeeLeave.EmployeeName = emp.EmployeeNumber;
+                var emp = await _context.PersonalInformation.FirstOrDefaultAsync(e => e.Id == item.EmployeeID);
+                item.EmployeeNumber = emp.EmployeeNumber;
+                item.EmployeeName = isArab ? $"{emp.FirstNameAr} {emp.LastNameAr}" : $"{emp.FirstNameEn} {emp.LastNameEn}";
             }
             return list;
+        }
+    }
+
+    #endregion
+
+
+    #region GetLeaveAdjTransactionById
+
+    public class GetLeaveAdjTransactionById : IRequest<TblHRMTrnEmployeeLeaveInformationDto>
+    {
+        public UserIdentityDto User { get; set; }
+        public int Id { get; set; }
+    }
+
+    public class GetLeaveAdjTransactionByIdHandler : IRequestHandler<GetLeaveAdjTransactionById, TblHRMTrnEmployeeLeaveInformationDto>
+    {
+        private readonly CINDBOneContext _context;
+        private readonly IMapper _mapper;
+        public GetLeaveAdjTransactionByIdHandler(CINDBOneContext context, IMapper mapper)
+        {
+            _context = context;
+            _mapper = mapper;
+        }
+        public async Task<TblHRMTrnEmployeeLeaveInformationDto> Handle(GetLeaveAdjTransactionById request, CancellationToken cancellationToken)
+        {
+            var item = await _context.EmployeeLeaveInformations.AsNoTracking()
+              .Where(e => e.IsLeaveAdjusted == true)
+               .OrderByDescending(e => e.Id)
+               .Select(e => new TblHRMTrnEmployeeLeaveInformationDto
+               {
+                   Id = e.Id,
+                   EmployeeID = e.EmployeeID,
+                   TranDate = e.TranDate,
+                   Remarks = e.Remarks,
+                   IsActive = e.IsActive,
+                   TemplateCode = e.TemplateCode,
+                   LeaveTypeCode = e.LeaveTypeCode,
+                   TypeOfAdj = e.Assigned > 0 ? "Assigned" : "Availed",
+                   NoOfDays = e.Assigned > 0 ? e.Assigned : e.Availed,
+               })
+                 .FirstOrDefaultAsync(e => e.Id == request.Id);
+
+            return item;
         }
     }
 
@@ -334,10 +377,11 @@ namespace CIN.Application.HumanResource.EmployeeMgmt.HRMgmtQuery
 
                 if (obj is not null)
                 {
-                    TblHRMTrnEmployeeLeaveInformation employeeLeave = await _context.EmployeeLeaveInformations.FirstOrDefaultAsync(e => e.Id == obj.Id);
+                    TblHRMTrnEmployeeLeaveInformation employeeLeave = await _context.EmployeeLeaveInformations.FirstOrDefaultAsync(e => e.Id == obj.Id) ?? new();
+                    var template = await _context.EmployeeLeaveInformations.Select(e => new { e.LeaveTypeCode, e.TemplateCode }).FirstOrDefaultAsync(e => e.LeaveTypeCode == obj.LeaveTypeCode);
 
                     employeeLeave.EmployeeID = obj.EmployeeID;
-                    //employeeLeave.TemplateCode = obj.TemplateCode;
+                    employeeLeave.TemplateCode = template.TemplateCode;
                     employeeLeave.LeaveTypeCode = obj.LeaveTypeCode;
 
                     if (obj.TypeOfAdj == "Availed")
@@ -353,9 +397,10 @@ namespace CIN.Application.HumanResource.EmployeeMgmt.HRMgmtQuery
 
                     employeeLeave.TranDate = obj.TranDate;
                     employeeLeave.Remarks = obj.Remarks;
-                    employeeLeave.IsActive = true;
+                    employeeLeave.IsActive = obj.IsActive;
                     employeeLeave.CreatedBy = request.User.UserId;
                     employeeLeave.Created = DateTime.Now;
+                    employeeLeave.IsLeaveAdjusted = true;
 
                     if (obj.Id > 0)
                     {
