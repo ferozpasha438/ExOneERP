@@ -10,6 +10,7 @@
 </div>
 
 <div class="container-fluid">
+  <spinner-loader [isLoading]="isLoading"></spinner-loader>
   <div class="row">
     <div class="col-md-12 col-lg-12">
       <div class="card">
@@ -21,7 +22,7 @@
                 <div class="form-group">
                   <label for="BatchCode">{{'BatchCode' | translate}}</label>
                   <input class="form-control" id="BatchCode" type="text"
-                         placeholder="{{'Please_Enter' | translate}} {{'BatchCode' | translate}} " formControlName="batchCode" [readonly] ="isEdit">
+                         placeholder="{{'Please_Enter' | translate}} {{'BatchCode' | translate}} " formControlName="batchCode" [readonly]="isEdit">
                   <validation-message [control]="form.controls.batchCode"></validation-message>
                 </div>
               </div>

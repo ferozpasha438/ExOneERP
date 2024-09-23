@@ -10,6 +10,7 @@
 </div>
 
 <div class="container-fluid">
+  <spinner-loader [isLoading]="isLoading"></spinner-loader>
   <div class="row">
     <div class="col-md-12 col-lg-12">
       <div class="card">
@@ -20,7 +21,7 @@
               <div class="col-md-6 col-lg-6">
                 <div class="form-group">
                   <label for="costType">{{'costType' | translate}}</label>
-                
+
                   <select class="custom-select mr-sm-2" formControlName="costType">
                     <option value=""> {{'Choose' | translate}}</option>
                     <option value="Department"> {{'Department' | translate}}</option>

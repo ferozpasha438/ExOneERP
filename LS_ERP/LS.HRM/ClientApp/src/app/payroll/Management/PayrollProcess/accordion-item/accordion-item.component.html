@@ -1,158 +1,236 @@
 <ng-container *ngIf="(paySlipHeader.netpay>0)">
     <mat-expansion-panel>
-        <mat-expansion-panel-header>
-            <mat-panel-title>
-                {{ "Employee" | translate }} : {{paySlipHeader.employeeNumber}} - {{paySlipHeader.employeeName}}
-                |
-                {{ "TotalEarnings" | translate }} : {{paySlipHeader.earnings | currency}}
-                |
-                {{ "TotalDeductions" | translate }} : {{paySlipHeader.deductions | currency}}
-                |
-                {{ "Netpay" | translate }} : {{paySlipHeader.netpay | currency}}
-            </mat-panel-title>
-        </mat-expansion-panel-header>
-        <div class="row">
-            <div class="col-md-12 col-lg-12">
-                <table class="table table-responsive">
-                    <tr>
-                        <td>
-                            {{ "EmployeeNumber" | translate }}
-                        </td>
-                        <td>{{paySlipHeader.employeeNumber}}
-                        </td>
-                        <td>
-                            {{ "PayrollMonth" | translate }}
-                        </td>
-                        <td>{{paySlipHeader.payrollMonth}}
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
-                            {{ "Employee" | translate }}
-                        </td>
-                        <td>{{paySlipHeader.employeeName}}
-                        </td>
-                        <td>
-                            {{ "CalendarDays" | translate }}
-                        </td>
-                        <td>{{paySlipHeader.calandarDays}}
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
-                            {{ "Position" | translate }}
-                        </td>
-                        <td>{{paySlipHeader.positionName}}
-                        </td>
-                        <td>
-                            {{ "TotalPresentDays" | translate }}
-                        </td>
-                        <td>{{paySlipHeader.netWorkingDays}}
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
-                            {{ "Grade" | translate }}
-                        </td>
-                        <td>{{paySlipHeader.gradeName}}
-                        </td>
-                        <td>
-                            {{ "TotalLeaves" | translate }}
-                        </td>
-                        <td>{{paySlipHeader.totalLeaves}}
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
-                            {{ "Branch" | translate }}
-                        </td>
-                        <td>{{paySlipHeader.branchName}}
-                        </td>
-                        <td>
-                            {{ "TotalAbsents" | translate }}
-                        </td>
-                        <td>{{paySlipHeader.totalAbsents}}
-                        </td>
-                    </tr>
-                </table>
-                <table class="table table-responsive">
-                    <tr>
-                        <th style="font-size: 1rem; font-weight: bold;">
-                            {{'Earnings' | translate}}
-                        </th>
-                        <th style="font-size: 1rem; font-weight: bold;">
-                            {{ "Amount" | translate }}
-                        </th>
-                    </tr>
-                    <tbody>
-                        <tr *ngFor="let item of earningComponents;let i=index;">
-                            <ng-container *ngIf="(item.payrollComponentType === 1 || item.payrollComponentType === 3)">
-                                <td>{{item.payrollComponentName}}
+    <mat-expansion-panel-header>
+        <mat-panel-title class="panel-header">
+            <h4 class="txt1">{{ "EMPLOYEE" | translate }} : </h4>
+            <h4>{{paySlipHeader.employeeNumber}} - {{paySlipHeader.employeeName}}</h4>
+
+            <h4 class="txt1 earnings">{{ "TOTAL EARNINGS" | translate }} : </h4>
+            <h4>{{paySlipHeader.earnings | currency}}</h4>
+
+            <h4 class="txt1 deductions">{{ "TOTAL DEDUCTIONS" | translate }} : </h4>
+            <h4>{{paySlipHeader.deductions | currency}}</h4>
+
+            <h4 class="txt1 netpay">{{ "NETPAY" | translate }} : </h4>
+            <h4>{{paySlipHeader.netpay | currency}}</h4>
+        </mat-panel-title>
+    </mat-expansion-panel-header>
+    <hr>
+    <div class="row">
+        <div class="col-md-12 col-lg-12">
+            <table class="table" style="">
+                <tr>
+                    <td style="font-size: 1rem; font-weight: bold;background-color: #e8eef3 !important;">
+                        {{ "EmployeeNumber" | translate }}
+                    </td>
+                    <td style="background-color: #e8eef3 !important;">{{paySlipHeader.employeeNumber}}
+                    </td>
+                    <td style="font-size: 1rem; font-weight: bold;background-color: #e8eef3 !important;">
+                        {{ "PayrollMonth" | translate }}
+                    </td>
+                    <td style="background-color: #e8eef3 !important;">{{paySlipHeader.payrollMonth}}
+                    </td>
+                </tr>
+                <tr>
+                    <td style="font-size: 1rem; font-weight: bold;">
+                        {{ "Employee" | translate }}
+                    </td>
+                    <td>{{paySlipHeader.employeeName}}
+                    </td >
+                    <td style="font-size: 1rem; font-weight: bold;">
+                        {{ "CalendarDays" | translate }}
+                    </td>
+                    <td>{{paySlipHeader.calandarDays}}
+                    </td>
+                </tr>
+                <tr>
+                    <td style="font-size: 1rem; font-weight: bold;">
+                        {{ "Position" | translate }}
+                    </td>
+                    <td>{{paySlipHeader.positionName}}
+                    </td>
+                    <td style="font-size: 1rem; font-weight: bold;">
+                        {{ "TotalPresentDays" | translate }}
+                    </td>
+                    <td>{{paySlipHeader.netWorkingDays}}
+                    </td>
+                </tr>
+                <tr>
+                    <td style="font-size: 1rem; font-weight: bold;">
+                        {{ "Grade" | translate }}
+                    </td>
+                    <td>{{paySlipHeader.gradeName}}
+                    </td>
+                    <td style="font-size: 1rem; font-weight: bold;">
+                        {{ "TotalLeaves" | translate }}
+                    </td>
+                    <td>{{paySlipHeader.totalLeaves}}
+                    </td>
+                </tr>
+                <tr>
+                    <td style="font-size: 1rem; font-weight: bold;">
+                        {{ "Branch" | translate }}
+                    </td>
+                    <td>{{paySlipHeader.branchName}}
+                    </td>
+                    <td style="font-size: 1rem; font-weight: bold;">
+                        {{ "TotalAbsents" | translate }}
+                    </td>
+                    <td>{{paySlipHeader.totalAbsents}}
+                    </td>
+                </tr>
+            </table>
+            <div class="row">
+                <div class="col-md-6 col-lg-6">
+                    <table class="table">
+                        <tr>
+                            <th style="font-size: 1rem; font-weight: bold; text-align: left;">
+                                {{'Earnings' | translate}}
+                            </th>
+                            <th style="font-size: 1rem; font-weight: bold; text-align: right;">
+                                {{ "Amount" | translate }}
+                            </th>
+                        </tr>
+                        <tbody>
+                            <tr *ngFor="let item of earningComponents;let i=index;">
+                                <ng-container *ngIf="(item.payrollComponentType === 1 || item.payrollComponentType === 3)">
+                                    <td style="text-align: left;">{{item.payrollComponentName}}
+                                    </td>
+                                    <td  class="text-right" style=" text-align: left;">{{item.payValue | currency}}</td>
+                                </ng-container>
+                            </tr>
+                            <tr style="font-size: 1rem; font-weight: bold; background-color: #e8eef3 !important;">
+                                <td style="text-align: right;">{{ "TotalEarnings" | translate }}
                                 </td>
-                                <td class="text-right">{{item.payValue | currency}}</td>
-                            </ng-container>
+                                <td class="text-right">{{paySlipHeader.earnings | currency}}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="col-md-6 col-lg-6">
+                    <table class="table">
+                        <tr>
+                            <th style="font-size: 1rem; font-weight: bold;text-align: left;">
+                                {{'Deductions' | translate}}
+                            </th>
+                            <th style="font-size: 1rem; font-weight: bold;text-align: right;">
+                                {{ "Amount" | translate }}
+                            </th>
                         </tr>
-                        <tr style="font-size: 1rem; font-weight: bold; background-color: #e8eef3 !important;">
-                            <td>{{ "TotalEarnings" | translate }}
-                            </td>
-                            <td class="text-right">{{paySlipHeader.earnings | currency}}</td>
-                        </tr>
-                    </tbody>
-                </table>
-                <table class="table table-responsive">
-                    <tr>
-                        <th style="font-size: 1rem; font-weight: bold;">
-                            {{'Deductions' | translate}}
-                        </th>
-                        <th style="font-size: 1rem; font-weight: bold;">
-                            {{ "Amount" | translate }}
-                        </th>
-                    </tr>
-                    <tbody>
-                        <tr *ngFor="let item of deductionComponents;let i=index;">
-                            <ng-container *ngIf="(item.payrollComponentType === 2 || item.payrollComponentType === 4)">
-                                <td>{{item.payrollComponentName}}
+                        <tbody>
+                            <tr *ngFor="let item of deductionComponents;let i=index;">
+                                <ng-container *ngIf="(item.payrollComponentType === 2 || item.payrollComponentType === 4)">
+                                    <td style="text-align: left;">{{item.payrollComponentName}}
+                                    </td>
+                                    <td class="text-right">{{item.payValue | currency}}</td>
+                                </ng-container>
+                            </tr>
+                            <tr style="font-size: 1rem; font-weight: bold; background-color: #e8eef3 !important;">
+                                <td style="text-align: right;">{{ "TotalDeductions" | translate }}
                                 </td>
-                                <td class="text-right">{{item.payValue | currency}}</td>
-                            </ng-container>
-                        </tr>
-                        <tr style="font-size: 1rem; font-weight: bold; background-color: #e8eef3 !important;">
-                            <td>{{ "TotalDeductions" | translate }}
-                            </td>
-                            <td class="text-right">{{paySlipHeader.deductions | currency}}</td>
-                        </tr>
-                    </tbody>
-                </table>
-                <table class="table table-responsive">
-                    <tr>
-                        <th style="font-size: 1rem; font-weight: bold;">
-                            {{'NetPay' | translate}}
-                        </th>
-                        <th style="font-size: 1rem; font-weight: bold;">
-                            {{paySlipHeader.netpay | currency}}
-                        </th>
-                    </tr>
-                </table>
+                                <td class="text-right">{{paySlipHeader.deductions | currency}}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
             </div>
+           
+        
+
+          
         </div>
-        <!-- {{employeePaySlip|json}} -->
-    </mat-expansion-panel>
+
+    </div>
+    <div class="row">
+        <div class="col-md-2 col-lg-2"></div>
+        <div class="col-md-8 col-lg-8">
+            <table class="table">
+                <tr>
+                    <th style="font-size: 1rem; font-weight: bold; text-align: right;">
+                        {{'NetPay' | translate}}
+                    </th>
+                    <th style="font-size: 1rem; font-weight: bold;text-align: right;">
+                        {{paySlipHeader.netpay | currency}}
+                    </th>
+                </tr>
+            </table>
+        </div>
+        <div class="col-md-2 col-lg-2"></div>
+    </div>
+    <!-- {{employeePaySlip|json}} -->
+</mat-expansion-panel>
 </ng-container>
 <style>
-    table {
-        border-collapse: collapse;
-        width: 100%;
+/* Ensure table takes full width */
+table {
+    border-collapse: collapse;
+    width: 100%;
+    table-layout: fixed; /* Ensures equal column width distribution */
+}
+
+/* Apply consistent styling to table cells */
+td {
+    border: 1px solid #a5a5a5;
+    text-align: center;
+    padding: 10px;
+    font-size: 17px !important;
+    word-wrap: break-word; /* Prevents text from overflowing */
+}
+th {
+    border: 1px solid #a5a5a5;
+    text-align: center;
+    padding: 10px;
+    font-size: 17px !important;
+    word-wrap: break-word; /* Prevents text from overflowing */
+}
+
+/* Add some margin for the section */
+.mt-4 {
+    margin-top: 1.9rem !important;
+}
+
+/* Styling for text and panel header */
+.txt1 {
+    font-weight: 700;
+    font-size: 20px;
+    text-transform: capitalize;
+}
+
+/* Flex layout for panel header */
+.panel-header {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+    text-align: center;
+}
+
+.panel-header h4 {
+    margin: 0 10px; /* General margin for all h4 elements */
+}
+
+/* Add space before specific titles */
+.earnings {
+    margin-left: 50px; /* Space before 'Total Earnings' */
+}
+
+.deductions {
+    margin-left: 50px; /* Space before 'Total Deductions' */
+}
+
+.netpay {
+    margin-left: 50px; /* Space before 'Netpay' */
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .panel-header {
+        flex-direction: column;
     }
 
-    td,
-    th {
-        border: 1px solid #a5a5a5;
-        text-align: center;
-        padding: 10px;
-        font-size: 17px !important;
+    td, th {
+        font-size: 14px !important;
     }
+}
 
-    .mt-4 {
-        margin-top: 1.9rem !important;
-    }
 </style>

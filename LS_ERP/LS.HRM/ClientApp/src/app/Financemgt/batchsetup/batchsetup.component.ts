@@ -21,6 +21,7 @@ export class BatchsetupComponent extends ParentSystemSetupComponent implements O
   form: FormGroup;
   id: number = 0;
   isEdit: boolean = false;
+  isLoading: boolean = false;
 
   constructor(private fb: FormBuilder, private apiService: ApiService, private authService: AuthorizeService,
     private notifyService: NotificationService, private validationService: ValidationService, private utilService: UtilityService, public dialog: MatDialog) {
@@ -46,9 +47,9 @@ export class BatchsetupComponent extends ParentSystemSetupComponent implements O
 
 
   loadData() {
-
-
+    this.isLoading = true;
     this.apiService.getall('batchSetup').subscribe(res => {
+      this.isLoading = false;
       this.list = res;
       this.allList = res;
 

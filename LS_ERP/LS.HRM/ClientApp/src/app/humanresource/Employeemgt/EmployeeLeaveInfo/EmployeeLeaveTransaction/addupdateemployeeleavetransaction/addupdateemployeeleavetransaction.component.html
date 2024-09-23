@@ -1,0 +1,110 @@
+<div class="modal-header">
+    <h3 class="modal-title">{{modalTitle}}</h3>
+    <button type="button" class="close" aria-hidden="true" (click)="closeModel()"> ×</button>
+  </div>
+  <form [formGroup]="form" (ngSubmit)="submit()" novalidate class="mt-4">
+    <div class="row">
+      <div class="col-md-6 col-lg-6">
+        <div class="form-group">
+          <label for="employee">{{'Employee' | translate}}</label>         
+          <ng-select [items]="empListSelectListItems"
+                     bindLabel="text"
+                     bindValue="intValue" formControlName="employeeID" (change)="loadLeaveTypeForEmpEvent($event)">
+          </ng-select>
+          <validation-message [control]="form.controls.employeeID"></validation-message>
+        </div>
+      </div>
+      <div class="col-md-6 col-lg-6">
+        <div class="form-group">
+          <label for="date" class="mr-sm-2">
+            {{'Date' | translate}}
+          </label>
+          <div class="input-group ">
+            <input class="form-control input-mandatory"
+              placeholder=" {{'Please_Enter' | translate}} {{'date' | translate}}"
+              formControlName="tranDate" [matDatepicker]="date">
+            <div class="input-group-prepend date">
+              <mat-datepicker-toggle matSuffix [for]="date"></mat-datepicker-toggle>
+              <mat-datepicker #date></mat-datepicker>
+            </div>
+            <validation-message [control]="form.controls.tranDate"></validation-message>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <div class="row">
+      <div class="col-md-6 col-lg-6">
+        <label for="selectLeave" class="mr-sm-2">{{'SelectLeave' | translate}}</label>
+        <select class="select form-control" formControlName="leaveTypeCode">
+          <option value="">{{'SelectLeave' | translate}}</option>
+          <option *ngFor="let leave of leaveTypeSelectListItems" value="{{leave.value}}">
+            {{leave.text}}
+          </option>
+        </select>
+        <validation-message [control]="form.controls.leaveTypeCode"></validation-message>
+      </div>
+
+      <div class="col-md-6 col-lg-6">
+        <label for="selectType" class="mr-sm-2">{{'SelectType' | translate}}</label>
+        <select class="custom-select mr-sm-2" formControlName="typeOfAdj">
+          <option value="">{{'SelectType' | translate}}</option>
+          <option value="Assigned">{{'Add' | translate}}</option>
+          <option value="Availed">{{'Remove' | translate}}</option>
+        </select>
+        <validation-message [control]="form.controls.typeOfAdj"></validation-message>
+      </div>
+    </div>
+    &nbsp;
+    <div class="row">
+      <div class="col-md-6 col-lg-6">
+        <label for="selectType" class="mr-sm-2">{{'NoOfDays' | translate}}</label>
+        <input class="form-control" type="number" placeholder="{{'NoOfDays' | translate}}" formControlName="noOfDays">
+        <validation-message [control]="form.controls.noOfDays"></validation-message>
+      </div>
+
+      <div class="col-md-6 col-lg-6">
+        <label for="remarks" class="mr-sm-2">
+          {{'Remarks' | translate}}
+        </label>
+        <textarea class="form-control" placeholder=" {{'Please_Enter' | translate}}  {{'Remarks' | translate}}"
+                  formControlName="remarks"></textarea>
+      </div>
+    </div>
+      <div class="row">
+        <!--<div class="col-md-6 col-lg-6">
+          <label for="approvalAuthorityName" class="mr-sm-2">{{'ApprovalAuthorityName' | translate}}</label>
+          <input class="form-control" type="text" placeholder="{{'ApprovalAuthorityName' | translate}}" formControlName="approvalAuthorityName">-->
+          <!--<select class="custom-select mr-sm-2" formControlName="approvalAuthorityName">
+    <option value="">{{'ABC' | translate}}</option>
+    <option value="">{{'XYZ' | translate}}</option>
+    <option value="">{{'PQR' | translate}}</option>
+    <option value="">{{'123' | translate}}</option>
+  </select>
+          <validation-message [control]="form.controls.approvalAuthorityName"></validation-message>-->
+        <!--</div>-->
+    </div>
+    &nbsp;
+   
+    <div class="row">
+      <div class="col-md-6 col-lg-6">
+        <div class="form-group">
+          <label for="isActive">{{'Is_Active' | translate}}</label>
+          <br />
+          <mat-slide-toggle color="primary" formControlName="isActive"></mat-slide-toggle>
+        </div>
+      </div>
+    </div>
+    <div class="row mt-3">
+      <div class="col-md-12 col-lg-12 text-center">
+        <input type="button"
+               class="btn waves-effect waves-light btn-rounded   btn-secondary btn-midblock"
+               value="{{'Cancel' | translate}}" (click)="closeModel()" /> &nbsp;
+        <input type="submit"
+               class="btn waves-effect waves-light btn-rounded btn-primary btn-midblock"
+               value="{{'Save' | translate}}" />
+      </div>
+    </div>
+  </form>
+  
