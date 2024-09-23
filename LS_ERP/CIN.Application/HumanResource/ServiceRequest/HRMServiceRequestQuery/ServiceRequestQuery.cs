@@ -1244,7 +1244,7 @@ namespace CIN.Application.HumanResource.ServiceRequest.HRMServiceRequestQuery
                     contractInfo.StopPayroll = true;
                     var empStatus = await _context.EmployeeStatuses.FirstOrDefaultAsync(e => e.EmployeeStatusCode == "VACATION");
                     contractInfo.EmployeeStatusCode = empStatus?.EmployeeStatusCode;
-                    contractInfo.LastWorkDay = DateTime.Now;
+                    contractInfo.LastDateOfDuty = DateTime.Now;
                     await _context.SaveChangesAsync();
 
                     await transaction.CommitAsync();

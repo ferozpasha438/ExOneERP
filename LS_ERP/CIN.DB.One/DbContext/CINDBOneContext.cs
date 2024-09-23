@@ -611,6 +611,8 @@ namespace CIN.DB
         public DbSet<TblPRLTrnEmployeePayrollStructure> EmployeePayrollStructure { get; set; }
         public DbSet<TblPRLTrnEmployeePayrollProcess> EmployeePayrollProcess { get; set; }
         public DbSet<TblPRLTrnEmployeePayrollUnStructured> EmployeePayrollUnStructured { get; set; }
+        public DbSet<TblPRLTrnPayrollProcessFiltersLog> PayrollProcessFiltersLog { get; set; }
+        public DbSet<TblPRLTrnEmployeePayrollProcessArchive> EmployeePayrollProcessArchives { get; set; }
         #endregion
 
         #region ErpMobile    //by Samba
@@ -901,6 +903,8 @@ namespace CIN.DB
             modelBuilder.Entity<TblPRLTrnEmployeePayrollStructure>().Property(e => e.Id).Metadata.SetAfterSaveBehavior(PropertySaveBehavior.Throw);
             modelBuilder.Entity<TblPRLTrnEmployeePayrollProcess>().Property(e => e.Id).Metadata.SetAfterSaveBehavior(PropertySaveBehavior.Throw);
             modelBuilder.Entity<TblPRLTrnEmployeePayrollUnStructured>().Property(e => e.Id).Metadata.SetAfterSaveBehavior(PropertySaveBehavior.Throw);
+            modelBuilder.Entity<TblPRLTrnPayrollProcessFiltersLog>().Property(e => e.Id).Metadata.SetAfterSaveBehavior(PropertySaveBehavior.Throw);
+            modelBuilder.Entity<TblPRLTrnEmployeePayrollProcessArchive>().Property(e => e.Id).Metadata.SetAfterSaveBehavior(PropertySaveBehavior.Throw);
 
 
             #endregion

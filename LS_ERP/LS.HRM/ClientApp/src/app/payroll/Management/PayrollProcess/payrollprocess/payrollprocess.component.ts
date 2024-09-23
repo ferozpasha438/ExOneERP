@@ -9,7 +9,8 @@ import { ApiService } from 'src/app/services/api.service';
 import { NotificationService } from 'src/app/services/notification.service';
 import { UtilityService } from 'src/app/services/utility.service';
 import { ParentpayrollmgtComponent } from 'src/app/sharedcomponent/parentpayrollmgt.component';
-import {MatAccordion, MatExpansionModule} from '@angular/material/expansion';
+import { MatAccordion, MatExpansionModule } from '@angular/material/expansion';
+import { TblPRLTrnPayrollProcessFiltersLogDto } from 'src/app/models/Payroll/PayrollProcessFiltersLogDto';
 
 @Component({
   selector: 'app-payrollprocess',
@@ -36,10 +37,18 @@ export class PayrollprocessComponent
   branchCode: string = '';
   payrollGroupCode: string = '';
   employeeList: Array<TblHRMTrnEmployeeContractInfoDto> = [];
+  filtersLog!: TblPRLTrnPayrollProcessFiltersLogDto;
 
   ngOnInit(): void {
     this.loadCompanies();
     this.loadPayrollGroups();
+    this.filtersLog = {
+      branchCode: '',
+      payrollGroupCode: '',
+      payrollMonth: '',
+      isApproved: false,
+      isReleased: false,
+    };
   }
 
   loadCompanies() {
@@ -67,14 +76,18 @@ export class PayrollprocessComponent
       });
   }
 
-  RunProcess() {
+  RunProcess(isPreRun: boolean, isApproved?: boolean, isReleased?: boolean) {
     if (this.branchCode && this.payrollGroupCode) {
-      this.RetrieveEmployeesByFilters();
+      this.RetrieveEmployeesByFilters(isPreRun, isApproved, isReleased);
     } else
       this.notifyService.showError(this.translate.instant('SelectFilters'));
   }
 
-  RetrieveEmployeesByFilters() {
+  RetrieveEmployeesByFilters(
+    isPreRun: boolean,
+    isApproved?: boolean,
+    isReleased?: boolean
+  ) {
     let queryParam = `branchCode=${encodeURIComponent(
       '' + this.branchCode
     )}&payrollGroupCode=${encodeURIComponent('' + this.payrollGroupCode)}`;
@@ -83,10 +96,70 @@ export class PayrollprocessComponent
       .subscribe((res) => {
         if (res) {
           this.employeeList = res;
-          // this.employeeList.forEach((employee) => {
-          //   this.RetrieveEmployeePayslip(employee.employeeID);
-          // });
+          let lastEmployeeContractInfoId: number =
+            this.employeeList[this.employeeList.length - 1].id;
+          this.employeeList.forEach((e) => {
+            e.isPreRun = isPreRun;
+            e.isApproved = isApproved;
+            e.isReleased = isReleased;
+            e.lastEmployeeContractInfoId = lastEmployeeContractInfoId;
+          });
         }
       });
+  }
+
+  GetPayrollProcessFilterLog() {
+    if (this.branchCode && this.payrollGroupCode) {
+      let queryParam = `branchCode=${encodeURIComponent(
+        '' + this.branchCode
+      )}&payrollGroupCode=${encodeURIComponent('' + this.payrollGroupCode)}`;
+      this.apiService
+        .getQueryString(
+          `PayrollProcess/GetPayrollProcessFilterLog?`,
+          queryParam
+        )
+        .subscribe((res) => {
+          if (res) {
+            this.filtersLog = res;
+          } else {
+            this.filtersLog = {
+              branchCode: '',
+              payrollGroupCode: '',
+              payrollMonth: '',
+              isApproved: false,
+              isReleased: false,
+            };
+          }
+        });
+    } else
+      this.notifyService.showError(this.translate.instant('SelectFilters'));
+  }
+
+  CreateUpdatePayrollProcessFilterLog(
+    employeeContractInfo: TblHRMTrnEmployeeContractInfoDto
+  ) {
+    let queryParam = `branchCode=${encodeURIComponent(
+      '' + employeeContractInfo.branchCode
+    )}&payrollGroupCode=${encodeURIComponent(
+      '' + employeeContractInfo.payrollGroupCode
+    )}&isApproved=${encodeURIComponent(
+      '' + employeeContractInfo.isApproved
+    )}&isReleased=${encodeURIComponent(
+      '' + employeeContractInfo.isReleased
+    )}&payrollMonth=''`;
+    this.apiService
+      .getQueryString(
+        `PayrollProcess/CreateUpdatePayrollProcessFilterLog?`,
+        queryParam
+      )
+      .subscribe(
+        (res) => {
+          this.GetPayrollProcessFilterLog();
+          this.utilService.OkMessage();
+        },
+        (error) => {
+          this.utilService.ShowApiErrorMessage(error);
+        }
+      );
   }
 }

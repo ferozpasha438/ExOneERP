@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { AuthorizeService } from 'src/app/api-authorization/AuthorizeService';
 import { TblHRMTrnEmployeeContractInfoDto } from 'src/app/models/HumanResource/EmployeeContractInfoDto';
 import {
@@ -31,9 +31,23 @@ export class AccordionItemComponent
   // paySlipDetails!: Array<TblPRLTrnEmployeePayrollProcessDto>;
   earningComponents: Array<TblPRLTrnEmployeePayrollProcessDto> = [];
   deductionComponents: Array<TblPRLTrnEmployeePayrollProcessDto> = [];
+  @Output()
+  onLastEmployeePayrollProcessed: EventEmitter<TblHRMTrnEmployeeContractInfoDto> =
+    new EventEmitter<TblHRMTrnEmployeeContractInfoDto>();
 
   ngOnInit(): void {
-    this.RetrieveEmployeePayslip(this.item.employeeID);
+    if (this.item.isPreRun) {
+      this.RetrieveEmployeePayslip(this.item.employeeID);
+    } else {
+      this.ProcessEmployeePayroll(
+        this.item.employeeID,
+        this.item.isApproved!,
+        this.item.isReleased!
+      );
+      //Update PayrollProcessFiltersLog
+      if (this.item.id == this.item.lastEmployeeContractInfoId)
+        this.onLastEmployeePayrollProcessed.emit(this.item);
+    }
   }
 
   RetrieveEmployeePayslip(employeeID: number) {
@@ -53,10 +67,49 @@ export class AccordionItemComponent
           this.deductionComponents = this.employeePaySlip.paySlipDetails.filter(
             (e) =>
               e.payrollComponentType == PayrollComponentType.Deduction ||
-              e.payrollComponentType == PayrollComponentType.UnStructuredDeduction
+              e.payrollComponentType ==
+                PayrollComponentType.UnStructuredDeduction
           );
         }
       }
     });
+  }
+
+  ProcessEmployeePayroll(
+    employeeID: number,
+    isApproved: boolean,
+    isReleased: boolean
+  ) {
+    let queryParam = `employeeID=${encodeURIComponent(
+      '' + employeeID
+    )}&isApproved=${encodeURIComponent(
+      '' + isApproved
+    )}&isReleased=${encodeURIComponent('' + isReleased)}`;
+    this.apiService
+      .getQueryString(`PayrollProcess/ProcessEmployeePayroll?`, queryParam)
+      .subscribe((res) => {
+        if (res) {
+          this.employeePaySlip = res;
+          this.paySlipHeader = this.employeePaySlip.paySlipHeader;
+
+          if (this.employeePaySlip.paySlipDetails) {
+            //Retrieve list of earnings
+            this.earningComponents = this.employeePaySlip.paySlipDetails.filter(
+              (e) =>
+                e.payrollComponentType == PayrollComponentType.Earning ||
+                e.payrollComponentType ==
+                  PayrollComponentType.UnStructuredEarning
+            );
+            //Retrieve list of deductions
+            this.deductionComponents =
+              this.employeePaySlip.paySlipDetails.filter(
+                (e) =>
+                  e.payrollComponentType == PayrollComponentType.Deduction ||
+                  e.payrollComponentType ==
+                    PayrollComponentType.UnStructuredDeduction
+              );
+          }
+        }
+      });
   }
 }
