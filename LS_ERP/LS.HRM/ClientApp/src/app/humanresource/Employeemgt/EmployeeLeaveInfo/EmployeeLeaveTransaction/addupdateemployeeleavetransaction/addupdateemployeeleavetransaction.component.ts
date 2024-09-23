@@ -63,8 +63,11 @@ export class AddupdateemployeeleavetransactionComponent extends ParentHrmAdminCo
     });
   }
 
-  loadLeaveTypeForEmp(evt: any) {
-    const empId = evt.intValue;
+  loadLeaveTypeForEmpEvent(evt: any) {
+    this.loadLeaveTypeForEmp(evt.intValue);
+  }
+
+  loadLeaveTypeForEmp(empId: number) {
     this.apiService.getQueryString(`leaveType/getLeaveTypeSelectListItem`, `?employeeId=${empId}&requestType=`).subscribe(res => {
       this.leaveTypeSelectListItems = res;
     });
@@ -74,6 +77,7 @@ export class AddupdateemployeeleavetransactionComponent extends ParentHrmAdminCo
     this.apiService.get('employeeLeave/getLeaveAdjTransactionById', this.id).subscribe(res => {
       if (res) {
         this.isReadOnly = true;
+        this.loadLeaveTypeForEmp(res.employeeID);
         this.form.patchValue(res);
       }
     });

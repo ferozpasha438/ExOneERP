@@ -9,7 +9,7 @@
           <label for="employee">{{'Employee' | translate}}</label>         
           <ng-select [items]="empListSelectListItems"
                      bindLabel="text"
-                     bindValue="intValue" formControlName="employeeID" (change)="loadLeaveTypeForEmp($event)">
+                     bindValue="intValue" formControlName="employeeID" (change)="loadLeaveTypeForEmpEvent($event)">
           </ng-select>
           <validation-message [control]="form.controls.employeeID"></validation-message>
         </div>
