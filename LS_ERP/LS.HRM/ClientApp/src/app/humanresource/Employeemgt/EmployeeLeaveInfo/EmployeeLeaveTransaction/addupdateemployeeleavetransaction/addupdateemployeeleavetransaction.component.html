@@ -35,33 +35,17 @@
     </div>
 
     <div class="row">
-        <!--<div class="col-md-6 col-lg-6">
-          <div class="form-group">
-            <label for="employeeName">{{'EmployeeName' | translate}}</label>
-            <input class="form-control" id="employeeName" type="text"
-                   placeholder="{{'Please_Enter' | translate}} {{'EmployeeName' | translate}} " formControlName="employeeName" [readonly]="isReadOnly">
-            <validation-message [control]="form.controls.employeeName"></validation-message>
-          </div>
-        </div>-->
       <div class="col-md-6 col-lg-6">
         <label for="selectLeave" class="mr-sm-2">{{'SelectLeave' | translate}}</label>
         <select class="select form-control" formControlName="leaveTypeCode">
-          <option value="">{{'SelectLeaveType' | translate}}</option>
+          <option value="">{{'SelectLeave' | translate}}</option>
           <option *ngFor="let leave of leaveTypeSelectListItems" value="{{leave.value}}">
             {{leave.text}}
           </option>
         </select>
-
-        <!--<select class="custom-select mr-sm-2" formControlName="selectLeave">
-          <option value="">{{'ABC' | translate}}</option>
-          <option value="">{{'XYZ' | translate}}</option>
-          <option value="">{{'PQR' | translate}}</option>
-          <option value="">{{'123' | translate}}</option>
-        </select>-->
         <validation-message [control]="form.controls.leaveTypeCode"></validation-message>
       </div>
-    </div>
-    <div class="row">
+
       <div class="col-md-6 col-lg-6">
         <label for="selectType" class="mr-sm-2">{{'SelectType' | translate}}</label>
         <select class="custom-select mr-sm-2" formControlName="typeOfAdj">
@@ -71,7 +55,9 @@
         </select>
         <validation-message [control]="form.controls.typeOfAdj"></validation-message>
       </div>
-
+    </div>
+    &nbsp;
+    <div class="row">
       <div class="col-md-6 col-lg-6">
         <label for="selectType" class="mr-sm-2">{{'NoOfDays' | translate}}</label>
         <input class="form-control" type="number" placeholder="{{'NoOfDays' | translate}}" formControlName="noOfDays">
