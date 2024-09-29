@@ -11,6 +11,8 @@ import { UtilityService } from 'src/app/services/utility.service';
 import { ParentpayrollmgtComponent } from 'src/app/sharedcomponent/parentpayrollmgt.component';
 import { MatAccordion, MatExpansionModule } from '@angular/material/expansion';
 import { TblPRLTrnPayrollProcessFiltersLogDto } from 'src/app/models/Payroll/PayrollProcessFiltersLogDto';
+import { MatDialog } from '@angular/material/dialog';
+import { DeleteConfirmDialogComponent } from 'src/app/sharedcomponent/delete-confirm-dialog';
 
 @Component({
   selector: 'app-payrollprocess',
@@ -27,7 +29,8 @@ export class PayrollprocessComponent
     private apiService: ApiService,
     private utilService: UtilityService,
     private notifyService: NotificationService,
-    private translate: TranslateService
+    private translate: TranslateService,
+    public dialog: MatDialog
   ) {
     super(authService);
   }
@@ -78,7 +81,21 @@ export class PayrollprocessComponent
 
   RunProcess(isPreRun: boolean, isApproved?: boolean, isReleased?: boolean) {
     if (this.branchCode && this.payrollGroupCode) {
-      this.RetrieveEmployeesByFilters(isPreRun, isApproved, isReleased);
+      if (isReleased) {
+        const dialogRef = this.utilService.openDeleteConfirmDialog(
+          this.dialog,
+          DeleteConfirmDialogComponent
+        );
+        (dialogRef.componentInstance as any).modalTitle =
+          this.translate.instant('ConfirmReleasePayroll');
+        dialogRef.afterClosed().subscribe(
+          (isPayrollReleased) => {
+            if (isPayrollReleased)
+              this.RetrieveEmployeesByFilters(isPreRun, isApproved, isReleased);
+          },
+          (error) => this.utilService.ShowApiErrorMessage(error)
+        );
+      } else this.RetrieveEmployeesByFilters(isPreRun, isApproved, isReleased);
     } else
       this.notifyService.showError(this.translate.instant('SelectFilters'));
   }

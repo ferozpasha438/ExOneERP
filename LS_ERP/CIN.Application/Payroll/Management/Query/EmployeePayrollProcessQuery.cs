@@ -100,12 +100,12 @@ namespace CIN.Application.Payroll.Management.Query
                         GradeName = employeeContractInfo.GradeName,
                         PositionName = employeeContractInfo.PositionName,
                         PayrollMonth = employeeContractInfo.PayrollMonth,
-                        CalandarDays = consolidatedEmployeeAttendance.TotalDays,
-                        TotalOffDays = consolidatedEmployeeAttendance.TotalOffDays,
-                        TotalHolidays = consolidatedEmployeeAttendance.TotalHolidays,
-                        TotalLeaves = consolidatedEmployeeAttendance.TotalLeaves,
-                        TotalAbsents = consolidatedEmployeeAttendance.TotalAbsents,
-                        NetWorkingDays = consolidatedEmployeeAttendance.NetWorkingDays
+                        CalandarDays = consolidatedEmployeeAttendance.TotalDays.Value,
+                        TotalOffDays = consolidatedEmployeeAttendance.TotalOffDays.Value,
+                        TotalHolidays = consolidatedEmployeeAttendance.TotalHolidays.Value,
+                        TotalLeaves = consolidatedEmployeeAttendance.TotalLeaves.Value,
+                        TotalAbsents = consolidatedEmployeeAttendance.TotalAbsents.Value,
+                        NetWorkingDays = consolidatedEmployeeAttendance.NetWorkingDays.Value
                     };
 
                     //Retrieve Employee's Structured Payroll.
@@ -177,7 +177,7 @@ namespace CIN.Application.Payroll.Management.Query
                             if (consolidatedEmployeeAttendance.TotalAbsents > 0)
                             {
                                 decimal AbsentRatio = 1;
-                                decimal AbsenceDeduction = consolidatedEmployeeAttendance.TotalAbsents * (AbsentRatio * AverageSalaryPerDay);
+                                decimal AbsenceDeduction = consolidatedEmployeeAttendance.TotalAbsents.Value * (AbsentRatio * AverageSalaryPerDay);
 
                                 if (AbsenceDeduction > 0)
                                 {
@@ -361,12 +361,12 @@ namespace CIN.Application.Payroll.Management.Query
                         GradeName = employeeContractInfo.GradeName,
                         PositionName = employeeContractInfo.PositionName,
                         PayrollMonth = employeeContractInfo.PayrollMonth,
-                        CalandarDays = consolidatedEmployeeAttendance.TotalDays,
-                        TotalOffDays = consolidatedEmployeeAttendance.TotalOffDays,
-                        TotalHolidays = consolidatedEmployeeAttendance.TotalHolidays,
-                        TotalLeaves = consolidatedEmployeeAttendance.TotalLeaves,
-                        TotalAbsents = consolidatedEmployeeAttendance.TotalAbsents,
-                        NetWorkingDays = consolidatedEmployeeAttendance.NetWorkingDays
+                        CalandarDays = consolidatedEmployeeAttendance.TotalDays.Value,
+                        TotalOffDays = consolidatedEmployeeAttendance.TotalOffDays.Value,
+                        TotalHolidays = consolidatedEmployeeAttendance.TotalHolidays.Value,
+                        TotalLeaves = consolidatedEmployeeAttendance.TotalLeaves.Value,
+                        TotalAbsents = consolidatedEmployeeAttendance.TotalAbsents.Value,
+                        NetWorkingDays = consolidatedEmployeeAttendance.NetWorkingDays.Value
                     };
 
                     if (request.IsReleased)

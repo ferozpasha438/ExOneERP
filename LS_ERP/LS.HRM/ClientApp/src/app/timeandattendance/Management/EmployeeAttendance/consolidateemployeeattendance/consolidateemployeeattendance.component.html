@@ -26,6 +26,8 @@
                             <table class="form-group">
                                 <tr>
                                     <th [ngClass]="{'even-row': (i % 2 === 0), 'odd-row': (i % 2 !== 0)}">{{
+                                        "SNo" | translate }}</th>
+                                    <th [ngClass]="{'even-row': (i % 2 === 0), 'odd-row': (i % 2 !== 0)}">{{
                                         "EmployeeName" | translate }}</th>
                                     <th [ngClass]="{'even-row': (i % 2 === 0), 'odd-row': (i % 2 !== 0)}">{{
                                         "BranchName" | translate }}</th>
@@ -40,6 +42,10 @@
                                     <th [ngClass]="{'even-row': (i % 2 === 0), 'odd-row': (i % 2 !== 0)}">{{
                                         "TotalAbsents" | translate }}</th>
                                     <th [ngClass]="{'even-row': (i % 2 === 0), 'odd-row': (i % 2 !== 0)}">{{
+                                        "TotalLeaves" | translate }}</th>
+                                    <th [ngClass]="{'even-row': (i % 2 === 0), 'odd-row': (i % 2 !== 0)}">{{
+                                        "TotalVacations" | translate }}</th>
+                                    <th [ngClass]="{'even-row': (i % 2 === 0), 'odd-row': (i % 2 !== 0)}">{{
                                         "NetWorkingDays" | translate }}</th>
                                     <th [ngClass]="{'even-row': (i % 2 === 0), 'odd-row': (i % 2 !== 0)}">{{
                                         "TotalLateDays" | translate }}</th>
@@ -52,6 +58,9 @@
                                 </tr>
                                 <tbody>
                                     <tr *ngFor="let employee of consolidatedAttendanceList; let i = index;">
+                                        <td [ngClass]="{'even-row': (i % 2 === 0), 'odd-row': (i % 2 !== 0)}">{{ 
+                                            i+1 }}
+                                        </td>
                                         <td [ngClass]="{'even-row': (i % 2 === 0), 'odd-row': (i % 2 !== 0)}">{{
                                             employee.employeeName }}</td>
                                         <td [ngClass]="{'even-row': (i % 2 === 0), 'odd-row': (i % 2 !== 0)}">{{
@@ -66,6 +75,10 @@
                                             employee.totalHolidays }}</td>
                                         <td [ngClass]="{'even-row': (i % 2 === 0), 'odd-row': (i % 2 !== 0)}">{{
                                             employee.totalAbsents }}</td>
+                                        <td [ngClass]="{'even-row': (i % 2 === 0), 'odd-row': (i % 2 !== 0)}">{{
+                                            employee.totalLeaves }}</td>
+                                        <td [ngClass]="{'even-row': (i % 2 === 0), 'odd-row': (i % 2 !== 0)}">{{
+                                            employee.totalVacations }}</td>
                                         <td [ngClass]="{'even-row': (i % 2 === 0), 'odd-row': (i % 2 !== 0)}">{{
                                             employee.netWorkingDays }}</td>
                                         <td [ngClass]="{'even-row': (i % 2 === 0), 'odd-row': (i % 2 !== 0)}">{{

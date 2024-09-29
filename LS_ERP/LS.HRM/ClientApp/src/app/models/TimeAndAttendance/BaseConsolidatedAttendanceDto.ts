@@ -12,6 +12,7 @@ export interface TblTNATrnConsolidatedEmployeeAttendanceDto {
   totalPresentDays: number;
   totalOffDays: number;
   totalLeaves: number;
+  totalVacations: number;
   totalHolidays: number;
   totalAbsents: number;
   netWorkingDays: number;
