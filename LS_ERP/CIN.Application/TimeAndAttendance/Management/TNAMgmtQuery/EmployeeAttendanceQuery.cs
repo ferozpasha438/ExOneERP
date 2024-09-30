@@ -212,16 +212,15 @@ namespace CIN.Application.TimeAndAttendance.Management.TNAMgmtQuery
                                                         ShiftNumber = AttendanceRow.ShiftNumber
                                                     });
                                                 }
-                                                //Check if the employee has availed leave and update the AttnFlag.
+                                                //Check if the employee has availed leave.
                                                 else if (employeeLeavesAvailed
-                                                    .Where(x => x.FromDate.CompareTo(payrollGroupDetails.PayrollGroupStartDate) >= 0 &&
-                                                    x.ToDate.CompareTo(payrollGroupDetails.PayrollGroupEndDate) <= 0).Count() > 0)
+                                                    .Where(x => (payrollGroupStartDate.CompareTo(x.FromDate) >= 0 &&
+                                                    payrollGroupStartDate.CompareTo(x.ToDate) <= 0)).Count() > 0)
                                                 {
-
                                                     //Retrieve the specific Vacation log.
                                                     var employeeVacationDateLog = employeeLeavesAvailed
-                                                        .FirstOrDefault(x => x.FromDate.CompareTo(payrollGroupDetails.PayrollGroupStartDate) >= 0 &&
-                                                        x.ToDate.CompareTo(payrollGroupDetails.PayrollGroupEndDate) <= 0);
+                                                        .FirstOrDefault(x => (payrollGroupStartDate.CompareTo(x.FromDate) >= 0 &&
+                                                        payrollGroupStartDate.CompareTo(x.ToDate) <= 0));
 
                                                     AttendanceRows.Add(new TblTNATrnEmployeeAttendanceDto
                                                     {
@@ -314,14 +313,13 @@ namespace CIN.Application.TimeAndAttendance.Management.TNAMgmtQuery
                                                             }
                                                             //Check if the employee has availed leave.
                                                             else if (employeeLeavesAvailed
-                                                                .Where(x => x.FromDate.CompareTo(payrollGroupDetails.PayrollGroupStartDate) >= 0 &&
-                                                                x.ToDate.CompareTo(payrollGroupDetails.PayrollGroupEndDate) <= 0).Count() > 0)
+                                                                .Where(x => (payrollGroupStartDate.CompareTo(x.FromDate) >= 0 &&
+                                                                payrollGroupStartDate.CompareTo(x.ToDate) <= 0)).Count() > 0)
                                                             {
-
                                                                 //Retrieve the specific Vacation log.
                                                                 var employeeVacationDateLog = employeeLeavesAvailed
-                                                                    .FirstOrDefault(x => x.FromDate.CompareTo(payrollGroupDetails.PayrollGroupStartDate) >= 0 &&
-                                                                    x.ToDate.CompareTo(payrollGroupDetails.PayrollGroupEndDate) <= 0);
+                                                                    .FirstOrDefault(x => (payrollGroupStartDate.CompareTo(x.FromDate) >= 0 &&
+                                                                    payrollGroupStartDate.CompareTo(x.ToDate) <= 0));
 
                                                                 AttendanceRows.Add(new TblTNATrnEmployeeAttendanceDto
                                                                 {
@@ -377,14 +375,13 @@ namespace CIN.Application.TimeAndAttendance.Management.TNAMgmtQuery
                                                             }
                                                             //Check if the employee has availed leave.
                                                             else if (employeeLeavesAvailed
-                                                                .Where(x => x.FromDate.CompareTo(payrollGroupDetails.PayrollGroupStartDate) >= 0 &&
-                                                                x.ToDate.CompareTo(payrollGroupDetails.PayrollGroupEndDate) <= 0).Count() > 0)
+                                                                .Where(x => (payrollGroupStartDate.CompareTo(x.FromDate) >= 0 &&
+                                                                payrollGroupStartDate.CompareTo(x.ToDate) <= 0)).Count() > 0)
                                                             {
-
                                                                 //Retrieve the specific Vacation log.
                                                                 var employeeVacationDateLog = employeeLeavesAvailed
-                                                                    .FirstOrDefault(x => x.FromDate.CompareTo(payrollGroupDetails.PayrollGroupStartDate) >= 0 &&
-                                                                    x.ToDate.CompareTo(payrollGroupDetails.PayrollGroupEndDate) <= 0);
+                                                                    .FirstOrDefault(x => (payrollGroupStartDate.CompareTo(x.FromDate) >= 0 &&
+                                                                    payrollGroupStartDate.CompareTo(x.ToDate) <= 0));
 
                                                                 AttendanceRows.Add(new TblTNATrnEmployeeAttendanceDto
                                                                 {

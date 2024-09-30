@@ -403,6 +403,18 @@ namespace CIN.Application.Payroll.Management.Query
                             await _context.EmployeePayrollProcessArchives.AddRangeAsync(archives);
                             _context.EmployeePayrollProcess.RemoveRange(employeePayroll);
                             await _context.SaveChangesAsync();
+
+                            //var payrollGroup = await _context.PayrollGroups.FirstOrDefaultAsync(e => e.PayrollGroupCode == employeeContractInfo.PayrollGroupCode);
+                            //if (payrollGroup is not null)
+                            //{
+                            //    payrollGroup.PayrollGroupStartDate = payrollGroup.PayrollGroupStartDate.AddMonths(1);
+                            //    payrollGroup.PayrollGroupEndDate = payrollGroup.PayrollGroupEndDate.AddMonths(1);
+                            //    payrollGroup.ModifiedBy = request.User.UserId;
+                            //    payrollGroup.Modified = DateTime.Now;
+
+                            //    _context.PayrollGroups.Update(payrollGroup);
+                            //    await _context.SaveChangesAsync();
+                            //}
                         }
                     }
                     else
