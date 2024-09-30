@@ -25,6 +25,7 @@ namespace CIN.Application.HumanResource.EmployeeMgmt.HRMgmtQuery
     {
         public UserIdentityDto User { get; set; }
         public int EmployeeID { get; set; }
+        public string LeaveTypeCode { get; set; }
     }
 
     public class GetEmployeeLeaveInformationByIdHandler : IRequestHandler<GetEmployeeLeaveInformationById, BaseEmployeeLeaveInformationDto>
@@ -67,13 +68,28 @@ namespace CIN.Application.HumanResource.EmployeeMgmt.HRMgmtQuery
                                                     TranDate = employeeLeaveInformation.TranDate,
                                                     Remarks = employeeLeaveInformation.Remarks,
                                                 }).AsNoTracking()
-                               .Where(e => e.EmployeeID == request.EmployeeID).OrderBy(e => e.Id).ToListAsync(cancellationToken);
+                               .Where(e => e.EmployeeID == request.EmployeeID)
+                               .OrderByDescending(e => e.Id).
+                               ToListAsync(cancellationToken);
+
+                    var employeeLeaveBalanceInfo = employeeLeaves.GroupBy(e => e.LeaveTypeCode)
+                        .Select(group => new EmployeeLeaveBalanceInfoDto
+                        {
+                            LeaveTypeCode = group.First().LeaveTypeCode,
+                            LeaveTypeName = group.First().LeaveTypeName,
+                            TotalAssigned = group.Sum(item => item.Assigned),
+                            TotalAvailed = group.Sum(item => item.Availed)
+                        }).ToList();
+
+                    if (!string.IsNullOrEmpty(request.LeaveTypeCode))
+                        employeeLeaves = employeeLeaves.Where(e => e.LeaveTypeCode == request.LeaveTypeCode).ToList();
 
                     if (employeeLeaves is not null && employeeLeaves.Count() > 0)
                     {
                         //Retrieve PackageCode.
                         baseEmployeeLeaveInformationDto.LeaveTemplateCode = employeeLeaves.FirstOrDefault().TemplateCode;
                         baseEmployeeLeaveInformationDto.EmployeeLeaves = employeeLeaves;
+                        baseEmployeeLeaveInformationDto.EmployeeLeaveBalances = employeeLeaveBalanceInfo;
                     }
 
                     Log.Info("----Info GetEmployeeLeaveInformationById method end----");
