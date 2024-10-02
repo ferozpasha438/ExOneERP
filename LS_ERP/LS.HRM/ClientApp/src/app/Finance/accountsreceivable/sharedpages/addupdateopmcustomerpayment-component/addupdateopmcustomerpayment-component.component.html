@@ -263,8 +263,10 @@
               <td>{{item.totalAmount}}</td>
               <td>{{item.appliedAmount}}</td>
               <td>
+                <div style="overflow-x:hidden;width: 120px;border-right: 1px solid;">
               <input type="hidden" [value]="item.appliedAmount" id="{{'already_' + item.id}}" />
-              <input type="number" id="{{'appliendAmount_' + item.id}}" style="width:135px;"  (keyup)="checkAmount($event, item.totalAmount, item.appliedAmount, item.id)" (blur)="calculateTotal()"  [disabled]="item.isCreditConverted" [value]=" (item.totalAmount-item.appliedAmount).toFixed(2) "/>
+              <input type="number" id="{{'appliendAmount_' + item.id}}" style="width:138px;"  (keyup)="checkAmount($event, item.totalAmount, item.appliedAmount, item.id)" (blur)="calculateTotal()"  [disabled]="item.isCreditConverted" [value]=" (item.totalAmount-item.appliedAmount).toFixed(2) "/>
+                  </div>
               </td>
               <td class="text-center">
                 <a class="tableicons" data-toggle="modal"
