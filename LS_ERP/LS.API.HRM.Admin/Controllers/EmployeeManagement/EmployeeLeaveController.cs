@@ -19,10 +19,17 @@ namespace LS.API.HRM.Admin.Controllers.EmployeeManagement
 
         }
 
-        [HttpGet("{id}")]
-        public async Task<IActionResult> Get([FromRoute] int id)
+        //[HttpGet("{id}")]
+        //public async Task<IActionResult> Get([FromRoute] int id)
+        //{
+        //    var obj = await Mediator.Send(new GetEmployeeLeaveInformationById() { EmployeeID = id, User = UserInfo() });
+        //    return obj is not null ? Ok(obj) : NotFound(new ApiMessageDto { Message = ApiMessageInfo.NotFound });
+        //}
+
+        [HttpGet("GetEmployeeLeaveInformationById")]
+        public async Task<IActionResult> GetEmployeeLeaveInformationById([FromQuery] int id, [FromQuery] string leaveTypeCode = "")
         {
-            var obj = await Mediator.Send(new GetEmployeeLeaveInformationById() { EmployeeID = id, User = UserInfo() });
+            var obj = await Mediator.Send(new GetEmployeeLeaveInformationById() { EmployeeID = id, LeaveTypeCode = leaveTypeCode, User = UserInfo() });
             return obj is not null ? Ok(obj) : NotFound(new ApiMessageDto { Message = ApiMessageInfo.NotFound });
         }
 

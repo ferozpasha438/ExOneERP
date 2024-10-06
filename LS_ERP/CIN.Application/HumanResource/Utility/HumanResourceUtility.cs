@@ -12,4 +12,10 @@ namespace CIN.Application.HumanResource.Utility
         public static readonly string QUIT = "QUIT";
         public static readonly string VACATION = "VACATION";
     }
+
+    public static class ServiceRequestType
+    {
+        public static readonly string LeaveServiceRequest = "VAC";
+        public static readonly string VacationServiceRequest = "VACA";
+    }
 }

@@ -41,6 +41,7 @@ namespace CIN.Application.HumanResource.EmployeeMgmt.HRMgmtDtos
         [StringLength(20)]
         public string LeaveTemplateCode { get; set; }
         public List<TblHRMTrnEmployeeLeaveInformationDto> EmployeeLeaves { get; set; }
+        public List<EmployeeLeaveBalanceInfoDto> EmployeeLeaveBalances { get; set; }
     }
 
     public class CreateUpdateLeaveAdjTransactionDto
@@ -52,5 +53,15 @@ namespace CIN.Application.HumanResource.EmployeeMgmt.HRMgmtDtos
     {
         public string GradeCode { get; set; }
         public string PositionCode { get; set; }
+    }
+
+    public class EmployeeLeaveBalanceInfoDto
+    {
+        [StringLength(20)]
+        public string LeaveTypeCode { get; set; }
+        [StringLength(256)]
+        public string LeaveTypeName { get; set; }
+        public decimal TotalAssigned { get; set; } = 0;
+        public decimal TotalAvailed { get; set; } = 0;
     }
 }

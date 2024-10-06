@@ -52,7 +52,8 @@
                         </div>
                         <div class="col-md-4 col-lg-4">
                             <label for="payrollGroupCode" class="mr-sm-2">{{ "PayrollGroup" | translate }}</label>
-                            <select class="custom-select mr-sm-2" [(ngModel)]="payrollGroupCode">
+                            <select class="custom-select mr-sm-2" [(ngModel)]="payrollGroupCode"
+                                (change)="GetPayrollProcessFilterLog()">
                                 <option value="">{{'PayrollGroup' | translate}}</option>
                                 <option *ngFor="let payrollGroup of payrollGroups" value="{{payrollGroup.value}}">
                                     {{payrollGroup.text}}</option>
@@ -61,11 +62,17 @@
                     </div>
                     <div class="row">
                         <div class="col-md-12 col-lg-12 mt-4 text-center">
-                            <button class="btn btn-primary btn-rounded" (click)="RunProcess()">{{'RunProcess'|translate}}</button>
+                            <button class="btn btn-primary" *ngIf="(!filtersLog.isApproved)"
+                                (click)="RunProcess(true, false, false)">{{'RunProcess'|translate}}</button>
                             &nbsp;
-                            <button class="btn btn-primary btn-rounded">{{'ApproveProcess'|translate}}</button>
+                            <button class="btn btn-primary"
+                                *ngIf="(!filtersLog.isApproved)" (click)="RunProcess(false, true, false)">{{'ApproveProcess'|translate}}</button>
                             &nbsp;
-                            <button class="btn btn-primary btn-rounded">{{'ReleaseProcess'|translate}}</button>
+                            <button class="btn btn-primary"
+                                *ngIf="(filtersLog.isApproved && !filtersLog.isReleased)" (click)="RunProcess(false, false, false)">{{'RecallProcess'|translate}}</button>
+                            &nbsp;
+                            <button class="btn btn-primary"
+                                *ngIf="(filtersLog.isApproved && !filtersLog.isReleased)" (click)="RunProcess(false, false, true)">{{'ReleaseProcess'|translate}}</button>
                         </div>
                     </div>
                     <br />
@@ -73,7 +80,7 @@
                     <div class="row">
                         <div class="col-md-12 col-lg-12">
                             <mat-accordion style="background-color: black;">
-                                <app-accordion-item *ngFor="let employee of employeeList" [item]="employee"style="background-color: black;" >
+                                <app-accordion-item *ngFor="let employee of employeeList" [item]="employee" >
                                 </app-accordion-item>
                             </mat-accordion>
                         </div>

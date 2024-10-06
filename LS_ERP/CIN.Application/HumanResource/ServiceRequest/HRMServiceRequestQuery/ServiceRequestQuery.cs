@@ -4,6 +4,7 @@ using CIN.Application.Common;
 using CIN.Application.HumanResource.EmployeeMgmt.HRMgmtDtos;
 using CIN.Application.HumanResource.ServiceRequest.HRMServiceRequestDtos;
 using CIN.Application.HumanResource.SetUp.HRMSetUpDtos;
+using CIN.Application.HumanResource.Utility;
 using CIN.DB;
 using CIN.Domain.HumanResource.EmployeeMgt;
 using CIN.Domain.HumanResource.ServiceRequest;
@@ -1242,7 +1243,7 @@ namespace CIN.Application.HumanResource.ServiceRequest.HRMServiceRequestQuery
 
                     var contractInfo = await _context.EmployeeContracts.Where(e => e.EmployeeID == empId).FirstOrDefaultAsync();
                     contractInfo.StopPayroll = true;
-                    var empStatus = await _context.EmployeeStatuses.FirstOrDefaultAsync(e => e.EmployeeStatusCode == "VACATION");
+                    var empStatus = await _context.EmployeeStatuses.FirstOrDefaultAsync(e => e.EmployeeStatusCode == EmployeeStatus.VACATION);
                     contractInfo.EmployeeStatusCode = empStatus?.EmployeeStatusCode;
                     contractInfo.LastDateOfDuty = DateTime.Now;
                     await _context.SaveChangesAsync();
@@ -1291,41 +1292,53 @@ namespace CIN.Application.HumanResource.ServiceRequest.HRMServiceRequestQuery
             Log.Info("----Info CreateVacationReportEntry method start----");
             var obj = request.Input;
             var userId = request.User.UserId;
-
-            try
+            using (var transaction = await _context.Database.BeginTransactionAsync())
             {
-                var empId = await _context.EmployeeServiceRequests.Where(e => e.Id == obj.EmployeeServiceRequestID).Select(e => e.EmployeeID).FirstOrDefaultAsync();
-                TblHRMTrnEmployeeReportingBackInfo reportingBackInfo = new()
+
+                try
                 {
-                    EmployeeServiceRequestID = obj.EmployeeServiceRequestID,
-                    IsAllowedToResumeDuty = obj.IsAllowedToResumeDuty,
-                    IsApprovalLetterRequired = obj.IsApprovalLetterRequired,
-                    IsJoiningReportSubmitted = obj.IsJoiningReportSubmitted,
-                    ManagerEmployeeID = obj.ManagerEmployeeID,
-                    ActionRequired = obj.ActionRequired,
-                    EmployeeID = empId,
-                    Remarks = obj.Remarks,
-                    UploadedFileName = obj.UploadedFileName,
-                    ReportingReason = obj.ReportingReason,
-                    ReportingDate = obj.ReportingDate,
-                    IsActive = true,
-                    CreatedBy = userId,
-                    Created = DateTime.Now,
-                };
+                    var empId = await _context.EmployeeServiceRequests.Where(e => e.Id == obj.EmployeeServiceRequestID).Select(e => e.EmployeeID).FirstOrDefaultAsync();
+                    TblHRMTrnEmployeeReportingBackInfo reportingBackInfo = new()
+                    {
+                        EmployeeServiceRequestID = obj.EmployeeServiceRequestID,
+                        IsAllowedToResumeDuty = obj.IsAllowedToResumeDuty,
+                        IsApprovalLetterRequired = obj.IsApprovalLetterRequired,
+                        IsJoiningReportSubmitted = obj.IsJoiningReportSubmitted,
+                        ManagerEmployeeID = obj.ManagerEmployeeID,
+                        ActionRequired = obj.ActionRequired,
+                        EmployeeID = empId,
+                        Remarks = obj.Remarks,
+                        UploadedFileName = obj.UploadedFileName,
+                        ReportingReason = obj.ReportingReason,
+                        ReportingDate = obj.ReportingDate,
+                        IsActive = true,
+                        CreatedBy = userId,
+                        Created = DateTime.Now,
+                    };
 
-                await _context.EmployeeReportingBackInfos.AddAsync(reportingBackInfo);
-                await _context.SaveChangesAsync();
+                    await _context.EmployeeReportingBackInfos.AddAsync(reportingBackInfo);
+                    await _context.SaveChangesAsync();
 
-                Log.Info("----Info CreateVacationReportEntry method Exit----");
-                return ApiMessageInfo.Status(1, reportingBackInfo.Id);
-            }
-            catch (Exception ex)
-            {
-                Log.Error("Error in CreateVacationReportEntry Method");
-                Log.Error("Error occured time : " + DateTime.UtcNow);
-                Log.Error("Error message : " + ex.Message);
-                Log.Error("Error StackTrace : " + ex.StackTrace);
-                return ApiMessageInfo.Status(0);// ex.Message + " " + ex.InnerException.Message + " " + ex.StackTrace);
+                    var contractInfo = await _context.EmployeeContracts.Where(e => e.EmployeeID == empId).FirstOrDefaultAsync();
+                    contractInfo.StopPayroll = null;
+                    var empStatus = await _context.EmployeeStatuses.FirstOrDefaultAsync(e => e.EmployeeStatusCode == EmployeeStatus.ACTIVE);
+                    contractInfo.EmployeeStatusCode = empStatus?.EmployeeStatusCode;
+                    contractInfo.LastDateOfDuty = null;
+                    await _context.SaveChangesAsync();
+                    await transaction.CommitAsync();
+
+                    Log.Info("----Info CreateVacationReportEntry method Exit----");
+                    return ApiMessageInfo.Status(1, reportingBackInfo.Id);
+                }
+                catch (Exception ex)
+                {
+                    await transaction.RollbackAsync();
+                    Log.Error("Error in CreateVacationReportEntry Method");
+                    Log.Error("Error occured time : " + DateTime.UtcNow);
+                    Log.Error("Error message : " + ex.Message);
+                    Log.Error("Error StackTrace : " + ex.StackTrace);
+                    return ApiMessageInfo.Status(0);// ex.Message + " " + ex.InnerException.Message + " " + ex.StackTrace);
+                }
             }
         }
     }

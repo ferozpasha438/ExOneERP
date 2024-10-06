@@ -12,4 +12,8 @@ export interface TblHRMTrnEmployeeContractInfoDto {
     employeeStatusCode: string;
     stopPayroll: boolean;
     lastDateOfDuty: DateTime;
-  }
+    isPreRun: boolean;
+    isApproved?: boolean;
+    isReleased?: boolean;
+    lastEmployeeContractInfoId: number;
+}

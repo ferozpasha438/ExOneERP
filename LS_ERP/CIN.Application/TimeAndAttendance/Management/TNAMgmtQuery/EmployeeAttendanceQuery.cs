@@ -1,10 +1,13 @@
 ﻿using AutoMapper;
 using AutoMapper.QueryableExtensions;
 using CIN.Application.Common;
+using CIN.Application.HumanResource.ServiceRequest.HRMServiceRequestDtos;
 using CIN.Application.HumanResource.SetUp.HRMSetUpDtos;
+using CIN.Application.HumanResource.Utility;
 using CIN.Application.TimeAndAttendance.Management.TNAMgmtDtos;
 using CIN.DB;
 using CIN.Domain.TimeAndAttendance.Management;
+using CIN.Domain.TimeAndAttendance.Setup;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -155,6 +158,32 @@ namespace CIN.Application.TimeAndAttendance.Management.TNAMgmtQuery
                                     .OrderBy(x => x.Date)
                                     .ToListAsync(cancellationToken);
 
+                                    //Retrieve Employee Leaves availed during the PayrollGroup StartDate and EndDate. 
+                                    var employeeLeavesAvailed = await (from employeeVacationDateLogs in _context.EmployeeVacationDateLogs
+                                                                       join employeeServiceRequests in _context.EmployeeServiceRequests on employeeVacationDateLogs.EmployeeServiceRequestID equals employeeServiceRequests.Id
+                                                                       join serviceRequestTypes in _context.ServiceRequestTypes on employeeServiceRequests.ServiceRequestTypeCode equals serviceRequestTypes.ServiceRequestTypeCode
+                                                                       select new TblHRMTrnEmployeeVacationDateLogDto
+                                                                       {
+                                                                           Id = employeeVacationDateLogs.Id,
+                                                                           EmployeeID = employeeVacationDateLogs.EmployeeID,
+                                                                           EmployeeServiceRequestID = employeeVacationDateLogs.EmployeeServiceRequestID,
+                                                                           ServiceRequestTypeCode = serviceRequestTypes.ServiceRequestTypeCode,
+                                                                           FromDate = employeeVacationDateLogs.FromDate,
+                                                                           ToDate = employeeVacationDateLogs.ToDate,
+                                                                           Created = employeeVacationDateLogs.Created,
+                                                                           CreatedBy = employeeVacationDateLogs.CreatedBy,
+                                                                           Modified = employeeVacationDateLogs.Modified,
+                                                                           ModifiedBy = employeeVacationDateLogs.ModifiedBy,
+                                                                           IsActive = employeeVacationDateLogs.IsActive
+                                                                       })
+                                                                       .AsNoTracking()
+                                                                       .Where(x => (x.EmployeeID == e.EmployeeID &&
+                                                                       (x.FromDate.CompareTo(payrollGroupDetails.PayrollGroupStartDate) >= 0 && x.FromDate.CompareTo(payrollGroupDetails.PayrollGroupEndDate) <= 0) ||
+                                                                       (x.ToDate.CompareTo(payrollGroupDetails.PayrollGroupStartDate) >= 0 && x.ToDate.CompareTo(payrollGroupDetails.PayrollGroupEndDate) <= 0)))
+                                                                       .OrderBy(x => x.Id)
+                                                                       .ToListAsync(cancellationToken);
+
+
                                     //If Roaster is not applicable for the employee.
                                     if (!e.IsRoasterApplicable)
                                     {
@@ -180,6 +209,24 @@ namespace CIN.Application.TimeAndAttendance.Management.TNAMgmtQuery
                                                         EmployeeID = AttendanceRow.EmployeeID,
                                                         Date = payrollGroupStartDate,
                                                         AttnFlag = "H",
+                                                        ShiftNumber = AttendanceRow.ShiftNumber
+                                                    });
+                                                }
+                                                //Check if the employee has availed leave.
+                                                else if (employeeLeavesAvailed
+                                                    .Where(x => (payrollGroupStartDate.CompareTo(x.FromDate) >= 0 &&
+                                                    payrollGroupStartDate.CompareTo(x.ToDate) <= 0)).Count() > 0)
+                                                {
+                                                    //Retrieve the specific Vacation log.
+                                                    var employeeVacationDateLog = employeeLeavesAvailed
+                                                        .FirstOrDefault(x => (payrollGroupStartDate.CompareTo(x.FromDate) >= 0 &&
+                                                        payrollGroupStartDate.CompareTo(x.ToDate) <= 0));
+
+                                                    AttendanceRows.Add(new TblTNATrnEmployeeAttendanceDto
+                                                    {
+                                                        EmployeeID = AttendanceRow.EmployeeID,
+                                                        Date = payrollGroupStartDate,
+                                                        AttnFlag = employeeVacationDateLog.ServiceRequestTypeCode == ServiceRequestType.LeaveServiceRequest ? "L" : "V",
                                                         ShiftNumber = AttendanceRow.ShiftNumber
                                                     });
                                                 }
@@ -264,7 +311,25 @@ namespace CIN.Application.TimeAndAttendance.Management.TNAMgmtQuery
                                                                     ShiftNumber = AttendanceRow.ShiftNumber
                                                                 });
                                                             }
-                                                            //Neither a holiday nor an WeeklyOff, then Employee is Absent
+                                                            //Check if the employee has availed leave.
+                                                            else if (employeeLeavesAvailed
+                                                                .Where(x => (payrollGroupStartDate.CompareTo(x.FromDate) >= 0 &&
+                                                                payrollGroupStartDate.CompareTo(x.ToDate) <= 0)).Count() > 0)
+                                                            {
+                                                                //Retrieve the specific Vacation log.
+                                                                var employeeVacationDateLog = employeeLeavesAvailed
+                                                                    .FirstOrDefault(x => (payrollGroupStartDate.CompareTo(x.FromDate) >= 0 &&
+                                                                    payrollGroupStartDate.CompareTo(x.ToDate) <= 0));
+
+                                                                AttendanceRows.Add(new TblTNATrnEmployeeAttendanceDto
+                                                                {
+                                                                    EmployeeID = AttendanceRow.EmployeeID,
+                                                                    Date = payrollGroupStartDate,
+                                                                    AttnFlag = employeeVacationDateLog.ServiceRequestTypeCode == ServiceRequestType.LeaveServiceRequest ? "L" : "V",
+                                                                    ShiftNumber = AttendanceRow.ShiftNumber
+                                                                });
+                                                            }
+                                                            //Neither a holiday nor availed a leave, then Employee is Absent
                                                             else
                                                             {
                                                                 AttendanceRows.Add(new TblTNATrnEmployeeAttendanceDto
@@ -305,6 +370,24 @@ namespace CIN.Application.TimeAndAttendance.Management.TNAMgmtQuery
                                                                     EmployeeID = AttendanceRow.EmployeeID,
                                                                     Date = payrollGroupStartDate,
                                                                     AttnFlag = "H",
+                                                                    ShiftNumber = AttendanceRow.ShiftNumber
+                                                                });
+                                                            }
+                                                            //Check if the employee has availed leave.
+                                                            else if (employeeLeavesAvailed
+                                                                .Where(x => (payrollGroupStartDate.CompareTo(x.FromDate) >= 0 &&
+                                                                payrollGroupStartDate.CompareTo(x.ToDate) <= 0)).Count() > 0)
+                                                            {
+                                                                //Retrieve the specific Vacation log.
+                                                                var employeeVacationDateLog = employeeLeavesAvailed
+                                                                    .FirstOrDefault(x => (payrollGroupStartDate.CompareTo(x.FromDate) >= 0 &&
+                                                                    payrollGroupStartDate.CompareTo(x.ToDate) <= 0));
+
+                                                                AttendanceRows.Add(new TblTNATrnEmployeeAttendanceDto
+                                                                {
+                                                                    EmployeeID = AttendanceRow.EmployeeID,
+                                                                    Date = payrollGroupStartDate,
+                                                                    AttnFlag = employeeVacationDateLog.ServiceRequestTypeCode == ServiceRequestType.LeaveServiceRequest ? "L" : "V",
                                                                     ShiftNumber = AttendanceRow.ShiftNumber
                                                                 });
                                                             }
@@ -750,6 +833,7 @@ namespace CIN.Application.TimeAndAttendance.Management.TNAMgmtQuery
                         //Loop through each employee and consolidate his attendance.
                         foreach (var employee in contractEmployees)
                         {
+                            int totalLeaves = 0, totalVacations = 0;
                             //Retrieve employee's attendance in the current payroll period.
                             var employeeAttendance = await _context.TNAEmployeeAttendance
                                 .AsNoTracking()
@@ -779,6 +863,37 @@ namespace CIN.Application.TimeAndAttendance.Management.TNAMgmtQuery
                             .OrderBy(x => x.Date)
                             .ToListAsync(cancellationToken);
 
+                            //Retrieve list of Employee Leaves availed during the PayrollGroup StartDate and EndDate. 
+                            var employeeLeavesLogs = await (from employeeVacationDateLogs in _context.EmployeeVacationDateLogs
+                                                            join employeeServiceRequests in _context.EmployeeServiceRequests on employeeVacationDateLogs.EmployeeServiceRequestID equals employeeServiceRequests.Id
+                                                            join serviceRequestTypes in _context.ServiceRequestTypes on employeeServiceRequests.ServiceRequestTypeCode equals serviceRequestTypes.ServiceRequestTypeCode
+                                                            select new TblHRMTrnEmployeeVacationDateLogDto
+                                                            {
+                                                                Id = employeeVacationDateLogs.Id,
+                                                                EmployeeID = employeeVacationDateLogs.EmployeeID,
+                                                                EmployeeServiceRequestID = employeeVacationDateLogs.EmployeeServiceRequestID,
+                                                                ServiceRequestTypeCode = serviceRequestTypes.ServiceRequestTypeCode,
+                                                                FromDate = employeeVacationDateLogs.FromDate,
+                                                                ToDate = employeeVacationDateLogs.ToDate,
+                                                                Created = employeeVacationDateLogs.Created,
+                                                                CreatedBy = employeeVacationDateLogs.CreatedBy,
+                                                                Modified = employeeVacationDateLogs.Modified,
+                                                                ModifiedBy = employeeVacationDateLogs.ModifiedBy,
+                                                                IsActive = employeeVacationDateLogs.IsActive
+                                                            })
+                                                            .AsNoTracking()
+                                                            .Where(x => (x.EmployeeID == employee.EmployeeID &&
+                                                            (x.FromDate.CompareTo(payrollGroupDetails.PayrollGroupStartDate) >= 0 && x.FromDate.CompareTo(payrollGroupDetails.PayrollGroupEndDate) <= 0) ||
+                                                            (x.ToDate.CompareTo(payrollGroupDetails.PayrollGroupStartDate) >= 0 && x.ToDate.CompareTo(payrollGroupDetails.PayrollGroupEndDate) <= 0)))
+                                                            .OrderBy(x => x.Id)
+                                                            .ToListAsync(cancellationToken);
+
+                            if (employeeLeavesLogs.Count() > 0)
+                            {
+                                totalLeaves = GetLeaveCountByServiceRequestType(employeeLeavesLogs, payrollGroupDetails, ServiceRequestType.LeaveServiceRequest);
+                                totalVacations = GetLeaveCountByServiceRequestType(employeeLeavesLogs, payrollGroupDetails, ServiceRequestType.VacationServiceRequest);
+                            }
+
                             if (employeeAttendance is not null)
                             {
                                 var objConsolidatedEmployeeAttendance = new TblTNATrnConsolidatedEmployeeAttendance();
@@ -786,9 +901,14 @@ namespace CIN.Application.TimeAndAttendance.Management.TNAMgmtQuery
                                 objConsolidatedEmployeeAttendance.PayrollPeriodCode = payrollGroupDetails.PayrollGroupEndDate.ToString("MMMM yyyy");
                                 objConsolidatedEmployeeAttendance.TotalDays = (payrollGroupDetails.PayrollGroupEndDate - payrollGroupDetails.PayrollGroupStartDate).Days + 1;
                                 objConsolidatedEmployeeAttendance.TotalOffDays = employeeWeeklyOffs.ToList().Count();
+                                objConsolidatedEmployeeAttendance.TotalLeaves = totalLeaves;
+                                objConsolidatedEmployeeAttendance.TotalVacations = totalVacations;
                                 objConsolidatedEmployeeAttendance.TotalHolidays = employeeCalendarMappings.ToList().Count();
                                 objConsolidatedEmployeeAttendance.TotalPresentDays = employeeAttendance.Where(e => e.AttnFlag == "P").Count();
-                                objConsolidatedEmployeeAttendance.TotalAbsents = (objConsolidatedEmployeeAttendance.TotalDays - (objConsolidatedEmployeeAttendance.TotalPresentDays + objConsolidatedEmployeeAttendance.TotalOffDays + objConsolidatedEmployeeAttendance.TotalHolidays));
+                                objConsolidatedEmployeeAttendance.TotalAbsents = (objConsolidatedEmployeeAttendance.TotalDays -
+                                    (objConsolidatedEmployeeAttendance.TotalPresentDays + objConsolidatedEmployeeAttendance.TotalOffDays +
+                                    objConsolidatedEmployeeAttendance.TotalHolidays + objConsolidatedEmployeeAttendance.TotalLeaves +
+                                    objConsolidatedEmployeeAttendance.TotalVacations));
                                 objConsolidatedEmployeeAttendance.NetWorkingDays = employeeAttendance.Where(e => e.AttnFlag == "P").Count();
                                 objConsolidatedEmployeeAttendance.TotalLateDays = employeeAttendance.Where(e => e.IsLate).ToList().Count();
                                 objConsolidatedEmployeeAttendance.TotalLateHours = employeeAttendance.Where(e => e.AttnFlag == "P").Sum(e => e.LateHours);
@@ -844,6 +964,36 @@ namespace CIN.Application.TimeAndAttendance.Management.TNAMgmtQuery
                     throw;
                 }
             }
+        }
+
+        private int GetLeaveCountByServiceRequestType(List<TblHRMTrnEmployeeVacationDateLogDto> employeeLeavesLogs, TblTNASysPayrollGroup payrollGroupDetails, string serviceRequestTypeCode)
+        {
+            int leaveCount = 0;
+            var leavesLogsByServiceRequestType = employeeLeavesLogs.Where(e => e.ServiceRequestTypeCode == serviceRequestTypeCode);
+
+            if (leavesLogsByServiceRequestType is null)
+                return leaveCount;
+
+            //Loop thru each Leaves Log and calculate the TotalNoOfLeaves.
+            foreach (var log in leavesLogsByServiceRequestType)
+            {
+                DateTime StartDate = log.FromDate, EndDate = log.ToDate;
+
+                if (log.FromDate.CompareTo(payrollGroupDetails.PayrollGroupStartDate) >= 0 &&
+                    log.FromDate.CompareTo(payrollGroupDetails.PayrollGroupEndDate) <= 0)
+                    StartDate = log.FromDate;
+                else
+                    StartDate = payrollGroupDetails.PayrollGroupStartDate;
+
+                if (log.ToDate.CompareTo(payrollGroupDetails.PayrollGroupStartDate) >= 0 &&
+                    log.ToDate.CompareTo(payrollGroupDetails.PayrollGroupEndDate) <= 0)
+                    EndDate = log.ToDate;
+                else
+                    EndDate = payrollGroupDetails.PayrollGroupEndDate;
+
+                leaveCount = leaveCount + (EndDate - StartDate).Days + 1;
+            }
+            return leaveCount;
         }
     }
 

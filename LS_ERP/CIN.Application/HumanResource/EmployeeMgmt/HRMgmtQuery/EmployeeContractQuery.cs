@@ -95,6 +95,7 @@ namespace CIN.Application.HumanResource.EmployeeMgmt.HRMgmtQuery
                     (string.IsNullOrEmpty(search.PayrollGroupCode) || e.PayrollGroupCode.Contains(search.PayrollGroupCode)) &&
                     (e.EmployeeStatusCode == (string.IsNullOrEmpty(search.EmployeeStatusCode) ? EmployeeStatus.ACTIVE : search.EmployeeStatusCode))
                     )
+                    .OrderBy(e => e.Id)
                     .ToListAsync(cancellationToken);
 
                 Log.Info("----Info GetEmployeeListByFilters method end----");
