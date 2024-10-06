@@ -1,7 +1,7 @@
 <br />
 <button type="button" class="close" aria-hidden="true" (click)="closeModel()"> ×</button>
 <br />
-<h2>{{'AddressInfo' | translate}}</h2>
+<h2 class="arabicright">{{'AddressInfo' | translate}}</h2>
 <hr />
 <div class="col-md-12 col-lg-12">
   <form [formGroup]="form" (ngSubmit)="submit()" novalidate class="mt-4">
@@ -36,7 +36,7 @@
         <div class="form-group">
           <label for="postCode">{{'PostCode' | translate}}</label>
           <input class="form-control" type="text" formControlName="postCode"
-            placeholder="{{'Please_Enter' | translate}} {{'Post Code' | translate}}">
+            placeholder="{{'Please_Enter' | translate}} {{'PostCode' | translate}}">
         </div>
       </div>
     </div>
