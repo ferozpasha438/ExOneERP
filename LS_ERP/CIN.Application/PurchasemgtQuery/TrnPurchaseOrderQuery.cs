@@ -439,7 +439,7 @@ namespace CIN.Application.PurchasemgtQuery
             Log.Info("----Info ProductUomtPriceItem method start----");
             var item = await _context.InvItemsUOM.AsNoTracking()
                  .Where(e =>
-                            (e.ItemCode.Contains(itemcode) && e.ItemUOM.Contains(ItemUOM)
+                            (e.ItemCode == itemcode && e.ItemUOM == ItemUOM
                              ))
                .Select(Product => new ProductUnitPriceDTO
                {
@@ -1013,6 +1013,7 @@ namespace CIN.Application.PurchasemgtQuery
                })
                  .PaginationListAsync(request.Input.Page, request.Input.PageCount, cancellationToken);
 
+
             foreach (var item in orderList.Items)
             {
                 var poItems = _context.purchaseOrderDetails.AsNoTracking()
@@ -1102,7 +1103,7 @@ namespace CIN.Application.PurchasemgtQuery
                         ItemTaxPer = e.ItemTaxPer,
                         TaxAmount = e.TaxAmount,
                         ItemTracking = e.ItemTracking,
-                        SerExpTracking= itemTrackingData
+                        SerExpTracking = itemTrackingData
 
 
                     }).ToListAsync();
@@ -3859,6 +3860,7 @@ namespace CIN.Application.PurchasemgtQuery
                     #region QtyUpdate
                     foreach (var invtItem in iteminventory)
                     {
+                        var invtUOM = await _context.InvItemsUOM.FirstOrDefaultAsync(e => e.ItemCode == invtItem.TranItemCode && e.ItemUOM == invtItem.TranItemUnitCode);
                         var cInvItems = _context.InvItemInventory.Where(e => e.ItemCode == invtItem.TranItemCode && e.WHCode == obj.WHCode);
                         var cItems = cInvItems;
                         var cItemIds = await cItems.Select(e => e.ItemCode).ToListAsync();
@@ -3869,23 +3871,33 @@ namespace CIN.Application.PurchasemgtQuery
 
                         //decimal? QtyOnPO = await cItems.SumAsync(e => e.QtyOnPO);
                         decimal? QtyReserved = await cItems.SumAsync(e => e.QtyReserved);
-                        decimal? ItemAvgCost = await cInvItems.SumAsync(e => e.ItemAvgCost);
+                        //decimal? ItemAvgCost = await cInvItems.SumAsync(e => e.ItemAvgCost);
                         decimal? ItemLastPOCost = await cInvItems.SumAsync(e => e.ItemLastPOCost);
                         //var PoDetails = await _context.purchaseOrderDetails.Where(e => e.TranId != transnumber.TranNumber && e.TranItemCode == auth.TranItemCode).OrderBy(e => e.TranNumber).LastOrDefaultAsync();
 
-                        decimal itmAvgcost = 0;
-                        var PoDetails = await _context.purchaseOrderDetails.Where(e => e.TranId != transnumber.TranNumber && e.TranItemCode == invtItem.TranItemCode).OrderBy(e => e.TranNumber).LastOrDefaultAsync();
+                        decimal itmAvgcost = 0, originalTranItemQty = 0;
+                        //var PoDetails = await _context.purchaseOrderDetails.Where(e => e.TranId != transnumber.TranNumber && e.TranItemCode == invtItem.TranItemCode).OrderBy(e => e.TranNumber).LastOrDefaultAsync();
 
                         //if (PoDetails is not null)
                         //    itmAvgcost = (int)(((((decimal)PoDetails.TranItemQty) * ((decimal)PoDetails.TranItemCost)) + (((decimal)auth.TranItemCost) * ((decimal)auth.TranItemQty))) / ((((decimal)PoDetails.TranItemQty) + ((decimal)auth.TranItemQty))));
                         //else
                         //    itmAvgcost = (int)(((((decimal)0) * ((decimal)0)) + (((decimal)auth.TranItemCost) * ((decimal)auth.ReceivingQty))) / ((((decimal)0) + ((decimal)auth.ReceivingQty))));
 
-
+                        originalTranItemQty = invtItem.TranItemQty;
                         foreach (var itemCode in cItemIds)
                         {
 
                             var oldInventory = await cItems.FirstOrDefaultAsync(e => e.ItemCode == itemCode);
+                            decimal itemAvgCost = 0;
+                            if (invtUOM.ItemConvFactor > 1)
+                            {
+                                invtItem.TranItemQty = invtItem.TranItemQty * invtUOM.ItemConvFactor;
+                            }
+                            else
+                            {
+                                invtItem.TranItemQty = invtItem.ReceivingQty;
+                            }
+
                             decimal tranItemCost = invtItem.TranItemCost - (invtItem.TranItemCost * invtItem.DiscPer) / 100;
 
                             //  oldInventory.QtyOH = ((decimal)QtyOnPO + auth.TranItemQty);
@@ -3897,13 +3909,21 @@ namespace CIN.Application.PurchasemgtQuery
                             // oldInventory.ItemAvgCost = ((((decimal)0) * ((decimal)0)) + (((decimal)invtItem.TranItemCost) * ((decimal)invtItem.ReceivingQty))) / ((((decimal)0) + ((decimal)invtItem.ReceivingQty)));
 
                             decimal newTranItemQty = invtItem.ReceivingQty;
-                            oldInventory.ItemAvgCost = ((oldInventory.QtyOH * oldInventory.ItemAvgCost) + (tranItemCost * newTranItemQty)) / (oldInventory.QtyOH + newTranItemQty);
-
+                            if (invtUOM.ItemConvFactor > 1)
+                            {
+                                itemAvgCost = ((((decimal)oldInventory.QtyOH) * ((decimal)oldInventory.ItemAvgCost)) + (((decimal)tranItemCost) * ((decimal)(invtItem.TranItemQty / invtUOM.ItemConvFactor)))) / ((((decimal)oldInventory.QtyOH) + ((decimal)invtItem.TranItemQty)));
+                            }
+                            else
+                            {
+                                oldInventory.ItemAvgCost = ((oldInventory.QtyOH * oldInventory.ItemAvgCost) + (tranItemCost * newTranItemQty)) / (oldInventory.QtyOH + newTranItemQty);
+                            }
                             //cInvoice.ItemAvgCost = ((((decimal)0) * ((decimal)0)) + (((decimal)auth.TranItemCost) * ((decimal)auth.TranItemQty))) / ((((decimal)0) + ((decimal)auth.TranItemQty)));
 
+                            oldInventory.ItemAvgCost = itemAvgCost;
                             itmAvgcost = oldInventory.ItemAvgCost;
-                            oldInventory.QtyOH = ((decimal)oldInventory.QtyOH + invtItem.ReceivingQty);
 
+                            oldInventory.QtyOH = ((decimal)oldInventory.QtyOH + invtItem.TranItemQty);
+                            oldInventory.ItemLastPOCost = ((decimal)ItemLastPOCost + invtItem.TranItemCost);
                             _context.InvItemInventory.Update(oldInventory);
                             await _context.SaveChangesAsync();
 
@@ -3953,11 +3973,11 @@ namespace CIN.Application.PurchasemgtQuery
                             TranNumber = FinTrans,
                             TranUnit = invtItem.TranItemUnitCode,
                             //TranQty = invtItem.TranItemQty,
-                            TranQty = invtItem.ReceivingQty,
+                            TranQty = originalTranItemQty,//invtItem.ReceivingQty,
 
                             unitConvFactor = invtItem.TranUOMFactor,
                             //TranTotQty = invtItem.TranItemQty,
-                            TranTotQty = invtItem.ReceivingQty,
+                            TranTotQty = invtItem.TranItemQty,
 
                             TranPrice = invtItem.TranItemCost,
 
@@ -4682,7 +4702,7 @@ namespace CIN.Application.PurchasemgtQuery
             Log.Info("----Info GetGRNList method start----");
 
             var item = (from m in _context.purchaseOrderHeaders
-                       // where m.ISGRN == true
+                            // where m.ISGRN == true
                         group new { m } by new { m.PurchaseOrderNO } into grp
                         select new CustomSelectListItem
                         {
@@ -4782,9 +4802,9 @@ namespace CIN.Application.PurchasemgtQuery
     #endregion
 
 
-   
 
-    
+
+
 
     #region Expairy Details
     public class GetExpairyDetails : IRequest<List<TblErpInvGrnItemExpiryBatchDto>>
@@ -4804,12 +4824,12 @@ namespace CIN.Application.PurchasemgtQuery
         }
         public async Task<List<TblErpInvGrnItemExpiryBatchDto>> Handle(GetExpairyDetails request, CancellationToken cancellationToken)
         {
-            List<TblErpInvGrnItemExpiryBatchDto> ExpiryBatchList = new();
+            List<TblErpInvItemExpiryBatchDto> ExpiryBatchList = new();
            // var Batches = await _context.InvItemExpiryBatches.AsNoTracking().Where(e => e.ItemCode == request.ItemCode).FirstOrDefaultAsync();
 
             if (request.ItemCode is not null)
             {
-                ExpiryBatchList = await _context.InvGrnItemExpiryBatches.AsNoTracking().ProjectTo<TblErpInvGrnItemExpiryBatchDto>(_mapper.ConfigurationProvider).Where(e => e.ItemCode == request.ItemCode ).ToListAsync();
+                ExpiryBatchList = await _context.InvItemExpiryBatches.AsNoTracking().ProjectTo<TblErpInvItemExpiryBatchDto>(_mapper.ConfigurationProvider).Where(e => e.ItemCode == request.ItemCode ).ToListAsync();
 
             }
 
@@ -5197,8 +5217,8 @@ namespace CIN.Application.PurchasemgtQuery
                 foreach (var obj in input.Items)
                 {
                     // Check if the batch number already exists
-                    var existingBatch = await _context.InvGrnItemExpiryBatches
-                        .FirstOrDefaultAsync(e => e.BatchNumber == obj.BatchNumber && e.ItemCode == obj.ItemCode, cancellationToken);
+                    var existingBatch = await _context.InvItemExpiryBatches
+                        .FirstOrDefaultAsync(e => e.BatchNumber == obj.BatchNumber && e.ItemCode==obj.ItemCode, cancellationToken);
 
                     TblErpInvGrnItemExpiryBatch InvExpBatch;
 

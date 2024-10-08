@@ -11,25 +11,23 @@ namespace CIN.Domain.HumanResource.EmployeeMgt
     [Table("tblHRMTrnEmployeeContactInfo")]
     public class TblHRMTrnEmployeeContactInfo : AuditableEntity<int>
     {
-        //EmployeeNumber
-        [ForeignKey(nameof(EmployeeNumber))]
+        //EmployeeID
+        [ForeignKey(nameof(EmployeeID))]
         public TblHRMTrnPersonalInformation TrnPersonalInformation { get; set; }
         [Required]
-        [StringLength(5)]
-        public string EmployeeNumber { get; set; }
+        public int EmployeeID { get; set; }
 
         //Primary Phone Number
         [Required]
-        [StringLength(10)]
+        [StringLength(15)]
         public string PrimaryPhoneNumber { get; set; }
 
         //Alternate Phone Number
-        [StringLength(10)]
+        [StringLength(15)]
         public string AlternatePhoneNumber { get; set; }
 
         //Email
-        [Required]
-        [StringLength(30)]
+        [StringLength(256)]
         public string Email { get; set; }
 
     }

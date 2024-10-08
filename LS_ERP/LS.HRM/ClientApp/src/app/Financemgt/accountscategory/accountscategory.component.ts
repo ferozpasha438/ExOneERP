@@ -24,6 +24,7 @@ export class AccountscategoryComponent extends ParentSystemSetupComponent implem
 
   fInSysGenAcCode: boolean = false;
   accountSearch: string = '';
+  isLoading: boolean = false;
 
   constructor(private utilService: UtilityService, private authService: AuthorizeService, private notifyService: NotificationService,
     private apiService: ApiService, public dialog: MatDialog) { super(authService); }
@@ -59,7 +60,9 @@ export class AccountscategoryComponent extends ParentSystemSetupComponent implem
 
 
   loadCategoryTypeList() {
+    this.isLoading = true;
     this.apiService.getall('accountscategory/getCategoryTypeList').subscribe(res => {
+      this.isLoading = false;
       if (res) {
         this.listOfCategories = this.listOfCategoriesNew = res['list'];
         this.fInSysGenAcCode = res['fInSysGenAcCode'] as boolean;

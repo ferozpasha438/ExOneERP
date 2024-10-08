@@ -778,7 +778,7 @@ namespace CIN.Application.InvoiceQuery
                         TranSource = input.TranSource,
                         Trantype = obj.IsCreditConverted ? "Credit" : "Invoice",
                         CustCode = customer.CustCode,
-                        DocNum = obj.InvoiceRefNumber,
+                        DocNum = obj.InvoiceRefNumber ?? "-",
                         LoginId = request.User.UserId,
                         ReferenceNumber = obj.InvoiceRefNumber,
                         InvoiceAmount = obj.TotalAmount,
@@ -1293,17 +1293,17 @@ namespace CIN.Application.InvoiceQuery
                 CreatedOn = e.CreatedOn,
                 InvoiceDueDate = e.InvoiceDueDate,
                 CustomerId = e.CustomerId,
-                CustName = !string.IsNullOrEmpty(e.CustName)? e.CustName: customers.FirstOrDefault(x=>x.Id==e.CustomerId).CustName,
+                CustName = !string.IsNullOrEmpty(e.CustName) ? e.CustName : customers.FirstOrDefault(x => x.Id == e.CustomerId).CustName,
                 CustomerName = isArab ? (!string.IsNullOrEmpty(e.CustArbName) ? e.CustArbName : customers.FirstOrDefault(x => x.Id == e.CustomerId).CustArbName) : (!string.IsNullOrEmpty(e.CustName) ? e.CustName : customers.FirstOrDefault(x => x.Id == e.CustomerId).CustName),
-                CustomerNameAr= !string.IsNullOrEmpty(e.CustArbName) ? e.CustArbName : customers.FirstOrDefault(x => x.Id == e.CustomerId).CustArbName,
+                CustomerNameAr = !string.IsNullOrEmpty(e.CustArbName) ? e.CustArbName : customers.FirstOrDefault(x => x.Id == e.CustomerId).CustArbName,
                 PaymentTermId = paymentTerms.FirstOrDefault(pt => pt.SalesTermsCode == e.PaymentTerms).SalesTermsName,
                 TaxAmount = e.TaxAmount,
                 SubTotal = e.SubTotal,
-                DiscountAmount=e.DiscountAmount,
+                DiscountAmount = e.DiscountAmount,
                 TotalAmount = e.TotalAmount,
                 TotalPayment = custInvoice.FirstOrDefault(cui => cui.InvoiceId == e.Id).PaidAmount,
-                BranchCode=e.BranchCode
-                
+                BranchCode = e.BranchCode
+
             }).FirstOrDefaultAsync();
 
 
@@ -1326,9 +1326,9 @@ namespace CIN.Application.InvoiceQuery
 
             var customer = await _context.OprCustomers.Where(e => e.Id == invoice.CustomerId).FirstOrDefaultAsync();
             var custCat = await _context.SndCustomerCategories.Where(e => e.CustCatCode == customer.CustCatCode).FirstOrDefaultAsync();
-            var custCode=customers.FirstOrDefault(c => c.Id == invoice.CustomerId)?.CustCode;
+            var custCode = customers.FirstOrDefault(c => c.Id == invoice.CustomerId)?.CustCode;
             var studentData = await _context.DefSchoolStudentMaster.Where(e => e.StuAdmNum == custCode).FirstOrDefaultAsync();
-            invoice.TaxIdNumber = customer.VATNumber == "-"? (studentData?.StuIDNumber) : customer.VATNumber;
+            invoice.TaxIdNumber = customer.VATNumber == "-" ? (studentData?.StuIDNumber) : customer.VATNumber;
             invoice.Category = custCat.CustCatName;
 
 
@@ -1339,7 +1339,7 @@ namespace CIN.Application.InvoiceQuery
                     Id = e.Id,
                     Description = e.Description,
                     SubTotal = (e.TotalAmount + e.DiscountAmount) - e.TaxAmount,
-                    DiscountAmount=e.DiscountAmount,
+                    DiscountAmount = e.DiscountAmount,
                     TaxAmount = e.TaxAmount,
                     TotalAmount = e.TotalAmount,
 
@@ -1714,7 +1714,7 @@ namespace CIN.Application.InvoiceQuery
                             TranSource = "AR",
                             Trantype = obj.IsCreditConverted ? "Credit" : "Invoice",
                             CustCode = customer.CustCode,
-                            DocNum = obj.InvoiceRefNumber,
+                            DocNum = obj.InvoiceRefNumber ?? "-",
                             LoginId = request.User.UserId,
                             ReferenceNumber = obj.InvoiceRefNumber,
 
@@ -2467,7 +2467,7 @@ namespace CIN.Application.InvoiceQuery
                         ////}
                         #endregion
 
-                        await transaction.CommitAsync();
+                        await transaction.CommitAsync();                        
                         returnStatus++;
                     }
                     catch (Exception ex)
@@ -2491,7 +2491,7 @@ namespace CIN.Application.InvoiceQuery
 
     #region UpdateZatcaClearanceStatus
     public class UpdateZatcaClearanceStatus : IRequest<bool>
-    {        
+    {
         public long Id { get; set; }
         public bool Status { get; set; }
     }

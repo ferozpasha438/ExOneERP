@@ -124,6 +124,7 @@ export class NavMenuComponent implements OnInit {
     this.authService.setAuthorize(false);
     this.notifyService.showSuccess("Logout Successful");
     location.replace('');
+    localStorage.setItem('lastcinnumber', user.cinNumber);
 
     //this.authService.SetApiEndPoint(this.authService.GetSystemSetupApiEndPoint());
 

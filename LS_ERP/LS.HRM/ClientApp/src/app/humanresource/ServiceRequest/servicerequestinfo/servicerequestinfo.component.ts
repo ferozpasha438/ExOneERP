@@ -8,6 +8,7 @@ import { TranslateService } from '@ngx-translate/core';
 import { MyrequestComponent } from '../myrequest/myrequest.component';
 import { LeaverequestattachmentComponent } from '../shared/leaverequestattachment/leaverequestattachment.component';
 import { LeaverequestapprovalComponent } from '../shared/leaverequestapproval/leaverequestapproval.component';
+import { LeaverequestComponent } from '../leaverequest/leaverequest.component';
 
 @Component({
   selector: 'app-servicerequestinfo',
@@ -19,6 +20,7 @@ export class ServicerequestinfoComponent implements OnInit {
   id: number = 0;
   modalTitle: string = '';
   serviceRequestRefNo: string = '';
+  serviceRequestTypeCode: string = '';
   isFromAppoval: boolean = false;
   modalBtnTitle: string = '';
   // employeeNumber: string = '00004';
@@ -44,8 +46,8 @@ export class ServicerequestinfoComponent implements OnInit {
   }
   fillBtnList() {
     this.btnList = [
-      { id: 1, text: this.translate.instant('Vaction_request'), isBtnClicked: true, serviceRequestTypeCode: 'VAC' },
-      { id: 2, text: this.translate.instant('Ticket_request'), isBtnClicked: false, serviceRequestTypeCode: 'TAC' },
+      { id: 1, text: this.translate.instant('Leave_request'), isBtnClicked: true, serviceRequestTypeCode: 'VAC' },
+      { id: 2, text: this.translate.instant('Vaction_request'), isBtnClicked: false, serviceRequestTypeCode: 'VACA' },
       { id: 3, text: this.translate.instant('Travel_request'), isBtnClicked: false, serviceRequestTypeCode: 'TAC' },
       { id: 4, text: this.translate.instant('Loan_request'), isBtnClicked: false, serviceRequestTypeCode: 'LAC' },
     ]
@@ -54,8 +56,8 @@ export class ServicerequestinfoComponent implements OnInit {
   fillComponents() {
     const data = { serviceRequestTypeCode: '', id: this.id, serviceRequestRefNo: this.serviceRequestRefNo, isFromAppoval: this.isFromAppoval }
     this.poList = [
+      new AdItem(LeaverequestComponent, data),
       new AdItem(VacationrequestComponent, data),
-      new AdItem(MyrequestComponent, data),
       new AdItem(LeaverequestattachmentComponent, data),
       new AdItem(LeaverequestapprovalComponent, data),
 

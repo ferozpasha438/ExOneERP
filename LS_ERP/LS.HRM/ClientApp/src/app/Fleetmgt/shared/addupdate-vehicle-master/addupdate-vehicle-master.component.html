@@ -1,4 +1,4 @@
-<h3 class="modal-title">{{'Addupdate_Fleet_Vehicle_Master' | translate}}</h3>
+<h3 class="modal-title">{{'Vehicle_Master' | translate}}</h3>
 <button type="button" class="close" aria-hidden="true" (click)="closeModel()"> ×</button>
 <form [formGroup]="form" (ngSubmit)="submit()" novalidate class="mt-4">
   <div class="outer ">
@@ -224,8 +224,8 @@
 
       <div class="col-md-6 col-lg-6 col-sm-6">
         <div class="form-group">
-          <label>{{'Vehicle_OwnerEn' | translate}}</label>
-          <input class="form-control" type="text" placeholder="{{'Vehicle_OwnerEn' | translate}}"
+          <label>{{'Vehicle_Owner_EN' | translate}}</label>
+          <input class="form-control" type="text" placeholder="{{'Vehicle_Owner_EN' | translate}}"
                  formControlName="vehicleOwnerEnglish" />
           <validation-message [control]="form.controls.vehicleOwnerEnglish"></validation-message>
         </div>
@@ -233,8 +233,8 @@
 
       <div class="col-md-6 col-lg-6 col-sm-6">
         <div class="form-group">
-          <label>{{'Vehicle_OwnerAr' | translate}}</label>
-          <input class="form-control" type="text" placeholder="{{'Vehicle_OwnerAr' | translate}}"
+          <label>{{'Vehicle_Owner_AR' | translate}}</label>
+          <input class="form-control" type="text" placeholder="{{'Vehicle_Owner_AR' | translate}}"
                  formControlName="vehicleOwnerArabic" />
           <validation-message [control]="form.controls.vehicleOwnerArabic"></validation-message>
         </div>
@@ -242,8 +242,8 @@
 
       <div class="col-md-6 col-lg-6 col-sm-6">
         <div class="form-group">
-          <label>{{'MeterReading_OnProcurement' | translate}}</label>
-          <input class="form-control" type="text" placeholder="{{'MeterReading_OnProcurement' | translate}}"
+          <label>{{'Meter_Reading_On_Procurement' | translate}}</label>
+          <input class="form-control" type="text" placeholder="{{'Meter_Reading_On_Procurement' | translate}}"
                  formControlName="meterReadingOnProcurement" />
           <validation-message [control]="form.controls.meterReadingOnProcurement"></validation-message>
         </div>
@@ -260,9 +260,9 @@
 
       <div class="col-md-6 col-lg-6 col-sm-6">
         <div class="form-group">
-          <label>{{'Vehicle_Next_MaintenanceDate' | translate}}</label>
+          <label>{{'Vehicle_Next_Maintenance_Date' | translate}}</label>
           <div class="input-group ">
-            <input class="form-control datapickerinput" placeholder="{{'Vehicle_Next_MaintenanceDate' | translate}}"
+            <input class="form-control datapickerinput" placeholder="{{'Vehicle_Next_Maintenance_Date' | translate}}"
                    formControlName="vehicleNextMaintenanceDate" [matDatepicker]="picker3">
             <div class="input-group-prepend datapickericon">
               <mat-datepicker-toggle matSuffix [for]="picker3"></mat-datepicker-toggle>
@@ -284,9 +284,9 @@
 
     <div class="col-md-6 col-lg-6 col-sm-6">
     <div class="form-group">
-      <label>{{'Vehicle_Last_MaintenanceDate' | translate}}</label>
+      <label>{{'Vehicle_Last_Maintenance_Date' | translate}}</label>
       <div class="input-group ">
-        <input class="form-control datapickerinput" placeholder="{{'Vehicle_Last_MaintenanceDate' | translate}}"
+        <input class="form-control datapickerinput" placeholder="{{'Vehicle_Last_Maintenance_Date' | translate}}"
                formControlName="vehicleLastMaintenanceDate" [matDatepicker]="picker4">
         <div class="input-group-prepend datapickericon">
           <mat-datepicker-toggle matSuffix [for]="picker4"></mat-datepicker-toggle>
@@ -299,8 +299,8 @@
 
       <div class="col-md-6 col-lg-6 col-sm-6">
         <div class="form-group">
-          <label>{{'Estimated_ServiceYear' | translate}}</label>
-          <input class="form-control" type="text" placeholder="{{'Estimated_ServiceYear' | translate}}"
+          <label>{{'Estimated_Service_Year' | translate}}</label>
+          <input class="form-control" type="text" placeholder="{{'Estimated_Service_Year' | translate}}"
                  formControlName="estimatedServiceYear" />
           <validation-message [control]="form.controls.estimatedServiceYear"></validation-message>
         </div>
@@ -330,8 +330,8 @@
 
       <div class="col-md-6 col-lg-6 col-sm-6">
         <div class="form-group">
-          <label>{{'FuelTank_Capacity_InLitters' | translate}}</label>
-          <input class="form-control" type="text" placeholder="{{'FuelTank_Capacity_InLitters' | translate}}"
+          <label>{{'Fuel_Tank_Capacity_In_Liters' | translate}}</label>
+          <input class="form-control" type="text" placeholder="{{'Fuel_Tank_Capacity_In_Liters' | translate}}"
                  formControlName="fuelTankCapacityInLitters" />
           <validation-message [control]="form.controls.fuelTankCapacityInLitters"></validation-message>
         </div>
@@ -345,7 +345,7 @@
       </div>
 
       <div class="col-md-6 col-lg-6 col-sm-6">
-        <label>{{'Is_Vehicle_GoodsCarrier' | translate}}</label>
+        <label>{{'Is_Vehicle_Goods_Carrier' | translate}}</label>
         <div class="form-group">
           <mat-slide-toggle color="primary" formControlName="isVehicleGoodsCarrier"></mat-slide-toggle>
         </div>

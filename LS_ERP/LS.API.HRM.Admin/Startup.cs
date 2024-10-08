@@ -141,6 +141,11 @@ namespace LS.API.HRM.Admin
                 FileProvider = new PhysicalFileProvider(Path.Combine(Directory.GetCurrentDirectory(), @"files/vacreqs")),
                 RequestPath = new PathString("/vacreqs"),                
             });
+            app.UseStaticFiles(new StaticFileOptions()
+            {
+                FileProvider = new PhysicalFileProvider(Path.Combine(Directory.GetCurrentDirectory(), @"files/employeeprofiles")),
+                RequestPath = new PathString("/files/employeeprofiles"),
+            });
 
             app.UseCors(x => x
             .WithOrigins("http://shamimmn-002-site10.itempurl.com/", "http://20.68.125.92/ErpUi", "http://localhost:43318")

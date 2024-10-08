@@ -46,8 +46,8 @@ namespace LS.API.HRM.Admin.Controllers.EmployeeManagement
                     if (System.IO.File.Exists(Path.Combine(webRoot, obj.FileName)))
                         System.IO.File.Delete(Path.Combine(webRoot, obj.FileName));
 
-                    var employeeAddressId = await Mediator.Send(new DeleteEmployeeDocument() { Id = id, EmployeeID = employeeID, User = UserInfo() });
-                    if (employeeAddressId > 0)
+                    var employeeDocumentid = await Mediator.Send(new DeleteEmployeeDocument() { Id = id, EmployeeID = employeeID, User = UserInfo() });
+                    if (employeeDocumentid > 0)
                         return NoContent();
                 }
             }
@@ -71,8 +71,9 @@ namespace LS.API.HRM.Admin.Controllers.EmployeeManagement
                         {
                             var webRoot = $"{_env.ContentRootPath}/files/employeedocuments";
 
-                            if (System.IO.File.Exists(Path.Combine(webRoot, obj.FileName)))
-                                System.IO.File.Delete(Path.Combine(webRoot, obj.FileName));
+                            if (obj is not null)
+                                if (System.IO.File.Exists(Path.Combine(webRoot, obj.FileName)))
+                                    System.IO.File.Delete(Path.Combine(webRoot, obj.FileName));
 
                             var guid = Guid.NewGuid().ToString();
                             guid = $"EmpID_{dTO.EmployeeID}_{guid}_{ Path.GetFileNameWithoutExtension(file.FileName)}{Path.GetExtension(file.FileName)}";

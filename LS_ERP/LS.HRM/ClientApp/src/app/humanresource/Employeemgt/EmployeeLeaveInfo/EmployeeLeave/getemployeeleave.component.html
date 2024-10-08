@@ -30,6 +30,18 @@
             <div class="col-md-12 col-lg-12">
                 <div class="card">
                     <div class="card-body">
+                        <div class="row" *ngIf="employeeLeaveBalances.length>0" style="padding-left: 15px;">
+                            <div class="col-md-2 col-lg-2 balance">
+                                <h4><a class="tableicons" (click)="GetEmployeeLeaveInformation()"
+                                        matTooltip="{{'All' | translate}}">{{'All' | translate}}</a></h4>
+                            </div>
+                            <div *ngFor="let item of employeeLeaveBalances; let i = index;"
+                                class="col-md-2 col-lg-2 balance">
+                                <h4>{{ item.leaveTypeName }}</h4>
+                                <a class="tableicons" (click)="GetEmployeeLeaveInformation(item.leaveTypeCode)"
+                                    matTooltip="{{item.leaveTypeName}}">{{ item.leaveBalance | decimalpipe }}</a>
+                            </div>
+                        </div>
                         <div class="row">
                             <div class="col-md-12 col-lg-12">
                                 <div class="table table-responsive" style="width: 100%;">
@@ -175,5 +187,13 @@
         pointer-events: none;
         opacity: 0.5;
         text-decoration: none;
+    }
+
+    .balance {
+        margin: 0%;
+        background-color: #83cae2d6 !important;
+        padding: 1%;
+        text-align: center !important;
+        border: 1px solid #fcfcfc !important;
     }
 </style>

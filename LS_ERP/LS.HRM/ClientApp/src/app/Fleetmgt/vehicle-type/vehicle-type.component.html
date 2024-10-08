@@ -2,14 +2,14 @@
     <div class="row">
         <div class="col-12 align-self-center">
           <h3 class="page-title text-truncate text-dark font-weight-medium mb-1">
-            {{'Fleet_Vehicle_Type' | translate}}
+            {{'Vehicle_Type' | translate}}
           </h3>
             <div class="d-flex align-items-center">
                 <nav aria-label="breadcrumb">
                     <ol class="breadcrumb m-0 p-0">
-                      <li class="breadcrumb-item text-muted">{{'Fleet_Vehicle_Type' | translate}}</li>
-                      <li class="breadcrumb-item text-muted ">{{'Fleet_Vehicle_Type' | translate}}</li>
-                      <li class="breadcrumb-item   active" aria-current="page">{{'Fleet_Vehicle_Type_List' | translate}} </li>
+                      <li class="breadcrumb-item text-muted">{{'Fleet_Management' | translate}}</li>
+                      <li class="breadcrumb-item text-muted ">{{'Vehicle_Type' | translate}}</li>
+                      <li class="breadcrumb-item   active" aria-current="page">{{'Vehicle_Type_List' | translate}} </li>
 
                     </ol>
                 </nav>
@@ -36,7 +36,7 @@
                     </div>
                     <div class="row">
                         <div class="col-md-4 col-lg-4">
-                          <h4 class="card-title pt6">{{'Fleet_Vehicle_Type_List' | translate}}</h4>
+                          <h4 class="card-title pt6">{{'Vehicle_Type_List' | translate}}</h4>
                         </div>
                         <div class="col-md-8 col-lg-8 text-right">
                           <a data-toggle="modal" data-target="#addupdateUnit"
@@ -56,14 +56,14 @@
 
                                 <ng-container matColumnDef="vehicleType">
                                   <th mat-header-cell *matHeaderCellDef mat-sort-header>
-                                    {{'Vehicle_Type' | translate}}
+                                    {{'Vehicle_Type_EN' | translate}}
                                   </th>
                                   <td mat-cell *matCellDef="let row">{{ row.vehicleType }}</td>
                                 </ng-container>
 
                                 <ng-container matColumnDef="vehicleTypeInArabic">
                                   <th mat-header-cell *matHeaderCellDef mat-sort-header>
-                                    {{'VehicleType_in_Arabic' | translate}}
+                                    {{'Vehicle_Type_AR' | translate}}
                                   </th>
                                   <td mat-cell *matCellDef="let row">{{ row.vehicleType_Ar }}</td>
                                 </ng-container>

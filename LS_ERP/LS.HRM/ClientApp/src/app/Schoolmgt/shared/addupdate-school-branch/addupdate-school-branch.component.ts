@@ -197,7 +197,10 @@ export class AddupdateSchoolBranchComponent implements OnInit {
             'currencyCode': res.currencyCode,
             'privacyPolicyUrl': res.privacyPolicyUrl,
             'startWeekDay': res.startWeekDay,
-            'website': res.Website
+            'website': res.Website,
+            'branchNotification_Moderator': res.branchNotification_Moderator,
+            'default_InTime': res.default_InTime,
+            'default_OutTime': res.default_OutTime
           });
           this.branchCodeControl.setValue(res.branchCode);
           this.schoolBranchesAuthorityList.clear();

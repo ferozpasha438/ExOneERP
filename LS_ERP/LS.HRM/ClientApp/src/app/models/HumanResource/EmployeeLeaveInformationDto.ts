@@ -15,3 +15,11 @@ export interface TblHRMTrnEmployeeLeaveInformationDto {
   isUpdate: boolean;
   type: number;
 }
+
+export interface EmployeeLeaveBalanceInfoDto {
+  leaveTypeCode: string;
+  leaveTypeName: string;
+  totalAssigned: number;
+  totalAvailed: number;
+  leaveBalance: number;
+}

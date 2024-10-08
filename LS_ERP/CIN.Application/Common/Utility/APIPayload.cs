@@ -60,7 +60,14 @@ namespace CIN.Application
     //    Income,
     //}
 
+    public class TokenEncoder
+    {
+        public const int GUIDChars = 9;
+        public const int TotalGUIDChars = 10;
+        public const int GUIDLastDash = 26;
+        public const int FirstLetter = 1;
 
+    }
 
     public static class SecurePasswordHasher
     {

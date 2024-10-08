@@ -121,7 +121,10 @@ namespace CIN.Application.SchoolMgtQuery
                             StartWeekDay = x.StartWeekDay,
                             Website = x.Website,
                             WeekOff1 = x.WeekOff1,
-                            WeekOff2 = x.WeekOff2
+                            WeekOff2 = x.WeekOff2,
+                            BranchNotification_Moderator=x.BranchNotification_Moderator,
+                            Default_InTime=Convert.ToString(x.Default_InTime),
+                            Default_OutTime=Convert.ToString(x.Default_OutTime)
                         })
                        .FirstOrDefaultAsync(e => e.BranchCode == request.BranchCode);
             if (obj is not null)
@@ -218,6 +221,12 @@ namespace CIN.Application.SchoolMgtQuery
                     branchInfo.Mobile = obj.Mobile;
                     branchInfo.Email = obj.Email;
                     branchInfo.City = obj.City;
+
+                    branchInfo.BranchNotification_Moderator = obj.BranchNotification_Moderator;
+                    branchInfo.Default_InTime = TimeSpan.Parse(obj.Default_InTime);
+                    branchInfo.Default_OutTime = TimeSpan.Parse(obj.Default_OutTime);
+
+
                     if (obj.Id > 0)
                     {
                         _context.SchoolBranches.Update(branchInfo);

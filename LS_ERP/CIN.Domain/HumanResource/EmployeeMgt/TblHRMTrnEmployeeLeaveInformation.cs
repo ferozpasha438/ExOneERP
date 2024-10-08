@@ -34,5 +34,7 @@ namespace CIN.Domain.HumanResource.EmployeeMgt
         public DateTime TranDate { get; set; }
         [StringLength(500)]
         public string Remarks { get; set; }
+        public bool? IsLeaveAdjusted { get; set; }
+
     }
 }

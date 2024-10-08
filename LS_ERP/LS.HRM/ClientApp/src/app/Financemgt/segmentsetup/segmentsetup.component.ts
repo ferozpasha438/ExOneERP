@@ -22,7 +22,7 @@ export class SegmentsetupComponent extends ParentSystemSetupComponent implements
   form: FormGroup;
   id: number = 0;
   isEdit: boolean = false;
-
+  isLoading: boolean = false;
   constructor(private fb: FormBuilder, private apiService: ApiService, private authService: AuthorizeService,
     private notifyService: NotificationService, private validationService: ValidationService, private utilService: UtilityService, public dialog: MatDialog) {
     super(authService);
@@ -48,8 +48,9 @@ export class SegmentsetupComponent extends ParentSystemSetupComponent implements
 
   loadData() {
 
-
+    this.isLoading = true;
     this.apiService.getall('segmentSetup').subscribe(res => {
+      this.isLoading = false;
       this.list = res;
       this.allList = res;
     });

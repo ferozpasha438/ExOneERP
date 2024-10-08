@@ -558,6 +558,8 @@ namespace CIN.DB
         public DbSet<TblHRMSysLeaveType> LeaveTypes { get; set; }
         public DbSet<TblHRMSysLeaveTemplate> LeaveTemplates { get; set; }
         public DbSet<TblHRMSysLeaveTemplateMapping> LeaveTemplateMappings { get; set; }
+        public DbSet<TblHRMSysVacationPolicy> VacationPolicies { get; set; }
+        public DbSet<TblHRMSysFlightClass> FlightClasses { get; set; }
 
         //Transactions
         public DbSet<TblHRMTrnPersonalInformation> PersonalInformation { get; set; }
@@ -572,6 +574,7 @@ namespace CIN.DB
         public DbSet<TblHRMTrnEmployeeContractInfo> EmployeeContracts { get; set; }
         public DbSet<TblHRMTrnEmployeeControls> EmployeeControls { get; set; }
         public DbSet<TblHRMTrnEmployeeLeaveInformation> EmployeeLeaveInformations { get; set; }
+        public DbSet<TblHRMTrnEmployeeContactInfo> EmployeeContactInformation { get; set; }
 
 
         #region ServiceRequest
@@ -582,6 +585,9 @@ namespace CIN.DB
         public DbSet<TblHRMTrnEmployeeServiceRequestAudit> EmployeeServiceRequestAudits { get; set; }
         public DbSet<TblHRMTrnEmployeeServiceRequestDocumentDetails> EmployeeServiceRequestDocumentDetails { get; set; }
         public DbSet<TblHRMTrnEmployeeVacationServiceRequestLeaveDetails> EmployeeVacationServiceRequestLeaveDetails { get; set; }
+        public DbSet<TblHRMTrnEmployeeVacationDateLog> EmployeeVacationDateLogs { get; set; }
+        public DbSet<TblHRMTrnEmployeeExitReEntryInfo> EmployeeExitReEntryInfos { get; set; }
+        public DbSet<TblHRMTrnEmployeeReportingBackInfo> EmployeeReportingBackInfos { get; set; }
 
         #endregion
 
@@ -607,6 +613,10 @@ namespace CIN.DB
         public DbSet<TblPRLTrnPayrollPackage> PayrollPackages { get; set; }
         public DbSet<TblPRLTrnPayrollPackageComponent> PayrollPackageComponents { get; set; }
         public DbSet<TblPRLTrnEmployeePayrollStructure> EmployeePayrollStructure { get; set; }
+        public DbSet<TblPRLTrnEmployeePayrollProcess> EmployeePayrollProcess { get; set; }
+        public DbSet<TblPRLTrnEmployeePayrollUnStructured> EmployeePayrollUnStructured { get; set; }
+        public DbSet<TblPRLTrnPayrollProcessFiltersLog> PayrollProcessFiltersLog { get; set; }
+        public DbSet<TblPRLTrnEmployeePayrollProcessArchive> EmployeePayrollProcessArchives { get; set; }
         #endregion
 
         #region ErpMobile    //by Samba
@@ -854,10 +864,11 @@ namespace CIN.DB
             modelBuilder.Entity<TblHRMSysLeaveType>().Property(e => e.Id).Metadata.SetAfterSaveBehavior(PropertySaveBehavior.Throw);
             modelBuilder.Entity<TblHRMSysLeaveTemplate>().Property(e => e.Id).Metadata.SetAfterSaveBehavior(PropertySaveBehavior.Throw);
             modelBuilder.Entity<TblHRMSysDependentType>().Property(e => e.Id).Metadata.SetAfterSaveBehavior(PropertySaveBehavior.Throw);
+            modelBuilder.Entity<TblHRMSysVacationPolicy>().Property(e => e.Id).Metadata.SetAfterSaveBehavior(PropertySaveBehavior.Throw);
 
             //Transactions
             modelBuilder.Entity<TblHRMTrnPersonalInformation>().Property(e => e.Id).Metadata.SetAfterSaveBehavior(PropertySaveBehavior.Throw);
-            modelBuilder.Entity<TblHRMTrnPersonalInformation>().Property(e => e.EmployeeNumber).HasComputedColumnSql("RIGHT('0000'+CONVERT([VARCHAR](5),[Id]),(5))");            
+            modelBuilder.Entity<TblHRMTrnPersonalInformation>().Property(e => e.EmployeeNumber).HasComputedColumnSql("RIGHT('0000'+CONVERT([VARCHAR](5),[Id]),(5))");
             modelBuilder.Entity<TblHRMTrnEmployeeDependentInfo>().Property(e => e.Id).Metadata.SetAfterSaveBehavior(PropertySaveBehavior.Throw);
             modelBuilder.Entity<TblHRMTrnEmployeeAddress>().Property(e => e.Id).Metadata.SetAfterSaveBehavior(PropertySaveBehavior.Throw);
             modelBuilder.Entity<TblHRMTrnEmployeeQualificationInfo>().Property(e => e.Id).Metadata.SetAfterSaveBehavior(PropertySaveBehavior.Throw);
@@ -868,6 +879,7 @@ namespace CIN.DB
             modelBuilder.Entity<TblHRMTrnEmployeeContractInfo>().Property(e => e.Id).Metadata.SetAfterSaveBehavior(PropertySaveBehavior.Throw);
             modelBuilder.Entity<TblHRMTrnEmployeeControls>().Property(e => e.Id).Metadata.SetAfterSaveBehavior(PropertySaveBehavior.Throw);
             modelBuilder.Entity<TblHRMTrnEmployeeLeaveInformation>().Property(e => e.Id).Metadata.SetAfterSaveBehavior(PropertySaveBehavior.Throw);
+            modelBuilder.Entity<TblHRMTrnEmployeeContactInfo>().Property(e => e.Id).Metadata.SetAfterSaveBehavior(PropertySaveBehavior.Throw);
 
             //ServiceRequest
             //modelBuilder.Entity<TblHRMTrnEmployeeServiceRequest>().Property(e => e.ServiceRequestRefNo).HasComputedColumnSql("('SRQ'+right(('0'+CONVERT([VARCHAR](5),[Id])+year(getdate())+replicate('0',(7)-len([Id])))+CONVERT([nvarchar],[Id],(0)),(15)))");
@@ -893,6 +905,10 @@ namespace CIN.DB
             modelBuilder.Entity<TblPRLTrnPayrollPackage>().Property(e => e.Id).Metadata.SetAfterSaveBehavior(PropertySaveBehavior.Throw);
             modelBuilder.Entity<TblPRLTrnPayrollPackageComponent>().Property(e => e.Id).Metadata.SetAfterSaveBehavior(PropertySaveBehavior.Throw);
             modelBuilder.Entity<TblPRLTrnEmployeePayrollStructure>().Property(e => e.Id).Metadata.SetAfterSaveBehavior(PropertySaveBehavior.Throw);
+            modelBuilder.Entity<TblPRLTrnEmployeePayrollProcess>().Property(e => e.Id).Metadata.SetAfterSaveBehavior(PropertySaveBehavior.Throw);
+            modelBuilder.Entity<TblPRLTrnEmployeePayrollUnStructured>().Property(e => e.Id).Metadata.SetAfterSaveBehavior(PropertySaveBehavior.Throw);
+            modelBuilder.Entity<TblPRLTrnPayrollProcessFiltersLog>().Property(e => e.Id).Metadata.SetAfterSaveBehavior(PropertySaveBehavior.Throw);
+            modelBuilder.Entity<TblPRLTrnEmployeePayrollProcessArchive>().Property(e => e.Id).Metadata.SetAfterSaveBehavior(PropertySaveBehavior.Throw);
 
 
             #endregion

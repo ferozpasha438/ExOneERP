@@ -1,12 +1,12 @@
-<h3 class="modal-title">{{'Addupdate_Fleet_Driver' | translate}}</h3>
+<h3 class="modal-title">{{'Vehicle_Driver' | translate}}</h3>
 <button type="button" class="close" aria-hidden="true" (click)="closeModel()"> ×</button>
 <form [formGroup]="form" (ngSubmit)="submit()" novalidate class="mt-4">
   <div class="outer ">
     <div class="row rowm0 mt-3">
       <div class="col-md-6 col-lg-6 col-sm-6">
         <div class="form-group">
-          <label>{{'Driver_Name' | translate}}</label>
-          <input class="form-control" type="text" placeholder="{{'Driver_Name' | translate}}"
+          <label>{{'Vehicle_Driver_Name_EN' | translate}}</label>
+          <input class="form-control" type="text" placeholder="{{'Vehicle_Driver_Name_EN' | translate}}"
                  formControlName="driverName" />
           <validation-message [control]="form.controls.driverName"></validation-message>
         </div>
@@ -14,8 +14,8 @@
 
       <div class="col-md-6 col-lg-6 col-sm-6">
         <div class="form-group">
-          <label>{{'DriverName_Ar' | translate}}</label>
-          <input class="form-control" type="text" placeholder="{{'DriverName_Ar' | translate}}"
+          <label>{{'Vehicle_Driver_Name_AR' | translate}}</label>
+          <input class="form-control" type="text" placeholder="{{'Vehicle_Driver_Name_AR' | translate}}"
                  formControlName="driverName_Ar" />
           <validation-message [control]="form.controls.driverName_Ar"></validation-message>
         </div>

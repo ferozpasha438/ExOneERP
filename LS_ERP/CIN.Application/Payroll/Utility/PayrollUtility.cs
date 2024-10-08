@@ -13,4 +13,10 @@ namespace CIN.Application.Payroll.Utility
         UnStructuredEarning = 3,
         UnStructuredDeduction = 4
     }
+
+    public static class PayrollComponent
+    {
+        public static readonly string ABSENT = "ABSENT";
+        public static readonly string BASIC = "BASIC";
+    }
 }

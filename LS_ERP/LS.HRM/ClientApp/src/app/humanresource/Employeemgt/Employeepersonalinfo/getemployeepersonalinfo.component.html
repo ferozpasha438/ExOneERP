@@ -1,5 +1,6 @@
 <br />
-<app-employeebasicinfo [employeeBasicInfo]="employeeBasicInfo"></app-employeebasicinfo>
+<app-employeebasicinfo [employeeBasicInfo]="employeeBasicInfo"
+  (employeeBasicInfoChange)="employeeBasicInfoChange($event)"></app-employeebasicinfo>
 <br />
 
 <h2 class="arabicright">{{'PersonalInformation' | translate}}</h2>
@@ -55,25 +56,25 @@
       </div>
       <div class="col-md-3 col-lg-3">
         <div class="form-group">
-        <label for="countryCode" class="mr-sm-2">{{'Nationality' | translate}}</label>
-        <select class="custom-select input-mandatory mr-sm-2" formControlName="countryCode">
-          <option value="">{{'Nationality' | translate}}</option>
-          <option *ngFor="let nation of nationalities" value="{{nation.value}}">{{nation.text}}</option>
-        </select>
-        <validation-message [control]="form.controls.countryCode"></validation-message>
+          <label for="countryCode" class="mr-sm-2">{{'Nationality' | translate}}</label>
+          <select class="custom-select input-mandatory mr-sm-2" formControlName="countryCode">
+            <option value="">{{'Nationality' | translate}}</option>
+            <option *ngFor="let nation of nationalities" value="{{nation.value}}">{{nation.text}}</option>
+          </select>
+          <validation-message [control]="form.controls.countryCode"></validation-message>
+        </div>
       </div>
-    </div>
       <div class="col-md-3 col-lg-3">
         <div class="form-group">
-        <label for="religionCode" class="mr-sm-2">{{'Religion' | translate}}</label>
-        <select class="custom-select input-mandatory mr-sm-2" #religionCode formControlName="religionCode"
-          (change)="loadGroups(religionCode.value)">
-          <option value="">{{'Religion' | translate}}</option>
-          <option *ngFor="let religion of religions" value="{{religion.value}}">{{religion.text}}</option>
-        </select>
-        <validation-message [control]="form.controls.religionCode"></validation-message>
+          <label for="religionCode" class="mr-sm-2">{{'Religion' | translate}}</label>
+          <select class="custom-select input-mandatory mr-sm-2" #religionCode formControlName="religionCode"
+            (change)="loadGroups(religionCode.value)">
+            <option value="">{{'Religion' | translate}}</option>
+            <option *ngFor="let religion of religions" value="{{religion.value}}">{{religion.text}}</option>
+          </select>
+          <validation-message [control]="form.controls.religionCode"></validation-message>
+        </div>
       </div>
-    </div>
     </div>
     <div class="row">
       <div class="col-md-3 col-lg-3">
@@ -233,7 +234,33 @@
       </div>
     </div>
     <br />
-    <h2>{{'Languages' | translate}}</h2>
+    <h2 class="arabicright">{{'ContactInformation' | translate}}</h2>
+    <br />
+    <div class="row">
+      <div class="col-md-3 col-lg-3">
+        <div class="form-group">
+          <label for="primaryPhoneNumber">{{'PrimaryPhoneNumber' | translate}}</label>
+          <input class="form-control" type="text"
+            placeholder="{{'Please_Enter' | translate}} {{'PrimaryPhoneNumber' | translate}}" formControlName="primaryPhoneNumber">
+        </div>
+      </div>
+      <div class="col-md-3 col-lg-3">
+        <div class="form-group">
+          <label for="alternatePhoneNumber">{{'AlternatePhoneNumber' | translate}}</label>
+          <input class="form-control" type="text"
+            placeholder="{{'Please_Enter' | translate}} {{'AlternatePhoneNumber' | translate}}" formControlName="alternatePhoneNumber">
+        </div>
+      </div>
+      <div class="col-md-3 col-lg-3">
+        <div class="form-group">
+          <label for="email">{{'Email' | translate}}</label>
+          <input class="form-control" type="text"
+            placeholder="{{'Please_Enter' | translate}} {{'Email' | translate}}" formControlName="email">
+        </div>
+      </div>
+    </div>
+    <br />
+    <h2 class="arabicright">{{'Languages' | translate}}</h2>
     <br />
     <div formArrayName="employeeLanguages">
       <div *ngFor="let item of employeeLanguages.controls;let i=index">

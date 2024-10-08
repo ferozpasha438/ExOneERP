@@ -8,11 +8,20 @@
       </ng-container>
       <ng-template #empdocument>
         <h2 class="font-weight-700 p-3 text-center" style="font-weight: 500;color: #5f76e8;"> {{'ServiceRequestRefNo' | translate}}</h2>
-                  <h5 class="font-weight-700 p-1 text-center" style="font-size: larger; font-weight: 500;">{{data.serviceRequestRefNo}}</h5>
-                  <p class="text-center"><spinner-loader [isLoading]="isLoading"></spinner-loader></p>
+        <h5 class="font-weight-700 p-1 text-center" style="font-size: larger; font-weight: 500;">{{data.serviceRequestRefNo}}</h5>
+        <p class="text-center"><spinner-loader [isLoading]="isLoading"></spinner-loader></p>
       </ng-template>
     </div>
     <div class="col-md-4"></div>
+  </div>
+
+  <div class="row" *ngIf="isOnVacation">
+    <div class="col-md-12 col-lg-12 text-center pt-3 text-danger">
+      <b text-center text-danger pt-3 font-bold>{{vacationErrorMessage}}</b>
+    </div>
+  </div>
+
+  <div class="row" *ngIf="!isOnVacation">
     <div class="col-md-12 col-lg-12" *ngIf="employeeBasicInfo && empSelectInfo">
       <app-employeebasicinfo [employeeBasicInfo]="employeeBasicInfo"></app-employeebasicinfo>
     </div>
@@ -32,7 +41,18 @@
             </select>
           </div>
         </div>
-
+        <div class="col-md-1 col-lg-1">
+          <label class="mr-sm-2">{{'Assigned' | translate}}</label>
+          <div class="form-group ">
+            <input class="form-control" type="text" placeholder="{{'Assigned' | translate}}" [(ngModel)]="assigned" readonly="readonly" />
+          </div>
+        </div>
+        <div class="col-md-1 col-lg-1">
+          <label class="mr-sm-2">{{'Availed' | translate}}</label>
+          <div class="form-group ">
+            <input class="form-control" type="text" placeholder="{{'Availed' | translate}}" [(ngModel)]="avalied" readonly="readonly" />
+          </div>
+        </div>
         <div class="col-md-2 col-lg-2">
           <label class="mr-sm-2">{{'From' | translate}}</label>
           <div class="form-group ">
@@ -66,18 +86,7 @@
             </div>
           </div>
         </div>
-        <div class="col-md-2 col-lg-2">
-          <label class="mr-sm-2">{{'Assigned' | translate}}</label>
-          <div class="form-group ">
-            <input class="form-control" type="text" placeholder="{{'Assigned' | translate}}" [(ngModel)]="assigned" readonly="readonly" />
-          </div>
-        </div>
-        <div class="col-md-2 col-lg-2">
-          <label class="mr-sm-2">{{'Availed' | translate}}</label>
-          <div class="form-group ">
-            <input class="form-control" type="text" placeholder="{{'Availed' | translate}}" [(ngModel)]="avalied" readonly="readonly" />
-          </div>
-        </div>
+
         <div class="col-md-2 col-lg-2">
           <label class="mr-sm-2">{{'NoOfDays' | translate}}</label>
           <div class="form-group ">
@@ -110,7 +119,7 @@
             <td>{{item.toDate | date:'dd/MM/yyyy'}}</td>
             <td>{{item.noOfDays}}</td>
             <td>
-              <button type="button" class="btn waves-effect waves-light btn-primary" (click)="edit(item)" *ngIf="!canDisable"><i class="icon-pencil"></i></button>
+              <!--<button type="button" class="btn waves-effect waves-light btn-primary" (click)="edit(item)" *ngIf="!canDisable"><i class="icon-pencil"></i></button>-->
             </td>
           </tr>
         </tbody>

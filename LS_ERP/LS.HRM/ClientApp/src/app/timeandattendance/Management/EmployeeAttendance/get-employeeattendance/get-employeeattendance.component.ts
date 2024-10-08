@@ -117,7 +117,7 @@ export class GetEmployeeattendanceComponent
       DeleteConfirmDialogComponent
     );
     (dialogRef.componentInstance as any).modalTitle =
-      'Are you sure you want to approve attendance?';
+    this.translate.instant('ConfirmApproveAttendance');
     dialogRef.afterClosed().subscribe(
       (canApprove) => {
         if (canApprove) {

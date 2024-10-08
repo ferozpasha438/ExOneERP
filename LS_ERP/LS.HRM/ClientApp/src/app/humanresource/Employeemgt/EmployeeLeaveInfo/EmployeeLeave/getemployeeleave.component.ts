@@ -9,7 +9,11 @@ import { NotificationService } from 'src/app/services/notification.service';
 import { UtilityService } from 'src/app/services/utility.service';
 import { ParentHrmAdminComponent } from 'src/app/sharedcomponent/ParentHrmAdmin.component';
 import { EmployeemanagementtabsComponent } from '../../Sharedcomponent/employeemanagementtabs/employeemanagementtabs.component';
-import { TblHRMTrnEmployeeLeaveInformationDto } from 'src/app/models/HumanResource/EmployeeLeaveInformationDto';
+import {
+  EmployeeLeaveBalanceInfoDto,
+  TblHRMTrnEmployeeLeaveInformationDto,
+} from 'src/app/models/HumanResource/EmployeeLeaveInformationDto';
+import { default as constants } from '../../../../../assets/i18n/constants.json';
 
 @Component({
   selector: 'app-getemployeeleave',
@@ -29,6 +33,7 @@ export class GetemployeeleaveComponent
   isArab: boolean = false;
   employeeLeaves: Array<TblHRMTrnEmployeeLeaveInformationDto> = [];
   employeeName!: string;
+  employeeLeaveBalances: Array<EmployeeLeaveBalanceInfoDto> = [];
 
   constructor(
     private fb: FormBuilder,
@@ -79,6 +84,14 @@ export class GetemployeeleaveComponent
           res.allowImageUpload = false;
           this.employeeBasicInfo = res;
           this.employeeName = res['employeeName'];
+          if (
+            !(this.employeeBasicInfo.employeeImageUrl as string)?.includes(
+              constants.employeeProfile
+            )
+          )
+            this.employeeBasicInfo.employeeImageUrl = `${this.authService
+              .ApiEndPoint()
+              .replace('api', '')}${this.employeeBasicInfo.employeeImageUrl}`;
         }
       });
   }
@@ -122,13 +135,27 @@ export class GetemployeeleaveComponent
     this.dialogRef.close();
   }
 
-  GetEmployeeLeaveInformation() {
+  GetEmployeeLeaveInformation(leaveTypeCode?: string) {
+    let queryParam = `id=${encodeURIComponent(
+      '' + Number(this.employeeNumber)
+    )}`;
+
+    if (leaveTypeCode)
+      queryParam = `${queryParam}&leaveTypeCode=${encodeURIComponent(
+        '' + leaveTypeCode
+      )}`;
+
     this.apiService
-      .get('EmployeeLeave', Number(this.employeeNumber))
+      .getQueryString(`EmployeeLeave/GetEmployeeLeaveInformationById?`, queryParam)
       .subscribe((res) => {
         if (res) {
           //Remove all items.
-          this.employeeLeaves.splice(0,this.employeeLeaves.length);
+          this.employeeLeaves.splice(0, this.employeeLeaves.length);
+          this.employeeLeaveBalances.splice(
+            0,
+            this.employeeLeaveBalances.length
+          );
+
           if (res['leaveTemplateCode'] == '')
             this.form.controls['leaveTemplateCode'].setValue('');
           else
@@ -145,6 +172,21 @@ export class GetemployeeleaveComponent
             employeeLeaveMapping.isUpdate = false;
             this.employeeLeaves.push(employeeLeaveMapping);
           });
+
+          if (res['employeeLeaveBalances']) {
+            let employeeLeaveBalances = res[
+              'employeeLeaveBalances'
+            ] as Array<EmployeeLeaveBalanceInfoDto>;
+
+            employeeLeaveBalances.forEach((item) => {
+              let employeeLeaveBalance: EmployeeLeaveBalanceInfoDto =
+                item as EmployeeLeaveBalanceInfoDto;
+              employeeLeaveBalance.leaveBalance =
+                employeeLeaveBalance.totalAssigned -
+                employeeLeaveBalance.totalAvailed;
+              this.employeeLeaveBalances.push(employeeLeaveBalance);
+            });
+          }
         }
       });
   }
@@ -162,7 +204,7 @@ export class GetemployeeleaveComponent
         .subscribe((res) => {
           if (res) {
             //Remove all items.
-            this.employeeLeaves.splice(0,this.employeeLeaves.length);
+            this.employeeLeaves.splice(0, this.employeeLeaves.length);
 
             let leaveTemplateMappings =
               res as Array<TblHRMTrnEmployeeLeaveInformationDto>;
