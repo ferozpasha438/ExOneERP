@@ -81,7 +81,7 @@ namespace CIN.Domain.InventoryMgt
 		[Column(TypeName = "date")]
 		public DateTime TranvoidDate { get; set; }
 
-		[StringLength(50)]
+		[StringLength(250)]
 		public string TranRemarks { get; set; }
 
 		[StringLength(50)]

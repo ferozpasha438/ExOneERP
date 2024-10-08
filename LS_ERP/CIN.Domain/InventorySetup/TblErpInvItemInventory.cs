@@ -86,6 +86,8 @@ namespace CIN.Domain.InventorySetup
         public string ItemName { get; set; }
         [StringLength(30)]
         public string BatchNumber { get; set; }
+        [StringLength(10)]
+        public string WHCode { get; set; }
         [Column(TypeName = "date")]
         public DateTime MfgDate { get; set; }
         [Column(TypeName = "date")]

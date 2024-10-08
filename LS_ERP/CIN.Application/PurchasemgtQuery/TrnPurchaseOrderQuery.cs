@@ -439,7 +439,7 @@ namespace CIN.Application.PurchasemgtQuery
             Log.Info("----Info ProductUomtPriceItem method start----");
             var item = await _context.InvItemsUOM.AsNoTracking()
                  .Where(e =>
-                            (e.ItemCode.Contains(itemcode) && e.ItemUOM.Contains(ItemUOM)
+                            (e.ItemCode == itemcode && e.ItemUOM == ItemUOM
                              ))
                .Select(Product => new ProductUnitPriceDTO
                {
