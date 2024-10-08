@@ -86,6 +86,8 @@ namespace CIN.Domain.InventorySetup
         public string ItemName { get; set; }
         [StringLength(30)]
         public string BatchNumber { get; set; }
+        [StringLength(10)]
+        public string WHCode { get; set; }
         [Column(TypeName = "date")]
         public DateTime MfgDate { get; set; }
         [Column(TypeName = "date")]
@@ -96,6 +98,66 @@ namespace CIN.Domain.InventorySetup
         [StringLength(250)]
         public string Remarks { get; set; }
     }
+
+
+    [Table("tblErpInvGrnItemExpiryBatch")]
+    public class TblErpInvGrnItemExpiryBatch : PrimaryKey<int>
+    {
+        [StringLength(20)]
+        public string GrnId { get; set; }
+
+        [StringLength(20)]
+        public string ItemCode { get; set; }
+        [StringLength(50)]
+        public string PoNumber { get; set; }
+        [StringLength(250)]
+        public string ItemName { get; set; }
+        [StringLength(30)]
+        public string BatchNumber { get; set; }
+        [StringLength(10)]
+        public string WHCode { get; set; }
+        [Column(TypeName = "date")]
+        public DateTime MfgDate { get; set; }
+        [Column(TypeName = "date")]
+        public DateTime ExpDate { get; set; }
+        public decimal Qty { get; set; }
+        public decimal QtyCommitted { get; set; }
+        public decimal Available { get; set; }
+        [StringLength(250)]
+        public string Remarks { get; set; }
+    }
+
+
+
+    [Table("tblErpInvPRItemExpiryBatch")]
+    public class TblErpInvPRItemExpiryBatch : PrimaryKey<int>
+    {
+        [StringLength(20)]
+        public string GrnId { get; set; }
+
+        [StringLength(20)]
+        public string ItemCode { get; set; }
+        [StringLength(50)]
+        public string PoNumber { get; set; }
+        [StringLength(250)]
+        public string ItemName { get; set; }
+        [StringLength(30)]
+        public string BatchNumber { get; set; }
+        [StringLength(10)]
+        public string WHCode { get; set; }
+        [Column(TypeName = "date")]
+        public DateTime MfgDate { get; set; }
+        [Column(TypeName = "date")]
+        public DateTime ExpDate { get; set; }
+        public decimal Qty { get; set; }
+        public decimal QtyCommitted { get; set; }
+        public decimal Available { get; set; }
+        [StringLength(250)]
+        public string Remarks { get; set; }
+    }
+
+
+
 
     [Table("tblErpInvItemSerialBatch")]
     [Index(nameof(SerialNumber), Name = "IX_tblErpInvItemSerialBatch_SerialNumber", IsUnique = true)]

@@ -98,5 +98,14 @@ namespace LS.API.Invt.Controllers
             var obj = await Mediator.Send(new GetWarehouseDetials() { Code = Warehouse, User = UserInfo() });
             return obj is not null ? Ok(obj) : NotFound(new ApiMessageDto { Message = ApiMessageInfo.NotFound });
         }
+
+
+        [HttpGet("GetExpairyDetails/{ItemCode}/{whCode}")]
+        public async Task<IActionResult> GetExpairyDetails([FromRoute] string ItemCode,string whCode)
+        {
+            var obj = await Mediator.Send(new GetExpairyDetails() { ItemCode = ItemCode, whCode=whCode, User = UserInfo() });
+            return obj is not null ? Ok(obj) : NotFound(new ApiMessageDto { Message = ApiMessageInfo.NotFound });
+        }
+
     }
 }

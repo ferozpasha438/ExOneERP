@@ -1,4 +1,4 @@
-<h3> {{'Create_Exp_Batch' | translate}} <button type="button" class="close" aria-hidden="true" (click)="closeModel()"> ×</button></h3>
+<h3> {{'Create_Return_Exp_Batch' | translate}} <button type="button" class="close" aria-hidden="true" (click)="closeModel()"> ×</button></h3>
 
 <h3>Item Details</h3>
 <form [formGroup]="form" (ngSubmit)="submit()" novalidate>
@@ -99,7 +99,7 @@
                 <th>{{ 'MFG Date' | translate }}</th>
                 <th>{{ 'EXP Date' | translate }}</th>
                 <th>{{ 'Qty' | translate }}</th>
-                <th>{{ 'Base Qty' | translate }}</th>
+                <!--<th>{{ 'Base Qty' | translate }}</th>-->
                 <th>{{ 'Remarks' | translate }}</th>
                 <th>{{ 'Actions' | translate }}</th>
                 
@@ -111,7 +111,7 @@
             <td>{{ item.mfgDate }}</td>
             <td>{{ item.expDate }}</td>
             <td>{{ item.qty }}</td>
-            <td>{{item.qty}} * {{item.tranUOMFactor}} = {{ (item.qty)*(item.tranUOMFactor) }}</td>
+            <!--<td>{{item.qty}} * {{item.tranUOMFactor}} = {{ (item.qty)*(item.tranUOMFactor) }}</td>-->
             <td>{{ item.remarks }}</td>
             <td class="text-center">
               <i class="icon-note cpointer" (click)="editRecord(item)"></i>&nbsp;

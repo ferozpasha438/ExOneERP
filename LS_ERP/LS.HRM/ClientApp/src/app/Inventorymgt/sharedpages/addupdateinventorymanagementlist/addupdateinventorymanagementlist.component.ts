@@ -19,6 +19,9 @@ import { DeleteConfirmDialogComponent } from '../../../sharedcomponent/delete-co
 import { ParentInventoryMgtComponent } from '../../../sharedcomponent/parentinventorymgt.component';
 import { InventorymanagementlistComponent } from '../../inventorymanagementlist/inventorymanagementlist.component';
 import { MultiFileUploadDto } from '../../../models/sharedDto';
+//import { Addupdateexpairybatch } from '../../../Purchasemgt/sharedpages/addupdateexpairybatch/addupdateexpairybatch.component';
+import { TranslateService } from '@ngx-translate/core';
+import { ListexpairybatchComponent } from '../listexpairybatch/listexpairybatch.component';
 
 @Component({
   selector: 'app-addupdateinventorymanagementlist',
@@ -113,11 +116,11 @@ export class AddupdateinventorymanagementlistComponent  implements OnInit {
   name: string = '';
   notes: string = '';
   Total: number = 0;
-
+  expItemCode: string = '';
 
   constructor(private fb: FormBuilder, private http: HttpClient, private router: Router, private apiService: ApiService,
     private authService: AuthorizeService, private utilService: UtilityService,
-    private notifyService: NotificationService, private validationService: ValidationService, public pageService: PaginationService, public dialog: MatDialog, public dialogRef: MatDialogRef<AddupdateinventorymanagementlistComponent>) {
+    private notifyService: NotificationService, private validationService: ValidationService, public pageService: PaginationService, public dialog: MatDialog, private translate: TranslateService, public dialogRef: MatDialogRef<AddupdateinventorymanagementlistComponent>) {
    
   }
 
@@ -131,7 +134,7 @@ export class AddupdateinventorymanagementlistComponent  implements OnInit {
     this.loadTaxCode();
     this.loadUOMCode();
     this.loadWarehouses();
-    /*this.GenerateItemNumber();*/
+    this.GenerateItemNumber();
     this.loadVenCode();
     /*this.loadUser(0, this.pageService.pageCount, "", "");*/
     this.initialLoading();
@@ -780,6 +783,7 @@ export class AddupdateinventorymanagementlistComponent  implements OnInit {
       if (res) {
         this.isReadOnly = true;
         /* this.loadSubCategoryCode();*/
+        this.expItemCode = res.itemCode;
         this.onSubCategory(res.itemCat)
         this.ontype(res.itemType)
         this.form.patchValue({
@@ -788,7 +792,7 @@ export class AddupdateinventorymanagementlistComponent  implements OnInit {
           ItemBarcodeCodes: res.itemCode,
           ItemNotesCodes: res.itemCode,
           ItemHistoryCodes: res.itemCode
-
+          
         });
         this.form.patchValue(res);
         //this.loadinventoryHistory(res.itemCode);
@@ -806,7 +810,7 @@ export class AddupdateinventorymanagementlistComponent  implements OnInit {
           //this.editInvoiceItem(item);
           this.listOfinventory.push({
             sequence: this.getSequence(),
-            tranNumber: "0", whCode: item.whCode, qtyOH: item.qtyOH, qtyOnSalesOrder: item.qtyOnSalesOrder, qtyOnPO: item.qtyOnPO, qtyReserved: item.qtyReserved,
+            tranNumber: "0", whCode: item.whCode, qtyOH: item.qtyOH, qtyOnSalesOrder: item.qtyOnSalesOrder, qtyOnPO: item.qtyOnPO, qtyReserved: item.qtyReserved, unitConvFactor: item.unitConvFactor,
             invitemAvgCost: item.invItemAvgCost, itemLastPOCost: item.itemLastPOCost, itemLandedCost: item.itemLandedCost, minQty: item.minQty, maxQty: item.maxQty, eoq: item.eoq
           });
         });
@@ -1179,6 +1183,32 @@ export class AddupdateinventorymanagementlistComponent  implements OnInit {
       this.itemBarcode = '';
 
 
+  }
+
+
+  private openDialogManage1<T>(item: any, dbops: DBOperation, modalTitle: string = '', modalBtnTitle: string = '', component: T, moduleFile: MultiFileUploadDto = { module: '00', action: '00act' }, height: number = 50, width: number = 60 ) {
+    let dialogRef = this.utilService.openDialogCongif(this.dialog, component, width);
+    (dialogRef.componentInstance as any).dbops = dbops;
+    (dialogRef.componentInstance as any).modalTitle = modalTitle;
+    (dialogRef.componentInstance as any).modalBtnTitle = modalBtnTitle;
+    (dialogRef.componentInstance as any).inputData = item;
+    (dialogRef.componentInstance as any).moduleFile = moduleFile;
+
+    dialogRef.afterClosed().subscribe(res => {
+      if (res && res === true) {
+        this.initialLoading();
+      }
+    });
+  }
+
+
+  public openIntExpSerial(item: any) {
+    var item1 = { 'tranItemCode': this.expItemCode, 'whCode': item.whCode, 'unitConvFactor': item.unitConvFactor };
+    if (1) {
+      this.openDialogManage1(item1, DBOperation.create, this.translate.instant('Create_New_Grn_Request'), '', ListexpairybatchComponent);
+    } else {
+      //alert("Call Serial Popup");
+    }
   }
 
   deleteInventoryNotesItem(item: any) {

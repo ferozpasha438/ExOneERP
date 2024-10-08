@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+
+import { Component, EventEmitter, Output} from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatDialogRef } from '@angular/material/dialog';
 import { AuthorizeService } from '../../../api-authorization/AuthorizeService';
@@ -8,12 +9,15 @@ import { UtilityService } from '../../../services/utility.service';
 import { ValidationService } from '../../../sharedcomponent/ValidationService';
 
 @Component({
-  selector: 'app-Addupdateexpairybatch',
-  templateUrl: './Addupdateexpairybatch.component.html',
+  selector: 'app-Addupdatereturnexpairybatch',
+  templateUrl: './Addupdatereturnexpairybatch.component.html',
   styles: [
   ]
 })
-export class Addupdateexpairybatch implements OnInit {
+export class AddupdatereturnexpairybatchComponent {
+
+  @Output() quantityUpdated: EventEmitter<number> = new EventEmitter<number>(); // Create an event emitter for qty
+
   form!: FormGroup;
   inputData!: any;
   id: number = 0;
@@ -62,22 +66,22 @@ export class Addupdateexpairybatch implements OnInit {
   grnId: string = '';
 
   constructor(private fb: FormBuilder, private apiService: ApiService,
-    private authService: AuthorizeService, private utilService: UtilityService, public dialogRef: MatDialogRef<Addupdateexpairybatch>,
+    private authService: AuthorizeService, private utilService: UtilityService, public dialogRef: MatDialogRef<AddupdatereturnexpairybatchComponent>,
     private notifyService: NotificationService, private validationService: ValidationService) {
   }
 
   ngOnInit(): void {
     this.setForm();
     if (this.inputData) {
-      this.tranItemCode = this.inputData.tranItemCode;
-      this.tranItemName = this.inputData.tranItemName;
-      this.tranItemQty = this.inputData.tranItemQty;
+      this.tranItemCode = this.inputData.tranitemcode;
+      this.tranItemName = this.inputData.tranitemname;
+      this.tranItemQty = this.inputData.tranitemqty;
       this.poNumber = this.inputData.PONO;
-      this.itemCode = this.inputData.tranItemCode;
-      this.whCode = this.inputData.whCode;
+      this.itemCode = this.inputData.tranitemcode;
+      this.whCode = this.inputData.whcode;
       this.grnId = this.inputData.grnId;
-      this.tranUOMFactor = this.inputData.tranUOMFactor
-      this.loadExpiryItems(this.inputData.tranItemCode);
+      this.tranUOMFactor = this.inputData.tranuomfactor;
+      this.loadExpiryItems(this.inputData.tranitemcode);
       this.calculateTotalItemQuantity();
     }
   }
@@ -109,7 +113,7 @@ export class Addupdateexpairybatch implements OnInit {
   //}
 
   loadExpiryItems(itemCode: any) {
-    this.apiService.getall(`InventoryExpirySerial/GetExpairyDetails/${itemCode}`).subscribe(res => {
+    this.apiService.getall(`InventoryExpirySerial/GetPRExpairyDetails/${itemCode}`).subscribe(res => {
       if (res && Array.isArray(res)) {
         res.forEach(record => {
           this.listOfInvoices.push({
@@ -326,11 +330,6 @@ export class Addupdateexpairybatch implements OnInit {
 
   submit() {
 
-    //this.invoiceItemObject = {
-    //  item: {},
-    //  itemList: this.listOfInvoices
-    //};
-
     this.form.value['mfgDate'] = this.utilService.selectedDate(this.form.controls['mfgDate'].value);
     this.form.value['expDate'] = this.utilService.selectedDate(this.form.controls['expDate'].value);
 
@@ -341,11 +340,13 @@ export class Addupdateexpairybatch implements OnInit {
       if (this.listOfInvoices.length > 0) {
         this.form.value['Items'] = this.listOfInvoices;
 
-        this.apiService.post('inventoryExpirySerial/createInvItemExpiryBatch', this.form.value)
+        this.apiService.post('inventoryExpirySerial/UpdateInvPRItemExpiryBatch', this.form.value)
           .subscribe(res => {
             this.utilService.OkMessage();
             this.resetForm();
-            this.dialogRef.close(true);
+            this.dialogRef.close({ isOk: true, totalItemQuantity:this.totalItemQuantity});
+            // Emit the total item quantity after successful save
+           // this.quantityUpdated.emit(this.totalItemQuantity); // Emit the updated qty
           },
             error => {
               console.error(error);

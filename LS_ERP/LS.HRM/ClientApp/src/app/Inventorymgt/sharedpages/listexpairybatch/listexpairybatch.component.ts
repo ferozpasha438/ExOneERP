@@ -8,12 +8,12 @@ import { UtilityService } from '../../../services/utility.service';
 import { ValidationService } from '../../../sharedcomponent/ValidationService';
 
 @Component({
-  selector: 'app-Addupdateexpairybatch',
-  templateUrl: './Addupdateexpairybatch.component.html',
+  selector: 'app-Listexpairybatch',
+  templateUrl: './Listexpairybatch.component.html',
   styles: [
   ]
 })
-export class Addupdateexpairybatch implements OnInit {
+export class ListexpairybatchComponent implements OnInit {
   form!: FormGroup;
   inputData!: any;
   id: number = 0;
@@ -28,7 +28,7 @@ export class Addupdateexpairybatch implements OnInit {
   tranItemName2: string = '';
   tranItemQty: number = 0;
   tranItemUnitCode: string = '';
-  tranUOMFactor: string = '';
+  tranUOMFactor: number = 0;
   tranItemCost: number = 0;
   tranTotCost: number = 0;
   discPer: string = '';
@@ -56,13 +56,11 @@ export class Addupdateexpairybatch implements OnInit {
   editingIndex: number | null = null;
   poNumber: string = '';
   itemName: string = '';
-  whCode: string = '';
-  
+  WhCode: string = '';
   totalItemQuantity: number = 0;
-  grnId: string = '';
 
   constructor(private fb: FormBuilder, private apiService: ApiService,
-    private authService: AuthorizeService, private utilService: UtilityService, public dialogRef: MatDialogRef<Addupdateexpairybatch>,
+    private authService: AuthorizeService, private utilService: UtilityService, public dialogRef: MatDialogRef<ListexpairybatchComponent>,
     private notifyService: NotificationService, private validationService: ValidationService) {
   }
 
@@ -74,10 +72,8 @@ export class Addupdateexpairybatch implements OnInit {
       this.tranItemQty = this.inputData.tranItemQty;
       this.poNumber = this.inputData.PONO;
       this.itemCode = this.inputData.tranItemCode;
-      this.whCode = this.inputData.whCode;
-      this.grnId = this.inputData.grnId;
-      this.tranUOMFactor = this.inputData.tranUOMFactor
-      this.loadExpiryItems(this.inputData.tranItemCode);
+      this.tranUOMFactor = this.inputData.unitConvFactor;
+      this.loadExpiryItems(this.inputData.tranItemCode, this.inputData.whCode);
       this.calculateTotalItemQuantity();
     }
   }
@@ -108,8 +104,8 @@ export class Addupdateexpairybatch implements OnInit {
   //  });
   //}
 
-  loadExpiryItems(itemCode: any) {
-    this.apiService.getall(`InventoryExpirySerial/GetExpairyDetails/${itemCode}`).subscribe(res => {
+  loadExpiryItems(itemCode: any, whCode:any) {
+    this.apiService.getall(`Warehouse/GetExpairyDetails/${itemCode}/${whCode}`).subscribe(res => {
       if (res && Array.isArray(res)) {
         res.forEach(record => {
           this.listOfInvoices.push({
@@ -120,11 +116,7 @@ export class Addupdateexpairybatch implements OnInit {
             batchNumber: record.batchNumber,
             mfgDate: this.utilService.selectedDate(record.mfgDate),
             expDate: this.utilService.selectedDate(record.expDate),
-            qty: record.qty,
-            tranUOMFactor: this.inputData.tranUOMFactor,
-            baseQty: parseFloat((parseFloat(this.tranUOMFactor) * this.qty).toString()),
-            whCode: record.whCode,
-            grnId: record.grnId,
+            qty: this.tranUOMFactor * record.qty,           
             remarks: record.remarks
             
           });
@@ -134,9 +126,52 @@ export class Addupdateexpairybatch implements OnInit {
      
     });
 
-
+    //this.apiService.getall(`InventoryExpirySerial/GetExpairyDetails/${itemCode}`).subscribe(res => {
+    //  if (res) {
+    //    this.listOfInvoices.push({
+    //      batchNumber: res[0].batchNumber,
+    //      mfgDate: this.utilService.selectedDate(res[0].mfgDate),
+    //      expDate: this.utilService.selectedDate(res[0].expDate),
+    //      //mfgDate: this.formatDate(res[0].mfgDate),
+    //      //expDate: this.formatDate(res[0].expDate),
+    //      qty: res[0].qty,
+    //      remarks: res[0].remarks
+    //    });
+    //    // Uncomment and assign if needed
+    //    // this.expItems = res.exps;
+    //    // this.serialItems = res.serials;
+    //  }
+    //});
   }
-  
+  //formatDate(dateString:Date) {
+  //  const date = new Date(dateString);
+  //  const day = ('0' + date.getDate()).slice(-2);
+  //  const month = ('0' + (date.getMonth() + 1)).slice(-2);
+  //  const year = date.getFullYear();
+  //  return `${day}-${month}-${year}`;
+  //}
+
+
+  //addExpRecord() {
+  //  if (this.editsequence > 0) {
+  //    this.removeInvoiceList(this.editsequence);
+  //    this.editsequence = 0;
+  //  }
+  //  this.listOfInvoices.push({
+  //     sequence: this.getSequence(),
+  //      batchNumber: this.batchNumber,
+  //      //mfgDate: this.mfgDate,
+  //      //expDate: this.expDate,
+  //      mfgDate: this.utilService.selectedDate(this.mfgDate),
+  //      expDate: this.utilService.selectedDate(this.expDate),
+  //      qty: this.qty,
+  //      remarks: this.remarks,
+  //      poNumber: this.poNumber,
+  //      itemCode: this.tranItemCode,
+  //      itemName: this.tranItemName
+  //  });
+  //  this.form.reset();
+  //  }
 
 
   addExpRecord() {
@@ -144,22 +179,18 @@ export class Addupdateexpairybatch implements OnInit {
       this.removeInvoiceList(this.editsequence);
       this.editsequence = 0;
     }
-   
+
     // Add the new invoice to the list
     this.listOfInvoices.push({
       sequence: this.getSequence(),
       batchNumber: this.batchNumber,
       mfgDate: this.utilService.selectedDate(this.mfgDate),
       expDate: this.utilService.selectedDate(this.expDate),
-      qty:this.qty,
-      baseQty: parseFloat((parseFloat(this.tranUOMFactor) * this.qty).toString()),
-      tranUOMFactor: parseFloat(this.tranUOMFactor),
+      qty: this.qty,    
       remarks: this.remarks,
       poNumber: this.poNumber,
       itemCode: this.tranItemCode,
-      itemName: this.tranItemName,
-      whCode: this.whCode,
-      grnId: this.grnId
+      itemName: this.tranItemName
     });
     this.totalItemQuantity = this.calculateTotalItemQuantity();
     // Calculate total item quantity
@@ -168,51 +199,6 @@ export class Addupdateexpairybatch implements OnInit {
     // Reset the form after adding the record
     this.form.reset();
   }
-
-  totalQty: number = 0;
-
-  //addExpRecord() {
-  //  if (this.editsequence > 0) {
-  //    this.removeInvoiceList(this.editsequence);
-  //    this.editsequence = 0;
-  //  }
-
-  //  // Find if an invoice with the same batchNumber already exists
-  //  let existingInvoice = this.listOfInvoices.find(invoice => invoice.batchNumber === this.batchNumber);
-
-  //  if (existingInvoice) {
-  //    // Sum the quantity of the existing invoice and the new one
-  //    existingInvoice.qty = Number(existingInvoice.qty) + Number(this.qty);
-  //  } else {
-  //    // Add the new invoice to the list if no matching batchNumber is found
-  //    this.listOfInvoices.push({
-  //      sequence: this.getSequence(),
-  //      batchNumber: this.batchNumber,       
-  //      mfgDate: this.utilService.selectedDate(this.mfgDate),
-  //      expDate: this.utilService.selectedDate(this.expDate),
-  //      qty: Number(this.qty),  // Ensure qty is treated as a number
-  //      remarks: this.remarks,
-  //      poNumber: this.poNumber,
-  //      itemCode: this.tranItemCode,
-  //      itemName: this.tranItemName,
-  //      tranNumber: this.tranNumber,
-  //      whCode: this.whCode
-  //    });
-  //  }
-
-  //  // Calculate total item quantity
-  //  this.totalItemQuantity = this.calculateTotalItemQuantity();
-
-  //  // Reset the form after adding the record
-  //  this.form.reset();
-  //}
-
-
-
-
-
-
-
 
 
 
@@ -289,9 +275,7 @@ export class Addupdateexpairybatch implements OnInit {
       this.mfgDate = this.utilService.selectedDate(item.mfgDate),
       this.expDate = this.utilService.selectedDate(item.expDate),
       this.qty= item.qty,
-      this.remarks = item.remarks,
-      this.grnId = item.grnId,
-      this.whCode = item.whCode
+      this.remarks= item.remarks
       
     //this.addExpRecord();
     //this.form.patchValue(this.records[index]);
@@ -332,7 +316,7 @@ export class Addupdateexpairybatch implements OnInit {
     //};
 
     this.form.value['mfgDate'] = this.utilService.selectedDate(this.form.controls['mfgDate'].value);
-    this.form.value['expDate'] = this.utilService.selectedDate(this.form.controls['expDate'].value);
+     this.form.value['expDate'] = this.utilService.selectedDate(this.form.controls['expDate'].value);
 
     if (this.form.valid) {
       //if (this.id > 0)
