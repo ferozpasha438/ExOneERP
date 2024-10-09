@@ -419,13 +419,13 @@ import { PoprintingpageComponent } from '../sharedpages/poprintingpage/poprintin
     this.apiService.post('PurchaseOrder', this.form.value)
       .subscribe(res => {
         debugger;
-        
+
         if (res) {
-          
+
           this.utilService.OkMessage();
         }
 
-      
+
 
 
       },
@@ -928,15 +928,19 @@ import { PoprintingpageComponent } from '../sharedpages/poprintingpage/poprintin
     //    this.PurchaseRequestList = res;
     //  }
     //})
-
-    this.apiService.getall(`PurchaseOrder/GRNAccountsPosting/${id}`).subscribe(res => {
-      if (res) {
-        this.utilService.OkMessage();
-        this.refresh();
-
+    const dialogRef = this.utilService.openDeleteConfirmDialog(this.dialog, DeleteConfirmDialogComponent);
+    dialogRef.afterClosed().subscribe(canTakeAction => {
+      if (canTakeAction) {
+        this.apiService.getall(`PurchaseOrder/GRNAccountsPosting/${id}`).subscribe(res => {
+          if (res) {
+            this.utilService.OkMessage();
+            this.refresh();
+          }
+        })
       }
     })
   }
+
   public create() {
     this.openDialogManage(0, DBOperation.create, this.translate.instant('Create_New_Grn_Request'), '', AddupdatemultiplegrnComponent);
   }

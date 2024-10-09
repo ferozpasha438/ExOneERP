@@ -37,7 +37,7 @@ import { AddupdateadjacementComponent } from '../sharedpages/addupdateadjacement
   templateUrl: './adjustments.component.html',
   styleUrls: []
 })
-export class AdjustmentsComponent extends ParentInventoryMgtComponent implements OnInit {  
+export class AdjustmentsComponent extends ParentInventoryMgtComponent implements OnInit {
 
   @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
   @ViewChild(MatSort, { static: true }) sort: MatSort;
@@ -171,7 +171,7 @@ export class AdjustmentsComponent extends ParentInventoryMgtComponent implements
     ]
     return data;
   }
-  
+
   public create() {
     this.openDialogManage(0, DBOperation.create, this.translate.instant('Create_New_Issues'), '', AddupdateadjacementComponent);
   }
@@ -313,7 +313,7 @@ export class AdjustmentsComponent extends ParentInventoryMgtComponent implements
     this.quantity = 0;
   }
 
-  
+
   closeModel() {
     this.refresh();
   }
@@ -344,7 +344,7 @@ export class AdjustmentsComponent extends ParentInventoryMgtComponent implements
     this.grandTotalStr = "0";
     this.form.reset();
   }
- 
+
   loadApprovals(evt: any) {
     this.loadList(0, this.pageService.pageCount, this.searchValue, this.sortingOrder, evt.target.value);
   }
@@ -385,13 +385,19 @@ export class AdjustmentsComponent extends ParentInventoryMgtComponent implements
   }
 
   public Issuessettelment(id: number) {
-    if (id > 0)
-      this.apiService.getall(`InventoryAdjustments/AdjustmentSettelementList/${id}`).subscribe(res => {
-        if (res) {
-          this.utilService.OkMessage();
-          this.refresh();
+    if (id > 0) {
+      const dialogRef = this.utilService.openDeleteConfirmDialog(this.dialog, DeleteConfirmDialogComponent);
+      dialogRef.afterClosed().subscribe(canTakeAction => {
+        if (canTakeAction) {
+          this.apiService.getall(`InventoryAdjustments/AdjustmentSettelementList/${id}`).subscribe(res => {
+            if (res) {
+              this.utilService.OkMessage();
+              this.refresh();
+            }
+          });
         }
-      });
+      })
+    }
   }
 
   private openDialogManage<T>(id: number = 0, dbops: DBOperation, modalTitle: string = '', modalBtnTitle: string = '', component: T, moduleFile: MultiFileUploadDto = { module: '00', action: '00act' }, width: number = 100) {

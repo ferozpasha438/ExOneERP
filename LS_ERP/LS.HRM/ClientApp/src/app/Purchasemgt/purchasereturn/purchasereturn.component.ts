@@ -30,7 +30,7 @@ import { PoprintingpageComponent } from '../sharedpages/poprintingpage/poprintin
   templateUrl: './purchasereturn.component.html',
   styleUrls: []
 })
-export class PurchasereturnComponent extends ParentPurchaseMgtComponent  implements OnInit {
+export class PurchasereturnComponent extends ParentPurchaseMgtComponent implements OnInit {
 
   @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
   @ViewChild(MatSort, { static: true }) sort: MatSort;
@@ -420,7 +420,7 @@ export class PurchasereturnComponent extends ParentPurchaseMgtComponent  impleme
         this.paginator.pageIndex = page as number;
         this.paginator.length = this.totalItemsCount;
       });
-      this.data.sort = this.sort;    
+      this.data.sort = this.sort;
 
       //console.log(this.data.sort)
       //console.log(this.data.paginator)
@@ -633,7 +633,7 @@ export class PurchasereturnComponent extends ParentPurchaseMgtComponent  impleme
 
   editInvoiceItem(item: any) {
     this.editsequence = item.sequence,
-    this.tranItemCode = item.tranItemCode,
+      this.tranItemCode = item.tranItemCode,
       this.tranItemName = item.tranItemName,
       this.tranItemName2 = item.tranItemName2,
       this.tranItemQty = item.tranItemQty,
@@ -667,12 +667,12 @@ export class PurchasereturnComponent extends ParentPurchaseMgtComponent  impleme
 
     this.grandTotalStr = parseFloat(this.grandTotal.toString()).toFixed(2);
     this.grandVatTotalStr = parseFloat(this.grandVatTotal.toString()).toFixed(2);
-    this.grandInvoiceTotalStr = parseFloat( this.grandInvoiceTotal.toString()).toFixed(2);
+    this.grandInvoiceTotalStr = parseFloat(this.grandInvoiceTotal.toString()).toFixed(2);
   }
   closeModel() {
     /*  this.refresh();*/
     this.ngOnInit();
-    this.listOfInvoices=[];
+    this.listOfInvoices = [];
   }
 
 
@@ -882,13 +882,17 @@ export class PurchasereturnComponent extends ParentPurchaseMgtComponent  impleme
     });
   }
   AccountPosting(id: number) {
-  
 
-    this.apiService.getall(`purchasereturn/AccountsPosting/${id}`).subscribe(res => {
-      if (res) {
-        this.utilService.OkMessage();
-        this.refresh();
+    const dialogRef = this.utilService.openDeleteConfirmDialog(this.dialog, DeleteConfirmDialogComponent);
+    dialogRef.afterClosed().subscribe(canTakeAction => {
+      if (canTakeAction) {
+        this.apiService.getall(`purchasereturn/AccountsPosting/${id}`).subscribe(res => {
+          if (res) {
+            this.utilService.OkMessage();
+            this.refresh();
 
+          }
+        })
       }
     })
   }
