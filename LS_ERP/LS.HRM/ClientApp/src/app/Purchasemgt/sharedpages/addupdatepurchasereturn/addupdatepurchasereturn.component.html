@@ -309,14 +309,14 @@
           </td>
           <td>
             <!--<ng-select [items]="ItemNameList"
-                       bindLabel="text"
-                       bindValue="value" [(ngModel)]="tranItemName" [ngModelOptions]="{standalone: true}">
-            </ng-select>-->
+               bindLabel="text"
+               bindValue="value" [(ngModel)]="tranItemName" [ngModelOptions]="{standalone: true}">
+    </ng-select>-->
             <input class="form-control" type="text" placeholder="{{'tranItemName' | translate}}" readonly [(ngModel)]="tranItemName" [ngModelOptions]="{standalone: true}">
           </td>
           <!--<td>
-            <input class="form-control" type="text" placeholder="{{'tranItemName2' | translate}}" [(ngModel)]="tranItemName2" [ngModelOptions]="{standalone: true}">
-          </td>-->
+    <input class="form-control" type="text" placeholder="{{'tranItemName2' | translate}}" [(ngModel)]="tranItemName2" [ngModelOptions]="{standalone: true}">
+  </td>-->
 
           <td>
             <!--<input class="form-control" type="text" placeholder="{{'Unit' | translate}}" [(ngModel)]="tranItemUnitCode" [ngModelOptions]="{standalone: true}">-->
@@ -333,7 +333,8 @@
           </td>
           <td>
             <spinner-loader [isLoading]="isQuantityLoading"></spinner-loader>
-            <input class="form-control" type="text" placeholder="{{'Quantity' | translate}}" [(ngModel)]="tranItemQty" [ngModelOptions]="{standalone: true}" (keyup)="calculate()" (blur)="calculateQuantity()">
+
+            <input class="form-control" type="text" placeholder="{{'Quantity' | translate}}" [readonly]="isReadOnly" [(ngModel)]="tranItemQty" [ngModelOptions]="{standalone: true}" (ngModelChange)="calculate()"  (blur)="calculateQuantity()">
           </td>
           <td>
             <input class="form-control" type="text" placeholder="{{'tranTotCost' | translate}}" [(ngModel)]="tranTotCost" readonly [ngModelOptions]="{standalone: true}" (blur)="calculatetaxAmount()">
@@ -345,8 +346,8 @@
             <input class="form-control" type="text" placeholder="{{'discAmt' | translate}}" [(ngModel)]="discAmt" readonly [ngModelOptions]="{standalone: true}" (blur)="calculatetaxAmount()">
           </td>
           <!--<td>
-            <input class="form-control" type="text" placeholder="{{'itemTax' | translate}}" [(ngModel)]="itemTax" [ngModelOptions]="{standalone: true}">
-          </td>-->
+    <input class="form-control" type="text" placeholder="{{'itemTax' | translate}}" [(ngModel)]="itemTax" [ngModelOptions]="{standalone: true}">
+  </td>-->
           <td>
             <input class="form-control" type="text" placeholder="{{'itemTaxPer' | translate}}" readonly [(ngModel)]="itemTaxPer" [ngModelOptions]="{standalone: true}" (blur)="calculatetaxAmount()">
           </td>
@@ -355,25 +356,29 @@
           </td>
 
           <!--<td>
-            <input class="form-control" type="text" placeholder="{{'receivedQty' | translate}}" readonly [(ngModel)]="receivedQty" [ngModelOptions]="{standalone: true}">
-          </td>
-          <td>
-            <input class="form-control" type="text" placeholder="{{'returnedQty' | translate}}" [(ngModel)]="returnedQty" [ngModelOptions]="{standalone: true}" (keyup)="checkReturnedQty()">
-          </td>
-          <td>
-            <input class="form-control" type="text" placeholder="{{'balQty' | translate}}" readonly [(ngModel)]="balQty" [ngModelOptions]="{standalone: true}">
-          </td>-->
-
+    <input class="form-control" type="text" placeholder="{{'receivedQty' | translate}}" readonly [(ngModel)]="receivedQty" [ngModelOptions]="{standalone: true}">
+  </td>
+  <td>
+    <input class="form-control" type="text" placeholder="{{'returnedQty' | translate}}" [(ngModel)]="returnedQty" [ngModelOptions]="{standalone: true}" (keyup)="checkReturnedQty()">
+  </td>
+  <td>
+    <input class="form-control" type="text" placeholder="{{'balQty' | translate}}" readonly [(ngModel)]="balQty" [ngModelOptions]="{standalone: true}">
+  </td>-->
           <!--<td>-->
           <!--<input class="form-control" type="text" placeholder="{{'itemTracking' | translate}}" [(ngModel)]="itemTracking" [ngModelOptions]="{standalone: true}">-->
           <!--<ng-select [items]="ItemTrackingList"
-                       bindLabel="text"
-                       bindValue="value" [(ngModel)]="itemTracking" [ngModelOptions]="{standalone: true}">
-            </ng-select>
+               bindLabel="text"
+               bindValue="value" [(ngModel)]="itemTracking" [ngModelOptions]="{standalone: true}">
+    </ng-select>
 
 
-          </td>-->
+  </td>-->
+          
           <td>
+            <button *ngIf="showButton" [disabled]="!isExpiryButtonEnabled" type="button" class="btn waves-effect waves-light   btn-primary" (click)="openIntExpSerial()">
+              {{ buttonName }}
+            </button>
+            &nbsp;&nbsp;
             <button type="button" class="btn waves-effect waves-light   btn-primary  " (click)="addInvoice()"><i class="icon-plus"></i></button>
           </td>
         </tr>

@@ -142,6 +142,10 @@ namespace CIN.DB
         public DbSet<TblErpInvItemMaster> InvItemMaster { get; set; }
         public DbSet<TblErpInvItemInventory> InvItemInventory { get; set; }
         public DbSet<TblErpInvItemExpiryBatch> InvItemExpiryBatches { get; set; }
+        public DbSet<TblErpInvGrnItemExpiryBatch> InvGrnItemExpiryBatches { get; set; }
+
+     //   public DbSet<TblErpInvPRItemExpiryBatch> InvPRItemExpiryBatch { get; set; }
+
         public DbSet<TblErpInvItemSerialBatch> InvItemSerialBatches { get; set; }
         public DbSet<TblErpInvItemSpecification> InvItemSpecifications { get; set; }
 
@@ -674,7 +678,7 @@ namespace CIN.DB
             //modelBuilder.Entity<TblErpInvItemsBarcode>().Property(e => e.Id).Metadata.SetAfterSaveBehavior(PropertySaveBehavior.Ignore);
             modelBuilder.Entity<TblErpInvItemtype>().Property(e => e.Id).Metadata.SetAfterSaveBehavior(PropertySaveBehavior.Ignore);
             modelBuilder.Entity<TblErpInvItemtracking>().Property(e => e.Id).Metadata.SetAfterSaveBehavior(PropertySaveBehavior.Ignore);
-
+           
             #endregion
 
             #region PurchaseSetup

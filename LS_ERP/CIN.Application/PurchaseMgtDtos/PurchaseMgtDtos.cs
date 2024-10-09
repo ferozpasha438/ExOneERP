@@ -236,7 +236,7 @@ namespace CIN.Application.PurchaseSetupDtos
     {
         public decimal ItemTaxperc { get; set; }
         public string ShortName { get; set; }
-
+        public string SerExpTracking { get; set; }
 
     }
     public class ItemTaxDTO
@@ -347,7 +347,7 @@ namespace CIN.Application.PurchaseSetupDtos
         public string ItemDescription { get; set; }
         public string SerExpTracking { get; set; }
         public string PoNo { get; set; }
-
+        public string whCode { get; set; }
 
     }
 
@@ -365,9 +365,6 @@ namespace CIN.Application.PurchaseSetupDtos
     [AutoMap(typeof(TblPopTrnGRNDetails))]
     public class TblPopTrnGRNDetailsDto : AutoActiveGenerateIdKeyDto<int>
     {
-
-
-
 
         [StringLength(20)]
         public string TranId { get; set; }
@@ -410,8 +407,9 @@ namespace CIN.Application.PurchaseSetupDtos
         public decimal ReceivingQty { get; set; }
         public decimal BalQty { get; set; }
         public decimal ReceivedQty { get; set; }
-
-
+        public string SerExpTracking { get; set; }
+        public string PoNo { get; set; }
+        public string whCode { get; set; }
 
 
 
@@ -487,6 +485,7 @@ namespace CIN.Application.PurchaseSetupDtos
         public string WHCode { get; set; }
         public decimal TranTotalCost { get; set; }
 
+        public string SerExpTracking { get; set; }
     }
 
     public class ProductPRUnitPriceDTO
@@ -551,6 +550,10 @@ namespace CIN.Application.PurchaseSetupDtos
         public decimal ItemTaxPer { get; set; }
 
         public decimal TaxAmount { get; set; }
+
+        public string SerExpTracking { get; set; }
+
+        
 
 
 

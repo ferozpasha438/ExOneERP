@@ -12,34 +12,35 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
+
+
 namespace LS.API.Invt.Controllers
 {
-    public class WeatherForecastController : BaseController
+    public class WeatherForecast
+    {
+        public DateTime Date { get; set; }
+
+        public int TemperatureC { get; set; }
+
+        public int TemperatureF => 32 + (int)(TemperatureC / 0.5556);
+
+        public string Summary { get; set; }
+    }
+
+    [ApiController]
+    [Route("[controller]")]
+    public class WeatherForecastController : ControllerBase
     {
         private static readonly string[] Summaries = new[]
         {
             "Freezing", "Bracing", "Chilly", "Cool", "Mild", "Warm", "Balmy", "Hot", "Sweltering", "Scorching"
         };
 
-        private CINDBOneContext _context;
+        private readonly ILogger<WeatherForecastController> _logger;
 
-        public WeatherForecastController(IOptions<AppSettingsJson> appSettings, CINDBOneContext context) : base(appSettings)
+        public WeatherForecastController(ILogger<WeatherForecastController> logger)
         {
-            _context = context;
-        }
-
-        [HttpGet("getTestList")]
-        public async Task<IActionResult> GetTestList()
-        {
-            var list1 = await Mediator.Send(new GetPermissionUsers() { User = UserInfo() });
-            var list = list1.Select(e => new TestDto { Id = 0, Email = e.Text, Name = e.Value }).ToList();
-            return Ok(list);
-
-            //return Ok(new List<TestDto> {
-            //    new TestDto { Id = 1, Email = "1Email", Name = "1Name" },
-            //    new TestDto { Id = 2, Email = "2Email", Name = "2Name" },
-            //    new TestDto { Id = 3, Email = "3Email", Name = "3Name" },
-            //});
+            _logger = logger;
         }
 
         [HttpGet]
@@ -55,4 +56,5 @@ namespace LS.API.Invt.Controllers
             .ToArray();
         }
     }
+
 }

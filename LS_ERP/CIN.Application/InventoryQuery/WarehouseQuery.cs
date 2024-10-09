@@ -563,4 +563,42 @@ namespace CIN.Application.InventoryQuery
     }
 
     #endregion
+
+
+    #region Expairy Details
+    public class GetExpairyDetails : IRequest<List<TblErpInvItemExpiryBatchDto>>
+    {
+        public UserIdentityDto User { get; set; }
+        public string ItemCode { get; set; }
+        public string whCode { get; set; }
+    }
+
+    public class GetExpairyDetailsHandler : IRequestHandler<GetExpairyDetails, List<TblErpInvItemExpiryBatchDto>>
+    {
+        private readonly CINDBOneContext _context;
+        private readonly IMapper _mapper;
+        public GetExpairyDetailsHandler(CINDBOneContext context, IMapper mapper)
+        {
+            _context = context;
+            _mapper = mapper;
+        }
+        public async Task<List<TblErpInvItemExpiryBatchDto>> Handle(GetExpairyDetails request, CancellationToken cancellationToken)
+        {
+            List<TblErpInvItemExpiryBatchDto> ExpiryBatchList = new();
+            var WhItem = await _context.InvItemInventory.AsNoTracking().Where(e => e.ItemCode == request.ItemCode && e.WHCode == request.whCode).FirstOrDefaultAsync();
+
+            if (request.ItemCode is not null && request.whCode is not null)
+            {
+                ExpiryBatchList = await _context.InvItemExpiryBatches.AsNoTracking().ProjectTo<TblErpInvItemExpiryBatchDto>(_mapper.ConfigurationProvider).Where(e => e.ItemCode == request.ItemCode && e.WHCode == request.whCode).ToListAsync();
+
+            }
+
+            return ExpiryBatchList;
+        }
+
+
+
+    }
+
+    #endregion
 }
