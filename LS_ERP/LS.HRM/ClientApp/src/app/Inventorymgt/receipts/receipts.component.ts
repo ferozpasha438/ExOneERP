@@ -44,7 +44,7 @@ export class ReceiptsComponent extends ParentInventoryMgtComponent implements On
   //@ViewChild(MatSort) sort: MatSort;
   /* displayedColumns: string[] = [];*/
   /*  displayedColumns: string[] = ['request', 'vendor', 'docnum', 'branch', 'amount', 'vat', 'reference', 'Actions'];*/
-  displayedColumns: string[] = ['tranNumber', 'tranDate', 'tranDocNumber', 'tranReference', 'tranLocation',  'Actions'];
+  displayedColumns: string[] = ['tranNumber', 'tranDate', 'tranDocNumber', 'tranReference', 'tranLocation', 'Actions'];
   data: MatTableDataSource<any> | null;
   totalItemsCount: number;
   searchValue: string = '';
@@ -720,13 +720,19 @@ export class ReceiptsComponent extends ParentInventoryMgtComponent implements On
   }
 
   public Receiptsettelment(id: number) {
-    if (id > 0)
-    this.apiService.getall(`InventoryReceipts/ReceiptsSettelementList/${id}`).subscribe(res => {
-      if (res) {
-        this.utilService.OkMessage();
-        this.refresh();
-      }
-    });
+    if (id > 0) {
+      const dialogRef = this.utilService.openDeleteConfirmDialog(this.dialog, DeleteConfirmDialogComponent);
+      dialogRef.afterClosed().subscribe(canTakeAction => {
+        if (canTakeAction) {
+          this.apiService.getall(`InventoryReceipts/ReceiptsSettelementList/${id}`).subscribe(res => {
+            if (res) {
+              this.utilService.OkMessage();
+              this.refresh();
+            }
+          });
+        }
+      })
+    }
   }
 
   private openDialogManage<T>(id: number = 0, dbops: DBOperation, modalTitle: string = '', modalBtnTitle: string = '', component: T, moduleFile: MultiFileUploadDto = { module: '00', action: '00act' }, width: number = 100) {

@@ -40,7 +40,7 @@ import { ApprovaldialogwindowsComponent } from '../../Purchasemgt/approvaldialog
 
 export class TransferComponent extends ParentInventoryMgtComponent implements OnInit {
 
-  
+
 
   @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
   @ViewChild(MatSort, { static: true }) sort: MatSort;
@@ -193,7 +193,7 @@ export class TransferComponent extends ParentInventoryMgtComponent implements On
   }
 
 
- 
+
   getData(): Array<any> {
     let data: Array<any> = [
       //{ "request": "0110101",  "vendor": "satyam ", "docnum": "doc1234 ", "branch": "kukatpally ", "amount": "$1200 ", "vat": "$14 ",  "reference": "reference1", "id": 1 },
@@ -201,7 +201,7 @@ export class TransferComponent extends ParentInventoryMgtComponent implements On
     ]
     return data;
   }
- 
+
   public create() {
     this.openDialogManage(0, DBOperation.create, this.translate.instant('Create_New_Issues'), '', AddupdatetransferComponent);
   }
@@ -399,7 +399,7 @@ export class TransferComponent extends ParentInventoryMgtComponent implements On
     this.grandTotalStr = "0";
     this.form.reset();
   }
-  
+
   loadApprovals(evt: any) {
     this.loadList(0, this.pageService.pageCount, this.searchValue, this.sortingOrder, evt.target.value);
   }
@@ -411,7 +411,7 @@ export class TransferComponent extends ParentInventoryMgtComponent implements On
     this.openDialogManage(id, DBOperation.create, '', '', InventoryuserapprovalComponent, { action: '', module: '' }, 50);
   }
   approvePurchaseOrder(project: any) {
-   // let serviceType = 'ST';
+    // let serviceType = 'ST';
     let serviceType = 'TRNS';
     let serviceCode = project.tranNumber;
     let branchCode = project.branchCode;
@@ -440,13 +440,19 @@ export class TransferComponent extends ParentInventoryMgtComponent implements On
   }
 
   public Issuessettelment(id: number) {
-    if (id > 0)
-      this.apiService.getall(`InventoryTransfer/StockTransfer/${id}`).subscribe(res => {
-        if (res) {
-          this.utilService.OkMessage();
-          this.refresh();
+    if (id > 0) {
+      const dialogRef = this.utilService.openDeleteConfirmDialog(this.dialog, DeleteConfirmDialogComponent);
+      dialogRef.afterClosed().subscribe(canTakeAction => {
+        if (canTakeAction) {
+          this.apiService.getall(`InventoryTransfer/StockTransfer/${id}`).subscribe(res => {
+            if (res) {
+              this.utilService.OkMessage();
+              this.refresh();
+            }
+          });
         }
-      });
+      })
+    }
   }
 
   private openDialogManage<T>(id: number = 0, dbops: DBOperation, modalTitle: string = '', modalBtnTitle: string = '', component: T, moduleFile: MultiFileUploadDto = { module: '00', action: '00act' }, width: number = 100) {

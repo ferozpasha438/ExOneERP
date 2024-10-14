@@ -1,9 +1,9 @@
-<h3> {{'Create_Exp_Batch' | translate}} <button type="button" class="close" aria-hidden="true" (click)="closeModel()"> ×</button></h3>
+<h3> {{'Details_Exp_Batch' | translate}} <button type="button" class="close" aria-hidden="true" (click)="closeModel()"> ×</button></h3>
 
 <h3>Item Details</h3>
-<form [formGroup]="form" (ngSubmit)="submit()" novalidate>
-  <div class="row rowm0 ">
-    <div class="col-md-12 col-lg-12">
+<form [formGroup]="form" (ngSubmit)="submit()" style="height:50%" novalidate>
+  <!--<div class="row rowm0 ">-->
+    <!--<div class="col-md-12 col-lg-12">
       <div class="p-3" style="border:1px solid #f4f4f4;">
         <div class="row">
           <div class="col-md-4 col-lg-4">
@@ -38,37 +38,36 @@
           </div>
         </div>
       </div>
-    </div>
-  </div>
+    </div>-->
+  <!--</div>-->
   <br />
   <br />
 
     <div class="table-responsive">
       <table id="zero_config" class="table table-bordered no-wrap">
-        <thead>
+        <!--<thead>
           <tr>
             <th>{{ 'Batch' | translate }}</th>
             <th>{{ 'MFG Date' | translate }}</th>
             <th>{{ 'EXP Date' | translate }}</th>
             <th>{{ 'Qty' | translate }}</th>
             <th>{{ 'Remarks' | translate }}</th>
-            <th></th>
-            <th></th>
+            <th> </th>
           </tr>
-        </thead>
-        <tbody>
+        </thead>-->
+        <!--<tbody>
           <tr>
             <td>
               <input class="form-control" type="text" placeholder="{{ 'batchNumber' | translate }}" [(ngModel)]="batchNumber" [ngModelOptions]="{standalone: true}">
-            </td>
+            </td>-->
             <!--<td>
-                   <input class="form-control"
-                   type="text"
-                   placeholder="{{ 'batchNumber' | translate }}"
-                   formControlName="batchNumber"
-                   name="batchNumber" />
-           </td>-->
-            <td>
+    <input class="form-control"
+           type="text"
+           placeholder="{{ 'batchNumber' | translate }}"
+           formControlName="batchNumber"
+           name="batchNumber" />
+  </td>-->
+            <!--<td>
               <input class="form-control" type="date" placeholder="{{ 'mfgDate' | translate }}" [(ngModel)]="mfgDate" [ngModelOptions]="{standalone: true}">
             </td>
            
@@ -89,20 +88,16 @@
               <button type="button" class="btn waves-effect waves-light btn-primary" (click)="addExpRecord()"><i class="icon-plus"></i></button>
 
             </td>
-            <td></td>
           </tr>
-        </tbody>
+        </tbody>-->
         <thead>
           <tr>
-            
-                <th>{{ 'Batch' | translate }}</th>
-                <th>{{ 'MFG Date' | translate }}</th>
-                <th>{{ 'EXP Date' | translate }}</th>
-                <th>{{ 'Qty' | translate }}</th>
-                <th>{{ 'Base Qty' | translate }}</th>
-                <th>{{ 'Remarks' | translate }}</th>
-                <th>{{ 'Actions' | translate }}</th>
-                
+            <th>{{ 'Batch' | translate }}</th>
+            <th>{{ 'MFG Date' | translate }}</th>
+            <th>{{ 'EXP Date' | translate }}</th>
+            <th>{{ 'Qty' | translate }}</th>
+            <th>{{ 'Remarks' | translate }}</th>
+            <!--<th>{{ 'Actions' | translate }}</th>-->
           </tr>
         </thead>
         <tbody>
@@ -111,33 +106,32 @@
             <td>{{ item.mfgDate }}</td>
             <td>{{ item.expDate }}</td>
             <td>{{ item.qty }}</td>
-            <td>{{item.qty}} * {{item.tranUOMFactor}} = {{ (item.qty)*(item.tranUOMFactor) }}</td>
             <td>{{ item.remarks }}</td>
-            <td class="text-center">
-              <i class="icon-note cpointer" (click)="editRecord(item)"></i>&nbsp;
-              <i class="icon-trash cpointer" (click)="deleteRecord(item)"></i>&nbsp;
-            </td>
-            
+            <!--<td class="text-center">
+    <i class="icon-note cpointer" (click)="editRecord(item)"></i>&nbsp;
+    <i class="icon-trash cpointer" (click)="deleteRecord(item)"></i>&nbsp;
+  </td>-->
           </tr>
         </tbody>
         <tfoot>
-          
+          <tr class="tfoot">
+            <td colspan="6"></td>
+          </tr>
           <tr class="tfoot">
             <!--<td colspan="6" rowspan="5"></td>-->
             <td></td>
             <td></td>
             <td class="text-right bgcolor ">{{'Total_Quantity' | translate}}</td>
             <td>{{ totalItemQuantity }}</td>
-            <td class="bgcolor"></td>
-            <td class="bgcolor"></td>
-            <td class="bgcolor"></td>
+            <td></td>
+
           </tr>
         </tfoot>
       </table>
 
     </div>
 
-    <div class="row">
+    <!--<div class="row">
       <div class="col-lg-12 col-md-12 text-center">
         <button type="button" class="btn btn-secondary"  (click)="closeModel()">
           {{'Cancel' | translate}}
@@ -145,7 +139,7 @@
         &nbsp;&nbsp;
         <input type="submit" class="btn waves-effect waves-light   btn-primary"  value="{{'Save' | translate}}">
       </div>
-    </div>
+    </div>-->
 
   
 </form>

@@ -1163,24 +1163,52 @@ namespace CIN.Application.InventoryQuery
             {
                 var ItemCode = InvItem.ItemCode;
 
-                var iteminventory = await _context.InvItemInventory.AsNoTracking()
-                    .Where(e => ItemCode == e.ItemCode)
-                    .Select(e => new TblErpInvItemInventoryDto
-                    {
-                        WHCode = e.WHCode,
-                        QtyOH = e.QtyOH,
-                        QtyOnSalesOrder = e.QtyOnSalesOrder,
-                        QtyOnPO = e.QtyOnPO,
-                        QtyReserved = e.QtyReserved,
-                        //ItemAvgCost = e.ItemAvgCost,
-                        InvItemAvgCost = e.ItemAvgCost,
-                        ItemLastPOCost = e.ItemLastPOCost,
-                        ItemLandedCost = e.ItemLandedCost,
-                        MinQty = e.MinQty,
-                        MaxQty = e.MaxQty,
-                        EOQ = e.EOQ
+                //var iteminventory = await _context.InvItemInventory.AsNoTracking()
+                //    .Where(e => ItemCode == e.ItemCode)
+                //    .Select(e => new TblErpInvItemInventoryDto
+                //    {
+                //        WHCode = e.WHCode,
+                //        QtyOH = e.QtyOH,
+                //        QtyOnSalesOrder = e.QtyOnSalesOrder,
+                //        QtyOnPO = e.QtyOnPO,
+                //        QtyReserved = e.QtyReserved,
+                //        //ItemAvgCost = e.ItemAvgCost,
+                //        InvItemAvgCost = e.ItemAvgCost,
+                //        ItemLastPOCost = e.ItemLastPOCost,
+                //        ItemLandedCost = e.ItemLandedCost,
+                //        MinQty = e.MinQty,
+                //        MaxQty = e.MaxQty,
+                //        EOQ = e.EOQ
 
-                    }).ToListAsync();
+                //    }).ToListAsync();
+                var iteminventory = await (
+                                             from inv in _context.InvItemInventory.AsNoTracking()
+                                             join history in _context.InvItemInventoryHistory
+                                                 .GroupBy(h => h.ItemCode)
+                                                 .Select(g => new
+                                                 {
+                                                     ItemCode = g.Key,
+                                                     UnitConvFactor = g.Max(h => h.unitConvFactor) // Adjust this aggregation as needed (e.g., Min, Max, or Average)
+                                                })
+                                             on inv.ItemCode equals history.ItemCode
+                                             where inv.ItemCode == ItemCode
+                                             select new TblErpInvItemInventoryDto
+                                             {
+                                                 WHCode = inv.WHCode,
+                                                 QtyOH = inv.QtyOH,
+                                                 QtyOnSalesOrder = inv.QtyOnSalesOrder,
+                                                 QtyOnPO = inv.QtyOnPO,
+                                                 QtyReserved = inv.QtyReserved,
+                                                 InvItemAvgCost = inv.ItemAvgCost,
+                                                 ItemLastPOCost = inv.ItemLastPOCost,
+                                                 ItemLandedCost = inv.ItemLandedCost,
+                                                 MinQty = inv.MinQty,
+                                                 MaxQty = inv.MaxQty,
+                                                 EOQ = inv.EOQ,
+                                                 UnitConvFactor = history.UnitConvFactor // Aggregated value from history
+                                            }).ToListAsync();
+
+
 
                 var itemuom = await _context.InvItemsUOM.AsNoTracking()
                   .Where(e => ItemCode == e.ItemCode)
@@ -1473,6 +1501,8 @@ namespace CIN.Application.InventoryQuery
                         EOQ = e.EOQ
 
                     }).ToListAsync();
+
+
 
                 var itemuom = await _context.InvItemsUOM.AsNoTracking()
                   .Where(e => ItemCode == e.ItemCode)

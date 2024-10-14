@@ -56,6 +56,12 @@
 
             <table mat-table [dataSource]="data" matSort matSortActive="Id"
                    matSortDisableClear matSortDirection="desc" (matSortChange)="onSortOrder($event)" class="table  table-bordered no-wrap">
+              <ng-container matColumnDef="tranNumber">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                  {{'GRN_Number' | translate}}
+                </th>
+                <td mat-cell *matCellDef="let row">{{ row.tranNumber }}</td>
+              </ng-container>
               <ng-container matColumnDef="purchaseOrderNO">
                 <th mat-header-cell *matHeaderCellDef mat-sort-header>
                   {{'Pr_Num' | translate}}

@@ -34,9 +34,20 @@ namespace LS.API.Purchase.Controllers.PurchaseMgt
         }
 
         [HttpPost("createInvItemExpiryBatch")]
-        public async Task<ActionResult> CreateInvItemExpiryBatch([FromBody] TblErpInvItemExpiryBatchListDto input)
+        public async Task<ActionResult> CreateInvItemExpiryBatch([FromBody] TblErpInvGrnItemExpiryBatchListDto input)
         {
             var expBatch = await Mediator.Send(new CreateInvItemExpiryBatch() { Input = input, User = UserInfo() });
+            if (expBatch.Id > 0)
+            {
+                return Created($"get/{expBatch.Id}", input);
+            }
+            return BadRequest(new ApiMessageDto { Message = expBatch.Message });
+        }
+
+        [HttpPost("updateInvPRItemExpiryBatch")]
+        public async Task<ActionResult> UpdateInvPRItemExpiryBatch([FromBody] TblErpInvItemExpiryBatchListDto input)
+        {
+            var expBatch = await Mediator.Send(new UpdateInvPRItemExpiryBatch() { Input = input, User = UserInfo() });
             if (expBatch.Id > 0)
             {
                 return Created($"get/{expBatch.Id}", input);
@@ -73,5 +84,12 @@ namespace LS.API.Purchase.Controllers.PurchaseMgt
             return obj is not null ? Ok(obj) : NotFound(new ApiMessageDto { Message = ApiMessageInfo.NotFound });
         }
 
+
+        [HttpGet("GetPRExpairyDetails/{ItemCode}")]
+        public async Task<IActionResult> GetPRExpairyDetails([FromRoute] string ItemCode)
+        {
+            var obj = await Mediator.Send(new GetPRExpairyDetails() { ItemCode = ItemCode, User = UserInfo() });
+            return obj is not null ? Ok(obj) : NotFound(new ApiMessageDto { Message = ApiMessageInfo.NotFound });
+        }
     }
 }

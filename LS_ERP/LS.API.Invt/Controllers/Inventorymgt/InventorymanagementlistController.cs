@@ -68,7 +68,7 @@ namespace LS.API.Invt.Controllers.Inventory
                 if (input.Id > 0)
                     return NoContent();
                 else
-                    return branch.Str is not null ? Ok(branch.Str) : NotFound(new ApiMessageDto { Message = ApiMessageInfo.NotFound });
+                    return branch.Str is not null ? Ok(new ApiMessageDto { Message = branch.Str }) : NotFound(new ApiMessageDto { Message = ApiMessageInfo.NotFound });
                 //return Created($"get/{branch.Item1}", input);
             }
             return BadRequest(new ApiMessageDto { Message = branch.Message });
