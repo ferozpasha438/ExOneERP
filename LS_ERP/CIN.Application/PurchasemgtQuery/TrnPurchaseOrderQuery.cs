@@ -5125,17 +5125,20 @@ namespace CIN.Application.PurchasemgtQuery
                 if (invExpBatches.Count > 0)
                 {
                     await _context.SaveChangesAsync(cancellationToken);
-                    return ApiMessageInfo.Status(1, "Batches processed successfully");
+                    return ApiMessageInfo.Status(1, 1);
+                   
                 }
 
-                return ApiMessageInfo.Status(0, "No batches were processed");
+                return ApiMessageInfo.Status(0);
             }
             catch (Exception ex)
             {
                 // Log detailed error information
-                Log.Error($"Error in CreateInvItemExpiryBatch method: {ex.Message}");
-                Log.Error($"Stack Trace: {ex.StackTrace}");
-                return ApiMessageInfo.Status(0, "An error occurred while processing batches");
+                Log.Error("Error in CreateInvItemExpiryBatch Method");
+                Log.Error("Error occurred time : " + DateTime.UtcNow);
+                Log.Error("Error message : " + ex.Message);
+                Log.Error("Error StackTrace : " + ex.StackTrace);
+                return ApiMessageInfo.Status(0);
             }
         }
     }
