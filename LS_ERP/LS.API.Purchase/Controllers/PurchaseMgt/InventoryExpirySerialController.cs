@@ -77,10 +77,10 @@ namespace LS.API.Purchase.Controllers.PurchaseMgt
             return BadRequest(new ApiMessageDto { Message = specBatch.Message });
         }
 
-        [HttpGet("GetExpairyDetails/{ItemCode}")]
-        public async Task<IActionResult> GetExpairyDetails([FromRoute] string ItemCode)
+        [HttpGet("GetExpairyDetails/{ItemCode}/{PoNumber}/{GrnNumber}")]
+        public async Task<IActionResult> GetExpairyDetails([FromRoute] string ItemCode,string PoNumber,string GrnNumber)
         {
-            var obj = await Mediator.Send(new GetExpairyDetails() { ItemCode = ItemCode, User = UserInfo() });
+            var obj = await Mediator.Send(new GetExpairyDetails() { ItemCode = ItemCode, PoNumber = PoNumber,GrnNumber= GrnNumber, User = UserInfo() });
             return obj is not null ? Ok(obj) : NotFound(new ApiMessageDto { Message = ApiMessageInfo.NotFound });
         }
 
