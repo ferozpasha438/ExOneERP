@@ -40,7 +40,7 @@ import { PoprintingpageComponent } from '../sharedpages/poprintingpage/poprintin
   //@ViewChild(MatSort) sort: MatSort;
   /* displayedColumns: string[] = [];*/
   /*  displayedColumns: string[] = ['request', 'vendor', 'docnum', 'branch', 'amount', 'vat', 'reference', 'Actions'];*/
-  displayedColumns: string[] = ['purchaseOrderNO', 'tranDate', 'invRefNumber', 'branchCode', 'vendCode', 'amount', 'paymentID', 'taxId', 'itemName', 'Actions'];
+  displayedColumns: string[] = ['tranNumber','purchaseOrderNO', 'tranDate', 'invRefNumber', 'branchCode', 'vendCode', 'amount', 'paymentID', 'taxId', 'itemName', 'Actions'];
   data: MatTableDataSource<any> | null;
   totalItemsCount: number;
   searchValue: string = '';

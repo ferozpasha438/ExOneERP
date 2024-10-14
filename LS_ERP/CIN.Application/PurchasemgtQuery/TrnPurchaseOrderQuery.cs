@@ -3891,7 +3891,7 @@ namespace CIN.Application.PurchasemgtQuery
                             decimal itemAvgCost = 0;
                             if (invtUOM.ItemConvFactor > 1)
                             {
-                                invtItem.TranItemQty = invtItem.TranItemQty * invtUOM.ItemConvFactor;
+                                invtItem.TranItemQty = invtItem.ReceivingQty * invtUOM.ItemConvFactor;
                             }
                             else
                             {
@@ -4810,7 +4810,7 @@ namespace CIN.Application.PurchasemgtQuery
     public class GetExpairyDetails : IRequest<List<TblErpInvGrnItemExpiryBatchDto>>
     {
         public UserIdentityDto User { get; set; }
-         public string ItemCode { get; set; }
+        public string ItemCode { get; set; }
     }
 
     public class GetExpairyDetailsHandler : IRequestHandler<GetExpairyDetails, List<TblErpInvGrnItemExpiryBatchDto>>
@@ -4824,12 +4824,12 @@ namespace CIN.Application.PurchasemgtQuery
         }
         public async Task<List<TblErpInvGrnItemExpiryBatchDto>> Handle(GetExpairyDetails request, CancellationToken cancellationToken)
         {
-            List<TblErpInvItemExpiryBatchDto> ExpiryBatchList = new();
-           // var Batches = await _context.InvItemExpiryBatches.AsNoTracking().Where(e => e.ItemCode == request.ItemCode).FirstOrDefaultAsync();
+            List<TblErpInvGrnItemExpiryBatchDto> ExpiryBatchList = new();
+            // var Batches = await _context.InvItemExpiryBatches.AsNoTracking().Where(e => e.ItemCode == request.ItemCode).FirstOrDefaultAsync();
 
             if (request.ItemCode is not null)
             {
-                ExpiryBatchList = await _context.InvItemExpiryBatches.AsNoTracking().ProjectTo<TblErpInvItemExpiryBatchDto>(_mapper.ConfigurationProvider).Where(e => e.ItemCode == request.ItemCode ).ToListAsync();
+                ExpiryBatchList = await _context.InvGrnItemExpiryBatches.AsNoTracking().ProjectTo<TblErpInvGrnItemExpiryBatchDto>(_mapper.ConfigurationProvider).Where(e => e.ItemCode == request.ItemCode).ToListAsync();
 
             }
 
@@ -4840,7 +4840,7 @@ namespace CIN.Application.PurchasemgtQuery
     }
 
 
-    #endregion
+    #endregion
 
 
 
@@ -5217,8 +5217,8 @@ namespace CIN.Application.PurchasemgtQuery
                 foreach (var obj in input.Items)
                 {
                     // Check if the batch number already exists
-                    var existingBatch = await _context.InvItemExpiryBatches
-                        .FirstOrDefaultAsync(e => e.BatchNumber == obj.BatchNumber && e.ItemCode==obj.ItemCode, cancellationToken);
+                    var existingBatch = await _context.InvGrnItemExpiryBatches
+                         .FirstOrDefaultAsync(e => e.BatchNumber == obj.BatchNumber && e.ItemCode == obj.ItemCode, cancellationToken);
 
                     TblErpInvGrnItemExpiryBatch InvExpBatch;
 
