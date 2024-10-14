@@ -3915,7 +3915,7 @@ namespace CIN.Application.PurchasemgtQuery
                             }
                             else
                             {
-                                oldInventory.ItemAvgCost = ((oldInventory.QtyOH * oldInventory.ItemAvgCost) + (tranItemCost * newTranItemQty)) / (oldInventory.QtyOH + newTranItemQty);
+                                itemAvgCost = ((oldInventory.QtyOH * oldInventory.ItemAvgCost) + (tranItemCost * newTranItemQty)) / (oldInventory.QtyOH + newTranItemQty);
                             }
                             //cInvoice.ItemAvgCost = ((((decimal)0) * ((decimal)0)) + (((decimal)auth.TranItemCost) * ((decimal)auth.TranItemQty))) / ((((decimal)0) + ((decimal)auth.TranItemQty)));
 
