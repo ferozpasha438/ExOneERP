@@ -3915,7 +3915,7 @@ namespace CIN.Application.PurchasemgtQuery
                             }
                             else
                             {
-                                oldInventory.ItemAvgCost = ((oldInventory.QtyOH * oldInventory.ItemAvgCost) + (tranItemCost * newTranItemQty)) / (oldInventory.QtyOH + newTranItemQty);
+                                itemAvgCost = ((oldInventory.QtyOH * oldInventory.ItemAvgCost) + (tranItemCost * newTranItemQty)) / (oldInventory.QtyOH + newTranItemQty);
                             }
                             //cInvoice.ItemAvgCost = ((((decimal)0) * ((decimal)0)) + (((decimal)auth.TranItemCost) * ((decimal)auth.TranItemQty))) / ((((decimal)0) + ((decimal)auth.TranItemQty)));
 
@@ -4877,8 +4877,8 @@ namespace CIN.Application.PurchasemgtQuery
         }
         public async Task<List<TblErpInvGrnItemExpiryBatchDto>> Handle(GetExpairyDetails request, CancellationToken cancellationToken)
         {
-            List<TblErpInvGrnItemExpiryBatchDto> ExpiryBatchList = new();
-            // var Batches = await _context.InvItemExpiryBatches.AsNoTracking().Where(e => e.ItemCode == request.ItemCode).FirstOrDefaultAsync();
+            List<TblErpInvItemExpiryBatchDto> ExpiryBatchList = new();
+           // var Batches = await _context.InvItemExpiryBatches.AsNoTracking().Where(e => e.ItemCode == request.ItemCode).FirstOrDefaultAsync();
 
             if (request.ItemCode !=null && request.PoNumber != null)
             {
@@ -4893,7 +4893,7 @@ namespace CIN.Application.PurchasemgtQuery
     }
 
 
-    #endregion
+    #endregion
 
 
 
@@ -5059,6 +5059,8 @@ namespace CIN.Application.PurchasemgtQuery
                     // Check if the batch number already exists
                     var existingBatch = await _context.InvGrnItemExpiryBatches
                         .FirstOrDefaultAsync(e => e.BatchNumber == obj.BatchNumber && e.ItemCode == obj.ItemCode && e.PoNumber==obj.PoNumber, cancellationToken);
+                    var existingBatch = await _context.InvGrnItemExpiryBatches
+                         .FirstOrDefaultAsync(e => e.BatchNumber == obj.BatchNumber && e.ItemCode == obj.ItemCode, cancellationToken);
 
                     TblErpInvGrnItemExpiryBatch InvExpBatch;
 

@@ -9,11 +9,11 @@ import { ApiService } from '../../services/api.service';
 import { NotificationService } from '../../services/notification.service';
 import { UtilityService } from '../../services/utility.service';
 import { ValidationService } from '../../sharedcomponent/ValidationService';
- import { MatDialog } from '@angular/material/dialog';
+import { MatDialog } from '@angular/material/dialog';
 import { MatPaginator, PageEvent } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
- import { DBOperation } from '../../services/utility.constants';
+import { DBOperation } from '../../services/utility.constants';
 import { PaginationService } from '../../sharedcomponent/pagination.service';
 import { ParentPurchaseMgtComponent } from '../../sharedcomponent/parentpurchasemgt.component';
 import { CustomSelectListItem } from '../../models/MenuItemListDto';
@@ -35,7 +35,7 @@ import { AddupdateinvitemexpserialbatchComponent } from '../sharedpages/addupdat
   selector: 'app-purchaseorder',
   templateUrl: './purchaseorder.component.html',
   styleUrls: [
-    
+
   ]
 })
 export class PurchaseorderComponent extends ParentPurchaseMgtComponent implements OnInit {
@@ -44,15 +44,15 @@ export class PurchaseorderComponent extends ParentPurchaseMgtComponent implement
   @ViewChild(MatSort, { static: true }) sort: MatSort;
   //@ViewChild(MatPaginator) paginator: MatPaginator;
   //@ViewChild(MatSort) sort: MatSort;
- /* displayedColumns: string[] = [];*/
-/*  displayedColumns: string[] = ['request', 'vendor', 'docnum', 'branch', 'amount', 'vat', 'reference', 'Actions'];*/
-  displayedColumns: string[] = ['purchaseOrderNO', 'tranDate', 'invRefNumber', 'branchCode', 'vendName', 'vendCode', 'amount', 'paymentID', 'taxId', 'remarks',  'Actions'];
+  /* displayedColumns: string[] = [];*/
+  /*  displayedColumns: string[] = ['request', 'vendor', 'docnum', 'branch', 'amount', 'vat', 'reference', 'Actions'];*/
+  displayedColumns: string[] = ['purchaseOrderNO', 'tranDate', 'invRefNumber', 'branchCode', 'vendName', 'vendCode', 'amount', 'paymentID', 'taxId', 'remarks', 'Actions'];
   data: MatTableDataSource<any> | null;
   totalItemsCount: number;
   searchValue: string = '';
   sortingOrder: string = 'id desc';
 
-  
+
   customerList: Array<CustomSelectListItem> = [];
   companyList: Array<CustomSelectListItem> = [];
   paymentTermsList: Array<CustomSelectListItem> = [];
@@ -122,7 +122,7 @@ export class PurchaseorderComponent extends ParentPurchaseMgtComponent implement
   //]
   isshown: boolean = false;
 
- 
+
   tranItemName: string = '';
   tranItemName2: string = '';
   tranItemQty: number = 0;
@@ -145,7 +145,7 @@ export class PurchaseorderComponent extends ParentPurchaseMgtComponent implement
     private notifyService: NotificationService, private validationService: ValidationService, public pageService: PaginationService, public dialog: MatDialog, private translate: TranslateService) {
 
     super(authService);
-    
+
   }
 
 
@@ -170,18 +170,18 @@ export class PurchaseorderComponent extends ParentPurchaseMgtComponent implement
     this.loadWarehouses();
 
     this.form.patchValue({
-      trantype: "2" 
+      trantype: "2"
     });
-  
+
   }
 
- 
+
   onSortOrder(sort: any) {
     this.totalItemsCount = 0;
     this.sortingOrder = sort.active + ' ' + sort.direction;
     this.loadUser(0, this.pageService.pageCount, "", this.sortingOrder);
   }
- 
+
   //onPageSwitch(event: PageEvent) {
   //  this.pageService.change(event);
   //  this.loadUser(event.pageIndex, event.pageSize, "", this.sortingOrder);
@@ -354,7 +354,7 @@ export class PurchaseorderComponent extends ParentPurchaseMgtComponent implement
     });
   }
   loadPRdata(event: any) {
-    let PRValue = event.value; 
+    let PRValue = event.value;
     this.apiService.getall(`PurchaseOrder/GetPRList/${PRValue}`).subscribe(res => {
       if (res) {
         this.isReadOnly = true;
@@ -364,7 +364,7 @@ export class PurchaseorderComponent extends ParentPurchaseMgtComponent implement
         //this.form.value['tranDiscPer'] = this.DiscPerc;
         //this.form.value['tranDiscAmount'] = this.discAmt;
 
-       
+
 
         this.form.patchValue({ 'tranDate': `${res['tranDate'].split('T')[0]}` });
         this.form.patchValue({ 'deliveryDate': `${res['deliveryDate'].split('T')[0]}` });
@@ -480,11 +480,11 @@ export class PurchaseorderComponent extends ParentPurchaseMgtComponent implement
     if (this.id > 0)
       this.form.value['id'] = this.id;
 
-   
+
 
     this.apiService.post('PurchaseOrder', this.form.value)
       .subscribe(res => {
-      //  debugger;
+        //  debugger;
         /*this.itemcode = res['itemcode'];*/
         if (res) {
           //let output1 = res;
@@ -502,7 +502,7 @@ export class PurchaseorderComponent extends ParentPurchaseMgtComponent implement
         //  itemCode: this.itemcode
         //});
 
-       
+
       },
         error => {
           console.error(error);
@@ -532,14 +532,14 @@ export class PurchaseorderComponent extends ParentPurchaseMgtComponent implement
     this.initialLoading();
   }
 
-  
+
 
   Close() {
     this.refresh();
   }
 
-  
- 
+
+
   customerChange(event: any) {
     let custId = event.value, custName = event.text;
     this.apiService.getall(`customer/getCustomerById/${custId}`).subscribe(res => {
@@ -626,7 +626,7 @@ export class PurchaseorderComponent extends ParentPurchaseMgtComponent implement
   editInvoiceItem(item: any) {
 
     this.editsequence = item.sequence,
-    this.tranItemCode = item.tranItemCode,
+      this.tranItemCode = item.tranItemCode,
       this.tranItemName = item.tranItemName,
       this.tranItemName2 = item.tranItemName2,
       this.tranItemQty = item.tranItemQty,
@@ -703,19 +703,19 @@ export class PurchaseorderComponent extends ParentPurchaseMgtComponent implement
   }
   closeModel() {
     /*  this.refresh();*/
-   /* this.ngOnInit();*/
+    /* this.ngOnInit();*/
     this.loadList(0, this.pageService.pageCount, this.searchValue, this.sortingOrder);
     this.listOfInvoices = [];
-    
+
   }
- 
+
 
   setToDefault() {
     //this.productId = 0;
     //this.product = this.description = this.unitType = '';
     //this.quantity = this.price = this.vat = this.vatAmount = this.total = 0;
-   // this.tranItemCode = 0,
-      this.tranItemName = '',
+    // this.tranItemCode = 0,
+    this.tranItemName = '',
       this.tranItemName2 = '',
       this.tranItemQty = 0,
       this.tranItemUnitCode = '',
@@ -779,15 +779,15 @@ export class PurchaseorderComponent extends ParentPurchaseMgtComponent implement
   //  }
 
   //}
-    calculateDis() {
-    if (this.discPer != "" && this.tranItemCost!=0) {
+  calculateDis() {
+    if (this.discPer != "" && this.tranItemCost != 0) {
       var cost = this.tranTotCost;
       /*var perc = parseFloat(this.discPer);*/
       var perc = parseFloat((parseFloat(this.discPer) / 100).toFixed(2));
       var DisAmount = parseFloat(((cost * perc) / 100).toFixed(2));
       this.discAmt = parseFloat(DisAmount.toString());
       var itemCost = this.tranItemCost;
-     /* this.tranItemCost = ((itemCost) - (this.discAmt));*/
+      /* this.tranItemCost = ((itemCost) - (this.discAmt));*/
       /*this.tranTotCost = ((cost) - (this.discAmt * this.tranItemQty));*/
       //this.tranTotCost = ((itemCost) - (itemCost * this.discAmt));
       this.tranTotCost = ((itemCost) - (itemCost * perc));
@@ -801,11 +801,11 @@ export class PurchaseorderComponent extends ParentPurchaseMgtComponent implement
       else {
         //var C1 = (this.tranItemCost - (this.tranItemCost * parseFloat(this.discPer)));
         //var totoalCost = (C1 * this.tranItemQty);
-        this.taxAmount = parseFloat(((this.tranTotCost * perc) / ((perc) +100)).toFixed(4));
+        this.taxAmount = parseFloat(((this.tranTotCost * perc) / ((perc) + 100)).toFixed(4));
       }
-      
+
     }
-   
+
   }
   calculatetaxAmount() {
     var cost = this.tranTotCost;
@@ -907,7 +907,7 @@ export class PurchaseorderComponent extends ParentPurchaseMgtComponent implement
     }
 
   }
- 
+
   reset() {
     this.form.reset();
     this.listOfInvoices = [];
@@ -927,7 +927,7 @@ export class PurchaseorderComponent extends ParentPurchaseMgtComponent implement
   //      this.form.patchValue({ 'tranCurrencyCode': `${res['tranCurrencyCode']}` });
   //      this.form.patchValue({ 'poNotes': `${res['poNotes']}` });
   //      let listOfInvoices = res['itemList'] as Array<any>;
-       
+
   //      listOfInvoices.forEach(item => {
   //        this.listOfInvoices.push({
   //          sequence: this.getSequence(),
@@ -1004,16 +1004,19 @@ export class PurchaseorderComponent extends ParentPurchaseMgtComponent implement
     //    this.PurchaseRequestList = res;
     //  }
     //})
-    
-    this.apiService.getall(`PurchaseOrder/AccountsPosting/${id}`).subscribe(res => {
-      if (res) {
-        this.utilService.OkMessage();
-        this.refresh();
-       
+    const dialogRef = this.utilService.openDeleteConfirmDialog(this.dialog, DeleteConfirmDialogComponent);
+    dialogRef.afterClosed().subscribe(canTakeAction => {
+      if (canTakeAction) {
+        this.apiService.getall(`PurchaseOrder/AccountsPosting/${id}`).subscribe(res => {
+          if (res) {
+            this.utilService.OkMessage();
+            this.refresh();
+          }
+        })
       }
     })
   }
- 
+
   public create() {
     this.openDialogManage(0, DBOperation.create, this.translate.instant('Create_New_Purchase_Request'), '', AddupdatepurchaseorderComponent);
   }

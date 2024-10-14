@@ -42,7 +42,7 @@ export class IssuesComponent extends ParentInventoryMgtComponent implements OnIn
 
   //@ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
   //@ViewChild(MatSort, { static: true }) sort: MatSort;
- 
+
   //displayedColumns: string[] = ['tranNumber', 'tranDate', 'tranDocNumber', 'tranReference', 'tranLocation', 'tranToLocation', 'tranTotalCost', 'Actions'];
   //data: MatTableDataSource<any> | null;
   //totalItemsCount: number;
@@ -136,11 +136,11 @@ export class IssuesComponent extends ParentInventoryMgtComponent implements OnIn
   //  this.loadUser(event.pageIndex, event.pageSize, "", this.sortingOrder);
   //}
   //private loadUser(page: number | undefined, pageCount: number | undefined, query: string | null | undefined, orderBy: string | null | undefined) {
-   
+
   //  this.data = new MatTableDataSource(this.getData());
-   
+
   //  this.totalItemsCount = 2;
-   
+
   //}
   //Users() {
   //  this.apiService.getall('InventoryTransaction/GetUserSelectList').subscribe(res => {
@@ -211,13 +211,13 @@ export class IssuesComponent extends ParentInventoryMgtComponent implements OnIn
   //  if (ItemList) {
 
   //    this.apiService.getall(`InventoryTransaction/ProductUomtPriceItem/${ItemList}`).subscribe(res => {
-        
+
 
   //      if (res) {
   //        this.tranUOMFactor = res.tranItemUomFactor;
   //        this.tranItemCost = res.itemAvgcost;
   //      }
-       
+
   //    });
   //  }
   //  else {
@@ -227,7 +227,7 @@ export class IssuesComponent extends ParentInventoryMgtComponent implements OnIn
   //}
   //getData(): Array<any> {
   //  let data: Array<any> = [
-     
+
   //  ]
   //  return data;
   //}
@@ -235,7 +235,7 @@ export class IssuesComponent extends ParentInventoryMgtComponent implements OnIn
   //  let MOBILE_PATTERN = /[0-9\+\-\ ]/;
   //  this.form = this.fb.group({
 
-     
+
   //    'tranDate': ['', Validators.required],
   //    'tranUser': ['', Validators.required],
   //    'tranLocation': ['', Validators.required],
@@ -250,7 +250,7 @@ export class IssuesComponent extends ParentInventoryMgtComponent implements OnIn
 
 
 
-     
+
 
 
 
@@ -273,13 +273,13 @@ export class IssuesComponent extends ParentInventoryMgtComponent implements OnIn
   //    this.data.paginator = this.paginator;
   //    this.data.sort = this.sort;
 
-     
+
   //    this.isLoading = false;
   //  }, error => this.utilService.ShowApiErrorMessage(error));
   //}
   //applyFilter(searchVal: any) {
   //  const search = searchVal;//.target.value as string;
-    
+
   //  if (search) {
   //    this.searchValue = search;
   //    this.loadList(0, this.pageService.pageCount, this.searchValue, this.sortingOrder);
@@ -291,13 +291,13 @@ export class IssuesComponent extends ParentInventoryMgtComponent implements OnIn
   //  this.apiService.post('InventoryTransaction', this.form.value)
   //    .subscribe(res => {
   //      debugger;
-       
+
   //      if (res) {
-         
+
   //        this.utilService.OkMessage();
   //      }
 
-        
+
 
 
   //    },
@@ -430,16 +430,16 @@ export class IssuesComponent extends ParentInventoryMgtComponent implements OnIn
 
   //setGrandTotal() {
   //  this.grandTotal = 0;
-   
+
 
   //  this.listOfInvoices.forEach(inv => {
   //    this.grandTotal += inv.tranTotCost;
-     
+
   //  });
 
 
   //  this.grandTotalStr = this.grandTotal.toString();
-   
+
   //}
   //closeModel() {
   //  this.refresh();
@@ -507,7 +507,7 @@ export class IssuesComponent extends ParentInventoryMgtComponent implements OnIn
   //      });
   //      this.form.value['itemList'] = this.listOfInvoices;
   //      this.listOfInvoices = [];
-        
+
   //      let listOfInvoices = res['itemList'] as Array<any>;
   //      listOfInvoices.forEach(item => {
   //        this.listOfInvoices.push({
@@ -837,7 +837,7 @@ export class IssuesComponent extends ParentInventoryMgtComponent implements OnIn
   public edit(id: number) {
     this.openDialogManage(id, DBOperation.update, this.translate.instant('Create_New_Issues'), '', AddupdateissuesComponent);
   }
-  
+
   public view(id: number) {
     this.openDialogManage(id, DBOperation.update, this.translate.instant('Create_New_Issues'), '', AddupdateissuesComponent);
   }
@@ -1223,13 +1223,19 @@ export class IssuesComponent extends ParentInventoryMgtComponent implements OnIn
   }
 
   public Issuessettelment(id: number) {
-    if (id > 0)
-      this.apiService.getall(`InventoryTransaction/IssuesSettelementList/${id}`).subscribe(res => {
-        if (res) {
-          this.utilService.OkMessage();
-          this.refresh();
+    if (id > 0) {
+      const dialogRef = this.utilService.openDeleteConfirmDialog(this.dialog, DeleteConfirmDialogComponent);
+      dialogRef.afterClosed().subscribe(canTakeAction => {
+        if (canTakeAction) {
+          this.apiService.getall(`InventoryTransaction/IssuesSettelementList/${id}`).subscribe(res => {
+            if (res) {
+              this.utilService.OkMessage();
+              this.refresh();
+            }
+          });
         }
-      });
+      })
+    }
   }
 
   private openDialogManage<T>(id: number = 0, dbops: DBOperation, modalTitle: string = '', modalBtnTitle: string = '', component: T, moduleFile: MultiFileUploadDto = { module: '00', action: '00act' }, width: number = 100) {
