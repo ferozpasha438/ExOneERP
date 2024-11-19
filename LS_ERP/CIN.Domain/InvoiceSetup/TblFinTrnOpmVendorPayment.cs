@@ -58,7 +58,7 @@ namespace CIN.Domain.InvoiceSetup
         public bool IsPaid { get; set; }
         public bool Flag1 { get; set; }
         public bool Flag2 { get; set; }
-        [StringLength(150)]
+        [StringLength(500)]
         public string Remarks { get; set; }
     }
 }

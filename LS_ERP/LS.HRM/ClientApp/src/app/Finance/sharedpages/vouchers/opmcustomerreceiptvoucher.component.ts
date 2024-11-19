@@ -43,16 +43,21 @@ export class OpmCustomerreceiptvoucher implements OnInit {
     });
   }
 
-  printVoucher() {
+  openPrint() {
     const printContent = document.getElementById("printcontainer") as HTMLElement;
-    const WindowPrt: any = window.open('', '', 'left=0,top=0,width=2000,height=1000,toolbar=0,scrollbars=0,status=0');
-    setTimeout(() => {
-      WindowPrt.document.write(printContent.innerHTML);
-      WindowPrt.document.close();
-      WindowPrt.focus();
-      WindowPrt.print();
-      WindowPrt.close();
-    }, 50);
+    this.utilService.printForLocale(printContent,true);
+  }
+  printVoucher() {
+    this.openPrint();
+    //const printContent = document.getElementById("printcontainer") as HTMLElement;
+    //const WindowPrt: any = window.open('', '', 'left=0,top=0,width=2000,height=1000,toolbar=0,scrollbars=0,status=0');
+    //setTimeout(() => {
+    //  WindowPrt.document.write(printContent.innerHTML);
+    //  WindowPrt.document.close();
+    //  WindowPrt.focus();
+    //  WindowPrt.print();
+    //  WindowPrt.close();
+    //}, 50);
 
   }
 

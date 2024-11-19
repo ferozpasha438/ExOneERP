@@ -30,7 +30,7 @@ namespace CIN.Domain.InvoiceSetup
         public string PayType { get; set; }
         [StringLength(20)]
         public string PayCode { get; set; }
-        [StringLength(150)]
+        [StringLength(500)]
         public string Remarks { get; set; }
 
 
