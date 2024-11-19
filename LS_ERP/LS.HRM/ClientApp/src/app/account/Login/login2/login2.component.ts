@@ -41,7 +41,7 @@ export class Login2Component extends ParentSystemSetupComponent implements OnIni
     //if (this.authService.isAuthenticated())
     //  window.location.href = "dashboard";
     //else
-    this.lastcinnumber = localStorage.getItem('lastcinnumber') ?? 'sahir';
+    this.lastcinnumber = localStorage.getItem('lastcinnumber') ?? 'saher';
     localStorage.clear();
     localStorage.setItem('lastcinnumber', this.lastcinnumber);
     this.setForm();

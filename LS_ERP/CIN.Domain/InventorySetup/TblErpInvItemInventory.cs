@@ -122,6 +122,10 @@ namespace CIN.Domain.InventorySetup
         public DateTime ExpDate { get; set; }
         public decimal Qty { get; set; }
         public decimal QtyCommitted { get; set; }
+        public  string UOMUnitCode { get; set; }
+        public decimal UOMFactor { get; set; }
+        public decimal Cost { get; set; }
+        public bool PostFlag { get; set; }
         public decimal Available { get; set; }
         [StringLength(250)]
         public string Remarks { get; set; }
