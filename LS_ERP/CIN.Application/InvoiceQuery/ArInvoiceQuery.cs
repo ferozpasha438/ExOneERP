@@ -138,7 +138,7 @@ namespace CIN.Application.InvoiceQuery
                                   IsApproved = custApproval.Where(e => e.InvoiceId == IV.Id && e.IsApproved).Any(),
                                   CanSettle = brnApproval.Where(e => e.FinBranchCode == IV.BranchCode && e.AppAuthAR).Select(e => new { AppAuth = e.AppAuth }).GroupBy(e => e.AppAuth).Count() <= custApproval.Where(e => e.InvoiceId == IV.Id && e.IsApproved).Count(),
                                   IsSettled = cInvoices.Where(e => e.InvoiceId == IV.Id && e.IsPaid).Any(),
-                                  ZatcaStatus = IV.ZatcaStatus
+                                  ZatcaStatus = IV.ZatcaStatus,
                               };
 
 
@@ -1281,7 +1281,7 @@ namespace CIN.Application.InvoiceQuery
             var paymentTerms = _context.SndSalesTermsCodes.AsNoTracking();
             var payCodes = _context.FinAccountlPaycodes.AsNoTracking();
             var custInvoice = _context.TrnCustomerInvoices.AsNoTracking();
-
+            var academicYear = _context.SysSchoolAcademicBatches.AsNoTracking().OrderByDescending(x=>x.AcademicYear).FirstOrDefault().AcademicYear;
             string branchName = string.Empty;
 
             var invoice = await custInvoices.Where(e => e.Id == request.Id).Select(e => new TblTranInvoiceDto
@@ -1302,7 +1302,8 @@ namespace CIN.Application.InvoiceQuery
                 DiscountAmount = e.DiscountAmount,
                 TotalAmount = e.TotalAmount,
                 TotalPayment = custInvoice.FirstOrDefault(cui => cui.InvoiceId == e.Id).PaidAmount,
-                BranchCode = e.BranchCode
+                BranchCode = e.BranchCode,
+                AcademicYear = academicYear.ToString() + " - " + (academicYear + 1).ToString(),
 
             }).FirstOrDefaultAsync();
 
@@ -2467,7 +2468,7 @@ namespace CIN.Application.InvoiceQuery
                         ////}
                         #endregion
 
-                        await transaction.CommitAsync();                        
+                        await transaction.CommitAsync();
                         returnStatus++;
                     }
                     catch (Exception ex)

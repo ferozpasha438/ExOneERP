@@ -397,6 +397,48 @@ namespace CIN.Application.SchoolMgtQuery
                     }
                     await _context.SaveChangesAsync();
 
+                    #region CreateParentLogin
+                    TblParentsLogin fatherLogin = new();
+                    fatherLogin = await _context.TblParentsLogin.AsNoTracking().FirstOrDefaultAsync(x=>x.RegisteredPhone==obj.FatherMobile);
+                    if (fatherLogin == null)
+                    {
+                        fatherLogin = new();
+                        fatherLogin.RegisteredPhone = obj.FatherMobile;
+                        fatherLogin.RegisteredEmail = obj.FatherEmail;
+                        fatherLogin.Password= obj.FatherMobile;
+                        fatherLogin.IsActive= true;
+                        fatherLogin.IsApprove= true;
+                        fatherLogin.CurrentLogin= true;
+                        fatherLogin.InactiveOn= DateTime.Now.AddYears(10);
+                        fatherLogin.ApproveDate= DateTime.Now;
+                        fatherLogin.RegistedDate= DateTime.Now;
+                        await _context.TblParentsLogin.AddAsync(fatherLogin);
+                        await _context.SaveChangesAsync();
+                    }
+
+                    TblParentsLogin motherLogin = new();
+                    motherLogin = await _context.TblParentsLogin.AsNoTracking().FirstOrDefaultAsync(x => x.RegisteredPhone == obj.MotherMobile);
+                    if (motherLogin == null)
+                    {
+                        motherLogin = new();
+                        motherLogin.RegisteredPhone = obj.MotherMobile;
+                        motherLogin.RegisteredEmail = obj.MotherEmail;
+                        motherLogin.Password = obj.MotherMobile;
+                        motherLogin.IsActive = true;
+                        motherLogin.IsApprove = true;
+                        motherLogin.CurrentLogin = true;
+                        motherLogin.InactiveOn = DateTime.Now.AddYears(10);
+                        motherLogin.ApproveDate = DateTime.Now;
+                        motherLogin.RegistedDate = DateTime.Now;
+                        await _context.TblParentsLogin.AddAsync(motherLogin);
+                        await _context.SaveChangesAsync();
+                    }
+                    #endregion
+
+
+
+
+
                     #region tblSndDefCustomerCategory
                     TblSndDefCustomerCategory categoryData = new();
                     categoryData = await _context.SndCustomerCategories.AsNoTracking().FirstOrDefaultAsync(x => x.CustCatCode == obj.GradeCode);

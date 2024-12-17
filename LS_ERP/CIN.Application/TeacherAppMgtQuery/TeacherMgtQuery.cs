@@ -48,12 +48,12 @@ namespace CIN.Application.TeacherMgtQuery
                         var teacher = _context.DefSchoolTeacherMaster.FirstOrDefault(e => (e.SysLoginId == user.Id));
 
                         if (teacher is not null)
-                            return new() { Id = -1 };
+                            return new() { Id = teacher.Id };
                         else
-                            return new() { Id = 1 };
+                            return new() { Id = -1 };
                     }
                 }
-                return new() { Id = 1 };
+                return new() { Id = -1 };
             }
             catch (Exception ex)
             {

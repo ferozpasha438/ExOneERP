@@ -84,14 +84,17 @@ namespace CIN.Application.TeacherAppMgtQuery
         }
         public async Task<SchoolPushNotificationTeacherDto> Handle(GetTeacherNotificationList request, CancellationToken cancellationToken)
         {
-
+            var startDate = await _context.SysSchoolAcademicBatches.AsNoTracking()
+                              .OrderByDescending(x => x.AcademicYear)
+                              .Select(x => x.AcademicStartDate)
+                              .FirstOrDefaultAsync();
             var teacher = await _context.DefSchoolTeacherMaster.AsNoTracking().Where(e => e.TeacherCode == request.TeacherCode).FirstOrDefaultAsync();
 
 
             return new SchoolPushNotificationTeacherDto
             {
                 // countNotification = await _context.PushNotificationParent.AsNoTracking().ProjectTo<TblSysSchoolPushNotificationParentDto>(_mapper.ConfigurationProvider).Where(e =>e.RegisteredMobile==teacher.PMobile1 && e.NotifyTo == "Teacher").CountAsync(),
-                TeacherPushNotifications = await _context.PushNotificationParent.AsNoTracking().ProjectTo<TblSysSchoolPushNotificationParentDto>(_mapper.ConfigurationProvider).Where(e => (e.RegisteredMobile == teacher.PMobile1 && e.NotifyTo == "Teacher") && e.IsRead == false).ToListAsync()
+                TeacherPushNotifications = await _context.PushNotificationParent.AsNoTracking().ProjectTo<TblSysSchoolPushNotificationParentDto>(_mapper.ConfigurationProvider).Where(e => (e.RegisteredMobile == teacher.PMobile1 && e.NotifyTo.ToLower() == "teacher" && e.NotifyDate >= startDate) && e.IsRead == false).ToListAsync()
             };
 
         }
@@ -165,17 +168,19 @@ namespace CIN.Application.TeacherAppMgtQuery
                 Log.Info("----Info Teacher Update Notification Method start----");
                 TblSysSchoolPushNotificationParent NotificationParent = new();
                 if (request.MessageId > 0)
-                    NotificationParent = await _context.PushNotificationParent.AsNoTracking().FirstOrDefaultAsync(e => e.MsgNoteId == request.MessageId && e.NotifyTo == "Teacher");
-
-
-                if (request.MessageId > 0)
                 {
-                    NotificationParent.IsRead = true;
-                    _context.PushNotificationParent.Update(NotificationParent);
+                    NotificationParent = await _context.PushNotificationParent.AsNoTracking().FirstOrDefaultAsync(e => e.MsgNoteId == request.MessageId && e.NotifyTo.ToLower() == "teacher");
+                    if (NotificationParent.MsgNoteId > 0)
+                    {
+                        NotificationParent.IsRead = true;
+                        _context.PushNotificationParent.Update(NotificationParent);
+                        await _context.SaveChangesAsync();
+                        Log.Info("----Info Teacher Update Notification Method Exit----");
+                        return NotificationParent.Id;
+                    }                    
                 }
-                await _context.SaveChangesAsync();
                 Log.Info("----Info Teacher Update Notification Method Exit----");
-                return NotificationParent.Id;
+                return -1;
             }
             catch (Exception ex)
             {

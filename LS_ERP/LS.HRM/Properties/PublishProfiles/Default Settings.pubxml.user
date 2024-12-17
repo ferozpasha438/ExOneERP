@@ -7,7 +7,8 @@ by editing this MSBuild file. In order to learn more about this please visit htt
   <PropertyGroup>
     <TimeStampOfAssociatedLegacyPublishXmlFile />
     <EncryptedPassword />
-    <History>False|2023-10-28T17:21:48.1730311Z;True|2023-10-28T22:06:09.1901644+05:30;True|2023-10-28T21:18:44.5624042+05:30;True|2023-09-13T00:18:40.2749357+05:30;True|2023-09-12T23:59:52.7957072+05:30;False|2022-01-23T19:02:07.8648682+05:30;False|2022-01-23T18:58:28.7970579+05:30;</History>
-    <_PublishTargetUrl>D:\Deployment\Publish_HVS_UI</_PublishTargetUrl>
+    <History>True|2024-11-04T10:40:43.4680165Z||;True|2024-09-09T03:24:09.4558795+05:30||;False|2024-09-09T03:21:03.4131666+05:30||;False|2023-10-28T22:51:48.1730311+05:30||;True|2023-10-28T22:06:09.1901644+05:30||;True|2023-10-28T21:18:44.5624042+05:30||;True|2023-09-13T00:18:40.2749357+05:30||;True|2023-09-12T23:59:52.7957072+05:30||;False|2022-01-23T19:02:07.8648682+05:30||;False|2022-01-23T18:58:28.7970579+05:30||;</History>
+    <_PublishTargetUrl>C:\Users\shiva\OneDrive\Desktop\HVSPublish\Web</_PublishTargetUrl>
+    <LastFailureDetails />
   </PropertyGroup>
 </Project>

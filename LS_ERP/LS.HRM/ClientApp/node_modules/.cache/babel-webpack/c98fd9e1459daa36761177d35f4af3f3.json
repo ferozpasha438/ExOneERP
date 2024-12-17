@@ -1,0 +1,1 @@
+{"ast":null,"code":"export default class Invalid {\n  constructor(reason, explanation) {\n    this.reason = reason;\n    this.explanation = explanation;\n  }\n\n  toMessage() {\n    if (this.explanation) {\n      return `${this.reason}: ${this.explanation}`;\n    } else {\n      return this.reason;\n    }\n  }\n\n}","map":null,"metadata":{},"sourceType":"module"}
