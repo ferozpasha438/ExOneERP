@@ -137,9 +137,11 @@ export class AddupdatemultiplegrnComponent implements OnInit {
 
   itemTracking: number = 0;
   serExpTracking: string = '';
+  WHCode: string = '';
   isExpiryButtonEnabled: boolean = false;
   buttonName: string = '';
   shouldHideButtonName: boolean = false;  // Condition to disable the name
+  tranNumber: string='';
 
   constructor(private fb: FormBuilder, private http: HttpClient, private router: Router, private apiService: ApiService,
     private authService: AuthorizeService, private utilService: UtilityService, public dialogRef: MatDialogRef<AddupdatemultiplegrnComponent>,
@@ -561,7 +563,7 @@ export class AddupdatemultiplegrnComponent implements OnInit {
         sequence: this.getSequence(),
 
         tranNumber: "0", tranItemCode: this.tranItemCode, tranItemName: this.tranItemName, tranItemName2: '', tranItemQty: this.tranItemQty, tranItemUnitCode: this.tranItemUnitCode, tranUOMFactor: this.tranUOMFactor,
-        tranItemCost: this.tranItemCost, tranTotCost: this.tranTotCost, discPer: this.discPer, discAmt: this.discAmt, itemTax: 0, itemTaxPer: this.itemTaxPer,
+        tranItemCost: this.tranItemCost, tranTotCost: this.tranTotCost, discPer: this.discPer, discAmt: this.discAmt, itemTax: 0, itemTaxPer: this.itemTaxPer, whCode: this.WHCode,
         taxAmount: this.taxAmount, itemTracking: 0, receivingQty: this.receivingQty, balQty: this.balQty, receivedQty: this.receivedQty, serExpTracking: this.serExpTracking
       });
     
@@ -587,6 +589,7 @@ export class AddupdatemultiplegrnComponent implements OnInit {
 
   editInvoiceItem(item: any) {
       this.pono = item.PONO;
+      this.form.value['Prcode'] = item.PONO;
       this.editsequence = item.sequence,
       this.tranItemCode = item.tranItemCode,
       this.tranItemName = item.tranItemName,
@@ -604,10 +607,11 @@ export class AddupdatemultiplegrnComponent implements OnInit {
       this.itemTracking = item.itemTracking,
       this.receivingQty = item.receivingQty,
       this.balQty = item.balQty,
-      this.receivedQty = item.receivedQty
+      this.receivedQty = item.receivedQty,
+      this.WHCode = item.WHCode,
+      this.tranNumber = item.tranNumber
       this.serExpTracking = item.serExpTracking
-
-    if (this.serExpTracking === 'EXP') {
+    if(this.serExpTracking === 'EXP') {
       this.isExpiryButtonEnabled = true;
       this.buttonName = this.serExpTracking;
     } else if (this.serExpTracking === 'SRL') {
@@ -811,6 +815,10 @@ export class AddupdatemultiplegrnComponent implements OnInit {
     /* this.form.value['Prcode'] = "0";*/
     this.form.value['vendCode'] = this.form.value.venCatCode;
     this.form.value['purchaseOrderNO'] = this.form.value.Prcode;
+    if (this.form.value.Prcode == null || this.form.value.Prcode=="") {
+      this.form.value['purchaseOrderNO'] = this.pono;
+     
+    }
 
 
     this.form.value['itemList'] = this.listOfInvoices;
@@ -921,13 +929,16 @@ export class AddupdatemultiplegrnComponent implements OnInit {
         this.form.patchValue({ 'compCode': `${res['compCode']}` });
         this.form.patchValue({ 'tranCurrencyCode': `${res['tranCurrencyCode']}` });
         this.form.patchValue({ 'poNotes': `${res['poNotes']}` });
+        this.form.patchValue({ 'Prcode': `${res['purchaseOrderNO']}` });
+        this.form.patchValue({ 'WHCode': `${res['whCode']}` });
+        this.form.patchValue({ 'tranNumber': `${res['tranNumber']}` });
         let listOfInvoices = res['itemList'] as Array<any>;
 
         listOfInvoices.forEach(item => {
-          //this.editInvoiceItem(item);
-          this.listOfInvoices.push({
+         // this.editInvoiceItem(item);
+                this.listOfInvoices.push({
             sequence: this.getSequence(),
-            tranNumber: "0", tranItemCode: item.tranItemCode, tranItemName: item.tranItemName, tranItemName2: item.tranItemName2, tranItemQty: item.tranItemQty, tranItemUnitCode: item.tranItemUnitCode, tranUOMFactor: item.tranUOMFactor,
+            tranNumber: item.tranNumber, tranItemCode: item.tranItemCode, tranItemName: item.tranItemName, tranItemName2: item.tranItemName2, tranItemQty: item.tranItemQty, tranItemUnitCode: item.tranItemUnitCode, tranUOMFactor: item.tranUOMFactor, PONO: item.poNo, WHCode: item.whCode,
             tranItemCost: item.tranItemCost, tranTotCost: item.tranTotCost, discPer: item.discPer, discAmt: item.discAmt, itemTax: item.itemTax, itemTaxPer: item.itemTaxPer, taxAmount: item.taxAmount, itemTracking: item.itemTracking, receivingQty: item.receivingQty, balQty: item.balQty, receivedQty: item.receivedQty, serExpTracking: item.serExpTracking
           });
         });
@@ -995,7 +1006,7 @@ export class AddupdatemultiplegrnComponent implements OnInit {
   //}
 
   public openIntExpSerial() {
-    var item = { 'tranItemCode': this.tranItemCode, 'tranItemName': this.tranItemName, 'tranItemQty': this.tranItemQty, 'PONO': this.pono, 'tracking': this.serExpTracking };
+    var item = { 'tranItemCode': this.tranItemCode, 'tranItemName': this.tranItemName, 'tranItemQty': this.tranItemQty, 'PONO': this.pono, 'tracking': this.serExpTracking, 'whCode': this.WHCode, 'grnId': this.tranNumber,'tranUOMFactor':this.tranUOMFactor };
     if (item.tracking == 'EXP') {
       this.openDialogManage1(item, DBOperation.create, this.translate.instant('Create_New_Grn_Request'), '', Addupdateexpairybatch);
     } else {
@@ -1058,6 +1069,8 @@ export class AddupdatemultiplegrnComponent implements OnInit {
         this.form.patchValue({ 'compCode': `${res['compCode']}` });
         this.form.patchValue({ 'tranCurrencyCode': `${res['tranCurrencyCode']}` });
         this.form.patchValue({ 'poNotes': `${res['poNotes']}` });
+        this.form.patchValue({ 'Prcode': `${res['purchaseOrderNO']}` });
+        this.form.patchValue({ 'WHCode': `${res['whCode']}` });
         //this.id = res.id;
 
         this.listOfInvoices = [];
@@ -1065,7 +1078,7 @@ export class AddupdatemultiplegrnComponent implements OnInit {
         listOfInvoices.forEach(item => {
           this.listOfInvoices.push({
             sequence: this.getSequence(),
-            tranNumber: "0", tranItemCode: item.tranItemCode, tranItemName: item.tranItemName, tranItemName2: item.tranItemName2, tranItemQty: item.tranItemQty, tranItemUnitCode: item.tranItemUnitCode, tranUOMFactor: item.tranUOMFactor, PONO: item.poNo,
+            tranNumber: "0", tranItemCode: item.tranItemCode, tranItemName: item.tranItemName, tranItemName2: item.tranItemName2, tranItemQty: item.tranItemQty, tranItemUnitCode: item.tranItemUnitCode, tranUOMFactor: item.tranUOMFactor, PONO: item.poNo, WHCode: item.whCode,
             tranItemCost: item.tranItemCost, tranTotCost: item.tranTotCost, discPer: item.discPer, discAmt: item.discAmt, itemTax: item.itemTax, itemTaxPer: item.itemTaxPer, taxAmount: item.taxAmount, itemTracking: item.itemTracking, receivingQty: 0, balQty: item.balQty, receivedQty: 0, serExpTracking: item.serExpTracking
           });
         });

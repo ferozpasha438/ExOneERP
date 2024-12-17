@@ -815,6 +815,17 @@ namespace CIN.Application.PurchasemgtQuery
             var transnumber = await _context.purchaseReturnHeader.AsNoTracking().FirstOrDefaultAsync(e => e.Id == request.id);
             TblPurchaseReturListnDto obj = new();
             var PoHeader = await _context.purchaseReturnHeader.AsNoTracking().FirstOrDefaultAsync(e => e.TranNumber == transnumber.TranNumber);
+
+            var podItems = _context.purchaseReturnDetails.AsNoTracking()
+                              .Where(e => e.TranId == PoHeader.TranNumber)
+                              .Select(e => e.TranItemCode)
+                              .ToList();
+
+            var itemTrackingData = _context.InvItemMaster.AsNoTracking()
+                         .Where(e => podItems.Contains(e.ItemCode))
+                         .Select(e => e.ItemTracking)
+                         .FirstOrDefault();
+
             if (PoHeader is not null)
             {
                 var Transid = PoHeader.TranNumber;
@@ -822,7 +833,8 @@ namespace CIN.Application.PurchasemgtQuery
                 var iteminventory = await _context.purchaseReturnDetails.AsNoTracking()
                     .Where(e => Transid == e.TranId)
                     .Select(e => new TblPopTrnPurchaseReturnDetailsDto
-                    {
+                    {  
+                        
                         TranItemCode = e.TranItemCode,
                         TranItemName = e.TranItemName,
                         TranItemName2 = e.TranItemName2,
@@ -836,12 +848,13 @@ namespace CIN.Application.PurchasemgtQuery
                         ItemTax = e.ItemTax,
                         ItemTaxPer = e.ItemTaxPer,
                         TaxAmount = e.TaxAmount,
-                        ItemTracking = e.ItemTracking
+                        ItemTracking = e.ItemTracking,
+                        SerExpTracking= itemTrackingData
 
 
                     }).ToListAsync();
 
-
+                obj.SerExpTracking = itemTrackingData;
                 obj.VenCatCode = PoHeader.VenCatCode;
                 obj.TranNumber = PoHeader.TranNumber;
                 obj.Trantype = PoHeader.Trantype;
@@ -860,6 +873,7 @@ namespace CIN.Application.PurchasemgtQuery
                 obj.itemList = iteminventory;
                 obj.TranCurrencyCode = PoHeader.TranCurrencyCode;
                 obj.TranShipMode = PoHeader.TranShipMode;
+                obj.PurchaseOrderNO = PoHeader.PurchaseReturnNO;
                 obj.WHCode = PoHeader.WHCode;
 
 

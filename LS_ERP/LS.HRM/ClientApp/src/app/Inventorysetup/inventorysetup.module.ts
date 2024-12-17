@@ -20,6 +20,7 @@ import { InventoryDistributionComponent } from './inventorydistribution/inventor
 import { AddupdateInventoryDistributionComponent } from './sharedpages/addupdateinventorydistribution/addupdateinventorydistribution.component';
 import { InventorypodistributionComponent } from './inventorypodistribution/inventorypodistribution.component';
 import { AddupdateinventorypodistributionComponent } from './sharedpages/addupdateinventorypodistribution/addupdateinventorypodistribution.component';
+import { ListexpairybatchComponent } from '../Inventorymgt/sharedpages/listexpairybatch/listexpairybatch.component';
 
 
 
@@ -43,6 +44,7 @@ import { AddupdateinventorypodistributionComponent } from './sharedpages/addupda
     AddupdateInventoryDistributionComponent,
     InventorypodistributionComponent,
     AddupdateinventorypodistributionComponent,
+    ListexpairybatchComponent
   ],
   imports: [    
     InventorysetupRoutingModule,

@@ -31,7 +31,7 @@ export class Login2Component extends ParentSystemSetupComponent implements OnIni
   constructor(private fb: FormBuilder, private http: HttpClient, private router: Router,// private apiService: ApiService,
     private authService: AuthorizeService, private utilService: UtilityService, private notifyService: NotificationService) {
     super(authService);
-   
+
   }
 
 
@@ -41,7 +41,7 @@ export class Login2Component extends ParentSystemSetupComponent implements OnIni
     //if (this.authService.isAuthenticated())
     //  window.location.href = "dashboard";
     //else
-    this.lastcinnumber = localStorage.getItem('lastcinnumber') ?? 'sahir';
+    this.lastcinnumber = localStorage.getItem('lastcinnumber') ?? 'saher';
     localStorage.clear();
     localStorage.setItem('lastcinnumber', this.lastcinnumber);
     this.setForm();
@@ -57,8 +57,8 @@ export class Login2Component extends ParentSystemSetupComponent implements OnIni
     this.cinloginForm = this.fb.group({
       'cinNumber': [this.lastcinnumber, Validators.required],
       'userName': ['Admin', Validators.required],
-      //'password': ['admin@123', Validators.required]
-      'password': ['sh1234', Validators.required]
+      'password': ['admin@123', Validators.required]
+      //'password': ['sh1234', Validators.required]
 
     });
   }
@@ -127,6 +127,7 @@ export class Login2Component extends ParentSystemSetupComponent implements OnIni
           localStorage.setItem('menuItems', JSON.stringify(menuItems as Array<GetSideMenuOptionListDto>));
           this.authService.setAuthorize(true);
           this.authService.SetSubmitting(false);
+          localStorage.setItem('lastcinnumber', this.cinloginForm.controls['cinNumber'].value);
           //this.router.navigateByUrl('dashboard');
           if (dashboard.dashBoardType == "default")
             window.location.href = "dashboard";

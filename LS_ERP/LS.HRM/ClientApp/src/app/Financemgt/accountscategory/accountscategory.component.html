@@ -30,6 +30,7 @@
   </div>
 </div>
 <div class="container-fluid">
+  <spinner-loader [isLoading]="isLoading"></spinner-loader>
   <div class="row">
     <div class="col-md-12 col-lg-12">
       <div class="card">
@@ -48,28 +49,28 @@
               <ul id="tree2" *ngFor="let cg of listOfCategories" class="treeupper">
                 <li>
                   <p class="bfinAcCode" data-content="{{cg.name}}"><input type="checkbox" (change)="categoryCheck($event, cg.name)" id="{{cg.name+'_expan'}}" class="toggle_checkbox" /> &nbsp;&nbsp; <label for="{{cg.name+'_expan'}}" class="expansion {{cg.name+'_expan'}}">⇩</label> &nbsp;&nbsp;<b class="text-info cu-pointer" (click)="createAsset(cg.name)"> {{cg.name}} </b></p>
-                    <ng-container *ngIf="cg.list && cg.list.length > 0">
-                      <ul *ngFor="let scg of cg.list" class="{{'treesub ' + cg.name}}">
-                        <li>
-                          <p class="bfinAcCode" data-content="{{scg.finCatCode}}"><input type="checkbox" (change)="subCategoryCheck($event, scg.finCatCode)" id="{{scg.finCatCode+'_expan'}}" class="toggle_checkbox" />&nbsp;&nbsp; <label for="{{scg.finCatCode+'_expan'}}" class="expansion {{scg.finCatCode+'_expan'}}">⇩</label>&nbsp;&nbsp;<b class="text-info cu-pointer" (click)="createCateg(scg.finCatCode,scg.finCatName)"> {{scg.finCatName}} </b></p>
-                            <ng-container *ngIf="scg.list && scg.list.length > 0">
-                              <ul *ngFor="let acCode of scg.list" class="{{'treesubsub ' + scg.finCatCode}}">
-                                <li>
-                                  <p class="bfinAcCode" data-content="{{acCode.finSubCatCode}}"><input type="checkbox" (change)="itemCategoryCheck($event, acCode.finSubCatCode)" id="{{acCode.finSubCatCode+'_expan'}}" class="toggle_checkbox" />&nbsp;&nbsp;<label for="{{acCode.finSubCatCode+'_expan'}}" class="expansion {{acCode.finSubCatCode+'_expan'}}">⇩</label>&nbsp;&nbsp;<b class="text-info cu-pointer" (click)="createSubCateg(acCode.finSubCatCode, acCode.finSubCatName)"> {{acCode.finSubCatName}} </b></p>
-                                    <ng-container *ngIf="acCode.list && acCode.list.length > 0">
-                                      <ul *ngFor="let code of acCode.list" class="{{'treesubsubsub ' + acCode.finSubCatCode}}">
-                                        <li>
-                                          <span (click)="editAccountCode(code.id)" data-content="{{code.finAcCode + ' ' + code.finAcName}}" class="text-primary pcursor bfinAcCode">({{code.finAcCode}}) {{code.finAcName}}</span>
-                                        </li>
-                                      </ul>
-                                    </ng-container>
+                  <ng-container *ngIf="cg.list && cg.list.length > 0">
+                    <ul *ngFor="let scg of cg.list" class="{{'treesub ' + cg.name}}">
+                      <li>
+                        <p class="bfinAcCode" data-content="{{scg.finCatCode}}"><input type="checkbox" (change)="subCategoryCheck($event, scg.finCatCode)" id="{{scg.finCatCode+'_expan'}}" class="toggle_checkbox" />&nbsp;&nbsp; <label for="{{scg.finCatCode+'_expan'}}" class="expansion {{scg.finCatCode+'_expan'}}">⇩</label>&nbsp;&nbsp;<b class="text-info cu-pointer" (click)="createCateg(scg.finCatCode,scg.finCatName)"> {{scg.finCatName}} </b></p>
+                        <ng-container *ngIf="scg.list && scg.list.length > 0">
+                          <ul *ngFor="let acCode of scg.list" class="{{'treesubsub ' + scg.finCatCode}}">
+                            <li>
+                              <p class="bfinAcCode" data-content="{{acCode.finSubCatCode}}"><input type="checkbox" (change)="itemCategoryCheck($event, acCode.finSubCatCode)" id="{{acCode.finSubCatCode+'_expan'}}" class="toggle_checkbox" />&nbsp;&nbsp;<label for="{{acCode.finSubCatCode+'_expan'}}" class="expansion {{acCode.finSubCatCode+'_expan'}}">⇩</label>&nbsp;&nbsp;<b class="text-info cu-pointer" (click)="createSubCateg(acCode.finSubCatCode, acCode.finSubCatName)"> {{acCode.finSubCatName}} </b></p>
+                              <ng-container *ngIf="acCode.list && acCode.list.length > 0">
+                                <ul *ngFor="let code of acCode.list" class="{{'treesubsubsub ' + acCode.finSubCatCode}}">
+                                  <li>
+                                    <span (click)="editAccountCode(code.id)" data-content="{{code.finAcCode + ' ' + code.finAcName}}" class="text-primary pcursor bfinAcCode">({{code.finAcCode}}) {{code.finAcName}}</span>
                                   </li>
-                              </ul>
-                            </ng-container>
-                         </li>
-                      </ul>
-                    </ng-container>
-                   </li>
+                                </ul>
+                              </ng-container>
+                            </li>
+                          </ul>
+                        </ng-container>
+                      </li>
+                    </ul>
+                  </ng-container>
+                </li>
               </ul>
             </div>
           </div>

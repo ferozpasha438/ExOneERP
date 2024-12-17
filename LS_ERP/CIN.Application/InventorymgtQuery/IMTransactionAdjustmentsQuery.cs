@@ -252,7 +252,7 @@ namespace CIN.Application.InventorymgtQuery
             Log.Info("----Info AdjustmentProductUomtPriceItem method start----");
             var item = await _context.InvItemsUOM.AsNoTracking()
                  .Where(e =>
-                            (e.ItemCode.Contains(itemcode) && e.ItemUOM.Contains(ItemUOM)
+                            (e.ItemCode == itemcode && e.ItemUOM == ItemUOM
                              ))
                .Select(Product => new AdjustmentProductUnitPriceDTO
                {
@@ -987,6 +987,8 @@ namespace CIN.Application.InventorymgtQuery
                 #region QtyUpdate
                 foreach (var invtItem in iteminventory)
                 {
+                    var invtUOM = await _context.InvItemsUOM.FirstOrDefaultAsync(e => e.ItemCode == invtItem.TranItemCode && e.ItemUOM == invtItem.TranItemUnit);
+
                     var cInvItems = _context.InvItemInventory.Where(e => e.ItemCode == invtItem.TranItemCode && e.WHCode == author.WHCode);
                     var cItems = cInvItems;
                     var cItemIds = await cItems.Select(e => e.ItemCode).ToListAsync();
@@ -999,15 +1001,42 @@ namespace CIN.Application.InventorymgtQuery
                     // decimal? QtyOH = await cItems.SumAsync(e => e.QtyOH);
 
                     decimal? QtyReserved = await cItems.SumAsync(e => e.QtyReserved);
-                    decimal? ItemAvgCost = 0;// await cInvItems.SumAsync(e => e.ItemAvgCost);
+                    //decimal? ItemAvgCost = 0;// await cInvItems.SumAsync(e => e.ItemAvgCost);
+
+                    decimal ItemAvgCost = 0, originalTranItemQty = 0;
 
                     decimal? ItemLastPOCost = await cInvItems.SumAsync(e => e.ItemLastPOCost);
+                    originalTranItemQty = invtItem.TranItemQty;
 
                     foreach (var invId in cItemIds)
                     {
                         var oldInventory = await cItems.FirstOrDefaultAsync(e => e.ItemCode == invId);
+
+                        decimal itemAvgCost = 0;
+                        if (invtUOM.ItemConvFactor > 1)
+                        {
+                            invtItem.TranItemQty = invtItem.TranItemQty * invtUOM.ItemConvFactor;
+                            //oldInventory.QtyOH = (((decimal)oldInventory.QtyOH * invtUOM.ItemConvFactor) + invtItem.TranItemQty);
+                        }
+                        else
+                        {
+                            invtItem.TranItemQty = invtItem.TranItemQty;
+                            //oldInventory.QtyOH = ((decimal)oldInventory.QtyOH + invtItem.TranItemQty);
+                        }
+
                         decimal tranItemCost = invtItem.TranItemCost;// - (invtItem.TranItemCost * invtItem.DiscPer) / 100;
-                        oldInventory.ItemAvgCost = ((((decimal)oldInventory.QtyOH) * ((decimal)oldInventory.ItemAvgCost)) + (((decimal)tranItemCost) * ((decimal)invtItem.TranItemQty))) / ((((decimal)oldInventory.QtyOH) + ((decimal)invtItem.TranItemQty)));
+
+                        if (invtUOM.ItemConvFactor > 1)
+                        {
+                            itemAvgCost = ((((decimal)oldInventory.QtyOH) * ((decimal)oldInventory.ItemAvgCost)) + (((decimal)tranItemCost) * ((decimal)(invtItem.TranItemQty / invtUOM.ItemConvFactor)))) / ((((decimal)oldInventory.QtyOH) + ((decimal)invtItem.TranItemQty)));
+                        }
+                        else
+                        {
+                            itemAvgCost = ((((decimal)oldInventory.QtyOH) * ((decimal)oldInventory.ItemAvgCost)) + (((decimal)tranItemCost) * ((decimal)invtItem.TranItemQty))) / ((((decimal)oldInventory.QtyOH) + ((decimal)invtItem.TranItemQty)));
+
+                        }
+
+                        oldInventory.ItemAvgCost = itemAvgCost;
                         ItemAvgCost = oldInventory.ItemAvgCost;
                         oldInventory.QtyOH = ((decimal)oldInventory.QtyOH + invtItem.TranItemQty);
 
@@ -1015,28 +1044,10 @@ namespace CIN.Application.InventorymgtQuery
                         _context.InvItemInventory.Update(oldInventory);
                         await _context.SaveChangesAsync();
 
-                        //var cInvoice = await cItems.FirstOrDefaultAsync(e => e.ItemCode == invId);
-                        //cInvoice.QtyOH = ((decimal)QtyOH + auth.TranItemQty);
-                        //cInvoice.ItemAvgCost = (decimal)ItemAvgCost;
-
-                        //cInvoice.QtyOH = ((decimal)QtyOH);
-
-                        //cInvoice.QtyOnPO = ((decimal)QtyOnPO + auth.TranItemQty);
-                        //cInvoice.QtyReserved = ((decimal)QtyReserved + auth.TranItemQty);
-                        //cInvoice.QtyReserved = ((decimal)QtyReserved);
-                        //cInvoice.ItemAvgCost = ((((decimal)ItemLastPOCost) * ((decimal)QtyOnPO)) + (((decimal)auth.TranItemCost) * ((decimal)auth.TranItemQty))) / ((((decimal)QtyOnPO) + ((decimal)auth.TranItemQty)));
-                        //cInvoice.ItemAvgCost = ((((decimal)ItemLastPOCost) * ((decimal)QtyOH)) + (((decimal)auth.TranItemCost) * ((decimal)auth.TranItemQty))) / ((((decimal)QtyOH) + ((decimal)auth.TranItemQty)));
-                        //cInvoice.ItemAvgCost = (((decimal)QtyReserved + auth.TranItemQty)) / (((decimal)ItemAvgCost + auth.TranItemCost));
-                        //cInvoice.ItemLastPOCost = ((decimal)ItemLastPOCost + auth.TranItemCost);
-                        //cInvoice.ItemLastPOCost = ((decimal)ItemLastPOCost);
-
-                        //  _context.InvItemInventory.Update(cInvoice);
-                        // await _context.SaveChangesAsync();
-
                         var itemMaster = await cItemMasters.FirstOrDefaultAsync(e => e.ItemCode == invId);
                         if (itemMaster is not null)
                         {
-                            var C1 = String.Format("{0:0.0000}", ItemAvgCost ?? 0);
+                            var C1 = String.Format("{0:0.0000}", ItemAvgCost);
                             itemMaster.ItemAvgCost = Convert.ToString(C1);
                             _context.InvItemMaster.Update(itemMaster);
                             await _context.SaveChangesAsync();

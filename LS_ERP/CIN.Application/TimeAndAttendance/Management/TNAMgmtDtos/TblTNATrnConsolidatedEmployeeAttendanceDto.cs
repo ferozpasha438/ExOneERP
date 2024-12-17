@@ -23,17 +23,18 @@ namespace CIN.Application.TimeAndAttendance.Management.TNAMgmtDtos
         [Required]
         [StringLength(50)]
         public string PayrollPeriodCode { get; set; }
-        public int TotalDays { get; set; }
-        public int TotalPresentDays { get; set; }
-        public int TotalOffDays { get; set; }
-        public int TotalLeaves { get; set; }
-        public int TotalHolidays { get; set; }
-        public int TotalAbsents { get; set; }
-        public int NetWorkingDays { get; set; }
-        public int TotalLateDays { get; set; }
-        public long TotalLateHours { get; set; }
-        public long NormalOTHours { get; set; }
-        public long SpecialOTHours { get; set; }
+        public int? TotalDays { get; set; }
+        public int? TotalPresentDays { get; set; }
+        public int? TotalOffDays { get; set; }
+        public int? TotalLeaves { get; set; }
+        public int? TotalVacations { get; set; }
+        public int? TotalHolidays { get; set; }
+        public int? TotalAbsents { get; set; }
+        public int? NetWorkingDays { get; set; }
+        public int? TotalLateDays { get; set; }
+        public long? TotalLateHours { get; set; }
+        public long? NormalOTHours { get; set; }
+        public long? SpecialOTHours { get; set; }
         [Required]
         public byte ShiftNumber { get; set; }
     }

@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
-import { ViewChild } from '@angular/core';
-import { Component, OnInit } from '@angular/core';
+import { ChangeDetectorRef } from '@angular/core';
+import { Component, OnInit, ViewChild, AfterViewInit } from '@angular/core';
 import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
@@ -21,23 +21,28 @@ import { Observable } from 'rxjs';
 import { debounceTime, distinctUntilChanged, map, startWith, switchMap } from 'rxjs/operators';
 import { DeleteConfirmDialogComponent } from '../../../sharedcomponent/delete-confirm-dialog';
 import { ApprovaldialogwindowsComponent } from '../../approvaldialogwindows/approvaldialogwindows.component';
+import { TranslateService } from '@ngx-translate/core';
+import { AddupdatereturnexpairybatchComponent } from '../addupdatereturnexpairybatch/addupdatereturnexpairybatch.component';
+import { MultiFileUploadDto } from '../../../models/sharedDto';
 
 @Component({
   selector: 'app-addupdatepurchasereturn',
   templateUrl: './addupdatepurchasereturn.component.html',
   styleUrls: []
 })
-export class AddupdatepurchasereturnComponent implements OnInit {
+export class AddupdatepurchasereturnComponent implements OnInit  {
+ // @ViewChild(AddupdatereturnexpairybatchComponent) expBatchComponent!: AddupdatereturnexpairybatchComponent; // Reference to the second component
 
-  @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
-  @ViewChild(MatSort, { static: true }) sort: MatSort;
+  //@ViewChild(Addupdatereturnexpairybatch) expBatchComponent!: Addupdatereturnexpairybatch; // Reference to the second component
+  @ViewChild(MatPaginator, { static: true }) paginator!: MatPaginator;
+  @ViewChild(MatSort, { static: true }) sort!: MatSort;
   //@ViewChild(MatPaginator) paginator: MatPaginator;
   //@ViewChild(MatSort) sort: MatSort;
   /* displayedColumns: string[] = [];*/
   /*  displayedColumns: string[] = ['request', 'vendor', 'docnum', 'branch', 'amount', 'vat', 'reference', 'Actions'];*/
   displayedColumns: string[] = ['tranNumber', 'tranDate', 'invRefNumber', 'branchCode', 'vendCode', 'paymentID', 'taxId', 'Actions'];
-  data: MatTableDataSource<any> | null;
-  totalItemsCount: number;
+  data!: MatTableDataSource<any> | null;
+  totalItemsCount!: number;
   searchValue: string = '';
   sortingOrder: string = 'id desc';
 
@@ -81,7 +86,7 @@ export class AddupdatepurchasereturnComponent implements OnInit {
   //data: MatTableDataSource<any> | null;
   //totalItemsCount: number;
   //sortingOrder: string = 'id';
-  form: FormGroup;
+  form !: FormGroup;
   //searchValue: string = '';
   isLoading: boolean = false;
   isReadOnly: boolean = false;
@@ -134,11 +139,16 @@ export class AddupdatepurchasereturnComponent implements OnInit {
   isVatIncluded: boolean = false;
   isQuantityLoading: boolean = false;
 
-  itemTracking: number = 0;
+  isExpiryButtonEnabled: boolean = false;
 
-  constructor(private fb: FormBuilder, private http: HttpClient, private router: Router, private apiService: ApiService,
+  itemTracking: number = 0;
+  serExpTracking: string = '';
+  serExpTracking1: string = '';
+  buttonName: string = '';
+  showButton: boolean=false;
+  constructor(private fb: FormBuilder, private cdr: ChangeDetectorRef, private http: HttpClient, private router: Router, private apiService: ApiService,
     private authService: AuthorizeService, private utilService: UtilityService, public dialogRef: MatDialogRef<AddupdatepurchasereturnComponent>,
-    private notifyService: NotificationService, private validationService: ValidationService, public pageService: PaginationService, public dialog: MatDialog) {
+    private notifyService: NotificationService, private validationService: ValidationService, public pageService: PaginationService, public dialog: MatDialog, private translate: TranslateService) {
 
 
 
@@ -170,7 +180,23 @@ export class AddupdatepurchasereturnComponent implements OnInit {
       //  this.view();
 
     }
+
+    this.isExpiryButtonEnabled = false;
   }
+
+  //ngAfterViewInit(): void {
+  //  console.log("ngAfterViewInit called"); // Debug to check if ngAfterViewInit is executed
+  //  if (this.expBatchComponent) {
+  //    console.log("expBatchComponent is available"); // Check if the child component is available
+  //    this.expBatchComponent.quantityUpdated.subscribe((qty: number) => {
+  //      console.log("Received quantity from child component:", qty);
+  //      this.tranItemQty = qty;
+  //      this.cdr.detectChanges(); // Manually trigger change detection
+  //    });
+  //  } else {
+  //    console.warn("expBatchComponent is not available in ngAfterViewInit");
+  //  }
+  //}
   onSortOrder(sort: any) {
     this.totalItemsCount = 0;
     this.sortingOrder = sort.active + ' ' + sort.direction;
@@ -334,6 +360,23 @@ export class AddupdatepurchasereturnComponent implements OnInit {
         if (res) {
           // this.itemTaxPer = res[0].itemTaxperc;
           this.tranItemName = res[0].shortName;
+          this.serExpTracking = res[0].serExpTracking;
+          if (this.serExpTracking === 'EXP') {
+            this.isExpiryButtonEnabled = true;
+            this.buttonName = this.serExpTracking;
+            this.showButton = true;  // Show the button
+            this.isReadOnly = true;
+          } else if (this.serExpTracking === 'SRL') {
+            this.isExpiryButtonEnabled = false; // Button will be disabled (not needed if we are hiding it)
+            this.buttonName = this.serExpTracking;
+            this.showButton = false; // Hide the button
+            this.isReadOnly = false;
+          } else {
+            this.isExpiryButtonEnabled = false;
+            this.buttonName = this.serExpTracking;
+            this.showButton = false; // Hide the button
+            this.isReadOnly = false;
+          }
         }
         this.loadUomList(ItemCode);
       });
@@ -665,7 +708,8 @@ export class AddupdatepurchasereturnComponent implements OnInit {
 
 
   addInvoice() {
-    if (this.tranTotCost > 0) {
+   // if (this.tranTotCost > 0) {
+      if (this.tranTotCost >= 0) {
       if (this.editsequence > 0) {
         this.removeInvoiceList(this.editsequence);
 
@@ -678,9 +722,10 @@ export class AddupdatepurchasereturnComponent implements OnInit {
         tranItemCost: this.tranItemCost, tranTotCost: this.tranTotCost, discPer: this.discPer, discAmt: this.discAmt, itemTax: 0, itemTaxPer: this.itemTaxPer, taxAmount: this.taxAmount, itemTracking: 0,
         receivedQty: this.receivedQty, returnedQty: this.returnedQty, balQty: this.balQty, preBalQty: this.preBalQty
       });
-
+   //   this.calculate();
       this.setGrandTotal();
       this.setToDefault();
+
     }
   }
 
@@ -719,7 +764,23 @@ export class AddupdatepurchasereturnComponent implements OnInit {
     this.returnedQty = item.returnedQty;
     this.balQty = item.balQty;
     this.preBalQty = item.preBalQty;
-
+    this.serExpTracking = item.serExpTracking;
+    if (this.serExpTracking === 'EXP') {
+      this.isExpiryButtonEnabled = true;
+      this.buttonName = this.serExpTracking;
+      this.showButton = true;  // Show the button
+      this.isReadOnly = true;  // Make textbox read-only
+    } else if (this.serExpTracking === 'SRL') {
+      this.isExpiryButtonEnabled = false; // Button will be disabled
+      this.buttonName = this.serExpTracking;
+      this.showButton = false; // Hide the button
+      this.isReadOnly = false; // Remove readonly from textbox
+    } else {
+      this.isExpiryButtonEnabled = false;
+      this.buttonName = this.serExpTracking;
+      this.showButton = false; // Hide the button
+      this.isReadOnly = false; // Remove readonly from textbox
+    }
   }
 
   setGrandTotal() {
@@ -773,7 +834,7 @@ export class AddupdatepurchasereturnComponent implements OnInit {
   }
 
   calculate() {
-
+    //this.openIntExpSerial();
     //var itemvat = parseFloat(this.vat.toString());
     //var qty = this.quantity;
     //var price = this.price;
@@ -792,6 +853,7 @@ export class AddupdatepurchasereturnComponent implements OnInit {
 
 
   calculateQuantity() {
+    
     const whCode = this.form.controls['whCode'].value;
 
     if (whCode && this.tranItemCode && this.tranItemQty) {
@@ -968,14 +1030,16 @@ export class AddupdatepurchasereturnComponent implements OnInit {
         this.form.patchValue({ 'compCode': `${res['compCode']}` });
         this.form.patchValue({ 'tranCurrencyCode': `${res['tranCurrencyCode']}` });
         this.form.patchValue({ 'poNotes': `${res['poNotes']}` });
+        this.form.patchValue({ 'serExpTracking': `${res['serExpTracking']}` });
         let listOfInvoices = res['itemList'] as Array<any>;
+        this.serExpTracking1 = res['serExpTracking'];
 
         listOfInvoices.forEach(item => {
           this.listOfInvoices.push({
             sequence: this.getSequence(),
             tranNumber: "0", tranItemCode: item.tranItemCode, tranItemName: item.tranItemName, tranItemName2: item.tranItemName2, tranItemQty: item.tranItemQty, tranItemUnitCode: item.tranItemUnitCode, tranUOMFactor: item.tranUOMFactor,
             tranItemCost: item.tranItemCost, tranTotCost: item.tranTotCost, discPer: item.discPer, discAmt: item.discAmt, itemTax: item.itemTax, itemTaxPer: item.itemTaxPer, taxAmount: item.taxAmount, itemTracking: item.itemTracking,
-            receivedQty: item.receivedQty, returnedQty: item.returnedQty, balQty: item.balQty, preBalQty: item.preBalQty
+            receivedQty: item.receivedQty, returnedQty: item.returnedQty, balQty: item.balQty, preBalQty: item.preBalQty, serExpTracking: item.serExpTracking
           });
         });
 
@@ -984,6 +1048,37 @@ export class AddupdatepurchasereturnComponent implements OnInit {
       }
     })
   }
+
+
+  public openIntExpSerial() {
+    const whCode = this.form.controls['whCode'].value;
+    //const expItemTracking = this.form.controls['serExpTracking'].value
+    var item = { 'tranitemcode': this.tranItemCode, 'tranitemname': this.tranItemName, 'tranitemqty': this.tranItemQty, 'pono': '000', 'tracking': this.serExpTracking, 'whcode': whCode, 'grnid': '0', 'tranuomfactor': this.tranUOMFactor };
+    if (item.tracking == 'EXP' || this.serExpTracking1 =='EXP') {
+      this.openDialogManage1(item, DBOperation.create, this.translate.instant('Create_New_Request'), '', AddupdatereturnexpairybatchComponent);
+    } else {
+      alert("Call Serial Popup");
+    }
+  }
+
+  private openDialogManage1<T>(item: any, dbops: DBOperation, modalTitle: string = '', modalBtnTitle: string = '', component: T, moduleFile: MultiFileUploadDto = { module: '00', action: '00act' }, width: number = 60) {
+    let dialogRef = this.utilService.openDialogCongif(this.dialog, component, width);
+    (dialogRef.componentInstance as any).dbops = dbops;
+    (dialogRef.componentInstance as any).modalTitle = modalTitle;
+    (dialogRef.componentInstance as any).modalBtnTitle = modalBtnTitle;
+    (dialogRef.componentInstance as any).inputData = item;
+    (dialogRef.componentInstance as any).moduleFile = moduleFile;
+
+    dialogRef.afterClosed().subscribe(res => {
+      console.log("Dialog closed with result:", res);  // Debug log
+      if (res && res.isOk && res.totalItemQuantity !== undefined) {
+        this.tranItemQty = res.totalItemQuantity;
+        this.initialLoading();
+      }
+    });
+  }
+
+
   public view() {
 
     this.apiService.get('purchasereturn', this.id).subscribe(res => {

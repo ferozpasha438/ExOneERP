@@ -13,6 +13,7 @@ import { UtilityService } from 'src/app/services/utility.service';
 import { ParentpayrollmgtComponent } from 'src/app/sharedcomponent/parentpayrollmgt.component';
 import { EmployeemanagementtabsComponent } from '../Sharedcomponent/employeemanagementtabs/employeemanagementtabs.component';
 import { TblPRLSysPayrollComponentDto } from 'src/app/models/Payroll/PayrollComponentDto';
+import { default as constants } from '../../../../assets/i18n/constants.json';
 
 @Component({
   selector: 'app-getemployeepayrollstructure',
@@ -87,6 +88,14 @@ export class GetemployeepayrollstructureComponent
         if (res) {
           res.allowImageUpload = false;
           this.employeeBasicInfo = res;
+          if (
+            !(this.employeeBasicInfo.employeeImageUrl as string)?.includes(
+              constants.employeeProfile
+            )
+          )
+            this.employeeBasicInfo.employeeImageUrl = `${this.authService
+              .GetHrmApiEndPoint()
+              .replace('api', '')}${this.employeeBasicInfo.employeeImageUrl}`;
         }
       });
   }
@@ -118,8 +127,7 @@ export class GetemployeepayrollstructureComponent
       .getQueryString(`PayrollComponent/GetPayrollComponents?`, queryParam)
       .subscribe((res) => {
         if (res) {
-          let payrollComponents: Array<TblPRLSysPayrollComponentDto> =
-            res;
+          let payrollComponents: Array<TblPRLSysPayrollComponentDto> = res;
           payrollComponents.forEach(
             (e) =>
               (e.payrollComponentName = this.isArab
@@ -134,7 +142,7 @@ export class GetemployeepayrollstructureComponent
           );
         }
       });
-    }
+  }
 
   get packageComponentsFrmArray(): FormArray {
     return <FormArray>this.form.get('packageComponents');

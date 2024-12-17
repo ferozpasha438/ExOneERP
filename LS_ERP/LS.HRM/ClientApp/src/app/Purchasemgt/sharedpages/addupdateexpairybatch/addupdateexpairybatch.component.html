@@ -52,7 +52,8 @@
             <th>{{ 'EXP Date' | translate }}</th>
             <th>{{ 'Qty' | translate }}</th>
             <th>{{ 'Remarks' | translate }}</th>
-            <th> </th>
+            <th></th>
+            <th></th>
           </tr>
         </thead>
         <tbody>
@@ -61,67 +62,47 @@
               <input class="form-control" type="text" placeholder="{{ 'batchNumber' | translate }}" [(ngModel)]="batchNumber" [ngModelOptions]="{standalone: true}">
             </td>
             <!--<td>
-    <input class="form-control"
-           type="text"
-           placeholder="{{ 'batchNumber' | translate }}"
-           formControlName="batchNumber"
-           name="batchNumber" />
-  </td>-->
+                   <input class="form-control"
+                   type="text"
+                   placeholder="{{ 'batchNumber' | translate }}"
+                   formControlName="batchNumber"
+                   name="batchNumber" />
+           </td>-->
             <td>
               <input class="form-control" type="date" placeholder="{{ 'mfgDate' | translate }}" [(ngModel)]="mfgDate" [ngModelOptions]="{standalone: true}">
             </td>
-            <!--<td>
-    <input class="form-control"
-           type="date"
-           placeholder="{{ 'mfgDate' | translate }}"
-           formControlName="mfgDate"
-           name="mfgDate" />
-  </td>-->
+           
             <td>
               <input class="form-control" type="date" placeholder="{{ 'expDate' | translate }}" [(ngModel)]="expDate" [ngModelOptions]="{standalone: true}">
             </td>
-            <!--<td>
-    <input class="form-control"
-           type="date"
-           placeholder="{{ 'expDate' | translate }}"
-           formControlName="expDate"
-           name="expDate" />
-  </td>-->
+         
             <td>
               <input class="form-control" type="text" placeholder="{{ 'qty' | translate }}" [(ngModel)]="qty" [ngModelOptions]="{standalone: true}">
             </td>
-            <!--<td>
-              <input class="form-control"
-                     type="number"
-                     placeholder="{{ 'qty' | translate }}"
-                     formControlName="qty"
-                     name="qty" />
-            </td>-->
+          
             <td>
               <input class="form-control" type="text" placeholder="{{ 'remarks' | translate }}" [(ngModel)]="remarks" [ngModelOptions]="{standalone: true}">
             </td>
 
-            <!--<td>
-              <input class="form-control"
-                     type="text"
-                     placeholder="{{ 'remarks' | translate }}"
-                     formControlName="remarks"
-                     name="remarks" />
-            </td>-->
+           
             <td>
               <button type="button" class="btn waves-effect waves-light btn-primary" (click)="addExpRecord()"><i class="icon-plus"></i></button>
 
             </td>
+            <td></td>
           </tr>
         </tbody>
         <thead>
           <tr>
-            <th>{{ 'Batch' | translate }}</th>
-            <th>{{ 'MFG Date' | translate }}</th>
-            <th>{{ 'EXP Date' | translate }}</th>
-            <th>{{ 'Qty' | translate }}</th>
-            <th>{{ 'Remarks' | translate }}</th>
-            <th>{{ 'Actions' | translate }}</th>
+            
+                <th>{{ 'Batch' | translate }}</th>
+                <th>{{ 'MFG Date' | translate }}</th>
+                <th>{{ 'EXP Date' | translate }}</th>
+                <th>{{ 'Qty' | translate }}</th>
+                <th>{{ 'Base Qty' | translate }}</th>
+                <th>{{ 'Remarks' | translate }}</th>
+                <th>{{ 'Actions' | translate }}</th>
+                
           </tr>
         </thead>
         <tbody>
@@ -130,16 +111,26 @@
             <td>{{ item.mfgDate }}</td>
             <td>{{ item.expDate }}</td>
             <td>{{ item.qty }}</td>
+            <td>{{item.qty}} * {{item.tranUOMFactor}} = {{ (item.qty)*(item.tranUOMFactor) }}</td>
             <td>{{ item.remarks }}</td>
             <td class="text-center">
               <i class="icon-note cpointer" (click)="editRecord(item)"></i>&nbsp;
               <i class="icon-trash cpointer" (click)="deleteRecord(item)"></i>&nbsp;
             </td>
+            
           </tr>
         </tbody>
         <tfoot>
+          
           <tr class="tfoot">
-            <td colspan="6"></td>
+            <!--<td colspan="6" rowspan="5"></td>-->
+            <td></td>
+            <td></td>
+            <td class="text-right bgcolor ">{{'Total_Quantity' | translate}}</td>
+            <td>{{ totalItemQuantity }}</td>
+            <td class="bgcolor"></td>
+            <td class="bgcolor"></td>
+            <td class="bgcolor"></td>
           </tr>
         </tfoot>
       </table>

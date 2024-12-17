@@ -41,15 +41,38 @@ export class UtilityService {
   }
 
   getPrintForLocale = (printContent: HTMLElement) => `<div dir='${this.isArabic() ? 'rtl' : 'ltr'}'>${printContent.innerHTML}</div>`
-  printForLocale(printContent: HTMLElement) {
-    const WindowPrt: any = window.open('', '', 'left=0,top=0,width=2000,height=1000,toolbar=0,scrollbars=0,status=0');
+  printForLocale(printContent: HTMLElement, canClose: boolean = false) {
+    const WindowPrt: Window | null = window.open('', '', 'left=0,top=0,width=2000,height=1000,toolbar=0,scrollbars=0,status=0');
     setTimeout(() => {
-      WindowPrt.document.write(this.getPrintForLocale(printContent));
-      WindowPrt.document.close();
-      WindowPrt.focus();
-      WindowPrt.print();
-      WindowPrt.close();
+      WindowPrt?.document.write(this.getPrintForLocale(printContent));
+      WindowPrt?.document.close();
+      WindowPrt?.focus();
+      WindowPrt?.print();
+      if (!canClose)
+        //  this.printForLocaleNoClose(printContent, WindowPrt);
+        //else
+        WindowPrt?.close();
     }, 50);
+  }
+
+  printForLocaleNoClose(printContent: HTMLElement, WindowPrt: Window | null) {
+    //const WindowPrt: Window | null = window.open('', '', 'left=0,top=0,width=2000,height=1000,toolbar=0,scrollbars=0,status=0');
+
+    setTimeout(() => {
+      //WindowPrt?.document.write(this.getPrintForLocale(printContent));
+      //WindowPrt?.document.close();
+      //WindowPrt?.focus();
+      //WindowPrt?.print();
+      WindowPrt?.close()
+    }, 100);
+    // window.onfocus = function () { setTimeout(() => { WindowPrt.close(); window.close(); }, 100); }
+    //setTimeout(() => {
+    //  WindowPrt.document.write(this.getPrintForLocale(printContent));
+    //  WindowPrt.document.close();
+    //  WindowPrt.focus();
+    //  WindowPrt.print();
+    //  WindowPrt.close();   
+    //}, 50);   
   }
 
 

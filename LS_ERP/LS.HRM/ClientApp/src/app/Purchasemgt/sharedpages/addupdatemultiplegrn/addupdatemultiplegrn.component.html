@@ -36,7 +36,7 @@
               <div class="col-md-3 col-lg-3">
                 <div class="form-group ">
                   <label class="mr-sm-2">{{'Organization' | translate}}</label>
-                  <ng-select style="width:250px" [items]="compCodeList"
+                  <ng-select style="width: 250px; border-left: 3px solid red;" [items]="compCodeList"
                              bindLabel="text"
                              bindValue="value" formControlName="compCode">
 
@@ -64,7 +64,7 @@
               <div class="col-md-3 col-lg-3">
                 <div class="form-group ">
                   <label class="mr-sm-2">{{'Branch' | translate}}</label>
-                  <ng-select [items]="BranchCodeList"
+                  <ng-select [items]="BranchCodeList" style="border-left: 3px solid red;"
                              bindLabel="text"
                              bindValue="value" formControlName="branchCode">
 
@@ -351,7 +351,7 @@
 
             <!--<button [disabled]="!isExpiryButtonEnabled" type="button" (click)="openIntExpSerial()">Expiry</button>-->
 
-            <button [disabled]="!isExpiryButtonEnabled" type="button" (click)="openIntExpSerial()">
+            <button [disabled]="!isExpiryButtonEnabled" type="button" class="btn waves-effect waves-light   btn-primary" (click)="openIntExpSerial()">
               {{ buttonName }}
             </button>
 

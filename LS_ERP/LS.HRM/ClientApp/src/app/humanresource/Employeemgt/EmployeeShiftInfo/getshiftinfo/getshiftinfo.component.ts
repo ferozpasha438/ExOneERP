@@ -7,6 +7,7 @@ import { ApiService } from 'src/app/services/api.service';
 import { UtilityService } from 'src/app/services/utility.service';
 import { ParentHrmAdminComponent } from 'src/app/sharedcomponent/ParentHrmAdmin.component';
 import { GetemployeepersonalinfoComponent } from '../../Employeepersonalinfo/getemployeepersonalinfo.component';
+import { default as constants } from '../../../../../assets/i18n/constants.json';
 
 @Component({
   selector: 'app-getshiftinfo',
@@ -95,6 +96,15 @@ export class GetshiftinfoComponent
         if (res) {
           res.allowImageUpload = false;
           this.employeeBasicInfo = res;
+
+          if (
+            !(this.employeeBasicInfo.employeeImageUrl as string)?.includes(
+              constants.employeeProfile
+            )
+          )
+            this.employeeBasicInfo.employeeImageUrl = `${this.authService
+              .ApiEndPoint()
+              .replace('api', '')}${this.employeeBasicInfo.employeeImageUrl}`;
         }
       });
   }

@@ -21,13 +21,13 @@ namespace CIN.Domain.HumanResource.ServiceRequest.HRMServiceRequestDtos
         public string ServiceRequestRefNo { get; set; }
 
         //ServiceRequestTypeCode
-       
+
         [Required]
         [StringLength(20)]
         public string ServiceRequestTypeCode { get; set; }
 
         //EmployeeID
-      
+
         [Required]
         public int EmployeeID { get; set; }
         public string EmployeeName { get; set; }
@@ -44,5 +44,7 @@ namespace CIN.Domain.HumanResource.ServiceRequest.HRMServiceRequestDtos
 
         //IsApproved
         public bool IsApproved { get; set; }
+        public bool HasReleaseExitEntry { get; set; }
+        public bool HasReportedBack { get; set; }
     }
 }

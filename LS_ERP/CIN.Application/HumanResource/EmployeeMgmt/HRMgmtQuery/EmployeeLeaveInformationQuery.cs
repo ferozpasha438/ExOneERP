@@ -3,6 +3,7 @@ using AutoMapper.QueryableExtensions;
 using CIN.Application.Common;
 using CIN.Application.HumanResource.EmployeeMgmt.HRMgmtDtos;
 using CIN.Application.HumanResource.SetUp.HRMSetUpDtos;
+using CIN.Application.SystemSetupDtos;
 using CIN.Application.TimeAndAttendance.Management.TNAMgmtDtos;
 using CIN.DB;
 using CIN.Domain.HumanResource.EmployeeMgt;
@@ -24,6 +25,7 @@ namespace CIN.Application.HumanResource.EmployeeMgmt.HRMgmtQuery
     {
         public UserIdentityDto User { get; set; }
         public int EmployeeID { get; set; }
+        public string LeaveTypeCode { get; set; }
     }
 
     public class GetEmployeeLeaveInformationByIdHandler : IRequestHandler<GetEmployeeLeaveInformationById, BaseEmployeeLeaveInformationDto>
@@ -66,13 +68,28 @@ namespace CIN.Application.HumanResource.EmployeeMgmt.HRMgmtQuery
                                                     TranDate = employeeLeaveInformation.TranDate,
                                                     Remarks = employeeLeaveInformation.Remarks,
                                                 }).AsNoTracking()
-                               .Where(e => e.EmployeeID == request.EmployeeID).OrderBy(e => e.Id).ToListAsync(cancellationToken);
+                               .Where(e => e.EmployeeID == request.EmployeeID)
+                               .OrderByDescending(e => e.Id).
+                               ToListAsync(cancellationToken);
+
+                    var employeeLeaveBalanceInfo = employeeLeaves.GroupBy(e => e.LeaveTypeCode)
+                        .Select(group => new EmployeeLeaveBalanceInfoDto
+                        {
+                            LeaveTypeCode = group.First().LeaveTypeCode,
+                            LeaveTypeName = group.First().LeaveTypeName,
+                            TotalAssigned = group.Sum(item => item.Assigned),
+                            TotalAvailed = group.Sum(item => item.Availed)
+                        }).ToList();
+
+                    if (!string.IsNullOrEmpty(request.LeaveTypeCode))
+                        employeeLeaves = employeeLeaves.Where(e => e.LeaveTypeCode == request.LeaveTypeCode).ToList();
 
                     if (employeeLeaves is not null && employeeLeaves.Count() > 0)
                     {
                         //Retrieve PackageCode.
                         baseEmployeeLeaveInformationDto.LeaveTemplateCode = employeeLeaves.FirstOrDefault().TemplateCode;
                         baseEmployeeLeaveInformationDto.EmployeeLeaves = employeeLeaves;
+                        baseEmployeeLeaveInformationDto.EmployeeLeaveBalances = employeeLeaveBalanceInfo;
                     }
 
                     Log.Info("----Info GetEmployeeLeaveInformationById method end----");
@@ -193,7 +210,7 @@ namespace CIN.Application.HumanResource.EmployeeMgmt.HRMgmtQuery
         }
     }
 
-    #endregion
+    #endregion    
 
     #region GetEmployeeLeaveTemplateMappings
 
@@ -257,4 +274,178 @@ namespace CIN.Application.HumanResource.EmployeeMgmt.HRMgmtQuery
     }
 
     #endregion
+
+
+    #region GetLeaveAdjTransactionList
+
+    public class GetLeaveAdjTransactionList : IRequest<PaginatedList<TblHRMTrnEmployeeLeaveInformationDto>>
+    {
+        public UserIdentityDto User { get; set; }
+        public PaginationFilterDto Input { get; set; }
+    }
+
+    public class GetCreateUpdateLeaveAdjTransactionListHandler : IRequestHandler<GetLeaveAdjTransactionList, PaginatedList<TblHRMTrnEmployeeLeaveInformationDto>>
+    {
+        private readonly CINDBOneContext _context;
+        private readonly IMapper _mapper;
+        public GetCreateUpdateLeaveAdjTransactionListHandler(CINDBOneContext context, IMapper mapper)
+        {
+            _context = context;
+            _mapper = mapper;
+        }
+        public async Task<PaginatedList<TblHRMTrnEmployeeLeaveInformationDto>> Handle(GetLeaveAdjTransactionList request, CancellationToken cancellationToken)
+        {
+            var search = request.Input.Query;
+            var list = await _context.EmployeeLeaveInformations.AsNoTracking()
+              .Where(e => e.IsLeaveAdjusted == true)
+               .OrderByDescending(e => e.Id)
+               .Select(e => new TblHRMTrnEmployeeLeaveInformationDto
+               {
+                   Id = e.Id,
+                   EmployeeID = e.EmployeeID,
+                   TranDate = e.TranDate,
+                   Remarks = e.Remarks,
+                   IsActive = e.IsActive,
+               })
+                 .PaginationListAsync(request.Input.Page, request.Input.PageCount, cancellationToken);
+
+            bool isArab = request.User.Culture.IsArab();
+            foreach (var item in list.Items)
+            {
+                var emp = await _context.PersonalInformation.FirstOrDefaultAsync(e => e.Id == item.EmployeeID);
+                item.EmployeeNumber = emp.EmployeeNumber;
+                item.EmployeeName = isArab ? $"{emp.FirstNameAr} {emp.LastNameAr}" : $"{emp.FirstNameEn} {emp.LastNameEn}";
+            }
+            return list;
+        }
+    }
+
+    #endregion
+
+
+    #region GetLeaveAdjTransactionById
+
+    public class GetLeaveAdjTransactionById : IRequest<TblHRMTrnEmployeeLeaveInformationDto>
+    {
+        public UserIdentityDto User { get; set; }
+        public int Id { get; set; }
+    }
+
+    public class GetLeaveAdjTransactionByIdHandler : IRequestHandler<GetLeaveAdjTransactionById, TblHRMTrnEmployeeLeaveInformationDto>
+    {
+        private readonly CINDBOneContext _context;
+        private readonly IMapper _mapper;
+        public GetLeaveAdjTransactionByIdHandler(CINDBOneContext context, IMapper mapper)
+        {
+            _context = context;
+            _mapper = mapper;
+        }
+        public async Task<TblHRMTrnEmployeeLeaveInformationDto> Handle(GetLeaveAdjTransactionById request, CancellationToken cancellationToken)
+        {
+            var item = await _context.EmployeeLeaveInformations.AsNoTracking()
+              .Where(e => e.IsLeaveAdjusted == true)
+               .OrderByDescending(e => e.Id)
+               .Select(e => new TblHRMTrnEmployeeLeaveInformationDto
+               {
+                   Id = e.Id,
+                   EmployeeID = e.EmployeeID,
+                   TranDate = e.TranDate,
+                   Remarks = e.Remarks,
+                   IsActive = e.IsActive,
+                   TemplateCode = e.TemplateCode,
+                   LeaveTypeCode = e.LeaveTypeCode,
+                   TypeOfAdj = e.Assigned > 0 ? "Assigned" : "Availed",
+                   NoOfDays = e.Assigned > 0 ? e.Assigned : e.Availed,
+               })
+                 .FirstOrDefaultAsync(e => e.Id == request.Id);
+
+            return item;
+        }
+    }
+
+    #endregion
+
+    #region CreateUpdateLeaveAdjTransaction
+
+    public class CreateUpdateLeaveAdjTransaction : IRequest<AppCtrollerDto>
+    {
+        public UserIdentityDto User { get; set; }
+        public CreateUpdateLeaveAdjTransactionDto Input { get; set; }
+    }
+    public class CreateUpdateLeaveAdjTransactionHandler : IRequestHandler<CreateUpdateLeaveAdjTransaction, AppCtrollerDto>
+    {
+        private readonly CINDBOneContext _context;
+        private readonly IMapper _mapper;
+
+        public CreateUpdateLeaveAdjTransactionHandler(IMapper mapper, CINDBOneContext context)
+        {
+            _mapper = mapper;
+            _context = context;
+        }
+
+        public async Task<AppCtrollerDto> Handle(CreateUpdateLeaveAdjTransaction request, CancellationToken cancellationToken)
+        {
+            try
+            {
+                Log.Info("----Info CreateUpdateLeaveAdjTransaction method start----");
+                var obj = request.Input.EmployeeLeave;
+
+
+                if (obj is not null)
+                {
+                    TblHRMTrnEmployeeLeaveInformation employeeLeave = await _context.EmployeeLeaveInformations.FirstOrDefaultAsync(e => e.Id == obj.Id) ?? new();
+                    var template = await _context.EmployeeLeaveInformations.Select(e => new { e.LeaveTypeCode, e.TemplateCode }).FirstOrDefaultAsync(e => e.LeaveTypeCode == obj.LeaveTypeCode);
+
+                    employeeLeave.EmployeeID = obj.EmployeeID;
+                    employeeLeave.TemplateCode = template.TemplateCode;
+                    employeeLeave.LeaveTypeCode = obj.LeaveTypeCode;
+
+                    if (obj.TypeOfAdj == "Availed")
+                    {
+                        employeeLeave.Availed = obj.NoOfDays;
+                        employeeLeave.Assigned = 0;
+                    }
+                    else if (obj.TypeOfAdj == "Assigned")
+                    {
+                        employeeLeave.Assigned = obj.NoOfDays;
+                        employeeLeave.Availed = 0;
+                    }
+
+                    employeeLeave.TranDate = obj.TranDate;
+                    employeeLeave.Remarks = obj.Remarks;
+                    employeeLeave.IsActive = obj.IsActive;
+                    employeeLeave.CreatedBy = request.User.UserId;
+                    employeeLeave.Created = DateTime.Now;
+                    employeeLeave.IsLeaveAdjusted = true;
+
+                    if (obj.Id > 0)
+                    {
+                        _context.EmployeeLeaveInformations.Update(employeeLeave);
+                    }
+                    else
+                    {
+                        await _context.EmployeeLeaveInformations.AddAsync(employeeLeave);
+                    }
+                    await _context.SaveChangesAsync();
+
+                    Log.Info("----Info CreateUpdateLeaveAdjTransaction method Exit----");
+                    return ApiMessageInfo.Status(1, employeeLeave.Id);
+                }
+
+                return ApiMessageInfo.Status(0);
+
+            }
+            catch (Exception ex)
+            {
+                Log.Error("Error in CreateUpdateLeaveAdjTransaction Method");
+                Log.Error("Error occured time : " + DateTime.UtcNow);
+                Log.Error("Error message : " + ex.Message);
+                Log.Error("Error StackTrace : " + ex.StackTrace);
+                return ApiMessageInfo.Status(0);
+            }
+        }
+    }
+
+    #endregion
+
 }

@@ -107,7 +107,7 @@ import { VendorstatementComponent } from '../sharedpages/vendorstatement/vendors
   }
 
   private openDialogManage<T>(id: number = 0, dbops: DBOperation, modalTitle: string = '', modalBtnTitle: string = '', component: T, moduleFile: MultiFileUploadDto = { module: '00', action: '00act' }) {
-    let dialogRef = this.utilService.openCrudDialog(this.dialog, component);
+    let dialogRef = this.utilService.openCrudDialog(this.dialog, component,'93');
     (dialogRef.componentInstance as any).dbops = dbops;
     (dialogRef.componentInstance as any).modalTitle = modalTitle;
     (dialogRef.componentInstance as any).id = id;

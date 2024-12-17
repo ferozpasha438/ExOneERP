@@ -33,6 +33,7 @@ import { AddupdateinvserialbatchComponent } from './sharedpages/addupdateinvseri
 import { AddupdateinvspecificationComponent } from './sharedpages/addupdateinvspecification/addupdateinvspecification.component';
 import { AddupdateinvitemexpserialbatchComponent } from './sharedpages/addupdateinvitemexpserialbatch/addupdateinvitemexpserialbatch.component';
 import { Addupdateexpairybatch } from './sharedpages/addupdateexpairybatch/addupdateexpairybatch.component';
+import { AddupdatereturnexpairybatchComponent } from './sharedpages/addupdatereturnexpairybatch/addupdatereturnexpairybatch.component';
 
  
  
@@ -45,7 +46,7 @@ import { Addupdateexpairybatch } from './sharedpages/addupdateexpairybatch/addup
     EditpurchaseinvoiceComponent, SettlementmodeComponent, PurchasevendorComponent, AddupdatepurchasevendorComponent, AddupdatepurchaseorderComponent,
     AddupdatepurchasereturnComponent, AddupdatemultiplegrnComponent, GRNComponent, PoprintingpageComponent, PoprintingformatonepageComponent,
     PoprintingformattwopageComponent, PoprintingformatthreepageComponent, PoprintingformatfourpageComponent, PurchaseordersummaryComponent, VendorporeportComponent,
-    PoitemanalysissummaryComponent, PovendoranalysissummayItemComponent, AddupdateinvexpbatchComponent, AddupdateinvserialbatchComponent, AddupdateinvspecificationComponent, AddupdateinvitemexpserialbatchComponent,Addupdateexpairybatch,
+    PoitemanalysissummaryComponent, PovendoranalysissummayItemComponent, AddupdateinvexpbatchComponent, AddupdateinvserialbatchComponent, AddupdateinvspecificationComponent, AddupdateinvitemexpserialbatchComponent, Addupdateexpairybatch, AddupdatereturnexpairybatchComponent
   ],
   imports: [    
     PurchasemgsetupRoutingModule,

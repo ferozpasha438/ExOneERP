@@ -299,8 +299,6 @@ namespace CIN.Application.InventoryDtos
     [AutoMap(typeof(TblErpInvItemInventory))]
     public class TblErpInvItemInventoryDto : AutoActiveGenerateIdKeyDto<int>
     {
-
-
         [StringLength(20)]
         public string ItemCode { get; set; }
         [StringLength(10)]
@@ -318,6 +316,8 @@ namespace CIN.Application.InventoryDtos
         public decimal MinQty { get; set; }
         public decimal MaxQty { get; set; }
         public decimal EOQ { get; set; }
+
+        public decimal UnitConvFactor { get; set; }
     }
 
 
@@ -329,6 +329,9 @@ namespace CIN.Application.InventoryDtos
     public class TblErpInvItemExpiryBatchDto : PrimaryKeyDto<int>
     {
         [StringLength(20)]
+        public string GrnId { get; set; }
+
+        [StringLength(20)]
         public string ItemCode { get; set; }
         [StringLength(250)]
         public string ItemName { get; set; }
@@ -336,6 +339,7 @@ namespace CIN.Application.InventoryDtos
         public string PoNumber { get; set; }
         [StringLength(30)]
         public string BatchNumber { get; set; }
+        public string WHCode { get; set; }
         public DateTime MfgDate { get; set; }
         public DateTime ExpDate { get; set; }
         public decimal Qty { get; set; }
@@ -343,12 +347,87 @@ namespace CIN.Application.InventoryDtos
         public decimal Available { get; set; }
         [StringLength(250)]
         public string Remarks { get; set; }
+
     }
+
+
+
+    [AutoMap(typeof(TblErpInvGrnItemExpiryBatch))]
+    public class TblErpInvGrnItemExpiryBatchDto : PrimaryKeyDto<int>
+    {
+        [StringLength(20)]
+        public string GrnId { get; set; }
+
+        [StringLength(20)]
+        public string ItemCode { get; set; }
+        [StringLength(50)]
+        public string PoNumber { get; set; }
+        [StringLength(250)]
+        public string ItemName { get; set; }
+        [StringLength(30)]
+        public string BatchNumber { get; set; }
+        [StringLength(10)]
+        public string WHCode { get; set; }
+        [Column(TypeName = "date")]
+        public DateTime MfgDate { get; set; }
+        [Column(TypeName = "date")]
+        public DateTime ExpDate { get; set; }
+        public decimal Qty { get; set; }
+        public decimal TranUOMFactor { get; set; }
+        public string UOMUnitCode { get; set; }
+      //  public decimal UOMFactor { get; set; }
+        public decimal Cost { get; set; }
+        public bool PostFlag { get; set; }
+        public decimal QtyCommitted { get; set; }
+        public decimal Available { get; set; }
+        [StringLength(250)]
+        public string Remarks { get; set; }
+
+    }
+
+
+
+    [AutoMap(typeof(TblErpInvPRItemExpiryBatch))]
+    public class TblErpInvPRItemExpiryBatchDto : PrimaryKeyDto<int>
+    {
+        [StringLength(20)]
+        public string GrnId { get; set; }
+
+        [StringLength(20)]
+        public string ItemCode { get; set; }
+        [StringLength(50)]
+        public string PoNumber { get; set; }
+        [StringLength(250)]
+        public string ItemName { get; set; }
+        [StringLength(30)]
+        public string BatchNumber { get; set; }
+        [StringLength(10)]
+        public string WHCode { get; set; }
+        [Column(TypeName = "date")]
+        public DateTime MfgDate { get; set; }
+        [Column(TypeName = "date")]
+        public DateTime ExpDate { get; set; }
+        public decimal Qty { get; set; }
+        public decimal QtyCommitted { get; set; }
+        public decimal Available { get; set; }
+        [StringLength(250)]
+        public string Remarks { get; set; }
+
+    }
+
 
     public class TblErpInvItemExpiryBatchListDto
     {
         public List<TblErpInvItemExpiryBatchDto> Items { get; set; }
     }
+//New Dto created
+    public class TblErpInvGrnItemExpiryBatchListDto
+    {
+        public List<TblErpInvGrnItemExpiryBatchDto> Items { get; set; }
+    }
+
+
+
 
 
     [AutoMap(typeof(TblErpInvItemSerialBatch))]

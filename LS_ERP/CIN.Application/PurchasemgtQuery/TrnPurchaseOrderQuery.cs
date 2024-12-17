@@ -439,7 +439,7 @@ namespace CIN.Application.PurchasemgtQuery
             Log.Info("----Info ProductUomtPriceItem method start----");
             var item = await _context.InvItemsUOM.AsNoTracking()
                  .Where(e =>
-                            (e.ItemCode.Contains(itemcode) && e.ItemUOM.Contains(ItemUOM)
+                            (e.ItemCode == itemcode && e.ItemUOM == ItemUOM
                              ))
                .Select(Product => new ProductUnitPriceDTO
                {
@@ -1013,6 +1013,7 @@ namespace CIN.Application.PurchasemgtQuery
                })
                  .PaginationListAsync(request.Input.Page, request.Input.PageCount, cancellationToken);
 
+
             foreach (var item in orderList.Items)
             {
                 var poItems = _context.purchaseOrderDetails.AsNoTracking()
@@ -1102,7 +1103,7 @@ namespace CIN.Application.PurchasemgtQuery
                         ItemTaxPer = e.ItemTaxPer,
                         TaxAmount = e.TaxAmount,
                         ItemTracking = e.ItemTracking,
-                        SerExpTracking= itemTrackingData
+                        SerExpTracking = itemTrackingData
 
 
                     }).ToListAsync();
@@ -2223,6 +2224,7 @@ namespace CIN.Application.PurchasemgtQuery
                         {
                             ItemTaxperc = s.Taxper01,
                             ShortName = m.ShortName,
+                            SerExpTracking=m.ItemTracking
                         }).ToList();
 
             Log.Info("----Info ProductTaxPriceItem method Ends----");
@@ -3325,7 +3327,23 @@ namespace CIN.Application.PurchasemgtQuery
             TblGRNDetailsDto obj = new();
             if (transnumber is not null)
             {
-                var PoHeader = await _context.GRNHeaders.AsNoTracking().FirstOrDefaultAsync(e => e.TranNumber == transnumber.TranNumber);
+                //var PoHeader = await _context.GRNHeaders.AsNoTracking().FirstOrDefaultAsync(e => e.TranNumber == transnumber.TranNumber);
+
+                var PoHeader = await _context.GRNHeaders.AsNoTracking().FirstOrDefaultAsync(e => e.PurchaseOrderNO == transnumber.PurchaseOrderNO);
+
+                //  var GRNHeader = await _context.GRNHeaders.AsNoTracking().FirstOrDefaultAsync(e => e.PurchaseOrderNO == transnumber.PurchaseOrderNO);
+
+                var podItems = _context.GRNDetails.AsNoTracking()
+                              .Where(e => e.TranId == PoHeader.TranNumber)
+                              .Select(e => e.TranItemCode)
+                              .ToList();
+
+                var itemTrackingData = _context.InvItemMaster.AsNoTracking()
+                             .Where(e => podItems.Contains(e.ItemCode))
+                             .Select(e => e.ItemTracking)
+                             .FirstOrDefault();
+
+
                 if (PoHeader is not null)
                 {
                     var Transid = PoHeader.TranNumber;
@@ -3351,13 +3369,17 @@ namespace CIN.Application.PurchasemgtQuery
                             ReceivingQty = e.ReceivingQty,
                             ReceivedQty = e.ReceivedQty,
                             BalQty = e.BalQty,
-
-
+                            SerExpTracking = itemTrackingData,
+                            PoNo = PoHeader.PurchaseOrderNO,
+                            whCode=PoHeader.WHCode,
+                            TranNumber=PoHeader.TranNumber
+                            
+                            
 
 
                         }).ToListAsync();
 
-
+                    obj.PurchaseOrderNO = PoHeader.PurchaseOrderNO;
                     obj.VenCatCode = PoHeader.VenCatCode;
                     obj.TranNumber = PoHeader.TranNumber;
                     obj.Trantype = PoHeader.Trantype;
@@ -3838,6 +3860,7 @@ namespace CIN.Application.PurchasemgtQuery
                     #region QtyUpdate
                     foreach (var invtItem in iteminventory)
                     {
+                        var invtUOM = await _context.InvItemsUOM.FirstOrDefaultAsync(e => e.ItemCode == invtItem.TranItemCode && e.ItemUOM == invtItem.TranItemUnitCode);
                         var cInvItems = _context.InvItemInventory.Where(e => e.ItemCode == invtItem.TranItemCode && e.WHCode == obj.WHCode);
                         var cItems = cInvItems;
                         var cItemIds = await cItems.Select(e => e.ItemCode).ToListAsync();
@@ -3848,23 +3871,33 @@ namespace CIN.Application.PurchasemgtQuery
 
                         //decimal? QtyOnPO = await cItems.SumAsync(e => e.QtyOnPO);
                         decimal? QtyReserved = await cItems.SumAsync(e => e.QtyReserved);
-                        decimal? ItemAvgCost = await cInvItems.SumAsync(e => e.ItemAvgCost);
+                        //decimal? ItemAvgCost = await cInvItems.SumAsync(e => e.ItemAvgCost);
                         decimal? ItemLastPOCost = await cInvItems.SumAsync(e => e.ItemLastPOCost);
                         //var PoDetails = await _context.purchaseOrderDetails.Where(e => e.TranId != transnumber.TranNumber && e.TranItemCode == auth.TranItemCode).OrderBy(e => e.TranNumber).LastOrDefaultAsync();
 
-                        decimal itmAvgcost = 0;
-                        var PoDetails = await _context.purchaseOrderDetails.Where(e => e.TranId != transnumber.TranNumber && e.TranItemCode == invtItem.TranItemCode).OrderBy(e => e.TranNumber).LastOrDefaultAsync();
+                        decimal itmAvgcost = 0, originalTranItemQty = 0;
+                        //var PoDetails = await _context.purchaseOrderDetails.Where(e => e.TranId != transnumber.TranNumber && e.TranItemCode == invtItem.TranItemCode).OrderBy(e => e.TranNumber).LastOrDefaultAsync();
 
                         //if (PoDetails is not null)
                         //    itmAvgcost = (int)(((((decimal)PoDetails.TranItemQty) * ((decimal)PoDetails.TranItemCost)) + (((decimal)auth.TranItemCost) * ((decimal)auth.TranItemQty))) / ((((decimal)PoDetails.TranItemQty) + ((decimal)auth.TranItemQty))));
                         //else
                         //    itmAvgcost = (int)(((((decimal)0) * ((decimal)0)) + (((decimal)auth.TranItemCost) * ((decimal)auth.ReceivingQty))) / ((((decimal)0) + ((decimal)auth.ReceivingQty))));
 
-
+                        originalTranItemQty = invtItem.TranItemQty;
                         foreach (var itemCode in cItemIds)
                         {
 
                             var oldInventory = await cItems.FirstOrDefaultAsync(e => e.ItemCode == itemCode);
+                            decimal itemAvgCost = 0;
+                            if (invtUOM.ItemConvFactor > 1)
+                            {
+                                invtItem.TranItemQty = invtItem.ReceivingQty * invtUOM.ItemConvFactor;
+                            }
+                            else
+                            {
+                                invtItem.TranItemQty = invtItem.ReceivingQty;
+                            }
+
                             decimal tranItemCost = invtItem.TranItemCost - (invtItem.TranItemCost * invtItem.DiscPer) / 100;
 
                             //  oldInventory.QtyOH = ((decimal)QtyOnPO + auth.TranItemQty);
@@ -3876,13 +3909,21 @@ namespace CIN.Application.PurchasemgtQuery
                             // oldInventory.ItemAvgCost = ((((decimal)0) * ((decimal)0)) + (((decimal)invtItem.TranItemCost) * ((decimal)invtItem.ReceivingQty))) / ((((decimal)0) + ((decimal)invtItem.ReceivingQty)));
 
                             decimal newTranItemQty = invtItem.ReceivingQty;
-                            oldInventory.ItemAvgCost = ((oldInventory.QtyOH * oldInventory.ItemAvgCost) + (tranItemCost * newTranItemQty)) / (oldInventory.QtyOH + newTranItemQty);
-
+                            if (invtUOM.ItemConvFactor > 1)
+                            {
+                                itemAvgCost = ((((decimal)oldInventory.QtyOH) * ((decimal)oldInventory.ItemAvgCost)) + (((decimal)tranItemCost) * ((decimal)(invtItem.TranItemQty / invtUOM.ItemConvFactor)))) / ((((decimal)oldInventory.QtyOH) + ((decimal)invtItem.TranItemQty)));
+                            }
+                            else
+                            {
+                                itemAvgCost = ((oldInventory.QtyOH * oldInventory.ItemAvgCost) + (tranItemCost * newTranItemQty)) / (oldInventory.QtyOH + newTranItemQty);
+                            }
                             //cInvoice.ItemAvgCost = ((((decimal)0) * ((decimal)0)) + (((decimal)auth.TranItemCost) * ((decimal)auth.TranItemQty))) / ((((decimal)0) + ((decimal)auth.TranItemQty)));
 
+                            oldInventory.ItemAvgCost = itemAvgCost;
                             itmAvgcost = oldInventory.ItemAvgCost;
-                            oldInventory.QtyOH = ((decimal)oldInventory.QtyOH + invtItem.ReceivingQty);
 
+                            oldInventory.QtyOH = ((decimal)oldInventory.QtyOH + invtItem.TranItemQty);
+                            oldInventory.ItemLastPOCost = ((decimal)ItemLastPOCost + invtItem.TranItemCost);
                             _context.InvItemInventory.Update(oldInventory);
                             await _context.SaveChangesAsync();
 
@@ -3932,11 +3973,11 @@ namespace CIN.Application.PurchasemgtQuery
                             TranNumber = FinTrans,
                             TranUnit = invtItem.TranItemUnitCode,
                             //TranQty = invtItem.TranItemQty,
-                            TranQty = invtItem.ReceivingQty,
+                            TranQty = originalTranItemQty,//invtItem.ReceivingQty,
 
                             unitConvFactor = invtItem.TranUOMFactor,
                             //TranTotQty = invtItem.TranItemQty,
-                            TranTotQty = invtItem.ReceivingQty,
+                            TranTotQty = invtItem.TranItemQty,
 
                             TranPrice = invtItem.TranItemCost,
 
@@ -3952,6 +3993,168 @@ namespace CIN.Application.PurchasemgtQuery
 
                         _context.SaveChanges();
                         #endregion Inventory History
+
+
+
+
+                        //#region Expiry Management
+
+                        //// Retrieve all data from tblErpInvGrnItemExpiryBatch
+                        //var grnItemExpiryBatches = await _context.InvGrnItemExpiryBatches.ToListAsync();
+
+                        //// Group data by BatchNumber in memory
+                        //var groupedBatches = grnItemExpiryBatches
+                        //    .GroupBy(e => e.BatchNumber)
+                        //    .ToList();
+
+                        //foreach (var batchGroup in groupedBatches)
+                        //{
+                        //    // Create a list to hold the new entries
+                        //    List<TblErpInvItemExpiryBatch> itemExpiryBatches = new();
+
+                        //    foreach (var item in batchGroup)
+                        //    {
+                        //        // Map the data from TblErpInvGrnItemExpiryBatch to TblErpInvItemExpiryBatch
+                        //        TblErpInvItemExpiryBatch newItem = new()
+                        //        {
+                        //            // Map fields from the source table to the destination table
+                        //            ItemCode = item.ItemCode,
+                        //            PoNumber = item.PoNumber,
+                        //            ItemName = item.ItemName,
+                        //            BatchNumber = item.BatchNumber,
+                        //            WHCode = item.WHCode,
+                        //            MfgDate = item.MfgDate,
+                        //            ExpDate = item.ExpDate,
+                        //            Qty = item.Qty,
+                        //            QtyCommitted = item.QtyCommitted,
+                        //            Available = item.Available,
+                        //            Remarks = item.Remarks
+                        //        };
+
+                        //        itemExpiryBatches.Add(newItem);
+                        //    }
+
+                        //    if (itemExpiryBatches.Any())
+                        //    {
+                        //        // Insert new entries into TblErpInvItemExpiryBatch
+                        //        await _context.InvItemExpiryBatches.AddRangeAsync(itemExpiryBatches);
+                        //        await _context.SaveChangesAsync();
+                        //    }
+                        //}
+
+                        //#endregion
+
+                        #region Expiry Management 2
+
+                        // Retrieve all data from tblErpInvGrnItemExpiryBatch
+                        var grnItemExpiryBatches = await _context.InvGrnItemExpiryBatches.ToListAsync();
+
+                        // Group data by BatchNumber and ItemCode in memory and sum the quantities
+                        var groupedBatches = grnItemExpiryBatches
+                            .GroupBy(e => new { e.ItemCode, e.BatchNumber,e.PoNumber })
+                            .Select(g => new TblErpInvItemExpiryBatch
+                            {
+
+                                ItemCode = g.Key.ItemCode,
+                                BatchNumber = g.Key.BatchNumber,
+                                PoNumber = g.First().PoNumber,
+                                ItemName = g.First().ItemName,
+                                WHCode = g.First().WHCode,
+                                MfgDate = g.First().MfgDate,
+                                ExpDate = g.First().ExpDate,
+                                Qty = g.First().Qty,
+                                QtyCommitted = g.First().QtyCommitted,
+                                Available = g.First().Available,
+                                Remarks = g.First().Remarks
+                            })
+                            .ToList();
+
+                        foreach (var batch in groupedBatches)
+                        {
+                            // Check if an entry with the same BatchNumber and ItemCode already exists
+                            var existingBatch = await _context.InvItemExpiryBatches
+                                .FirstOrDefaultAsync(b => b.BatchNumber == batch.BatchNumber && b.ItemCode == batch.ItemCode);
+
+                            if (existingBatch == null)
+                            {
+                                // If no existing batch is found, add the new batch to the context
+                                await _context.InvItemExpiryBatches.AddAsync(batch);
+                            }
+                            else
+                            {
+                                existingBatch.QtyCommitted = grnItemExpiryBatches.Where(p => p.BatchNumber == batch.BatchNumber && p.ItemCode == batch.ItemCode).ToList().Sum(e => e.QtyCommitted);
+                                // If the batch already exists, you can update the existing entry or handle it as needed
+
+                                existingBatch.Qty += batch.Qty;
+                                existingBatch.Available += batch.Available;
+                                existingBatch.Remarks = batch.Remarks; // or handle Remarks differently if needed
+                            }
+                        }
+
+                        await _context.SaveChangesAsync();
+
+                        #endregion
+
+
+
+                        // #region Expiry Management 2
+
+                        // Retrieve all data from tblErpInvGrnItemExpiryBatch
+                        //var grnItemExpiryBatches = await _context.InvGrnItemExpiryBatches.ToListAsync();
+
+                        // Group data by BatchNumber and ItemCode in memory and select the necessary fields
+                        // var groupedBatches = grnItemExpiryBatches
+                        //     .GroupBy(e => new { e.ItemCode, e.BatchNumber })
+                        //     .Select(g => new TblErpInvItemExpiryBatch
+                        //     {
+                        //         ItemCode = g.Key.ItemCode,
+                        //         BatchNumber = g.Key.BatchNumber,
+                        //         PoNumber = g.First().PoNumber,
+                        //         ItemName = g.First().ItemName,
+                        //         WHCode = g.First().WHCode,
+                        //         MfgDate = g.First().MfgDate,
+                        //         ExpDate = g.First().ExpDate,
+                        //         Qty = g.Sum(e => e.Qty), // Sum quantities within the grouped batch
+                        //         QtyCommitted = g.Sum(e => e.QtyCommitted),
+                        //         Available = g.Sum(e => e.Available),
+                        //         Remarks = g.First().Remarks
+                        //     })
+                        //     .ToList();
+
+                        // foreach (var batch in groupedBatches)
+                        // {
+                        //     Check if an entry with the same BatchNumber and ItemCode already exists
+                        //    var existingBatch = await _context.InvItemExpiryBatches
+                        //        .FirstOrDefaultAsync(b => b.BatchNumber == batch.BatchNumber && b.ItemCode == batch.ItemCode);
+
+                        //     if (existingBatch == null)
+                        //     {
+                        //         If no existing batch is found, add the new batch to the context
+                        //        await _context.InvItemExpiryBatches.AddAsync(batch);
+                        //     }
+                        //     else
+                        //     {
+                        //         Update only the specific batch quantities without affecting others
+                        //         existingBatch.Qty += batch.Qty; // Use batch.Qty directly for this particular batch
+                        //         existingBatch.QtyCommitted = batch.QtyCommitted;
+                        //         existingBatch.Available = batch.Available;
+                        //         existingBatch.Remarks = batch.Remarks; // Update remarks as needed
+                        //     }
+                        // }
+
+                        // Save the changes to the database
+                        // await _context.SaveChangesAsync();
+
+                        // #endregion
+
+
+
+
+
+
+
+
+
 
                     }
                     #endregion
@@ -4398,6 +4601,11 @@ namespace CIN.Application.PurchasemgtQuery
                     }
                     #endregion
 
+                    
+
+
+
+
                 }
                 Log.Info("----Info CreatePurchaseRequest method Exit----");
                 await transaction.CommitAsync();
@@ -4461,7 +4669,8 @@ namespace CIN.Application.PurchasemgtQuery
 
                 var iteminventory = await _context.purchaseOrderDetails.AsNoTracking()
                     .Where(e => Transid == e.TranId && e.IsGrn == false)
-                    .Select(e => new TblPopTrnPurchaseOrderDetailsDto
+                    // .Where(e => Transid == e.TranId )
+                    .Select(e => new TblPopTrnPurchaseOrderDetailsDto         //TblPopTrnPurchaseOrderDetailsDto
                     {
                         TranItemCode = e.TranItemCode,
                         TranItemName = e.TranItemName,
@@ -4479,7 +4688,10 @@ namespace CIN.Application.PurchasemgtQuery
                         ItemTracking = e.ItemTracking,
                         BalQty = bqty,
                         SerExpTracking= itemTrackingData,
-                        PoNo=PoHeader.PurchaseOrderNO
+                        PoNo=PoHeader.PurchaseOrderNO,
+                        whCode=PoHeader.WHCode,
+                        TranNumber=PoHeader.TranNumber
+                        
                         
 
                     }).ToListAsync();
@@ -4541,7 +4753,7 @@ namespace CIN.Application.PurchasemgtQuery
             Log.Info("----Info GetGRNList method start----");
 
             var item = (from m in _context.purchaseOrderHeaders
-                       // where m.ISGRN == true
+                            // where m.ISGRN == true
                         group new { m } by new { m.PurchaseOrderNO } into grp
                         select new CustomSelectListItem
                         {
@@ -4641,18 +4853,23 @@ namespace CIN.Application.PurchasemgtQuery
     #endregion
 
 
-   
+
+
+
 
     
 
+
     #region Expairy Details
-    public class GetExpairyDetails : IRequest<List<TblErpInvItemExpiryBatchDto>>
+    public class GetExpairyDetails : IRequest<List<TblErpInvGrnItemExpiryBatchDto>>
     {
         public UserIdentityDto User { get; set; }
-         public string ItemCode { get; set; }
+        public string ItemCode { get; set; }
+        public string PoNumber { get; set; }
+        public string GrnNumber { get; set; }
     }
 
-    public class GetExpairyDetailsHandler : IRequestHandler<GetExpairyDetails, List<TblErpInvItemExpiryBatchDto>>
+    public class GetExpairyDetailsHandler : IRequestHandler<GetExpairyDetails, List<TblErpInvGrnItemExpiryBatchDto>>
     {
         private readonly CINDBOneContext _context;
         private readonly IMapper _mapper;
@@ -4661,14 +4878,14 @@ namespace CIN.Application.PurchasemgtQuery
             _context = context;
             _mapper = mapper;
         }
-        public async Task<List<TblErpInvItemExpiryBatchDto>> Handle(GetExpairyDetails request, CancellationToken cancellationToken)
+        public async Task<List<TblErpInvGrnItemExpiryBatchDto>> Handle(GetExpairyDetails request, CancellationToken cancellationToken)
         {
-            List<TblErpInvItemExpiryBatchDto> ExpiryBatchList = new();
-           // var Batches = await _context.InvItemExpiryBatches.AsNoTracking().Where(e => e.ItemCode == request.ItemCode).FirstOrDefaultAsync();
+            List<TblErpInvGrnItemExpiryBatchDto> ExpiryBatchList = new();
+            // var Batches = await _context.InvItemExpiryBatches.AsNoTracking().Where(e => e.ItemCode == request.ItemCode).FirstOrDefaultAsync();
 
             if (request.ItemCode is not null)
             {
-                ExpiryBatchList = await _context.InvItemExpiryBatches.AsNoTracking().ProjectTo<TblErpInvItemExpiryBatchDto>(_mapper.ConfigurationProvider).Where(e => e.ItemCode == request.ItemCode ).ToListAsync();
+                ExpiryBatchList = await _context.InvGrnItemExpiryBatches.AsNoTracking().ProjectTo<TblErpInvGrnItemExpiryBatchDto>(_mapper.ConfigurationProvider).Where(e => e.ItemCode == request.ItemCode && e.PoNumber == request.PoNumber && e.GrnId == request.GrnNumber).ToListAsync();
 
             }
 
@@ -4681,7 +4898,48 @@ namespace CIN.Application.PurchasemgtQuery
 
     #endregion
 
-   
+
+
+    #region Purchase Return Expairy Details 
+    public class GetPRExpairyDetails : IRequest<List<TblErpInvItemExpiryBatchDto>>
+    {
+        public UserIdentityDto User { get; set; }
+        public string ItemCode { get; set; }
+    }
+
+    public class GetPRExpairyDetailsHandler : IRequestHandler<GetPRExpairyDetails, List<TblErpInvItemExpiryBatchDto>>
+    {
+        private readonly CINDBOneContext _context;
+        private readonly IMapper _mapper;
+        public GetPRExpairyDetailsHandler(CINDBOneContext context, IMapper mapper)
+        {
+            _context = context;
+            _mapper = mapper;
+        }
+        public async Task<List<TblErpInvItemExpiryBatchDto>> Handle(GetPRExpairyDetails request, CancellationToken cancellationToken)
+        {
+
+            List<TblErpInvItemExpiryBatchDto> PRExpiryBatchList = new();
+            // var Batches = await _context.InvItemExpiryBatches.AsNoTracking().Where(e => e.ItemCode == request.ItemCode).FirstOrDefaultAsync();
+
+            if (request.ItemCode is not null)
+            {
+                //PRExpiryBatchList = await _context.InvPRItemExpiryBatch.AsNoTracking().ProjectTo<TblErpInvPRItemExpiryBatchDto>(_mapper.ConfigurationProvider).Where(e => e.ItemCode == request.ItemCode).ToListAsync();
+                PRExpiryBatchList = await _context.InvItemExpiryBatches.AsNoTracking().ProjectTo<TblErpInvItemExpiryBatchDto>(_mapper.ConfigurationProvider).Where(e => e.ItemCode == request.ItemCode).ToListAsync();
+
+
+            }
+
+            return PRExpiryBatchList;
+        }
+
+
+    }
+
+
+    #endregion
+
+
 
 
     #region GetInvItemSelectListByPoNumber
@@ -4775,128 +5033,14 @@ namespace CIN.Application.PurchasemgtQuery
     public class CreateInvItemExpiryBatch : IRequest<AppCtrollerDto>
     {
         public UserIdentityDto User { get; set; }
-        public TblErpInvItemExpiryBatchListDto Input { get; set; }
+        public TblErpInvGrnItemExpiryBatchListDto Input { get; set; }
     }
-
-    //public class CreateInvItemExpiryBatchHandler : IRequestHandler<CreateInvItemExpiryBatch, AppCtrollerDto>
-    //{
-    //    private readonly CINDBOneContext _context;
-    //    private readonly IMapper _mapper;
-
-    //    public CreateInvItemExpiryBatchHandler(CINDBOneContext context, IMapper mapper)
-    //    {
-    //        _context = context;
-    //        _mapper = mapper;
-    //    }
-
-    //    public async Task<AppCtrollerDto> Handle(CreateInvItemExpiryBatch request, CancellationToken cancellationToken)
-    //    {
-    //        try
-    //        {
-    //            var input = request.Input;
-    //            string error = string.Empty;
-
-    //            List<TblErpInvItemExpiryBatch> InvExpBatchs = new();
-
-    //            foreach (var obj in input.Items)
-    //            {
-    //                // Check if the batch number already exists
-    //                var existingBatch = await _context.InvItemExpiryBatches
-    //                    .FirstOrDefaultAsync(e => e.BatchNumber == obj.BatchNumber);
-
-    //                TblErpInvItemExpiryBatch InvExpBatch;
-
-    //                if (existingBatch != null)
-    //                {
-    //                    // Update the existing batch
-    //                    existingBatch.ItemCode = obj.ItemCode;
-    //                    existingBatch.ItemName = obj.ItemName;
-    //                    existingBatch.PoNumber = obj.PoNumber;
-    //                    existingBatch.MfgDate = obj.MfgDate;
-    //                    existingBatch.ExpDate = obj.ExpDate;
-    //                    existingBatch.Qty = obj.Qty;
-    //                    existingBatch.Remarks = obj.Remarks;
-
-    //                    _context.InvItemExpiryBatches.Update(existingBatch);
-    //                    InvExpBatch = existingBatch;
-    //                }
-    //                else
-    //                {
-    //                    // Add a new batch
-    //                    InvExpBatch = new TblErpInvItemExpiryBatch
-    //                    {
-    //                        ItemCode = obj.ItemCode,
-    //                        ItemName = obj.ItemName,
-    //                        PoNumber = obj.PoNumber,
-    //                        BatchNumber = obj.BatchNumber,
-    //                        MfgDate = obj.MfgDate,
-    //                        ExpDate = obj.ExpDate,
-    //                        Available = 0,
-    //                        Qty = obj.Qty,
-    //                        QtyCommitted = 0,
-    //                        Remarks = obj.Remarks,
-    //                    };
-
-    //                    await _context.InvItemExpiryBatches.AddAsync(InvExpBatch);
-    //                }
-
-
-    //                //await _context.SaveChangesAsync();
-    //                //return ApiMessageInfo.Status(1, InvExpBatch.Id);
-
-    //            }
-
-    //            if (error.HasValue())
-    //                return ApiMessageInfo.Status(error);
-
-    //            if (InvExpBatchs.Count > 0)
-    //            {
-    //                await _context.InvItemExpiryBatches.AddRangeAsync(InvExpBatchs);
-    //                await _context.SaveChangesAsync();
-    //                return ApiMessageInfo.Status(1, 1);
-    //            }
-
-    //            return ApiMessageInfo.Status(0);
-
-
-    //            //var hasExpBatch = await _context.InvItemExpiryBatches.AnyAsync(e => e.BatchNumber == obj.BatchNumber);
-    //            //if (hasExpBatch)
-    //            //    return ApiMessageInfo.Status($"Duplicate BatchNumber {obj.BatchNumber}");
-
-    //            //TblErpInvItemExpiryBatch InvExpBatch = await _context.InvItemExpiryBatches.FirstOrDefaultAsync(e => e.Id == obj.Id) ?? new();
-    //            //InvExpBatch.PoNumber = obj.PoNumber;
-    //            //InvExpBatch.BatchNumber = obj.BatchNumber;
-    //            //InvExpBatch.MfgDate = obj.MfgDate;
-    //            //InvExpBatch.ExpDate = obj.ExpDate;
-    //            //InvExpBatch.Available = 0;
-    //            //InvExpBatch.Qty = obj.Qty;
-    //            //InvExpBatch.QtyCommitted = 0;
-    //            //InvExpBatch.Remarks = obj.Remarks;
-
-    //            //if (obj.Id > 0)
-    //            //    _context.InvItemExpiryBatches.Update(InvExpBatch);
-    //            //else
-    //            //    await _context.InvItemExpiryBatches.AddAsync(InvExpBatch);
-
-    //            //await _context.SaveChangesAsync();
-    //            //return ApiMessageInfo.Status(1, InvExpBatch.Id);
-
-    //        }
-    //        catch (Exception ex)
-    //        {
-    //            Log.Error("Error in CreateInvItemExpiryBatch Method");
-    //            Log.Error("Error occured time : " + DateTime.UtcNow);
-    //            Log.Error("Error message : " + ex.Message);
-    //            Log.Error("Error StackTrace : " + ex.StackTrace);
-    //            return ApiMessageInfo.Status(0);
-    //        }
-    //    }
-    //}
 
     public class CreateInvItemExpiryBatchHandler : IRequestHandler<CreateInvItemExpiryBatch, AppCtrollerDto>
     {
         private readonly CINDBOneContext _context;
         private readonly IMapper _mapper;
+        private decimal totalItemQuantity;
 
         public CreateInvItemExpiryBatchHandler(CINDBOneContext context, IMapper mapper)
         {
@@ -4910,36 +5054,46 @@ namespace CIN.Application.PurchasemgtQuery
             {
                 var input = request.Input;
                 string error = string.Empty;
-
-                List<TblErpInvItemExpiryBatch> InvExpBatchs = new();
+                var itemCode = string.Empty;
+                List<TblErpInvGrnItemExpiryBatch> invExpBatches = new();
+                decimal totalItemQuantity = 0;
 
                 foreach (var obj in input.Items)
                 {
-                    // Check if the batch number already exists
-                    var existingBatch = await _context.InvItemExpiryBatches
-                        .FirstOrDefaultAsync(e => e.BatchNumber == obj.BatchNumber && e.ItemCode==obj.ItemCode, cancellationToken);
+                    // Retrieve the existing batch if it exists
+                    var existingBatch = await _context.InvGrnItemExpiryBatches
+                        .FirstOrDefaultAsync(e => e.BatchNumber == obj.BatchNumber && e.ItemCode == obj.ItemCode && e.PoNumber == obj.PoNumber, cancellationToken);
 
-                    TblErpInvItemExpiryBatch InvExpBatch;
+                    TblErpInvGrnItemExpiryBatch invExpBatch;
 
                     if (existingBatch != null)
                     {
-                        // Update the existing batch
+                        // Update the existing batch (excluding Id)
+                        itemCode = obj.ItemCode;
+                        existingBatch.GrnId = obj.GrnId;
                         existingBatch.ItemCode = obj.ItemCode;
                         existingBatch.ItemName = obj.ItemName;
                         existingBatch.PoNumber = obj.PoNumber;
                         existingBatch.MfgDate = obj.MfgDate;
                         existingBatch.ExpDate = obj.ExpDate;
                         existingBatch.Qty = obj.Qty;
+
+                        // Update committed quantity
+                        existingBatch.QtyCommitted += obj.TranUOMFactor * obj.QtyCommitted;
+
+                        existingBatch.WHCode = obj.WHCode;
                         existingBatch.Remarks = obj.Remarks;
 
-                        _context.InvItemExpiryBatches.Update(existingBatch);
-                        InvExpBatch = existingBatch;
+                        _context.InvGrnItemExpiryBatches.Update(existingBatch);
+                        invExpBatch = existingBatch;
                     }
                     else
                     {
-                        // Add a new batch
-                        InvExpBatch = new TblErpInvItemExpiryBatch
+                        // Add a new batch if it doesn't exist
+                        itemCode = obj.ItemCode;
+                        invExpBatch = new TblErpInvGrnItemExpiryBatch
                         {
+                            GrnId = obj.GrnId,
                             ItemCode = obj.ItemCode,
                             ItemName = obj.ItemName,
                             PoNumber = obj.PoNumber,
@@ -4948,29 +5102,38 @@ namespace CIN.Application.PurchasemgtQuery
                             ExpDate = obj.ExpDate,
                             Available = 0,
                             Qty = obj.Qty,
-                            QtyCommitted = 0,
+                            WHCode = obj.WHCode,
+                            QtyCommitted = obj.TranUOMFactor * obj.Qty,
                             Remarks = obj.Remarks,
                         };
 
-                        await _context.InvItemExpiryBatches.AddAsync(InvExpBatch, cancellationToken);
+                        await _context.InvGrnItemExpiryBatches.AddAsync(invExpBatch, cancellationToken);
                     }
 
-                    InvExpBatchs.Add(InvExpBatch);
+                    // Add the batch to the list
+                    invExpBatches.Add(invExpBatch);
+                    totalItemQuantity += obj.QtyCommitted;
                 }
 
+                // If there are any errors, return an error status
                 if (!string.IsNullOrEmpty(error))
+                {
                     return ApiMessageInfo.Status(error);
+                }
 
-                if (InvExpBatchs.Count > 0)
+                // Save the changes if any batches were processed
+                if (invExpBatches.Count > 0)
                 {
                     await _context.SaveChangesAsync(cancellationToken);
-                    return ApiMessageInfo.Status(1, 1); // Consider returning more relevant info if needed
+                    return ApiMessageInfo.Status(1, 1);
+                   
                 }
 
                 return ApiMessageInfo.Status(0);
             }
             catch (Exception ex)
             {
+                // Log detailed error information
                 Log.Error("Error in CreateInvItemExpiryBatch Method");
                 Log.Error("Error occurred time : " + DateTime.UtcNow);
                 Log.Error("Error message : " + ex.Message);
@@ -4980,8 +5143,346 @@ namespace CIN.Application.PurchasemgtQuery
         }
     }
 
+    #endregion
+
+
+
+
+
+    //#region UpdateInvPRItemExpiryBatch
+
+    //public class UpdateInvPRItemExpiryBatch : IRequest<AppCtrollerDto>
+    //{
+    //    public UserIdentityDto User { get; set; }
+    //    public TblErpInvItemExpiryBatchListDto Input { get; set; }
+    //}
+
+    //public class UpdateInvPRItemExpiryBatchHandler : IRequestHandler<UpdateInvPRItemExpiryBatch, AppCtrollerDto>
+    //{
+    //    private readonly CINDBOneContext _context;
+    //    private readonly IMapper _mapper;
+    //    private decimal totalItemQuantity;
+
+    //    public UpdateInvPRItemExpiryBatchHandler(CINDBOneContext context, IMapper mapper)
+    //    {
+    //        _context = context;
+    //        _mapper = mapper;
+    //    }
+
+    //    public async Task<AppCtrollerDto> Handle(UpdateInvPRItemExpiryBatch request, CancellationToken cancellationToken)
+    //    {
+    //        try
+    //        {
+    //            var input = request.Input;
+    //            string error = string.Empty;
+    //            var itemCode = string.Empty;
+    //            List<TblErpInvItemExpiryBatch> InvExpBatchs = new();
+    //            decimal totalItemQuantity = 0;
+
+    //            foreach (var obj in input.Items)
+    //            {
+    //                // Check if the batch number already exists
+    //                var existingBatch = await _context.InvItemExpiryBatches
+    //                    .FirstOrDefaultAsync(e => e.BatchNumber == obj.BatchNumber && e.ItemCode == obj.ItemCode, cancellationToken);
+
+    //                TblErpInvItemExpiryBatch InvExpBatch;
+
+    //                if (existingBatch != null)
+    //                {
+    //                    //  Remove the existing batch
+    //                    var existingOldBatch = await _context.InvItemExpiryBatches
+    //                        .FirstOrDefaultAsync(e => e.BatchNumber == obj.BatchNumber && e.ItemCode == obj.ItemCode);
+
+
+    //                    itemCode = obj.ItemCode;
+    //                    //  Update the existing batch(but NOT the Id)
+    //                    // existingBatch.GrnId = obj.GrnId;
+    //                    existingBatch.ItemCode = obj.ItemCode;
+    //                    existingBatch.ItemName = obj.ItemName;
+    //                    existingBatch.PoNumber = obj.PoNumber;
+    //                    existingBatch.MfgDate = obj.MfgDate;
+    //                    existingBatch.ExpDate = obj.ExpDate;
+    //                    existingBatch.Qty = obj.Qty;
+    //                    existingBatch.WHCode = obj.WHCode;
+    //                    existingBatch.Remarks = obj.Remarks;
+
+    //                    _context.InvItemExpiryBatches.Update(existingBatch);
+    //                    InvExpBatch = existingBatch;
+    //                }
+
+    //                if (InvExpBatchs.Count > 0)
+    //                {
+    //                    //   Update TblPopTrnGRNDetails with the total item quantity
+    //                    var prDetails = await _context.purchaseReturnDetails
+    //                        .Where(g => g.TranItemCode == itemCode) // Adjust the filter as needed
+    //                        .ToListAsync(cancellationToken);
+
+    //                    foreach (var detail in prDetails)
+    //                    {
+    //                        detail.TranItemQty = totalItemQuantity;
+    //                        _context.Entry(detail).State = EntityState.Modified;
+    //                        _context.Entry(detail).Property(x => x.Id).IsModified = false; // Prevents updating the identity column
+    //                    }
+
+    //                    await _context.SaveChangesAsync(cancellationToken);
+    //                    return ApiMessageInfo.Status(1, 1); // Consider returning more relevant info if needed
+    //                }
+
+
+    //            }
+    //            return ApiMessageInfo.Status(0);
+    //        }
+    //        catch (Exception ex)
+    //        {
+    //            Log.Error("Error in UpdateInvPRItemExpiryBatch Method");
+    //            Log.Error("Error occurred time : " + DateTime.UtcNow);
+    //            Log.Error("Error message : " + ex.Message);
+    //            Log.Error("Error StackTrace : " + ex.StackTrace);
+    //            return ApiMessageInfo.Status(0);
+    //        }
+    //    }
+
+    //}
+
+
+    //#endregion
+
+
+    #region UpdateInvPRItemExpiryBatch
+
+    public class UpdateInvPRItemExpiryBatch : IRequest<AppCtrollerDto>
+    {
+        public UserIdentityDto User { get; set; }
+        public TblErpInvItemExpiryBatchListDto Input { get; set; }
+    }
+
+    public class UpdateInvPRItemExpiryBatchHandler : IRequestHandler<UpdateInvPRItemExpiryBatch, AppCtrollerDto>
+    {
+        private readonly CINDBOneContext _context;
+        private readonly IMapper _mapper;
+
+        public UpdateInvPRItemExpiryBatchHandler(CINDBOneContext context, IMapper mapper)
+        {
+            _context = context;
+            _mapper = mapper;
+        }
+        //public async Task<AppCtrollerDto> Handle(UpdateInvPRItemExpiryBatch request, CancellationToken cancellationToken)
+        //{
+        //    try
+        //    {
+        //        var input = request?.Input;
+        //        if (input == null || input.Items == null || !input.Items.Any())
+        //        {
+        //            Log.Error("Input or Items list is null or empty.");
+        //            return ApiMessageInfo.Status(0); // Operation failed due to invalid input
+        //        }
+
+        //        string itemCode = string.Empty;
+        //        decimal totalItemQuantity = 0;
+
+        //        foreach (var obj in input.Items)
+        //        {
+        //            // Retrieve the existing batch using BatchNumber, ItemCode, and PoNumber
+        //            var existingBatch = await _context.InvItemExpiryBatches
+        //                .FirstOrDefaultAsync(e => e.BatchNumber == obj.BatchNumber && e.ItemCode == obj.ItemCode && e.PoNumber == obj.PoNumber, cancellationToken);
+
+        //            if (existingBatch != null)
+        //            {
+        //                // Update the fields of the existing batch
+        //                existingBatch.ItemCode = obj.ItemCode;
+        //                existingBatch.ItemName = obj.ItemName;
+        //                existingBatch.PoNumber = obj.PoNumber;
+        //                existingBatch.MfgDate = obj.MfgDate;
+        //                existingBatch.ExpDate = obj.ExpDate;
+        //                existingBatch.QtyCommitted = obj.QtyCommitted; // Update this based on the input
+        //                existingBatch.WHCode = obj.WHCode;
+        //                existingBatch.Remarks = obj.Remarks;
+
+        //                // Mark the batch as updated in the context
+        //                _context.InvItemExpiryBatches.Update(existingBatch);
+
+        //                // Subtract the quantity for the current item code if it matches the previous one
+        //                if (existingBatch.ItemCode == obj.ItemCode && existingBatch.BatchNumber==obj.BatchNumber)
+        //                {
+        //                    totalItemQuantity -= existingBatch.QtyCommitted; // Subtract the quantity of the current batch
+        //                }
+        //                else
+        //                {
+        //                    itemCode = existingBatch.ItemCode; // Switch to the new item code
+        //                    totalItemQuantity = -existingBatch.QtyCommitted; // Reset total to the negative value of the new batch's committed quantity
+        //                }
+        //            }
+        //            else
+        //            {
+        //                // If no matching batch is found, log an error message
+        //                Log.Error($"Batch not found for ItemCode: {obj.ItemCode} and BatchNumber: {obj.BatchNumber}");
+        //            }
+        //        }
+
+        //        // Save changes to the database after all batches are processed
+        //        await _context.SaveChangesAsync(cancellationToken);
+
+        //        return ApiMessageInfo.Status(1, 1); // Operation successful
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        Log.Error("Error in UpdateInvPRItemExpiryBatch Method");
+        //        Log.Error("Error occurred time : " + DateTime.UtcNow);
+        //        Log.Error("Error message : " + ex.Message);
+        //        Log.Error("Error StackTrace : " + ex.StackTrace);
+        //        return ApiMessageInfo.Status(0); // Operation failed
+        //    }
+        //}
+        public async Task<AppCtrollerDto> Handle(UpdateInvPRItemExpiryBatch request, CancellationToken cancellationToken)
+        {
+            try
+            {
+                var input = request?.Input;
+                if (input == null || input.Items == null || !input.Items.Any())
+                {
+                    Log.Error("Input or Items list is null or empty.");
+                    return ApiMessageInfo.Status(0); // Operation failed due to invalid input
+                }
+
+                foreach (var obj in input.Items)
+                {
+                    // Retrieve the existing batch using BatchNumber, ItemCode, and PoNumber
+                    var existingBatch = await _context.InvItemExpiryBatches
+                        .FirstOrDefaultAsync(e => e.BatchNumber == obj.BatchNumber && e.ItemCode == obj.ItemCode);
+
+                    if (existingBatch == null)
+                    {
+                        
+                        Log.Error($"No batch found for BatchNumber: {obj.BatchNumber}, ItemCode: {obj.ItemCode}, PoNumber: {obj.PoNumber}");
+                    }
+                    if (existingBatch != null)
+                    {
+                        // Subtract the quantities from the existing values
+                        existingBatch.Qty = obj.Qty;
+                        existingBatch.QtyCommitted -= obj.QtyCommitted;
+
+                        // Update the remaining fields of the existing batch
+                        existingBatch.ItemCode = obj.ItemCode;
+                        existingBatch.ItemName = obj.ItemName;
+                        existingBatch.PoNumber = obj.PoNumber;
+                        existingBatch.MfgDate = obj.MfgDate;
+                        existingBatch.ExpDate = obj.ExpDate;
+                        existingBatch.WHCode = obj.WHCode;
+                        existingBatch.Remarks = obj.Remarks;
+
+                        // Mark the batch as updated in the context
+                        _context.InvItemExpiryBatches.Update(existingBatch);
+
+
+                        //  Log.Error($"Updated batch for ItemCode: {obj.ItemCode}, BatchNumber: {obj.BatchNumber}, New QtyCommitted: {existingBatch.QtyCommitted}");
+                    }
+                    else
+                    {
+                        // If no matching batch is found, log an error message
+                        //Log.Error($"Batch not found for ItemCode: {obj.ItemCode} and BatchNumber: {obj.BatchNumber}");
+                    }
+                }
+                await _context.SaveChangesAsync(cancellationToken);
+
+                return ApiMessageInfo.Status(1, 1); // Operation successful
+
+                // Save changes to the database after all batches are processed
+
+            }
+            catch (Exception ex)
+            {
+                Log.Error("Error in UpdateInvPRItemExpiryBatch Method");
+                Log.Error("Error occurred time : " + DateTime.UtcNow);
+                Log.Error("Error message : " + ex.Message);
+                Log.Error("Error StackTrace : " + ex.StackTrace);
+                return ApiMessageInfo.Status(0); // Operation failed
+            }
+        }
+
+
+
+
+    }
 
     #endregion
+
+    //public async Task<AppCtrollerDto> Handle(UpdateInvPRItemExpiryBatch request, CancellationToken cancellationToken)
+    //{
+    //    try
+    //    {
+    //        var input = request.Input;
+    //        string itemCode = string.Empty;
+    //        decimal totalItemQuantity = 0;
+
+    //        // Loop through each item in the input list
+    //        foreach (var obj in input.Items)
+    //        {
+    //            // Retrieve the existing batch using BatchNumber and ItemCode
+    //            var existingBatch = await _context.InvItemExpiryBatches
+    //                .FirstOrDefaultAsync(e => e.BatchNumber == obj.BatchNumber && e.ItemCode == obj.ItemCode && e.PoNumber==obj.PoNumber, cancellationToken);
+
+    //            if (existingBatch != null)
+    //            {
+    //                // Update the fields in the existing batch
+    //                existingBatch.ItemCode = obj.ItemCode;
+    //                existingBatch.ItemName = obj.ItemName;
+    //                existingBatch.PoNumber = obj.PoNumber;
+    //                existingBatch.MfgDate = obj.MfgDate;
+    //                existingBatch.ExpDate = obj.ExpDate;
+    //                existingBatch.Qty = obj.Qty;
+    //                existingBatch.WHCode = obj.WHCode;
+    //                existingBatch.Remarks = obj.Remarks;
+
+    //                // Mark the batch as updated in the context
+    //                _context.InvItemExpiryBatches.Update(existingBatch);
+
+    //                // Subtract the quantity for the current item code
+    //                if (existingBatch.ItemCode == itemCode)
+    //                {
+    //                    totalItemQuantity -= existingBatch.Qty;
+    //                }
+    //                else
+    //                {
+    //                    itemCode = existingBatch.ItemCode;
+    //                    totalItemQuantity = -existingBatch.Qty; // Start with negative quantity
+    //                }
+    //            }
+    //            else
+    //            {
+    //                // If no matching batch is found, log an error message (optional)
+    //                Log.Error($"Batch not found for ItemCode: {obj.ItemCode} and BatchNumber: {obj.BatchNumber}");
+    //            }
+    //        }
+
+    //        //// Update Purchase Return Details if batches were modified
+    //        //if (!string.IsNullOrEmpty(itemCode))
+    //        //{
+    //        //    var prDetails = await _context.purchaseReturnDetails
+    //        //        .Where(g => g.TranItemCode == itemCode) // Adjust the filter criteria as needed
+    //        //        .ToListAsync(cancellationToken);
+
+    //        //    foreach (var detail in prDetails)
+    //        //    {
+    //        //        detail.TranItemQty = totalItemQuantity;
+    //        //        _context.Entry(detail).State = EntityState.Modified;
+    //        //        _context.Entry(detail).Property(x => x.Id).IsModified = false; // Prevents updating the identity column
+    //        //    }
+    //        //}
+
+    //        await _context.SaveChangesAsync(cancellationToken);
+    //        return ApiMessageInfo.Status(1, 1); // Operation successful
+    //    }
+    //    catch (Exception ex)
+    //    {
+    //        Log.Error("Error in UpdateInvPRItemExpiryBatch Method");
+    //        Log.Error("Error occurred time : " + DateTime.UtcNow);
+    //        Log.Error("Error message : " + ex.Message);
+    //        Log.Error("Error StackTrace : " + ex.StackTrace);
+    //        return ApiMessageInfo.Status(0); // Operation failed
+    //    }
+
+    //}
+
 
 
 

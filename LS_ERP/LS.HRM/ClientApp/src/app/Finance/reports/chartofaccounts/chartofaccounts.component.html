@@ -35,7 +35,7 @@
 <!-- ============================================================== -->
 <!-- ============================================================== -->
 <!-- Container fluid  -->
-<!-- ============================================================== -->
+<!-- ============================================================== -->  
 <div class="container-fluid">
   <div class="row">
     <div class="col-md-12 col-lg-12">
@@ -43,63 +43,68 @@
         <div class="card-body">
 
           <div class="row">
-            <div class="col-md-4 col-lg-4 borderright" style="max-height: 600px; overflow-y: auto;">
-              <h4 class="page-title text-truncate text-dark font-weight-medium mb-4">
-                {{'Category_View_and_Branch_View' | translate}}
-              </h4>
+            <div class="col-md-4 col-lg-4 borderright" style="max-height: 600px; overflow-y: auto; position: sticky; top: 90px;">
+              <div class="row">
+                <div class="col-md-12 col-lg-12" style="">
 
-              <button (click)="changeCategoryView()" class="btn btn-primary p-1">{{'Change_View' | translate}}</button>
-              <br />
-              <br />
-              <input [(ngModel)]="accountSearch" (input)="accountSearchChage()" class="form-control p-3" placeholder=" {{'Search' | translate}}" />
-              <br />
+                  <h4 class="page-title text-truncate text-dark font-weight-medium mb-4">
+                    {{'Category_View_and_Branch_View' | translate}}
+                  </h4>
 
-              <spinner-loader [isLoading]="isLoading1"></spinner-loader>
-              <ng-container *ngIf="!isCategory">
-                <ul id="tree2" *ngFor="let cg of listOfCategories" class="treeupper">
-                  <li>
-                    <p class="bfinAcCode" data-content="{{cg.name}}"><input type="checkbox" (change)="categoryCheck($event, cg.name)" id="{{cg.name+'_expan'}}" class="toggle_checkbox" /> &nbsp;&nbsp; <label for="{{cg.name+'_expan'}}" class="expansion {{cg.name+'_expan'}}">⇩</label> &nbsp;&nbsp;<b class="text-info cu-pointer"> {{cg.name}} </b></p>
-                      <ng-container *ngIf="cg.list && cg.list.length > 0">
-                        <ul *ngFor="let scg of cg.list" class="{{'treesub ' + cg.name}}">
-                          <li>
-                            <p class="bfinAcCode" data-content="{{scg.finCatCode}}"><input type="checkbox" (change)="subCategoryCheck($event, scg.finCatCode)" id="{{scg.finCatCode+'_expan'}}" class="toggle_checkbox" />&nbsp;&nbsp; <label for="{{scg.finCatCode+'_expan'}}" class="expansion {{scg.finCatCode+'_expan'}}">⇩</label>&nbsp;&nbsp;<b class="text-info cu-pointer"> {{scg.finCatName}} </b></p>
-                            <ng-container *ngIf="scg.list && scg.list.length > 0">
-                              <ul *ngFor="let acCode of scg.list" class="{{'treesubsub ' + scg.finCatCode}}">
-                                <li>
-                                  <p class="bfinAcCode" data-content="{{acCode.finSubCatCode}}"><input type="checkbox" (change)="itemCategoryCheck($event, acCode.finSubCatCode)" id="{{acCode.finSubCatCode+'_expan'}}" class="toggle_checkbox" />&nbsp;&nbsp;<label for="{{acCode.finSubCatCode+'_expan'}}" class="expansion {{acCode.finSubCatCode+'_expan'}}">⇩</label>&nbsp;&nbsp;<b class="text-info cu-pointer"> {{acCode.finSubCatName}} </b></p>
-                                  <ng-container *ngIf="acCode.list && acCode.list.length > 0">
-                                    <ul *ngFor="let code of acCode.list" class="{{'treesubsubsub ' + acCode.finSubCatCode}}">
-                                      <li>
-                                        <span class="text-info cu-pointer bfinAcCode" data-content="{{code.finAcCode + ' ' + code.finAcName}}" (click)="loadLedger(code.finAcCode, '', code.finAcName)">({{code.finAcCode}}) {{code.finAcName}}</span>
-                                      </li>
-                                    </ul>
-                                  </ng-container>
-                                </li>
-                              </ul>
-                            </ng-container>
-                          </li>
-                        </ul>
-                      </ng-container>
-                  </li>
-                </ul>
-              </ng-container>
+                  <button (click)="changeCategoryView()" class="btn btn-primary p-1">{{'Change_View' | translate}}</button>
+                  <br />
+                  <br />
+                  <input [(ngModel)]="accountSearch" (input)="accountSearchChage()" class="form-control p-3" placeholder=" {{'Search' | translate}}" />
+                  <br />
+
+                  <spinner-loader [isLoading]="isLoading1"></spinner-loader>
+                  <ng-container *ngIf="!isCategory">
+                    <ul id="tree2" *ngFor="let cg of listOfCategories" class="treeupper">
+                      <li>
+                        <p class="bfinAcCode" data-content="{{cg.name}}"><input type="checkbox" (change)="categoryCheck($event, cg.name)" id="{{cg.name+'_expan'}}" class="toggle_checkbox" /> &nbsp;&nbsp; <label for="{{cg.name+'_expan'}}" class="expansion {{cg.name+'_expan'}}">⇩</label> &nbsp;&nbsp;<b class="text-info cu-pointer"> {{cg.name}} </b></p>
+                        <ng-container *ngIf="cg.list && cg.list.length > 0">
+                          <ul *ngFor="let scg of cg.list" class="{{'treesub ' + cg.name}}">
+                            <li>
+                              <p class="bfinAcCode" data-content="{{scg.finCatCode}}"><input type="checkbox" (change)="subCategoryCheck($event, scg.finCatCode)" id="{{scg.finCatCode+'_expan'}}" class="toggle_checkbox" />&nbsp;&nbsp; <label for="{{scg.finCatCode+'_expan'}}" class="expansion {{scg.finCatCode+'_expan'}}">⇩</label>&nbsp;&nbsp;<b class="text-info cu-pointer"> {{scg.finCatName}} </b></p>
+                              <ng-container *ngIf="scg.list && scg.list.length > 0">
+                                <ul *ngFor="let acCode of scg.list" class="{{'treesubsub ' + scg.finCatCode}}">
+                                  <li>
+                                    <p class="bfinAcCode" data-content="{{acCode.finSubCatCode}}"><input type="checkbox" (change)="itemCategoryCheck($event, acCode.finSubCatCode)" id="{{acCode.finSubCatCode+'_expan'}}" class="toggle_checkbox" />&nbsp;&nbsp;<label for="{{acCode.finSubCatCode+'_expan'}}" class="expansion {{acCode.finSubCatCode+'_expan'}}">⇩</label>&nbsp;&nbsp;<b class="text-info cu-pointer"> {{acCode.finSubCatName}} </b></p>
+                                    <ng-container *ngIf="acCode.list && acCode.list.length > 0">
+                                      <ul *ngFor="let code of acCode.list" class="{{'treesubsubsub ' + acCode.finSubCatCode}}">
+                                        <li>
+                                          <span class="text-info cu-pointer bfinAcCode" data-content="{{code.finAcCode + ' ' + code.finAcName}}" (click)="loadLedger(code.finAcCode, '', code.finAcName)">({{code.finAcCode}}) {{code.finAcName}}</span>
+                                        </li>
+                                      </ul>
+                                    </ng-container>
+                                  </li>
+                                </ul>
+                              </ng-container>
+                            </li>
+                          </ul>
+                        </ng-container>
+                      </li>
+                    </ul>
+                  </ng-container>
 
 
-              <ng-container *ngIf=" isCategory && listOfBranchLedgers.length > 0">
-                <ul *ngFor="let branch of listOfBranchLedgers" class="treesubsubsub">
-                  <li>
-                    <p class="bfinAcCode" data-content="{{branch.branchName}}"><input type="checkbox" (change)="categoryCheck($event, branch.branchName)" />&nbsp;&nbsp;<b class="text-info cu-pointer"><span class="expansion {{branch.branchName+'_expan'}}">-</span> {{branch.branchName}} </b></p>
-                      <ng-container *ngIf="branch.list && branch.list.length > 0">
-                        <ul *ngFor="let code of branch.list" class="{{'treesubsubsub ' + branch.branchName}}">
-                          <li>
-                            <b class="text-info cu-pointer bfinAcCode" data-content="{{code.textTwo}}" (click)="loadLedger(code.text, code.value, code.finAcName)">{{code.textTwo}} <!--{{code.finAcName}}--></b>
-                          </li>
-                        </ul>
-                      </ng-container>
-                  </li>
-                </ul>
-              </ng-container>
-
+                  <ng-container *ngIf=" isCategory && listOfBranchLedgers.length > 0">
+                    <ul *ngFor="let branch of listOfBranchLedgers" class="treesubsubsub">
+                      <li>
+                        <p class="bfinAcCode" data-content="{{branch.branchName}}"><input type="checkbox" (change)="categoryCheck($event, branch.branchName)" />&nbsp;&nbsp;<b class="text-info cu-pointer"><span class="expansion {{branch.branchName+'_expan'}}">-</span> {{branch.branchName}} </b></p>
+                        <ng-container *ngIf="branch.list && branch.list.length > 0">
+                          <ul *ngFor="let code of branch.list" class="{{'treesubsubsub ' + branch.branchName}}">
+                            <li>
+                              <b class="text-info cu-pointer bfinAcCode" data-content="{{code.textTwo}}" (click)="loadLedger(code.text, code.value, code.finAcName)">{{code.textTwo}} <!--{{code.finAcName}}--></b>
+                            </li>
+                          </ul>
+                        </ng-container>
+                        i>
+                      </li>
+                    </ul>
+                  </ng-container>
+                </div>
+              </div>
             </div>
             <div class="col-md-8 col-lg-8">
 
@@ -210,13 +215,10 @@
               <spinner-loader [isLoading]="isLoading"></spinner-loader>
               <div class="table-responsive" id="printcontainer" *ngIf="listOfLedger">
 
-              <!--<h4 class="page-title text-truncate text-dark font-weight-medium mb-4">
-                {{'Cash_in_SAFE_AL_BARAkAH_NAHDA' | translate}}
+                <!--<h4 class="page-title text-truncate text-dark font-weight-medium mb-4">
+                  {{'Cash_in_SAFE_AL_BARAkAH_NAHDA' | translate}}
 
-              </h4>-->
-
-
-
+                </h4>-->
                 <!--<table id="zero_config" class="table  table-bordered no-wrap">-->
 
                 <table style="width:100%; padding-bottom:5px;" cellpadding="0" cellspacing="0" width="100%" class="ur_tablestyle" *ngIf="company">
@@ -237,27 +239,27 @@
                     </td>
                   </tr>
                   <tr>
-        <td style="text-align:center;">
-          <img src="{{company.logoURL}}" style="width:200px;height:150px;" />
-        </td>
-      </tr>
+                    <td style="text-align:center;">
+                      <img src="{{company.logoURL}}" style="width:200px;height:150px;" />
+                    </td>
+                  </tr>
                 </table>
 
                 <table style="width:100%" border="0" cellpadding="0" cellspacing="0" width="100%">
                   <!--<tr>
-        <td style="text-align: left;width:60%">
-          <h4 style="font-size: 1rem !important;color: #0c2f54; font-family: 'Poppins', sans-serif;font-weight: 500;line-height: 1.2;margin:0;padding-top:4px">
-            {{listOfLedger.companyName}}
-          </h4>
-          <h4 style="font-size: 1rem !important;color: #0c2f54; font-family: 'Poppins', sans-serif;font-weight: 500;line-height: 1.2;margin:0;padding-top:4px">
-            {{listOfLedger.address}}
-          </h4>
+                    <td style="text-align: left;width:60%">
+                      <h4 style="font-size: 1rem !important;color: #0c2f54; font-family: 'Poppins', sans-serif;font-weight: 500;line-height: 1.2;margin:0;padding-top:4px">
+                        {{listOfLedger.companyName}}
+                      </h4>
+                      <h4 style="font-size: 1rem !important;color: #0c2f54; font-family: 'Poppins', sans-serif;font-weight: 500;line-height: 1.2;margin:0;padding-top:4px">
+                        {{listOfLedger.address}}
+                      </h4>
 
-        </td>
-        <td style=" text-align: right;vertical-align: middle;">
-          <img id="logo" style="width:120px" src="{{listOfLedger.logo}}" title="invoice" alt="invoice" />
-        </td>
-      </tr>-->
+                    </td>
+                    <td style=" text-align: right;vertical-align: middle;">
+                      <img id="logo" style="width:120px" src="{{listOfLedger.logo}}" title="invoice" alt="invoice" />
+                    </td>
+                  </tr>-->
 
                   <tr>
                     <td colspan="2" style="text-align:center;">
@@ -347,12 +349,18 @@
                       <!--<th>{{'Narration' | translate}}</th>-->
 
                     </tr>
+                    
+
                   </thead>
+                  
+
                   <tbody>
                     <tr *ngFor="let item of listOfLedger.list">
                       <!--<td>{{item.jvnum}}</td>-->
                       <!--<td> {{item.isOpening ? '< ' : ' '}} {{item.transDate  | date:'MM-dd-yyyy'}}</td>-->
+                      an
                       <td>
+                        an
                         <span *ngIf="!item.isOpening">
                           {{item.transDate  | date:'MM-dd-yyyy'}}
                         </span>
@@ -360,15 +368,17 @@
                       <td>{{item.source}}</td>
                       <td>{{item.postDate | date:'MM-dd-yyyy'}}</td>
                       <!--<td>{{item.finAcCode}}</td>-->
-                    <td class="text-right">
+                      <td class="text-right">
 
-                      <span *ngIf="!item.isOpening">
-                        {{item.remarks}}
-                      </span>
-                      <span *ngIf="item.isOpening">
-                        {{'Opening_Balance'  | translate}}:
-                      </span>
-                    </td>
+                        ht
+
+                        <span *ngIf="!item.isOpening">
+                          {{item.remarks}}
+                        </span>
+                        <span *ngIf="item.isOpening">
+                          {{'Opening_Balance'  | translate}}:
+                        </span>
+                      </td>
                       <td>{{item.drAmount | decimalpipe}}</td>
                       <td>{{item.crAmount | decimalpipe}}</td>
                       <td>{{item.balance | decimalpipe}}</td>

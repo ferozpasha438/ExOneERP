@@ -727,7 +727,7 @@
                             <th>{{'ItemLastPOCost' | translate}}</th>
                             <th>{{'ItemLandedCost' | translate}}</th>
                             <th>{{'MinQty' | translate}}</th>
-                            <th>{{'MaxQty' | translate}}</th>
+                            <th>{{'MinQty' | translate}}</th>
                             <th>{{'EOQ' | translate}}</th>
                             <th class="text-center"></th>
 
@@ -750,6 +750,7 @@
                             <td class="text-center">
                               <i class="icon-note cpointer" (click)="editInventoryItem(item)"> </i> &nbsp;
                               <i class="icon-trash cpointer " (click)="deleteInventoryItem(item)"> </i> &nbsp;
+                              <i class="icon-list" (click)="openIntExpSerial(item)"> </i> &nbsp;
                             </td>
                           </tr>
 

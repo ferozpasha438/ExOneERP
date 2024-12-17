@@ -105,5 +105,8 @@ namespace CIN.Domain.HumanResource.EmployeeMgt
         public string PHDescription { get; set; }
         [StringLength(80)]
         public string EmployeeImageUrl { get; set; }
+        //Profile Image Name with Guid and file extension.
+        [StringLength(80)]
+        public string ProfileFileName { get; set; }
     }
 }

@@ -38,19 +38,18 @@
                     <div class="input-group-prepend datapickericon">
                         <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
                         <mat-datepicker #picker></mat-datepicker>
-                        <validation-message [control]="form.controls.reportingDate"></validation-message>
                     </div>
                 </div>
+                <validation-message [control]="form.controls.reportingDate"></validation-message>
             </div>
         </div>
         <div class="col-md-6 col-lg-6">
-            <label for="reportingManager" class="mr-sm-2">{{'ReportingManager' | translate}}</label>
-            <select class="custom-select mr-sm-2" formControlName="reportingManager">
-                <option value="firstClass">{{'ABC' | translate}}</option>
-                <option value="economyClass">{{'ABC' | translate}}</option>
-                <option value="business Class">{{'ABC' | translate}}</option>
-            </select>
-            <validation-message [control]="form.controls.reportingManager"></validation-message>
+          <label for="reportingManager" class="mr-sm-2">{{'ReportingManager' | translate}}</label>
+          <ng-select [items]="empListSelectListItems"
+                     bindLabel="text"
+                     bindValue="value" formControlName="managerEmployeeID">
+          </ng-select>        
+          <validation-message [control]="form.controls.managerEmployeeID"></validation-message>
         </div>
     </div>
     <div class="row">
@@ -61,14 +60,15 @@
                 </label>
                 <textarea class="form-control"
                     placeholder=" {{'Please_Enter' | translate}}  {{'LateReportingReason' | translate}}"
-                    formControlName="latereportingreason"></textarea>
+                    formControlName="reportingReason"></textarea>
             </div>
         </div>
         <div class="col-md-6 col-lg-6 mt-5">
-            <div class="form-group">
-                <mat-slide-toggle color="primary" formControlName="requiredApprovalLetterforLateReporting"></mat-slide-toggle>&nbsp;
-                <label for="requiredApprovalLetterforLateReporting">{{'RequiredApprovalLetterforLateReporting' | translate}}</label>
-            </div>
+          <div class="form-group">
+            <mat-slide-toggle color="primary" formControlName="isApprovalLetterRequired" (change)="ApprovalLetterChange($event)"></mat-slide-toggle>&nbsp;
+            <label for="isApprovalLetterRequired">{{'RequiredApprovalLetterforLateReporting' | translate}}</label>
+            <div class="pl-5 pt-1 pr-5" *ngIf="isApprovalLetterChange"> <input type="file" (change)="onSelectFile($event)"></div>
+          </div>
         </div>
     </div>
     <div class="row">
@@ -83,13 +83,13 @@
         </div>
         <div class="col-md-3 col-lg-3 mt-5">
             <div class="form-group">
-                <mat-slide-toggle color="primary" formControlName="joiningReportSubmitted"></mat-slide-toggle>&nbsp;
+                <mat-slide-toggle color="primary" formControlName="isJoiningReportSubmitted"></mat-slide-toggle>&nbsp;
                 <label for="joiningReportSubmitted">{{'JoiningReportSubmitted' | translate}}</label>
             </div>
         </div>
         <div class="col-md-3 col-lg-3 mt-5">
             <div class="form-group">
-                <mat-slide-toggle color="primary" formControlName="allowedtoResumeDuty"></mat-slide-toggle>&nbsp;
+                <mat-slide-toggle color="primary" formControlName="isAllowedToResumeDuty"></mat-slide-toggle>&nbsp;
                 <label for="allowedtoResumeDuty">{{'AllowedtoResumeDuty' | translate}}</label>
             </div>
         </div>
@@ -101,7 +101,7 @@
                     {{'Action Required' | translate}}
                 </label>
                 <textarea class="form-control" placeholder=" {{'Please_Enter' | translate}}  {{'Remarks' | translate}}"
-                    formControlName="actionrequired"></textarea>
+                    formControlName="actionRequired"></textarea>
             </div>
         </div>
     </div>

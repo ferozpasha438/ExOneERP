@@ -76,7 +76,7 @@ namespace CIN.Application.InventoryMgtDtos
 
         public DateTime TranvoidDate { get; set; }
 
-        [StringLength(50)]
+        [StringLength(250)]
         public string TranRemarks { get; set; }
 
         [StringLength(50)]
@@ -165,7 +165,7 @@ namespace CIN.Application.InventoryMgtDtos
         [StringLength(25)]
         public string ItemAttribute2 { get; set; }
 
-        [StringLength(50)]
+        //[StringLength(50)]
         public string Remarks { get; set; }
 
         [StringLength(50)]
