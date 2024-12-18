@@ -67,7 +67,6 @@ import { default as data } from "../../../../../assets/i18n/siteConfig.json";
       //}, 50);
     }
 
-
     closeModel() {
       this.dialogRef.close();
     }

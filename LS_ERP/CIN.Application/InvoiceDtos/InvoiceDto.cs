@@ -398,6 +398,7 @@ namespace CIN.Application.InvoiceDtos
         public decimal? AppliedAmount { get; set; }
         public bool? ZatcaStatus { get; set; }
         public List<string> ProductList { get; set; }
+        
     }
 
     public class TblTranInvoiceDto : PrimaryKeyDto<long>
@@ -483,6 +484,7 @@ namespace CIN.Application.InvoiceDtos
 
         public ErpSysCompanyDto CompanyData { get; set; } = new();
         public ErpSysCompanyBranchDto Bank { get; set; } = new();
+        public string AcademicYear { get; set; } = string.Empty;
     }
 
     [AutoMap(typeof(TblSndDefCustomerMaster))]

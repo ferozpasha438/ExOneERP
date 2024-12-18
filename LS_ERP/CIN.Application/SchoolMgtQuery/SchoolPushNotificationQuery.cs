@@ -712,7 +712,7 @@ public class GetWebTopNotificationsHandler : IRequestHandler<GetWebTopNotificati
                 schoolNotificationDtos = await _context.PushNotificationParent.AsNoTracking().
                                            Where(x => x.NotifyDate >= startDate && (x.UserId == userData.LoginId
                                                || x.RegisteredMobile == teacherData.PMobile1
-                                               || x.RegisteredMobile == teacherData.SMobile2))
+                                               || x.RegisteredMobile == teacherData.SMobile2) && x.NotifyTo.ToLower()== "teacher")
                                            .OrderByDescending(x => x.Id)
                                            .Select(x => new SchoolNotificationDto()
                                            {
@@ -735,7 +735,7 @@ public class GetWebTopNotificationsHandler : IRequestHandler<GetWebTopNotificati
             else
             {
                 schoolNotificationDtos = await _context.PushNotificationParent.AsNoTracking().
-                                           Where(x => x.NotifyDate >= startDate)
+                                           Where(x => x.NotifyDate >= startDate && x.NotifyTo.ToLower() == "admin")
                                            .OrderByDescending(x => x.Id)
                                            .Select(x => new SchoolNotificationDto()
                                            {
@@ -816,6 +816,12 @@ public class SendNotificationHandler : IRequestHandler<SendParentNotification, i
                                        .Where(e => e.BranchCode == request.sendNotificationDTO.Branch)
                                        .Select(x => x.Mobile)
                                        .SingleOrDefaultAsync();
+                var studentDetails = await _context.DefSchoolStudentMaster.AsNoTracking()
+                                            .FirstOrDefaultAsync(x => x.StuAdmNum == obj.StudentAdmNum);
+                obj.NotifyMessage = obj.NotifyMessage.Replace("<Name of Student>", studentDetails.StuName);
+                obj.NotifyMessage_Ar = obj.NotifyMessage_Ar.Replace("<Name of Student>", studentDetails.StuName2);
+                obj.NotifyMessage = obj.NotifyMessage.Replace("<Grade>", studentDetails.GradeCode);
+                obj.NotifyMessage_Ar = obj.NotifyMessage_Ar.Replace("<Grade>", studentDetails.GradeCode);
                 notifyTo = "Admin";
             }
             TblSysSchoolPushNotificationParent notification = new();
