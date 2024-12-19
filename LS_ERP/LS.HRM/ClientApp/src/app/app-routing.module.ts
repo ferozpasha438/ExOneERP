@@ -17,17 +17,17 @@ import { Home2Component } from './home2/home2.component';
 
 
 const routes: Routes = [
-  { path: '', component: LoginComponent, pathMatch: 'full' },
-  // { path: '', component: Login2Component, pathMatch: 'full' },
+  //{ path: '', component: LoginComponent, pathMatch: 'full' },
+  { path: '', component: Login2Component, pathMatch: 'full' },
 
-  { path: 'login', component: LoginComponent },
-  { path: 'home', component: HomeComponent },
+  //{ path: 'login', component: LoginComponent },
+  //{ path: 'home', component: HomeComponent },
   {
-    path: 'dashboard', component: DashboardComponent,  
+    path: 'dashboard', component: DashboardComponent,
     children: [
 
-       { path: '', component: HomeComponent },
-      //{ path: '', component: Home2Component },
+      // { path: '', component: HomeComponent },
+      { path: '', component: Home2Component },
       { path: 'home1', component: HomeComponent },
 
 
