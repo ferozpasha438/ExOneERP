@@ -301,16 +301,19 @@ namespace CIN.Application.HumanResource.ServiceRequest.HRMServiceRequestQuery
 
                 foreach (var item in audits)
                 {
-                    if (item.ActionID == (int)ProcessStage.Approved)
-                    {
-                        var user = await _context.SystemLogins.Select(e => new { e.Id, e.UserName }).FirstOrDefaultAsync(e => e.Id == item.EntryBy);
-                        item.EntryName = user.UserName;
-                    }
-                    else
-                    {
-                        var empInfoItem = await _context.PersonalInformation.Where(e => e.Id == item.EntryBy).Select(e => new { e.FirstNameEn, e.FirstNameAr, e.LastNameEn, e.LastNameAr }).FirstOrDefaultAsync();
-                        item.EntryName = isArab ? string.Concat(empInfoItem.FirstNameAr + " ", empInfoItem.LastNameAr) : string.Concat(empInfoItem.FirstNameEn + " ", empInfoItem.LastNameEn);
-                    }
+                    //if (item.ActionID == (int)ProcessStage.Approved)
+                    //{
+                    //    var user = await _context.SystemLogins.Select(e => new { e.Id, e.UserName }).FirstOrDefaultAsync(e => e.Id == item.EntryBy);
+                    //    item.EntryName = user.UserName;
+                    //}
+                    //else
+                    //{
+                    //    var empInfoItem = await _context.PersonalInformation.Where(e => e.Id == item.EntryBy).Select(e => new { e.FirstNameEn, e.FirstNameAr, e.LastNameEn, e.LastNameAr }).FirstOrDefaultAsync();
+                    //    item.EntryName = isArab ? string.Concat(empInfoItem.FirstNameAr + " ", empInfoItem.LastNameAr) : string.Concat(empInfoItem.FirstNameEn + " ", empInfoItem.LastNameEn);
+                    //}
+
+                    var empInfoItem = await _context.PersonalInformation.Where(e => e.Id == item.EntryBy).Select(e => new { e.FirstNameEn, e.FirstNameAr, e.LastNameEn, e.LastNameAr }).FirstOrDefaultAsync();
+                    item.EntryName = isArab ? string.Concat(empInfoItem.FirstNameAr + " ", empInfoItem.LastNameAr) : string.Concat(empInfoItem.FirstNameEn + " ", empInfoItem.LastNameEn);
                     item.ActionID = 0;
                 }
 
@@ -992,7 +995,7 @@ namespace CIN.Application.HumanResource.ServiceRequest.HRMServiceRequestQuery
                     {
                         EmployeeServiceRequestID = serviceReq.Id,
                         ActionID = obj.ActionType,
-                        EntryBy = userId,
+                        EntryBy = (await _context.EmployeeControls.Select(e => new { e.UserId, e.EmployeeID }).FirstOrDefaultAsync(e => e.UserId == userId)).EmployeeID,
                         EntryDate = DateTime.Now,
                         ServiceRequestProcessStageID = 0,
                         Remarks = obj.Remarks,
@@ -1145,8 +1148,8 @@ namespace CIN.Application.HumanResource.ServiceRequest.HRMServiceRequestQuery
                                         TblHRMTrnEmployeeServiceRequestAudit employeeServiceRequestAudit = new()
                                         {
                                             EmployeeServiceRequestID = serviceReq.Id,
-                                            ActionID = ActionType,
-                                            EntryBy = userId,
+                                            ActionID = ActionType,                                            
+                                            EntryBy = (await _context.EmployeeControls.Select(e => new { e.UserId, e.EmployeeID }).FirstOrDefaultAsync(e => e.UserId == userId)).EmployeeID,
                                             EntryDate = DateTime.Now,
                                             ServiceRequestProcessStageID = 0,
                                             Remarks = obj.Remarks,

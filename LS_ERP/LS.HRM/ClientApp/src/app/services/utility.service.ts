@@ -43,28 +43,40 @@ export class UtilityService {
   getPrintForLocale = (printContent: HTMLElement) => `<div dir='${this.isArabic() ? 'rtl' : 'ltr'}'>${printContent.innerHTML}</div>`
   printForLocale(printContent: HTMLElement, canClose: boolean = false) {
     const WindowPrt: Window | null = window.open('', '', 'left=0,top=0,width=2000,height=1000,toolbar=0,scrollbars=0,status=0');
-    setTimeout(() => {
-      WindowPrt?.document.write(this.getPrintForLocale(printContent));
-      WindowPrt?.document.close();
-      WindowPrt?.focus();
-      WindowPrt?.print();
-      if (!canClose)
-        //  this.printForLocaleNoClose(printContent, WindowPrt);
-        //else
+    if (canClose)
+      this.printForLocaleNoClose(printContent, WindowPrt);
+    else {
+      setTimeout(() => {
+        WindowPrt?.document.write(this.getPrintForLocale(printContent));
+        WindowPrt?.document.close();
+        WindowPrt?.focus();
+        WindowPrt?.print();
         WindowPrt?.close();
-    }, 50);
+      }, 50);
+    }
   }
 
-  printForLocaleNoClose(printContent: HTMLElement, WindowPrt: Window | null) {
+  printForLocaleNoClose(printContent: HTMLElement, WindowPrt: any) {
+
+    WindowPrt.document.write(printContent.innerHTML);
+    WindowPrt.addEventListener('afterprint', function () {
+      WindowPrt.addEventListener('focus', function () {
+        WindowPrt.close();
+      });
+      WindowPrt.close();
+    });
+
+    WindowPrt.print();
+
     //const WindowPrt: Window | null = window.open('', '', 'left=0,top=0,width=2000,height=1000,toolbar=0,scrollbars=0,status=0');
 
-    setTimeout(() => {
-      //WindowPrt?.document.write(this.getPrintForLocale(printContent));
-      //WindowPrt?.document.close();
-      //WindowPrt?.focus();
-      //WindowPrt?.print();
-      WindowPrt?.close()
-    }, 100);
+    ////setTimeout(() => {
+    ////  //WindowPrt?.document.write(this.getPrintForLocale(printContent));
+    ////  //WindowPrt?.document.close();
+    ////  //WindowPrt?.focus();
+    ////  //WindowPrt?.print();
+    ////  WindowPrt?.close()
+    ////}, 100);
     // window.onfocus = function () { setTimeout(() => { WindowPrt.close(); window.close(); }, 100); }
     //setTimeout(() => {
     //  WindowPrt.document.write(this.getPrintForLocale(printContent));
@@ -133,6 +145,12 @@ export class UtilityService {
   FillUpFields() { this.notifyService.showError(this.isArabic() ? 'املأ جميع الحقول' : 'Fill up all fields'); }
   logoUrl = (): string => localStorage.getItem('logoURL') as string ?? '';
   localizeError = (key: string) => this.notifyService.showError((this.isArabic() ? 'املأ ' : 'Fill ') + this.translate.instant(key) ?? '');
+  setMarkAllAsTouched = (form: any) => {
+    form.markAllAsTouched();
+    //Object.keys(form.value).map((key) => {
+    //  form.controls[key].markAllAsTouched();      
+    //})
+  }
 
 
 

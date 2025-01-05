@@ -49,6 +49,19 @@ export class OpmCustomerreceiptvoucher implements OnInit {
   }
   printVoucher() {
     this.openPrint();
+    ////const printContent = document.getElementById("printcontainer") as HTMLElement;
+    ////const printWindow: any = window.open('', '', 'left=0,top=0,width=2000,height=1000,toolbar=0,scrollbars=0,status=0');
+    ////printWindow.document.write(printContent.innerHTML);
+    ////printWindow.addEventListener('afterprint', function () {
+    ////  printWindow.addEventListener('focus', function () {
+    ////    printWindow.close();
+    ////  });
+    ////  printWindow.close();
+    ////});
+
+    ////printWindow.print();
+
+    ////this.openPrint();
     //const printContent = document.getElementById("printcontainer") as HTMLElement;
     //const WindowPrt: any = window.open('', '', 'left=0,top=0,width=2000,height=1000,toolbar=0,scrollbars=0,status=0');
     //setTimeout(() => {
@@ -56,10 +69,15 @@ export class OpmCustomerreceiptvoucher implements OnInit {
     //  WindowPrt.document.close();
     //  WindowPrt.focus();
     //  WindowPrt.print();
-    //  WindowPrt.close();
+    //  //WindowPrt.close();
     //}, 50);
+    ////WindowPrt.print();
+    //WindowPrt.onafterprint = this.back();
 
   }
+    back() {
+      window.history.back();
+    }
 
   closeModel() {
     this.dialogRef.close();

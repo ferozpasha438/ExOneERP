@@ -548,7 +548,8 @@ export class AddupdatesalesinvoiceComponent implements OnInit {
         this.notifyService.showError("Items Empty");
     }
     else
-      this.utilService.FillUpFields();
+      this.utilService.setMarkAllAsTouched(this.form); 
+      //this.utilService.FillUpFields();
 
   }
   reset() {

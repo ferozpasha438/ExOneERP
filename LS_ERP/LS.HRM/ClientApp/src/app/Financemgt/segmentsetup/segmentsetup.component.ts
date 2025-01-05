@@ -92,10 +92,11 @@ export class SegmentsetupComponent extends ParentSystemSetupComponent implements
             this.utilService.ShowApiErrorMessage(error);
           });
     }
-    else
-      this.utilService.FillUpFields();
+    else {      
+      this.utilService.setMarkAllAsTouched(this.form);    
+      //this.form.markAllAsTouched();
+    }
   }
-
   cancel() {
     this.id = 0;
     this.isEdit = false;
