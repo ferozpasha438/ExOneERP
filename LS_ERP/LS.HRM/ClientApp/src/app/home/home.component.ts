@@ -16,7 +16,7 @@ import {
   ApexChart
 } from "ng-apexcharts";
 
-//Default
+//Defult
 import {
   ApexAxisChartSeries,
   ApexDataLabels,
@@ -38,7 +38,6 @@ export type ChartOptions = {
   chart: ApexChart;
   responsive: ApexResponsive[];
   labels: any;
-  
 };
 export type RadialChartOptions = {
   series: ApexNonAxisChartSeries;
@@ -66,7 +65,6 @@ export type ChartOptionsDefault1 = {
   yaxis: ApexYAxis;
   xaxis: ApexXAxis;
 };
-
 type ApexXAxisDefault = {
   type?: "category" | "datetime" | "numeric";
   categories?: any;
@@ -102,8 +100,6 @@ export type ChartOptionsDefault2 = {
   tooltip: any; //ApexTooltip;
 };
 
-
-
 declare global {
   interface Window {
     Apex: any;
@@ -122,8 +118,6 @@ window.Apex = {
     show: false
   }
 };
-
-
 
 const arrayData = [
   {
@@ -266,11 +260,10 @@ export type ChartOptionsDefault3 = {
 @Component({
   selector: 'app-home',
   templateUrl: './home.component.html',
-  // styleUrls: ['./home.component.css'],
+  styleUrls: ['./home.component.css'],
 })
 export class HomeComponent implements OnInit {
   @ViewChild("chart") chart!: ChartComponent;
-  public chartOptions!: Partial<ChartOptions>;
   public chartOptions1!: Partial<ChartOptions>;
   public chartOptions2!: Partial<ChartOptions>;
   public chartOptions3!: Partial<ChartOptions>;
@@ -322,9 +315,9 @@ export class HomeComponent implements OnInit {
 
   //#startregion Opr
 
-  @ViewChild(MatPaginator, { static: true }) paginator!: MatPaginator;
+  @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
   isLoadSchoolDashBoard: boolean = false;
-  attendanceData!: MatTableDataSource<any>;
+  attendanceData: MatTableDataSource<any>;
   interval: any;
   oprDashboard: any = { notReportedEmpCount: 1, totalEmpCount: 1, reportedEmpCount: 1, lateArrivalsCount: 0 };
   oprChartData1: Array<any> = [];
@@ -426,7 +419,7 @@ export class HomeComponent implements OnInit {
     return array;
   }
 
-  public updateQuarterChart(sourceChart:any, destChartIDToUpdate:any) {
+  public updateQuarterChart(sourceChart: any, destChartIDToUpdate: any) {
     var series = [];
     var seriesIndex = 0;
     var colors = [];
@@ -688,7 +681,7 @@ export class HomeComponent implements OnInit {
         fill: {
           opacity: 1
         }
-      };   
+      };
 
 
       this.chartOptionsDefault1 = {
@@ -897,7 +890,7 @@ export class HomeComponent implements OnInit {
           },
           y: {
             title: {
-              formatter: function (val: any, opts:any) {
+              formatter: function (val: any, opts: any) {
                 return opts.w.globals.labels[opts.dataPointIndex];
               }
             }
@@ -1004,1499 +997,83 @@ export class HomeComponent implements OnInit {
         ]
       };
 
-    let res = {
-      "branchCode": "Jeddah",
-      "totalStudents": 28,
-      "studentsOnLeave": 0,
-      "feeDueStudents": 31,
-      "totalTeachers": 3,
-      "newRegistrations": 0,
-      "feeDueTotal": 790300.00,
-      "chartAttandanceData": [
-        {
-          "typeID": 1,
-          "totalStudents": 28,
-          "presentStudents": 0,
-          "leaveStudents": 0,
-          "absentStudents": 28
-        },
-        {
-          "typeID": 2,
-          "totalStudents": 532,
-          "presentStudents": 0,
-          "leaveStudents": 0,
-          "absentStudents": 532
-        },
-        {
-          "typeID": 3,
-          "totalStudents": 532,
-          "presentStudents": 43,
-          "leaveStudents": 0,
-          "absentStudents": 489
-        }
-      ],
-      "dashboardEvents": [],
-      "dashboardStudents": [
-        {
-          "studentName": "Lateen Waleed S Alqahtani",
-          "studentName2": "لتين وليد سعيد القحطاني",
-          "stuAdmNum": "22STU2",
-          "gradeCode": "KG2",
-          "grade": "KG2",
-          "grade2": "KG2_Ar"
-        }
-      ]
-    };
-
-    if (res) {
-      this.dashboardEvents = res.dashboardEvents;
-      this.dashboardStudents = res.dashboardStudents;
-      this.totalStudents = res.totalStudents;
-      this.studentsOnLeave = res.studentsOnLeave;
-      this.feeDueStudents = res.feeDueStudents;
-      this.totalTeachers = res.totalTeachers;
-      this.newRegistrations = res.newRegistrations;
-      this.feeDueTotal = res.feeDueTotal;
-      var attData = res.chartAttandanceData as Array<any>;
-      var tAttData = attData.find(x => x.typeID == 1);
-      this.todayAttData.push(tAttData.totalStudents == 0 ? 1 : tAttData.totalStudents);
-      this.todayAttData.push(tAttData.presentStudents == 0 ? 1 : tAttData.presentStudents);
-      this.todayAttData.push(tAttData.absentStudents == 0 ? 1 : tAttData.absentStudents);
-
-      var mAttData = attData.find(x => x.typeID == 2);
-      this.monthAttData.push(mAttData.totalStudents == 0 ? 1 : mAttData.totalStudents);
-      this.monthAttData.push(mAttData.presentStudents == 0 ? 1 : mAttData.presentStudents);
-      this.monthAttData.push(mAttData.absentStudents == 0 ? 1 : mAttData.absentStudents);
-
-      var yAttData = attData.find(x => x.typeID == 3);
-      this.yearAttData.push(yAttData.totalStudents == 0 ? 1 : yAttData.totalStudents);
-      this.yearAttData.push(yAttData.presentStudents == 0 ? 1 : yAttData.presentStudents);
-      this.yearAttData.push(yAttData.absentStudents == 0 ? 1 : yAttData.absentStudents);
-
-      this.chartOptions1 = {
-        series: this.todayAttData,
-        chart: {
-          type: "donut",
-          height: 250,
-          width: 280
-        },
-        labels: ["Total Customers", "Absent Customers", "Present Customers",],
-        responsive: [
+      let res = {
+        "branchCode": "Jeddah",
+        "totalStudents": 28,
+        "studentsOnLeave": 0,
+        "feeDueStudents": 31,
+        "totalTeachers": 3,
+        "newRegistrations": 0,
+        "feeDueTotal": 790300.00,
+        "chartAttandanceData": [
           {
-            breakpoint: 480,
-            options: {
-              chart: {
-                width: 500,
-              },
-              legend: {
-                position: "bottom"
-              }
-            }
+            "typeID": 1,
+            "totalStudents": 28,
+            "presentStudents": 0,
+            "leaveStudents": 0,
+            "absentStudents": 28
+          },
+          {
+            "typeID": 2,
+            "totalStudents": 532,
+            "presentStudents": 0,
+            "leaveStudents": 0,
+            "absentStudents": 532
+          },
+          {
+            "typeID": 3,
+            "totalStudents": 532,
+            "presentStudents": 43,
+            "leaveStudents": 0,
+            "absentStudents": 489
           }
-        ]
-      };
-      this.chartOptions2 = {
-        series: this.monthAttData,
-        chart: {
-          type: "donut",
-          height: 250,
-          width: 280
-        },
-        labels: ["Total Customers", "Absent Customers", "Present Customers"],
-        responsive: [
+        ],
+        "dashboardEvents": [],
+        "dashboardStudents": [
           {
-            breakpoint: 480,
-            options: {
-              chart: {
-                width: 500
-              },
-              legend: {
-                position: "bottom"
-              }
-            }
-          }
-        ]
-      };
-      this.chartOptions3 = {
-        series: this.yearAttData,
-        chart: {
-          type: "donut",
-          height: 250,
-          width: 280
-        },
-        labels: ["Total Customers", "Absent Customers", "Present Customers"],
-        responsive: [
-          {
-            breakpoint: 480,
-            options: {
-              chart: {
-                width: 500
-              },
-              legend: {
-                position: "bottom"
-              }
-            }
+            "studentName": "Lateen Waleed S Alqahtani",
+            "studentName2": "لتين وليد سعيد القحطاني",
+            "stuAdmNum": "22STU2",
+            "gradeCode": "KG2",
+            "grade": "KG2",
+            "grade2": "KG2_Ar"
           }
         ]
       };
 
-      this.isShowDonut = true;
-      if (res.branchCode != null && res.branchCode != '') {
-        let res1 = {
-          "branchCode": "Jeddah",
-          "startDate": "2022-03-14T00:00:00",
-          "endDate": "2023-12-31T00:00:00",
-          "eventsHolidaysDataList": [
-            {
-              "eventDate": "2022-03-18T00:00:00",
-              "eventName": "Weekend",
-              "eventNameAr": null,
-              "eventType": 1
-            },
-            {
-              "eventDate": "2022-03-19T00:00:00",
-              "eventName": "Weekend",
-              "eventNameAr": null,
-              "eventType": 1
-            },
-            {
-              "eventDate": "2022-03-25T00:00:00",
-              "eventName": "Weekend",
-              "eventNameAr": null,
-              "eventType": 1
-            },
-            {
-              "eventDate": "2022-03-26T00:00:00",
-              "eventName": "Weekend",
-              "eventNameAr": null,
-              "eventType": 1
-            },
-            {
-              "eventDate": "2022-04-01T00:00:00",
-              "eventName": "Weekend",
-              "eventNameAr": null,
-              "eventType": 1
-            },
-            {
-              "eventDate": "2022-04-02T00:00:00",
-              "eventName": "Weekend",
-              "eventNameAr": null,
-              "eventType": 1
-            },
-            {
-              "eventDate": "2022-04-08T00:00:00",
-              "eventName": "Weekend",
-              "eventNameAr": null,
-              "eventType": 1
-            },
-            {
-              "eventDate": "2022-04-09T00:00:00",
-              "eventName": "Weekend",
-              "eventNameAr": null,
-              "eventType": 1
-            },
-            {
-              "eventDate": "2022-04-15T00:00:00",
-              "eventName": "Weekend",
-              "eventNameAr": null,
-              "eventType": 1
-            },
-            {
-              "eventDate": "2022-04-16T00:00:00",
-              "eventName": "Weekend",
-              "eventNameAr": null,
-              "eventType": 1
-            },
-            {
-              "eventDate": "2022-04-22T00:00:00",
-              "eventName": "Weekend",
-              "eventNameAr": null,
-              "eventType": 1
-            },
-            {
-              "eventDate": "2022-04-23T00:00:00",
-              "eventName": "Weekend",
-              "eventNameAr": null,
-              "eventType": 1
-            },
-            {
-              "eventDate": "2022-04-29T00:00:00",
-              "eventName": "Weekend",
-              "eventNameAr": null,
-              "eventType": 1
-            },
-            {
-              "eventDate": "2022-04-30T00:00:00",
-              "eventName": "Weekend",
-              "eventNameAr": null,
-              "eventType": 1
-            },
-            {
-              "eventDate": "2022-05-06T00:00:00",
-              "eventName": "Weekend",
-              "eventNameAr": null,
-              "eventType": 1
-            },
-            {
-              "eventDate": "2022-05-07T00:00:00",
-              "eventName": "Weekend",
-              "eventNameAr": null,
-              "eventType": 1
-            },
-            {
-              "eventDate": "2022-05-13T00:00:00",
-              "eventName": "Weekend",
-              "eventNameAr": null,
-              "eventType": 1
-            },
-            {
-              "eventDate": "2022-05-14T00:00:00",
-              "eventName": "Weekend",
-              "eventNameAr": null,
-              "eventType": 1
-            },
-            {
-              "eventDate": "2022-05-20T00:00:00",
-              "eventName": "Weekend",
-              "eventNameAr": null,
-              "eventType": 1
-            },
-            {
-              "eventDate": "2022-05-21T00:00:00",
-              "eventName": "Weekend",
-              "eventNameAr": null,
-              "eventType": 1
-            },
-            {
-              "eventDate": "2022-05-27T00:00:00",
-              "eventName": "Weekend",
-              "eventNameAr": null,
-              "eventType": 1
-            },
-            {
-              "eventDate": "2022-05-28T00:00:00",
-              "eventName": "Weekend",
-              "eventNameAr": null,
-              "eventType": 1
-            },
-            {
-              "eventDate": "2022-06-03T00:00:00",
-              "eventName": "Weekend",
-              "eventNameAr": null,
-              "eventType": 1
-            },
-            {
-              "eventDate": "2022-06-04T00:00:00",
-              "eventName": "Weekend",
-              "eventNameAr": null,
-              "eventType": 1
-            },
-            {
-              "eventDate": "2022-06-10T00:00:00",
-              "eventName": "Weekend",
-              "eventNameAr": null,
-              "eventType": 1
-            },
-            {
-              "eventDate": "2022-06-11T00:00:00",
-              "eventName": "Weekend",
-              "eventNameAr": null,
-              "eventType": 1
-            },
-            {
-              "eventDate": "2022-06-17T00:00:00",
-              "eventName": "Weekend",
-              "eventNameAr": null,
-              "eventType": 1
-            },
-            {
-              "eventDate": "2022-06-18T00:00:00",
-              "eventName": "Weekend",
-              "eventNameAr": null,
-              "eventType": 1
-            },
-            {
-              "eventDate": "2022-06-24T00:00:00",
-              "eventName": "Weekend",
-              "eventNameAr": null,
-              "eventType": 1
-            },
-            {
-              "eventDate": "2022-06-25T00:00:00",
-              "eventName": "Weekend",
-              "eventNameAr": null,
-              "eventType": 1
-            },
-            {
-              "eventDate": "2022-07-01T00:00:00",
-              "eventName": "Weekend",
-              "eventNameAr": null,
-              "eventType": 1
-            },
-            {
-              "eventDate": "2022-07-02T00:00:00",
-              "eventName": "Weekend",
-              "eventNameAr": null,
-              "eventType": 1
-            },
-            {
-              "eventDate": "2022-07-08T00:00:00",
-              "eventName": "Weekend",
-              "eventNameAr": null,
-              "eventType": 1
-            },
-            {
-              "eventDate": "2022-07-09T00:00:00",
-              "eventName": "Weekend",
-              "eventNameAr": null,
-              "eventType": 1
-            },
-            {
-              "eventDate": "2022-07-15T00:00:00",
-              "eventName": "Weekend",
-              "eventNameAr": null,
-              "eventType": 1
-            },
-            {
-              "eventDate": "2022-07-16T00:00:00",
-              "eventName": "Weekend",
-              "eventNameAr": null,
-              "eventType": 1
-            },
-            {
-              "eventDate": "2022-07-22T00:00:00",
-              "eventName": "Weekend",
-              "eventNameAr": null,
-              "eventType": 1
-            },
-            {
-              "eventDate": "2022-07-23T00:00:00",
-              "eventName": "Weekend",
-              "eventNameAr": null,
-              "eventType": 1
-            },
-            {
-              "eventDate": "2022-07-29T00:00:00",
-              "eventName": "Weekend",
-              "eventNameAr": null,
-              "eventType": 1
-            },
-            {
-              "eventDate": "2022-07-30T00:00:00",
-              "eventName": "Weekend",
-              "eventNameAr": null,
-              "eventType": 1
-            },
-            {
-              "eventDate": "2022-08-05T00:00:00",
-              "eventName": "Weekend",
-              "eventNameAr": null,
-              "eventType": 1
-            },
-            {
-              "eventDate": "2022-08-06T00:00:00",
-              "eventName": "Weekend",
-              "eventNameAr": null,
-              "eventType": 1
-            },
-            {
-              "eventDate": "2022-08-12T00:00:00",
-              "eventName": "Weekend",
-              "eventNameAr": null,
-              "eventType": 1
-            },
-            {
-              "eventDate": "2022-08-13T00:00:00",
-              "eventName": "Weekend",
-              "eventNameAr": null,
-              "eventType": 1
-            },
-            {
-              "eventDate": "2022-08-19T00:00:00",
-              "eventName": "Weekend",
-              "eventNameAr": null,
-              "eventType": 1
-            },
-            {
-              "eventDate": "2022-08-20T00:00:00",
-              "eventName": "Weekend",
-              "eventNameAr": null,
-              "eventType": 1
-            },
-            {
-              "eventDate": "2022-08-26T00:00:00",
-              "eventName": "Weekend",
-              "eventNameAr": null,
-              "eventType": 1
-            },
-            {
-              "eventDate": "2022-08-27T00:00:00",
-              "eventName": "Weekend",
-              "eventNameAr": null,
-              "eventType": 1
-            },
-            {
-              "eventDate": "2022-09-02T00:00:00",
-              "eventName": "Weekend",
-              "eventNameAr": null,
-              "eventType": 1
-            },
-            {
-              "eventDate": "2022-09-02T00:00:00",
-              "eventName": "Eid",
-              "eventNameAr": "Eid_ar",
-              "eventType": 2
-            },
-            {
-              "eventDate": "2022-09-03T00:00:00",
-              "eventName": "Weekend",
-              "eventNameAr": null,
-              "eventType": 1
-            },
-            {
-              "eventDate": "2022-09-09T00:00:00",
-              "eventName": "Weekend",
-              "eventNameAr": null,
-              "eventType": 1
-            },
-            {
-              "eventDate": "2022-09-09T00:00:00",
-              "eventName": "Ganesh",
-              "eventNameAr": "Ganesh_ar",
-              "eventType": 2
-            },
-            {
-              "eventDate": "2022-09-10T00:00:00",
-              "eventName": "Weekend",
-              "eventNameAr": null,
-              "eventType": 1
-            },
-            {
-              "eventDate": "2022-09-16T00:00:00",
-              "eventName": "Weekend",
-              "eventNameAr": null,
-              "eventType": 1
-            },
-            {
-              "eventDate": "2022-09-17T00:00:00",
-              "eventName": "Weekend",
-              "eventNameAr": null,
-              "eventType": 1
-            },
-            {
-              "eventDate": "2022-09-23T00:00:00",
-              "eventName": "Weekend",
-              "eventNameAr": null,
-              "eventType": 1
-            },
-            {
-              "eventDate": "2022-09-24T00:00:00",
-              "eventName": "Weekend",
-              "eventNameAr": null,
-              "eventType": 1
-            },
-            {
-              "eventDate": "2022-09-30T00:00:00",
-              "eventName": "Weekend",
-              "eventNameAr": null,
-              "eventType": 1
-            },
-            {
-              "eventDate": "2022-10-01T00:00:00",
-              "eventName": "Weekend",
-              "eventNameAr": null,
-              "eventType": 1
-            },
-            {
-              "eventDate": "2022-10-07T00:00:00",
-              "eventName": "Weekend",
-              "eventNameAr": null,
-              "eventType": 1
-            },
-            {
-              "eventDate": "2022-10-08T00:00:00",
-              "eventName": "Weekend",
-              "eventNameAr": null,
-              "eventType": 1
-            },
-            {
-              "eventDate": "2022-10-14T00:00:00",
-              "eventName": "Weekend",
-              "eventNameAr": null,
-              "eventType": 1
-            },
-            {
-              "eventDate": "2022-10-15T00:00:00",
-              "eventName": "Weekend",
-              "eventNameAr": null,
-              "eventType": 1
-            },
-            {
-              "eventDate": "2022-10-21T00:00:00",
-              "eventName": "Weekend",
-              "eventNameAr": null,
-              "eventType": 1
-            },
-            {
-              "eventDate": "2022-10-22T00:00:00",
-              "eventName": "Weekend",
-              "eventNameAr": null,
-              "eventType": 1
-            },
-            {
-              "eventDate": "2022-10-28T00:00:00",
-              "eventName": "Weekend",
-              "eventNameAr": null,
-              "eventType": 1
-            },
-            {
-              "eventDate": "2022-10-29T00:00:00",
-              "eventName": "Weekend",
-              "eventNameAr": null,
-              "eventType": 1
-            },
-            {
-              "eventDate": "2022-11-04T00:00:00",
-              "eventName": "Weekend",
-              "eventNameAr": null,
-              "eventType": 1
-            },
-            {
-              "eventDate": "2022-11-05T00:00:00",
-              "eventName": "Weekend",
-              "eventNameAr": null,
-              "eventType": 1
-            },
-            {
-              "eventDate": "2022-11-11T00:00:00",
-              "eventName": "Weekend",
-              "eventNameAr": null,
-              "eventType": 1
-            },
-            {
-              "eventDate": "2022-11-12T00:00:00",
-              "eventName": "Weekend",
-              "eventNameAr": null,
-              "eventType": 1
-            },
-            {
-              "eventDate": "2022-11-18T00:00:00",
-              "eventName": "Weekend",
-              "eventNameAr": null,
-              "eventType": 1
-            },
-            {
-              "eventDate": "2022-11-19T00:00:00",
-              "eventName": "Weekend",
-              "eventNameAr": null,
-              "eventType": 1
-            },
-            {
-              "eventDate": "2022-11-25T00:00:00",
-              "eventName": "Weekend",
-              "eventNameAr": null,
-              "eventType": 1
-            },
-            {
-              "eventDate": "2022-11-26T00:00:00",
-              "eventName": "Weekend",
-              "eventNameAr": null,
-              "eventType": 1
-            },
-            {
-              "eventDate": "2022-11-28T00:00:00",
-              "eventName": "Singing competition",
-              "eventNameAr": "مسابقة Singing",
-              "eventType": 3
-            },
-            {
-              "eventDate": "2022-12-02T00:00:00",
-              "eventName": "Weekend",
-              "eventNameAr": null,
-              "eventType": 1
-            },
-            {
-              "eventDate": "2022-12-03T00:00:00",
-              "eventName": "Weekend",
-              "eventNameAr": null,
-              "eventType": 1
-            },
-            {
-              "eventDate": "2022-12-05T00:00:00",
-              "eventName": "Gulf Current Affairs",
-              "eventNameAr": "شؤون الخليج الجارية",
-              "eventType": 3
-            },
-            {
-              "eventDate": "2022-12-08T00:00:00",
-              "eventName": "G.K Competition",
-              "eventNameAr": "مسابقة G.K",
-              "eventType": 3
-            },
-            {
-              "eventDate": "2022-12-09T00:00:00",
-              "eventName": "Weekend",
-              "eventNameAr": null,
-              "eventType": 1
-            },
-            {
-              "eventDate": "2022-12-10T00:00:00",
-              "eventName": "Weekend",
-              "eventNameAr": null,
-              "eventType": 1
-            },
-            {
-              "eventDate": "2022-12-16T00:00:00",
-              "eventName": "Weekend",
-              "eventNameAr": null,
-              "eventType": 1
-            },
-            {
-              "eventDate": "2022-12-17T00:00:00",
-              "eventName": "Weekend",
-              "eventNameAr": null,
-              "eventType": 1
-            },
-            {
-              "eventDate": "2022-12-23T00:00:00",
-              "eventName": "Weekend",
-              "eventNameAr": null,
-              "eventType": 1
-            },
-            {
-              "eventDate": "2022-12-24T00:00:00",
-              "eventName": "Weekend",
-              "eventNameAr": null,
-              "eventType": 1
-            },
-            {
-              "eventDate": "2022-12-25T00:00:00",
-              "eventName": "Student - Teacher Relationship",
-              "eventNameAr": "العلاقة بين الطالب والمعلم",
-              "eventType": 3
-            },
-            {
-              "eventDate": "2022-12-30T00:00:00",
-              "eventName": "Weekend",
-              "eventNameAr": null,
-              "eventType": 1
-            },
-            {
-              "eventDate": "2022-12-30T00:00:00",
-              "eventName": "School Annual Day Function",
-              "eventNameAr": "وظيفة اليوم السنوي للمدرسة",
-              "eventType": 3
-            },
-            {
-              "eventDate": "2022-12-31T00:00:00",
-              "eventName": "Weekend",
-              "eventNameAr": null,
-              "eventType": 1
-            },
-            {
-              "eventDate": "2023-01-06T00:00:00",
-              "eventName": "Weekend",
-              "eventNameAr": null,
-              "eventType": 1
-            },
-            {
-              "eventDate": "2023-01-07T00:00:00",
-              "eventName": "Weekend",
-              "eventNameAr": null,
-              "eventType": 1
-            },
-            {
-              "eventDate": "2023-01-13T00:00:00",
-              "eventName": "Weekend",
-              "eventNameAr": null,
-              "eventType": 1
-            },
-            {
-              "eventDate": "2023-01-14T00:00:00",
-              "eventName": "Weekend",
-              "eventNameAr": null,
-              "eventType": 1
-            },
-            {
-              "eventDate": "2023-01-20T00:00:00",
-              "eventName": "Weekend",
-              "eventNameAr": null,
-              "eventType": 1
-            },
-            {
-              "eventDate": "2023-01-21T00:00:00",
-              "eventName": "Weekend",
-              "eventNameAr": null,
-              "eventType": 1
-            },
-            {
-              "eventDate": "2023-01-27T00:00:00",
-              "eventName": "Weekend",
-              "eventNameAr": null,
-              "eventType": 1
-            },
-            {
-              "eventDate": "2023-01-28T00:00:00",
-              "eventName": "Weekend",
-              "eventNameAr": null,
-              "eventType": 1
-            },
-            {
-              "eventDate": "2023-02-01T00:00:00",
-              "eventName": "G.K Competition",
-              "eventNameAr": "مسابقة G.K",
-              "eventType": 3
-            },
-            {
-              "eventDate": "2023-02-02T00:00:00",
-              "eventName": "Parent Teachers Meeting",
-              "eventNameAr": "اجتماع أولياء الأمور",
-              "eventType": 3
-            },
-            {
-              "eventDate": "2023-02-03T00:00:00",
-              "eventName": "Weekend",
-              "eventNameAr": null,
-              "eventType": 1
-            },
-            {
-              "eventDate": "2023-02-04T00:00:00",
-              "eventName": "Weekend",
-              "eventNameAr": null,
-              "eventType": 1
-            },
-            {
-              "eventDate": "2023-02-10T00:00:00",
-              "eventName": "Weekend",
-              "eventNameAr": null,
-              "eventType": 1
-            },
-            {
-              "eventDate": "2023-02-11T00:00:00",
-              "eventName": "Weekend",
-              "eventNameAr": null,
-              "eventType": 1
-            },
-            {
-              "eventDate": "2023-02-17T00:00:00",
-              "eventName": "Weekend",
-              "eventNameAr": null,
-              "eventType": 1
-            },
-            {
-              "eventDate": "2023-02-18T00:00:00",
-              "eventName": "Weekend",
-              "eventNameAr": null,
-              "eventType": 1
-            },
-            {
-              "eventDate": "2023-02-24T00:00:00",
-              "eventName": "Weekend",
-              "eventNameAr": null,
-              "eventType": 1
-            },
-            {
-              "eventDate": "2023-02-25T00:00:00",
-              "eventName": "Weekend",
-              "eventNameAr": null,
-              "eventType": 1
-            },
-            {
-              "eventDate": "2023-03-03T00:00:00",
-              "eventName": "Weekend",
-              "eventNameAr": null,
-              "eventType": 1
-            },
-            {
-              "eventDate": "2023-03-04T00:00:00",
-              "eventName": "Weekend",
-              "eventNameAr": null,
-              "eventType": 1
-            },
-            {
-              "eventDate": "2023-03-10T00:00:00",
-              "eventName": "Weekend",
-              "eventNameAr": null,
-              "eventType": 1
-            },
-            {
-              "eventDate": "2023-03-11T00:00:00",
-              "eventName": "Weekend",
-              "eventNameAr": null,
-              "eventType": 1
-            },
-            {
-              "eventDate": "2023-03-17T00:00:00",
-              "eventName": "Weekend",
-              "eventNameAr": null,
-              "eventType": 1
-            },
-            {
-              "eventDate": "2023-03-18T00:00:00",
-              "eventName": "Weekend",
-              "eventNameAr": null,
-              "eventType": 1
-            },
-            {
-              "eventDate": "2023-03-24T00:00:00",
-              "eventName": "Weekend",
-              "eventNameAr": null,
-              "eventType": 1
-            },
-            {
-              "eventDate": "2023-03-25T00:00:00",
-              "eventName": "Weekend",
-              "eventNameAr": null,
-              "eventType": 1
-            },
-            {
-              "eventDate": "2023-03-31T00:00:00",
-              "eventName": "Weekend",
-              "eventNameAr": null,
-              "eventType": 1
-            },
-            {
-              "eventDate": "2023-04-01T00:00:00",
-              "eventName": "Weekend",
-              "eventNameAr": null,
-              "eventType": 1
-            },
-            {
-              "eventDate": "2023-04-07T00:00:00",
-              "eventName": "Weekend",
-              "eventNameAr": null,
-              "eventType": 1
-            },
-            {
-              "eventDate": "2023-04-08T00:00:00",
-              "eventName": "Weekend",
-              "eventNameAr": null,
-              "eventType": 1
-            },
-            {
-              "eventDate": "2023-04-14T00:00:00",
-              "eventName": "Weekend",
-              "eventNameAr": null,
-              "eventType": 1
-            },
-            {
-              "eventDate": "2023-04-15T00:00:00",
-              "eventName": "Weekend",
-              "eventNameAr": null,
-              "eventType": 1
-            },
-            {
-              "eventDate": "2023-04-21T00:00:00",
-              "eventName": "Weekend",
-              "eventNameAr": null,
-              "eventType": 1
-            },
-            {
-              "eventDate": "2023-04-22T00:00:00",
-              "eventName": "Weekend",
-              "eventNameAr": null,
-              "eventType": 1
-            },
-            {
-              "eventDate": "2023-04-28T00:00:00",
-              "eventName": "Weekend",
-              "eventNameAr": null,
-              "eventType": 1
-            },
-            {
-              "eventDate": "2023-04-29T00:00:00",
-              "eventName": "Weekend",
-              "eventNameAr": null,
-              "eventType": 1
-            },
-            {
-              "eventDate": "2023-05-05T00:00:00",
-              "eventName": "Weekend",
-              "eventNameAr": null,
-              "eventType": 1
-            },
-            {
-              "eventDate": "2023-05-06T00:00:00",
-              "eventName": "Weekend",
-              "eventNameAr": null,
-              "eventType": 1
-            },
-            {
-              "eventDate": "2023-05-12T00:00:00",
-              "eventName": "Weekend",
-              "eventNameAr": null,
-              "eventType": 1
-            },
-            {
-              "eventDate": "2023-05-13T00:00:00",
-              "eventName": "Weekend",
-              "eventNameAr": null,
-              "eventType": 1
-            },
-            {
-              "eventDate": "2023-05-19T00:00:00",
-              "eventName": "Weekend",
-              "eventNameAr": null,
-              "eventType": 1
-            },
-            {
-              "eventDate": "2023-05-20T00:00:00",
-              "eventName": "Weekend",
-              "eventNameAr": null,
-              "eventType": 1
-            },
-            {
-              "eventDate": "2023-05-26T00:00:00",
-              "eventName": "Weekend",
-              "eventNameAr": null,
-              "eventType": 1
-            },
-            {
-              "eventDate": "2023-05-27T00:00:00",
-              "eventName": "Weekend",
-              "eventNameAr": null,
-              "eventType": 1
-            },
-            {
-              "eventDate": "2023-06-02T00:00:00",
-              "eventName": "Weekend",
-              "eventNameAr": null,
-              "eventType": 1
-            },
-            {
-              "eventDate": "2023-06-02T00:00:00",
-              "eventName": "Parent Teachers Meeting",
-              "eventNameAr": "اجتماع أولياء الأمور",
-              "eventType": 3
-            },
-            {
-              "eventDate": "2023-06-03T00:00:00",
-              "eventName": "Weekend",
-              "eventNameAr": null,
-              "eventType": 1
-            },
-            {
-              "eventDate": "2023-06-09T00:00:00",
-              "eventName": "Weekend",
-              "eventNameAr": null,
-              "eventType": 1
-            },
-            {
-              "eventDate": "2023-06-10T00:00:00",
-              "eventName": "Weekend",
-              "eventNameAr": null,
-              "eventType": 1
-            },
-            {
-              "eventDate": "2023-06-10T00:00:00",
-              "eventName": "G.K Competition",
-              "eventNameAr": "شؤون الخليج الجارية",
-              "eventType": 3
-            },
-            {
-              "eventDate": "2023-06-15T00:00:00",
-              "eventName": "Singing competition",
-              "eventNameAr": "مسابقة Singing",
-              "eventType": 3
-            },
-            {
-              "eventDate": "2023-06-16T00:00:00",
-              "eventName": "Weekend",
-              "eventNameAr": null,
-              "eventType": 1
-            },
-            {
-              "eventDate": "2023-06-17T00:00:00",
-              "eventName": "Weekend",
-              "eventNameAr": null,
-              "eventType": 1
-            },
-            {
-              "eventDate": "2023-06-23T00:00:00",
-              "eventName": "Weekend",
-              "eventNameAr": null,
-              "eventType": 1
-            },
-            {
-              "eventDate": "2023-06-24T00:00:00",
-              "eventName": "Weekend",
-              "eventNameAr": null,
-              "eventType": 1
-            },
-            {
-              "eventDate": "2023-06-28T00:00:00",
-              "eventName": "Arafat Day",
-              "eventNameAr": "Arafat Day_AR",
-              "eventType": 2
-            },
-            {
-              "eventDate": "2023-06-29T00:00:00",
-              "eventName": "Eid al-Adha",
-              "eventNameAr": "Eid al-Adha_AR",
-              "eventType": 2
-            },
-            {
-              "eventDate": "2023-06-30T00:00:00",
-              "eventName": "Weekend",
-              "eventNameAr": null,
-              "eventType": 1
-            },
-            {
-              "eventDate": "2023-07-01T00:00:00",
-              "eventName": "Weekend",
-              "eventNameAr": null,
-              "eventType": 1
-            },
-            {
-              "eventDate": "2023-07-07T00:00:00",
-              "eventName": "Weekend",
-              "eventNameAr": null,
-              "eventType": 1
-            },
-            {
-              "eventDate": "2023-07-08T00:00:00",
-              "eventName": "Weekend",
-              "eventNameAr": null,
-              "eventType": 1
-            },
-            {
-              "eventDate": "2023-07-14T00:00:00",
-              "eventName": "Weekend",
-              "eventNameAr": null,
-              "eventType": 1
-            },
-            {
-              "eventDate": "2023-07-15T00:00:00",
-              "eventName": "Weekend",
-              "eventNameAr": null,
-              "eventType": 1
-            },
-            {
-              "eventDate": "2023-07-21T00:00:00",
-              "eventName": "Weekend",
-              "eventNameAr": null,
-              "eventType": 1
-            },
-            {
-              "eventDate": "2023-07-22T00:00:00",
-              "eventName": "Weekend",
-              "eventNameAr": null,
-              "eventType": 1
-            },
-            {
-              "eventDate": "2023-07-28T00:00:00",
-              "eventName": "Weekend",
-              "eventNameAr": null,
-              "eventType": 1
-            },
-            {
-              "eventDate": "2023-07-29T00:00:00",
-              "eventName": "Weekend",
-              "eventNameAr": null,
-              "eventType": 1
-            },
-            {
-              "eventDate": "2023-08-04T00:00:00",
-              "eventName": "Weekend",
-              "eventNameAr": null,
-              "eventType": 1
-            },
-            {
-              "eventDate": "2023-08-05T00:00:00",
-              "eventName": "Weekend",
-              "eventNameAr": null,
-              "eventType": 1
-            },
-            {
-              "eventDate": "2023-08-11T00:00:00",
-              "eventName": "Weekend",
-              "eventNameAr": null,
-              "eventType": 1
-            },
-            {
-              "eventDate": "2023-08-12T00:00:00",
-              "eventName": "Weekend",
-              "eventNameAr": null,
-              "eventType": 1
-            },
-            {
-              "eventDate": "2023-08-15T00:00:00",
-              "eventName": "Independence Day",
-              "eventNameAr": "Independence Day",
-              "eventType": 3
-            },
-            {
-              "eventDate": "2023-08-18T00:00:00",
-              "eventName": "Weekend",
-              "eventNameAr": null,
-              "eventType": 1
-            },
-            {
-              "eventDate": "2023-08-19T00:00:00",
-              "eventName": "Weekend",
-              "eventNameAr": null,
-              "eventType": 1
-            },
-            {
-              "eventDate": "2023-08-25T00:00:00",
-              "eventName": "Weekend",
-              "eventNameAr": null,
-              "eventType": 1
-            },
-            {
-              "eventDate": "2023-08-26T00:00:00",
-              "eventName": "Weekend",
-              "eventNameAr": null,
-              "eventType": 1
-            },
-            {
-              "eventDate": "2023-09-01T00:00:00",
-              "eventName": "Weekend",
-              "eventNameAr": null,
-              "eventType": 1
-            },
-            {
-              "eventDate": "2023-09-02T00:00:00",
-              "eventName": "Weekend",
-              "eventNameAr": null,
-              "eventType": 1
-            },
-            {
-              "eventDate": "2023-09-08T00:00:00",
-              "eventName": "Weekend",
-              "eventNameAr": null,
-              "eventType": 1
-            },
-            {
-              "eventDate": "2023-09-09T00:00:00",
-              "eventName": "Weekend",
-              "eventNameAr": null,
-              "eventType": 1
-            },
-            {
-              "eventDate": "2023-09-15T00:00:00",
-              "eventName": "Weekend",
-              "eventNameAr": null,
-              "eventType": 1
-            },
-            {
-              "eventDate": "2023-09-16T00:00:00",
-              "eventName": "Weekend",
-              "eventNameAr": null,
-              "eventType": 1
-            },
-            {
-              "eventDate": "2023-09-22T00:00:00",
-              "eventName": "Weekend",
-              "eventNameAr": null,
-              "eventType": 1
-            },
-            {
-              "eventDate": "2023-09-23T00:00:00",
-              "eventName": "Weekend",
-              "eventNameAr": null,
-              "eventType": 1
-            },
-            {
-              "eventDate": "2023-09-29T00:00:00",
-              "eventName": "Weekend",
-              "eventNameAr": null,
-              "eventType": 1
-            },
-            {
-              "eventDate": "2023-09-30T00:00:00",
-              "eventName": "Weekend",
-              "eventNameAr": null,
-              "eventType": 1
-            },
-            {
-              "eventDate": "2023-10-06T00:00:00",
-              "eventName": "Weekend",
-              "eventNameAr": null,
-              "eventType": 1
-            },
-            {
-              "eventDate": "2023-10-07T00:00:00",
-              "eventName": "Weekend",
-              "eventNameAr": null,
-              "eventType": 1
-            },
-            {
-              "eventDate": "2023-10-13T00:00:00",
-              "eventName": "Weekend",
-              "eventNameAr": null,
-              "eventType": 1
-            },
-            {
-              "eventDate": "2023-10-14T00:00:00",
-              "eventName": "Weekend",
-              "eventNameAr": null,
-              "eventType": 1
-            },
-            {
-              "eventDate": "2023-10-20T00:00:00",
-              "eventName": "Weekend",
-              "eventNameAr": null,
-              "eventType": 1
-            },
-            {
-              "eventDate": "2023-10-21T00:00:00",
-              "eventName": "Weekend",
-              "eventNameAr": null,
-              "eventType": 1
-            },
-            {
-              "eventDate": "2023-10-27T00:00:00",
-              "eventName": "Weekend",
-              "eventNameAr": null,
-              "eventType": 1
-            },
-            {
-              "eventDate": "2023-10-28T00:00:00",
-              "eventName": "Weekend",
-              "eventNameAr": null,
-              "eventType": 1
-            },
-            {
-              "eventDate": "2023-11-03T00:00:00",
-              "eventName": "Weekend",
-              "eventNameAr": null,
-              "eventType": 1
-            },
-            {
-              "eventDate": "2023-11-04T00:00:00",
-              "eventName": "Weekend",
-              "eventNameAr": null,
-              "eventType": 1
-            },
-            {
-              "eventDate": "2023-11-10T00:00:00",
-              "eventName": "Weekend",
-              "eventNameAr": null,
-              "eventType": 1
-            },
-            {
-              "eventDate": "2023-11-11T00:00:00",
-              "eventName": "Weekend",
-              "eventNameAr": null,
-              "eventType": 1
-            },
-            {
-              "eventDate": "2023-11-17T00:00:00",
-              "eventName": "Weekend",
-              "eventNameAr": null,
-              "eventType": 1
-            },
-            {
-              "eventDate": "2023-11-18T00:00:00",
-              "eventName": "Weekend",
-              "eventNameAr": null,
-              "eventType": 1
-            },
-            {
-              "eventDate": "2023-11-24T00:00:00",
-              "eventName": "Weekend",
-              "eventNameAr": null,
-              "eventType": 1
-            },
-            {
-              "eventDate": "2023-11-25T00:00:00",
-              "eventName": "Weekend",
-              "eventNameAr": null,
-              "eventType": 1
-            },
-            {
-              "eventDate": "2023-12-01T00:00:00",
-              "eventName": "Weekend",
-              "eventNameAr": null,
-              "eventType": 1
-            },
-            {
-              "eventDate": "2023-12-02T00:00:00",
-              "eventName": "Weekend",
-              "eventNameAr": null,
-              "eventType": 1
-            },
-            {
-              "eventDate": "2023-12-08T00:00:00",
-              "eventName": "Weekend",
-              "eventNameAr": null,
-              "eventType": 1
-            },
-            {
-              "eventDate": "2023-12-09T00:00:00",
-              "eventName": "Weekend",
-              "eventNameAr": null,
-              "eventType": 1
-            },
-            {
-              "eventDate": "2023-12-15T00:00:00",
-              "eventName": "Weekend",
-              "eventNameAr": null,
-              "eventType": 1
-            },
-            {
-              "eventDate": "2023-12-16T00:00:00",
-              "eventName": "Weekend",
-              "eventNameAr": null,
-              "eventType": 1
-            },
-            {
-              "eventDate": "2023-12-22T00:00:00",
-              "eventName": "Weekend",
-              "eventNameAr": null,
-              "eventType": 1
-            },
-            {
-              "eventDate": "2023-12-23T00:00:00",
-              "eventName": "Weekend",
-              "eventNameAr": null,
-              "eventType": 1
-            },
-            {
-              "eventDate": "2023-12-29T00:00:00",
-              "eventName": "Weekend",
-              "eventNameAr": null,
-              "eventType": 1
-            },
-            {
-              "eventDate": "2023-12-30T00:00:00",
-              "eventName": "Weekend",
-              "eventNameAr": null,
-              "eventType": 1
-            }
-          ]
-        };
+      if (res) {
+        this.dashboardEvents = res.dashboardEvents;
+        this.dashboardStudents = res.dashboardStudents;
+        this.totalStudents = res.totalStudents;
+        this.studentsOnLeave = res.studentsOnLeave;
+        this.feeDueStudents = res.feeDueStudents;
+        this.totalTeachers = res.totalTeachers;
+        this.newRegistrations = res.newRegistrations;
+        this.feeDueTotal = res.feeDueTotal;
+        var attData = res.chartAttandanceData as Array<any>;
+        var tAttData = attData.find(x => x.typeID == 1);
+        this.todayAttData.push(tAttData.totalStudents == 0 ? 1 : tAttData.totalStudents);
+        this.todayAttData.push(tAttData.presentStudents == 0 ? 1 : tAttData.presentStudents);
+        this.todayAttData.push(tAttData.absentStudents == 0 ? 1 : tAttData.absentStudents);
 
-        if (res1) {
-          this.minDate = this.utilService.selectedDate(res1.startDate);
-          this.maxDate = this.utilService.selectedDate(res1.endDate);
-          for (var i = 0; i < res1.eventsHolidaysDataList.length; i++) {
-            if (res1.eventsHolidaysDataList[i].eventType === 1) {
-              this.datesWeekends.push(res1.eventsHolidaysDataList[i].eventDate);
-            } else if (res1.eventsHolidaysDataList[i].eventType === 2) {
-              this.datesHolidays.push(res1.eventsHolidaysDataList[i].eventDate);
-              res1.eventsHolidaysDataList[i].eventDate = this.utilService.selectedDate(res1.eventsHolidaysDataList[i].eventDate);
-              this.allDatesData.push(res1.eventsHolidaysDataList[i]);
-            } else if (res1.eventsHolidaysDataList[i].eventType === 3) {
-              this.datesEvents.push(res1.eventsHolidaysDataList[i].eventDate);
-              res1.eventsHolidaysDataList[i].eventDate = this.utilService.selectedDate(res1.eventsHolidaysDataList[i].eventDate);
-              this.allDatesData.push(res1.eventsHolidaysDataList[i]);
-            }
-          }
-          this.isShowDiv = true;
-          this.isShowCalandar = true;
-        }
+        var mAttData = attData.find(x => x.typeID == 2);
+        this.monthAttData.push(mAttData.totalStudents == 0 ? 1 : mAttData.totalStudents);
+        this.monthAttData.push(mAttData.presentStudents == 0 ? 1 : mAttData.presentStudents);
+        this.monthAttData.push(mAttData.absentStudents == 0 ? 1 : mAttData.absentStudents);
 
-      }
-    }
-  }
-
-}
-dateClass() {
-
-  return (date: Date): MatCalendarCellCssClasses => {
-    var highlightDate = this.datesWeekends
-      .map(strDate => new Date(strDate))
-      .some(d => d.getDate() === date.getDate()
-        && d.getMonth() === date.getMonth()
-        && d.getFullYear() === date.getFullYear());
-    if (highlightDate) {
-      return highlightDate ? 'special-date' : '';
-    }
-    else {
-      highlightDate = this.datesHolidays
-        .map(strDate => new Date(strDate))
-        .some(d => d.getDate() === date.getDate()
-          && d.getMonth() === date.getMonth()
-          && d.getFullYear() === date.getFullYear());
-      if (highlightDate) {
-        return highlightDate ? 'special-holiday-date' : '';
-      }
-      else {
-        highlightDate = this.datesEvents
-          .map(strDate => new Date(strDate))
-          .some(d => d.getDate() === date.getDate()
-            && d.getMonth() === date.getMonth()
-            && d.getFullYear() === date.getFullYear());
-        return highlightDate ? 'special-event-date' : '';
-      }
-    }
-  };
-}
-
-
-
-
-//#startregion Opr_Functions
-
-loadInitialData() {
-
-
-
-
-
-  this.totalItemsCount = 0;
-  this.loadList(0);
-
-}
-
-resetFilter() {
-  this.totalItemsCount = 0;
-  this.oprDashboard = null;
-  this.input.branchCode = null;
-  this.input.siteCode = null;
-  this.input.projectCode = null;
-  this.input.employeeNumber = null;
-  this.input.pageNumber = 0;
-  this.input.pageSize = 10;
-
-  this.loadList(0);
-
-}
-
-  private loadList(page: number) {
-  this.isLoading = true;
-  this.pageService.change({ pageIndex: page, pageSize: this.pageSize, previousPageIndex: page - 1, length: this.totalItemsCount });
-  this.input.pageNumber = page;
-
-  this.apiService.postOprUrl('OperationsDashboard/getOpeartionsDashboardByFilter', this.input).subscribe((db: any) => {
-    if (db) {
-      this.oprDashboard = db as any;
-      this.oprDashboard.todayAttData = [] as Array<number>;
-      this.oprDashboard.todayAttData.push(db.totalEmpCount);
-      this.oprDashboard.todayAttData.push(db.reportedEmpCount);
-      this.oprDashboard.todayAttData.push(db.lateArrivalsCount);
-      this.oprDashboard.todayAttData.push(db.notReportedEmpCount);
-      this.oprDashboard.todayAttData.push(db.shiftsNotAssignedCount);
-      this.oprDashboard.todayAttData.push(db.leavesCount);
-      this.totalItemsCount = db.totalItemsCount;
-      this.projectsSelectionList = db.projectsSelectionList;
-      this.sitesSelectionList = db.sitesSelectionList;
-
-      if (this.input.dashBoardSubType == "operations") {
-
-
-
-
-
-        this.attendanceData = new MatTableDataSource(db.employeeAttendance);
-
-
-        this.employeesSelectionList = db.employeesSelectionList;
-        setTimeout(() => {
-          this.paginator.pageIndex = page as number;
-          this.paginator.length = this.totalItemsCount;
-        });
+        var yAttData = attData.find(x => x.typeID == 3);
+        this.yearAttData.push(yAttData.totalStudents == 0 ? 1 : yAttData.totalStudents);
+        this.yearAttData.push(yAttData.presentStudents == 0 ? 1 : yAttData.presentStudents);
+        this.yearAttData.push(yAttData.absentStudents == 0 ? 1 : yAttData.absentStudents);
 
         this.chartOptions1 = {
-          series: this.oprDashboard.todayAttData,
+          series: this.todayAttData,
           chart: {
             type: "donut",
-            height: 150,
+            height: 250,
             width: 280
           },
-          labels: ["Total Employees", "Reported Employees", "Late Arrivals Count", "Not Reported Employees", "Shifts Not Assigned", "Employees On Leave"],
+          labels: ["Total Customers", "Absent Customers", "Present Customers",],
           responsive: [
             {
               breakpoint: 480,
@@ -2511,426 +1088,1842 @@ resetFilter() {
             }
           ]
         };
-
-
-        this.radialChartOptions1 = {
-          series: [100], //this.oprChartData1,
+        this.chartOptions2 = {
+          series: this.monthAttData,
           chart: {
-            height: 120,
-            type: "radialBar"
+            type: "donut",
+            height: 250,
+            width: 280
           },
-          plotOptions: {
-            radialBar: {
-
-              hollow: {
-                size: "50%",
-              },
-              dataLabels: {
-
-                name: {
-                  fontSize: '0px',
+          labels: ["Total Customers", "Absent Customers", "Present Customers"],
+          responsive: [
+            {
+              breakpoint: 480,
+              options: {
+                chart: {
+                  width: 500
                 },
-                value: {
-                  //  fontSize: '10px',
-                  fontWeight: 'bold',
-                  offsetY: -10,
-                },
+                legend: {
+                  position: "bottom"
+                }
               }
             }
-          },
-          labels: ['']
+          ]
         };
-
-        this.radialChartOptions2 = {
-          series: [Math.round((db.reportedEmpCount / db.totalEmpCount) * 100)],
+        this.chartOptions3 = {
+          series: this.yearAttData,
           chart: {
-            height: 120,
-            type: "radialBar"
+            type: "donut",
+            height: 250,
+            width: 280
           },
-          plotOptions: {
-            radialBar: {
-              hollow: {
-                size: "50%"
-              },
-              dataLabels: {
-                name: {
-                  fontSize: '0px',
+          labels: ["Total Customers", "Absent Customers", "Present Customers"],
+          responsive: [
+            {
+              breakpoint: 480,
+              options: {
+                chart: {
+                  width: 500
                 },
-                value: {
-                  // fontSize: '10px',
-                  offsetY: -10,
-                  fontWeight: 'bold',
-                },
+                legend: {
+                  position: "bottom"
+                }
               }
             }
-          },
-          labels: ['']
+          ]
         };
 
-
-
-        this.radialChartOptions3 = {
-          series: [Math.round((db.lateArrivalsCount / db.totalEmpCount) * 100)],
-          chart: {
-            height: 120,
-            type: "radialBar"
-          },
-          plotOptions: {
-            radialBar: {
-              hollow: {
-                size: "50%"
+        this.isShowDonut = true;
+        if (res.branchCode != null && res.branchCode != '') {
+          let res1 = {
+            "branchCode": "Jeddah",
+            "startDate": "2022-03-14T00:00:00",
+            "endDate": "2023-12-31T00:00:00",
+            "eventsHolidaysDataList": [
+              {
+                "eventDate": "2022-03-18T00:00:00",
+                "eventName": "Weekend",
+                "eventNameAr": null,
+                "eventType": 1
               },
-              dataLabels: {
-                name: {
-                  fontSize: '0px',
-                },
-                value: {
-                  // fontSize: '10px',
-                  offsetY: -10,
-                  fontWeight: 'bold',
-                },
+              {
+                "eventDate": "2022-03-19T00:00:00",
+                "eventName": "Weekend",
+                "eventNameAr": null,
+                "eventType": 1
+              },
+              {
+                "eventDate": "2022-03-25T00:00:00",
+                "eventName": "Weekend",
+                "eventNameAr": null,
+                "eventType": 1
+              },
+              {
+                "eventDate": "2022-03-26T00:00:00",
+                "eventName": "Weekend",
+                "eventNameAr": null,
+                "eventType": 1
+              },
+              {
+                "eventDate": "2022-04-01T00:00:00",
+                "eventName": "Weekend",
+                "eventNameAr": null,
+                "eventType": 1
+              },
+              {
+                "eventDate": "2022-04-02T00:00:00",
+                "eventName": "Weekend",
+                "eventNameAr": null,
+                "eventType": 1
+              },
+              {
+                "eventDate": "2022-04-08T00:00:00",
+                "eventName": "Weekend",
+                "eventNameAr": null,
+                "eventType": 1
+              },
+              {
+                "eventDate": "2022-04-09T00:00:00",
+                "eventName": "Weekend",
+                "eventNameAr": null,
+                "eventType": 1
+              },
+              {
+                "eventDate": "2022-04-15T00:00:00",
+                "eventName": "Weekend",
+                "eventNameAr": null,
+                "eventType": 1
+              },
+              {
+                "eventDate": "2022-04-16T00:00:00",
+                "eventName": "Weekend",
+                "eventNameAr": null,
+                "eventType": 1
+              },
+              {
+                "eventDate": "2022-04-22T00:00:00",
+                "eventName": "Weekend",
+                "eventNameAr": null,
+                "eventType": 1
+              },
+              {
+                "eventDate": "2022-04-23T00:00:00",
+                "eventName": "Weekend",
+                "eventNameAr": null,
+                "eventType": 1
+              },
+              {
+                "eventDate": "2022-04-29T00:00:00",
+                "eventName": "Weekend",
+                "eventNameAr": null,
+                "eventType": 1
+              },
+              {
+                "eventDate": "2022-04-30T00:00:00",
+                "eventName": "Weekend",
+                "eventNameAr": null,
+                "eventType": 1
+              },
+              {
+                "eventDate": "2022-05-06T00:00:00",
+                "eventName": "Weekend",
+                "eventNameAr": null,
+                "eventType": 1
+              },
+              {
+                "eventDate": "2022-05-07T00:00:00",
+                "eventName": "Weekend",
+                "eventNameAr": null,
+                "eventType": 1
+              },
+              {
+                "eventDate": "2022-05-13T00:00:00",
+                "eventName": "Weekend",
+                "eventNameAr": null,
+                "eventType": 1
+              },
+              {
+                "eventDate": "2022-05-14T00:00:00",
+                "eventName": "Weekend",
+                "eventNameAr": null,
+                "eventType": 1
+              },
+              {
+                "eventDate": "2022-05-20T00:00:00",
+                "eventName": "Weekend",
+                "eventNameAr": null,
+                "eventType": 1
+              },
+              {
+                "eventDate": "2022-05-21T00:00:00",
+                "eventName": "Weekend",
+                "eventNameAr": null,
+                "eventType": 1
+              },
+              {
+                "eventDate": "2022-05-27T00:00:00",
+                "eventName": "Weekend",
+                "eventNameAr": null,
+                "eventType": 1
+              },
+              {
+                "eventDate": "2022-05-28T00:00:00",
+                "eventName": "Weekend",
+                "eventNameAr": null,
+                "eventType": 1
+              },
+              {
+                "eventDate": "2022-06-03T00:00:00",
+                "eventName": "Weekend",
+                "eventNameAr": null,
+                "eventType": 1
+              },
+              {
+                "eventDate": "2022-06-04T00:00:00",
+                "eventName": "Weekend",
+                "eventNameAr": null,
+                "eventType": 1
+              },
+              {
+                "eventDate": "2022-06-10T00:00:00",
+                "eventName": "Weekend",
+                "eventNameAr": null,
+                "eventType": 1
+              },
+              {
+                "eventDate": "2022-06-11T00:00:00",
+                "eventName": "Weekend",
+                "eventNameAr": null,
+                "eventType": 1
+              },
+              {
+                "eventDate": "2022-06-17T00:00:00",
+                "eventName": "Weekend",
+                "eventNameAr": null,
+                "eventType": 1
+              },
+              {
+                "eventDate": "2022-06-18T00:00:00",
+                "eventName": "Weekend",
+                "eventNameAr": null,
+                "eventType": 1
+              },
+              {
+                "eventDate": "2022-06-24T00:00:00",
+                "eventName": "Weekend",
+                "eventNameAr": null,
+                "eventType": 1
+              },
+              {
+                "eventDate": "2022-06-25T00:00:00",
+                "eventName": "Weekend",
+                "eventNameAr": null,
+                "eventType": 1
+              },
+              {
+                "eventDate": "2022-07-01T00:00:00",
+                "eventName": "Weekend",
+                "eventNameAr": null,
+                "eventType": 1
+              },
+              {
+                "eventDate": "2022-07-02T00:00:00",
+                "eventName": "Weekend",
+                "eventNameAr": null,
+                "eventType": 1
+              },
+              {
+                "eventDate": "2022-07-08T00:00:00",
+                "eventName": "Weekend",
+                "eventNameAr": null,
+                "eventType": 1
+              },
+              {
+                "eventDate": "2022-07-09T00:00:00",
+                "eventName": "Weekend",
+                "eventNameAr": null,
+                "eventType": 1
+              },
+              {
+                "eventDate": "2022-07-15T00:00:00",
+                "eventName": "Weekend",
+                "eventNameAr": null,
+                "eventType": 1
+              },
+              {
+                "eventDate": "2022-07-16T00:00:00",
+                "eventName": "Weekend",
+                "eventNameAr": null,
+                "eventType": 1
+              },
+              {
+                "eventDate": "2022-07-22T00:00:00",
+                "eventName": "Weekend",
+                "eventNameAr": null,
+                "eventType": 1
+              },
+              {
+                "eventDate": "2022-07-23T00:00:00",
+                "eventName": "Weekend",
+                "eventNameAr": null,
+                "eventType": 1
+              },
+              {
+                "eventDate": "2022-07-29T00:00:00",
+                "eventName": "Weekend",
+                "eventNameAr": null,
+                "eventType": 1
+              },
+              {
+                "eventDate": "2022-07-30T00:00:00",
+                "eventName": "Weekend",
+                "eventNameAr": null,
+                "eventType": 1
+              },
+              {
+                "eventDate": "2022-08-05T00:00:00",
+                "eventName": "Weekend",
+                "eventNameAr": null,
+                "eventType": 1
+              },
+              {
+                "eventDate": "2022-08-06T00:00:00",
+                "eventName": "Weekend",
+                "eventNameAr": null,
+                "eventType": 1
+              },
+              {
+                "eventDate": "2022-08-12T00:00:00",
+                "eventName": "Weekend",
+                "eventNameAr": null,
+                "eventType": 1
+              },
+              {
+                "eventDate": "2022-08-13T00:00:00",
+                "eventName": "Weekend",
+                "eventNameAr": null,
+                "eventType": 1
+              },
+              {
+                "eventDate": "2022-08-19T00:00:00",
+                "eventName": "Weekend",
+                "eventNameAr": null,
+                "eventType": 1
+              },
+              {
+                "eventDate": "2022-08-20T00:00:00",
+                "eventName": "Weekend",
+                "eventNameAr": null,
+                "eventType": 1
+              },
+              {
+                "eventDate": "2022-08-26T00:00:00",
+                "eventName": "Weekend",
+                "eventNameAr": null,
+                "eventType": 1
+              },
+              {
+                "eventDate": "2022-08-27T00:00:00",
+                "eventName": "Weekend",
+                "eventNameAr": null,
+                "eventType": 1
+              },
+              {
+                "eventDate": "2022-09-02T00:00:00",
+                "eventName": "Weekend",
+                "eventNameAr": null,
+                "eventType": 1
+              },
+              {
+                "eventDate": "2022-09-02T00:00:00",
+                "eventName": "Eid",
+                "eventNameAr": "Eid_ar",
+                "eventType": 2
+              },
+              {
+                "eventDate": "2022-09-03T00:00:00",
+                "eventName": "Weekend",
+                "eventNameAr": null,
+                "eventType": 1
+              },
+              {
+                "eventDate": "2022-09-09T00:00:00",
+                "eventName": "Weekend",
+                "eventNameAr": null,
+                "eventType": 1
+              },
+              {
+                "eventDate": "2022-09-09T00:00:00",
+                "eventName": "Ganesh",
+                "eventNameAr": "Ganesh_ar",
+                "eventType": 2
+              },
+              {
+                "eventDate": "2022-09-10T00:00:00",
+                "eventName": "Weekend",
+                "eventNameAr": null,
+                "eventType": 1
+              },
+              {
+                "eventDate": "2022-09-16T00:00:00",
+                "eventName": "Weekend",
+                "eventNameAr": null,
+                "eventType": 1
+              },
+              {
+                "eventDate": "2022-09-17T00:00:00",
+                "eventName": "Weekend",
+                "eventNameAr": null,
+                "eventType": 1
+              },
+              {
+                "eventDate": "2022-09-23T00:00:00",
+                "eventName": "Weekend",
+                "eventNameAr": null,
+                "eventType": 1
+              },
+              {
+                "eventDate": "2022-09-24T00:00:00",
+                "eventName": "Weekend",
+                "eventNameAr": null,
+                "eventType": 1
+              },
+              {
+                "eventDate": "2022-09-30T00:00:00",
+                "eventName": "Weekend",
+                "eventNameAr": null,
+                "eventType": 1
+              },
+              {
+                "eventDate": "2022-10-01T00:00:00",
+                "eventName": "Weekend",
+                "eventNameAr": null,
+                "eventType": 1
+              },
+              {
+                "eventDate": "2022-10-07T00:00:00",
+                "eventName": "Weekend",
+                "eventNameAr": null,
+                "eventType": 1
+              },
+              {
+                "eventDate": "2022-10-08T00:00:00",
+                "eventName": "Weekend",
+                "eventNameAr": null,
+                "eventType": 1
+              },
+              {
+                "eventDate": "2022-10-14T00:00:00",
+                "eventName": "Weekend",
+                "eventNameAr": null,
+                "eventType": 1
+              },
+              {
+                "eventDate": "2022-10-15T00:00:00",
+                "eventName": "Weekend",
+                "eventNameAr": null,
+                "eventType": 1
+              },
+              {
+                "eventDate": "2022-10-21T00:00:00",
+                "eventName": "Weekend",
+                "eventNameAr": null,
+                "eventType": 1
+              },
+              {
+                "eventDate": "2022-10-22T00:00:00",
+                "eventName": "Weekend",
+                "eventNameAr": null,
+                "eventType": 1
+              },
+              {
+                "eventDate": "2022-10-28T00:00:00",
+                "eventName": "Weekend",
+                "eventNameAr": null,
+                "eventType": 1
+              },
+              {
+                "eventDate": "2022-10-29T00:00:00",
+                "eventName": "Weekend",
+                "eventNameAr": null,
+                "eventType": 1
+              },
+              {
+                "eventDate": "2022-11-04T00:00:00",
+                "eventName": "Weekend",
+                "eventNameAr": null,
+                "eventType": 1
+              },
+              {
+                "eventDate": "2022-11-05T00:00:00",
+                "eventName": "Weekend",
+                "eventNameAr": null,
+                "eventType": 1
+              },
+              {
+                "eventDate": "2022-11-11T00:00:00",
+                "eventName": "Weekend",
+                "eventNameAr": null,
+                "eventType": 1
+              },
+              {
+                "eventDate": "2022-11-12T00:00:00",
+                "eventName": "Weekend",
+                "eventNameAr": null,
+                "eventType": 1
+              },
+              {
+                "eventDate": "2022-11-18T00:00:00",
+                "eventName": "Weekend",
+                "eventNameAr": null,
+                "eventType": 1
+              },
+              {
+                "eventDate": "2022-11-19T00:00:00",
+                "eventName": "Weekend",
+                "eventNameAr": null,
+                "eventType": 1
+              },
+              {
+                "eventDate": "2022-11-25T00:00:00",
+                "eventName": "Weekend",
+                "eventNameAr": null,
+                "eventType": 1
+              },
+              {
+                "eventDate": "2022-11-26T00:00:00",
+                "eventName": "Weekend",
+                "eventNameAr": null,
+                "eventType": 1
+              },
+              {
+                "eventDate": "2022-11-28T00:00:00",
+                "eventName": "Singing competition",
+                "eventNameAr": "مسابقة Singing",
+                "eventType": 3
+              },
+              {
+                "eventDate": "2022-12-02T00:00:00",
+                "eventName": "Weekend",
+                "eventNameAr": null,
+                "eventType": 1
+              },
+              {
+                "eventDate": "2022-12-03T00:00:00",
+                "eventName": "Weekend",
+                "eventNameAr": null,
+                "eventType": 1
+              },
+              {
+                "eventDate": "2022-12-05T00:00:00",
+                "eventName": "Gulf Current Affairs",
+                "eventNameAr": "شؤون الخليج الجارية",
+                "eventType": 3
+              },
+              {
+                "eventDate": "2022-12-08T00:00:00",
+                "eventName": "G.K Competition",
+                "eventNameAr": "مسابقة G.K",
+                "eventType": 3
+              },
+              {
+                "eventDate": "2022-12-09T00:00:00",
+                "eventName": "Weekend",
+                "eventNameAr": null,
+                "eventType": 1
+              },
+              {
+                "eventDate": "2022-12-10T00:00:00",
+                "eventName": "Weekend",
+                "eventNameAr": null,
+                "eventType": 1
+              },
+              {
+                "eventDate": "2022-12-16T00:00:00",
+                "eventName": "Weekend",
+                "eventNameAr": null,
+                "eventType": 1
+              },
+              {
+                "eventDate": "2022-12-17T00:00:00",
+                "eventName": "Weekend",
+                "eventNameAr": null,
+                "eventType": 1
+              },
+              {
+                "eventDate": "2022-12-23T00:00:00",
+                "eventName": "Weekend",
+                "eventNameAr": null,
+                "eventType": 1
+              },
+              {
+                "eventDate": "2022-12-24T00:00:00",
+                "eventName": "Weekend",
+                "eventNameAr": null,
+                "eventType": 1
+              },
+              {
+                "eventDate": "2022-12-25T00:00:00",
+                "eventName": "Student - Teacher Relationship",
+                "eventNameAr": "العلاقة بين الطالب والمعلم",
+                "eventType": 3
+              },
+              {
+                "eventDate": "2022-12-30T00:00:00",
+                "eventName": "Weekend",
+                "eventNameAr": null,
+                "eventType": 1
+              },
+              {
+                "eventDate": "2022-12-30T00:00:00",
+                "eventName": "School Annual Day Function",
+                "eventNameAr": "وظيفة اليوم السنوي للمدرسة",
+                "eventType": 3
+              },
+              {
+                "eventDate": "2022-12-31T00:00:00",
+                "eventName": "Weekend",
+                "eventNameAr": null,
+                "eventType": 1
+              },
+              {
+                "eventDate": "2023-01-06T00:00:00",
+                "eventName": "Weekend",
+                "eventNameAr": null,
+                "eventType": 1
+              },
+              {
+                "eventDate": "2023-01-07T00:00:00",
+                "eventName": "Weekend",
+                "eventNameAr": null,
+                "eventType": 1
+              },
+              {
+                "eventDate": "2023-01-13T00:00:00",
+                "eventName": "Weekend",
+                "eventNameAr": null,
+                "eventType": 1
+              },
+              {
+                "eventDate": "2023-01-14T00:00:00",
+                "eventName": "Weekend",
+                "eventNameAr": null,
+                "eventType": 1
+              },
+              {
+                "eventDate": "2023-01-20T00:00:00",
+                "eventName": "Weekend",
+                "eventNameAr": null,
+                "eventType": 1
+              },
+              {
+                "eventDate": "2023-01-21T00:00:00",
+                "eventName": "Weekend",
+                "eventNameAr": null,
+                "eventType": 1
+              },
+              {
+                "eventDate": "2023-01-27T00:00:00",
+                "eventName": "Weekend",
+                "eventNameAr": null,
+                "eventType": 1
+              },
+              {
+                "eventDate": "2023-01-28T00:00:00",
+                "eventName": "Weekend",
+                "eventNameAr": null,
+                "eventType": 1
+              },
+              {
+                "eventDate": "2023-02-01T00:00:00",
+                "eventName": "G.K Competition",
+                "eventNameAr": "مسابقة G.K",
+                "eventType": 3
+              },
+              {
+                "eventDate": "2023-02-02T00:00:00",
+                "eventName": "Parent Teachers Meeting",
+                "eventNameAr": "اجتماع أولياء الأمور",
+                "eventType": 3
+              },
+              {
+                "eventDate": "2023-02-03T00:00:00",
+                "eventName": "Weekend",
+                "eventNameAr": null,
+                "eventType": 1
+              },
+              {
+                "eventDate": "2023-02-04T00:00:00",
+                "eventName": "Weekend",
+                "eventNameAr": null,
+                "eventType": 1
+              },
+              {
+                "eventDate": "2023-02-10T00:00:00",
+                "eventName": "Weekend",
+                "eventNameAr": null,
+                "eventType": 1
+              },
+              {
+                "eventDate": "2023-02-11T00:00:00",
+                "eventName": "Weekend",
+                "eventNameAr": null,
+                "eventType": 1
+              },
+              {
+                "eventDate": "2023-02-17T00:00:00",
+                "eventName": "Weekend",
+                "eventNameAr": null,
+                "eventType": 1
+              },
+              {
+                "eventDate": "2023-02-18T00:00:00",
+                "eventName": "Weekend",
+                "eventNameAr": null,
+                "eventType": 1
+              },
+              {
+                "eventDate": "2023-02-24T00:00:00",
+                "eventName": "Weekend",
+                "eventNameAr": null,
+                "eventType": 1
+              },
+              {
+                "eventDate": "2023-02-25T00:00:00",
+                "eventName": "Weekend",
+                "eventNameAr": null,
+                "eventType": 1
+              },
+              {
+                "eventDate": "2023-03-03T00:00:00",
+                "eventName": "Weekend",
+                "eventNameAr": null,
+                "eventType": 1
+              },
+              {
+                "eventDate": "2023-03-04T00:00:00",
+                "eventName": "Weekend",
+                "eventNameAr": null,
+                "eventType": 1
+              },
+              {
+                "eventDate": "2023-03-10T00:00:00",
+                "eventName": "Weekend",
+                "eventNameAr": null,
+                "eventType": 1
+              },
+              {
+                "eventDate": "2023-03-11T00:00:00",
+                "eventName": "Weekend",
+                "eventNameAr": null,
+                "eventType": 1
+              },
+              {
+                "eventDate": "2023-03-17T00:00:00",
+                "eventName": "Weekend",
+                "eventNameAr": null,
+                "eventType": 1
+              },
+              {
+                "eventDate": "2023-03-18T00:00:00",
+                "eventName": "Weekend",
+                "eventNameAr": null,
+                "eventType": 1
+              },
+              {
+                "eventDate": "2023-03-24T00:00:00",
+                "eventName": "Weekend",
+                "eventNameAr": null,
+                "eventType": 1
+              },
+              {
+                "eventDate": "2023-03-25T00:00:00",
+                "eventName": "Weekend",
+                "eventNameAr": null,
+                "eventType": 1
+              },
+              {
+                "eventDate": "2023-03-31T00:00:00",
+                "eventName": "Weekend",
+                "eventNameAr": null,
+                "eventType": 1
+              },
+              {
+                "eventDate": "2023-04-01T00:00:00",
+                "eventName": "Weekend",
+                "eventNameAr": null,
+                "eventType": 1
+              },
+              {
+                "eventDate": "2023-04-07T00:00:00",
+                "eventName": "Weekend",
+                "eventNameAr": null,
+                "eventType": 1
+              },
+              {
+                "eventDate": "2023-04-08T00:00:00",
+                "eventName": "Weekend",
+                "eventNameAr": null,
+                "eventType": 1
+              },
+              {
+                "eventDate": "2023-04-14T00:00:00",
+                "eventName": "Weekend",
+                "eventNameAr": null,
+                "eventType": 1
+              },
+              {
+                "eventDate": "2023-04-15T00:00:00",
+                "eventName": "Weekend",
+                "eventNameAr": null,
+                "eventType": 1
+              },
+              {
+                "eventDate": "2023-04-21T00:00:00",
+                "eventName": "Weekend",
+                "eventNameAr": null,
+                "eventType": 1
+              },
+              {
+                "eventDate": "2023-04-22T00:00:00",
+                "eventName": "Weekend",
+                "eventNameAr": null,
+                "eventType": 1
+              },
+              {
+                "eventDate": "2023-04-28T00:00:00",
+                "eventName": "Weekend",
+                "eventNameAr": null,
+                "eventType": 1
+              },
+              {
+                "eventDate": "2023-04-29T00:00:00",
+                "eventName": "Weekend",
+                "eventNameAr": null,
+                "eventType": 1
+              },
+              {
+                "eventDate": "2023-05-05T00:00:00",
+                "eventName": "Weekend",
+                "eventNameAr": null,
+                "eventType": 1
+              },
+              {
+                "eventDate": "2023-05-06T00:00:00",
+                "eventName": "Weekend",
+                "eventNameAr": null,
+                "eventType": 1
+              },
+              {
+                "eventDate": "2023-05-12T00:00:00",
+                "eventName": "Weekend",
+                "eventNameAr": null,
+                "eventType": 1
+              },
+              {
+                "eventDate": "2023-05-13T00:00:00",
+                "eventName": "Weekend",
+                "eventNameAr": null,
+                "eventType": 1
+              },
+              {
+                "eventDate": "2023-05-19T00:00:00",
+                "eventName": "Weekend",
+                "eventNameAr": null,
+                "eventType": 1
+              },
+              {
+                "eventDate": "2023-05-20T00:00:00",
+                "eventName": "Weekend",
+                "eventNameAr": null,
+                "eventType": 1
+              },
+              {
+                "eventDate": "2023-05-26T00:00:00",
+                "eventName": "Weekend",
+                "eventNameAr": null,
+                "eventType": 1
+              },
+              {
+                "eventDate": "2023-05-27T00:00:00",
+                "eventName": "Weekend",
+                "eventNameAr": null,
+                "eventType": 1
+              },
+              {
+                "eventDate": "2023-06-02T00:00:00",
+                "eventName": "Weekend",
+                "eventNameAr": null,
+                "eventType": 1
+              },
+              {
+                "eventDate": "2023-06-02T00:00:00",
+                "eventName": "Parent Teachers Meeting",
+                "eventNameAr": "اجتماع أولياء الأمور",
+                "eventType": 3
+              },
+              {
+                "eventDate": "2023-06-03T00:00:00",
+                "eventName": "Weekend",
+                "eventNameAr": null,
+                "eventType": 1
+              },
+              {
+                "eventDate": "2023-06-09T00:00:00",
+                "eventName": "Weekend",
+                "eventNameAr": null,
+                "eventType": 1
+              },
+              {
+                "eventDate": "2023-06-10T00:00:00",
+                "eventName": "Weekend",
+                "eventNameAr": null,
+                "eventType": 1
+              },
+              {
+                "eventDate": "2023-06-10T00:00:00",
+                "eventName": "G.K Competition",
+                "eventNameAr": "شؤون الخليج الجارية",
+                "eventType": 3
+              },
+              {
+                "eventDate": "2023-06-15T00:00:00",
+                "eventName": "Singing competition",
+                "eventNameAr": "مسابقة Singing",
+                "eventType": 3
+              },
+              {
+                "eventDate": "2023-06-16T00:00:00",
+                "eventName": "Weekend",
+                "eventNameAr": null,
+                "eventType": 1
+              },
+              {
+                "eventDate": "2023-06-17T00:00:00",
+                "eventName": "Weekend",
+                "eventNameAr": null,
+                "eventType": 1
+              },
+              {
+                "eventDate": "2023-06-23T00:00:00",
+                "eventName": "Weekend",
+                "eventNameAr": null,
+                "eventType": 1
+              },
+              {
+                "eventDate": "2023-06-24T00:00:00",
+                "eventName": "Weekend",
+                "eventNameAr": null,
+                "eventType": 1
+              },
+              {
+                "eventDate": "2023-06-28T00:00:00",
+                "eventName": "Arafat Day",
+                "eventNameAr": "Arafat Day_AR",
+                "eventType": 2
+              },
+              {
+                "eventDate": "2023-06-29T00:00:00",
+                "eventName": "Eid al-Adha",
+                "eventNameAr": "Eid al-Adha_AR",
+                "eventType": 2
+              },
+              {
+                "eventDate": "2023-06-30T00:00:00",
+                "eventName": "Weekend",
+                "eventNameAr": null,
+                "eventType": 1
+              },
+              {
+                "eventDate": "2023-07-01T00:00:00",
+                "eventName": "Weekend",
+                "eventNameAr": null,
+                "eventType": 1
+              },
+              {
+                "eventDate": "2023-07-07T00:00:00",
+                "eventName": "Weekend",
+                "eventNameAr": null,
+                "eventType": 1
+              },
+              {
+                "eventDate": "2023-07-08T00:00:00",
+                "eventName": "Weekend",
+                "eventNameAr": null,
+                "eventType": 1
+              },
+              {
+                "eventDate": "2023-07-14T00:00:00",
+                "eventName": "Weekend",
+                "eventNameAr": null,
+                "eventType": 1
+              },
+              {
+                "eventDate": "2023-07-15T00:00:00",
+                "eventName": "Weekend",
+                "eventNameAr": null,
+                "eventType": 1
+              },
+              {
+                "eventDate": "2023-07-21T00:00:00",
+                "eventName": "Weekend",
+                "eventNameAr": null,
+                "eventType": 1
+              },
+              {
+                "eventDate": "2023-07-22T00:00:00",
+                "eventName": "Weekend",
+                "eventNameAr": null,
+                "eventType": 1
+              },
+              {
+                "eventDate": "2023-07-28T00:00:00",
+                "eventName": "Weekend",
+                "eventNameAr": null,
+                "eventType": 1
+              },
+              {
+                "eventDate": "2023-07-29T00:00:00",
+                "eventName": "Weekend",
+                "eventNameAr": null,
+                "eventType": 1
+              },
+              {
+                "eventDate": "2023-08-04T00:00:00",
+                "eventName": "Weekend",
+                "eventNameAr": null,
+                "eventType": 1
+              },
+              {
+                "eventDate": "2023-08-05T00:00:00",
+                "eventName": "Weekend",
+                "eventNameAr": null,
+                "eventType": 1
+              },
+              {
+                "eventDate": "2023-08-11T00:00:00",
+                "eventName": "Weekend",
+                "eventNameAr": null,
+                "eventType": 1
+              },
+              {
+                "eventDate": "2023-08-12T00:00:00",
+                "eventName": "Weekend",
+                "eventNameAr": null,
+                "eventType": 1
+              },
+              {
+                "eventDate": "2023-08-15T00:00:00",
+                "eventName": "Independence Day",
+                "eventNameAr": "Independence Day",
+                "eventType": 3
+              },
+              {
+                "eventDate": "2023-08-18T00:00:00",
+                "eventName": "Weekend",
+                "eventNameAr": null,
+                "eventType": 1
+              },
+              {
+                "eventDate": "2023-08-19T00:00:00",
+                "eventName": "Weekend",
+                "eventNameAr": null,
+                "eventType": 1
+              },
+              {
+                "eventDate": "2023-08-25T00:00:00",
+                "eventName": "Weekend",
+                "eventNameAr": null,
+                "eventType": 1
+              },
+              {
+                "eventDate": "2023-08-26T00:00:00",
+                "eventName": "Weekend",
+                "eventNameAr": null,
+                "eventType": 1
+              },
+              {
+                "eventDate": "2023-09-01T00:00:00",
+                "eventName": "Weekend",
+                "eventNameAr": null,
+                "eventType": 1
+              },
+              {
+                "eventDate": "2023-09-02T00:00:00",
+                "eventName": "Weekend",
+                "eventNameAr": null,
+                "eventType": 1
+              },
+              {
+                "eventDate": "2023-09-08T00:00:00",
+                "eventName": "Weekend",
+                "eventNameAr": null,
+                "eventType": 1
+              },
+              {
+                "eventDate": "2023-09-09T00:00:00",
+                "eventName": "Weekend",
+                "eventNameAr": null,
+                "eventType": 1
+              },
+              {
+                "eventDate": "2023-09-15T00:00:00",
+                "eventName": "Weekend",
+                "eventNameAr": null,
+                "eventType": 1
+              },
+              {
+                "eventDate": "2023-09-16T00:00:00",
+                "eventName": "Weekend",
+                "eventNameAr": null,
+                "eventType": 1
+              },
+              {
+                "eventDate": "2023-09-22T00:00:00",
+                "eventName": "Weekend",
+                "eventNameAr": null,
+                "eventType": 1
+              },
+              {
+                "eventDate": "2023-09-23T00:00:00",
+                "eventName": "Weekend",
+                "eventNameAr": null,
+                "eventType": 1
+              },
+              {
+                "eventDate": "2023-09-29T00:00:00",
+                "eventName": "Weekend",
+                "eventNameAr": null,
+                "eventType": 1
+              },
+              {
+                "eventDate": "2023-09-30T00:00:00",
+                "eventName": "Weekend",
+                "eventNameAr": null,
+                "eventType": 1
+              },
+              {
+                "eventDate": "2023-10-06T00:00:00",
+                "eventName": "Weekend",
+                "eventNameAr": null,
+                "eventType": 1
+              },
+              {
+                "eventDate": "2023-10-07T00:00:00",
+                "eventName": "Weekend",
+                "eventNameAr": null,
+                "eventType": 1
+              },
+              {
+                "eventDate": "2023-10-13T00:00:00",
+                "eventName": "Weekend",
+                "eventNameAr": null,
+                "eventType": 1
+              },
+              {
+                "eventDate": "2023-10-14T00:00:00",
+                "eventName": "Weekend",
+                "eventNameAr": null,
+                "eventType": 1
+              },
+              {
+                "eventDate": "2023-10-20T00:00:00",
+                "eventName": "Weekend",
+                "eventNameAr": null,
+                "eventType": 1
+              },
+              {
+                "eventDate": "2023-10-21T00:00:00",
+                "eventName": "Weekend",
+                "eventNameAr": null,
+                "eventType": 1
+              },
+              {
+                "eventDate": "2023-10-27T00:00:00",
+                "eventName": "Weekend",
+                "eventNameAr": null,
+                "eventType": 1
+              },
+              {
+                "eventDate": "2023-10-28T00:00:00",
+                "eventName": "Weekend",
+                "eventNameAr": null,
+                "eventType": 1
+              },
+              {
+                "eventDate": "2023-11-03T00:00:00",
+                "eventName": "Weekend",
+                "eventNameAr": null,
+                "eventType": 1
+              },
+              {
+                "eventDate": "2023-11-04T00:00:00",
+                "eventName": "Weekend",
+                "eventNameAr": null,
+                "eventType": 1
+              },
+              {
+                "eventDate": "2023-11-10T00:00:00",
+                "eventName": "Weekend",
+                "eventNameAr": null,
+                "eventType": 1
+              },
+              {
+                "eventDate": "2023-11-11T00:00:00",
+                "eventName": "Weekend",
+                "eventNameAr": null,
+                "eventType": 1
+              },
+              {
+                "eventDate": "2023-11-17T00:00:00",
+                "eventName": "Weekend",
+                "eventNameAr": null,
+                "eventType": 1
+              },
+              {
+                "eventDate": "2023-11-18T00:00:00",
+                "eventName": "Weekend",
+                "eventNameAr": null,
+                "eventType": 1
+              },
+              {
+                "eventDate": "2023-11-24T00:00:00",
+                "eventName": "Weekend",
+                "eventNameAr": null,
+                "eventType": 1
+              },
+              {
+                "eventDate": "2023-11-25T00:00:00",
+                "eventName": "Weekend",
+                "eventNameAr": null,
+                "eventType": 1
+              },
+              {
+                "eventDate": "2023-12-01T00:00:00",
+                "eventName": "Weekend",
+                "eventNameAr": null,
+                "eventType": 1
+              },
+              {
+                "eventDate": "2023-12-02T00:00:00",
+                "eventName": "Weekend",
+                "eventNameAr": null,
+                "eventType": 1
+              },
+              {
+                "eventDate": "2023-12-08T00:00:00",
+                "eventName": "Weekend",
+                "eventNameAr": null,
+                "eventType": 1
+              },
+              {
+                "eventDate": "2023-12-09T00:00:00",
+                "eventName": "Weekend",
+                "eventNameAr": null,
+                "eventType": 1
+              },
+              {
+                "eventDate": "2023-12-15T00:00:00",
+                "eventName": "Weekend",
+                "eventNameAr": null,
+                "eventType": 1
+              },
+              {
+                "eventDate": "2023-12-16T00:00:00",
+                "eventName": "Weekend",
+                "eventNameAr": null,
+                "eventType": 1
+              },
+              {
+                "eventDate": "2023-12-22T00:00:00",
+                "eventName": "Weekend",
+                "eventNameAr": null,
+                "eventType": 1
+              },
+              {
+                "eventDate": "2023-12-23T00:00:00",
+                "eventName": "Weekend",
+                "eventNameAr": null,
+                "eventType": 1
+              },
+              {
+                "eventDate": "2023-12-29T00:00:00",
+                "eventName": "Weekend",
+                "eventNameAr": null,
+                "eventType": 1
+              },
+              {
+                "eventDate": "2023-12-30T00:00:00",
+                "eventName": "Weekend",
+                "eventNameAr": null,
+                "eventType": 1
+              }
+            ]
+          };
+
+          if (res1) {
+            this.minDate = this.utilService.selectedDate(res1.startDate);
+            this.maxDate = this.utilService.selectedDate(res1.endDate);
+            for (var i = 0; i < res1.eventsHolidaysDataList.length; i++) {
+              if (res1.eventsHolidaysDataList[i].eventType === 1) {
+                this.datesWeekends.push(res1.eventsHolidaysDataList[i].eventDate);
+              } else if (res1.eventsHolidaysDataList[i].eventType === 2) {
+                this.datesHolidays.push(res1.eventsHolidaysDataList[i].eventDate);
+                res1.eventsHolidaysDataList[i].eventDate = this.utilService.selectedDate(res1.eventsHolidaysDataList[i].eventDate);
+                this.allDatesData.push(res1.eventsHolidaysDataList[i]);
+              } else if (res1.eventsHolidaysDataList[i].eventType === 3) {
+                this.datesEvents.push(res1.eventsHolidaysDataList[i].eventDate);
+                res1.eventsHolidaysDataList[i].eventDate = this.utilService.selectedDate(res1.eventsHolidaysDataList[i].eventDate);
+                this.allDatesData.push(res1.eventsHolidaysDataList[i]);
               }
             }
-          },
-          labels: ['']
-        };
+            this.isShowDiv = true;
+            this.isShowCalandar = true;
+          }
+
+        }
+      }
+    }
+
+  }
+  dateClass() {
+
+    return (date: Date): MatCalendarCellCssClasses => {
+      var highlightDate = this.datesWeekends
+        .map(strDate => new Date(strDate))
+        .some(d => d.getDate() === date.getDate()
+          && d.getMonth() === date.getMonth()
+          && d.getFullYear() === date.getFullYear());
+      if (highlightDate) {
+        return highlightDate ? 'special-date' : '';
+      }
+      else {
+        highlightDate = this.datesHolidays
+          .map(strDate => new Date(strDate))
+          .some(d => d.getDate() === date.getDate()
+            && d.getMonth() === date.getMonth()
+            && d.getFullYear() === date.getFullYear());
+        if (highlightDate) {
+          return highlightDate ? 'special-holiday-date' : '';
+        }
+        else {
+          highlightDate = this.datesEvents
+            .map(strDate => new Date(strDate))
+            .some(d => d.getDate() === date.getDate()
+              && d.getMonth() === date.getMonth()
+              && d.getFullYear() === date.getFullYear());
+          return highlightDate ? 'special-event-date' : '';
+        }
+      }
+    };
+  }
 
 
-        this.radialChartOptions4 = {
-          series: [Math.round((db.notReportedEmpCount / db.totalEmpCount) * 100)],
 
-          chart: {
-            height: 120,
-            type: "radialBar",
-          },
-          plotOptions: {
 
-            radialBar: {
-              hollow: {
-                size: "50%",
-              },
-              dataLabels: {
-                name: {
-                  fontSize: '0px',
+  //#startregion Opr_Functions
+
+  loadInitialData() {
+
+
+
+
+
+    this.totalItemsCount = 0;
+    this.loadList(0);
+
+  }
+
+  resetFilter() {
+    this.totalItemsCount = 0;
+    this.oprDashboard = null;
+    this.input.branchCode = null;
+    this.input.siteCode = null;
+    this.input.projectCode = null;
+    this.input.employeeNumber = null;
+    this.input.pageNumber = 0;
+    this.input.pageSize = 10;
+
+    this.loadList(0);
+
+  }
+
+  private loadList(page: number) {
+    this.isLoading = true;
+    this.pageService.change({ pageIndex: page, pageSize: this.pageSize, previousPageIndex: page - 1, length: this.totalItemsCount });
+    this.input.pageNumber = page;
+
+    this.apiService.postOprUrl('OperationsDashboard/getOpeartionsDashboardByFilter', this.input).subscribe((db: any) => {
+      if (db) {
+        this.oprDashboard = db as any;
+        this.oprDashboard.todayAttData = [] as Array<number>;
+        this.oprDashboard.todayAttData.push(db.totalEmpCount);
+        this.oprDashboard.todayAttData.push(db.reportedEmpCount);
+        this.oprDashboard.todayAttData.push(db.lateArrivalsCount);
+        this.oprDashboard.todayAttData.push(db.notReportedEmpCount);
+        this.oprDashboard.todayAttData.push(db.shiftsNotAssignedCount);
+        this.oprDashboard.todayAttData.push(db.leavesCount);
+        this.totalItemsCount = db.totalItemsCount;
+        this.projectsSelectionList = db.projectsSelectionList;
+        this.sitesSelectionList = db.sitesSelectionList;
+
+        if (this.input.dashBoardSubType == "operations") {
+
+
+
+
+
+          this.attendanceData = new MatTableDataSource(db.employeeAttendance);
+
+
+          this.employeesSelectionList = db.employeesSelectionList;
+          setTimeout(() => {
+            this.paginator.pageIndex = page as number;
+            this.paginator.length = this.totalItemsCount;
+          });
+
+          this.chartOptions1 = {
+            series: this.oprDashboard.todayAttData,
+            chart: {
+              type: "donut",
+              height: 150,
+              width: 280
+            },
+            labels: ["Total Employees", "Reported Employees", "Late Arrivals Count", "Not Reported Employees", "Shifts Not Assigned", "Employees On Leave"],
+            responsive: [
+              {
+                breakpoint: 480,
+                options: {
+                  chart: {
+                    width: 500,
+                  },
+                  legend: {
+                    position: "bottom"
+                  }
+                }
+              }
+            ]
+          };
+
+
+          this.radialChartOptions1 = {
+            series: [100], //this.oprChartData1,
+            chart: {
+              height: 120,
+              type: "radialBar"
+            },
+            plotOptions: {
+              radialBar: {
+
+                hollow: {
+                  size: "50%",
                 },
-                value: {
-                  //color:'red',
-                  // fontSize: '10px',
-                  offsetY: -10,
-                  fontWeight: 'bold',
-                },
+                dataLabels: {
+
+                  name: {
+                    fontSize: '0px',
+                  },
+                  value: {
+                    //  fontSize: '10px',
+                    fontWeight: 'bold',
+                    offsetY: -10,
+                  },
+                }
               }
             },
-          },
-          labels: [''],
+            labels: ['']
+          };
 
-
-        };
-
-
-
-
-
-
-
-
-
-
-
-
-      }
-
-      else if (this.input.dashBoardSubType == "management") {
-
-        // this.oprDashboard.todayAttData = [] as Array<number>;
-
-        this.attendanceData = new MatTableDataSource(db.rows);
-
-        this.radialChartOptions1 = {
-          series: [100], //this.oprChartData1,
-          chart: {
-            height: 120,
-            type: "radialBar"
-          },
-          plotOptions: {
-            radialBar: {
-              hollow: {
-                size: "50%"
-              },
-              dataLabels: {
-                name: {
-                  fontSize: '0px',
+          this.radialChartOptions2 = {
+            series: [Math.round((db.reportedEmpCount / db.totalEmpCount) * 100)],
+            chart: {
+              height: 120,
+              type: "radialBar"
+            },
+            plotOptions: {
+              radialBar: {
+                hollow: {
+                  size: "50%"
                 },
-                value: {
-                  //fontSize: '10px',
-                  offsetY: -10,
-                  fontWeight: 'bold',
-                },
+                dataLabels: {
+                  name: {
+                    fontSize: '0px',
+                  },
+                  value: {
+                    // fontSize: '10px',
+                    offsetY: -10,
+                    fontWeight: 'bold',
+                  },
+                }
               }
-            }
-          },
-          labels: [""]
-        };
+            },
+            labels: ['']
+          };
 
-        this.radialChartOptions2 = {
-          series: [Math.round((db.staffPresent / db.totalContracted) * 100)],
-          chart: {
-            height: 120,
-            type: "radialBar"
-          },
-          plotOptions: {
-            radialBar: {
-              hollow: {
-                size: "50%"
-              },
-              dataLabels: {
-                name: {
-                  fontSize: '0px',
-                },
-                value: {
 
-                  offsetY: -10,
-                  fontWeight: 'bold',
+
+          this.radialChartOptions3 = {
+            series: [Math.round((db.lateArrivalsCount / db.totalEmpCount) * 100)],
+            chart: {
+              height: 120,
+              type: "radialBar"
+            },
+            plotOptions: {
+              radialBar: {
+                hollow: {
+                  size: "50%"
                 },
+                dataLabels: {
+                  name: {
+                    fontSize: '0px',
+                  },
+                  value: {
+                    // fontSize: '10px',
+                    offsetY: -10,
+                    fontWeight: 'bold',
+                  },
+                }
               }
-            }
-          },
-          labels: [""]
-        };
+            },
+            labels: ['']
+          };
 
 
+          this.radialChartOptions4 = {
+            series: [Math.round((db.notReportedEmpCount / db.totalEmpCount) * 100)],
 
-        this.radialChartOptions3 = {
-          series: [Math.round((db.lateStaff / db.totalContracted) * 100)],
-          chart: {
-            height: 120,
-            type: "radialBar"
-          },
-          plotOptions: {
-            radialBar: {
-              hollow: {
-                size: "50%"
+            chart: {
+              height: 120,
+              type: "radialBar",
+            },
+            plotOptions: {
+
+              radialBar: {
+                hollow: {
+                  size: "50%",
+                },
+                dataLabels: {
+                  name: {
+                    fontSize: '0px',
+                  },
+                  value: {
+                    //color:'red',
+                    // fontSize: '10px',
+                    offsetY: -10,
+                    fontWeight: 'bold',
+                  },
+                }
               },
-              dataLabels: {
-                name: {
-                  fontSize: '0px',
-                },
-                value: {
-                  //  fontSize: '10px',
-                  offsetY: -10,
-                  fontWeight: 'bold',
-                },
-              }
-            }
-          },
-          labels: ['']
-        };
+            },
+            labels: [''],
 
 
-        this.radialChartOptions4 = {
-          series: [Math.round((db.shortage / db.totalContracted) * 100)],
-          chart: {
-            height: 120,
-            type: "radialBar"
-          },
-          plotOptions: {
-            radialBar: {
-              hollow: {
-                size: "50%"
-              },
-              dataLabels: {
-                name: {
-                  fontSize: '0px',
-                },
-                value: {
-                  // fontSize: '10px',
-                  offsetY: -10,
-                  fontWeight: 'bold',
-                },
-              }
-            }
-          },
-          labels: ['']
-        };
+          };
 
 
-        setTimeout(() => {
-          this.paginator.pageIndex = page as number;
-          this.paginator.length = this.totalItemsCount;
-        });
-
-      }
-    }
-
-  });
-
-}
 
 
-onSortOrder(sort: any) {
 
-  this.pageService.change({ pageSize: this.pageSize, pageIndex: 0, previousPageIndex: -1, length: 0 });
-  this.sortingOrder = sort.active + ' ' + sort.direction;
-  this.input.sortingOrder = this.sortingOrder;
-  this.loadList(0);
 
-}
-onPageSwitch(event: PageEvent) {
-  this.pageService.change(event);
-  this.pageSize = event.pageSize;
-  this.input.pageSize = event.pageSize;
-  this.loadList(event.pageIndex);
-}
-applyFilter() {
-  //this.input.filterOptions = this.filterOptions;
-  this.loadList(0);
 
-}
-translateToolTip(msg: string) {
-  return `${this.translate.instant(msg)}`;
 
-}
 
-loadCitiesList() {
-  //  this.apiService.getall('City/getCitiesSelectList').subscribe((res: any) => {
-  this.apiService.getOprUrl('Branch/getBranchSelectListForUser').subscribe((res: any) => {
-    this.citySelectionList = res as Array<any>;
 
-    this.citySelectionList.forEach(e => {
-      e.lable = e.value + "-" + e.text;
-    });
-  });
 
-}
-updateFilterOptions(index: number) {
-  this.input.filterOptions[index].isSelected = !this.input.filterOptions[index].isSelected;
-  //  this.filterOptions.sort((a,b) => b.isSelected-a.isSelected);
-  this.pageService.change({ pageSize: this.pageSize, pageIndex: 0, previousPageIndex: -1, length: 0 });
 
-  this.loadList(0);
-}
-loadFilterOptions() {
-  let dashBoardSubType = this.input.dashBoardSubType;
-  this.apiService.getOprUrl(`OperationsDashboard/getFilterOptions/${dashBoardSubType}`).subscribe((res: any) => {
-    this.input.filterOptions = res as Array<any>;
-  });
-
-}
-enterAutoAttendance() {
-  this.isLoading = true;
-  let notReportedEmployees = this.oprDashboard.employeeAttendance as Array<any>;
-  notReportedEmployees.filter((e: any) => e.isReported == false);
-  if (notReportedEmployees.length > 0) {
-    this.apiService.postOprUrl('EmployeesAttendance/EnterAutoAttendanceForAllProjectSites', notReportedEmployees)
-      .subscribe(res => {
-        if (res) {
-
-          this.utilService.OkMessage();
-          this.loadInitialData();
         }
-      },
-        error => {
-          console.error(error);
-          this.utilService.ShowApiErrorMessage(error);
-        });
+
+        else if (this.input.dashBoardSubType == "management") {
+
+          // this.oprDashboard.todayAttData = [] as Array<number>;
+
+          this.attendanceData = new MatTableDataSource(db.rows);
+
+          this.radialChartOptions1 = {
+            series: [100], //this.oprChartData1,
+            chart: {
+              height: 120,
+              type: "radialBar"
+            },
+            plotOptions: {
+              radialBar: {
+                hollow: {
+                  size: "50%"
+                },
+                dataLabels: {
+                  name: {
+                    fontSize: '0px',
+                  },
+                  value: {
+                    //fontSize: '10px',
+                    offsetY: -10,
+                    fontWeight: 'bold',
+                  },
+                }
+              }
+            },
+            labels: [""]
+          };
+
+          this.radialChartOptions2 = {
+            series: [Math.round((db.staffPresent / db.totalContracted) * 100)],
+            chart: {
+              height: 120,
+              type: "radialBar"
+            },
+            plotOptions: {
+              radialBar: {
+                hollow: {
+                  size: "50%"
+                },
+                dataLabels: {
+                  name: {
+                    fontSize: '0px',
+                  },
+                  value: {
+
+                    offsetY: -10,
+                    fontWeight: 'bold',
+                  },
+                }
+              }
+            },
+            labels: [""]
+          };
+
+
+
+          this.radialChartOptions3 = {
+            series: [Math.round((db.lateStaff / db.totalContracted) * 100)],
+            chart: {
+              height: 120,
+              type: "radialBar"
+            },
+            plotOptions: {
+              radialBar: {
+                hollow: {
+                  size: "50%"
+                },
+                dataLabels: {
+                  name: {
+                    fontSize: '0px',
+                  },
+                  value: {
+                    //  fontSize: '10px',
+                    offsetY: -10,
+                    fontWeight: 'bold',
+                  },
+                }
+              }
+            },
+            labels: ['']
+          };
+
+
+          this.radialChartOptions4 = {
+            series: [Math.round((db.shortage / db.totalContracted) * 100)],
+            chart: {
+              height: 120,
+              type: "radialBar"
+            },
+            plotOptions: {
+              radialBar: {
+                hollow: {
+                  size: "50%"
+                },
+                dataLabels: {
+                  name: {
+                    fontSize: '0px',
+                  },
+                  value: {
+                    // fontSize: '10px',
+                    offsetY: -10,
+                    fontWeight: 'bold',
+                  },
+                }
+              }
+            },
+            labels: ['']
+          };
+
+
+          setTimeout(() => {
+            this.paginator.pageIndex = page as number;
+            this.paginator.length = this.totalItemsCount;
+          });
+
+        }
+      }
+
+    });
 
   }
-  else {
-    this.notifyService.showWarning("No_Updates_Found");
-  }
-}
 
-convertStringToTime(time: string) {
-  if (time == null || time == '') {
-    return '';
-  }
-  else {
-    let hrs: number = +(time.split(':', 2)[0]);
-    let mins: number = +time.split(':', 2)[1];
-    if (hrs == 0) {
-      time = "12:" + String(mins).padStart(2, '0') + "AM";
-    }
-    else if (hrs >= 12) {
 
-      time = String(hrs - 12).padStart(2, '0') + ":" + String(mins).padStart(2, '0') + "PM";
+  onSortOrder(sort: any) {
+
+    this.pageService.change({ pageSize: this.pageSize, pageIndex: 0, previousPageIndex: -1, length: 0 });
+    this.sortingOrder = sort.active + ' ' + sort.direction;
+    this.input.sortingOrder = this.sortingOrder;
+    this.loadList(0);
+
+  }
+  onPageSwitch(event: PageEvent) {
+    this.pageService.change(event);
+    this.pageSize = event.pageSize;
+    this.input.pageSize = event.pageSize;
+    this.loadList(event.pageIndex);
+  }
+  applyFilter() {
+    //this.input.filterOptions = this.filterOptions;
+    this.loadList(0);
+
+  }
+  translateToolTip(msg: string) {
+    return `${this.translate.instant(msg)}`;
+
+  }
+
+  loadCitiesList() {
+    //  this.apiService.getall('City/getCitiesSelectList').subscribe((res: any) => {
+    this.apiService.getOprUrl('Branch/getBranchSelectListForUser').subscribe((res: any) => {
+      this.citySelectionList = res as Array<any>;
+
+      this.citySelectionList.forEach(e => {
+        e.lable = e.value + "-" + e.text;
+      });
+    });
+
+  }
+  updateFilterOptions(index: number) {
+    this.input.filterOptions[index].isSelected = !this.input.filterOptions[index].isSelected;
+    //  this.filterOptions.sort((a,b) => b.isSelected-a.isSelected);
+    this.pageService.change({ pageSize: this.pageSize, pageIndex: 0, previousPageIndex: -1, length: 0 });
+
+    this.loadList(0);
+  }
+  loadFilterOptions() {
+    let dashBoardSubType = this.input.dashBoardSubType;
+    this.apiService.getOprUrl(`OperationsDashboard/getFilterOptions/${dashBoardSubType}`).subscribe((res: any) => {
+      this.input.filterOptions = res as Array<any>;
+    });
+
+  }
+  enterAutoAttendance() {
+    this.isLoading = true;
+    let notReportedEmployees = this.oprDashboard.employeeAttendance as Array<any>;
+    notReportedEmployees.filter((e: any) => e.isReported == false);
+    if (notReportedEmployees.length > 0) {
+      this.apiService.postOprUrl('EmployeesAttendance/EnterAutoAttendanceForAllProjectSites', notReportedEmployees)
+        .subscribe(res => {
+          if (res) {
+
+            this.utilService.OkMessage();
+            this.loadInitialData();
+          }
+        },
+          error => {
+            console.error(error);
+            this.utilService.ShowApiErrorMessage(error);
+          });
+
     }
     else {
-      time = String(hrs).padStart(2, '0') + ":" + String(mins).padStart(2, '0') + "AM";
+      this.notifyService.showWarning("No_Updates_Found");
     }
-
-    return time;
   }
-}
 
-
-
-onChangeFilterItem() {
-  this.input.filterOptions.forEach((e: any) => {
-    e.isSelected = false;
-  });
-
-  this.selectedfilterOptions.forEach(e => {
-
-    let index = this.input.filterOptions.findIndex((f: any) => f.key == e.key);
-    if (index >= 0) {
-      this.input.filterOptions[index].isSelected = true;
+  convertStringToTime(time: string) {
+    if (time == null || time == '') {
+      return '';
     }
+    else {
+      let hrs: number = +(time.split(':', 2)[0]);
+      let mins: number = +time.split(':', 2)[1];
+      if (hrs == 0) {
+        time = "12:" + String(mins).padStart(2, '0') + "AM";
+      }
+      else if (hrs >= 12) {
 
-  });
-  this.applyFilter();
-}
+        time = String(hrs - 12).padStart(2, '0') + ":" + String(mins).padStart(2, '0') + "PM";
+      }
+      else {
+        time = String(hrs).padStart(2, '0') + ":" + String(mins).padStart(2, '0') + "AM";
+      }
 
-changeDashboardSubtype()    //by dblclick()
-{
-  this.resetInitialData();
-  if (this.dashBoardType == "opr") {
-
-    if (this.input?.dashBoardSubType == "operations") {
-      this.input.dashBoardSubType = "management";
+      return time;
     }
-    else if (this.input?.dashBoardSubType == "management") {
+  }
+
+
+
+  onChangeFilterItem() {
+    this.input.filterOptions.forEach((e: any) => {
+      e.isSelected = false;
+    });
+
+    this.selectedfilterOptions.forEach(e => {
+
+      let index = this.input.filterOptions.findIndex((f: any) => f.key == e.key);
+      if (index >= 0) {
+        this.input.filterOptions[index].isSelected = true;
+      }
+
+    });
+    this.applyFilter();
+  }
+
+  changeDashboardSubtype()    //by dblclick()
+  {
+    this.resetInitialData();
+    if (this.dashBoardType == "opr") {
+
+      if (this.input?.dashBoardSubType == "operations") {
+        this.input.dashBoardSubType = "management";
+      }
+      else if (this.input?.dashBoardSubType == "management") {
+        this.input.dashBoardSubType = "operations";
+      }
+    }
+    else {
+      this.dashBoardType = "opr";
       this.input.dashBoardSubType = "operations";
     }
+    this.ngOnInit();
   }
-  else {
-    this.dashBoardType = "opr";
-    this.input.dashBoardSubType = "operations";
+  chageDate()//by dblclick()
+  {
+    this.input.date = this.input.date == null ? new Date('2022-11-01') : null;
+    this.ngOnInit();
   }
-  this.ngOnInit();
-}
-chageDate()//by dblclick()
-{
-  this.input.date = this.input.date == null ? new Date('2022-11-01') : null;
-  this.ngOnInit();
-}
 
 
-resetInitialData() {
-  this.oprDashboard = { notReportedEmpCount: 1, totalEmpCount: 1, reportedEmpCount: 1, lateArrivalsCount: 0 };
-  this.oprChartData1 = [];
-  this.oprChartData2 = [];
-  this.oprChartData3 = [];
-  this.oprChartData4 = [];
-  this.oprChartData5 = [];
-  this.pageNumber = 0;
-  this.pageSize = 10;
-  this.selectedfilterOptions = [];// [{ key: "late", isSelected: false }];
+  resetInitialData() {
+    this.oprDashboard = { notReportedEmpCount: 1, totalEmpCount: 1, reportedEmpCount: 1, lateArrivalsCount: 0 };
+    this.oprChartData1 = [];
+    this.oprChartData2 = [];
+    this.oprChartData3 = [];
+    this.oprChartData4 = [];
+    this.oprChartData5 = [];
+    this.pageNumber = 0;
+    this.pageSize = 10;
+    this.selectedfilterOptions = [];// [{ key: "late", isSelected: false }];
 
 
-  this.input.pageNumber = 0
-  this.input.pageSize = 10;
-  this.input.branchCode = null;
-  this.input.siteCode = null;
-  this.input.projectCode = null;
-  this.input.employeeNumber = null;
-  this.input.filterOptions = null;
+    this.input.pageNumber = 0
+    this.input.pageSize = 10;
+    this.input.branchCode = null;
+    this.input.siteCode = null;
+    this.input.projectCode = null;
+    this.input.employeeNumber = null;
+    this.input.filterOptions = null;
 
 
-  this.citySelectionList = [];
-  this.projectsSelectionList = [];
-  this.sitesSelectionList = [];
-  this.employeesSelectionList = [];
-}
+    this.citySelectionList = [];
+    this.projectsSelectionList = [];
+    this.sitesSelectionList = [];
+    this.employeesSelectionList = [];
+  }
   //#endregion Opr_Functions
 
 }

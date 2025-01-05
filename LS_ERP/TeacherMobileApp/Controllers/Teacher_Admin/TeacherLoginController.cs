@@ -73,11 +73,11 @@ namespace LS.API.TeacherApp.Controllers.Teacher_Admin
                     Input = Input
 
                 });
-                if (user.Id == -1)
+                if (user.Id != -1)
                 {
-                    var teacher = await _context.DefSchoolTeacherMaster.AsNoTracking().ProjectTo<TblDefSchoolTeacherMasterDto>(_mapper.ConfigurationProvider).FirstOrDefaultAsync();
+                    var teacher = await _context.DefSchoolTeacherMaster.AsNoTracking().ProjectTo<TblDefSchoolTeacherMasterDto>(_mapper.ConfigurationProvider).FirstOrDefaultAsync(x=>x.Id== user.Id);
 
-                    if(teacher != null) { 
+                    
                     var TeacherGradeMapList = await _context.DefSchoolTeacherClassMapping.AsNoTracking().ProjectTo<TblDefSchoolTeacherClassMappingDto>(_mapper.ConfigurationProvider).Where(e => (e.TeacherCode == teacher.TeacherCode)).ToListAsync();
 
                     var TeacherSubMapList = await _context.DefSchoolTeacherSubjectsMapping.AsNoTracking().ProjectTo<TblDefSchoolTeacherSubjectsMappingDto>(_mapper.ConfigurationProvider).Where(e => e.TeacherCode == teacher.TeacherCode).ToListAsync();
@@ -121,7 +121,7 @@ namespace LS.API.TeacherApp.Controllers.Teacher_Admin
                         Id = x.Id,
                         CreatedBy = x.CreatedBy,
                         CreatedOn = x.CreatedOn
-                    }).FirstOrDefaultAsync();
+                    }).FirstOrDefaultAsync(x=>x.Id==user.Id);
 
                     
 
@@ -136,7 +136,6 @@ namespace LS.API.TeacherApp.Controllers.Teacher_Admin
 
                     };
                     return Ok(result);
-                    }
                 }
 
                 return BadRequest(new TeacherLoginFailedMessageDto { Message = "Invalid Credential", Status = false });

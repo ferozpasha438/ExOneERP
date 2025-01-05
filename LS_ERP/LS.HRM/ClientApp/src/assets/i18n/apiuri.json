@@ -1,13 +1,13 @@
 {
-  "financeurl": "https://exoneerp.com/erpfin/api",
-  "financemgtapiurl": "https://exoneerp.com/erpfinmgt/api",
-  "operationapiurl": "https://exoneerp.com/erpopt/api",
-  "inventoryapiurl": "https://exoneerp.com/erpinvt/api",
-  "inventorymgtapiurl": "https://exoneerp.com/erpinvt/api",
-  "salesapiurl": "https://exoneerp.com/erpsale/api",
-  "purchaseapiurl": "https://exoneerp.com/erpPurc/api",
-  "schoolapiurl": "https://exoneerp.com/smapi/api",
-  "schoolmgtapiurl": "https://exoneerp.com/smapi/api",
-  "schooltestapiurl": "https://exoneerp.com/smapi/api",
-  "fleetapiurl": "https://exoneerp.com/erpfleet/api"
+  "financeurl": "https://hvserp.com/erpfin/api",
+  "financemgtapiurl": "https://hvserp.com/erpfinmgt/api",
+  "operationapiurl": "https://hvserp.com/erpopt/api",
+  "inventoryapiurl": "https://hvserp.com/erpfin/api",
+  "inventorymgtapiurl": "https://hvserp.com/erpinvt/api",
+  "salesapiurl": "https://hvserp.com/erpsale/api",
+  "purchaseapiurl": "https://hvserp.com/erppurc/api",
+  "schoolapiurl": "https://hvserp.com/smapi/api",
+  "schoolmgtapiurl": "https://hvserp.com/smapi/api",
+  "schooltestapiurl": "https://hvserp.com/smapi/api",
+  "fleetapiurl": "https://hvserp.com/smapi/api"
 }

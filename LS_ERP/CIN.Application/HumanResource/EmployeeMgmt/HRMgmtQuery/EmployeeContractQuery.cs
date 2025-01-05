@@ -87,6 +87,16 @@ namespace CIN.Application.HumanResource.EmployeeMgmt.HRMgmtQuery
                 Log.Info("----Info GetEmployeeListByFilters method start----");
                 var search = request.Input;
                 bool isArab = request.User.Culture.IsArab();
+
+                //Retrieve PayrollGroup details.
+                var payrollGroupDetails = await _context.PayrollGroups.AsNoTracking()
+                    .FirstOrDefaultAsync(e => e.PayrollGroupCode == request.Input.PayrollGroupCode);
+
+                //Retrieve employee's consolidated attendance.
+                var consolidatedEmployeeAttendance = await _context.ConsolidatedEmployeeAttendance.AsNoTracking()
+                    .Where(e => (e.PayrollPeriodCode.Equals(payrollGroupDetails.PayrollGroupEndDate.ToString("MMMM yyyy")) && e.ShiftNumber == 1))
+                    .ToListAsync(cancellationToken);
+
                 var employeeList = await _context.EmployeeContracts.AsNoTracking()
                     .ProjectTo<TblHRMTrnEmployeeContractInfoDto>(_mapper.ConfigurationProvider)
                     .Where(e =>
@@ -97,6 +107,8 @@ namespace CIN.Application.HumanResource.EmployeeMgmt.HRMgmtQuery
                     )
                     .OrderBy(e => e.Id)
                     .ToListAsync(cancellationToken);
+
+                employeeList = employeeList.Where(e => consolidatedEmployeeAttendance.Exists(p => p.EmployeeID == e.EmployeeID)).ToList();
 
                 Log.Info("----Info GetEmployeeListByFilters method end----");
                 return employeeList;

@@ -119,9 +119,12 @@ namespace CIN.Application.SchoolMgtQuery
 
             #endregion
 
+            var studentStuAdmList = await _context.DefStudentGuardiansSiblings.AsNoTracking().ProjectTo<TblDefStudentGuardiansSiblingsDto>(_mapper.ConfigurationProvider).Where(e => e.Mobile1 == request.Mobile).Select(x=>x.StuAdmNum).Distinct().ToListAsync();
+
             List<SchoolStudentMasterGradeDto> studentDetails = new List<SchoolStudentMasterGradeDto>();
             studentDetails = await _context.DefSchoolStudentMaster.AsNoTracking().ProjectTo<TblDefSchoolStudentMasterDto>(_mapper.ConfigurationProvider).
-                                                      Where(e => e.Mobile == request.Mobile).
+                                                      Where(e => e.Mobile == request.Mobile || e.RegisteredPhone==request.Mobile || e.Phone == request.Mobile || studentStuAdmList.Contains(e.StuAdmNum)
+                                                        ).
                                                       Select(x => new SchoolStudentMasterGradeDto
                                                       {
                                                           Id = x.Id,

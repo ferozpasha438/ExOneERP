@@ -4,7 +4,8 @@ https://go.microsoft.com/fwlink/?LinkID=208121.
 -->
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
-    <_PublishTargetUrl>C:\Users\Logic Systems\Desktop\TeacherMob</_PublishTargetUrl>
-    <History>True|2023-03-09T10:57:28.1506884Z;</History>
+    <_PublishTargetUrl>C:\Users\shiva\OneDrive\Desktop\HVSPublish\TeacherAPI</_PublishTargetUrl>
+    <History>True|2024-09-08T20:10:06.8446810Z||;True|2024-09-09T01:34:22.1666742+05:30||;True|2024-09-09T01:30:00.1409781+05:30||;True|2024-09-09T01:19:58.0924331+05:30||;True|2023-03-09T16:27:28.1506884+05:30||;</History>
+    <LastFailureDetails />
   </PropertyGroup>
 </Project>
