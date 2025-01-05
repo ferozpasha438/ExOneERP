@@ -206,7 +206,7 @@ namespace LS.API
             app.UseCors(x =>
                 //  x.AllowAnyOrigin()
                 //x.WithOrigins("http://localhost:43318")
-                x.WithOrigins("http://shamimmn-002-site10.itempurl.com/", "http://20.68.125.92/ErpUi", "http://localhost:43318")
+                x.WithOrigins("http://shamimmn-002-site10.itempurl.com/", "http://20.68.125.92/ErpUi", "http://localhost:43318", "https://89.117.55.164/Erpui")
                 .AllowAnyMethod()
                 .AllowAnyHeader()
                 .SetIsOriginAllowed(origin => true) // allow any origin
