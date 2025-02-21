@@ -285,8 +285,8 @@ namespace CIN.Application.SystemQuery
             var menuOptions = _context.MenuOptions.AsNoTracking();
 
             var groupList = await menuOptions.Where(e => e.IsForm && menuLoginIds.Any(mid => mid == e.MenuCode))
-               .ToListAsync();
-            var groupByModules = groupList.GroupBy(e => e.ModuleName);
+               .ToListAsync();            
+            var groupByModules = groupList.OrderBy(e=>e.Level1).GroupBy(e => e.ModuleName);
             List<GetSideMenuOptionListDto> userSideMenuItems = new();
             int moduleMenuCount = 0;
 
