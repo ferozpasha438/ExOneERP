@@ -5,6 +5,7 @@ import { AuthorizeService } from '../../../api-authorization/AuthorizeService';
 import { ApiService } from '../../../services/api.service';
 import { NotificationService } from '../../../services/notification.service';
 import { UtilityService } from '../../../services/utility.service';
+import { ValidationService } from '../../../sharedcomponent/ValidationService';
 
 @Component({
   selector: 'app-addupdate-teacher-master',
@@ -29,7 +30,7 @@ export class AddupdateTeacherMasterComponent implements OnInit {
   teacherProfileImageUrl: string = '';
   isVerifiedUserName: boolean = false;
   isShowSpouseName: boolean = true;
-  constructor(private fb: FormBuilder, private apiService: ApiService,
+  constructor(private fb: FormBuilder, private apiService: ApiService, private validationService: ValidationService,
     private authService: AuthorizeService, private utilService: UtilityService, public dialogRef: MatDialogRef<AddupdateTeacherMasterComponent>,
     private notifyService: NotificationService) {
   }
@@ -46,10 +47,10 @@ export class AddupdateTeacherMasterComponent implements OnInit {
       'pAddress': ['', Validators.required],
       'spouseName': ['', Validators.required],
       'pcity': ['', Validators.required],
-      'pphone1': ['', Validators.required],
-      'sphone2': ['', Validators.required],
+      'pphone1': ['', Validators.compose([Validators.required, this.validationService.mobileValidator])],
+      'sphone2': ['', Validators.compose([Validators.required, this.validationService.mobileValidator])],
       'teacherEmail': ['', Validators.required],
-      'pmobile1': ['', Validators.required],
+      'pmobile1': ['', Validators.compose([Validators.required, this.validationService.mobileValidator])],
       'gender': ['', Validators.required],
       'hiringType': ['', Validators.required],
       'nationalityCode': ['', Validators.required],

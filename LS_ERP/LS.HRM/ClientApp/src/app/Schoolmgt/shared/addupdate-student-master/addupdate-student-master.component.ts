@@ -7,6 +7,7 @@ import { CustomSelectListItem } from '../../../models/MenuItemListDto';
 import { ApiService } from '../../../services/api.service';
 import { NotificationService } from '../../../services/notification.service';
 import { UtilityService } from '../../../services/utility.service';
+import { ValidationService } from '../../../sharedcomponent/ValidationService';
 
 @Component({
   selector: 'app-addupdate-student-master',
@@ -39,7 +40,7 @@ export class AddupdateStudentMasterComponent implements OnInit {
   studentProfileImageUrl: string | ArrayBuffer | null = null;
   studentName: string = '';
   joiningDate: string = '';
-  constructor(private fb: FormBuilder, private apiService: ApiService,
+  constructor(private fb: FormBuilder, private apiService: ApiService, private validationService: ValidationService, 
     private authService: AuthorizeService, private utilService: UtilityService, public dialogRef: MatDialogRef<AddupdateStudentMasterComponent>,
     private notifyService: NotificationService) {
   }
@@ -66,8 +67,8 @@ export class AddupdateStudentMasterComponent implements OnInit {
       'stuIDNumber': ['', Validators.required],
       'idNumber': ['', Validators.required],
       'motherToungue': ['', Validators.required],
-      'registeredPhone': ['', Validators.required],
-      'registeredEmail': ['', Validators.required],
+      'registeredPhone': ['', Validators.compose([Validators.required, this.validationService.mobileValidator])],
+      'registeredEmail': ['', Validators.compose([Validators.required, Validators.email])],
       'isActive': [true],
       'studentImage': [''],
       'studentImageFileName': [''],
@@ -83,19 +84,19 @@ export class AddupdateStudentMasterComponent implements OnInit {
       'buildingName': ['', Validators.required],
       'pAddress1': ['', Validators.required],
       'city': ['', Validators.required],
-      'phone': ['', Validators.required],
+      'phone': ['', Validators.compose([Validators.required, this.validationService.mobileValidator])],
       'zipCode': ['', Validators.required],
-      'mobile': ['', Validators.required],
+      'mobile': ['', Validators.compose([Validators.required, this.validationService.mobileValidator])],
       'fatherName': ['', Validators.required],
-      'fatherMobile': ['', Validators.required],
-      'fatherEmail': ['', Validators.required],
+      'fatherMobile': ['', Validators.compose([Validators.required, this.validationService.mobileValidator])],
+      'fatherEmail': ['', Validators.compose([Validators.required, Validators.email])],
       'fatherOccupation': ['', Validators.required],
       'fatherDesignation': ['', Validators.required],
       'fatherSignature': [''],
       'fatherSignatureFileName': [''],
       'motherName': ['', Validators.required],
-      'motherMobile': ['', Validators.required],
-      'motherEmail': ['', Validators.required],
+      'motherMobile': ['', Validators.compose([Validators.required, this.validationService.mobileValidator])],
+      'motherEmail': ['', Validators.compose([Validators.required, Validators.email])],
       'motherOccupation': ['', Validators.required],
       'motherDesignation': ['', Validators.required],
       'motherSignature': [''],

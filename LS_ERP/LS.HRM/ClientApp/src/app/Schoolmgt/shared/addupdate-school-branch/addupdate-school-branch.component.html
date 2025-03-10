@@ -108,7 +108,7 @@
       <div class="form-group">
         <label>{{'Mobile' | translate}}</label>
         <input class="form-control" type="text"
-               placeholder="{{'Please_Enter' | translate}} {{'Mobile' | translate}}" formControlName="mobile">
+               placeholder="{{'Please_Enter' | translate}} {{'Mobile' | translate}}" formControlName="mobile" maxlength="10">
         <validation-message [control]="form.controls.mobile"></validation-message>
       </div>
     </div>
@@ -116,7 +116,7 @@
       <div class="form-group">
         <label>{{'Phone' | translate}}</label>
         <input class="form-control" type="text"
-               placeholder="{{'Please_Enter' | translate}} {{'Phone' | translate}}" formControlName="phone">
+               placeholder="{{'Please_Enter' | translate}} {{'Phone' | translate}}" formControlName="phone" maxlength="10">
         <validation-message [control]="form.controls.phone"></validation-message>
       </div>
     </div>

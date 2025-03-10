@@ -1,7 +1,7 @@
 import { HttpClient, HttpEvent, HttpHeaders } from '@angular/common/http';
 import { Injectable } from "@angular/core";
-import { Observable, throwError } from 'rxjs';
-import { catchError, retry } from 'rxjs/operators';
+import { Observable, throwError} from 'rxjs';
+import { catchError, retry, map } from 'rxjs/operators';
 import { AuthorizeService } from '../api-authorization/AuthorizeService';
 
 
@@ -127,5 +127,12 @@ export class ApiService {
     return this.http.post(`${this.apiURL}/${url}`, objectItem);
   }
 
+  downloadfile(url: string): Observable<Blob> {
+    this.apiURL = this.authService.ApiEndPoint();    
+    return this.http.get(`${this.apiURL}/${url}`, { 'responseType': 'blob' })
+      .pipe(
+        map(res => { return res; })        
+      )
+  }
 }
 

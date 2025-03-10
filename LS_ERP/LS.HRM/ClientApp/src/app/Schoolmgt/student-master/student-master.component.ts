@@ -29,6 +29,7 @@ import { StudentAddressComponent } from '../shared/student-address/student-addre
 import { StudentSiblingDataComponent } from '../shared/student-sibling-data/student-sibling-data.component';
 import { AddUpdateStudentNotificationComponent } from '../shared/add-update-student-notification/add-update-student-notification.component';
 import { StudentFeeHistoryComponent } from '../shared/student-fee-history/student-fee-history.component';
+import { DeleteConfirmDialogComponent } from '../../sharedcomponent/delete-confirm-dialog';
 
 
 @Component({
@@ -36,19 +37,19 @@ import { StudentFeeHistoryComponent } from '../shared/student-fee-history/studen
   templateUrl: './student-master.component.html',
   styleUrls: []
 })
-export class StudentMasterComponent extends ParentSchoolMgtComponent implements OnInit{
+export class StudentMasterComponent extends ParentSchoolMgtComponent implements OnInit {
   @ViewChild(MatPaginator, { static: true }) paginator!: MatPaginator;
   @ViewChild(MatSort, { static: true }) sort!: MatSort;
-  displayedColumns: string[] = ['image1Path', 'stuAdmNum', 'stuName', 'stuAdmDate', 'gradeCode', 'gradeSectionCode', 'natCode', 'isActive', 'iDNumber', 'fatherName',  'Actions'];
+  displayedColumns: string[] = ['image1Path', 'stuAdmNum', 'stuName', 'stuAdmDate', 'gradeCode', 'gradeSectionCode', 'natCode', 'isActive', 'iDNumber', 'fatherName', 'Actions'];
   data!: MatTableDataSource<any>;
   totalItemsCount!: number;
   searchValue: string = '';
   sortingOrder: string = 'id desc';
   isLoading: boolean = false;
-  id: number=0;
+  id: number = 0;
   form!: FormGroup;
   isArab: boolean = false;
-  
+  isExpoerting: boolean = false;
   constructor(private fb: FormBuilder, private http: HttpClient, private router: Router, private apiService: ApiService,
     private authService: AuthorizeService, private translate: TranslateService,
     private notifyService: NotificationService, private utilService: UtilityService, private validationService: ValidationService, public dialog: MatDialog,
@@ -65,7 +66,7 @@ export class StudentMasterComponent extends ParentSchoolMgtComponent implements 
   ngOnInit(): void {
     this.isArab = this.utilService.isArabic();
     this.initialLoading();
-    
+
   }
 
   refresh() {
@@ -113,7 +114,7 @@ export class StudentMasterComponent extends ParentSchoolMgtComponent implements 
     }
   }
   private openDialogManage(id: number = 0, dbops: DBOperation, modalTitle: string, modalBtnTitle: string) {
-    let dialogRef = this.utilService.openCrudDialog(this.dialog, AddupdateStudentMasterComponent );
+    let dialogRef = this.utilService.openCrudDialog(this.dialog, AddupdateStudentMasterComponent);
     (dialogRef.componentInstance as any).dbops = dbops;
     (dialogRef.componentInstance as any).modalTitle = modalTitle;
     (dialogRef.componentInstance as any).modalBtnTitle = modalBtnTitle;
@@ -125,7 +126,7 @@ export class StudentMasterComponent extends ParentSchoolMgtComponent implements 
     });
   }
 
-  updateStatus(isChecked: boolean, stuAdmNum:string) {
+  updateStatus(isChecked: boolean, stuAdmNum: string) {
     this.apiService.getall(`SchoolStudentMaster/updateStatus/${stuAdmNum}/${isChecked}`).subscribe(res => {
       if (res) {
         this.utilService.OkMessage();
@@ -163,7 +164,7 @@ export class StudentMasterComponent extends ParentSchoolMgtComponent implements 
   }
 
 
-  public openFee(row:any) {
+  public openFee(row: any) {
     this.editFeeMaster(row);
   }
 
@@ -189,7 +190,7 @@ export class StudentMasterComponent extends ParentSchoolMgtComponent implements 
     });
   }
 
-  public openAttendence(row:any) {
+  public openAttendence(row: any) {
     this.editStudentAttendence(row);
   }
 
@@ -225,7 +226,7 @@ export class StudentMasterComponent extends ParentSchoolMgtComponent implements 
         this.initialLoading();
     });
   }
-  public openAcademics(row:any) {
+  public openAcademics(row: any) {
     this.editStudentAcademics(row);
   }
   private editStudentAddress(row: any) {
@@ -251,7 +252,7 @@ export class StudentMasterComponent extends ParentSchoolMgtComponent implements 
     this.editStudentSiblingData(row);
   }
 
-  
+
   private applyLeave(row: any) {
     let dialogRef = this.utilService.openCrudDialog(this.dialog, StudentApplyLeaveComponent);
     (dialogRef.componentInstance as any).row = row;
@@ -321,5 +322,19 @@ export class StudentMasterComponent extends ParentSchoolMgtComponent implements 
           console.error(error);
           this.utilService.ShowApiErrorMessage(error);
         });
+  }
+
+  exportToExcel() {
+    const dialogRef = this.utilService.openDeleteConfirmDialog(this.dialog, DeleteConfirmDialogComponent);
+    dialogRef.afterClosed().subscribe(canDelete => {
+      if (canDelete) {
+        this.isExpoerting = true;
+        this.apiService.downloadfile('ExcelExport/exportStudentRegistrations?action=stdmst').subscribe(data => {
+          this.utilService.downLoadExcel('student_master_list.xlsx', data);
+          this.isExpoerting = false;
+          //window.URL.revokeObjectURL(url);
+        });
+      }
+    });
   }
 }

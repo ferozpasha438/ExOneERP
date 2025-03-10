@@ -69,6 +69,7 @@ export class EditArsalesinvoiceComponent implements OnInit {
   invoiceItemObject: any;
   isArab: boolean = false;
   customerData: null;
+  isHVSSite: boolean = false;
 
   //minDate = new Date(2022, 0, 1);
   //maxDate = new Date(2022, 0, 1);
@@ -81,6 +82,7 @@ export class EditArsalesinvoiceComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.isHVSSite = this.utilService.isHVSSite();
     //let $: any;
     //$('.select2').select2();
     this.setForm();

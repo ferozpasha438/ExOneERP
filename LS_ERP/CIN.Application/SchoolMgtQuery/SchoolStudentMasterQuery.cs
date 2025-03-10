@@ -119,11 +119,11 @@ namespace CIN.Application.SchoolMgtQuery
 
             #endregion
 
-            var studentStuAdmList = await _context.DefStudentGuardiansSiblings.AsNoTracking().ProjectTo<TblDefStudentGuardiansSiblingsDto>(_mapper.ConfigurationProvider).Where(e => e.Mobile1 == request.Mobile).Select(x=>x.StuAdmNum).Distinct().ToListAsync();
+            var studentStuAdmList = await _context.DefStudentGuardiansSiblings.AsNoTracking().ProjectTo<TblDefStudentGuardiansSiblingsDto>(_mapper.ConfigurationProvider).Where(e => e.Mobile1 == request.Mobile).Select(x => x.StuAdmNum).Distinct().ToListAsync();
 
             List<SchoolStudentMasterGradeDto> studentDetails = new List<SchoolStudentMasterGradeDto>();
             studentDetails = await _context.DefSchoolStudentMaster.AsNoTracking().ProjectTo<TblDefSchoolStudentMasterDto>(_mapper.ConfigurationProvider).
-                                                      Where(e => e.Mobile == request.Mobile || e.RegisteredPhone==request.Mobile || e.Phone == request.Mobile || studentStuAdmList.Contains(e.StuAdmNum)
+                                                      Where(e => e.Mobile == request.Mobile || e.RegisteredPhone == request.Mobile || e.Phone == request.Mobile || studentStuAdmList.Contains(e.StuAdmNum)
                                                         ).
                                                       Select(x => new SchoolStudentMasterGradeDto
                                                       {
@@ -206,6 +206,7 @@ namespace CIN.Application.SchoolMgtQuery
     {
         public UserIdentityDto User { get; set; }
         public string StuAdmNum { get; set; }
+        public string Year { get; set; }
 
     }
 
@@ -222,8 +223,16 @@ namespace CIN.Application.SchoolMgtQuery
         {
             try
             {
-                var studentFeeHeader = await _context.DefStudentFeeHeader.AsNoTracking().ProjectTo<TblDefStudentFeeHeaderDto>(_mapper.ConfigurationProvider).Where(e => e.StuAdmNum == request.StuAdmNum).ToListAsync();
-                return studentFeeHeader;
+                var studentFeeHeader = _context.DefStudentFeeHeader.AsNoTracking();
+
+                if (request.Year.HasValue())
+                {
+                    int year = Convert.ToInt32(request.Year);
+                    studentFeeHeader = studentFeeHeader.Where(e => e.FeeDueDate.Year == year);
+                }
+
+                var studentFeeHeaderList = await studentFeeHeader.ProjectTo<TblDefStudentFeeHeaderDto>(_mapper.ConfigurationProvider).Where(e => e.StuAdmNum == request.StuAdmNum).ToListAsync();
+                return studentFeeHeaderList;
             }
             catch (Exception ex)
             {

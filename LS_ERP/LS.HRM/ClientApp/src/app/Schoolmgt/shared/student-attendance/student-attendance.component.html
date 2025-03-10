@@ -13,33 +13,37 @@
                 <div class="card-body">
                     <div class="cardtitle-divider"></div>
                     <div class="row pb-3">
-                        <div class="col-md-3">
-                            <div class="form-group ">
-                                <label>{{'Month' | translate}}</label>
-                                <select class="custom-select mr-sm-2" [(ngModel)]="selectedMonth" (change)="getAttandaceData()">
-                                  <option value="">{{'Select' | translate}} {{'Month' | translate}} </option>
-                                  <option value="1">{{'January' | translate}}</option>
-                                  <option value="2">{{'February' | translate}}</option>
-                                  <option value="3">{{'March' | translate}}</option>
-                                  <option value="4">{{'April' | translate}}</option>
-                                  <option value="5">{{'May' | translate}}</option>
-                                  <option value="6">{{'June' | translate}}</option>
-                                  <option value="7">{{'July' | translate}}</option>
-                                  <option value="8">{{'August' | translate}}</option>
-                                  <option value="9">{{'September' | translate}}</option>
-                                  <option value="10">{{'October' | translate}}</option>
-                                  <option value="11">{{'November' | translate}}</option>
-                                  <option value="12">{{'December' | translate}}</option>
-                                </select>
-                            </div>
+                      <div class="col-md-3">
+                        <div class="form-group ">
+                          <label>{{'Month' | translate}}</label>
+                          <select class="custom-select mr-sm-2" [(ngModel)]="selectedMonth">
+                            <option value="">{{'Select' | translate}} {{'Month' | translate}} </option>
+                            <option value="1">{{'January' | translate}}</option>
+                            <option value="2">{{'February' | translate}}</option>
+                            <option value="3">{{'March' | translate}}</option>
+                            <option value="4">{{'April' | translate}}</option>
+                            <option value="5">{{'May' | translate}}</option>
+                            <option value="6">{{'June' | translate}}</option>
+                            <option value="7">{{'July' | translate}}</option>
+                            <option value="8">{{'August' | translate}}</option>
+                            <option value="9">{{'September' | translate}}</option>
+                            <option value="10">{{'October' | translate}}</option>
+                            <option value="11">{{'November' | translate}}</option>
+                            <option value="12">{{'December' | translate}}</option>
+                          </select>
                         </div>
-                        <div class="col-md-4 arabicright">
-                            <div class="form-group">
-                                <label>{{'Year' | translate}}</label>
-                                <input class="form-control" type="text" placeholder="{{'Year' | translate}}"
-                                    [(ngModel)]="selectedYear" (change)="getAttandaceData()" />
-                            </div>
+                      </div>
+                      <div class="col-md-4 arabicright">
+                        <div class="form-group">
+                          <label>{{'Year' | translate}}</label>
+                          <input class="form-control" type="text" placeholder="{{'Year' | translate}}"
+                                 [(ngModel)]="selectedYear" />
                         </div>
+                      </div>
+                      <div class="col-md-4 arabicright pt-4">
+                        <button (click)="getAttandaceData()" class="btn btn-primary">{{'Search' | translate}}</button> &nbsp;
+                        <!--<a (click)="refresh()" class=""><i class="btn btn-primary icon-refresh"></i></a>-->
+                      </div>
                     </div>
                     <div class="table-responsive">
                         <spinner-loader [isLoading]="isLoading"></spinner-loader>
@@ -52,10 +56,7 @@
                                     {{'Attendance_Date' | translate}}
                                   </th>
                                   <td mat-cell *matCellDef="let row">
-                                    <a href=""
-                                       style="border-bottom: 1px solid;font-style: italic;font-weight: bold">
-                                      {{ row.attDate }}
-                                    </a>
+                                    {{ row.attDate }}
                                   </td>
                                 </ng-container>
                                 <ng-container matColumnDef="inTime">
@@ -114,9 +115,7 @@
                                 {{'From_Date' | translate}}
                               </th>
                               <td mat-cell *matCellDef="let row">
-                                <a href="">
-                                  {{ row.fromDate }}
-                                </a>
+                                {{ row.fromDate }}
                               </td>
                             </ng-container>
                             <ng-container matColumnDef="toDate">
@@ -124,9 +123,7 @@
                                 {{'To_Date' | translate}}
                               </th>
                               <td mat-cell *matCellDef="let row">
-                                <a href="">
-                                  {{ row.toDate }}
-                                </a>
+                                {{ row.toDate }}
                               </td>
                             </ng-container>
                             <ng-container matColumnDef="noOfDays">

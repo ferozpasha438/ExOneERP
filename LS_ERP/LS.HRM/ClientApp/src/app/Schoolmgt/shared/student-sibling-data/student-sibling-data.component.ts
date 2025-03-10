@@ -54,8 +54,8 @@ export class StudentSiblingDataComponent extends ParentSchoolMgtComponent implem
       'name': ['', Validators.required],
       'occupation': ['', Validators.required],
       'deisgnation': ['', Validators.required],
-      'mobile1': ['', Validators.required],
-      'email': ['', Validators.required],
+      'mobile1': ['', Validators.compose([Validators.required, this.validationService.mobileValidator])],
+      'email': ['', Validators.compose([Validators.required, Validators.email])],
       'remarks': ['', Validators.required]
     });
     if (this.row) {

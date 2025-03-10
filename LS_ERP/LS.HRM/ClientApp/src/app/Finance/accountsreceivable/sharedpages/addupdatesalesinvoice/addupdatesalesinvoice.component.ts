@@ -79,7 +79,7 @@ export class AddupdatesalesinvoiceComponent implements OnInit {
   invoice_NumberId: string = '';
   customerData: null;
   customerId: any;
-
+  isHVSSite: boolean = false;
   constructor(private fb: FormBuilder, private http: HttpClient, private router: Router, private apiService: ApiService,
     private authService: AuthorizeService, private utilService: UtilityService, public dialogRef: MatDialogRef<AddupdatesalesinvoiceComponent>,
     private notifyService: NotificationService, private validationService: ValidationService, private commonService: CommonService, public dialog: MatDialog) {
@@ -88,10 +88,11 @@ export class AddupdatesalesinvoiceComponent implements OnInit {
 
   ngOnInit(): void {
     this.isArab = this.utilService.isArabic();
+    this.isHVSSite = this.utilService.isHVSSite();
     //let $: any;
     //$('.select2').select2();
     this.setForm();
-    this.loadData();
+    this.loadData();    
     // this.paymentTermsList.push({ text: 'first payment', value: '1' });
   }
   setForm() {
@@ -99,7 +100,7 @@ export class AddupdatesalesinvoiceComponent implements OnInit {
     this.form = this.fb.group({
       'customerId': ['', Validators.required],
       'siteCode': [null],
-      'invoiceDate': ['', Validators.required],
+      'invoiceDate': [ this.utilService.getCurrentDate(), Validators.required],
       'invoiceDueDate': ['', Validators.required],
       'serviceDate1': ['', Validators.required],
       'companyId': ['', Validators.required],
@@ -120,7 +121,38 @@ export class AddupdatesalesinvoiceComponent implements OnInit {
 
     });
 
+
   }
+
+  setHVSDefaultFields() {
+
+    if (this.isHVSSite) {
+      this.form.patchValue({
+        'invoiceDueDate': this.utilService.getCurrentDate(),
+        'serviceDate1': this.utilService.getCurrentDate(),
+        'invoiceRefNumber': '-',
+        'lpoContract': '-',
+        'taxIdNumber': '-',        
+        'paymentTermId': this.paymentTermsList.find(e => e.value.toLowerCase() == 'cash')?.value
+      });      
+    }
+  }
+  setHVSCompanyDefaultFields() {
+    if (this.isHVSSite) {
+      this.form.patchValue({       
+        'companyId': this.companyList[0].value
+      });
+      this.loadBranchesForCompany();
+    }
+  }
+  setHVSBranchDefaultFields() {
+    if (this.isHVSSite) {
+      this.form.patchValue({       
+        'branchCode': this.branchList[0].value
+      });      
+    }
+  }
+
 
   //changeInvoiceDate(event: MatDatepickerInputEvent<Date>) {
   //  console.log(event.target.value);
@@ -210,13 +242,17 @@ export class AddupdatesalesinvoiceComponent implements OnInit {
       }
     });
     this.apiService.getall("company/getSelectCompanyList").subscribe(res => {
-      if (res)
+      if (res) {
         this.companyList = res;
+        this.setHVSCompanyDefaultFields();
+      }
     });
 
     this.apiService.getall("salesTermsCode/getCustomSelectSalesTermsCodeList").subscribe(res => {
-      if (res)
+      if (res) {
         this.paymentTermsList = res;
+        this.setHVSDefaultFields();    
+      }
     });
 
 
@@ -278,11 +314,17 @@ export class AddupdatesalesinvoiceComponent implements OnInit {
   loadBranchs(event: any) {
     let comId = event.target.value;
     if (comId) {
-      this.apiService.getall(`branch/getSelectSysAccountBranchList`).subscribe(res => {
-        if (res)
-          this.branchList = res;
-      });
+      this.loadBranchesForCompany();
     }
+  }
+
+  loadBranchesForCompany() {
+    this.apiService.getall(`branch/getSelectSysAccountBranchList`).subscribe(res => {
+      if (res) {
+        this.branchList = res;
+        this.setHVSBranchDefaultFields();
+      }
+    });
   }
 
   resetProduct() {

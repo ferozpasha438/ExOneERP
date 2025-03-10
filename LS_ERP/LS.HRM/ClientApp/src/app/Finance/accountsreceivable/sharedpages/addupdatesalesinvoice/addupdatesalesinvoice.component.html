@@ -47,7 +47,7 @@
                   </div>
 
 
-                  <div class="col-md-4 col-lg-4">
+                  <div class="col-md-4 col-lg-4" *ngIf="!isHVSSite">
 
                     <div class="form-group ">
                       <label class="mr-sm-2">{{'Customer_Sites' | translate}}</label>
@@ -95,7 +95,7 @@
                 </div>
               </div>
 
-              <div class="col-md-4 col-lg-4">
+              <div class="col-md-4 col-lg-4" *ngIf="!isHVSSite">
                 <label class="mr-sm-2">{{'Delivery_Date' | translate}}</label>
                 <div class="form-group ">
                   <div class="input-group mb-2">
@@ -115,7 +115,7 @@
               </div>
 
 
-              <div class="col-md-4 col-lg-4">
+              <div class="col-md-4 col-lg-4" *ngIf="!isHVSSite">
                 <label class="mr-sm-2">{{'ServiceDate' | translate}}</label>
                 <div class="form-group ">
                   <div class="input-group mb-2">
@@ -137,7 +137,7 @@
               <div class="col-md-4 col-lg-4">
 
                 <div class="form-group ">
-                  <label class="mr-sm-2">{{'Organization' | translate}}</label>
+                  <label class="mr-sm-2">{{ (isHVSSite ? 'School' : 'Organization') | translate}}</label>
                   <select class="custom-select mr-sm-2" formControlName="companyId" (change)="loadBranchs($event)">
                     <option value="">{{'Select_Organization' | translate}}</option>
                     <option *ngFor="let item of companyList" value="{{item.value}}">{{item.text}}</option>
@@ -164,7 +164,7 @@
                 </div>
 
               </div>
-              <div class="col-md-4 col-lg-4">
+              <div class="col-md-4 col-lg-4" *ngIf="!isHVSSite">
 
                 <div class="form-group ">
                   <label class="mr-sm-2">{{'Invoice_Reference_Number' | translate}}</label>
@@ -174,7 +174,7 @@
 
               </div>
 
-              <div class="col-md-4 col-lg-4">
+              <div class="col-md-4 col-lg-4" *ngIf="!isHVSSite">
                 <div class="form-group ">
                   <label class="mr-sm-2">
                     {{'LPO_Contract' | translate}}
@@ -185,7 +185,7 @@
 
               </div>
 
-              <div class="col-md-4 col-lg-4">
+              <div class="col-md-4 col-lg-4" *ngIf="!isHVSSite">
                 <div class="form-group ">
                   <label class="mr-sm-2">
                     {{'Payment_Terms' | translate}}
@@ -199,7 +199,7 @@
                 </div>
 
               </div>
-              <div class="col-md-4 col-lg-4">
+              <div class="col-md-4 col-lg-4" *ngIf="!isHVSSite">
                 <div class="form-group ">
                   <label class="mr-sm-2">{{'TAX_Id_Number' | translate}}</label>
                   <input class="form-control" type="text" placeholder="{{'TAX_Id_Number' | translate}}" formControlName="taxIdNumber" [readonly]="true">
@@ -235,7 +235,7 @@
                 </div>
 
               </div>
-              <div class="col-md-4 col-lg-4">
+              <div class="col-md-4 col-lg-4" *ngIf="!isHVSSite">
                 <div class="form-group ">
                   <label class="mr-sm-2 text-info cpointer" (click)="showCanShowRemarks()">{{'Remarks' | translate}}</label>
                   <textarea class="form-control" *ngIf="canShowRemarks" placeholder="{{'Please_Select' | translate}} {{'Remarks' | translate}}" formControlName="remarks"></textarea>

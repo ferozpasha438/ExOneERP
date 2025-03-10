@@ -10,10 +10,7 @@
             <li class="breadcrumb-item text-muted">{{'Student_Master' | translate}}</li>
             <li class="breadcrumb-item text-muted">{{'Student_Master_Management' | translate}}</li>
             <li class="breadcrumb-item   active" aria-current="page">
-              {{
-'Student_Master_List' |
-                            translate
-              }}
+              {{'Student_Master_List' | translate }}
             </li>
 
           </ol>
@@ -35,12 +32,10 @@
             </div>
             <div class="col-md-4 arabicright">
               <button (click)="applyFilter(searchValue)" class="btn btn-primary">
-                {{
-'Search' |
-                                translate
-                }}
+                {{'Search' |translate}}
               </button> &nbsp;
-              <a (click)="refresh()" class=""><i class="btn btn-primary icon-refresh"></i></a>
+              <a (click)="refresh()" class=""><i class="btn btn-primary icon-refresh"></i></a>&nbsp;
+              <a (click)="exportToExcel()" class="" matTooltip="{{'Export_Excel' | translate}}"><i class="btn btn-primary icon-cloud-download"></i></a> <spinner-loader [isLoading]="isExpoerting"></spinner-loader>
             </div>
           </div>
           <div class="row">
@@ -51,10 +46,7 @@
               <a data-toggle="modal" data-target="#addupdateUnit"
                  class="  btn waves-effect waves-light btn-rounded btn-outline-primary"
                  (click)="create()" href="#">
-                <i class="icon-plus"> </i>{{
-'Add_New' |
-                                translate
-                }}
+                <i class="icon-plus"> </i>{{'Add_New' |translate}}
               </a>
               <a data-toggle="modal" data-target="#showWebStudentRegistrationList"
                  class="  btn waves-effect waves-light btn-rounded btn-outline-primary"
@@ -137,24 +129,31 @@
 
                   <ng-container matColumnDef="Actions" stickyEnd>
                     <th mat-header-cell *matHeaderCellDef> {{'Actions' | translate}}</th>
-                    <td mat-cell *matCellDef="let row">
-                      <a class="tableicons" (click)="edit(row)" matTooltip="{{'Edit_Item' | translate}}"><i class="icon-note"> </i></a>&nbsp;
-                      <a class="tableicons" (click)="openFee(row)" matTooltip="{{'Fee' | translate}}"><i class="icon-credit-card"> </i></a>&nbsp;
-                      <a class="tableicons" (click)="openAcademics(row)" matTooltip="{{'Student_Academics' | translate}}"><i class="icon-book-open"> </i></a>&nbsp;
-                      <a class="tableicons" (click)="openAddress(row)" matTooltip="{{'Address' | translate}}"><i class="icon-location-pin"> </i></a>&nbsp;
-                      <a class="tableicons" (click)="openStudentSiblingData(row)" matTooltip="{{'Student_Sibling_Data' | translate}}"><i class="icon-people"> </i></a>&nbsp;
-                      <a class="tableicons" (click)="openAttendence(row)" matTooltip="{{'sAttendance' | translate}}"><i class="icon-calender"> </i></a>&nbsp;
-                      <a class="tableicons" (click)="openApply(row)" matTooltip="{{'Apply_Leave' | translate}}"><i class="icon-arrow-right-circle"> </i></a>&nbsp;
-                      <a class="tableicons" (click)="openNotice(row)" matTooltip="{{'Notice' | translate}}"><i class="icon-envelope-open"> </i></a>&nbsp;
-                      <a class="tableicons" (click)="notification(row)" matTooltip="{{'Notification' | translate}}"><i class="fas fa-bell"> </i></a>&nbsp;
-                      <a class="tableicons" (click)="studentFeeHistory(row)" matTooltip="{{'Student_Fee_History' | translate}}"><i class="icon-wallet"> </i></a>&nbsp;
-                      <a class="tableicons" (click)="studentArrivalAtGate(row)" matTooltip="{{'Student_Arrival_at_the_School_Gate' | translate}}"><i class="icon-eye"> </i></a>&nbsp;
+                    <td mat-cell *matCellDef="let row" class="text-center" style="z-index:2!important;">
+
+                      <div class="nav-item dropdown">
+                        <a href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="icon-options-vertical"></i></a>
+
+                        <div class="dropdown-menu student-master-dropdown-menu-custom" aria-labelledby="navbarDropdown">
+                          <a class="tableicons" (click)="edit(row)" matTooltip="{{'Edit_Item' | translate}}"><i class="icon-note"> </i></a>&nbsp;
+                          <a class="tableicons" (click)="openFee(row)" matTooltip="{{'Fee' | translate}}"><i class="icon-credit-card"> </i></a>&nbsp;
+                          <a class="tableicons" (click)="openAcademics(row)" matTooltip="{{'Student_Academics' | translate}}"><i class="icon-book-open"> </i></a>&nbsp;
+                          <a class="tableicons" (click)="openAddress(row)" matTooltip="{{'Address' | translate}}"><i class="icon-location-pin"> </i></a>&nbsp;
+                          <a class="tableicons" (click)="openStudentSiblingData(row)" matTooltip="{{'Student_Sibling_Data' | translate}}"><i class="icon-people"> </i></a>&nbsp;
+                          <a class="tableicons" (click)="openAttendence(row)" matTooltip="{{'sAttendance' | translate}}"><i class="icon-calender"> </i></a>&nbsp;
+                          <a class="tableicons" (click)="openApply(row)" matTooltip="{{'Apply_Leave' | translate}}"><i class="icon-arrow-right-circle"> </i></a>&nbsp;
+                          <a class="tableicons" (click)="openNotice(row)" matTooltip="{{'Notice' | translate}}"><i class="icon-envelope-open"> </i></a>&nbsp;
+                          <a class="tableicons" (click)="notification(row)" matTooltip="{{'Notification' | translate}}"><i class="fas fa-bell"> </i></a>&nbsp;
+                          <a class="tableicons" (click)="studentFeeHistory(row)" matTooltip="{{'Student_Fee_History' | translate}}"><i class="icon-wallet"> </i></a>&nbsp;
+                          <a class="tableicons" (click)="studentArrivalAtGate(row)" matTooltip="{{'Student_Arrival_at_the_School_Gate' | translate}}"><i class="icon-eye"> </i></a>&nbsp;
+                        </div>
+                      </div>
                       <!-- <a class="tableicons" matTooltip="{{'Edit_Item' | translate}}">
-          <i class="icon-note"> </i>
-      </a>
-      <a class="tableicons" matTooltip="{{'Edit_Item' | translate}}">
-          <i class="icon-note"> </i>
-      </a> -->
+        <i class="icon-note"> </i>
+    </a>
+    <a class="tableicons" matTooltip="{{'Edit_Item' | translate}}">
+        <i class="icon-note"> </i>
+    </a> -->
                     </td>
                   </ng-container>
                   <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>

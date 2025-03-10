@@ -1,5 +1,6 @@
 <h3 class="modal-title">{{'Ward_Details_for_Admission' | translate}}</h3>
 <button type="button" class="close" aria-hidden="true" (click)="closeModel()"> ×</button>
+<spinner-loader [isLoading]="isLoading"></spinner-loader>
 <form [formGroup]="form" (ngSubmit)="submit()" novalidate class="mt-4">
     <div class="outer ">
         <div class="row rowm0 mt-3">
@@ -7,8 +8,8 @@
                 <div class="form-group">
                     <label>{{'Registration_Number' | translate}}</label>
                     <input class="form-control" type="text" placeholder="{{'Registration_Number' | translate}}"
-                        formControlName="registrationNumber" />
-                    <validation-message [control]="form.controls.registrationNumber"></validation-message>
+                        formControlName="regNum" />
+                    <validation-message [control]="form.controls.regNum"></validation-message>
                 </div>
             </div>
             <div class="col-md-6 col-lg-6 col-sm-6">
@@ -16,29 +17,29 @@
                     <label>{{'Date' | translate}}</label>
                     <div class="input-group ">
                         <input class="form-control datapickerinput" placeholder="{{'Date' | translate}}"
-                            formControlName="date" [matDatepicker]="picker3">
+                            formControlName="regDate" [matDatepicker]="picker3">
                         <div class="input-group-prepend datapickericon">
                             <mat-datepicker-toggle matSuffix [for]="picker3"></mat-datepicker-toggle>
                             <mat-datepicker #picker3></mat-datepicker><br /><br />
                         </div>
                     </div>
-                    <validation-message [control]="form.controls.date"></validation-message>
+                    <validation-message [control]="form.controls.regDate"></validation-message>
                 </div>
             </div>
             <div class="col-md-6 col-lg-6 col-sm-6">
                 <div class="form-group">
                     <label>{{'Student_Name' | translate}}</label>
                     <input class="form-control" type="txt" placeholder="{{'Student_Name' | translate}}"
-                        formControlName="studentName" />
-                    <validation-message [control]="form.controls.studentName"></validation-message>
+                        formControlName="fullName" />
+                    <validation-message [control]="form.controls.fullName"></validation-message>
                 </div>
             </div>
             <div class="col-md-6 col-lg-6 col-sm-6">
                 <div class="form-group">
                     <label>{{'Student_Name_in_Arabic' | translate}}</label>
                     <input class="form-control" type="text" placeholder="{{'Student_Name_in_Arabic' | translate}}"
-                        formControlName="studentNameInArabic" />
-                    <validation-message [control]="form.controls.studentNameInArabic"></validation-message>
+                        formControlName="nameAr" />
+                    <validation-message [control]="form.controls.nameAr"></validation-message>
                 </div>
             </div>
             <div class="col-md-6 col-lg-6 col-sm-6">
@@ -46,7 +47,7 @@
                     <label>{{'Date_of_Birth' | translate}}</label>
                     <div class="input-group ">
                         <input class="form-control datapickerinput" placeholder="{{'Date_of_Birth' | translate}}"
-                            formControlName="dateOfBirth" [matDatepicker]="picker1">
+                            formControlName="dateOfBirth" [matDatepicker]="picker1" (dateChange)="calcAge($event)">
                         <div class="input-group-prepend datapickericon">
                             <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
                             <mat-datepicker #picker1></mat-datepicker><br /><br />
@@ -66,33 +67,39 @@
             <div class="col-md-6 col-lg-6 col-sm-6">
                 <div class="form-group ">
                     <label>{{'Grade_Seeking_Admission_in' | translate}}</label>
-                    <select class="custom-select mr-sm-2" formControlName="gradeSeekingAdmissionIn">
-                        <option value="">{{'Select' | translate}} {{'Grade_Seeking_Admission_in' | translate}} </option>
-                        <option>dfdfdsfsd</option>
+                    <select class="custom-select mr-sm-2" formControlName="grade">
+                      <option value="">{{'Select' | translate}} {{'Grade_Seeking_Admission_in' | translate}} </option>
+                      <ng-container *ngIf="gradeCodeList">
+                        <option *ngFor="let item of gradeCodeList" value="{{item.gradeCode}}">{{ isArab ? item.gradeName2 : item.gradeName  }}</option>
+                      </ng-container>
                     </select>
-                    <validation-message [control]="form.controls.gradeSeekingAdmissionIn"></validation-message>
+                    <validation-message [control]="form.controls.grade"></validation-message>
                 </div>
 
             </div>
             <div class="col-md-6 col-lg-6 col-sm-6">
                 <div class="form-group ">
                     <label>{{'Medium_on_Language' | translate}}</label>
-                    <select class="custom-select mr-sm-2" formControlName="mediumOnLanguage">
-                        <option value="">{{'Select' | translate}} {{'Medium_on_Language' | translate}} </option>
-                        <option> {{'Medium_on_Language' | translate}} </option>
+                    <select class="custom-select mr-sm-2" formControlName="langCode">
+                      <option value="">{{'Select' | translate}} {{'Medium_on_Language' | translate}} </option>
+                      <ng-container *ngIf="languageList">
+                        <option *ngFor="let item of languageList" value="{{item.langCode}}">{{ isArab ? item.langName2 : item.langName  }}</option>
+                      </ng-container>
                     </select>
-                    <validation-message [control]="form.controls.mediumOnLanguage"></validation-message>
+                    <validation-message [control]="form.controls.langCode"></validation-message>
                 </div>
 
             </div>
             <div class="col-md-6 col-lg-6 col-sm-6">
                 <div class="form-group ">
                     <label>{{'Gender_Code' | translate}}</label>
-                    <select class="custom-select mr-sm-2" formControlName="genderCode">
-                        <option value="">{{'Select' | translate}} {{'Gender_Code' | translate}} </option>
-                        <option>{{'Gender_Code' | translate}}</option>
+                    <select class="custom-select mr-sm-2" formControlName="genderName">
+                      <option value="">{{'Select' | translate}} {{'Gender_Code' | translate}} </option>
+                      <ng-container *ngIf="genderList">
+                        <option *ngFor="let item of genderList" value="{{item.genderCode}}">{{ isArab ? item.genderName2 : item.genderName  }}</option>
+                      </ng-container>
                     </select>
-                    <validation-message [control]="form.controls.genderCode"></validation-message>
+                    <validation-message [control]="form.controls.genderName"></validation-message>
                 </div>
 
             </div>
@@ -100,8 +107,8 @@
                 <div class="form-group">
                     <label>{{'Identity_Card_Number' | translate}}</label>
                     <input class="form-control" type="text" placeholder="{{'Identity_Card_Number' | translate}}"
-                        formControlName="identityCardNumber" />
-                    <validation-message [control]="form.controls.identityCardNumber"></validation-message>
+                        formControlName="idNumber" />
+                    <validation-message [control]="form.controls.idNumber"></validation-message>
                 </div>
             </div>           
             <div class="col-md-6 col-lg-6 col-sm-6">
@@ -109,7 +116,9 @@
                     <label>{{'Nationality' | translate}}</label>
                     <select class="custom-select mr-sm-2" formControlName="nationality">
                         <option value="">{{'Select' | translate}} {{'Nationality' | translate}} </option>
-                        <option>{{'Nationality' | translate}}</option>
+                        <ng-container *ngIf="nationalityList">
+                          <option *ngFor="let item of nationalityList" value="{{item.natCode}}">{{ isArab ? item.natName2 : item.natName  }}</option>
+                        </ng-container>
                     </select>
                     <validation-message [control]="form.controls.nationality"></validation-message>
                 </div>
@@ -118,18 +127,20 @@
             <div class="col-md-6 col-lg-6 col-sm-6">
                 <div class="form-group ">
                     <label>{{'Religion' | translate}}</label>
-                    <select class="custom-select mr-sm-2" formControlName="religion">
-                        <option value="">{{'Select' | translate}} {{'Religion' | translate}} </option>
-                        <option>{{'Religion' | translate}}</option>
+                    <select class="custom-select mr-sm-2" formControlName="religionCode">
+                      <option value="">{{'Select' | translate}} {{'Religion' | translate}} </option>
+                      <ng-container *ngIf="religionList">
+                        <option *ngFor="let item of religionList" value="{{item.regCode}}">{{ isArab ? item.regName2 : item.regName  }}</option>
+                      </ng-container>
                     </select>
-                    <validation-message [control]="form.controls.religion"></validation-message>
+                    <validation-message [control]="form.controls.religionCode"></validation-message>
                 </div>
 
             </div>
             <div class="col-md-6 col-lg-6 col-sm-6">
                 <label>{{'Physically_Challenged' | translate}}</label>
                 <div class="form-group">
-                    <mat-slide-toggle color="primary" formControlName="physicallyChallenged"></mat-slide-toggle>
+                    <mat-slide-toggle color="primary" formControlName="physicalDisability"></mat-slide-toggle>
                 </div>
             </div>
 
@@ -137,22 +148,22 @@
                 <div class="form-group">
                     <label>{{'Mentioned_Physical_Challenge' | translate}}</label>
                     <input class="form-control" type="text" placeholder="{{'Mentioned_Physical_Challenge' | translate}}"
-                        formControlName="mentionedPhysicalChallenge" />
-                    <validation-message [control]="form.controls.mentionedPhysicalChallenge"></validation-message>
+                        formControlName="physicalDisabilityNotes" />
+                    <!--<validation-message [control]="form.controls.physicalDisabilityNotes"></validation-message>-->
+                </div>
+            </div>
+            <div class="col-md-6 col-lg-6 col-sm-6">
+                <label>{{'Any_Medical_Issues' | translate}}</label>
+                <div class="form-group">
+                    <mat-slide-toggle color="primary" formControlName="medicalIssue"></mat-slide-toggle>
                 </div>
             </div>
             <div class="col-md-6 col-lg-6 col-sm-6">
                 <div class="form-group">
                     <label>{{'Mentioned_Medical_Issue' | translate}}</label>
                     <input class="form-control" type="text" placeholder="{{'Mentioned_Medical_Issue' | translate}}"
-                        formControlName="mentionedMedicalIssue" />
-                    <validation-message [control]="form.controls.mentionedMedicalIssue"></validation-message>
-                </div>
-            </div>
-            <div class="col-md-6 col-lg-6 col-sm-6">
-                <label>{{'Any_Medical_Issues' | translate}}</label>
-                <div class="form-group">
-                    <mat-slide-toggle color="primary" formControlName="anyMedicalIssues"></mat-slide-toggle>
+                        formControlName="medicalIssueNotes" />
+                    <!--<validation-message [control]="form.controls.medicalIssueNotes"></validation-message>-->
                 </div>
             </div>
         </div>
@@ -179,18 +190,18 @@
                 </div>
                 <div class="col-md-6 col-lg-6 col-sm-6">
                     <div class="form-group">
-                        <label>{{'Registered_Mobile' | translate}}</label>
-                        <input class="form-control" type="text" placeholder="{{'Registered_Mobile' | translate}}"
-                            formControlName="registeredMobile" />
-                        <validation-message [control]="form.controls.registeredMobile"></validation-message>
+                      <label>{{'Father_Mobile' | translate}}</label>
+                        <input class="form-control" type="text" placeholder="{{'Father_Mobile' | translate}}"
+                            formControlName="fatherPhoneNumber" maxlength="10"/>
+                        <validation-message [control]="form.controls.fatherPhoneNumber"></validation-message>
                     </div>
                 </div>
                 <div class="col-md-6 col-lg-6 col-sm-6">
                     <div class="form-group">
-                        <label>{{'Registered_Email' | translate}}</label>
-                        <input class="form-control" type="text" placeholder="{{'Registered_Email' | translate}}"
-                            formControlName="registeredEmail" />
-                        <validation-message [control]="form.controls.registeredEmail"></validation-message>
+                      <label>{{'Father_Email' | translate}}</label>
+                        <input class="form-control" type="text" placeholder="{{'Father_Email' | translate}}"
+                            formControlName="fatherEmail" />
+                        <validation-message [control]="form.controls.fatherEmail"></validation-message>
                     </div>
                 </div>
                 <div class="col-md-6 col-lg-6 col-sm-6">
@@ -205,14 +216,14 @@
                     <div class="form-group">
                         <label>{{'Remarks_Notes' | translate}}</label>
                         <textarea class="form-control" type="text" placeholder="{{'Remarks_Notes' | translate}}"
-                            formControlName="remarksNotes"></textarea>
-                        <validation-message [control]="form.controls.remarksNotes"></validation-message>
+                            formControlName="remarks"></textarea>
+                        <!--<validation-message [control]="form.controls.remarks"></validation-message>-->
                     </div>
                 </div>
             </div>
 
         </div>
-        <div class="card">
+        <!--<div class="card">
             <div class="row m-0">
                 <div class="col-md-12 mb-3" style="background: #919191">
                     <h3 style="margin: 0px;padding:5px;color: #fff;">{{'Previous_Education_Details' | translate}}</h3>
@@ -266,7 +277,7 @@
                 </div>               
             </div>
 
-        </div>
+        </div>-->
         <div class="row customrow mt-4">
             <div class="col-lg-12 col-md-12 text-center">
                 <input type="button" class="btn btn-secondary" value="{{'Cancel' | translate}}"

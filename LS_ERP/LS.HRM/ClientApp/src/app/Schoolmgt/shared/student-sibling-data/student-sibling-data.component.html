@@ -130,7 +130,7 @@
         <div class="form-group">
           <label>{{'Phone' | translate}}</label>
           <input class="form-control" type="text" placeholder="{{'Phone' | translate}}"
-                 formControlName="mobile1" />
+                 formControlName="mobile1"  maxlength="10"/>
           <validation-message [control]="form.controls.mobile1"></validation-message>
         </div>
       </div>

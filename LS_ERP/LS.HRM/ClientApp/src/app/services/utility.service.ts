@@ -7,6 +7,7 @@ import { NotificationService } from "./notification.service";
 import { ErrorMessage } from "./utility.constants";
 import * as moment from 'moment/moment';
 import { TranslateService } from "@ngx-translate/core";
+import { default as data } from "./../../assets/i18n/siteConfig.json";
 
 @Injectable({
   providedIn: 'root'
@@ -278,5 +279,17 @@ export class UtilityService {
     return x.length >= width
       ? n
       : new Array(width - x.length + 1).join('0') + n;
+  }
+  isHVSSite = (): boolean => data.dashBoardType == "school";
+
+  downLoadExcel(fileName: string, data: Blob) {
+    const blob = new Blob([data], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' });
+    const url = window.URL.createObjectURL(blob);
+
+    var a = document.createElement('a');
+    a.href = url;
+    a.download = fileName;
+    a.click();
+
   }
 }

@@ -13289,7 +13289,11 @@ strong {
   /*right: 165px !important;*/
   right: -50px !important;
 }
-
+.student-master-dropdown-menu-custom {
+  left: auto !important;
+  top: -25px!important;
+  right: -230px !important;
+}
 .custom-listrow {
   position: relative;
   padding: 5px 40px 5px 10px;

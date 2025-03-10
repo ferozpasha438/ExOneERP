@@ -11,6 +11,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Security.Cryptography;
 using System.Threading.Tasks;
 
 namespace LS.API.SM.Controllers.StudentMgmt
@@ -60,9 +61,9 @@ namespace LS.API.SM.Controllers.StudentMgmt
         }
 
         [HttpGet("GetStudentFeeHeaderByStuAdmNum")]
-        public async Task<IActionResult> GetStudentFeeHeaderByStuAdmNum([FromQuery] string stuAdmNum)
+        public async Task<IActionResult> GetStudentFeeHeaderByStuAdmNum([FromQuery] string stuAdmNum, [FromQuery] string year)
         {
-            var list = await Mediator.Send(new GetStudentFeeHeaderByStuAdmNum() { StuAdmNum = stuAdmNum, User = UserInfo() });
+            var list = await Mediator.Send(new GetStudentFeeHeaderByStuAdmNum() { StuAdmNum = stuAdmNum, Year = year, User = UserInfo() });
             return Ok(list);
         }
         [HttpGet("GetSchoolStudentFeeDetailsByStuAdmNum")]
@@ -92,16 +93,7 @@ namespace LS.API.SM.Controllers.StudentMgmt
             }
             return BadRequest(new ApiMessageDto { Message = ApiMessageInfo.Failed });
         }
-
-
-        [HttpDelete]
-        public async Task<ActionResult> Delete([FromRoute] int id)
-        {
-            var schoolStudentId = await Mediator.Send(new DeleteSchoolStudent() { Id = id, User = UserInfo() });
-            if (schoolStudentId > 0)
-                return NoContent();
-            return BadRequest(new ApiMessageDto { Message = ApiMessageInfo.Failed });
-        }
+                
 
         [HttpPost("SaveAllStudentMasterData")]
         public async Task<IActionResult> SaveAllStudentMasterData([FromForm] AllStudentMasterDataDto dTO)
@@ -115,7 +107,7 @@ namespace LS.API.SM.Controllers.StudentMgmt
                 var guid = Guid.NewGuid().ToString();
                 string name = string.Empty;
                 name = Path.GetFileNameWithoutExtension(dTO.StudentImage.FileName);
-                guid = $"{guid}_{name}_{ Path.GetExtension(dTO.StudentImage.FileName)}";
+                guid = $"{guid}_{name}_{Path.GetExtension(dTO.StudentImage.FileName)}";
                 dTO.StudentImageFileName += guid;
                 var filePath = Path.Combine(webRoot, guid);
                 using (var stream = new FileStream(filePath, FileMode.Create))
@@ -136,7 +128,7 @@ namespace LS.API.SM.Controllers.StudentMgmt
                 var guid = Guid.NewGuid().ToString();
                 string name = string.Empty;
                 name = Path.GetFileNameWithoutExtension(dTO.FatherSignature.FileName);
-                guid = $"{guid}_{name}_{ Path.GetExtension(dTO.FatherSignature.FileName)}";
+                guid = $"{guid}_{name}_{Path.GetExtension(dTO.FatherSignature.FileName)}";
                 dTO.FatherSignatureFileName += guid;
                 var filePath = Path.Combine(webRoot, guid);
                 using (var stream = new FileStream(filePath, FileMode.Create))
@@ -157,7 +149,7 @@ namespace LS.API.SM.Controllers.StudentMgmt
                 var guid = Guid.NewGuid().ToString();
                 string name = string.Empty;
                 name = Path.GetFileNameWithoutExtension(dTO.MotherSignature.FileName);
-                guid = $"{guid}_{name}_{ Path.GetExtension(dTO.MotherSignature.FileName)}";
+                guid = $"{guid}_{name}_{Path.GetExtension(dTO.MotherSignature.FileName)}";
                 dTO.MotherSignatureFileName += guid;
                 var filePath = Path.Combine(webRoot, guid);
                 using (var stream = new FileStream(filePath, FileMode.Create))
@@ -244,6 +236,17 @@ namespace LS.API.SM.Controllers.StudentMgmt
             var obj = await Mediator.Send(new AddFeeStructure() { AcademicYear = academicYear, User = UserInfo() });
             return Ok(obj);
         }
+
+
+        [HttpDelete]
+        public async Task<ActionResult> Delete([FromRoute] int id)
+        {
+            var schoolStudentId = await Mediator.Send(new DeleteSchoolStudent() { Id = id, User = UserInfo() });
+            if (schoolStudentId > 0)
+                return NoContent();
+            return BadRequest(new ApiMessageDto { Message = ApiMessageInfo.Failed });
+        }
+
 
     }
 }

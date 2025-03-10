@@ -63,7 +63,7 @@ export class StudentFeeHistoryComponent extends ParentSchoolMgtComponent impleme
   }
   initialLoading() {
     this.isLoading = true;
-    this.apiService.getQueryString(`schoolStudentMaster/GetStudentFeeHeaderByStuAdmNum?stuAdmNum=`, this.stuAdmNum).subscribe(res => {
+    this.apiService.getQueryString(`schoolStudentMaster/GetStudentFeeHeaderByStuAdmNum?`, `stuAdmNum=${this.stuAdmNum}&year=${this.searchValue}`).subscribe(res => {
       if (res) {
         this.totalItemsCount = 0;
         this.data = new MatTableDataSource(res);
@@ -99,7 +99,8 @@ export class StudentFeeHistoryComponent extends ParentSchoolMgtComponent impleme
     //if (search && search.length >= 3) {
     if (search) {
       this.searchValue = search;
-      this.loadList(0, this.pageService.pageCount, this.searchValue, this.sortingOrder);
+      this.initialLoading();
+      //this.loadList(0, this.pageService.pageCount, this.searchValue, this.sortingOrder);
     }
   }
   

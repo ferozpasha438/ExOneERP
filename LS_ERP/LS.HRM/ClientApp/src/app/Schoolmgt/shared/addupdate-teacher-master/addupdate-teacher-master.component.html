@@ -127,7 +127,7 @@
         <div class="form-group">
           <label>{{'Phone_1' | translate}}</label>
           <input class="form-control" type="number" placeholder="{{'Phone_1' | translate}}"
-                 formControlName="pphone1" />
+                 formControlName="pphone1" maxlength="10"/>
           <validation-message [control]="form.controls.pphone1"></validation-message>
         </div>
       </div>
@@ -135,7 +135,7 @@
         <div class="form-group">
           <label>{{'Alternate_Phone' | translate}}</label>
           <input class="form-control" type="number" placeholder="{{'Alternate_Phone' | translate}}"
-                 formControlName="sphone2" />
+                 formControlName="sphone2" maxlength="10"/>
           <validation-message [control]="form.controls.sphone2"></validation-message>
         </div>
       </div>
@@ -151,7 +151,7 @@
         <div class="form-group">
           <label>{{'Mobile' | translate}}</label>
           <input class="form-control" type="number" placeholder="{{'Mobile' | translate}}"
-                 formControlName="pmobile1" />
+                 formControlName="pmobile1"  maxlength="10"/>
           <validation-message [control]="form.controls.pmobile1"></validation-message>
         </div>
       </div>

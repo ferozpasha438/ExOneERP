@@ -90,6 +90,9 @@ export class StudentAttendanceComponent extends ParentSchoolMgtComponent impleme
   refresh() {
     this.searchValue = '';
     this.sortingOrder = 'id desc';
+    this.selectedMonth = '';
+    this.selectedYear = '';
+    this.getAttandaceData();
     //this.initialLoading();
   }
 

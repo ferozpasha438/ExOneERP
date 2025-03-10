@@ -27,19 +27,20 @@ import { AddupdateStudentRegistrationComponent } from '../shared/addupdate-stude
   templateUrl: './student-registration.component.html',
   styleUrls: []
 })
-export class StudentRegistrationComponent extends ParentSchoolAPIMgtComponent implements OnInit{
+export class StudentRegistrationComponent extends ParentSchoolAPIMgtComponent implements OnInit {
   @ViewChild(MatPaginator, { static: true }) paginator!: MatPaginator;
   @ViewChild(MatSort, { static: true }) sort!: MatSort;
-  displayedColumns: string[] = ['regNum', 'studentName', 'grade', 'phone', 'email', 'idNum',  'city', 'Actions'];
+  displayedColumns: string[] = ['regNum', 'studentName', 'grade', 'phone', 'email', 'city', 'Actions'];
   data!: MatTableDataSource<any>;
   totalItemsCount!: number;
   searchValue: string = '';
   sortingOrder: string = 'id desc';
   isLoading: boolean = false;
-  id: number=0;
+  id: number = 0;
   form!: FormGroup;
   isArab: boolean = false;
-  
+  isExpoerting: boolean = false;
+
   constructor(private fb: FormBuilder, private http: HttpClient, private router: Router, private apiService: ApiService,
     private authService: AuthorizeService, private translate: TranslateService,
     private notifyService: NotificationService, private utilService: UtilityService, private validationService: ValidationService, public dialog: MatDialog,
@@ -47,18 +48,18 @@ export class StudentRegistrationComponent extends ParentSchoolAPIMgtComponent im
     super(authService);
   }
 
-  get():Array<any>{
+  get(): Array<any> {
     return [
-      {id:1,regNum:'Religion -1',studentName:'Religion -1',grade:'Religion -1',phone:'Religion -1',email:'Religion -1',idNum:'Religion -1',city:'Religion -1'},  
- 
-        
-   ]
-   }
+      { id: 1, regNum: 'Religion -1', studentName: 'Religion -1', grade: 'Religion -1', phone: 'Religion -1', email: 'Religion -1', idNum: 'Religion -1', city: 'Religion -1' },
+
+
+    ]
+  }
 
   ngOnInit(): void {
     this.isArab = this.utilService.isArabic();
     this.initialLoading();
-    
+
   }
 
   refresh() {
@@ -114,7 +115,7 @@ export class StudentRegistrationComponent extends ParentSchoolAPIMgtComponent im
     }
   }
   private openDialogManage(id: number = 0, dbops: DBOperation, modalTitle: string, modalBtnTitle: string) {
-    let dialogRef = this.utilService.openCrudDialog(this.dialog, AddupdateStudentRegistrationComponent );
+    let dialogRef = this.utilService.openCrudDialog(this.dialog, AddupdateStudentRegistrationComponent);
     (dialogRef.componentInstance as any).dbops = dbops;
     (dialogRef.componentInstance as any).modalTitle = modalTitle;
     (dialogRef.componentInstance as any).modalBtnTitle = modalBtnTitle;
@@ -129,6 +130,41 @@ export class StudentRegistrationComponent extends ParentSchoolAPIMgtComponent im
 
 
   public create() {
-    this.openDialogManage(0, DBOperation.create, 'Adding_New_Customer', 'Add');
+    this.openDialogManage(0, DBOperation.create, 'New_Registration', 'Add');
+  }
+  public edit(row: any) {
+    this.openDialogManage(row.id, DBOperation.update, 'Edit_Registration', 'Add');
+  }
+
+  public delete(id: number) {
+    //const dialogRef = this.dialog.open(DeleteConfirmDialogComponent, {
+    //  width: '350px',
+    //  data: `Are you sure to delete ?`
+    //});
+    // dialogRef.componentInstance.modalTitle = 'Deletion';
+    const dialogRef = this.utilService.openDeleteConfirmDialog(this.dialog, DeleteConfirmDialogComponent);
+    dialogRef.afterClosed().subscribe(canDelete => {
+      if (canDelete && id > 0) {
+        this.apiService.delete('WebStudentRegistration', id).subscribe(res => {
+          this.refresh();
+          this.utilService.OkMessage();
+        },
+        );
+      }
+    },
+      error => this.utilService.ShowApiErrorMessage(error));
+  }
+  exportToExcel() {
+    const dialogRef = this.utilService.openDeleteConfirmDialog(this.dialog, DeleteConfirmDialogComponent);
+    dialogRef.afterClosed().subscribe(canDelete => {
+      if (canDelete) {
+        this.isExpoerting = true;
+        this.apiService.downloadfile('ExcelExport/exportStudentRegistrations?action=stdreg').subscribe(data => {
+          this.utilService.downLoadExcel('student_registration_list.xlsx', data);
+          this.isExpoerting = false;
+          //window.URL.revokeObjectURL(url);
+        });
+      }
+    });
   }
 }

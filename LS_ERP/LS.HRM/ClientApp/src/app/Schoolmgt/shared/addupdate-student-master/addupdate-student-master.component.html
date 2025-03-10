@@ -218,7 +218,7 @@
         <div class="form-group">
           <label>{{'Mobile_Number' | translate}}</label>
           <input class="form-control" type="text" placeholder="{{'Mobile_Number' | translate}}"
-                 formControlName="registeredPhone" />
+                 formControlName="registeredPhone" maxlength="10"/>
           <validation-message [control]="form.controls.registeredPhone"></validation-message>
         </div>
       </div>
@@ -381,13 +381,13 @@
           <div class="form-group">
             <label>{{'Phone' | translate}}</label>
             <input class="form-control" type="text" placeholder="{{'Phone' | translate}}"
-                   formControlName="phone" />
+                   formControlName="phone" maxlength="10"/>
             <validation-message [control]="form.controls.phone"></validation-message>
           </div>
           <div class="form-group">
             <label>{{'Mobile' | translate}}</label>
             <input class="form-control" type="text" placeholder="{{'Mobile' | translate}}"
-                   formControlName="mobile" />
+                   formControlName="mobile" maxlength="10"/>
             <validation-message [control]="form.controls.mobile"></validation-message>
           </div>
         </div>
@@ -408,7 +408,7 @@
           <div class="form-group">
             <label>{{'Father_Mobile' | translate}}</label>
             <input class="form-control" type="text" placeholder="{{'Father_Mobile' | translate}}"
-                   formControlName="fatherMobile" />
+                   formControlName="fatherMobile"  maxlength="10"/>
             <validation-message [control]="form.controls.fatherMobile"></validation-message>
           </div>
           <div class="form-group">
@@ -456,7 +456,7 @@
           <div class="form-group">
             <label>{{'Mother_Mobile' | translate}}</label>
             <input class="form-control" type="text" placeholder="{{'Mother_Mobile' | translate}}"
-                   formControlName="motherMobile" />
+                   formControlName="motherMobile"  maxlength="10"/>
             <validation-message [control]="form.controls.motherMobile"></validation-message>
           </div>
           <div class="form-group">

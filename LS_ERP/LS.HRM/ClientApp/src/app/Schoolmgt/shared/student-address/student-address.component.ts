@@ -55,8 +55,8 @@ export class StudentAddressComponent extends ParentSchoolMgtComponent implements
       'city': ['', Validators.required],
       'zipCode': ['', Validators.required],
       'country': ['', Validators.required],
-      'phone1': ['', Validators.required],
-      'mobile1': ['', Validators.required]
+      'phone1': ['', Validators.compose([Validators.required, this.validationService.mobileValidator])],
+      'mobile1': ['', Validators.compose([Validators.required, this.validationService.mobileValidator])]
     });
     if (this.row) {
       this.id = parseInt(this.row['id']);
