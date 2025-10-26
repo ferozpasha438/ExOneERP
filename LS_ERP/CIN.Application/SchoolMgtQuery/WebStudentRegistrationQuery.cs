@@ -48,7 +48,9 @@ namespace CIN.Application.SchoolMgtQuery
                        FatherPhoneNumber = e.FatherPhoneNumber,
                        FatherEmail = e.FatherEmail,
                        City = e.City
-                   }).PaginationListAsync(request.Input.Page, request.Input.PageCount, cancellationToken);
+                   })
+                   .OrderByDescending(e=>e.Id)
+                   .PaginationListAsync(request.Input.Page, request.Input.PageCount, cancellationToken);
 
                 return webStudentRegistrations;
             }
@@ -91,6 +93,116 @@ namespace CIN.Application.SchoolMgtQuery
 
     #endregion
 
+
+    #region ImportExcelStudentRegistration
+
+    public class ImportExcelStudentRegistration : IRequest<AppCtrollerDto>
+    {
+        public UserIdentityDto User { get; set; }
+        public List<TblWebStudentRegistrationDto> Input { get; set; }
+    }
+
+    public class ImportExcelStudentRegistrationHandler : IRequestHandler<ImportExcelStudentRegistration, AppCtrollerDto>
+    {
+        private readonly CINDBOneContext _context;
+        private readonly IMapper _mapper;
+
+        public ImportExcelStudentRegistrationHandler(CINDBOneContext context, IMapper mapper)
+        {
+            _context = context;
+            _mapper = mapper;
+        }
+
+        public async Task<AppCtrollerDto> Handle(ImportExcelStudentRegistration request, CancellationToken cancellationToken)
+        {
+            int savedCount = 0, duplicateCount = 0;
+
+            var allRegNumbers = request.Input.Select(e => e.RegNum.Trim()).GroupBy(regNum => regNum).Where(e => e.Count() > 1).ToList();
+            if (allRegNumbers.Count() > 0)
+                return ApiMessageInfo.Status($"Duplicate Registration Numbers:  {string.Join(", ", allRegNumbers.Select(e => e.Key))}");
+
+            var regNumbers = request.Input.Select(e => e.RegNum.Trim()).ToList();
+            var regNumberList = regNumbers.Intersect(_context.WebStudentRegistration.AsNoTracking().Select(e => e.RegNum.Trim()).ToArray());
+
+            if (regNumberList != null && regNumberList.Count() > 0)
+                return ApiMessageInfo.Status($"Duplicate Registration Numbers:  {string.Join(", ", regNumberList)}");
+
+            foreach (var obj in request.Input)
+            {
+                //var hasAssetCode = await _context.WebStudentRegistration.AnyAsync(e => e.AssetCode == obj.AssetCode.Trim().Replace(" ", ""));
+                //if (!hasAssetCode)
+                //{
+                using (var transaction = await _context.Database.BeginTransactionAsync())
+                {
+                    try
+                    {
+                        Log.Info("----Info ImportExcelStudentRegistration method start----");
+
+                        TblWebStudentRegistration stuReg = new()
+                        {
+                            RegNum = obj.RegNum.Trim().Replace(" ", ""),
+                            FullName = $"{obj.FullName} {obj.NameAr}",
+                            NameAr = obj.NameAr,
+                            RegDate = obj.RegDate,
+                            DateOfBirth = obj.DateOfBirth,
+                            Age = obj.Age,
+                            Grade = obj.Grade,
+                            LangCode = obj.LangCode,
+                            GenderName = obj.GenderName,
+                            IDNumber = obj.IDNumber,
+                            Nationality = obj.Nationality,
+                            ReligionCode = obj.ReligionCode,
+                            PhysicalDisabilityNotes = string.Empty,                            
+                            MedicalIssueNotes = string.Empty,
+                            City = obj.City,
+                            FatherName = obj.FatherName,
+                            MotherName = obj.MotherName,
+                            FatherEmail = obj.FatherEmail,
+                            FatherPhoneNumber = obj.FatherPhoneNumber,
+                            MotherPhoneNumber = obj.MotherPhoneNumber,
+                            EnglishFluencyLevel = 0,
+                            Remarks = obj.Remarks,
+                            IsyourchildPottytrained = false,
+                            IsActive = obj.IsActive,
+                            CreatedBy = "exl"
+                        };
+
+
+                        await _context.WebStudentRegistration.AddAsync(stuReg);
+                        await _context.SaveChangesAsync();
+
+                        Log.Info("----Info ImportExcelStudentRegistration method Exit----");
+                        await transaction.CommitAsync();
+                        savedCount = savedCount + 1;
+                    }
+                    catch (Exception ex)
+                    {
+                        await transaction.RollbackAsync();
+                        Log.Error("Error in ImportExcelStudentRegistration Method");
+                        Log.Error("Error occured time : " + DateTime.UtcNow);
+                        Log.Error("Error message : " + ex.Message);
+                        Log.Error("Error StackTrace : " + ex.StackTrace);
+                        //return ApiMessageInfo.Status(0);
+                        //return ApiMessageInfo.Status(ex.Message + " " + ex.InnerException?.Message);
+                    }
+                }
+                //}
+                //else
+                //    duplicateCount++;
+            }
+
+            if (savedCount > 0)
+                return ApiMessageInfo.Status(1, savedCount);
+            else
+                return ApiMessageInfo.Status(0);
+
+        }
+
+    }
+
+
+
+    #endregion
 
     #region Create_And_Update
 

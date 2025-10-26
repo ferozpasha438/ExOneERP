@@ -204,165 +204,173 @@ namespace CIN.Application.InvoiceQuery
 
         public async Task<TblTranInvoiceDto> Handle(GetSingleCreditInvoiceById request, CancellationToken cancellationToken)
         {
-
-            Log.Info("----Info GetSingleCreditInvoiceById method start----");
-            var invoice = await _context.TranInvoices.Include(e => e.SysCompanyBranch).ThenInclude(e => e.SysCompany)
-                .FirstOrDefaultAsync(e => e.Id == request.Id);
-            var custInvoice = await _context.TrnCustomerInvoices.AsNoTracking().FirstOrDefaultAsync(e => e.InvoiceId == invoice.Id);
-            bool isArab = request.User.Culture.IsArab();
-            var siteMaster = await GetSiteName(_context, invoice.SiteCode);
-
-            var items = await _context.TranInvoiceItems
-                .Where(e => e.InvoiceId == request.Id)
-                //.Include(e => e.Product)
-                //.ThenInclude(e => e.UnitType)
-                .ToListAsync();
-
-
-
-            var productUnitTypes = _context.TranProducts.Include(e => e.UnitType).AsNoTracking()
-                .Select(e => new { e.Id, pNameEN = e.NameEN, uNameEN = e.UnitType.NameEN });
-
-
-            var itemUnitCodes = _context.InvItemMaster.Include(e => e.InvUoms).AsNoTracking()
-             .Select(e => new { e.Id, pNameEN = isArab ? e.ShortNameAr : e.ShortName, uNameEN = e.InvUoms.UOMName });
-
-            //.Where(e=> items.Any(ivt=>ivt.ProductId == e.ProductTypeId)).ToListAsync();
-            //var unitTypes = _context.TranUnitTypes.AsNoTracking();
-
-            //var ivItems = await (from iv in items
-            //                     join pd in products
-            //                     on iv.ProductId equals pd.Id
-            //                     into P_Left
-            //                     from PL in P_Left.DefaultIfEmpty()
-            //                     join ut in unitTypes
-            //                     on PL.UnitTypeId equals (int)ut.Id
-            //                     select new { iv, PL, ut }).ToListAsync();
-
-            int invoiceStatus = 1;
-
-            if (request.InvoiceStatusId == (int)InvoiceStatusIdType.Credit)
-                invoiceStatus = -1;
-
-            TblTranInvoiceDto invoiceDto = new()
+            try
             {
-                CustomerId = invoice.CustomerId,
-                InvoiceDate = invoice.InvoiceDate,
-                InvoiceDueDate = invoice.InvoiceDueDate,
-                CompanyId = invoice.CompanyId,
-                BranchCode = invoice.BranchCode,
-                InvoiceRefNumber = invoice.InvoiceRefNumber,
-                LpoContract = invoice.LpoContract,
-                PaymentTermId = invoice.PaymentTerms,
-                InvoiceNumber = invoice.InvoiceNumber,
-                ServiceDate1 = invoice.ServiceDate1,
-                IsCreditConverted = invoice.IsCreditConverted,
-                InvoiceStatusId = invoice.InvoiceStatusId,
 
-                SubTotal = invoice.SubTotal + invoice.DiscountAmount,
-                TaxAmount = invoice.TaxAmount,
-                TotalAmount = invoice.TotalAmount,
-                DiscountAmount = invoice.DiscountAmount,
-                PaidAmount = (invoice.IsCreditConverted ? (-1) * custInvoice?.PaidAmount : custInvoice?.PaidAmount) ?? 0,
+                Log.Info("----Info GetSingleCreditInvoiceById method start----");
+                var invoice = await _context.TranInvoices.Include(e => e.SysCompanyBranch).ThenInclude(e => e.SysCompany)
+                    .FirstOrDefaultAsync(e => e.Id == request.Id);
+                var custInvoice = await _context.TrnCustomerInvoices.AsNoTracking().FirstOrDefaultAsync(e => e.InvoiceId == invoice.Id);
+                bool isArab = request.User.Culture.IsArab();
+                var siteMaster = await GetSiteName(_context, invoice.SiteCode);
 
-                CreatedOn = invoice.CreatedOn,
-                TaxIdNumber = invoice.TaxIdNumber,
-                InvoiceNotes = invoice.InvoiceNotes,
-                Remarks = invoice.Remarks,
-                CustName = invoice.CustName,
-                CustArbName = invoice.CustArbName,
-                CustomerName = invoice.CustName,
-                SiteCode = invoice.SiteCode,
-                SiteName = siteMaster ?? new(),
-                LogoImagePath = invoice.SysCompanyBranch.SysCompany.LogoURL,
-            };
-
-            List<TblTranInvoiceItemDto> itemList = new();
+                var items = await _context.TranInvoiceItems
+                    .Where(e => e.InvoiceId == request.Id)
+                    //.Include(e => e.Product)
+                    //.ThenInclude(e => e.UnitType)
+                    .ToListAsync();
 
 
-            foreach (var item in items)
-            {
-                try
+
+                var productUnitTypes = _context.TranProducts.Include(e => e.UnitType).AsNoTracking()
+                    .Select(e => new { e.Id, pNameEN = e.NameEN, uNameEN = e.UnitType.NameEN });
+
+
+                var itemUnitCodes = _context.InvItemMaster.Include(e => e.InvUoms).AsNoTracking()
+                 .Select(e => new { e.Id, pNameEN = isArab ? e.ShortNameAr : e.ShortName, uNameEN = e.InvUoms.UOMName });
+
+                //.Where(e=> items.Any(ivt=>ivt.ProductId == e.ProductTypeId)).ToListAsync();
+                //var unitTypes = _context.TranUnitTypes.AsNoTracking();
+
+                //var ivItems = await (from iv in items
+                //                     join pd in products
+                //                     on iv.ProductId equals pd.Id
+                //                     into P_Left
+                //                     from PL in P_Left.DefaultIfEmpty()
+                //                     join ut in unitTypes
+                //                     on PL.UnitTypeId equals (int)ut.Id
+                //                     select new { iv, PL, ut }).ToListAsync();
+
+                int invoiceStatus = 1;
+
+                if (request.InvoiceStatusId == (int)InvoiceStatusIdType.Credit)
+                    invoiceStatus = -1;
+
+                TblTranInvoiceDto invoiceDto = new()
                 {
-                    var siteMaster1 = await GetSiteName(_context, item.SiteCode);
+                    CustomerId = invoice.CustomerId,
+                    InvoiceDate = invoice.InvoiceDate,
+                    InvoiceDueDate = invoice.InvoiceDueDate,
+                    CompanyId = invoice.CompanyId,
+                    BranchCode = invoice.BranchCode,
+                    InvoiceRefNumber = invoice.InvoiceRefNumber,
+                    LpoContract = invoice.LpoContract,
+                    PaymentTermId = invoice.PaymentTerms,
+                    InvoiceNumber = invoice.InvoiceNumber,
+                    ServiceDate1 = invoice.ServiceDate1,
+                    IsCreditConverted = invoice.IsCreditConverted,
+                    InvoiceStatusId = invoice.InvoiceStatusId,
 
-                    string pNameEN = string.Empty, uNameEN = string.Empty;
+                    SubTotal = invoice.SubTotal + invoice.DiscountAmount,
+                    TaxAmount = invoice.TaxAmount,
+                    TotalAmount = invoice.TotalAmount,
+                    DiscountAmount = invoice.DiscountAmount,
+                    PaidAmount = (invoice.IsCreditConverted ? (-1) * custInvoice?.PaidAmount : custInvoice?.PaidAmount) ?? 0,
 
-                    if (item.InvoiceType is null)
+                    CreatedOn = invoice.CreatedOn,
+                    TaxIdNumber = invoice.TaxIdNumber,
+                    InvoiceNotes = invoice.InvoiceNotes,
+                    Remarks = invoice.Remarks,
+                    CustName = invoice.CustName,
+                    CustArbName = invoice.CustArbName,
+                    CustomerName = invoice.CustName,
+                    SiteCode = invoice.SiteCode,
+                    SiteName = siteMaster ?? new(),
+                    LogoImagePath = invoice.SysCompanyBranch.SysCompany.LogoURL,
+                };
+
+                List<TblTranInvoiceItemDto> itemList = new();
+
+
+                foreach (var item in items)
+                {
+                    try
                     {
-                        var punitType = await productUnitTypes.FirstOrDefaultAsync(e => e.Id == item.ProductId);
-                        if (punitType is not null)
+                        var siteMaster1 = await GetSiteName(_context, item.SiteCode);
+
+                        string pNameEN = string.Empty, uNameEN = string.Empty;
+
+                        if (item.InvoiceType is null)
                         {
-                            pNameEN = punitType.pNameEN;
-                            uNameEN = punitType.uNameEN;
+                            var punitType = await productUnitTypes.FirstOrDefaultAsync(e => e.Id == item.ProductId);
+                            if (punitType is not null)
+                            {
+                                pNameEN = punitType.pNameEN;
+                                uNameEN = punitType.uNameEN;
+                            }
+
+                        }
+                        else
+                        {
+                            var itemCode = await itemUnitCodes.FirstOrDefaultAsync(e => e.Id == item.ProductId);
+                            if (itemCode is not null)
+                            {
+                                pNameEN = itemCode.pNameEN;
+                                uNameEN = itemCode.uNameEN;
+                            }
                         }
 
-                    }
-                    else
-                    {
-                        var itemCode = await itemUnitCodes.FirstOrDefaultAsync(e => e.Id == item.ProductId);
-                        if (itemCode is not null)
+
+                        TblTranInvoiceItemDto itemDto = new()
                         {
-                            pNameEN = itemCode.pNameEN;
-                            uNameEN = itemCode.uNameEN;
-                        }
+                            ProductId = item.ProductId,
+                            ProductName = pNameEN,
+                            Description = item.Description,
+                            Quantity = invoiceStatus * item.Quantity,
+                            UnitType = uNameEN,
+                            UnitPrice = item.UnitPrice,
+                            Discount = item.Discount,
+                            DiscountAmount = item.DiscountAmount,
+                            SiteCode = item.SiteCode,
+                            SiteName = (isArab ? siteMaster1?.TextTwo : siteMaster1?.Text) ?? String.Empty,
+                            TaxTariffPercentage = item.TaxTariffPercentage,
+                            TaxAmount = invoiceStatus * item.TaxAmount,
+                            TotalAmount = invoiceStatus * item.TotalAmount
+                        };
+
+                        itemList.Add(itemDto);
                     }
-
-
-                    TblTranInvoiceItemDto itemDto = new()
+                    catch (Exception ex)
                     {
-                        ProductId = item.ProductId,
-                        ProductName = pNameEN,
-                        Description = item.Description,
-                        Quantity = invoiceStatus * item.Quantity,
-                        UnitType = uNameEN,
-                        UnitPrice = item.UnitPrice,
-                        Discount = item.Discount,
-                        DiscountAmount = item.DiscountAmount,
-                        SiteCode = item.SiteCode,
-                        SiteName = (isArab ? siteMaster1?.TextTwo : siteMaster1?.Text) ?? String.Empty,
-                        TaxTariffPercentage = item.TaxTariffPercentage,
-                        TaxAmount = invoiceStatus * item.TaxAmount,
-                        TotalAmount = invoiceStatus * item.TotalAmount
-                    };
 
-                    itemList.Add(itemDto);
+                        throw;
+                    }
                 }
-                catch (Exception ex)
-                {
 
-                    throw;
-                }
+                //items.ForEach(async item =>
+                //{
+
+                //});
+
+                //items.ForEach(item =>
+                //{
+                //    TblTranInvoiceItemDto itemDto = new()
+                //    {
+                //        ProductId = item.iv.ProductId,
+                //        ProductName = item.PL.NameEN,
+                //        Description = item.iv.Description,
+                //        Quantity = invoiceStatus * item.iv.Quantity,
+                //        UnitType = item.ut.NameEN,
+                //        UnitPrice = item.iv.UnitPrice,
+                //        TaxTariffPercentage = item.iv.TaxTariffPercentage,
+                //        TaxAmount = invoiceStatus * item.iv.TaxAmount,
+                //        TotalAmount = invoiceStatus * item.iv.TotalAmount
+                //    };
+
+                //    itemList.Add(itemDto);
+                //});
+
+
+                invoiceDto.ItemList = itemList;
+
+                Log.Info("----Info GetSingleCreditInvoiceById method Exit----");
+                return invoiceDto;
             }
+            catch (Exception ex)
+            {
 
-            //items.ForEach(async item =>
-            //{
-
-            //});
-
-            //items.ForEach(item =>
-            //{
-            //    TblTranInvoiceItemDto itemDto = new()
-            //    {
-            //        ProductId = item.iv.ProductId,
-            //        ProductName = item.PL.NameEN,
-            //        Description = item.iv.Description,
-            //        Quantity = invoiceStatus * item.iv.Quantity,
-            //        UnitType = item.ut.NameEN,
-            //        UnitPrice = item.iv.UnitPrice,
-            //        TaxTariffPercentage = item.iv.TaxTariffPercentage,
-            //        TaxAmount = invoiceStatus * item.iv.TaxAmount,
-            //        TotalAmount = invoiceStatus * item.iv.TotalAmount
-            //    };
-
-            //    itemList.Add(itemDto);
-            //});
-
-
-            invoiceDto.ItemList = itemList;
-
-            Log.Info("----Info GetSingleCreditInvoiceById method Exit----");
-            return invoiceDto;
+                throw;
+            }
         }
 
         async Task<CustomSelectListItem> GetSiteName(CINDBOneContext _context, string siteCode) =>

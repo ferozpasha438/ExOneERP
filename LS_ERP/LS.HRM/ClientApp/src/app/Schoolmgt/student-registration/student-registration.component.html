@@ -29,12 +29,17 @@
                             <input class="form-control" placeholder="{{'Search' | translate}}..."
                                 [(ngModel)]="searchValue" />
                         </div>
-                        <div class="col-md-4 arabicright">
+                        <div class="col-md-3 arabicright">
                             <button (click)="applyFilter(searchValue)" class="btn btn-primary">{{'Search' |
                                 translate}}</button> &nbsp;
                             <a (click)="refresh()" class=""><i class="btn btn-primary icon-refresh"></i></a> &nbsp;
                             <a (click)="exportToExcel()" class="" matTooltip="{{'Export_Excel' | translate}}"><i class="btn btn-primary icon-cloud-download"></i></a> <spinner-loader [isLoading]="isExpoerting"></spinner-loader>
                         </div>
+                       <div class="col-md-6 col-lg-6">
+                        <button (click)="importFile()" class="btn  btn-primary">Import</button> &nbsp;&nbsp;
+                        <input type="file" (change)="onFileChanged($event)" id="excel_file" />                       
+                        <spinner-loader [isLoading]="isImporting"></spinner-loader>
+                       </div>
                     </div>
                     <div class="row">
                         <div class="col-md-4 col-lg-4">

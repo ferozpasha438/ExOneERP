@@ -15,14 +15,25 @@ using System.Net.Http;
 using System.Net;
 using System.Threading.Tasks;
 using System.Linq;
+using System.Text;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Hosting;
+using System.Data;
+using ExcelDataReader;
+using MediatR;
 
 namespace LS.API.SM.Controllers.ExcelExport
 {
     public class ExcelExportController : ApiControllerBase
     {
-        public ExcelExportController(IOptions<AppSettingsJson> appSettings)// : base(appSettings)
+        private readonly IWebHostEnvironment _env;
+        public ExcelExportController(IOptions<AppSettingsJson> appSettings, IWebHostEnvironment env)// : base(appSettings)
         {
+            _env = env;
         }
+
+        #region Excel Exporting Data
+
 
         [HttpGet("exportStudentRegistrations")]
         public async Task<IActionResult> ExportStudentRegistrations([FromQuery] string action, [FromQuery] PaginationFilterDto filter)
@@ -207,5 +218,7 @@ namespace LS.API.SM.Controllers.ExcelExport
 
         //}
 
+        #endregion
+       
     }
 }

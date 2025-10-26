@@ -201,7 +201,7 @@ export class AddupdateStudentMasterComponent implements OnInit {
       this.apiService.post('SchoolStudentMaster/SaveAllStudentMasterData', formData)
         .subscribe(res => {
           this.utilService.OkMessage();
-          this.reset();
+          //this.reset();
           this.dialogRef.close(true);
         },
           error => {

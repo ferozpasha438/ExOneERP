@@ -104,6 +104,7 @@ export class AddupdateExaminationManagementComponent implements OnInit {
     this.apiService.getall('ExaminationManagement/GetAllExamTypesList').subscribe(res => {
       this.typesOfExamsList = res;
     });
+    
   }
   loadUsersList() {
     const branchCode: string = this.form.value['branchCode'] as string;

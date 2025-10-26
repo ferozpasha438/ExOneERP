@@ -43,7 +43,7 @@ namespace CIN.Application.SchoolMgtQuery
             {
 
                 var schoolStudentList = await _context.DefSchoolStudentMaster.AsNoTracking().ProjectTo<TblDefSchoolStudentMasterDto>(_mapper.ConfigurationProvider)
-                                      .PaginationListAsync(request.Input.Page, request.Input.PageCount, cancellationToken);
+                                      .OrderByDescending(e=>e.Id).PaginationListAsync(request.Input.Page, request.Input.PageCount, cancellationToken);
 
                 return schoolStudentList;
 
@@ -96,7 +96,7 @@ namespace CIN.Application.SchoolMgtQuery
 
     }
 
-    #endregion
+    #endregion    
 
     #region Create_And_Update
     public class CreateSchoolStudentManagement : IRequest<int>
@@ -312,7 +312,7 @@ namespace CIN.Application.SchoolMgtQuery
                                                      ProjectTo<TblSysSchoolAcademicBatchesDto>(_mapper.ConfigurationProvider).
                                                      OrderByDescending(x => x.AcademicYear).Select(x => x.AcademicYear).
                                                      FirstOrDefaultAsync();
-                    var branchDetails = await _context.SchoolBranches.AsNoTracking().OrderByDescending(x=>x.Id).
+                    var branchDetails = await _context.SchoolBranches.OrderByDescending(x=>x.Id).
                                                       FirstOrDefaultAsync(x => x.BranchCode == obj.BranchCode);
                     if (branchDetails != null && obj.Id == 0)
                     {

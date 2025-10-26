@@ -50,6 +50,10 @@ export class StudentMasterComponent extends ParentSchoolMgtComponent implements 
   form!: FormGroup;
   isArab: boolean = false;
   isExpoerting: boolean = false;
+  isImporting: boolean = false;
+  files!: File;
+  hasFile: boolean = false;
+  uploadError: string='';
   constructor(private fb: FormBuilder, private http: HttpClient, private router: Router, private apiService: ApiService,
     private authService: AuthorizeService, private translate: TranslateService,
     private notifyService: NotificationService, private utilService: UtilityService, private validationService: ValidationService, public dialog: MatDialog,
@@ -72,6 +76,8 @@ export class StudentMasterComponent extends ParentSchoolMgtComponent implements 
   refresh() {
     this.searchValue = '';
     this.sortingOrder = 'id desc';
+    (document.getElementById('excel_file') as HTMLInputElement).value = '';
+    this.hasFile = false;
     this.initialLoading();
   }
 
@@ -337,4 +343,52 @@ export class StudentMasterComponent extends ParentSchoolMgtComponent implements 
       }
     });
   }
+
+  onFileChanged(event: any) {
+    let reader = new FileReader();
+    if (event.target.files && event.target.files.length > 0) {
+      this.files = event.target.files[0];
+      this.hasFile = true;
+    }
+  }
+
+  importFile() {
+    if (this.hasFile) {
+      let formData = new FormData();
+      formData.append('file', this.files, this.files.name);
+
+      //formData.append("studentImageFileName", this.authService.ApiEndPoint().replace("api", "") + 'Signaturefiles/');
+      //formData.append("fatherSignatureFileName", this.authService.ApiEndPoint().replace("api", "") + 'Signaturefiles/');
+      //formData.append("motherSignatureFileName", this.authService.ApiEndPoint().replace("api", "") + 'Signaturefiles/');
+
+      const dialogRef = this.utilService.openDeleteConfirmDialog(this.dialog, DeleteConfirmDialogComponent);
+      (dialogRef.componentInstance as any).modalTitle = `Are you sure to import ${this.files.name}?`;
+
+      dialogRef.afterClosed().subscribe(canDelete => {
+        if (canDelete) {
+          this.isImporting = true;
+          const pathLocation = this.authService.ApiEndPoint().replace("api", "") + 'Signaturefiles/';
+          this.apiService
+            .post(`excelImport/importStudentMasters?pathLocation=${pathLocation}`, formData)
+            .subscribe(
+              (res) => {
+                this.isImporting = false;
+                this.utilService.OkMessage();
+                this.refresh();
+              },
+              (error) => {
+                this.isImporting = false;
+                this.utilService.ShowApiErrorMessage(error);
+                //this.uploadError = error;
+              }
+            );
+        }
+      })
+
+
+    }
+    else
+      this.notifyService.showError('please import excel file');
+  }
+
 }
